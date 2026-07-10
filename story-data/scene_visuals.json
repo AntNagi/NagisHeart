@@ -3,45 +3,53 @@
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "reflection"
   },
   "p2": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "tension"
   },
   "p2_s2": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "tension"
   },
   "p2_s3": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "tension"
   },
   "c1a": {
     "bg": null,
@@ -52,54 +60,64 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "reflection"
   },
   "c1b": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "reflection"
   },
   "c1b_s2": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "reflection"
   },
   "c1b_s3": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "reflection"
   },
   "c1b_s4": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "reflection"
   },
   "u20j": {
-    "bg": null,
+    "bg": "assets/bg/goal.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -107,32 +125,38 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "competition"
   },
   "c3": {
-    "bg": null,
+    "bg": "assets/bg/openday.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Dark",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
   },
   "c3_s2": {
-    "bg": null,
+    "bg": "assets/bg/openday.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Dark",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
   },
   "e_lemontea": {
-    "bg": null,
+    "bg": "assets/bg/lemontea.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -140,10 +164,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_lemontea_s2": {
-    "bg": null,
+    "bg": "assets/bg/lemontea.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -151,10 +177,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "c2": {
-    "bg": null,
+    "bg": "assets/bg/lemontea.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -162,10 +190,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "daily"
   },
   "c2_s2": {
-    "bg": null,
+    "bg": "assets/bg/lemontea.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -173,10 +203,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "daily"
   },
   "e_invite": {
-    "bg": null,
+    "bg": "assets/bg/apartment.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -184,10 +216,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_lolly": {
-    "bg": null,
+    "bg": "assets/bg/lolly.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -195,10 +229,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_lolly_s2": {
-    "bg": null,
+    "bg": "assets/bg/lolly.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -206,10 +242,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_depart": {
-    "bg": null,
+    "bg": "assets/bg/home_full.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Auto",
@@ -217,10 +255,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "loneliness"
   },
   "c6a": {
-    "bg": null,
+    "bg": "assets/bg/goal.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -228,10 +268,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "competition"
   },
   "e_curry": {
-    "bg": null,
+    "bg": "assets/bg/curry.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -239,32 +281,38 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
   },
   "e_bday": {
-    "bg": null,
+    "bg": "assets/bg/birthday.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "loneliness"
   },
   "e_hug": {
-    "bg": null,
+    "bg": "assets/bg/hug.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_intimate": {
-    "bg": null,
+    "bg": "assets/bg/bedroom.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -272,10 +320,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "side_b_return": {
-    "bg": null,
+    "bg": "assets/bg/livingroom.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Auto",
@@ -283,76 +333,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "competition"
   },
   "wc_roster": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Dark",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "wc_interval": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Dark",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "wc_keygoal": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Dark",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "wc_offer": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Dark",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "w_home": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Light",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "mt3": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Light",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "m_shallow": {
-    "bg": null,
+    "bg": "assets/bg/livingroom.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Auto",
@@ -360,40 +346,126 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "competition"
+  },
+  "wc_interval": {
+    "bg": "assets/bg/summer.jpg",
+    "bgm": null,
+    "cg": null,
+    "uiTheme": "Light",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "competition"
+  },
+  "wc_keygoal": {
+    "bg": "assets/bg/goal.jpg",
+    "bgm": null,
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "competition"
+  },
+  "wc_offer": {
+    "bg": "assets/bg/back.jpg",
+    "bgm": null,
+    "cg": null,
+    "uiTheme": "Auto",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "competition"
+  },
+  "w_home": {
+    "bg": "assets/bg/home_full.jpg",
+    "bgm": null,
+    "cg": null,
+    "uiTheme": "Auto",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
+  },
+  "mt3": {
+    "bg": "assets/bg/livingroom.jpg",
+    "bgm": null,
+    "cg": null,
+    "uiTheme": "Auto",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
+  },
+  "m_shallow": {
+    "bg": "assets/bg/bedroom.jpg",
+    "bgm": null,
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "loss"
   },
   "e_intimate_cohabit": {
-    "bg": null,
+    "bg": "assets/bg/hug.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_cozy": {
-    "bg": null,
+    "bg": "assets/bg/home_full.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
   },
   "w_noodle": {
-    "bg": null,
+    "bg": "assets/bg/wakeup.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "daily"
   },
   "w_game": {
     "bg": null,
@@ -404,10 +476,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "daily"
   },
   "e_tipsy": {
-    "bg": null,
+    "bg": "assets/bg/dining.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -415,10 +489,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "romance"
   },
   "e_morning": {
-    "bg": null,
+    "bg": "assets/bg/morning.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -426,7 +502,9 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
   },
   "c4": {
     "bg": null,
@@ -437,10 +515,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": null
   },
   "c4a": {
-    "bg": null,
+    "bg": "assets/bg/qixi.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -448,10 +528,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "c4a_s2": {
-    "bg": null,
+    "bg": "assets/bg/qixi.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -459,10 +541,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "c4a_s3": {
-    "bg": null,
+    "bg": "assets/bg/qixi.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -470,21 +554,25 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "c4d": {
-    "bg": null,
+    "bg": "assets/bg/qixi.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "romance"
   },
   "e_festival": {
-    "bg": null,
+    "bg": "assets/bg/summerfestival.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -492,32 +580,38 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
   },
   "transfer_contract": {
     "bg": null,
     "bgm": null,
     "cg": null,
+    "uiTheme": "Auto",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "tension"
+  },
+  "club_arrival": {
+    "bg": "assets/bg/back.jpg",
+    "bgm": null,
+    "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "club_arrival": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Auto",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": null
   },
   "club_alone": {
-    "bg": null,
+    "bg": "assets/bg/apartment.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Auto",
@@ -525,32 +619,64 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "loneliness"
   },
   "club_training": {
-    "bg": null,
+    "bg": "assets/bg/pitch.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "competition"
   },
   "club_media": {
     "bg": null,
     "bgm": null,
     "cg": null,
+    "uiTheme": "Auto",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "tension"
+  },
+  "e_autumn": {
+    "bg": "assets/bg/autumn.jpg",
+    "bgm": null,
+    "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": null
   },
-  "e_autumn": {
-    "bg": null,
+  "e_halloween": {
+    "bg": "assets/bg/Halloween.jpg",
+    "bgm": null,
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": null
+  },
+  "e_drive": {
+    "bg": "assets/bg/drive.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Auto",
@@ -558,65 +684,51 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "e_halloween": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Dark",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "e_drive": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
-    "uiTheme": "Dark",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": null
   },
   "e_agency_launch": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "tension"
   },
   "e_scarf": {
-    "bg": null,
+    "bg": "assets/bg/scarf.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_sick_fragile": {
-    "bg": null,
+    "bg": "assets/bg/afterwork.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "tension"
   },
   "e_dressup": {
-    "bg": null,
+    "bg": "assets/bg/dressup.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -624,10 +736,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_softrice": {
-    "bg": null,
+    "bg": "assets/bg/softrice.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -635,10 +749,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "e_drunk": {
-    "bg": null,
+    "bg": "assets/bg/dining.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -646,10 +762,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "romance"
   },
   "e_drunk_s2": {
-    "bg": null,
+    "bg": "assets/bg/dining.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -657,32 +775,38 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "romance"
   },
   "p8_route": {
-    "bg": null,
+    "bg": "assets/bg/bedroom.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "reflection"
   },
   "dream_exist": {
-    "bg": null,
+    "bg": "assets/bg/bedroom.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "loneliness"
   },
   "dream_match": {
-    "bg": null,
+    "bg": "assets/bg/worldstage.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -690,10 +814,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "competition"
   },
   "dream_celebrate": {
-    "bg": null,
+    "bg": "assets/bg/goal.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -701,10 +827,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "competition"
   },
   "dream_return": {
-    "bg": null,
+    "bg": "assets/bg/remeet.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Auto",
@@ -712,10 +840,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "dream_home": {
-    "bg": null,
+    "bg": "assets/bg/villa.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -723,21 +853,25 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "dream_final": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "triumph"
   },
   "stay_match": {
-    "bg": null,
+    "bg": "assets/bg/goal.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -745,32 +879,38 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "competition"
   },
   "stay_intro": {
-    "bg": null,
+    "bg": "assets/bg/home_full.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Auto",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
   },
   "stay_cozy": {
-    "bg": null,
+    "bg": "assets/bg/dining.jpg",
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "daily"
   },
   "stay_daily": {
-    "bg": null,
+    "bg": "assets/bg/valentine.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Light",
@@ -778,29 +918,35 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
   },
   "stay_final": {
     "bg": null,
     "bgm": null,
     "cg": null,
-    "uiTheme": "Light",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null
-  },
-  "bad_elegant": {
-    "bg": null,
-    "bgm": null,
-    "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "loss"
+  },
+  "bad_elegant": {
+    "bg": "assets/bg/apartment.jpg",
+    "bgm": null,
+    "cg": null,
+    "uiTheme": "Auto",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "tension"
   },
   "bad_plan": {
     "bg": null,
@@ -811,10 +957,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "tension"
   },
   "bad_match": {
-    "bg": null,
+    "bg": "assets/bg/goal.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -822,7 +970,9 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "tension"
   },
   "bad_afterglow": {
     "bg": null,
@@ -833,10 +983,12 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "tension"
   },
   "bad_cold": {
-    "bg": null,
+    "bg": "assets/bg/bedroom.jpg",
     "bgm": null,
     "cg": null,
     "uiTheme": "Dark",
@@ -844,7 +996,9 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "loneliness"
   },
   "bad_last": {
     "bg": null,
@@ -855,7 +1009,9 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "B",
+    "mood": "loss"
   },
   "bad_far": {
     "bg": null,
@@ -866,7 +1022,9 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "loss"
   },
   "end_true": {
     "bg": null,
@@ -877,7 +1035,9 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": null
   },
   "end_good": {
     "bg": null,
@@ -888,7 +1048,9 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": null
   },
   "end_normal": {
     "bg": null,
@@ -899,7 +1061,9 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": null
   },
   "end_bad": {
     "bg": null,
@@ -910,6 +1074,8 @@
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
-    "uiSafeZone": null
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": null
   }
 }
