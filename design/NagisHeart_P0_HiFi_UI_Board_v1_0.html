@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nagi's Heart P0 HiFi UI Board v1.0</title>
+  <style>
+    :root {
+      --snow: #f7f9fc;
+      --mist: #e8eef6;
+      --deep: #101827;
+      --ink: #1b2430;
+      --gray: #6e7a89;
+      --blue-gray: #aebac8;
+      --silver: #c9d1dc;
+      --rose: #c98a96;
+      --gold: #bfa08a;
+      --pale-gold: #d8c38a;
+      --wine: #7a3f4a;
+      --cut-sm: polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px));
+      --cut-md: polygon(0 14px, 14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px));
+      --font-sans: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+      --font-serif: Georgia, "Times New Roman", "Noto Serif SC", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(216, 195, 138, 0.16), transparent 32%),
+        linear-gradient(135deg, #0c1422 0%, #172235 45%, #e8eef6 120%);
+      color: var(--snow);
+      font-family: var(--font-sans);
+    }
+
+    .intro {
+      padding: 34px 38px 18px;
+    }
+
+    .intro h1 {
+      margin: 0 0 10px;
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 400;
+      line-height: 1.12;
+    }
+
+    .intro p {
+      margin: 0;
+      max-width: 920px;
+      color: rgba(247, 249, 252, 0.72);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      padding: 22px 38px 48px;
+    }
+
+    .screen-card {
+      display: grid;
+      gap: 10px;
+    }
+
+    .caption {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 28px;
+      color: rgba(247, 249, 252, 0.82);
+      font-size: 13px;
+    }
+
+    .caption span:last-child {
+      color: rgba(201, 209, 220, 0.72);
+      font-size: 12px;
+    }
+
+    .phone {
+      position: relative;
+      width: min(100%, 390px);
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      background: var(--deep);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.38);
+      isolation: isolate;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background: var(--bg, linear-gradient(#101827, #243244));
+      background-size: cover;
+      background-position: var(--pos, center);
+      transform: scale(var(--scale, 1));
+    }
+
+    .phone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: var(--overlay, linear-gradient(to bottom, rgba(16,24,39,0.28), rgba(16,24,39,0.08) 42%, rgba(16,24,39,0.86)));
+      pointer-events: none;
+    }
+
+    .light {
+      color: var(--ink);
+      --text: var(--ink);
+      --sub: var(--gray);
+      --glass: rgba(247, 249, 252, 0.46);
+      --glass-strong: rgba(247, 249, 252, 0.68);
+      --hud: rgba(27, 36, 48, 0.72);
+      --hud-mark: rgba(27, 36, 48, 0.18);
+      --overlay: linear-gradient(to bottom, rgba(247,249,252,0.1), transparent 38%, rgba(247,249,252,0.88) 100%);
+    }
+
+    .dark {
+      color: var(--snow);
+      --text: var(--snow);
+      --sub: var(--silver);
+      --glass: rgba(16, 24, 39, 0.52);
+      --glass-strong: rgba(16, 24, 39, 0.72);
+      --hud: rgba(247, 249, 252, 0.82);
+      --hud-mark: rgba(247, 249, 252, 0.18);
+      --overlay: linear-gradient(to bottom, rgba(16,24,39,0.48), rgba(16,24,39,0.08) 38%, rgba(16,24,39,0.92) 100%);
+    }
+
+    .pentagon {
+      clip-path: polygon(50% 0%, 96% 35%, 79% 91%, 21% 91%, 4% 35%);
+    }
+
+    .hud {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 16px;
+      z-index: 5;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--hud);
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+      font-size: 13px;
+    }
+
+    .hud-left,
+    .hud-icons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hud-btn {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: inherit;
+    }
+
+    .hud-btn::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      background: var(--hud-mark);
+      clip-path: polygon(50% 0%, 96% 35%, 79% 91%, 21% 91%, 4% 35%);
+      z-index: -1;
+    }
+
+    .hud-title {
+      position: relative;
+      padding: 6px 14px 6px 18px;
+      font-family: var(--font-serif);
+      font-size: 14px;
+      color: inherit;
+    }
+
+    .hud-title::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(to right, var(--hud-mark), transparent 76%),
+        linear-gradient(to bottom, transparent 0 44%, var(--hud-mark) 45% 55%, transparent 56%);
+      clip-path: var(--cut-sm);
+    }
+
+    .app-mark {
+      width: 116px;
+      aspect-ratio: 1;
+      background: url("../assets/ui/svg/app_icon_nagisheart.svg") center / contain no-repeat;
+      filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.32));
+    }
+
+    .center {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 34px;
+      text-align: center;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 36px;
+      line-height: 1.08;
+      font-weight: 400;
+      color: var(--text);
+      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.42);
+    }
+
+    .brand-sub {
+      margin: 10px 0 0;
+      color: var(--sub);
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+
+    .soft-field {
+      background: var(--glass);
+      backdrop-filter: blur(18px) saturate(0.92);
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 0 68%, rgba(0,0,0,0.74) 84%, transparent 100%);
+      mask-image: radial-gradient(ellipse at center, #000 0 68%, rgba(0,0,0,0.74) 84%, transparent 100%);
+    }
+
+    .cut-field {
+      clip-path: var(--cut-sm);
+      background: var(--glass-strong);
+      backdrop-filter: blur(12px) saturate(0.92);
+    }
+
+    .start-title {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      top: 76px;
+      z-index: 2;
+      color: var(--snow);
+    }
+
+    .start-menu {
+      position: absolute;
+      left: 36px;
+      right: 36px;
+      bottom: 56px;
+      z-index: 3;
+      display: grid;
+      gap: 10px;
+    }
+
+    .menu-row,
+    .form-row,
+    .save-row,
+    .setting-row {
+      min-height: 46px;
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      clip-path: var(--cut-sm);
+      background: var(--glass-strong);
+      backdrop-filter: blur(13px);
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .menu-row.primary {
+      background:
+        linear-gradient(to right, rgba(191,160,138,0.28), rgba(247,249,252,0.62)),
+        var(--glass-strong);
+    }
+
+    .dark .menu-row.primary {
+      background:
+        linear-gradient(to right, rgba(191,160,138,0.2), rgba(16,24,39,0.78)),
+        var(--glass-strong);
+    }
+
+    .opening-copy {
+      width: 84%;
+      padding: 34px 30px;
+      text-align: left;
+      color: var(--text);
+      line-height: 2;
+      font-size: 16px;
+    }
+
+    .stack {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 94px;
+      bottom: 36px;
+      z-index: 3;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .page-heading {
+      margin: 0 0 6px;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text);
+      text-shadow: 0 2px 18px rgba(0,0,0,0.24);
+    }
+
+    .small {
+      color: var(--sub);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .bottom-dialogue {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 18px;
+      z-index: 3;
+      min-height: 148px;
+      padding: 20px 18px 22px;
+    }
+
+    .speaker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 9px;
+      padding: 6px 16px;
+      clip-path: var(--cut-sm);
+      background: var(--glass-strong);
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .speaker::before,
+    .choice-row::before,
+    .node::before {
+      content: "";
+      width: 11px;
+      height: 11px;
+      flex: 0 0 11px;
+      clip-path: polygon(50% 0%, 96% 35%, 79% 91%, 21% 91%, 4% 35%);
+      background: currentColor;
+      opacity: 0.72;
+    }
+
+    .dialogue-text {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text);
+      text-shadow: 0 2px 18px rgba(0,0,0,0.48);
+    }
+
+    .choice-list {
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      top: 46%;
+      z-index: 4;
+      display: grid;
+      gap: 9px;
+    }
+
+    .choice-row {
+      min-height: 50px;
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      clip-path: var(--cut-sm);
+      background: var(--glass-strong);
+      backdrop-filter: blur(16px);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .choice-row.current {
+      background:
+        linear-gradient(to right, rgba(191,160,138,0.22), transparent 68%),
+        var(--glass-strong);
+    }
+
+    .line-panel,
+    .chapter-panel {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      top: 84px;
+      bottom: 34px;
+      z-index: 3;
+      padding: 24px;
+    }
+
+    .bubble {
+      width: fit-content;
+      max-width: 74%;
+      margin: 10px 0;
+      padding: 9px 12px;
+      clip-path: var(--cut-sm);
+      background: rgba(247,249,252,0.54);
+      color: var(--ink);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .bubble.me {
+      margin-left: auto;
+      background: rgba(232,238,246,0.68);
+    }
+
+    .dark .bubble {
+      color: var(--snow);
+      background: rgba(174,186,200,0.22);
+    }
+
+    .dark .bubble.me {
+      background: rgba(247,249,252,0.16);
+    }
+
+    .chapter-panel h2 {
+      margin: 0 0 24px;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    .node {
+      display: grid;
+      grid-template-columns: 14px 1fr;
+      gap: 14px;
+      margin: 18px 0;
+      color: var(--text);
+    }
+
+    .node::before {
+      margin-top: 7px;
+      color: var(--blue-gray);
+    }
+
+    .node.current::before {
+      color: var(--gold);
+      opacity: 1;
+    }
+
+    .thumb {
+      width: 54px;
+      height: 72px;
+      flex: 0 0 54px;
+      clip-path: var(--cut-sm);
+      background: rgba(174,186,200,0.34);
+    }
+
+    .save-row {
+      justify-content: flex-start;
+      gap: 13px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .gallery-card {
+      min-height: 134px;
+      padding: 12px;
+      display: flex;
+      align-items: end;
+      clip-path: var(--cut-sm);
+      background: rgba(247,249,252,0.48);
+      backdrop-filter: blur(12px);
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .dark .gallery-card {
+      background: rgba(16,24,39,0.54);
+      color: var(--snow);
+    }
+  </style>
+</head>
+<body>
+  <section class="intro">
+    <h1>Nagi's Heart · P0 HiFi UI Board</h1>
+    <p>首版高保真主链路设计板。这里给 CC 看页面方向、层级、组件形状、图标语言和背景适配方式；实际 Android 实现可按文档拆 Compose 组件。</p>
+  </section>
+
+  <main class="board">
+    <article class="screen-card">
+      <div class="caption"><span>01 App Icon</span><span>asset</span></div>
+      <section class="phone dark">
+        <div class="center">
+          <div class="app-mark"></div>
+          <h2 class="brand-title">Nagi's<br>Heart</h2>
+          <p class="brand-sub">Snowlit Rose</p>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>02 Splash</span><span>P0</span></div>
+      <section class="phone dark">
+        <div class="center">
+          <div class="app-mark" style="width:92px"></div>
+          <h2 class="brand-title" style="font-size:30px">Nagi's Heart</h2>
+          <p class="brand-sub">Loading memory...</p>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>03 Start</span><span>P0</span></div>
+      <section class="phone dark" style="--bg:url('../assets/bg/home_full.jpg'); --pos:center top; --overlay:linear-gradient(to bottom, rgba(16,24,39,.18), rgba(16,24,39,.22) 42%, rgba(16,24,39,.82));">
+        <div class="start-title">
+          <h2 class="brand-title">Nagi's<br>Heart</h2>
+          <p class="brand-sub">The quietest place in the world</p>
+        </div>
+        <nav class="start-menu">
+          <div class="menu-row primary">Continue <span>Chapter 03</span></div>
+          <div class="menu-row">Start <span>new</span></div>
+          <div class="menu-row">Chapter</div>
+          <div class="menu-row">Gallery</div>
+          <div class="menu-row">Settings</div>
+        </nav>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>04 Opening</span><span>P0</span></div>
+      <section class="phone light" style="--bg:url('../assets/bg/morning.jpg'); --pos:center;">
+        <div class="center">
+          <div class="opening-copy soft-field">
+            世界像一场安静的白光。<br>
+            他站在球场另一侧，像还没有被任何人真正叫醒。<br><br>
+            而你知道，从这一刻开始，有些东西会改变。
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>05 Name Setup</span><span>P0</span></div>
+      <section class="phone light" style="--bg:url('../assets/bg/lemontea.jpg'); --pos:center;">
+        <div class="stack">
+          <h2 class="page-heading">你的名字</h2>
+          <p class="small">这个名字会出现在 Nagi 对你的称呼里。</p>
+          <div class="form-row">玩家名 <span>Ant</span></div>
+          <div class="form-row">Nagi 称呼 <span>一一</span></div>
+          <div class="form-row">预览 <span>“一一，过来。”</span></div>
+          <div class="menu-row primary">Confirm</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>06 Dialogue</span><span>P0</span></div>
+      <section class="phone light" style="--bg:url('../assets/bg/apartment.jpg'); --pos:center;">
+        <div class="hud">
+          <div class="hud-left"><span class="hud-btn">‹</span><span class="hud-title">Chapter 03</span></div>
+          <div class="hud-icons"><span class="hud-btn">A</span><span class="hud-btn">S</span><span class="hud-btn">≡</span></div>
+        </div>
+        <div class="bottom-dialogue soft-field">
+          <div class="speaker">Nagi Seishiro</div>
+          <div class="dialogue-text">“如果你一直在这里的话，我大概也会想赢得更认真一点。”</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>07 Choice</span><span>P0</span></div>
+      <section class="phone light" style="--bg:url('../assets/bg/valentine.jpg'); --pos:center;">
+        <div class="choice-list">
+          <div class="choice-row current">把围巾往他那边推过去一点。</div>
+          <div class="choice-row">假装没有听见他的低声抱怨。</div>
+          <div class="choice-row">问他是不是真的想成为世界第一。</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>08 LINE Mode</span><span>P0 design</span></div>
+      <section class="phone dark" style="--bg:url('../assets/bg/bedroom.jpg'); --pos:center; --overlay:linear-gradient(to bottom, rgba(16,24,39,.42), rgba(16,24,39,.2) 36%, rgba(16,24,39,.72));">
+        <div class="hud"><span class="hud-title">LINE</span><span class="hud-btn">≡</span></div>
+        <div class="line-panel soft-field">
+          <p class="small" style="text-align:center">Today 22:14</p>
+          <div class="bubble">到家了吗。</div>
+          <div class="bubble me">到了。你不是说训练后会很困吗？</div>
+          <p class="small" style="text-align:right">read</p>
+          <div class="bubble">嗯。</div>
+          <div class="bubble">但是想到你可能还醒着。</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>09 Chapter Map</span><span>P0</span></div>
+      <section class="phone dark" style="--bg:url('../assets/bg/drive.jpg'); --pos:center;">
+        <div class="chapter-panel soft-field">
+          <h2>Memory Track</h2>
+          <div class="node"><div>重逢后的第一场雨<br><span class="small">read</span></div></div>
+          <div class="node current"><div>他开始认真看向你<br><span class="small">current · choice point</span></div></div>
+          <div class="node"><div>???<br><span class="small">locked memory</span></div></div>
+          <div class="node"><div>???<br><span class="small">route hidden</span></div></div>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>10 Save / Load</span><span>P1</span></div>
+      <section class="phone light" style="--bg:url('../assets/bg/curry.jpg'); --pos:center;">
+        <div class="stack">
+          <h2 class="page-heading">Save</h2>
+          <div class="save-row"><div class="thumb"></div><div>Chapter 03<br><span class="small">他开始认真看向你 · 21:48</span></div></div>
+          <div class="save-row"><div class="thumb"></div><div>Auto Save<br><span class="small">开放日之后 · 21:02</span></div></div>
+          <div class="save-row"><div class="thumb"></div><div>Empty Slot<br><span class="small">---</span></div></div>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>11 Gallery</span><span>P1</span></div>
+      <section class="phone light" style="--bg:url('../assets/bg/propose.jpg'); --pos:center;">
+        <div class="stack">
+          <h2 class="page-heading">Gallery</h2>
+          <div class="gallery-grid">
+            <div class="gallery-card">CG 01</div>
+            <div class="gallery-card">CG 02</div>
+            <div class="gallery-card">???</div>
+            <div class="gallery-card">TRUE END</div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="screen-card">
+      <div class="caption"><span>12 Settings</span><span>P2</span></div>
+      <section class="phone light" style="--bg:url('../assets/bg/lolly.jpg'); --pos:center;">
+        <div class="stack">
+          <h2 class="page-heading">Settings</h2>
+          <div class="setting-row">Text Speed <span>Normal</span></div>
+          <div class="setting-row">Auto Speed <span>3</span></div>
+          <div class="setting-row">BGM <span>80%</span></div>
+          <div class="setting-row">Display <span>Light / Auto</span></div>
+          <div class="setting-row">Data <span>Manage</span></div>
+        </div>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
