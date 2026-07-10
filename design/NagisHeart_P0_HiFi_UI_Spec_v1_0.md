@@ -1,19 +1,20 @@
 # Nagi's Heart · P0 HiFi UI Spec v1.0
 
 > Owner: CoCo Design  
-> For: CC Engineer / GPT PM  
+> For: User Review / GPT PM / CC Engineer  
 > Visual direction: Snowlit Rose / 冷光玫瑰  
 > Reference board: `NagisHeart_P0_HiFi_UI_Board_v1_0.html`
+> Status: Review Draft. 待用户确认后，才可升级为 CC 正式实现标准。
 
 ---
 
-## 0. 这份交付的定位
+## 0. 这份草案的定位
 
-这份是 P0 高保证 UI 目标，不是前面 `coco_minimal_ui_check_v1_0.html` 的微调版。
+这份是 CoCo 提出的 P0 高保证 UI 草案，不是前面 `coco_minimal_ui_check_v1_0.html` 的微调版，也不是已经确认的工程交付稿。
 
 前面的 minimal checker 只用于验证：竖屏、安全区、背景可读性、`uiTheme`、Dialogue / Choice / LINE / Chapter 的基本结构。
 
-从现在开始，CC 开工请优先参考：
+待用户确认后，才建议 CC 按以下文件进入正式还原：
 
 ```text
 design/NagisHeart_P0_HiFi_UI_Board_v1_0.html
@@ -158,7 +159,7 @@ assets/ui/android/drawable/ic_app_mark.xml
 
 ---
 
-## 3. CC 第一轮实现顺序
+## 3. CC 第一轮实现顺序（待确认后启用）
 
 1. 竖屏 Scene 容器与背景铺图。
 2. `uiTheme: light | dark | auto`。
@@ -208,7 +209,7 @@ LINE 和 Chapter 是两种设计
 
 ## 5. 后续还要继续精修
 
-这份已经足够 CC 开工，但还不是最终美术定稿。后续 CoCo 继续补：
+这份当前只用于评审。用户确认后，可升级为 CC 第一轮开工参考；在确认前，CC 只能参考方向，不做最终视觉还原。后续 CoCo 继续补：
 
 ```text
 最终首页 KV

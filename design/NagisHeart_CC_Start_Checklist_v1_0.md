@@ -4,7 +4,7 @@
 > 提交对象：CC Engineer  
 > 目标：按最小闭环搭起 Android UI，不等待所有高保真细节。
 
-> 2026-07-10 Update: 当前主视觉参考已升级为 P0 高保真画板。CC 开工优先看 `NagisHeart_P0_HiFi_UI_Board_v1_0.html` 和 `NagisHeart_P0_HiFi_UI_Spec_v1_0.md`；`coco_minimal_ui_check_v1_0.html` 只保留为早期结构验证样张。
+> 2026-07-10 Update: `NagisHeart_P0_HiFi_UI_Board_v1_0.html` 和 `NagisHeart_P0_HiFi_UI_Spec_v1_0.md` 当前是 CoCo 高保真草案，待用户确认后才可作为 CC 正式视觉标准。CC 现阶段只按本文和 handoff 文档搭 UI 骨架，不按高保真草案做最终还原。
 
 ---
 
@@ -19,13 +19,13 @@ NagisHeart_Android_Icon_System_CC_v1_0.md
 NagisHeart_BG_Adaptation_TestPlan_v1_0.md
 ```
 
-当前主视觉参考：
+CoCo 高保真草案（待确认，不作为 CC 最终实现标准）：
 
 ```text
 NagisHeart_P0_HiFi_UI_Board_v1_0.html
 ```
 
-高保真说明：
+高保真说明（待确认）：
 
 ```text
 NagisHeart_P0_HiFi_UI_Spec_v1_0.md

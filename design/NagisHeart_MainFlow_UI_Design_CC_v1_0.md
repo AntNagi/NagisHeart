@@ -2,11 +2,11 @@
 
 > 文档类型：主链路 UI 设计交付  
 > 提交对象：CC Engineer / GPT PM / CoCo  
-> 配套高保真视觉板：`NagisHeart_P0_HiFi_UI_Board_v1_0.html`  
+> CoCo 高保真草案：`NagisHeart_P0_HiFi_UI_Board_v1_0.html`（待用户确认）  
 > 早期主链路草稿：`nagisheart_mainflow_ui_board_v1_0.html`  
 > 配套切图：`assets/ui/`
 
-> 2026-07-10 Update: CC 开工以 P0 HiFi UI Board 和 `NagisHeart_P0_HiFi_UI_Spec_v1_0.md` 为主。本文保留主链路结构说明，但视觉优先级低于高保真画板。
+> 2026-07-10 Update: P0 HiFi UI Board 和 `NagisHeart_P0_HiFi_UI_Spec_v1_0.md` 仍是 CoCo 草案，尚未用户确认。CC 可参考其方向，但不得视为正式视觉还原标准。
 
 ---
 
