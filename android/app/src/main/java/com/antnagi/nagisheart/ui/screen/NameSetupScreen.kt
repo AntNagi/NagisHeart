@@ -71,7 +71,7 @@ fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 34.dp, horizontal = 48.dp),
+                        .padding(start = 48.dp, top = 34.dp, end = 48.dp, bottom = 0.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     HeaderWithDecoration(text = "开始之前")

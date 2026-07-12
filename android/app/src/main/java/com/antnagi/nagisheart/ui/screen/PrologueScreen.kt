@@ -71,7 +71,7 @@ fun PrologueScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .statusBarsPadding()
-                    .padding(top = 34.dp, horizontal = 48.dp),
+                    .padding(start = 48.dp, top = 34.dp, end = 48.dp, bottom = 0.dp),
                 contentAlignment = Alignment.Center
             ) {
                 HeaderWithDecoration(
