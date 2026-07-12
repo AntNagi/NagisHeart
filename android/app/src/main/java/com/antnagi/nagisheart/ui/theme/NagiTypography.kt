@@ -5,6 +5,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.sp
 
 @Immutable
@@ -54,19 +55,19 @@ val DefaultNagiTypography = NagiTypography(
         fontFamily = sansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 17.sp,
-        lineHeight = 27.sp
+        lineHeight = 29.sp
     ),
     narration = TextStyle(
-        fontFamily = sansFamily,
+        fontFamily = serifFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 17.sp,
-        lineHeight = 28.sp
+        lineHeight = 29.sp
     ),
     choiceText = TextStyle(
         fontFamily = sansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 23.sp
+        fontSize = 15.sp,
+        lineHeight = 21.sp
     ),
     lineMessage = TextStyle(
         fontFamily = sansFamily,

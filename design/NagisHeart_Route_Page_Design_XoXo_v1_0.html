@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nagi's Heart Route Page Design XoXo v1.0</title>
+  <style>
+    :root {
+      --bg: #101723;
+      --panel: rgba(238,244,250,.12);
+      --panel-strong: rgba(238,244,250,.18);
+      --line: rgba(238,244,250,.22);
+      --text: #f8f1e7;
+      --muted: rgba(248,241,231,.68);
+      --gold: #d7bf8b;
+      --blue: #9fc2df;
+      --danger: #c58d91;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #111827;
+      color: var(--text);
+      font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    }
+    .board { padding: 28px; display: grid; gap: 24px; }
+    h1 { margin: 0 0 8px; font-size: 22px; }
+    p { margin: 0; color: var(--muted); line-height: 1.7; font-size: 14px; }
+    .phones { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+    .phone {
+      position: relative;
+      width: 390px;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      background:
+        linear-gradient(to bottom, rgba(9,14,23,.42), rgba(9,14,23,.84)),
+        url("../assets/bg/bg_manchester_bedroom_city_night.jpg") center / cover;
+      box-shadow: 0 28px 70px rgba(0,0,0,.48);
+      padding: 22px;
+    }
+    .phone.light {
+      background:
+        linear-gradient(to bottom, rgba(235,241,247,.52), rgba(16,23,35,.72)),
+        url("../assets/bg/bg_bluelock_meeting_contract_room.png") center / cover;
+    }
+    .hud {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+      margin-bottom: 22px;
+    }
+    .title {
+      margin-bottom: 18px;
+    }
+    .eyebrow {
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 30px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      line-height: 1.1;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 16px 0 18px;
+    }
+    .stat {
+      min-height: 56px;
+      padding: 10px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+    .stat b { display: block; font-size: 18px; }
+    .stat span { color: var(--muted); font-size: 10px; }
+    .route-map {
+      position: relative;
+      display: grid;
+      gap: 12px;
+      padding-left: 14px;
+    }
+    .route-map::before {
+      content: "";
+      position: absolute;
+      left: 26px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), rgba(255,255,255,.12));
+    }
+    .node {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 58px;
+      padding: 10px 12px 10px 4px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(18px);
+    }
+    .dot {
+      position: relative;
+      z-index: 2;
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(15,22,34,.88);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 10px;
+    }
+    .node h3 { margin: 0; font-size: 13px; font-weight: 600; }
+    .node small { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; }
+    .badge {
+      color: var(--gold);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+    .locked {
+      opacity: .64;
+      filter: saturate(.7);
+    }
+    .locked .dot {
+      border-color: rgba(255,255,255,.25);
+      color: rgba(255,255,255,.5);
+    }
+    .branches {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .branch {
+      padding: 14px;
+      background: rgba(7,12,20,.45);
+      border: 1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(18px);
+    }
+    .branch .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .meter {
+      height: 3px;
+      background: rgba(255,255,255,.16);
+      overflow: hidden;
+    }
+    .meter i { display: block; height: 100%; background: var(--gold); }
+    .dream i { width: 100%; background: #d7bf8b; }
+    .stay i { width: 72%; background: #9fc2df; }
+    .bad i { width: 44%; background: #c58d91; }
+    .note {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 24px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+      border-top: 1px solid rgba(255,255,255,.16);
+      padding-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <section>
+      <h1>Nagi's Heart · Route Page 设计 v1.0</h1>
+      <p>路线页首版遵循“不提前剧透 Dream / Stay / Bad”的口径。左侧是进行中页面，右侧是通关后回收页面。</p>
+    </section>
+
+    <section class="phones">
+      <article class="phone">
+        <div class="hud"><span>‹ Route</span><span>Chapter 08</span></div>
+        <div class="title">
+          <div class="eyebrow">Memory Track</div>
+          <h2>假期结束前，<br />世界在分岔</h2>
+        </div>
+        <div class="summary">
+          <div class="stat"><b>72%</b><span>已读记忆</span></div>
+          <div class="stat"><b>03</b><span>关键选择</span></div>
+          <div class="stat"><b>???</b><span>隐藏路线</span></div>
+        </div>
+        <div class="route-map">
+          <div class="node"><span class="dot">1</span><div><h3>春季名单</h3><small>current point</small></div><span class="badge">now</span></div>
+          <div class="node"><span class="dot">2</span><div><h3>他的名字</h3><small>next memory</small></div><span class="badge">open</span></div>
+          <div class="node locked"><span class="dot">?</span><div><h3>???</h3><small>route hidden</small></div><span class="badge">locked</span></div>
+          <div class="node locked"><span class="dot">?</span><div><h3>???</h3><small>ending hidden</small></div><span class="badge">locked</span></div>
+        </div>
+        <div class="note">开发口径：未到达终局前，不显示 Dream / Stay / Bad 名称，只显示当前章节与隐藏节点占位。</div>
+      </article>
+
+      <article class="phone light">
+        <div class="hud"><span>‹ Route Archive</span><span>After Clear</span></div>
+        <div class="title">
+          <div class="eyebrow">Route Archive</div>
+          <h2>世界第一，<br />或者留在这里</h2>
+        </div>
+        <div class="summary">
+          <div class="stat"><b>3/4</b><span>结局回收</span></div>
+          <div class="stat"><b>86%</b><span>CG 解锁</span></div>
+          <div class="stat"><b>12</b><span>未读节点</span></div>
+        </div>
+        <div class="branches">
+          <div class="branch dream"><div class="top"><span>Dream Route</span><span>TRUE / GOOD</span></div><div class="meter"><i></i></div></div>
+          <div class="branch stay"><div class="top"><span>Stay Route</span><span>NORMAL</span></div><div class="meter"><i></i></div></div>
+          <div class="branch bad"><div class="top"><span>Bad Route</span><span>好麻烦</span></div><div class="meter"><i></i></div></div>
+        </div>
+        <div class="route-map" style="margin-top:16px">
+          <div class="node"><span class="dot">D</span><div><h3>他的名字</h3><small>world stage recovered</small></div><span class="badge">100%</span></div>
+          <div class="node"><span class="dot">S</span><div><h3>还不是今天</h3><small>ordinary ending path</small></div><span class="badge">72%</span></div>
+          <div class="node"><span class="dot">B</span><div><h3>远处的世界第一</h3><small>bad ending path</small></div><span class="badge">44%</span></div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

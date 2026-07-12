@@ -1,7 +1,7 @@
 {
   "p1": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bluelock_monitor_room.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -13,10 +13,10 @@
     "mood": "reflection"
   },
   "p2": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bluelock_meeting_contract_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -26,10 +26,10 @@
     "mood": "tension"
   },
   "p2_s2": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bluelock_meeting_contract_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -39,10 +39,10 @@
     "mood": "tension"
   },
   "p2_s3": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bluelock_meeting_contract_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -52,10 +52,10 @@
     "mood": "tension"
   },
   "c1a": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bluelock_meeting_contract_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -65,8 +65,8 @@
     "mood": "reflection"
   },
   "c1b": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/easygoing _person.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -78,8 +78,8 @@
     "mood": "reflection"
   },
   "c1b_s2": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/easygoing _person.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -91,8 +91,8 @@
     "mood": "reflection"
   },
   "c1b_s3": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/easygoing _person.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -104,8 +104,8 @@
     "mood": "reflection"
   },
   "c1b_s4": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/easygoing _person.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -117,8 +117,8 @@
     "mood": "reflection"
   },
   "u20j": {
-    "bg": "assets/bg/goal.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_u20j_worldcup_goal_kick.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -131,7 +131,7 @@
   },
   "c3": {
     "bg": "assets/bg/openday.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -144,7 +144,7 @@
   },
   "c3_s2": {
     "bg": "assets/bg/openday.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -157,7 +157,7 @@
   },
   "e_lemontea": {
     "bg": "assets/bg/lemontea.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -170,7 +170,7 @@
   },
   "e_lemontea_s2": {
     "bg": "assets/bg/lemontea.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -183,7 +183,7 @@
   },
   "c2": {
     "bg": "assets/bg/lemontea.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -196,7 +196,7 @@
   },
   "c2_s2": {
     "bg": "assets/bg/lemontea.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -209,7 +209,7 @@
   },
   "e_invite": {
     "bg": "assets/bg/apartment.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -222,7 +222,7 @@
   },
   "e_lolly": {
     "bg": "assets/bg/lolly.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -235,7 +235,7 @@
   },
   "e_lolly_s2": {
     "bg": "assets/bg/lolly.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -247,10 +247,10 @@
     "mood": "romance"
   },
   "e_depart": {
-    "bg": "assets/bg/home_full.jpg",
-    "bgm": null,
+    "bg": "assets/bg/living_room.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -261,7 +261,7 @@
   },
   "c6a": {
     "bg": "assets/bg/goal.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -274,7 +274,7 @@
   },
   "e_curry": {
     "bg": "assets/bg/curry.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -287,9 +287,9 @@
   },
   "e_bday": {
     "bg": "assets/bg/birthday.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -300,7 +300,7 @@
   },
   "e_hug": {
     "bg": "assets/bg/hug.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -313,7 +313,7 @@
   },
   "e_intimate": {
     "bg": "assets/bg/bedroom.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -325,34 +325,34 @@
     "mood": "romance"
   },
   "side_b_return": {
-    "bg": "assets/bg/livingroom.jpg",
-    "bgm": null,
+    "bg": "assets/bg/living_room.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
     "uiSafeZone": null,
     "visualPriority": "temp",
-    "mood": "competition"
+    "mood": "reflection"
   },
   "wc_roster": {
-    "bg": "assets/bg/livingroom.jpg",
-    "bgm": null,
+    "bg": "assets/bg/dining_room.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
     "characterPosition": null,
     "uiSafeZone": null,
     "visualPriority": "temp",
-    "mood": "competition"
+    "mood": "reflection"
   },
   "wc_interval": {
     "bg": "assets/bg/summer.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -364,8 +364,8 @@
     "mood": "competition"
   },
   "wc_keygoal": {
-    "bg": "assets/bg/goal.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_u20j_worldcup_goal_kick.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -378,9 +378,9 @@
   },
   "wc_offer": {
     "bg": "assets/bg/back.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -390,10 +390,10 @@
     "mood": "competition"
   },
   "w_home": {
-    "bg": "assets/bg/home_full.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_home_soft_nagi_beanbag.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -403,10 +403,10 @@
     "mood": "daily"
   },
   "mt3": {
-    "bg": "assets/bg/livingroom.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_home_soft_nagi_beanbag.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -416,8 +416,8 @@
     "mood": "daily"
   },
   "m_shallow": {
-    "bg": "assets/bg/bedroom.jpg",
-    "bgm": null,
+    "bg": "assets/bg/trainning_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -430,7 +430,7 @@
   },
   "e_intimate_cohabit": {
     "bg": "assets/bg/hug.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -442,10 +442,10 @@
     "mood": "romance"
   },
   "e_cozy": {
-    "bg": "assets/bg/home_full.jpg",
-    "bgm": null,
+    "bg": "assets/bg/living_room.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -455,10 +455,10 @@
     "mood": "daily"
   },
   "w_noodle": {
-    "bg": "assets/bg/wakeup.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_nagi_daily_city_room_icecream.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Dark",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -468,8 +468,8 @@
     "mood": "daily"
   },
   "w_game": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/gaming_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -481,8 +481,8 @@
     "mood": "daily"
   },
   "e_tipsy": {
-    "bg": "assets/bg/dining.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bar.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -494,8 +494,8 @@
     "mood": "romance"
   },
   "e_morning": {
-    "bg": "assets/bg/morning.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_home_soft_nagi_beanbag.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -508,7 +508,7 @@
   },
   "c4": {
     "bg": null,
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -521,7 +521,7 @@
   },
   "c4a": {
     "bg": "assets/bg/qixi.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -534,7 +534,7 @@
   },
   "c4a_s2": {
     "bg": "assets/bg/qixi.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -547,7 +547,7 @@
   },
   "c4a_s3": {
     "bg": "assets/bg/qixi.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -560,9 +560,9 @@
   },
   "c4d": {
     "bg": "assets/bg/qixi.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -572,10 +572,10 @@
     "mood": "romance"
   },
   "e_festival": {
-    "bg": "assets/bg/summerfestival.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_summer_festival_coconut.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Dark",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -585,10 +585,10 @@
     "mood": "daily"
   },
   "transfer_contract": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bluelock_meeting_contract_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -598,8 +598,8 @@
     "mood": "tension"
   },
   "club_arrival": {
-    "bg": "assets/bg/back.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_manchester_living_piano.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -611,10 +611,10 @@
     "mood": null
   },
   "club_alone": {
-    "bg": "assets/bg/apartment.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_manchester_bedroom_city_night.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -625,7 +625,7 @@
   },
   "club_training": {
     "bg": "assets/bg/pitch.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -637,10 +637,10 @@
     "mood": "competition"
   },
   "club_media": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_club_media_press_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -651,7 +651,7 @@
   },
   "e_autumn": {
     "bg": "assets/bg/autumn.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -664,7 +664,7 @@
   },
   "e_halloween": {
     "bg": "assets/bg/Halloween.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -677,9 +677,9 @@
   },
   "e_drive": {
     "bg": "assets/bg/drive.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -689,10 +689,10 @@
     "mood": null
   },
   "e_agency_launch": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_agency_launch_stage.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -702,8 +702,8 @@
     "mood": "tension"
   },
   "e_scarf": {
-    "bg": "assets/bg/scarf.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_scarf_flower_delivery.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -716,9 +716,9 @@
   },
   "e_sick_fragile": {
     "bg": "assets/bg/afterwork.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -729,7 +729,7 @@
   },
   "e_dressup": {
     "bg": "assets/bg/dressup.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -742,7 +742,7 @@
   },
   "e_softrice": {
     "bg": "assets/bg/softrice.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -754,8 +754,8 @@
     "mood": "romance"
   },
   "e_drunk": {
-    "bg": "assets/bg/dining.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bar.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -767,8 +767,8 @@
     "mood": "romance"
   },
   "e_drunk_s2": {
-    "bg": "assets/bg/dining.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bar.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -780,8 +780,8 @@
     "mood": "romance"
   },
   "p8_route": {
-    "bg": "assets/bg/bedroom.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_manchester_bedroom_city_night.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -793,8 +793,8 @@
     "mood": "reflection"
   },
   "dream_exist": {
-    "bg": "assets/bg/bedroom.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_manchester_bedroom_city_night.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -806,8 +806,8 @@
     "mood": "loneliness"
   },
   "dream_match": {
-    "bg": "assets/bg/worldstage.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_final_match_stadium_kick.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -819,8 +819,8 @@
     "mood": "competition"
   },
   "dream_celebrate": {
-    "bg": "assets/bg/goal.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_final_match_stadium_kick.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -829,13 +829,13 @@
     "characterPosition": null,
     "uiSafeZone": null,
     "visualPriority": "temp",
-    "mood": "competition"
+    "mood": "triumph"
   },
   "dream_return": {
     "bg": "assets/bg/remeet.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -846,7 +846,7 @@
   },
   "dream_home": {
     "bg": "assets/bg/villa.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -858,10 +858,10 @@
     "mood": "romance"
   },
   "dream_final": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/ending_true_nagi_soft_gaze.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Dark",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -871,8 +871,8 @@
     "mood": "triumph"
   },
   "stay_match": {
-    "bg": "assets/bg/goal.jpg",
-    "bgm": null,
+    "bg": "assets/bg/teamV.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -881,13 +881,13 @@
     "characterPosition": null,
     "uiSafeZone": null,
     "visualPriority": "temp",
-    "mood": "competition"
+    "mood": "loss"
   },
   "stay_intro": {
-    "bg": "assets/bg/home_full.jpg",
-    "bgm": null,
+    "bg": "assets/bg/bg_home_soft_nagi_beanbag.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Light",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -897,8 +897,8 @@
     "mood": "daily"
   },
   "stay_cozy": {
-    "bg": "assets/bg/dining.jpg",
-    "bgm": null,
+    "bg": "assets/bg/dining_room.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -911,7 +911,7 @@
   },
   "stay_daily": {
     "bg": "assets/bg/valentine.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Light",
     "autoSave": false,
@@ -923,8 +923,8 @@
     "mood": "romance"
   },
   "stay_final": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_stay_final_tv_glow_living_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -936,10 +936,10 @@
     "mood": "loss"
   },
   "bad_elegant": {
-    "bg": "assets/bg/apartment.jpg",
-    "bgm": null,
+    "bg": "assets/bg/dining_room.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
-    "uiTheme": "Auto",
+    "uiTheme": "Dark",
     "autoSave": false,
     "focusPoint": null,
     "cropRule": null,
@@ -949,8 +949,8 @@
     "mood": "tension"
   },
   "bad_plan": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bad_plan_data_war_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -962,8 +962,8 @@
     "mood": "tension"
   },
   "bad_match": {
-    "bg": "assets/bg/goal.jpg",
-    "bgm": null,
+    "bg": "assets/bg/teamV.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -975,8 +975,8 @@
     "mood": "tension"
   },
   "bad_afterglow": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bad_afterglow_media_wall.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -989,7 +989,7 @@
   },
   "bad_cold": {
     "bg": "assets/bg/bedroom.jpg",
-    "bgm": null,
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -1001,8 +1001,8 @@
     "mood": "loneliness"
   },
   "bad_last": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bad_impact_kick_cutin.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -1014,8 +1014,8 @@
     "mood": "loss"
   },
   "bad_far": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bad_far_award_broadcast.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
     "autoSave": false,
@@ -1027,8 +1027,8 @@
     "mood": "loss"
   },
   "end_true": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/ending_true_nagi_soft_gaze.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "ending",
     "autoSave": false,
@@ -1040,8 +1040,8 @@
     "mood": null
   },
   "end_good": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/ending_candidate_crystal_king.jpg",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "ending",
     "autoSave": false,
@@ -1053,8 +1053,8 @@
     "mood": null
   },
   "end_normal": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_stay_final_tv_glow_living_room.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "ending",
     "autoSave": false,
@@ -1066,8 +1066,8 @@
     "mood": null
   },
   "end_bad": {
-    "bg": null,
-    "bgm": null,
+    "bg": "assets/bg/bg_bad_far_award_broadcast.png",
+    "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "ending",
     "autoSave": false,

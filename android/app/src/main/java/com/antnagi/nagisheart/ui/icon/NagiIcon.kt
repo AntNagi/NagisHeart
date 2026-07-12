@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 
 enum class NagiIcon(val resName: String) {
     Back("ic_back"),
-    Menu("ic_menu"),
     Auto("ic_auto"),
     Skip("ic_skip"),
     Backlog("ic_backlog"),

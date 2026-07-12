@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nagi's Heart 系统页设计 v1.0</title>
+  <style>
+    :root {
+      --night: #101a2a;
+      --snow: #f2f5f7;
+      --silver: #b9c4d2;
+      --muted: #7d8999;
+      --gold: #d2b882;
+      --rose: #c58f98;
+      --line: rgba(210, 184, 130, .34);
+      --sans: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --serif: Georgia, "Noto Serif SC", serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #0a111c; color: var(--snow); font-family: var(--sans); }
+    .review { min-height: 100vh; display: grid; place-items: center; padding: 28px; }
+    .phone { position: relative; width: min(100%, 405px); aspect-ratio: 9 / 16; overflow: hidden; isolation: isolate; background: var(--night); box-shadow: 0 28px 100px rgba(0,0,0,.48); }
+    .phone::before { content: ""; position: absolute; inset: 0; z-index: -2; background: url("../assets/bg/remeet.jpg") center / cover; filter: saturate(.55) contrast(1.04); transform: scale(1.03); }
+    .phone::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to bottom, rgba(11,19,31,.58), rgba(11,19,31,.28) 42%, rgba(11,19,31,.94)); }
+    .toolbar { position: fixed; left: 24px; top: 24px; z-index: 4; display: flex; flex-wrap: wrap; gap: 8px; max-width: 260px; }
+    .toolbar button { border: 0; padding: 7px 2px; color: var(--muted); background: transparent; font: 12px var(--sans); cursor: pointer; }
+    .toolbar button.active { color: var(--gold); }
+    .page { display: none; height: 100%; padding: 19px 22px 28px; }
+    .page.active { display: flex; flex-direction: column; }
+    .top { display: flex; align-items: center; min-height: 38px; }
+    .back { width: 38px; color: var(--silver); font-size: 25px; line-height: 1; }
+    .top h1 { flex: 1; margin: 0; text-align: center; font: 25px var(--serif); font-weight: 400; }
+    .top-spacer { width: 38px; }
+    .eyebrow { margin-top: 36px; color: var(--gold); font-size: 11px; letter-spacing: 2px; text-align: center; }
+    .page-intro { margin: 9px auto 24px; color: var(--silver); font: 21px/1.5 var(--serif); text-align: center; }
+    .hairline { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--line), transparent); }
+    .chapter-list { display: grid; gap: 16px; margin: 14px 12px 0; text-align: center; }
+    .chapter { padding: 0 0 14px; border-bottom: 1px solid rgba(185,196,210,.18); }
+    .chapter strong { display: block; color: var(--snow); font: 19px var(--serif); font-weight: 400; }
+    .chapter small { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; letter-spacing: 1px; }
+    .chapter.current strong { color: var(--gold); }
+    .chapter.locked { opacity: .42; }
+    .rows { display: grid; gap: 0; margin: 38px 5px 0; }
+    .setting-row { min-height: 61px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(185,196,210,.18); }
+    .setting-row span:first-child { color: var(--snow); font-size: 15px; }
+    .setting-row span:last-child { color: var(--gold); font-size: 12px; }
+    .foot-note { margin-top: auto; color: rgba(185,196,210,.58); font-size: 11px; line-height: 1.6; text-align: center; }
+    .save-list { display: grid; gap: 0; margin-top: 26px; }
+    .save-row { min-height: 86px; display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center; border-bottom: 1px solid rgba(185,196,210,.18); }
+    .save-thumb { width: 54px; height: 66px; background: url("../assets/bg/pillow.jpg") center / cover; opacity: .78; }
+    .save-copy strong { display: block; color: var(--snow); font-size: 14px; font-weight: 500; }
+    .save-copy small { display: block; margin-top: 6px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .save-slot { color: var(--gold); font: 12px var(--serif); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 14px; margin-top: 27px; }
+    .memory { position: relative; min-height: 144px; overflow: hidden; background: rgba(16,26,42,.42); }
+    .memory::before { content: ""; position: absolute; inset: 0; background: var(--image) center / cover; opacity: .88; }
+    .memory::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,13,22,.9), transparent 60%); }
+    .memory-copy { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 1; }
+    .memory-copy strong { display: block; color: var(--snow); font: 15px var(--serif); font-weight: 400; }
+    .memory-copy small { color: var(--gold); font-size: 9px; letter-spacing: 1px; }
+    .memory.locked { display: grid; place-items: center; color: var(--muted); }
+    .memory.locked::before, .memory.locked::after { display: none; }
+    .memory.locked .memory-copy { position: static; text-align: center; }
+    .memory.locked strong { color: var(--muted); font-size: 27px; }
+    @media (max-width: 700px) { .review { padding: 0; } .phone { width: 100vw; height: 100vh; } .toolbar { left: 12px; top: 12px; } }
+  </style>
+</head>
+<body>
+  <main class="review">
+    <nav class="toolbar" aria-label="设计预览切换">
+      <button class="active" data-page="chapters">章节目录</button>
+      <button data-page="settings">设置</button>
+      <button data-page="save">存档</button>
+      <button data-page="gallery">回忆画廊</button>
+    </nav>
+    <section class="phone">
+      <article class="page active" data-screen="chapters">
+        <header class="top"><span class="back">‹</span><h1>章节目录</h1><span class="top-spacer"></span></header>
+        <div class="eyebrow">MEMORY INDEX</div>
+        <div class="page-intro">看见 Nagi 的每一个阶段</div>
+        <div class="hairline"></div>
+        <div class="chapter-list">
+          <div class="chapter current"><strong>开场白</strong><small>PROLOGUE · 已开始</small></div>
+          <div class="chapter current"><strong>第一部 · 原作前置篇</strong><small>他还没看见你，你已经看见了他</small></div>
+          <div class="chapter"><strong>第二部 · 关系确立篇</strong><small>开放日，突然进入彼此生活</small></div>
+          <div class="chapter"><strong>第三部 · 前期低谷篇</strong><small>NEL 淘汰、生​​日与 Side-B 重返</small></div>
+          <div class="chapter locked"><strong>第四部 · 世界看见他篇</strong><small>尚未解锁</small></div>
+        </div>
+        <p class="foot-note">章节目录记录已读内容。路线分歧请前往「记忆轨迹」。</p>
+      </article>
+
+      <article class="page" data-screen="settings">
+        <header class="top"><span class="back">‹</span><h1>系统设置</h1><span class="top-spacer"></span></header>
+        <div class="eyebrow">SYSTEM</div>
+        <div class="page-intro">把阅读节奏留给你</div>
+        <div class="hairline"></div>
+        <div class="rows">
+          <div class="setting-row"><span>文字速度</span><span>正常</span></div>
+          <div class="setting-row"><span>自动播放速度</span><span>3</span></div>
+          <div class="setting-row"><span>背景音乐</span><span>80%</span></div>
+          <div class="setting-row"><span>显示模式</span><span>自动</span></div>
+          <div class="setting-row"><span>跳过方式</span><span>已读内容</span></div>
+          <div class="setting-row"><span>数据管理</span><span>管理</span></div>
+        </div>
+        <p class="foot-note">所有设置均可直接点击文字切换。</p>
+      </article>
+
+      <article class="page" data-screen="save">
+        <header class="top"><span class="back">‹</span><h1>保存进度</h1><span class="top-spacer"></span></header>
+        <div class="eyebrow">MEMORY SAVE</div>
+        <div class="page-intro">把这一刻留在这里</div>
+        <div class="hairline"></div>
+        <div class="save-list">
+          <div class="save-row"><div class="save-thumb"></div><div class="save-copy"><strong>第一部 · 作战室初遇</strong><small>他还没看见你，你已经看见了他<br />今天 21:48</small></div><span class="save-slot">01</span></div>
+          <div class="save-row"><div class="save-thumb"></div><div class="save-copy"><strong>自动保存</strong><small>开放日之后<br />今天 21:02</small></div><span class="save-slot">自动</span></div>
+          <div class="save-row"><div class="save-thumb" style="opacity:.16"></div><div class="save-copy"><strong>空白存档位</strong><small>还没有记录</small></div><span class="save-slot">03</span></div>
+        </div>
+        <p class="foot-note">点击存档位保存；读取进度在同一组文字入口中完成。</p>
+      </article>
+
+      <article class="page" data-screen="gallery">
+        <header class="top"><span class="back">‹</span><h1>回忆画廊</h1><span class="top-spacer"></span></header>
+        <div class="eyebrow">MEMORY GALLERY</div>
+        <div class="page-intro">已经走过的路，会留下光</div>
+        <div class="hairline"></div>
+        <div class="gallery-grid">
+          <div class="memory" style="--image:url('../assets/bg/hug.jpg')"><div class="memory-copy"><strong>拥抱</strong><small>已解锁</small></div></div>
+          <div class="memory" style="--image:url('../assets/bg/birthday_crown.jpg')"><div class="memory-copy"><strong>生日</strong><small>已解锁</small></div></div>
+          <div class="memory locked"><div class="memory-copy"><strong>?</strong><small>未解锁</small></div></div>
+          <div class="memory locked"><div class="memory-copy"><strong>?</strong><small>未解锁</small></div></div>
+        </div>
+        <p class="foot-note">结局名称在解锁前不会提前显示。</p>
+      </article>
+    </section>
+  </main>
+  <script>
+    const buttons = [...document.querySelectorAll('[data-page]')];
+    const screens = [...document.querySelectorAll('[data-screen]')];
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      buttons.forEach((item) => item.classList.toggle('active', item === button));
+      screens.forEach((screen) => screen.classList.toggle('active', screen.dataset.screen === button.dataset.page));
+    }));
+  </script>
+</body>
+</html>

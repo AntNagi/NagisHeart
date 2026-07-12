@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nagi's Heart 缺页预览 XoXo v1.0</title>
+  <style>
+    :root {
+      --snow: #f4f1ea;
+      --sub: #d6d2cb;
+      --weak: #b7b3ad;
+      --gold: #d7be86;
+      --deep: #101827;
+      --overlay: rgba(19, 32, 51, 0.32);
+      --glass: rgba(27, 36, 54, 0.26);
+      --glass-border: rgba(255, 255, 255, 0.10);
+      --serif: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif SC", serif;
+      --ui: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --cut-sm: polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px));
+      --cut-md: polygon(0 14px, 14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px));
+      --system-bg: url("../android/app/src/main/assets/bg/poster_start_nagis_heart_bg_clean.png");
+      --title-tight: url("../../PM_AGENT_OUTBOX/tt_opening_poster/opening_poster_v15_title_layer_tight.png");
+      --meeting-bg: url("../assets/bg/bg_bluelock_meeting_contract_room.png");
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0d1522;
+      color: var(--snow);
+      font-family: var(--ui);
+    }
+    .intro {
+      margin-bottom: 20px;
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .intro h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .intro p {
+      margin: 0;
+      color: var(--sub);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 22px;
+      align-items: start;
+    }
+    .item { display: grid; gap: 10px; }
+    .meta strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    .meta span { color: var(--weak); font-size: 12px; line-height: 1.6; }
+    .phone {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      background: #101827;
+      box-shadow: 0 24px 72px rgba(0,0,0,0.34);
+      isolation: isolate;
+    }
+    .phone::before,
+    .phone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+    .system::before,
+    .splash::before {
+      z-index: -3;
+      background-image: var(--system-bg);
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.01);
+    }
+    .story::before {
+      z-index: -3;
+      background-image: var(--meeting-bg);
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.015);
+    }
+    .system::after {
+      z-index: -2;
+      background:
+        linear-gradient(to bottom, rgba(19,32,51,0.32), rgba(19,32,51,0.12) 42%, rgba(19,32,51,0.66)),
+        linear-gradient(to bottom, rgba(255,255,255,0.04), transparent 18%, transparent 70%, rgba(255,255,255,0.02));
+    }
+    .splash::after {
+      z-index: -2;
+      background:
+        linear-gradient(to bottom, rgba(16,24,39,0.04), rgba(16,24,39,0.12) 38%, rgba(16,24,39,0.86) 100%),
+        radial-gradient(ellipse at 46% 34%, transparent 0 22%, rgba(16,24,39,0.34) 72%, rgba(16,24,39,0.7) 100%);
+    }
+    .story::after {
+      z-index: -2;
+      background:
+        linear-gradient(to bottom, rgba(19,32,51,0.22), rgba(19,32,51,0.10) 24%, rgba(19,32,51,0.18) 58%, rgba(19,32,51,0.42) 100%),
+        linear-gradient(to right, rgba(19,32,51,0.10), transparent 34%, transparent 72%, rgba(19,32,51,0.12));
+    }
+    .content { position: absolute; inset: 0; padding: 18px 20px 20px; }
+    .title-tight {
+      position: absolute;
+      left: 5.28%;
+      top: 3.23%;
+      width: 87.59%;
+      height: 17.60%;
+      background-image: var(--title-tight);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left top;
+      filter: drop-shadow(0 4px 18px rgba(0,0,0,0.42));
+    }
+    .home-actions {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 32px;
+      display: grid;
+      gap: 18px;
+    }
+    .home-main {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      row-gap: 18px;
+      align-items: baseline;
+    }
+    .home-main strong { font-size: 17px; font-weight: 500; }
+    .home-main span { font-size: 13px; color: rgba(244,241,234,0.82); }
+    .home-sub {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 8px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      font-size: 12px;
+      color: rgba(244,241,234,0.9);
+    }
+    .topline {
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      top: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(244,241,234,0.92);
+      font-size: 12px;
+      letter-spacing: .12em;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.42);
+    }
+    .topline::before, .topline::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(215,190,134,0.60), transparent);
+    }
+    .opening-center {
+      position: absolute;
+      left: 110px;
+      right: 110px;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 31px;
+      line-height: 1.6;
+      color: #f7f3ec;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.68);
+    }
+    .tap-note {
+      position: absolute;
+      left: 0; right: 0; bottom: 58px;
+      text-align: center;
+      font-size: 14px;
+      color: rgba(244,241,234,0.84);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.44);
+    }
+    .name-wrap {
+      position: absolute;
+      left: 0; right: 0; top: 260px;
+      text-align: center;
+    }
+    .name-title {
+      font-family: var(--serif);
+      font-size: 34px;
+      line-height: 1.2;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.68);
+    }
+    .field {
+      width: 72%;
+      margin: 34px auto 0;
+      text-align: center;
+    }
+    .field .line {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(244,241,234,0.58);
+      border-bottom: 1px solid rgba(215,190,134,0.74);
+      font-size: 16px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.42);
+      background: linear-gradient(to right, transparent, rgba(19,32,51,0.08), transparent);
+    }
+    .enter-story {
+      margin-top: 42px;
+      font-family: var(--serif);
+      font-size: 19px;
+      color: #f7f3ec;
+      text-shadow: 0 4px 22px rgba(0,0,0,0.62);
+    }
+    .chapter-poster {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      bottom: 72px;
+      display: grid;
+      gap: 14px;
+      color: rgba(247,249,252,0.94);
+      text-shadow: 0 2px 22px rgba(0,0,0,0.72);
+    }
+    .kicker {
+      width: fit-content;
+      position: relative;
+      padding-left: 30px;
+      color: var(--gold);
+      font-size: 12px;
+    }
+    .kicker::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 50%;
+      width: 22px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .poster-title {
+      display: grid;
+      gap: 8px;
+    }
+    .poster-title small {
+      color: var(--gold);
+      font-family: var(--serif);
+      font-size: 14px;
+    }
+    .poster-title h3 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 29px;
+      font-weight: 400;
+      line-height: 1.24;
+    }
+    .poster-lines {
+      display: grid;
+      gap: 8px;
+      max-width: 320px;
+      font-size: 16px;
+      line-height: 1.9;
+    }
+    .poster-lines div {
+      width: fit-content;
+      background: linear-gradient(to right, rgba(16,24,39,0.2), transparent);
+    }
+    .clear-card {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 82px;
+      padding: 28px 24px 22px;
+      background:
+        radial-gradient(ellipse at center, rgba(247,249,252,0.10), rgba(247,249,252,0.03) 30%, rgba(16,24,39,0.12) 72%, transparent 100%),
+        linear-gradient(to bottom, rgba(27,36,54,0.18), rgba(27,36,54,0.14) 38%, rgba(27,36,54,0.22));
+      backdrop-filter: blur(16px);
+      clip-path: var(--cut-md);
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 0 64%, rgba(0,0,0,0.68) 82%, transparent 100%);
+      mask-image: radial-gradient(ellipse at center, #000 0 64%, rgba(0,0,0,0.68) 82%, transparent 100%);
+    }
+    .clear-card .label {
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: .14em;
+    }
+    .clear-card h3 {
+      margin: 10px 0 10px;
+      font-family: var(--serif);
+      font-size: 30px;
+      font-weight: 400;
+    }
+    .clear-card p {
+      margin: 0;
+      color: rgba(247,249,252,0.78);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .clear-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 22px;
+      font-size: 14px;
+      color: rgba(244,241,234,0.92);
+    }
+    .hud {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 14px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(247,249,252,0.82);
+      text-shadow: 0 2px 14px rgba(0,0,0,0.48);
+    }
+    .hud-group { display: flex; gap: 8px; align-items: center; }
+    .hud-btn, .hud-title {
+      min-width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15,24,39,0.18);
+      border: 1px solid rgba(255,255,255,0.10);
+      backdrop-filter: blur(12px);
+      padding: 0 14px;
+      font-size: 14px;
+      clip-path: var(--cut-sm);
+    }
+    .hud-title {
+      min-width: auto;
+      padding: 0 18px;
+      font-family: var(--serif);
+      font-size: 13px;
+      color: rgba(244,241,234,0.86);
+      max-width: 220px;
+      white-space: nowrap;
+    }
+    .skip-btn {
+      position: absolute;
+      top: 68px;
+      right: 16px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      background: rgba(15,24,39,0.18);
+      border: 1px solid rgba(255,255,255,0.10);
+      backdrop-filter: blur(12px);
+      color: rgba(244,241,234,0.92);
+      font-size: 13px;
+      clip-path: var(--cut-sm);
+    }
+    .reading-box {
+      position: absolute;
+      left: 54px;
+      width: 972px;
+      max-width: calc(100% - 108px);
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 46px 56px;
+      background:
+        radial-gradient(ellipse at center, rgba(16,24,39,0.12), rgba(16,24,39,0.04) 64%, transparent 100%),
+        linear-gradient(to right, rgba(191,160,138,0.08), transparent 64%);
+      border: 1px solid rgba(255,255,255,0.10);
+      backdrop-filter: blur(18px) saturate(0.92);
+      clip-path: var(--cut-md);
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 0 64%, rgba(0,0,0,0.68) 82%, transparent 100%);
+      mask-image: radial-gradient(ellipse at center, #000 0 64%, rgba(0,0,0,0.68) 82%, transparent 100%);
+    }
+    .reading-box p {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.9;
+      color: var(--snow);
+    }
+    .reading-box p + p { margin-top: 18px; }
+    .dialog {
+      position: absolute;
+      left: 52px;
+      right: 52px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 30px 22px 24px;
+      background:
+        radial-gradient(ellipse at center, rgba(247,249,252,0.12), rgba(247,249,252,0.04) 38%, rgba(16,24,39,0.16) 76%, transparent 100%),
+        linear-gradient(to bottom, rgba(27,36,54,0.22), rgba(27,36,54,0.18));
+      border: 1px solid rgba(255,255,255,0.08);
+      clip-path: var(--cut-md);
+    }
+    .dialog h3 {
+      margin: 0 0 12px;
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 400;
+    }
+    .dialog p {
+      margin: 0;
+      color: rgba(244,241,234,0.82);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 26px;
+      margin-top: 24px;
+      color: rgba(244,241,234,0.72);
+      font-size: 16px;
+    }
+    .dialog-actions strong { color: var(--snow); font-weight: 500; }
+    .page-dim {
+      position: absolute; inset: 0;
+      background: rgba(9,14,24,0.32);
+    }
+    .recap-page {
+      position: absolute;
+      inset: 92px 22px 78px;
+      padding: 0;
+    }
+    .recap-inner {
+      position: absolute;
+      inset: 0;
+      padding: 22px 28px 20px;
+      background:
+        radial-gradient(ellipse at center, rgba(247,249,252,0.12), rgba(247,249,252,0.04) 34%, rgba(16,24,39,0.12) 78%, transparent 100%),
+        linear-gradient(to bottom, rgba(27,36,54,0.22), rgba(27,36,54,0.16) 28%, rgba(27,36,54,0.24) 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      clip-path: var(--cut-md);
+      backdrop-filter: blur(16px);
+    }
+    .recap-page p {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 2;
+      color: #f6f3ee;
+      text-shadow: 0 3px 12px rgba(0,0,0,0.34);
+    }
+    .recap-page p + p { margin-top: 22px; }
+    .recap-page .speaker {
+      margin: 26px 0 10px;
+      color: #d7be86;
+      font-family: var(--ui);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.28);
+    }
+    .page-indicator {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 42px;
+      text-align: center;
+      color: rgba(244,241,234,0.78);
+      font-size: 13px;
+    }
+    @media (max-width: 760px) { body { padding: 16px; } }
+  </style>
+</head>
+<body>
+  <section class="intro">
+    <h1>缺页预览</h1>
+    <p>这一页只看缺页设计效果，不看规范。不采用今天那套新风格，全部回到 `NagisHeart_P0_HiFi_Design_XoXo_v2_0` 的设计语言里补页。</p>
+  </section>
+
+  <main class="board">
+    <article class="item">
+      <div class="meta"><strong>主页</strong><span>沿用开屏标题切图，底部保持现在的操作布局。</span></div>
+      <section class="phone system">
+        <div class="content">
+          <div class="title-tight"></div>
+          <div class="home-actions">
+            <div class="home-main">
+              <strong>继续故事</strong><span>从上次继续</span>
+              <strong>新的故事</strong><span>重新开始</span>
+            </div>
+            <div class="home-sub">
+              <span>存档进度</span><span>章节目录</span><span>回忆画廊</span><span>系统设置</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>开场白页</strong><span>上方小标题 / 中间一句正文 / 下方轻触继续。</span></div>
+      <section class="phone system">
+        <div class="content">
+          <div class="topline">开场白　02 / 08</div>
+          <div class="opening-center">Nagi总是这样说。</div>
+          <div class="tap-note">轻触继续</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>名字设置页</strong><span>只保留玩家名输入，用文字 + 下划线，不做厚输入框。</span></div>
+      <section class="phone system">
+        <div class="content">
+          <div class="topline">开始之前</div>
+          <div class="name-wrap">
+            <div class="name-title">写下你的名字</div>
+            <div class="field">
+              <div class="line">在故事里的称呼</div>
+            </div>
+            <div class="enter-story">进入故事</div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>大章开始页</strong><span>用 v2 那种章节海报语言，不做纯系统页式样。</span></div>
+      <section class="phone story">
+        <div class="content">
+          <div class="chapter-poster">
+            <div class="kicker">Chapter Opening</div>
+            <div class="poster-title">
+              <small>第一部 · 原作前置篇</small>
+              <h3>他还没看见你，<br />你已经看见了他</h3>
+            </div>
+            <div class="poster-lines">
+              <div>轻触继续，进入本章内容。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>小章节开始页</strong><span>更轻一点，只负责把当前小章节情绪立住。</span></div>
+      <section class="phone story">
+        <div class="content">
+          <div class="chapter-poster" style="bottom:96px;">
+            <div class="kicker">Section Opening</div>
+            <div class="poster-title">
+              <small>第一节</small>
+              <h3>作战室·初遇</h3>
+            </div>
+            <div class="poster-lines">
+              <div>轻触继续，进入本节内容。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>大章结束页</strong><span>是大章过渡，不是普通按钮页，要有收束感。</span></div>
+      <section class="phone story">
+        <div class="content">
+          <div class="clear-card">
+            <div class="label">CHAPTER CLEAR</div>
+            <h3>第一部 · 原作前置篇</h3>
+            <p>本章完成。你可以返回目录，或继续下一章内容。</p>
+            <div class="clear-actions"><span>返回目录</span><strong>进入第二部</strong></div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>小章节结束页</strong><span>更轻的 section 结束页，支持“已完成 / 已跳过完成”。</span></div>
+      <section class="phone story">
+        <div class="content">
+          <div class="clear-card">
+            <div class="label">SECTION CLEAR</div>
+            <h3>作战室·初遇</h3>
+            <p>本节完成。你可以返回目录，或继续下一节内容。</p>
+            <div class="clear-actions"><span>返回目录</span><strong>进入下一节</strong></div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>长旁白页</strong><span>直接使用剧情回顾这种整页翻页式，不再单独做中间阅读框。</span></div>
+      <section class="phone story">
+        <div class="content">
+          <div class="hud">
+            <div class="hud-group"><div class="hud-btn">‹</div><div class="hud-title">Chapter 03 · 作战室·初遇</div></div>
+            <div class="hud-group"><div class="hud-btn">▷</div><div class="hud-btn">□</div><div class="hud-btn">☰</div></div>
+          </div>
+          <div class="recap-page">
+            <div class="recap-inner">
+              <p>蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
+              <p>数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。</p>
+              <p>你坐在观察席后方。桌上放着 JFA 提供的项目资料、风险评估、后续商业开发草案，以及一份还没有签字的追加投资确认书。</p>
+            </div>
+          </div>
+          <div class="page-indicator">01 / 03</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>跳过本节弹窗</strong><span>点击入口后出现的玻璃弹窗，不允许系统默认白底大方框。</span></div>
+      <section class="phone story">
+        <div class="content">
+          <div class="hud">
+            <div class="hud-group"><div class="hud-btn">‹</div><div class="hud-title">Chapter 03 · 投资的私心</div></div>
+            <div class="hud-group"><div class="hud-btn">▷</div><div class="hud-btn">□</div><div class="hud-btn">☰</div></div>
+          </div>
+          <div class="skip-btn">跳过本节</div>
+          <div class="page-dim"></div>
+          <div class="dialog">
+            <h3>跳过本节</h3>
+            <p>确定跳过「投资的私心」？<br />跳过后将直接进入本节结束页。</p>
+            <div class="dialog-actions"><span>取消</span><strong>确定跳过</strong></div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="item">
+      <div class="meta"><strong>剧情回顾页</strong><span>独立于章节目录与章节回看，用于回看当前段落文本。</span></div>
+      <section class="phone story">
+        <div class="content">
+          <div class="hud">
+            <div class="hud-group"><div class="hud-btn">‹</div><div class="hud-title">Chapter 03 · 作战室·初遇</div></div>
+            <div class="hud-group"><div class="hud-btn">▷</div><div class="hud-btn">□</div><div class="hud-btn">☰</div></div>
+          </div>
+          <div class="recap-page">
+            <div class="recap-inner">
+              <p>蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
+              <p>你坐在观察席后方。桌上放着 JFA 提供的项目资料、风险评估、后续商业开发草案，以及一份还没有签字的追加投资确认书。</p>
+              <p>所以你签了字。这个理由完全成立。至少，你现在必须这样告诉自己。</p>
+              <div class="speaker">JFA会长</div>
+              <p>年轻、热血、国家队更新、世界级前锋培养，这些关键词本身就具备极高的商业价值。</p>
+            </div>
+          </div>
+          <div class="page-indicator">01 / 03</div>
+        </div>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nagi's Heart App Icon / Start Design XoXo v1.0</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f7f2ea;
+      --muted: rgba(247,242,234,.72);
+      --gold: #d9c28e;
+      --blue: #8fb5df;
+      --deep: #0b111c;
+      --line: rgba(255,255,255,.22);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      background: #111827;
+      color: var(--ink);
+    }
+    .board {
+      padding: 28px;
+      display: grid;
+      gap: 28px;
+    }
+    .intro h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 880px;
+    }
+    .icons {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 180px));
+      gap: 18px;
+      align-items: start;
+    }
+    .icon-card {
+      display: grid;
+      gap: 10px;
+    }
+    .icon-card img {
+      width: 160px;
+      height: 160px;
+      border-radius: 36px;
+      box-shadow: 0 20px 46px rgba(0,0,0,.42);
+    }
+    .icon-card span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .starts {
+      display: grid;
+      grid-template-columns: repeat(4, 390px);
+      gap: 24px;
+      align-items: start;
+      overflow-x: auto;
+      padding-bottom: 12px;
+    }
+    .phone {
+      position: relative;
+      width: 390px;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      background: #0b111c;
+      box-shadow: 0 28px 70px rgba(0,0,0,.48);
+      isolation: isolate;
+    }
+    .phone::before,
+    .phone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .phone::before {
+      background:
+        linear-gradient(to bottom, rgba(5,10,18,.18), transparent 18%, transparent 58%, rgba(5,10,18,.88)),
+        radial-gradient(ellipse at 50% 18%, rgba(255,255,255,.16), transparent 56%);
+    }
+    .phone::after {
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.24);
+      z-index: 5;
+    }
+    .bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.01);
+    }
+    .v1 .bg { background-image: url("../assets/bg/poster_start_nagis_heart_keyart.jpg"); }
+    .v2 .bg { background-image: url("../assets/bg/icon.jpg"); background-position: 58% 38%; filter: saturate(.94) brightness(1.05); }
+    .v3 .bg { background-image: url("../assets/bg/teamV.jpg"); background-position: center; filter: contrast(1.04) brightness(.82); }
+    .v4 .bg { background-image: url("../assets/bg/morning.jpg"); background-position: center; filter: saturate(.84) brightness(.72); }
+    .v2::before {
+      background:
+        linear-gradient(to bottom, rgba(245,248,250,.20), rgba(255,255,255,.10) 35%, rgba(13,20,31,.42) 64%, rgba(8,12,20,.86)),
+        linear-gradient(to right, rgba(230,241,247,.62), transparent 50%);
+    }
+    .v4::before {
+      background:
+        linear-gradient(to bottom, rgba(6,11,18,.24), rgba(6,11,18,.2) 48%, rgba(6,11,18,.9)),
+        radial-gradient(ellipse at 66% 22%, rgba(214,194,142,.26), transparent 46%);
+    }
+    .brand {
+      position: absolute;
+      left: 28px;
+      right: 24px;
+      z-index: 2;
+      color: var(--ink);
+      text-shadow: 0 2px 16px rgba(0,0,0,.42);
+    }
+    .brand.top { top: 54px; }
+    .brand.mid { top: 330px; }
+    .brand.bottom { bottom: 156px; }
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .kicker::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .logo {
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+      line-height: .82;
+      letter-spacing: 0;
+    }
+    .logo .nagi {
+      display: block;
+      font-size: 46px;
+      font-weight: 400;
+    }
+    .logo .heart {
+      display: block;
+      font-size: 82px;
+      font-weight: 500;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.86);
+      background: linear-gradient(110deg, #fff, #d9c28e 44%, #96b7dc);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .v1 .logo {
+      mix-blend-mode: screen;
+      transform: rotate(-3deg);
+    }
+    .v2 .logo .nagi { font-size: 36px; color: #18202b; text-shadow: 0 1px 14px rgba(255,255,255,.9); }
+    .v2 .logo .heart { font-size: 70px; -webkit-text-stroke-color: rgba(22,28,36,.72); }
+    .v3 .brand { text-align: center; }
+    .v3 .logo .nagi { font-size: 34px; }
+    .v3 .logo .heart { font-size: 62px; }
+    .copy {
+      margin-top: 16px;
+      max-width: 280px;
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+    .menu {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 30px;
+      z-index: 3;
+      display: grid;
+      gap: 10px;
+    }
+    .primary {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      color: #fff;
+      font-size: 13px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.22);
+      backdrop-filter: blur(18px);
+    }
+    .primary small { color: var(--gold); font-size: 11px; }
+    .minor {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      color: rgba(255,255,255,.72);
+      font-size: 11px;
+      text-align: center;
+    }
+    .minor span {
+      padding: 8px 0;
+      border-top: 1px solid rgba(255,255,255,.18);
+    }
+    .chapter-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      line-height: 1.15;
+      font-weight: 400;
+      margin: 0;
+    }
+    .label {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    @media (max-width: 760px) {
+      .board { padding: 16px; }
+      .icons { grid-template-columns: repeat(3, 1fr); }
+      .icon-card img { width: 100%; height: auto; }
+      .starts { grid-template-columns: 1fr; overflow: visible; }
+      .phone { width: min(100%, 390px); }
+    }
+  </style>
+</head>
+<body>
+  <main class="board">
+    <section class="intro">
+      <h1>Nagi's Heart · App Icon / Start 设计 v1.0</h1>
+      <p>参考主流乙游 / 视觉小说标题页口径：首屏必须同时建立角色、关系气质和可进入性。App icon 使用近景识别，不塞复杂文字；Start 页保留 Nagi's Heart 艺术字，但让字融入海报或光感，而不是普通 UI 标题。</p>
+    </section>
+
+    <section class="icons" aria-label="App icon candidates">
+      <div class="icon-card"><img src="exports/app_icon_start_v1_0/app_icon_v1_soft_gaze.png" alt="App icon v1" /><span>v1 · 柔光凝视，推荐默认</span></div>
+      <div class="icon-card"><img src="exports/app_icon_start_v1_0/app_icon_v2_eye_focus.png" alt="App icon v2" /><span>v2 · 眼神特写，商店识别更强</span></div>
+      <div class="icon-card"><img src="exports/app_icon_start_v1_0/app_icon_v3_pale_romance.png" alt="App icon v3" /><span>v3 · 轻恋爱感，适合测试渠道</span></div>
+    </section>
+
+    <section class="starts" aria-label="Start page candidates">
+      <article class="phone v1">
+        <div class="bg"></div>
+        <div class="brand bottom">
+          <div class="kicker">Main Visual</div>
+          <div class="logo"><span class="nagi">Nagi's</span><span class="heart">Heart</span></div>
+          <p class="copy">他已经在你的世界里了，但还没有完全把心交出来。</p>
+        </div>
+        <nav class="menu">
+          <div class="primary">Continue <small>Chapter 03</small></div>
+          <div class="minor"><span>Start</span><span>Chapter</span><span>Gallery</span><span>Settings</span></div>
+        </nav>
+      </article>
+
+      <article class="phone v2">
+        <div class="bg"></div>
+        <div class="brand top">
+          <div class="kicker">Soft Gaze</div>
+          <div class="logo"><span class="nagi">Nagi's</span><span class="heart">Heart</span></div>
+          <p class="copy">世界第一之前，他先学会把视线停在你身上。</p>
+        </div>
+        <nav class="menu">
+          <div class="primary">Start Game <small>New Story</small></div>
+          <div class="minor"><span>Load</span><span>Route</span><span>Album</span><span>Config</span></div>
+        </nav>
+      </article>
+
+      <article class="phone v3">
+        <div class="bg"></div>
+        <div class="brand mid">
+          <div class="kicker">Chapter Opening</div>
+          <h2 class="chapter-title">他还没看见你，<br />你已经看见了他</h2>
+          <p class="copy">章节开屏版。适合进入每一章前停留 1-2 秒，承接正文。</p>
+        </div>
+        <nav class="menu">
+          <div class="primary">Tap to Continue <small>Chapter 01</small></div>
+        </nav>
+      </article>
+
+      <article class="phone v4">
+        <div class="bg"></div>
+        <div class="brand bottom">
+          <div class="kicker">Quiet Menu</div>
+          <div class="logo"><span class="nagi">Nagi's</span><span class="heart">Heart</span></div>
+          <p class="copy">偏传统乙游标题页，菜单更清楚，适合开发首版落地。</p>
+        </div>
+        <nav class="menu">
+          <div class="primary">Continue <small>Last Save</small></div>
+          <div class="minor"><span>Start</span><span>Save</span><span>Route</span><span>Setting</span></div>
+        </nav>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,1168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nagi's Heart 视觉校准设计板 XoXo v1.0</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-page: #0c1220;
+      --bg-panel: rgba(17, 24, 36, 0.84);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(215, 190, 134, 0.42);
+      --text-main: #f4f1ea;
+      --text-sub: #d6d2cb;
+      --text-weak: #b7b3ad;
+      --gold: #d7be86;
+      --overlay-dark: rgba(19, 32, 51, 0.32);
+      --overlay-deep: rgba(19, 32, 51, 0.66);
+      --panel-dark: rgba(27, 36, 54, 0.26);
+      --panel-border: rgba(255, 255, 255, 0.1);
+      --panel-soft: rgba(255, 255, 255, 0.06);
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+      --serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+      --sans: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --system-bg: url("../android/app/src/main/assets/bg/poster_start_nagis_heart_bg_clean.png");
+      --title-overlay: url("../android/app/src/main/assets/bg/poster_start_title_overlay.png");
+      --meeting-bg: url("../assets/bg/bluelock_monitor_room.jpg");
+      --meeting-bg-2: url("../assets/bg/bg_bluelock_meeting_contract_room.png");
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(215, 190, 134, 0.12), transparent 22%),
+        linear-gradient(180deg, #0b111d, #0f1828 40%, #0b1019);
+      color: var(--text-main);
+      font-family: var(--sans);
+    }
+
+    body {
+      padding: 28px;
+    }
+
+    .hero {
+      margin-bottom: 22px;
+      padding: 20px 22px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 960px;
+      color: var(--text-sub);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .meta {
+      display: grid;
+      gap: 4px;
+      padding: 0 2px;
+    }
+
+    .meta strong {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .meta span {
+      color: var(--text-weak);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .phone {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      background: #101826;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .phone::before,
+    .phone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .phone::before {
+      z-index: -3;
+      background-image: var(--system-bg);
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.02);
+    }
+
+    .phone.system::after,
+    .phone.home::after,
+    .phone.splash::after,
+    .phone.opening::after,
+    .phone.naming::after,
+    .phone.chapter::after,
+    .phone.gallery::after,
+    .phone.save::after,
+    .phone.settings::after {
+      z-index: -2;
+      background:
+        linear-gradient(to bottom, var(--overlay-dark), rgba(19, 32, 51, 0.12) 42%, var(--overlay-deep)),
+        linear-gradient(to bottom, rgba(255,255,255,0.06), transparent 18%, transparent 72%, rgba(255,255,255,0.02));
+    }
+
+    .phone.long::before,
+    .phone.skip::before {
+      background-image: var(--meeting-bg-2);
+      background-position: center;
+    }
+
+    .phone.long::after,
+    .phone.skip::after {
+      z-index: -2;
+      background:
+        linear-gradient(to bottom, rgba(15, 24, 39, 0.26), rgba(15, 24, 39, 0.08) 22%, rgba(15, 24, 39, 0.68) 100%),
+        linear-gradient(to bottom, rgba(16, 24, 38, 0), rgba(16, 24, 38, 0) 58%, rgba(16, 24, 38, 0.44));
+    }
+
+    .content {
+      position: absolute;
+      inset: 0;
+      padding: 18px 20px 22px;
+    }
+
+    .title-art {
+      position: absolute;
+      left: 26px;
+      right: 26px;
+      top: 52px;
+      height: 150px;
+      background-image: var(--title-overlay);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: left top;
+      filter: drop-shadow(0 2px 12px rgba(11, 18, 32, 0.28));
+    }
+
+    .start-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 66px;
+      text-align: center;
+    }
+
+    .start-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 170px;
+      padding: 0 18px;
+      height: 46px;
+      color: #f6f3ee;
+      font-family: var(--serif);
+      font-size: 19px;
+      letter-spacing: 0.22em;
+      text-shadow: 0 0 14px rgba(247, 243, 238, 0.16);
+      position: relative;
+    }
+
+    .start-btn::before,
+    .start-btn::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 56px;
+      height: 1px;
+      background: rgba(215, 190, 134, 0.72);
+    }
+
+    .start-btn::before { left: -8px; }
+    .start-btn::after { right: -8px; }
+
+    .start-sub {
+      margin-top: 6px;
+      color: rgba(244, 241, 234, 0.78);
+      font-family: var(--serif);
+      font-size: 12px;
+      font-style: italic;
+      letter-spacing: 0.03em;
+    }
+
+    .splash-breath {
+      animation: breathe 2.6s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { opacity: 0.82; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
+    }
+
+    .home-menu {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 34px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .home-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      row-gap: 20px;
+      align-items: baseline;
+    }
+
+    .home-actions strong,
+    .home-actions span,
+    .home-links span {
+      color: var(--text-main);
+      text-shadow: 0 2px 14px rgba(8, 12, 20, 0.3);
+    }
+
+    .home-actions strong {
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .home-actions span {
+      font-size: 13px;
+      color: rgba(244, 241, 234, 0.82);
+    }
+
+    .home-links {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+    }
+
+    .home-links span {
+      font-size: 12px;
+      color: rgba(244, 241, 234, 0.9);
+    }
+
+    .opening-topline,
+    .naming-topline {
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      top: 66px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(244, 241, 234, 0.92);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      justify-content: center;
+    }
+
+    .opening-topline::before,
+    .opening-topline::after,
+    .naming-topline::before,
+    .naming-topline::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(215, 190, 134, 0.6), transparent);
+    }
+
+    .opening-body {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 130px 38px 108px;
+      text-align: center;
+    }
+
+    .opening-quote {
+      color: #f7f3ec;
+      font-family: var(--serif);
+      font-size: 31px;
+      line-height: 1.6;
+      text-shadow: 0 8px 24px rgba(5, 11, 18, 0.32);
+    }
+
+    .opening-foot {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 58px;
+      text-align: center;
+      color: rgba(244, 241, 234, 0.84);
+      font-size: 14px;
+    }
+
+    .naming-body {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding: 116px 36px 88px;
+      text-align: center;
+    }
+
+    .naming-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 34px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .naming-sub {
+      margin-top: 12px;
+      color: var(--text-sub);
+      font-size: 15px;
+    }
+
+    .name-form {
+      width: 100%;
+      margin-top: 44px;
+      display: grid;
+      gap: 26px;
+    }
+
+    .field {
+      display: grid;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .field label {
+      color: rgba(244, 241, 234, 0.82);
+      font-size: 13px;
+    }
+
+    .field-line {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(215, 190, 134, 0.74);
+      color: rgba(244, 241, 234, 0.58);
+      font-size: 16px;
+    }
+
+    .confirm-text {
+      margin-top: 24px;
+      color: #f7f3ec;
+      font-family: var(--serif);
+      font-size: 19px;
+      letter-spacing: 0.1em;
+    }
+
+    .confirm-hint {
+      margin-top: 14px;
+      color: rgba(244, 241, 234, 0.82);
+      font-size: 14px;
+    }
+
+    .hud {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2;
+      color: rgba(244, 241, 234, 0.92);
+    }
+
+    .hud-left,
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hud-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(15, 24, 39, 0.18);
+      backdrop-filter: blur(12px);
+      font-size: 15px;
+    }
+
+    .hud-chip {
+      min-width: 120px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(15, 24, 39, 0.18);
+      backdrop-filter: blur(12px);
+      color: rgba(244, 241, 234, 0.9);
+      font-size: 14px;
+    }
+
+    .skip-btn {
+      position: absolute;
+      top: 68px;
+      right: 16px;
+      z-index: 3;
+      height: 36px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #182332;
+      background: rgba(244, 241, 234, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.68);
+      border-radius: 999px;
+      font-size: 13px;
+      box-shadow: 0 12px 26px rgba(6, 12, 20, 0.16);
+    }
+
+    .narration-block {
+      position: absolute;
+      left: 11%;
+      right: 11%;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 28px 30px;
+      background: rgba(16, 24, 38, 0.42);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .narration-block.soft {
+      background: rgba(23, 31, 46, 0.18);
+      border-color: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .narration-block.glass {
+      background: rgba(27, 36, 54, 0.28);
+      border-color: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 18px 40px rgba(8, 12, 20, 0.16);
+    }
+
+    .narration-text {
+      margin: 0;
+      color: #f4f1ea;
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.9;
+      text-shadow: 0 2px 10px rgba(8, 12, 18, 0.28);
+    }
+
+    .narration-text + .narration-text {
+      margin-top: 18px;
+    }
+
+    .tap-bottom {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 42px;
+      text-align: center;
+      color: rgba(244, 241, 234, 0.82);
+      font-size: 14px;
+    }
+
+    .tap-bottom::after {
+      content: "";
+      display: block;
+      width: 8px;
+      height: 8px;
+      margin: 10px auto 0;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    .dialog-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(9, 14, 24, 0.32);
+      backdrop-filter: blur(6px);
+    }
+
+    .dialog {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 28px 26px 22px;
+      background: rgba(245, 241, 234, 0.94);
+      color: #162131;
+      box-shadow: 0 20px 50px rgba(7, 12, 20, 0.24);
+    }
+
+    .dialog.glass-dark {
+      background: rgba(27, 36, 54, 0.34);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 22px 56px rgba(5, 10, 18, 0.24);
+    }
+
+    .dialog.glass-dark p {
+      color: rgba(244, 241, 234, 0.82);
+    }
+
+    .dialog.glass-dark .dialog-actions {
+      color: rgba(244, 241, 234, 0.72);
+    }
+
+    .dialog.glass-dark .dialog-actions strong {
+      color: #f4f1ea;
+    }
+
+    .dialog.glass-light {
+      background: rgba(244, 241, 234, 0.16);
+      color: #f4f1ea;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(24px);
+      box-shadow: 0 22px 56px rgba(5, 10, 18, 0.18);
+    }
+
+    .dialog.glass-light p {
+      color: rgba(244, 241, 234, 0.82);
+    }
+
+    .dialog.glass-light .dialog-actions {
+      color: rgba(244, 241, 234, 0.72);
+    }
+
+    .dialog.glass-light .dialog-actions strong {
+      color: #f4f1ea;
+    }
+
+    .dialog h3 {
+      margin: 0 0 14px;
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .dialog p {
+      margin: 0;
+      color: rgba(22, 33, 49, 0.84);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 26px;
+      margin-top: 28px;
+      color: #425067;
+      font-size: 16px;
+    }
+
+    .dialog-actions strong {
+      color: #162131;
+      font-weight: 600;
+    }
+
+    .page-title {
+      margin: 72px 0 0;
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 500;
+      text-shadow: 0 2px 10px rgba(8, 12, 20, 0.16);
+    }
+
+    .page-sub {
+      margin-top: 8px;
+      color: rgba(244, 241, 234, 0.8);
+      font-size: 14px;
+    }
+
+    .panel-list,
+    .save-list,
+    .gallery-grid,
+    .settings-list {
+      margin-top: 28px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .chapter-item,
+    .save-item,
+    .settings-item {
+      min-height: 78px;
+      padding: 16px 16px;
+      background: var(--panel-dark);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(18px);
+    }
+
+    .chapter-item.current {
+      background: rgba(35, 49, 74, 0.32);
+      border-color: rgba(215, 190, 134, 0.28);
+    }
+
+    .chapter-item.done {
+      background: rgba(27, 36, 54, 0.26);
+    }
+
+    .chapter-item.skipped {
+      background: rgba(38, 43, 56, 0.3);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .chapter-item.locked {
+      opacity: 0.44;
+    }
+
+    .chapter-head,
+    .save-head,
+    .settings-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .chapter-name,
+    .save-name {
+      font-size: 16px;
+      color: var(--text-main);
+    }
+
+    .chapter-state,
+    .save-slot,
+    .settings-value {
+      color: var(--gold);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .chapter-desc,
+    .save-time {
+      margin-top: 8px;
+      color: var(--text-sub);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .gallery-cell {
+      min-height: 164px;
+      position: relative;
+      overflow: hidden;
+      background: var(--panel-dark);
+      border: 1px solid var(--panel-border);
+    }
+
+    .gallery-cell.unlocked::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.88;
+    }
+
+    .gallery-cell.hug::before {
+      background-image: url("../assets/bg/hug.jpg");
+    }
+
+    .gallery-cell.crown::before {
+      background-image: url("../assets/bg/birthday_crown.jpg");
+    }
+
+    .gallery-cell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 16, 26, 0.8), transparent 60%);
+    }
+
+    .gallery-copy {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 1;
+    }
+
+    .gallery-copy strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .gallery-copy span {
+      display: block;
+      margin-top: 6px;
+      color: rgba(244, 241, 234, 0.78);
+      font-size: 11px;
+    }
+
+    .gallery-cell.locked {
+      display: grid;
+      place-items: center;
+      color: rgba(244, 241, 234, 0.48);
+      font-size: 14px;
+    }
+
+    .gallery-cell.locked::after {
+      background: rgba(27, 36, 54, 0.16);
+    }
+
+    .gallery-cell.locked .gallery-copy {
+      position: static;
+      text-align: center;
+    }
+
+    .gallery-cell.locked .gallery-copy strong {
+      color: rgba(244, 241, 234, 0.56);
+    }
+
+    .settings-item {
+      min-height: 60px;
+    }
+
+    .settings-name {
+      font-size: 15px;
+      color: var(--text-main);
+    }
+
+    .settings-note {
+      color: var(--text-weak);
+      font-size: 11px;
+      margin-top: 6px;
+    }
+
+    .choice-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .choice-tag::before {
+      content: "";
+      width: 18px;
+      height: 1px;
+      background: rgba(215, 190, 134, 0.72);
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 16px; }
+      .board { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <h1>Nagi's Heart 视觉校准设计板</h1>
+    <p>这版只放可看的设计效果，不放大段说明文。重点统一四件事：开屏与首页标题系统一致；开场白、名字设置页、系统页共用同一张背景；长旁白改为更稳的宋体阅读层；跳过本节改为 HUD 下方弱化入口与自定义弹窗。</p>
+  </section>
+
+  <main class="board">
+    <article class="card">
+      <div class="meta">
+        <strong>开屏页</strong>
+        <span>只有 START。标题是图层，不加大黑块，不加半透明糊脸遮罩。</span>
+      </div>
+      <section class="phone splash">
+        <div class="content">
+          <div class="title-art"></div>
+          <div class="start-wrap splash-breath">
+            <div class="start-btn">START</div>
+            <div class="start-sub">Tap to start</div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>首页</strong>
+        <span>沿用开屏主图与同一套标题系统；交互全部中文；没有大按钮底框。</span>
+      </div>
+      <section class="phone home">
+        <div class="content">
+          <div class="title-art" style="top:34px;height:136px;"></div>
+          <div class="home-menu">
+            <div class="home-actions">
+              <strong>继续故事</strong><span>从上次继续</span>
+              <strong>新的故事</strong><span>重新开始</span>
+            </div>
+            <div class="home-links">
+              <span>存档进度</span>
+              <span>章节目录</span>
+              <span>回忆画廊</span>
+              <span>系统设置</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>开场白页</strong>
+        <span>与开屏/首页同背景；一句一句过；文字居中，不套奇怪卡片。</span>
+      </div>
+      <section class="phone opening">
+        <div class="content">
+          <div class="opening-topline">开场白&nbsp;&nbsp;02 / 08</div>
+          <div class="opening-body">
+            <div class="opening-quote">Nagi总是这样说。</div>
+          </div>
+          <div class="opening-foot">轻触继续</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>名字设置页</strong>
+        <span>只保留玩家名输入；背景与开屏一致；字段用文字线，不用厚重输入框。</span>
+      </div>
+      <section class="phone naming">
+        <div class="content">
+          <div class="naming-topline">开始之前</div>
+          <div class="naming-body">
+            <h2 class="naming-title">写下你的名字</h2>
+            <div class="naming-sub">故事会从这里开始。</div>
+            <div class="name-form">
+              <div class="field">
+                <label>你的名字</label>
+                <div class="field-line">在故事里的称呼</div>
+              </div>
+            </div>
+            <div class="confirm-text">进入故事</div>
+            <div class="confirm-hint">轻触确认</div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>长旁白页 A</strong>
+        <span>边界更弱，像轻轻托住文字，优先保背景气氛。</span>
+      </div>
+      <section class="phone long">
+        <div class="content">
+          <div class="hud">
+            <div class="hud-left">
+              <div class="hud-icon">‹</div>
+              <div class="hud-chip">作战室·初遇</div>
+            </div>
+            <div class="hud-right">
+              <div class="hud-icon">▷</div>
+              <div class="hud-icon">□</div>
+              <div class="hud-icon">☰</div>
+            </div>
+          </div>
+          <div class="narration-block soft">
+            <div class="choice-tag">方案 A</div>
+            <p class="narration-text">蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
+            <p class="narration-text">数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。</p>
+          </div>
+          <div class="tap-bottom">轻触继续</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>长旁白页 B</strong>
+        <span>边界稍明确一点，还是玻璃感，但更稳定，更适合复杂背景。</span>
+      </div>
+      <section class="phone long">
+        <div class="content">
+          <div class="hud">
+            <div class="hud-left">
+              <div class="hud-icon">‹</div>
+              <div class="hud-chip">作战室·初遇</div>
+            </div>
+            <div class="hud-right">
+              <div class="hud-icon">▷</div>
+              <div class="hud-icon">□</div>
+              <div class="hud-icon">☰</div>
+            </div>
+          </div>
+          <div class="narration-block glass">
+            <div class="choice-tag">方案 B</div>
+            <p class="narration-text">蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
+            <p class="narration-text">数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。</p>
+          </div>
+          <div class="tap-bottom">轻触继续</div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>跳过弹窗 A</strong>
+        <span>偏深色玻璃，更稳，更贴合默认 dark 内页。</span>
+      </div>
+      <section class="phone skip">
+        <div class="content">
+          <div class="hud">
+            <div class="hud-left">
+              <div class="hud-icon">‹</div>
+              <div class="hud-chip">投资的私心</div>
+            </div>
+            <div class="hud-right">
+              <div class="hud-icon">▷</div>
+              <div class="hud-icon">□</div>
+              <div class="hud-icon">☰</div>
+            </div>
+          </div>
+          <div class="skip-btn">跳过本节</div>
+          <div class="dialog-dim"></div>
+          <div class="dialog glass-dark">
+            <div class="choice-tag">方案 A</div>
+            <h3>跳过本节</h3>
+            <p>确定跳过「投资的私心」？<br />跳过后将直接进入本节结束页。</p>
+            <div class="dialog-actions">
+              <span>取消</span>
+              <strong>确定跳过</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>跳过弹窗 B</strong>
+        <span>偏浅雾玻璃，更轻，但仍然不是大白底实框。</span>
+      </div>
+      <section class="phone skip">
+        <div class="content">
+          <div class="hud">
+            <div class="hud-left">
+              <div class="hud-icon">‹</div>
+              <div class="hud-chip">投资的私心</div>
+            </div>
+            <div class="hud-right">
+              <div class="hud-icon">▷</div>
+              <div class="hud-icon">□</div>
+              <div class="hud-icon">☰</div>
+            </div>
+          </div>
+          <div class="skip-btn">跳过本节</div>
+          <div class="dialog-dim"></div>
+          <div class="dialog glass-light">
+            <div class="choice-tag">方案 B</div>
+            <h3>跳过本节</h3>
+            <p>确定跳过「投资的私心」？<br />跳过后将直接进入本节结束页。</p>
+            <div class="dialog-actions">
+              <span>取消</span>
+              <strong>确定跳过</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>章节目录</strong>
+        <span>独立于剧情回顾 / 章节回看；同背景同浮层；状态直接在列表里钉死。</span>
+      </div>
+      <section class="phone chapter system">
+        <div class="content">
+          <h2 class="page-title">章节目录</h2>
+          <div class="page-sub">第一部 · 原作前置篇</div>
+          <div class="panel-list">
+            <div class="chapter-item done">
+              <div class="chapter-head">
+                <div class="chapter-name">作战室·初遇</div>
+                <div class="chapter-state">已完成</div>
+              </div>
+              <div class="chapter-desc">第一节 · 可进入章节回看</div>
+            </div>
+            <div class="chapter-item current">
+              <div class="chapter-head">
+                <div class="chapter-name">投资的私心</div>
+                <div class="chapter-state">进行中</div>
+              </div>
+              <div class="chapter-desc">第二节 · 当前阅读位置</div>
+            </div>
+            <div class="chapter-item skipped">
+              <div class="chapter-head">
+                <div class="chapter-name">会议室初见</div>
+                <div class="chapter-state">已跳过完成</div>
+              </div>
+              <div class="chapter-desc">第三节 · 可进入章节回看</div>
+            </div>
+            <div class="chapter-item locked">
+              <div class="chapter-head">
+                <div class="chapter-name">不麻烦的人</div>
+                <div class="chapter-state">未解锁</div>
+              </div>
+              <div class="chapter-desc">第四节 · 不可点击</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>保存进度</strong>
+        <span>同一套浅雾化浮层；卡槽自己选；已有内容后续再接覆盖确认弹窗。</span>
+      </div>
+      <section class="phone save system">
+        <div class="content">
+          <h2 class="page-title">保存进度</h2>
+          <div class="page-sub">手动存档至少十个卡槽</div>
+          <div class="save-list">
+            <div class="save-item">
+              <div class="save-head">
+                <div class="save-name">作战室·初遇</div>
+                <div class="save-slot">存档位 01</div>
+              </div>
+              <div class="save-time">2026 / 07 / 12　23:09</div>
+            </div>
+            <div class="save-item">
+              <div class="save-head">
+                <div class="save-name">归来·沙发上的拥抱</div>
+                <div class="save-slot">存档位 02</div>
+              </div>
+              <div class="save-time">2026 / 07 / 12　23:24</div>
+            </div>
+            <div class="save-item">
+              <div class="save-head">
+                <div class="save-name">空白存档</div>
+                <div class="save-slot">存档位 03</div>
+              </div>
+              <div class="save-time">等待玩家写入</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>回忆画廊</strong>
+        <span>格子统一浅雾化，不要背景和浮层反差打架；未解锁状态弱化即可。</span>
+      </div>
+      <section class="phone gallery system">
+        <div class="content">
+          <h2 class="page-title">回忆画廊</h2>
+          <div class="page-sub">已解锁 02 / 04</div>
+          <div class="gallery-grid">
+            <div class="gallery-cell unlocked hug">
+              <div class="gallery-copy">
+                <strong>拥抱</strong>
+                <span>已解锁</span>
+              </div>
+            </div>
+            <div class="gallery-cell unlocked crown">
+              <div class="gallery-copy">
+                <strong>生日</strong>
+                <span>已解锁</span>
+              </div>
+            </div>
+            <div class="gallery-cell locked">
+              <div class="gallery-copy">
+                <strong>未解锁</strong>
+              </div>
+            </div>
+            <div class="gallery-cell locked">
+              <div class="gallery-copy">
+                <strong>未解锁</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="card">
+      <div class="meta">
+        <strong>系统设置</strong>
+        <span>不用黑得发脏的重卡片；留边、亮度、浮层厚度统一到同一套 token。</span>
+      </div>
+      <section class="phone settings system">
+        <div class="content">
+          <h2 class="page-title">系统设置</h2>
+          <div class="page-sub">深靛底 · 浅雾化浮层 · 暖金强调</div>
+          <div class="settings-list">
+            <div class="settings-item">
+              <div class="settings-row">
+                <div class="settings-name">文字速度</div>
+                <div class="settings-value">正常</div>
+              </div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-row">
+                <div class="settings-name">自动播放速度</div>
+                <div class="settings-value">4</div>
+              </div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-row">
+                <div class="settings-name">背景音乐</div>
+                <div class="settings-value">100%</div>
+              </div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-row">
+                <div class="settings-name">显示模式</div>
+                <div class="settings-value">浅色</div>
+              </div>
+            </div>
+            <div class="settings-item">
+              <div class="settings-row">
+                <div class="settings-name">数据管理</div>
+                <div class="settings-value">管理</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

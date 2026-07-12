@@ -1,6 +1,7 @@
 package com.antnagi.nagisheart.data
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 @Serializable
 data class StoryNode(
@@ -33,7 +34,7 @@ data class Choice(
 data class Effect(
     val `var`: String,
     val op: String,
-    val `val`: kotlinx.serialization.json.JsonElement
+    val `val`: JsonElement
 )
 
 @Serializable
@@ -76,7 +77,9 @@ data class SceneVisual(
     val focusPoint: FocusPoint? = null,
     val cropRule: String? = null,
     val characterPosition: String? = null,
-    val uiSafeZone: UiSafeZone? = null
+    val uiSafeZone: UiSafeZone? = null,
+    val visualPriority: String? = null,
+    val mood: String? = null
 )
 
 @Serializable
@@ -134,4 +137,43 @@ data class EndingJudgement(
 data class EndingsData(
     val definitions: Map<String, EndingDefinition> = emptyMap(),
     val judgement: List<EndingJudgement> = emptyList()
+)
+
+// --- Variables schema ---
+
+@Serializable
+data class NumericVarDef(
+    val initial: Int? = null,
+    val default: Int? = null,
+    val label: String = "",
+    val description: String = "",
+    val legacy: List<String> = emptyList()
+)
+
+@Serializable
+data class FlagVarDef(
+    val initial: JsonElement? = null,
+    val type: String = "string",
+    val values: List<String> = emptyList(),
+    val description: String = "",
+    val legacy: List<String> = emptyList()
+)
+
+@Serializable
+data class VariablesData(
+    val numeric: Map<String, NumericVarDef> = emptyMap(),
+    val flags: Map<String, FlagVarDef> = emptyMap()
+)
+
+// --- Save data ---
+
+@Serializable
+data class SaveSlot(
+    val id: Int,
+    val nodeId: String,
+    val playerName: String,
+    val nagiCall: String = "Nagi",
+    val variables: Map<String, JsonElement>,
+    val timestamp: Long,
+    val sceneTitle: String = ""
 )
