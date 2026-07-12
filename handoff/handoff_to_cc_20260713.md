@@ -63,15 +63,22 @@
 
 ## 二、仍未完成的任务
 
-### 需要 cc 继续做的
+### 已完成（2026-07-13 夜间 yiyi 确认）
 
-| 优先级 | 任务 | 预计工时 | 阻塞 |
-|--------|------|----------|------|
-| P1 | 小章节状态枚举系统（未解锁/进行中/已完成/已跳过完成） | 3h | 需确认 chapters.json 小章节数据完整性 |
-| P2 | 剧情回顾按章节隔离（BacklogScreen 只显示当前小章节已读） | 1.5h | 依赖 P1 |
-| P3 | 三种能力拆分：剧情回顾 / 章节目录 / 章节回看 | 4h | 依赖 P1 |
-| P4 | 章节目录显示小章节状态 + 回看入口 | 2h | 依赖 P1+P3 |
-| P5 | 一一固定称呼确认（story-data 中台词检查） | 0.5h | 需确认 script 数据 |
+| 任务 | 状态 | 说明 |
+|------|------|------|
+| P1 小章节状态枚举系统 | ✅ 已完成 | `SectionState` 枚举 (LOCKED/IN_PROGRESS/COMPLETED/SKIPPED_COMPLETED) + `ProgressManager` 完整 CRUD |
+| P2 剧情回顾按章节隔离 | ✅ 已完成 | backlog 在章节/小章节切换时 `clear()`，已隔离 |
+| P3 三种能力拆分 | ✅ 已完成 | BacklogScreen / ChapterScreen / startReplay() 三路分离 |
+| P4 章节目录显示状态+回看 | ✅ 已完成 | ChapterScreen 显示 SectionState + onReplaySection 回看入口 |
+| 编译错误修复 | ✅ 已完成 | 删除 res/drawable 下 15 个重复 icon XML + 修复 padding 参数错误 |
+
+### 仍需做的
+
+| 优先级 | 任务 | 说明 |
+|--------|------|------|
+| P5 | 一一固定称呼确认 | story-data 中有 93 处硬编码"一一"、10 处"Ant大小姐"、15 处"Nagi少爷"，需 PM 确认是否转为 `{{playerName}}`/`{{nagiCall}}` 模板 |
+| 待定 | 开屏页 SVG 适配 | 设计给了 SVG 覆盖层，需等 XoXo/tt 确认方案后适配 SplashScreen |
 
 ### 需 XoXo 确认的设计问题
 
@@ -79,12 +86,12 @@
 2. **系统浮层 border 应用位置**：`borderSubtle = #FFFFFF 10%` 已设好，但不是所有组件都用了 border，需指定范围
 3. **跳过按钮视觉规范**：当前用 glassBg + RoundedCorner(14dp) + micro 字体，无 XoXo spec
 4. **Dark theme 文字色适用范围**：XoXo spec 的 `#F4F1EA`/`#D6D2CB` 是否也适用于游戏内对白？还是只针对系统页？
+5. **开屏页**：SVG 标题/START 覆盖层适配方案待确认
 
 ### 需 PM 确认的
 
-1. **chapters.json 小章节数据**：当前只有大章结构，双层章节需小章节列表
-2. **一一称呼**：story-data 里一一台词是否已写成"Ant大小姐"/"Nagi少爷"？
-3. **优先级确认**：P1-P4 依赖数据层，是否先做数据再做 UI？
+1. **一一称呼**：story-data 里 93 处硬编码"一一"是否应转为 `{{playerName}}`？还是"一一"就是固定角色名？
+2. **chapters.json**：数据已有完整小章节列表，确认无误
 
 ---
 

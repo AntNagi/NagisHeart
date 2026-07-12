@@ -107,10 +107,12 @@ fun NagiNavGraph(
 
         composable(Routes.SECTION_CLEAR) {
             val transition = gameViewModel.getChapterTransition()
+            val currentBg = gameViewModel.uiState.collectAsState().value.bgAssetPath
             SectionClearScreen(
                 sectionTitle = transition?.let {
                     "${it.chapterName} · ${it.chapterTitle}"
                 } ?: "第一部 · 作战室 · 初遇",
+                bgAssetPath = currentBg,
                 isSkipped = true,
                 onReturnToMenu = {
                     navController.navigate(Routes.START) {
