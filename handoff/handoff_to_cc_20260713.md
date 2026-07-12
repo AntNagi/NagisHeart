@@ -36,7 +36,14 @@
 | `DialogueLayer.kt` | 对白/旁白文字加 text shadow（`textShadowColor`），继续指示器位置调整为 end=22dp, bottom=14dp |
 | `NagiHud.kt` | 高度 44dp，top padding 14dp；章节标题 chip 加 cutSmall + glassBg 背景 + text shadow |
 
-### 4. 其他已完成（前几个 session）
+### 4. 长旁白 & 剧情回顾重写（lulu 最新规范）
+
+| 文件 | 改动 |
+|------|------|
+| `LongNarrationLayer.kt` | 去掉矩形框，改为 radial gradient 渐隐衬底，中心实→边缘透明，无 border/clip-path；页码格式 `01 / 03`，13sp，距底 42dp |
+| `BacklogScreen.kt` | 去掉 SystemPageBackground + timeline 卡片布局，改为当前剧情背景+重暗层(0.52)，全页沉浸式文字；角色名金色 SemiBold 13sp，正文 Serif 16sp/32sp |
+
+### 5. 其他已完成（前几个 session）
 
 - Splash 三层合成（bg + title + START 呼吸动画）
 - 主页去掉标题覆盖层
