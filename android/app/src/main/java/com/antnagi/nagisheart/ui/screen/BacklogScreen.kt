@@ -1,6 +1,6 @@
 package com.antnagi.nagisheart.ui.screen
 
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,10 +11,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.antnagi.nagisheart.ui.icon.NagiIcon
 import com.antnagi.nagisheart.ui.icon.NagiIconButton
-import com.antnagi.nagisheart.ui.component.SystemPageBackground
 import com.antnagi.nagisheart.ui.theme.*
 import com.antnagi.nagisheart.ui.viewmodel.BacklogEntry
 import com.antnagi.nagisheart.ui.viewmodel.GameViewModel
@@ -25,143 +32,141 @@ fun BacklogScreen(
     onBack: () -> Unit
 ) {
     val entries = remember { viewModel.getBacklog() }
+    val bgAssetPath = viewModel.uiState.collectAsState().value.bgAssetPath
     val listState = rememberLazyListState(
         initialFirstVisibleItemIndex = (entries.size - 1).coerceAtLeast(0)
     )
 
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
-        SystemPageBackground {
-        Column(
-            modifier = Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()
-        ) {
-            // Header
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = NagiTheme.spacing.xs),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                NagiIconButton(
-                    icon = NagiIcon.Back,
-                    onClick = onBack
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Current scene bg
+            if (bgAssetPath != null) {
+                Image(
+                    painter = rememberAsyncImagePainter("file:///android_asset/$bgAssetPath"),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
                 )
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = "剧情回顾",
-                    style = NagiTheme.typography.titleSection,
-                    color = NagiTheme.colors.textPrimary
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Spacer(modifier = Modifier.width(NagiTheme.sizes.hudButton))
             }
 
-            // Timeline list
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxSize()
+            // Heavy dark overlay for readability
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF132033).copy(alpha = 0.52f))
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .navigationBarsPadding()
             ) {
-                itemsIndexed(entries) { index, entry ->
-                    TimelineItem(
-                        entry = entry,
-                        isFirst = index == 0,
-                        isLast = index == entries.size - 1
+                // HUD header
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 17.dp)
+                        .height(44.dp)
+                        .padding(top = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    NagiIconButton(
+                        icon = NagiIcon.Back,
+                        onClick = onBack
                     )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "剧情回顾",
+                        style = TextStyle(
+                            fontFamily = FontFamily.Serif,
+                            fontSize = 14.sp,
+                            shadow = Shadow(
+                                color = Color(0xB8000000),
+                                offset = Offset(0f, 2f),
+                                blurRadius = 14f
+                            )
+                        ),
+                        color = NagiTheme.colors.hudColor.copy(alpha = 0.64f)
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(36.dp))
                 }
-                item {
-                    Spacer(modifier = Modifier.height(NagiTheme.spacing.xxl))
+
+                Spacer(modifier = Modifier.height(22.dp))
+
+                // Content — immersive full-page text
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 50.dp, end = 50.dp)
+                        .padding(bottom = 78.dp)
+                ) {
+                    itemsIndexed(entries) { index, entry ->
+                        BacklogItem(
+                            entry = entry,
+                            isFirst = index == 0
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(40.dp))
+                    }
                 }
             }
-        }
         }
     }
 }
 
 @Composable
-private fun TimelineItem(
+private fun BacklogItem(
     entry: BacklogEntry,
-    isFirst: Boolean,
-    isLast: Boolean
+    isFirst: Boolean
 ) {
-    val lineColor = NagiPalette.nagiGrayBlue.copy(alpha = 0.2f)
-    val dotColor = if (entry.speaker.isNotEmpty())
-        NagiPalette.roseGold.copy(alpha = 0.5f)
-    else
-        NagiPalette.silverBlue.copy(alpha = 0.3f)
-    val dotRadius = if (entry.speaker.isNotEmpty()) 4f else 3f
+    val goldColor = Color(0xFFD7BE86)
+    val textColor = Color(0xFFF6F3EE)
+    val textShadow = Shadow(
+        color = Color(0x57000000),
+        offset = Offset(0f, 3f),
+        blurRadius = 12f
+    )
+    val speakerShadow = Shadow(
+        color = Color(0x47000000),
+        offset = Offset(0f, 2f),
+        blurRadius = 10f
+    )
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)
-            .padding(end = NagiTheme.spacing.l)
-    ) {
-        // Timeline column: vertical line + dot
-        Box(
-            modifier = Modifier
-                .width(40.dp)
-                .fillMaxHeight()
-                .defaultMinSize(minHeight = 48.dp),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Canvas(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(40.dp)
-            ) {
-                val centerX = size.width / 2
-                val dotY = 20f
-
-                // Line above dot
-                if (!isFirst) {
-                    drawLine(
-                        color = lineColor,
-                        start = Offset(centerX, 0f),
-                        end = Offset(centerX, dotY - dotRadius * 2),
-                        strokeWidth = 1f
-                    )
-                }
-
-                // Dot
-                drawCircle(
-                    color = dotColor,
-                    radius = dotRadius,
-                    center = Offset(centerX, dotY)
-                )
-
-                // Line below dot
-                if (!isLast) {
-                    drawLine(
-                        color = lineColor,
-                        start = Offset(centerX, dotY + dotRadius * 2),
-                        end = Offset(centerX, size.height),
-                        strokeWidth = 1f
-                    )
-                }
-            }
-        }
-
-        // Content column
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(
-                    top = NagiTheme.spacing.xs,
-                    bottom = NagiTheme.spacing.s
-                )
-        ) {
-            if (entry.speaker.isNotEmpty()) {
-                Text(
-                    text = entry.speaker,
-                    style = NagiTheme.typography.speakerName,
-                    color = NagiPalette.roseGold.copy(alpha = 0.7f)
-                )
-                Spacer(modifier = Modifier.height(2.dp))
+    Column(modifier = Modifier.fillMaxWidth()) {
+        if (entry.speaker.isNotEmpty()) {
+            if (!isFirst) {
+                Spacer(modifier = Modifier.height(26.dp))
             }
             Text(
-                text = entry.text,
-                style = NagiTheme.typography.caption,
-                color = NagiPalette.silverBlue.copy(alpha = 0.7f)
+                text = entry.speaker,
+                style = TextStyle(
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 13.sp,
+                    letterSpacing = 0.02.sp,
+                    shadow = speakerShadow
+                ),
+                color = goldColor
             )
+            Spacer(modifier = Modifier.height(10.dp))
+        } else if (!isFirst) {
+            Spacer(modifier = Modifier.height(22.dp))
         }
+
+        Text(
+            text = entry.text,
+            style = TextStyle(
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                lineHeight = 32.sp,
+                shadow = textShadow
+            ),
+            color = textColor
+        )
     }
 }
