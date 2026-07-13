@@ -1,0 +1,22 @@
+.prologue-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--nagi-deep-blue-night);
+  cursor: pointer;
+  padding: var(--space-xl);
+}
+
+.prologue-text {
+  font-family: var(--font-serif);
+  font-size: var(--fs-prologue);
+  line-height: var(--lh-prologue);
+  color: var(--text-primary);
+  text-align: center;
+  opacity: 0;
+  transition: opacity var(--duration-slow);
+}
+
+.prologue-text.visible {
+  opacity: 1;
+}

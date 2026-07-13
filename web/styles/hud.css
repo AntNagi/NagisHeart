@@ -1,0 +1,55 @@
+/* ── HUD ── */
+.hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  padding-top: env(safe-area-inset-top, 14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  z-index: 10;
+}
+
+.hud-scene-title {
+  font-size: var(--fs-hud);
+  color: var(--hud-color);
+  padding: 4px 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: var(--glass-bg);
+  clip-path: polygon(
+    6px 0, calc(100% - 6px) 0,
+    100% 6px, 100% calc(100% - 6px),
+    calc(100% - 6px) 100%, 6px 100%,
+    0 calc(100% - 6px), 0 6px
+  );
+  text-shadow: 0 1px 2px var(--text-shadow-color);
+  letter-spacing: 0.5px;
+}
+
+.hud-actions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.hud-btn {
+  font-size: 12px;
+  color: var(--hud-color);
+  padding: 4px 8px;
+  opacity: 0.7;
+  transition: opacity var(--duration-fast);
+}
+
+.hud-btn:hover {
+  opacity: 1;
+}
+
+.hud-btn.active {
+  color: var(--success-special);
+  opacity: 1;
+}

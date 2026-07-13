@@ -1,0 +1,116 @@
+/* ── Scene background transitions ── */
+.scene-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.scene-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity var(--duration-scene) var(--ease-out);
+}
+
+.scene-bg-enter {
+  animation: bg-fade-in var(--duration-scene) var(--ease-out) forwards;
+}
+
+@keyframes bg-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Chapter/Section transition cards ── */
+.chapter-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 var(--space-lg) 96px;
+  background: rgba(16, 24, 39, 0.72);
+  cursor: pointer;
+  animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
+}
+
+@keyframes card-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.chapter-card-kicker {
+  font-size: 11px;
+  color: var(--success-special);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-xs);
+}
+
+.chapter-card-name {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.chapter-card-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 32px;
+  color: var(--text-primary);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.chapter-card-time {
+  font-size: 12px;
+  color: var(--text-weak);
+  margin-top: var(--space-sm);
+}
+
+.chapter-card-hint {
+  font-size: 12px;
+  color: var(--text-weak);
+  margin-top: var(--space-lg);
+  opacity: 0;
+  animation: breathe 1.6s ease-in-out 1s infinite;
+}
+
+/* ── Chapter ending card (poster style) ── */
+.chapter-ending-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 var(--space-lg) 96px;
+  cursor: pointer;
+  animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
+}
+
+.chapter-ending-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(16, 24, 39, 0.60);
+}
+
+.chapter-ending-content {
+  position: relative;
+  z-index: 1;
+}
+
+.chapter-ending-actions {
+  display: flex;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.chapter-ending-btn {
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  transition: color var(--duration-fast);
+}
+
+.chapter-ending-btn:hover {
+  color: var(--text-primary);
+}

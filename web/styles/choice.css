@@ -1,0 +1,39 @@
+/* ── Choice Panel ── */
+.choice-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: var(--space-xl);
+  background: var(--overlay-full-dim);
+}
+
+.choice-button {
+  width: 100%;
+  max-width: 320px;
+  padding: 14px 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--border-subtle);
+  clip-path: polygon(
+    8px 0, calc(100% - 8px) 0,
+    100% 8px, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%,
+    0 calc(100% - 8px), 0 8px
+  );
+  font-size: var(--fs-choice);
+  line-height: var(--lh-choice);
+  color: var(--text-primary);
+  text-align: center;
+  transition: background var(--duration-fast), transform var(--duration-fast);
+  cursor: pointer;
+}
+
+.choice-button:active {
+  transform: scale(0.97);
+  background: var(--glass-bg);
+}

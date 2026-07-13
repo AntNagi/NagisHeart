@@ -1,0 +1,108 @@
+/* ── Dialogue Box (bottom) ── */
+.dialogue-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 var(--space-lg) env(safe-area-inset-bottom, 0);
+  background: linear-gradient(to top, var(--overlay-bottom-end), var(--overlay-bottom-start));
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom, 0));
+  cursor: pointer;
+}
+
+.dialogue-speaker {
+  font-size: var(--fs-speaker);
+  color: var(--accent-primary);
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 3px var(--text-shadow-color);
+}
+
+.dialogue-text {
+  font-size: var(--fs-dialogue);
+  line-height: var(--lh-dialogue);
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px var(--text-shadow-color);
+}
+
+.dialogue-continue {
+  align-self: flex-end;
+  margin-top: var(--space-sm);
+  margin-right: 0;
+  width: 17px;
+  height: 9px;
+  opacity: 0;
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+.dialogue-continue::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 9px solid var(--text-secondary);
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ── Fullscreen narration ── */
+.narration-fullscreen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  background: var(--overlay-full-dim);
+  cursor: pointer;
+}
+
+.narration-fullscreen-text {
+  font-family: var(--font-serif);
+  font-size: var(--fs-narration);
+  line-height: var(--lh-narration);
+  color: var(--text-primary);
+  text-align: center;
+  text-shadow: 0 1px 4px var(--text-shadow-color);
+}
+
+/* ── Long narration overlay ── */
+.long-narration {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  background: radial-gradient(ellipse at center, rgba(16,24,39,0.52) 0%, transparent 70%);
+  cursor: pointer;
+}
+
+.long-narration-text {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 32px;
+  color: var(--text-primary);
+  text-align: center;
+  text-shadow: 0 1px 4px var(--text-shadow-color);
+  max-width: 340px;
+}
+
+.long-narration-pager {
+  position: absolute;
+  bottom: var(--space-2xl);
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+}

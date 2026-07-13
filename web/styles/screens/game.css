@@ -1,0 +1,21 @@
+.game-screen {
+  position: relative;
+}
+
+.game-screen-tap-area {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.game-ui-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.game-ui-layer > * {
+  pointer-events: auto;
+}

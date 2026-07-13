@@ -1,0 +1,108 @@
+:root {
+  /* ── Base Palette ── */
+  --nagi-snow-white: #F7F9FC;
+  --nagi-mist-blue: #E8EEF6;
+  --nagi-soft-glass-white: #FFFFFF;
+  --nagi-gray-blue: #AEBAC8;
+  --nagi-deep-blue-night: #101827;
+  --nagi-ink-navy: #1B2430;
+  --nagi-cold-gray: #6E7A89;
+  --nagi-silver-blue: #C9D1DC;
+  --nagi-weak-text: #B7B3AD;
+  --nagi-muted-rose: #C98A96;
+  --nagi-rose-gold: #BFA08A;
+  --nagi-dried-wine: #7A3F4A;
+  --nagi-pale-gold: #D8C38A;
+
+  /* ── Typography ── */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', Georgia, serif;
+
+  --fs-dialogue: 17px;
+  --lh-dialogue: 29px;
+  --fs-narration: 17px;
+  --lh-narration: 29px;
+  --fs-choice: 15px;
+  --lh-choice: 21px;
+  --fs-speaker: 13px;
+  --fs-hud: 13px;
+  --fs-prologue: 16px;
+  --lh-prologue: 32px;
+
+  /* ── Spacing ── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 14px;
+  --space-lg: 22px;
+  --space-xl: 32px;
+  --space-2xl: 42px;
+
+  /* ── Cut corners ── */
+  --cut-small: 8px;
+  --cut-medium: 14px;
+
+  /* ── Animation ── */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 600ms;
+  --duration-scene: 800ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Dark Theme (default) ── */
+[data-theme="dark"] {
+  --bg-primary: var(--nagi-deep-blue-night);
+  --bg-secondary: var(--nagi-deep-blue-night);
+  --text-primary: var(--nagi-snow-white);
+  --text-secondary: var(--nagi-silver-blue);
+  --text-weak: var(--nagi-weak-text);
+  --text-inverse: var(--nagi-ink-navy);
+  --border-subtle: rgba(174, 186, 200, 0.28);
+  --icon-default: rgba(201, 209, 220, 0.78);
+  --accent-primary: var(--nagi-rose-gold);
+  --accent-heart: rgba(201, 138, 150, 0.78);
+  --danger: var(--nagi-dried-wine);
+  --success-special: var(--nagi-pale-gold);
+
+  --glass-bg: rgba(27, 36, 54, 0.26);
+  --glass-bg-strong: rgba(27, 36, 54, 0.32);
+  --glass-bg-soft: rgba(27, 36, 54, 0.20);
+
+  --overlay-bottom-start: rgba(16, 24, 39, 0);
+  --overlay-bottom-end: rgba(16, 24, 39, 0.90);
+  --overlay-full-dim: rgba(16, 24, 39, 0.28);
+
+  --hud-color: rgba(247, 249, 252, 0.82);
+  --hud-soft: rgba(247, 249, 252, 0.16);
+
+  --text-shadow-color: rgba(0, 0, 0, 0.72);
+}
+
+/* ── Light Theme ── */
+[data-theme="light"] {
+  --bg-primary: var(--nagi-snow-white);
+  --bg-secondary: var(--nagi-mist-blue);
+  --text-primary: var(--nagi-ink-navy);
+  --text-secondary: var(--nagi-cold-gray);
+  --text-weak: var(--nagi-weak-text);
+  --text-inverse: var(--nagi-snow-white);
+  --border-subtle: rgba(174, 186, 200, 0.45);
+  --icon-default: rgba(174, 186, 200, 0.82);
+  --accent-primary: var(--nagi-rose-gold);
+  --accent-heart: var(--nagi-muted-rose);
+  --danger: var(--nagi-dried-wine);
+  --success-special: var(--nagi-pale-gold);
+
+  --glass-bg: rgba(247, 249, 252, 0.38);
+  --glass-bg-strong: rgba(247, 249, 252, 0.62);
+  --glass-bg-soft: rgba(247, 249, 252, 0.38);
+
+  --overlay-bottom-start: rgba(247, 249, 252, 0);
+  --overlay-bottom-end: rgba(247, 249, 252, 0.82);
+  --overlay-full-dim: rgba(16, 24, 39, 0.28);
+
+  --hud-color: rgba(27, 36, 48, 0.76);
+  --hud-soft: rgba(27, 36, 48, 0.16);
+
+  --text-shadow-color: rgba(255, 255, 255, 0.48);
+}
