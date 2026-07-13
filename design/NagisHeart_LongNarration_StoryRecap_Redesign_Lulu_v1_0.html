@@ -1,0 +1,757 @@
+<title>Nagi's Heart · 长旁白 & 剧情回顾 重设计 lulu v1.0</title>
+<style>
+  @import url('data:text/css,');
+
+  :root {
+    --snow: #f4f1ea;
+    --sub: #d6d2cb;
+    --weak: #b7b3ad;
+    --gold: #d7be86;
+    --gold-dim: rgba(215,190,134,0.45);
+    --deep: #101827;
+    --ink: #0d1522;
+    --serif: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif SC", serif;
+    --ui: system-ui, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    --cut-sm: polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    color: var(--snow);
+    font-family: var(--ui);
+    padding: 28px 24px 48px;
+  }
+
+  /* ─── Header ─── */
+  .page-header {
+    max-width: 960px;
+    margin: 0 auto 32px;
+  }
+  .page-header h1 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+  .page-header h1 span { color: var(--gold); }
+  .page-header p {
+    color: var(--sub);
+    font-size: 13px;
+    line-height: 1.7;
+    max-width: 640px;
+  }
+  .tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 10px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    border: 1px solid rgba(215,190,134,0.25);
+    clip-path: var(--cut-sm);
+  }
+
+  /* ─── Board ─── */
+  .board {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    align-items: start;
+  }
+  .section-title {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--snow);
+    letter-spacing: 0.04em;
+  }
+  .section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(215,190,134,0.35), transparent);
+  }
+
+  .card { display: grid; gap: 8px; }
+  .card-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .card-desc {
+    font-size: 11.5px;
+    color: var(--weak);
+    line-height: 1.6;
+  }
+
+  /* ─── Phone frame ─── */
+  .phone {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 18px 56px rgba(0,0,0,0.4);
+  }
+  .phone canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ─── Spec note ─── */
+  .spec {
+    margin-top: 4px;
+    padding: 8px 12px;
+    background: rgba(215,190,134,0.05);
+    border-left: 2px solid var(--gold-dim);
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--sub);
+  }
+  .spec b { color: var(--gold); font-weight: 500; }
+
+  /* ─── Comparison table ─── */
+  .compare {
+    grid-column: 1 / -1;
+    padding: 20px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 2px;
+  }
+  .compare h3 {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 14px;
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.7;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .compare-row:last-child { border: none; }
+  .compare-row .ver { font-weight: 600; }
+  .ver-bad { color: #c98a96; }
+  .ver-good { color: #8ac98a; }
+</style>
+
+<div class="page-header">
+  <h1><span>Nagi's Heart</span> · 长旁白 & 剧情回顾</h1>
+  <p>XoXo 两版均被 PM 否决 — 矩形卡片打断沉浸感。lulu 重设计：长旁白改为「无框渐隐式」，剧情回顾改为「整页沉浸式」。以下为开发 & CoCo 的视觉参考。</p>
+  <span class="tag">lulu redesign v1.0 · 2026-07-13</span>
+</div>
+
+<div class="board">
+
+  <!-- ═══ 长旁白 ═══ -->
+  <div class="section-title">长旁白 · 无框渐隐式</div>
+
+  <div class="card">
+    <div class="card-label">Dark · 冷色背景（作战室）</div>
+    <div class="card-desc">radial mask 让毛玻璃衬底边缘自然消散到背景中，无矩形边框。</div>
+    <div class="phone"><canvas id="c1"></canvas></div>
+    <div class="spec"><b>衬底</b> rgba(16,24,39,0.28) + blur 16dp · <b>mask</b> radial ellipse 中心实→边缘透明 · <b>字体</b> Serif 16sp / 行高 30sp · <b>文字</b> rgba(244,241,234,0.92) · <b>阴影</b> 0 1 8 #0A0F19 @18%</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Dark · 暖色背景（日常场景）</div>
+    <div class="card-desc">同一套参数在暖色调 bg 上的表现。blur 吸收暖色但不影响可读性。</div>
+    <div class="phone"><canvas id="c2"></canvas></div>
+    <div class="spec"><b>验证</b> 在客厅、卧室、夏日祭等暖色 bg 上无需调参数。衬底 blur 自动吸收环境色。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">短文本 · 自适应高度</div>
+    <div class="card-desc">内容只有 2 段时衬底自动收缩，不留大片空白。无页码。</div>
+    <div class="phone"><canvas id="c3"></canvas></div>
+    <div class="spec"><b>高度</b> min 280dp / max 760dp · 单页时不显示页码 · mask 形状跟随内容高度缩放</div>
+  </div>
+
+  <!-- ═══ 剧情回顾 ═══ -->
+  <div class="section-title">剧情回顾 · 整页沉浸式</div>
+
+  <div class="card">
+    <div class="card-label">Dark · 冷色背景（作战室）</div>
+    <div class="card-desc">不做浮层卡片。整页重暗层，文字直排在暗化背景上，滚动阅读。</div>
+    <div class="phone"><canvas id="c4"></canvas></div>
+    <div class="spec"><b>暗层</b> rgba(19,32,51,0.52) · <b>文字区</b> 78%宽 · <b>speaker</b> 金色 #D7BE86 13sp 600w · 旁白不显示标签，只有 speaker 才标名字 · <b>滚动条</b> 2px 金色半透明</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Dark · 暖色背景（日常场景）</div>
+    <div class="card-desc">暖色 bg + 重暗层。speaker 金色在任何背景上辨识度一致。</div>
+    <div class="phone"><canvas id="c5"></canvas></div>
+    <div class="spec"><b>验证</b> 重暗层 52% 在暖色背景上仍保持冷色调阅读舒适度。无需调参。</div>
+  </div>
+
+  <!-- ═══ 对比 ═══ -->
+  <div class="compare">
+    <h3>与 XoXo 版对比</h3>
+    <div class="compare-row"><span class="ver ver-bad">XoXo v1</span><span>长旁白：矩形卡片 + clip-path 切角 + 硬边框 → 视觉上像弹窗，打断沉浸感</span></div>
+    <div class="compare-row"><span class="ver ver-bad">XoXo v2</span><span>长旁白：同一套卡片语言，没有改进</span></div>
+    <div class="compare-row"><span class="ver ver-good">lulu v1</span><span>长旁白：radial mask 渐隐衬底，无边框无切角 → 衬底像呼吸一样从背景中浮现、消散</span></div>
+    <div class="compare-row"><span class="ver ver-bad">XoXo v1</span><span>剧情回顾：浮层卡片 + clip-path + 边框 → 像系统弹窗，不像回顾体验</span></div>
+    <div class="compare-row"><span class="ver ver-bad">XoXo v2</span><span>剧情回顾：同样的卡片，只是换了内容</span></div>
+    <div class="compare-row"><span class="ver ver-good">lulu v1</span><span>剧情回顾：整页重暗层，文字直排 → 感受是"走进回忆里"，不是"打开一个对话框"</span></div>
+  </div>
+
+</div>
+
+<script>
+// ── Rendering helpers ──
+const W = 1080, H = 1920;
+const SERIF = '600 42px Georgia, "Times New Roman", serif';
+const UI = '400 36px system-ui, sans-serif';
+const GOLD = '#d7be86';
+const SNOW = 'rgba(244,241,234,0.92)';
+const SNOW_DIM = 'rgba(244,241,234,0.56)';
+const CUT_SM = 8;
+
+function initCanvas(id) {
+  const el = document.getElementById(id);
+  const dpr = window.devicePixelRatio || 1;
+  const rect = el.getBoundingClientRect();
+  el.width = W;
+  el.height = H;
+  const ctx = el.getContext('2d');
+  return ctx;
+}
+
+function drawHud(ctx) {
+  // back button
+  drawCutRect(ctx, 16*2, 14*2, 36*2, 36*2, CUT_SM*2, 'rgba(15,24,39,0.28)', 'rgba(255,255,255,0.10)');
+  ctx.fillStyle = 'rgba(247,249,252,0.82)';
+  ctx.font = '600 40px system-ui';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('‹', 16*2+36, 14*2+36);
+
+  // title chip
+  drawCutRect(ctx, 90*2, 14*2, 220*2, 36*2, CUT_SM*2, 'rgba(15,24,39,0.28)', 'rgba(255,255,255,0.10)');
+  ctx.fillStyle = 'rgba(244,241,234,0.86)';
+  ctx.font = '400 28px Georgia, serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('01 · 作战室·初遇', 100*2, 14*2+38);
+
+  // right buttons
+  const rightBtns = ['▷', '□', '☰'];
+  rightBtns.forEach((label, i) => {
+    const x = W - (16+36+8)*2 * (3-i) + 8*2;
+    drawCutRect(ctx, x, 14*2, 36*2, 36*2, CUT_SM*2, 'rgba(15,24,39,0.28)', 'rgba(255,255,255,0.10)');
+    ctx.fillStyle = 'rgba(247,249,252,0.82)';
+    ctx.font = '400 34px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x+36, 14*2+38);
+  });
+}
+
+function drawPentagon(ctx, cx, cy, r) {
+  ctx.beginPath();
+  for (let i = 0; i < 5; i++) {
+    const angle = -Math.PI/2 + (2*Math.PI*i)/5;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+}
+
+function drawHudBtn(ctx, cx, cy, iconFn) {
+  // Pentagon soft glow
+  drawPentagon(ctx, cx, cy, 30);
+  ctx.fillStyle = 'rgba(27,36,48,0.16)';
+  ctx.fill();
+  // Icon
+  ctx.save();
+  ctx.fillStyle = 'rgba(247,249,252,0.82)';
+  ctx.strokeStyle = 'rgba(247,249,252,0.82)';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  iconFn(ctx, cx, cy);
+  ctx.restore();
+}
+
+function iconBack(ctx, cx, cy) {
+  ctx.beginPath();
+  ctx.moveTo(cx+4, cy-10); ctx.lineTo(cx-6, cy); ctx.lineTo(cx+4, cy+10);
+  ctx.stroke();
+}
+function iconAuto(ctx, cx, cy) {
+  // Play triangle
+  ctx.beginPath();
+  ctx.moveTo(cx-6, cy-10); ctx.lineTo(cx+10, cy); ctx.lineTo(cx-6, cy+10);
+  ctx.closePath(); ctx.fill();
+}
+function iconSave(ctx, cx, cy) {
+  // Floppy disk outline
+  ctx.beginPath();
+  ctx.rect(cx-10, cy-10, 20, 20);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.rect(cx-5, cy-10, 10, 7);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.rect(cx-7, cy+1, 14, 9);
+  ctx.fillStyle = 'rgba(247,249,252,0.25)';
+  ctx.fill();
+  ctx.stroke();
+}
+function iconMenu(ctx, cx, cy) {
+  // Three horizontal lines
+  [-7, 0, 7].forEach(dy => {
+    ctx.beginPath();
+    ctx.moveTo(cx-9, cy+dy); ctx.lineTo(cx+9, cy+dy);
+    ctx.stroke();
+  });
+}
+
+function drawHudAlt(ctx, titleText) {
+  const hudY = 56;
+
+  // Back button
+  drawHudBtn(ctx, 52, hudY, iconBack);
+
+  // Title chip with cut-sm and gradient bg
+  const titleX = 110;
+  const titleW = 360;
+  const titleH = 44;
+  const titleY = hudY - titleH/2;
+  // Cut-sm background
+  const c = 16;
+  ctx.beginPath();
+  ctx.moveTo(titleX, titleY+c);
+  ctx.lineTo(titleX+c, titleY);
+  ctx.lineTo(titleX+titleW-c, titleY);
+  ctx.lineTo(titleX+titleW, titleY+c);
+  ctx.lineTo(titleX+titleW, titleY+titleH-c);
+  ctx.lineTo(titleX+titleW-c, titleY+titleH);
+  ctx.lineTo(titleX+c, titleY+titleH);
+  ctx.lineTo(titleX, titleY+titleH-c);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(27,36,48,0.16)';
+  ctx.fill();
+  // Horizontal center line accent
+  ctx.strokeStyle = 'rgba(27,36,48,0.16)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(titleX+c, hudY);
+  ctx.lineTo(titleX+titleW-c, hudY);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(244,241,234,0.86)';
+  ctx.font = '400 28px Georgia, serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(titleText, titleX + 18, hudY + 1);
+
+  // Right buttons: auto, save, menu
+  const icons = [iconAuto, iconSave, iconMenu];
+  icons.forEach((fn, i) => {
+    drawHudBtn(ctx, W - 52 - (2-i)*72, hudY, fn);
+  });
+
+  ctx.textBaseline = 'top';
+}
+
+function drawCutRect(ctx, x, y, w, h, c, fill, stroke) {
+  ctx.beginPath();
+  ctx.moveTo(x, y+c);
+  ctx.lineTo(x+c, y);
+  ctx.lineTo(x+w-c, y);
+  ctx.lineTo(x+w, y+c);
+  ctx.lineTo(x+w, y+h-c);
+  ctx.lineTo(x+w-c, y+h);
+  ctx.lineTo(x+c, y+h);
+  ctx.lineTo(x, y+h-c);
+  ctx.closePath();
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 2; ctx.stroke(); }
+}
+
+function wrapText(ctx, text, x, maxW, startY, lineH) {
+  const chars = text.split('');
+  let line = '';
+  let y = startY;
+  for (let ch of chars) {
+    const test = line + ch;
+    if (ctx.measureText(test).width > maxW && line) {
+      ctx.fillText(line, x, y);
+      line = ch;
+      y += lineH;
+    } else {
+      line = test;
+    }
+  }
+  if (line) { ctx.fillText(line, x, y); y += lineH; }
+  return y;
+}
+
+// ── Generate procedural "bg" ──
+function fillCoolBg(ctx) {
+  // Cold dark blue scene
+  const g = ctx.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0, '#0e1a2e');
+  g.addColorStop(0.3, '#162840');
+  g.addColorStop(0.6, '#1a2d48');
+  g.addColorStop(1, '#0f1825');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+  // Subtle rectangles to suggest monitors/screens
+  ctx.fillStyle = 'rgba(80,140,200,0.06)';
+  ctx.fillRect(60, 200, 300, 180);
+  ctx.fillRect(720, 150, 280, 200);
+  ctx.fillRect(100, 600, 250, 160);
+  ctx.fillRect(680, 540, 320, 200);
+  ctx.fillStyle = 'rgba(100,160,220,0.04)';
+  ctx.fillRect(400, 100, 260, 280);
+  ctx.fillRect(350, 500, 280, 180);
+  // Glow
+  const rg = ctx.createRadialGradient(540, 500, 50, 540, 500, 600);
+  rg.addColorStop(0, 'rgba(80,130,200,0.08)');
+  rg.addColorStop(1, 'transparent');
+  ctx.fillStyle = rg;
+  ctx.fillRect(0, 0, W, H);
+  // Story overlay
+  ctx.fillStyle = 'rgba(19,32,51,0.18)';
+  ctx.fillRect(0, 0, W, H);
+}
+
+function fillWarmBg(ctx) {
+  // Warm living room scene
+  const g = ctx.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0, '#2a2018');
+  g.addColorStop(0.3, '#3a2e1e');
+  g.addColorStop(0.6, '#2e2418');
+  g.addColorStop(1, '#1e1812');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+  // Warm glow patches
+  const rg1 = ctx.createRadialGradient(300, 600, 50, 300, 600, 500);
+  rg1.addColorStop(0, 'rgba(220,180,100,0.12)');
+  rg1.addColorStop(1, 'transparent');
+  ctx.fillStyle = rg1;
+  ctx.fillRect(0, 0, W, H);
+  const rg2 = ctx.createRadialGradient(750, 400, 50, 750, 400, 400);
+  rg2.addColorStop(0, 'rgba(200,160,90,0.08)');
+  rg2.addColorStop(1, 'transparent');
+  ctx.fillStyle = rg2;
+  ctx.fillRect(0, 0, W, H);
+  // Furniture suggestion
+  ctx.fillStyle = 'rgba(180,140,80,0.04)';
+  ctx.fillRect(80, 800, 400, 300);
+  ctx.fillRect(600, 750, 380, 350);
+  // Story overlay
+  ctx.fillStyle = 'rgba(19,32,51,0.12)';
+  ctx.fillRect(0, 0, W, H);
+}
+
+// ═══════════════════════════════
+// Canvas 1: 长旁白 · 冷色 · 长文本
+// ═══════════════════════════════
+(function() {
+  const ctx = initCanvas('c1');
+  fillCoolBg(ctx);
+
+  // Narration backdrop with radial fade
+  const centerY = H * 0.48;
+  const areaH = 520;
+  const areaW = W * 0.78;
+  const areaX = (W - areaW) / 2;
+  const areaY = centerY - areaH/2;
+
+  // Create radial gradient mask effect by layering
+  const rg = ctx.createRadialGradient(W/2, centerY, areaH*0.25, W/2, centerY, areaH*0.72);
+  rg.addColorStop(0, 'rgba(16,24,39,0.28)');
+  rg.addColorStop(0.55, 'rgba(16,24,39,0.26)');
+  rg.addColorStop(0.75, 'rgba(16,24,39,0.15)');
+  rg.addColorStop(0.9, 'rgba(16,24,39,0.06)');
+  rg.addColorStop(1, 'rgba(16,24,39,0)');
+  ctx.fillStyle = rg;
+  ctx.fillRect(areaX - 80, areaY - 60, areaW + 160, areaH + 120);
+
+  // Text
+  ctx.fillStyle = SNOW;
+  ctx.font = '400 34px Georgia, "Times New Roman", serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  const tx = areaX + 48;
+  const tw = areaW - 96;
+
+  const lines = [
+    '蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。',
+    '数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。',
+    '你坐在观察席后方。桌上放着 JFA 提供的项目资料、风险评估、后续商业开发草案，以及一份还没有签字的追加投资确认书。'
+  ];
+  let y = areaY + 40;
+  lines.forEach((text, i) => {
+    y = wrapText(ctx, text, tx, tw, y, 60);
+    if (i < lines.length - 1) y += 18;
+  });
+
+  drawHudAlt(ctx, '01 · 作战室·初遇');
+
+  // Page indicator
+  ctx.fillStyle = SNOW_DIM;
+  ctx.font = '400 26px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('01 / 03', W/2, H - 84);
+})();
+
+// ═══════════════════════════════
+// Canvas 2: 长旁白 · 暖色
+// ═══════════════════════════════
+(function() {
+  const ctx = initCanvas('c2');
+  fillWarmBg(ctx);
+
+  const centerY = H * 0.48;
+  const areaH = 480;
+  const areaW = W * 0.78;
+  const areaX = (W - areaW) / 2;
+  const areaY = centerY - areaH/2;
+
+  const rg = ctx.createRadialGradient(W/2, centerY, areaH*0.22, W/2, centerY, areaH*0.7);
+  rg.addColorStop(0, 'rgba(16,24,39,0.28)');
+  rg.addColorStop(0.55, 'rgba(16,24,39,0.24)');
+  rg.addColorStop(0.75, 'rgba(16,24,39,0.13)');
+  rg.addColorStop(0.9, 'rgba(16,24,39,0.05)');
+  rg.addColorStop(1, 'rgba(16,24,39,0)');
+  ctx.fillStyle = rg;
+  ctx.fillRect(areaX - 80, areaY - 60, areaW + 160, areaH + 120);
+
+  ctx.fillStyle = SNOW;
+  ctx.font = '400 34px Georgia, "Times New Roman", serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  const tx = areaX + 48;
+  const tw = areaW - 96;
+
+  const lines = [
+    '你看着那张靠在沙发上的脸，觉得世界安静了一点。',
+    '他没有看你。眼睛半闭着，嘴角没有弧度，但也没有紧绷。头发乱得像刚从枕头里拔出来的，手里握着一杯已经化了一半的冰淇淋。',
+    '你想说点什么，但最终什么也没说。你坐下来，保持着一个刚好不会打扰他的距离。',
+    '这已经是你学会的第一件事：在 Nagi 身边，安静是一种被接受的方式。'
+  ];
+  let y = areaY + 36;
+  lines.forEach((text, i) => {
+    y = wrapText(ctx, text, tx, tw, y, 60);
+    if (i < lines.length - 1) y += 18;
+  });
+
+  drawHudAlt(ctx, '03 · 投资的私心');
+  ctx.fillStyle = SNOW_DIM;
+  ctx.font = '400 26px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('01 / 02', W/2, H - 84);
+})();
+
+// ═══════════════════════════════
+// Canvas 3: 长旁白 · 短文本
+// ═══════════════════════════════
+(function() {
+  const ctx = initCanvas('c3');
+  fillCoolBg(ctx);
+
+  const centerY = H * 0.46;
+  const areaH = 280;
+  const areaW = W * 0.78;
+  const areaX = (W - areaW) / 2;
+  const areaY = centerY - areaH/2;
+
+  const rg = ctx.createRadialGradient(W/2, centerY, areaH*0.18, W/2, centerY, areaH*0.68);
+  rg.addColorStop(0, 'rgba(16,24,39,0.28)');
+  rg.addColorStop(0.5, 'rgba(16,24,39,0.22)');
+  rg.addColorStop(0.75, 'rgba(16,24,39,0.12)');
+  rg.addColorStop(0.92, 'rgba(16,24,39,0.04)');
+  rg.addColorStop(1, 'rgba(16,24,39,0)');
+  ctx.fillStyle = rg;
+  ctx.fillRect(areaX - 80, areaY - 60, areaW + 160, areaH + 120);
+
+  ctx.fillStyle = SNOW;
+  ctx.font = '400 34px Georgia, "Times New Roman", serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  const tx = areaX + 48;
+  const tw = areaW - 96;
+
+  const lines = [
+    '绝世前锋的培育计划。一个听上去冷酷却野心勃勃的项目。',
+    '你翻了一页资料，目光停在一张照片上。'
+  ];
+  let y = areaY + 48;
+  lines.forEach((text, i) => {
+    y = wrapText(ctx, text, tx, tw, y, 60);
+    if (i < lines.length - 1) y += 18;
+  });
+
+  drawHudAlt(ctx, '01 · 作战室·初遇');
+  // No page indicator for single-page
+})();
+
+// ═══════════════════════════════
+// Canvas 4: 剧情回顾 · 冷色
+// ═══════════════════════════════
+(function() {
+  const ctx = initCanvas('c4');
+  fillCoolBg(ctx);
+
+  // Heavy dark overlay
+  ctx.fillStyle = 'rgba(19,32,51,0.52)';
+  ctx.fillRect(0, 0, W, H);
+
+  drawHudAlt(ctx, '01 · 作战室·初遇');
+
+  // Close button
+  drawCutRect(ctx, W - 32 - 72, 120, 72, 72, 16, 'rgba(15,24,39,0.32)', 'rgba(255,255,255,0.10)');
+  ctx.fillStyle = 'rgba(244,241,234,0.72)';
+  ctx.font = '400 32px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('✕', W - 32 - 36, 160);
+
+  // Header
+  const lx = W * 0.11;
+  const rw = W * 0.78;
+  let y = 160;
+
+  // Gold line + title
+  ctx.strokeStyle = 'rgba(215,190,134,0.5)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(lx, y + 10);
+  ctx.lineTo(lx + 44, y + 10);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(244,241,234,0.72)';
+  ctx.font = '400 32px Georgia, serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('剧情回顾', lx + 56, y + 20);
+
+  // Divider
+  y += 48;
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.beginPath();
+  ctx.moveTo(lx, y);
+  ctx.lineTo(lx + rw, y);
+  ctx.stroke();
+  y += 36;
+
+  // Entries
+  const entries = [
+    { type: 'narration', text: '蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。' },
+    { type: 'narration', text: '数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。' },
+    { type: 'narration', text: '你坐在观察席后方。桌上放着 JFA 提供的项目资料、风险评估、后续商业开发草案，以及一份还没有签字的追加投资确认书。' },
+    { type: 'speaker', name: 'JFA 会长', text: '年轻、热血、国家队更新、世界级前锋培养，这些关键词本身就具备极高的商业价值。' },
+    { type: 'narration', text: '所以你签了字。这个理由完全成立。至少，你现在必须这样告诉自己。' },
+    { type: 'speaker', name: '绊（内心）', text: '……不，不是因为那些理由。' },
+    { type: 'narration', text: '你看向屏幕上那个毫无表情的少年。他正坐在角落里，头靠着墙，像一只懒得动的猫。' },
+    { type: 'speaker', name: '绊（内心）', text: '是因为他。' },
+  ];
+
+  entries.forEach(entry => {
+    if (entry.type === 'speaker') {
+      ctx.fillStyle = GOLD;
+      ctx.font = '600 28px system-ui';
+      ctx.fillText(entry.name, lx, y + 6);
+      y += 40;
+    }
+    ctx.fillStyle = 'rgba(246,243,238,0.92)';
+    ctx.font = '400 32px Georgia, serif';
+    y = wrapText(ctx, entry.text, lx, rw, y, 64);
+    y += 36;
+  });
+
+  // Scrollbar hint
+  ctx.fillStyle = 'rgba(215,190,134,0.2)';
+  ctx.fillRect(W - 18, 160, 4, 400);
+  ctx.fillStyle = 'rgba(215,190,134,0.5)';
+  ctx.fillRect(W - 18, 160, 4, 160);
+})();
+
+// ═══════════════════════════════
+// Canvas 5: 剧情回顾 · 暖色
+// ═══════════════════════════════
+(function() {
+  const ctx = initCanvas('c5');
+  fillWarmBg(ctx);
+
+  ctx.fillStyle = 'rgba(19,32,51,0.52)';
+  ctx.fillRect(0, 0, W, H);
+
+  drawHudAlt(ctx, '03 · 投资的私心');
+
+  drawCutRect(ctx, W - 32 - 72, 120, 72, 72, 16, 'rgba(15,24,39,0.32)', 'rgba(255,255,255,0.10)');
+  ctx.fillStyle = 'rgba(244,241,234,0.72)';
+  ctx.font = '400 32px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('✕', W - 32 - 36, 160);
+
+  const lx = W * 0.11;
+  const rw = W * 0.78;
+  let y = 160;
+
+  ctx.strokeStyle = 'rgba(215,190,134,0.5)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(lx, y + 10);
+  ctx.lineTo(lx + 44, y + 10);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(244,241,234,0.72)';
+  ctx.font = '400 32px Georgia, serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('剧情回顾', lx + 56, y + 20);
+
+  y += 48;
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.beginPath();
+  ctx.moveTo(lx, y);
+  ctx.lineTo(lx + rw, y);
+  ctx.stroke();
+  y += 36;
+
+  const entries = [
+    { type: 'narration', text: '你看着那张靠在沙发上的脸，觉得世界安静了一点。' },
+    { type: 'narration', text: '他没有看你。眼睛半闭着，嘴角没有弧度，但也没有紧绷。' },
+    { type: 'speaker', name: '凪', text: '……你又来了啊。' },
+    { type: 'narration', text: '他的声音很轻，像是在说给空气听。你分不清那是在跟你打招呼，还是只是在确认一个事实。' },
+    { type: 'speaker', name: '绊', text: '嗯。来看看你们的训练进度。' },
+    { type: 'speaker', name: '凪', text: '哦。' },
+    { type: 'narration', text: '就这样。一个「哦」。然后他又闭上了眼睛。' },
+  ];
+
+  entries.forEach(entry => {
+    if (entry.type === 'speaker') {
+      ctx.fillStyle = GOLD;
+      ctx.font = '600 28px system-ui';
+      ctx.fillText(entry.name, lx, y + 6);
+      y += 40;
+    }
+    ctx.fillStyle = 'rgba(246,243,238,0.92)';
+    ctx.font = '400 32px Georgia, serif';
+    y = wrapText(ctx, entry.text, lx, rw, y, 64);
+    y += 36;
+  });
+
+  ctx.fillStyle = 'rgba(215,190,134,0.2)';
+  ctx.fillRect(W - 18, 160, 4, 360);
+  ctx.fillStyle = 'rgba(215,190,134,0.5)';
+  ctx.fillRect(W - 18, 160, 4, 140);
+})();
+</script>
