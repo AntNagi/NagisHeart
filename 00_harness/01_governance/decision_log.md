@@ -5,6 +5,15 @@
 
 ---
 
+### DEC-20260715-001
+- 时间：2026-07-15
+- 项目：NagisHeart
+- 来源：Ant大小姐 / PM 一一确认
+- 决策内容：UI 权威合版以 `design/NagisHeart_P0_HiFi_Design_XoXo_v2_0.html` 为唯一母版；只从后续文件中拼入已明确通过的页面，不进行重设计。`NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html` 仅采用主页、开场白、名字设置、大章开始、小节开始和弹窗；其大章/小节结束页、长旁白、剧情回顾均不采用。长旁白与剧情回顾采用 `NagisHeart_LongNarration_StoryRecap_Redesign_Lulu_v1_0.html` 的结构，但统一为母版的冷色体系。
+- 生效范围：UI 权威合版、XoXo 设计任务、后续开发与测试的视觉依据
+- 覆盖旧规则：覆盖 `design/CoCo_Design_Handoff_20260713.md` 中把未通过的大章/小节结束页视为可用定稿、或把 Missing Pages 整体视为系统页权威的表述
+- 执行要求：XoXo 只做拼接、替换、删减、对齐和结构整理；大章/小节结束页及章节目录最终样式保持待确认，不得在本任务中自行补设计
+
 ## 字段说明
 
 - `编号`：唯一编号，建议格式如 `DEC-20260715-001`
@@ -28,4 +37,3 @@
 - 生效范围：
 - 覆盖旧规则：无
 - 执行要求：
-
