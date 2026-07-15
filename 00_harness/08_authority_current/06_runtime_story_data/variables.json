@@ -1,0 +1,299 @@
+{
+  "numeric": {
+    "bond": {
+      "initial": 0,
+      "label": "亲密度",
+      "legacy": [
+        "b",
+        "B"
+      ],
+      "description": "控制亲密、甜日常、深线入口"
+    },
+    "understanding": {
+      "initial": 0,
+      "label": "懂他指数",
+      "legacy": [
+        "i",
+        "I",
+        "u"
+      ],
+      "description": "TRUE必要基础之一"
+    },
+    "distance": {
+      "initial": 0,
+      "label": "心墙",
+      "legacy": [
+        "d",
+        "D"
+      ],
+      "description": "玩家行为造成的心理距离：是否把Nagi推远了。仅此变量参与结局判定"
+    },
+    "ego": {
+      "initial": 0,
+      "label": "Nagi主动性",
+      "legacy": [
+        "EGO"
+      ],
+      "description": "支撑Dream/TRUE质量"
+    },
+    "control": {
+      "initial": 0,
+      "label": "Ant管理倾向",
+      "legacy": [
+        "CONTROL"
+      ],
+      "description": "J线、Bad风险"
+    },
+    "habitWarm": {
+      "initial": 0,
+      "label": "舒适依赖",
+      "legacy": [],
+      "description": "Stay/NORMAL倾向"
+    },
+    "ordinaryHappiness": {
+      "initial": 0,
+      "label": "普通情侣幸福值",
+      "legacy": [],
+      "description": "Stay线质量"
+    },
+    "publicCoupleExposure": {
+      "initial": 0,
+      "label": "公开情侣曝光度",
+      "legacy": [],
+      "description": "Bad线舆论绑定风险"
+    },
+    "egoHold": {
+      "initial": 0,
+      "label": "Ant自我保持度",
+      "legacy": [],
+      "description": "TRUE资格：Ant没有把自己压缩成Nagi附属"
+    },
+    "loveNotHabit": {
+      "initial": 0,
+      "label": "爱不是习惯",
+      "legacy": [],
+      "description": "证明爱不是单纯舒适依赖"
+    },
+    "habitDepend": {
+      "initial": 0,
+      "label": "习惯依赖",
+      "legacy": [],
+      "description": "Nagi对Ant舒适圈的依赖度"
+    },
+    "nagiCare": {
+      "initial": 0,
+      "label": "Nagi关心度",
+      "legacy": [],
+      "description": "Nagi主动关心Ant的程度"
+    },
+    "antSoft": {
+      "initial": 0,
+      "label": "Ant柔软度",
+      "legacy": [],
+      "description": "Ant愿意展示脆弱的程度"
+    },
+    "nagiSelf": {
+      "initial": 0,
+      "label": "Nagi自主性",
+      "legacy": [],
+      "description": "Nagi自己做选择的倾向"
+    },
+    "antIdealize": {
+      "initial": 0,
+      "label": "Ant理想化",
+      "legacy": [],
+      "description": "Ant对Nagi的造神倾向"
+    },
+    "controlSeed": {
+      "initial": 0,
+      "label": "控制种子",
+      "legacy": [],
+      "description": "Bad线控制欲初期累积"
+    },
+    "badRisk": {
+      "initial": 0,
+      "label": "Bad风险值",
+      "legacy": [],
+      "description": "Bad线综合风险"
+    },
+    "possess": {
+      "initial": 0,
+      "label": "占有欲",
+      "legacy": [],
+      "description": "J线占有与确认欲"
+    },
+    "trueFlag": {
+      "initial": 0,
+      "label": "TRUE资格计数",
+      "legacy": [],
+      "description": "TRUE END资格累积"
+    },
+    "nagiRebelSeed": {
+      "initial": 0,
+      "label": "反抗种子",
+      "legacy": [],
+      "description": "Nagi从被安排中退出的种子值"
+    },
+    "narrativeDistance": {
+      "default": 0,
+      "description": "剧情必经事件造成的客观距离（离别/成长/低谷/重逢），不参与结局判定，仅用于剧情表现和章节状态"
+    }
+  },
+  "flags": {
+    "mj": {
+      "initial": "",
+      "type": "string",
+      "values": [
+        "M",
+        "J"
+      ],
+      "legacy": [
+        "line"
+      ],
+      "description": "默契线/较劲线倾向"
+    },
+    "path": {
+      "initial": "",
+      "type": "string",
+      "values": [
+        "dream",
+        "stay",
+        "bad"
+      ],
+      "legacy": [],
+      "description": "第八部三线路径"
+    },
+    "finalChoice": {
+      "initial": "",
+      "type": "string",
+      "values": [
+        "witness",
+        "ordinary",
+        "coronation"
+      ],
+      "legacy": [],
+      "description": "第八部核心选择"
+    },
+    "finalFlag": {
+      "initial": "",
+      "type": "string",
+      "values": [
+        "support",
+        "waver",
+        "release",
+        "accompany",
+        "clip"
+      ],
+      "legacy": [],
+      "description": "终章最后抉择兼容字段"
+    },
+    "route": {
+      "initial": "",
+      "type": "string",
+      "legacy": [],
+      "description": "当前路线标记"
+    },
+    "mDeep": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "第五部同居深线"
+    },
+    "cohabitShallow": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "第五部浅线/客气距离"
+    },
+    "antCompress": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Ant为爱压缩自己"
+    },
+    "antManage": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Ant替Nagi做重大选择"
+    },
+    "antLightSeen": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Nagi看见Ant站在光里"
+    },
+    "antFragileSeen": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Nagi看见Ant的脆弱"
+    },
+    "personalHonor": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Nagi第一次真正个人荣誉"
+    },
+    "nagiNameIndependent": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Nagi主动选择成长、玩家给予空间的标记。来源：transfer_contract让Nagi自己决定 + e_agency_launch尊重Nagi独立性"
+    },
+    "witnessFlag": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Dream线Ant见证不抢主语"
+    },
+    "publicCoupleExposureSeed": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Bad线公开曝光风险种子"
+    },
+    "nagiDiscomfortSeed": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Nagi对加冕叙事不适"
+    },
+    "nagiRebel": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Nagi开始从被安排中退出"
+    },
+    "badLock": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Bad线锁定"
+    },
+    "returnBySelf": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "Nagi完成战斗后自己回来"
+    },
+    "homeAsSavePoint": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "家是归处不是笼子"
+    },
+    "kc3": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "关键选择3已触发"
+    },
+    "nel": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "NEL阶段标记"
+    }
+  }
+}

@@ -1,0 +1,138 @@
+[
+  {
+    "id": "prologue",
+    "name": "开场白",
+    "title": "PROLOGUE",
+    "sections": [
+      { "title": "开场白", "startNode": "p1", "note": "prologue plays before p1" }
+    ]
+  },
+  {
+    "id": "part1",
+    "name": "第一部",
+    "title": "原作前置篇：他还没看见你，你已经看见了他",
+    "timeRange": "2018.11 - 2019.2",
+    "sections": [
+      { "title": "作战室·初遇", "startNode": "p1" },
+      { "title": "投资的私心", "startNode": "p2" },
+      { "title": "会议室初见", "startNode": "c1a" },
+      { "title": "不麻烦的人", "startNode": "c1b" },
+      { "title": "U-20日本代表战·被日本看见", "startNode": "u20j" }
+    ]
+  },
+  {
+    "id": "part2",
+    "name": "第二部",
+    "title": "关系确立篇：开放日，突然进入彼此生活",
+    "timeRange": "2019.2 - 3月",
+    "sections": [
+      { "title": "开放日", "startNode": "c3" },
+      { "title": "你的，我的", "startNode": "e_lemontea" },
+      { "title": "假期的消息", "startNode": "c2" },
+      { "title": "高级公寓的邀请", "startNode": "e_invite" },
+      { "title": "棒棒糖·自动刷脸", "startNode": "e_lolly" }
+    ]
+  },
+  {
+    "id": "part3",
+    "name": "第三部",
+    "title": "前期低谷篇：NEL淘汰、生日与Side-B重返",
+    "timeRange": "2019.3 - 5月",
+    "sections": [
+      { "title": "NEL启程·闭关送别", "startNode": "e_depart" },
+      { "title": "聚少离多·从高光到淘汰", "startNode": "c6a" },
+      { "title": "Nagi做的咖喱饭", "startNode": "e_curry" },
+      { "title": "被遗忘的生日", "startNode": "e_bday" },
+      { "title": "拥抱", "startNode": "e_hug" },
+      { "title": "亲密", "startNode": "e_intimate" },
+      { "title": "Side-B·重返蓝色监狱", "startNode": "side_b_return" }
+    ]
+  },
+  {
+    "id": "part4",
+    "name": "第四部",
+    "title": "世界看见他篇：U-20世界杯与豪门招募",
+    "timeRange": "2019.6 - 7月",
+    "sections": [
+      { "title": "世界杯追加名单", "startNode": "wc_roster" },
+      { "title": "淘汰赛前训练·花环", "startNode": "wc_interval" },
+      { "title": "生死局·世界看见他", "startNode": "wc_keygoal" },
+      { "title": "豪门来信", "startNode": "wc_offer" }
+    ]
+  },
+  {
+    "id": "part5",
+    "name": "第五部",
+    "title": "世界杯后的夏天：同居、热恋与夏窗签约",
+    "timeRange": "2019.7 - 9月",
+    "sections": [
+      { "title": "归来·沙发上的拥抱", "startNode": "w_home" },
+      { "title": "同居·这里太舒服了", "startNode": "mt3" },
+      { "title": "同居·靠近 / 客气的距离", "startNode": "e_intimate_cohabit", "altStartNode": "m_shallow" },
+      { "title": "甜蜜同居·深夜等你", "startNode": "e_cozy" },
+      { "title": "深夜·酸奶与泡面哲学", "startNode": "w_noodle" },
+      { "title": "游戏冷战·ADC走脸事件", "startNode": "w_game" },
+      { "title": "微醺之夜", "startNode": "e_tipsy" },
+      { "title": "早安赖床", "startNode": "e_morning" },
+      { "title": "七夕·蓝色玫瑰与夏夜", "startNode": "c4" },
+      { "title": "夏日祭·浴衣与烟火", "startNode": "e_festival" },
+      { "title": "夏窗·签约桌上的好麻烦", "startNode": "transfer_contract" }
+    ]
+  },
+  {
+    "id": "part6",
+    "name": "第六部",
+    "title": "豪门新星篇：新的房间，新的规则",
+    "timeRange": "2019.9 - 11月",
+    "sections": [
+      { "title": "曼城·新的房间", "startNode": "club_arrival" },
+      { "title": "一个人的曼城", "startNode": "club_alone" },
+      { "title": "耳机能翻译，球不会等我", "startNode": "club_training" },
+      { "title": "它翻译得很对，但不像我", "startNode": "club_media" },
+      { "title": "读书之秋", "startNode": "e_autumn" },
+      { "title": "万圣夜·专属恶魔", "startNode": "e_halloween" },
+      { "title": "飙车实录", "startNode": "e_drive" }
+    ]
+  },
+  {
+    "id": "part7",
+    "name": "第七部",
+    "title": "发布会后东京返日假期：她站在光里",
+    "timeRange": "2019.12 - 2020.1",
+    "sections": [
+      { "title": "她站在光里", "startNode": "e_agency_launch", "scope": "common" },
+      { "title": "送围巾", "startNode": "e_scarf", "scope": "M" },
+      { "title": "还是感冒了", "startNode": "e_sick_fragile", "scope": "M" },
+      { "title": "任人打扮", "startNode": "e_dressup", "scope": "J" },
+      { "title": "软饭王哲学", "startNode": "e_softrice", "scope": "J" },
+      { "title": "借着醉意", "startNode": "e_drunk", "scope": "J" }
+    ]
+  },
+  {
+    "id": "part8",
+    "name": "第八部",
+    "title": "世界中心篇：他的名字",
+    "timeRange": "2020.1 - 5月",
+    "sections": [
+      { "title": "假期结束·春季名单", "startNode": "p8_route", "scope": "common" },
+      { "title": "没有你的世界", "startNode": "dream_exist", "scope": "dream" },
+      { "title": "他的名字", "startNode": "dream_match", "scope": "dream" },
+      { "title": "看台上的庆祝", "startNode": "dream_celebrate", "scope": "dream" },
+      { "title": "久别重逢", "startNode": "dream_return", "scope": "dream" },
+      { "title": "花园别墅·秘密基地", "startNode": "dream_home", "scope": "dream" },
+      { "title": "世界第一，与你", "startNode": "dream_final", "scope": "dream" },
+      { "title": "还不是今天", "startNode": "stay_match", "scope": "stay" },
+      { "title": "他常回来", "startNode": "stay_intro", "scope": "stay" },
+      { "title": "暗爽·可可白兰地", "startNode": "stay_cozy", "scope": "stay" },
+      { "title": "情人节玩偶熊", "startNode": "stay_daily", "scope": "stay" },
+      { "title": "关掉的比赛录像", "startNode": "stay_final", "scope": "stay" },
+      { "title": "优雅与世俗", "startNode": "bad_elegant", "scope": "bad" },
+      { "title": "他的名字，由我来写", "startNode": "bad_plan", "scope": "bad" },
+      { "title": "加冕之夜", "startNode": "bad_match", "scope": "bad" },
+      { "title": "全世界都看见你", "startNode": "bad_afterglow", "scope": "bad" },
+      { "title": "渐行渐远", "startNode": "bad_cold", "scope": "bad" },
+      { "title": "我不是不想这样赢", "startNode": "bad_last", "scope": "bad" },
+      { "title": "远处的世界第一", "startNode": "bad_far", "scope": "bad" }
+    ]
+  }
+]

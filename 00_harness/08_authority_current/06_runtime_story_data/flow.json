@@ -1,0 +1,95 @@
+{
+  "default": {
+    "p1": "p2",
+    "p2_s3": "c1a",
+    "c1a": "c1b",
+    "c1b_s4": "u20j",
+    "u20j": "c3",
+    "c3_s2": "e_lemontea",
+    "e_lemontea_s2": "c2",
+    "c2_s2": "e_invite",
+    "e_invite": "e_lolly",
+    "e_lolly_s2": "e_depart",
+    "e_depart": "c6a",
+    "c6a": "e_curry",
+    "e_curry": "e_bday",
+    "e_bday": "e_hug",
+    "e_hug": "e_intimate",
+    "e_intimate": "side_b_return",
+    "side_b_return": "wc_roster",
+    "wc_roster": "wc_interval",
+    "wc_interval": "wc_keygoal",
+    "wc_keygoal": "wc_offer",
+    "wc_offer": "w_home",
+    "w_home": "mt3",
+    "mt3": "m_igate",
+
+    "e_intimate_cohabit": "e_cozy",
+    "m_shallow": "e_cozy",
+    "e_cozy": "w_noodle",
+    "w_noodle": "w_game",
+    "w_game": "e_tipsy",
+    "e_tipsy": "e_morning",
+    "e_morning": "c4",
+    "c4": "c4a",
+    "c4a_s3": "c4d",
+    "c4d": "e_festival",
+    "e_festival": "transfer_contract",
+
+    "transfer_contract": "club_arrival",
+    "club_arrival": "club_alone",
+    "club_alone": "club_training",
+    "club_training": "club_media",
+    "club_media": "e_autumn",
+    "e_autumn": "e_halloween",
+    "e_halloween": "e_drive",
+    "e_drive": "route_mj_hidden",
+
+    "route_mj_hidden": "e_agency_launch",
+
+    "route_love_hidden": "p8_route",
+
+    "dream_exist": "dream_match",
+    "dream_match": "dream_celebrate",
+    "dream_celebrate": "dream_return",
+    "dream_return": "dream_home",
+    "dream_home": "dream_final",
+    "dream_final": "ending_resolver",
+
+    "stay_match": "stay_intro",
+    "stay_intro": "stay_cozy",
+    "stay_cozy": "stay_daily",
+    "stay_daily": "stay_final",
+    "stay_final": "ending_resolver",
+
+    "bad_elegant": "bad_plan",
+    "bad_plan": "bad_match",
+    "bad_match": "bad_afterglow",
+    "bad_afterglow": "bad_cold",
+    "bad_cold": "bad_last",
+    "bad_last": "bad_far",
+    "bad_far": "ending_resolver"
+  },
+  "byRoute": {
+    "M": {
+      "e_agency_launch": "e_scarf",
+      "e_scarf": "e_sick_fragile",
+      "e_sick_fragile": "route_love_hidden"
+    },
+    "J": {
+      "e_agency_launch": "e_dressup",
+      "e_dressup": "e_softrice",
+      "e_softrice": "e_drunk",
+      "e_drunk_s2": "route_love_hidden"
+    },
+    "dream": {
+      "p8_route": "dream_exist"
+    },
+    "stay": {
+      "p8_route": "stay_match"
+    },
+    "bad": {
+      "p8_route": "bad_elegant"
+    }
+  }
+}

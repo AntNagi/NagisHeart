@@ -1,0 +1,81 @@
+{
+  "m_igate": {
+    "description": "第五部深/浅线分流",
+    "rules": [
+      {
+        "condition": "control >= 2 || distance >= 3",
+        "target": "m_shallow",
+        "label": "浅线：客气的距离",
+        "sideEffects": [
+          { "var": "cohabitShallow", "op": "set", "val": true }
+        ]
+      }
+    ],
+    "fallback": "e_intimate_cohabit",
+    "fallbackSideEffects": [
+      { "var": "mDeep", "op": "set", "val": true }
+    ]
+  },
+  "route_mj_hidden": {
+    "description": "第六部M/J隐藏分流",
+    "rules": [
+      {
+        "condition": "mj === 'J'",
+        "target": "e_agency_launch",
+        "label": "J线入口",
+        "sideEffects": [
+          { "var": "mj", "op": "set", "val": "J" }
+        ]
+      }
+    ],
+    "fallback": "e_agency_launch",
+    "fallbackSideEffects": [
+      { "var": "mj", "op": "set", "val": "M" }
+    ],
+    "note": "M/J分流在第六部选择中累积，此路由做最终判定后统一进入e_agency_launch，byRoute根据mj值决定后续链路"
+  },
+  "route_love_hidden": {
+    "description": "第七部爱/习惯隐藏判定",
+    "rules": [
+      {
+        "condition": "antLightSeen === true && antFragileSeen === true && loveNotHabit >= 3 && control <= 2",
+        "target": "p8_route",
+        "label": "TRUE/GOOD资格池",
+        "sideEffects": [
+          { "var": "route", "op": "set", "val": "trueGoodPool" }
+        ]
+      },
+      {
+        "condition": "habitWarm >= 4 || control >= 4 || distance >= 4 || nagiRebel === true",
+        "target": "p8_route",
+        "label": "NORMAL/BAD资格池",
+        "sideEffects": [
+          { "var": "route", "op": "set", "val": "normalBadPool" }
+        ]
+      }
+    ],
+    "fallback": "p8_route"
+  },
+  "ending_resolver": {
+    "description": "结局判定路由器，根据GameState评估endings.json的judgement规则",
+    "note": "按bad→true→good→normal优先级匹配，跳转对应ending node",
+    "rules": [
+      {
+        "condition": "path === 'bad' || badLock === true || distance >= 6 || (control >= 5 && (nagiDiscomfortSeed === true || nagiRebel === true))",
+        "target": "end_bad",
+        "label": "BAD END"
+      },
+      {
+        "condition": "path === 'dream' && antCompress === false && witnessFlag === true && personalHonor === true && nagiNameIndependent === true && control <= 2 && distance <= 3",
+        "target": "end_true",
+        "label": "TRUE END"
+      },
+      {
+        "condition": "path === 'dream' && personalHonor === true && (antCompress === true || nagiCare < 2)",
+        "target": "end_good",
+        "label": "GOOD END"
+      }
+    ],
+    "fallback": "end_normal"
+  }
+}

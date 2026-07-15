@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import coil.compose.rememberAsyncImagePainter
+import androidx.compose.ui.res.painterResource
+import com.antnagi.nagisheart.R
 
-private const val SYSTEM_BACKGROUND = "file:///android_asset/bg/poster_start_nagis_heart_bg_clean.png"
 private val SystemDimColor = Color(0xFF132033)
 
 @Composable
@@ -22,7 +22,7 @@ fun SystemPageBackground(
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         Image(
-            painter = rememberAsyncImagePainter(model = SYSTEM_BACKGROUND),
+            painter = painterResource(R.drawable.splash_bg),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()

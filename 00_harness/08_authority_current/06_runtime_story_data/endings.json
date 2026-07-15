@@ -1,0 +1,58 @@
+{
+  "definitions": {
+    "true": {
+      "tag": "TRUE END",
+      "emoji": "💛",
+      "title": "世界第一，与你",
+      "description": "他站到世界中心，你没有消失。你看见他的光，也承认那束光不是你制造的。于是他回头时，看见的不只是资源和归处，而是同样在自己战场上发光的你。",
+      "subtitle": "TRUE END「世界第一，与你」",
+      "endingNode": "end_true"
+    },
+    "good": {
+      "tag": "GOOD END",
+      "emoji": "💙",
+      "title": "那么完美，那么爱你",
+      "description": "世界看见了他，你也完成了最漂亮的陪伴。爱是真的，光也是真的。只是有些话没有完全说到最深处，于是这份完美里仍有一点轻微的不对称。",
+      "subtitle": "GOOD END「那么完美，那么爱你」",
+      "endingNode": "end_good"
+    },
+    "normal": {
+      "tag": "NORMAL END",
+      "emoji": "🤍",
+      "title": "普通情侣",
+      "description": "没有到最远处，也没有失去彼此。那个懒散、低反应、会把喜欢说得很少的Nagi，把更多日子留给了你。这不是世界第一的神话，这是普通情侣的春天。",
+      "subtitle": "NORMAL END「普通情侣」",
+      "endingNode": "end_normal"
+    },
+    "bad": {
+      "tag": "BAD END",
+      "emoji": "🖤",
+      "title": "好麻烦",
+      "description": "他后来仍然赢了，甚至走向世界中心。但这次成名被你推成了「亲手加冕」的故事。最终，他不再让你靠近自己的世界。",
+      "subtitle": "BAD END「好麻烦」",
+      "endingNode": "end_bad"
+    }
+  },
+  "judgement": [
+    {
+      "tier": "bad",
+      "condition": "path === 'bad' || badLock === true || distance >= 6 || (control >= 5 && (nagiDiscomfortSeed === true || nagiRebel === true))",
+      "node": "end_bad"
+    },
+    {
+      "tier": "true",
+      "condition": "path === 'dream' && antCompress === false && witnessFlag === true && personalHonor === true && nagiNameIndependent === true && control <= 2 && distance <= 3",
+      "node": "end_true"
+    },
+    {
+      "tier": "good",
+      "condition": "path === 'dream' && personalHonor === true && (antCompress === true || nagiCare < 2)",
+      "node": "end_good"
+    },
+    {
+      "tier": "normal",
+      "condition": "path === 'stay' || true",
+      "node": "end_normal"
+    }
+  ]
+}
