@@ -79,3 +79,35 @@
 2. PM / 家里一一复核是否需要保留公司侧 `docs/` 中的 PRD / Script / CoreDesign 中间稿。
 3. 开发另开 BGM 接入任务，再决定是否提交 `assets/bgm/bgm.mp3`、Gradle 同步和 validate 校验。
 4. 未跟踪图片先保持本地，不归类、不提交。
+
+## 5. 2026-07-16 追加清理结论
+
+PM 已授权由公司一一判断非技术遗留文件；技术项交给 cc 判断。
+
+已删除本地未跟踪、非权威、非 Git 文件：
+
+- `docs/`
+- `design/CoCo_UI_Resource_Audit_NagisHeart_v1_0.md`
+- `design/CoCo_UI_Resource_Audit_v1_0.md`
+- `call_QY8uVOwolZhSV64YQ5fKwnvR.png`
+- `nagi_wallpaper_1280x720.png`
+- `poster.jpg`
+
+删除理由：
+
+- `docs/` 是公司侧临时权威文档尝试，未进入 Git，未被 harness 正式引用；其中多处仍以 CoCo 为当前负责人，与 harness 当前名册冲突。
+- CoCo 已停用，CoCo 审计文档不再作为当前设计或资源权威；其中可用的 BGM / Android 资源链路问题已归入 cc 技术判断范围。
+- 三张根目录图片是本地横版临时视觉产物，不在当前 Android / UI / TT Start 权威任务范围内，也未登记为素材源。
+
+当前保留给 cc 判断的技术候选：
+
+- `android/app/build.gradle.kts`
+- `tools/validate.js`
+- `assets/bgm/bgm.mp3`
+
+cc 需要判断：
+
+1. 首版是否需要 BGM 资源进入仓库。
+2. `scene_visuals.json` 中的 `bgm/bgm.mp3` 是否为正式路径。
+3. Gradle 是否应同步 `assets/bgm` 到 Android assets。
+4. `tools/validate.js` 是否保留 BGM 引用检查。

@@ -6,6 +6,19 @@
 
 ---
 
+### TASK-20260716-001
+- 项目：NagisHeart
+- 标题：判断 BGM 资源接入候选是否进入首版
+- 来源：公司电脑工作区差异审计 / `WORKSPACE_DIFF_AUDIT_OFFICE_20260716.md`
+- 负责人：cc（开发）
+- 状态：ready
+- 优先级：P1
+- 当前动作：检查 `assets/bgm/bgm.mp3`、`android/app/build.gradle.kts`、`tools/validate.js` 是否应作为一组 BGM 接入改动保留并提交
+- 涉及文件：`assets/bgm/bgm.mp3`、`android/app/build.gradle.kts`、`tools/validate.js`、`story-data/scene_visuals.json`
+- 依赖：PM 已授权公司一一清理非技术遗留；技术接入由 cc 判断
+- 完成定义：cc 明确结论为 `保留并提交` / `修改后提交` / `丢弃本地改动`，并说明原因
+- 最新更新时间：2026-07-16
+
 ### TASK-20260715-002
 - 项目：NagisHeart
 - 标题：整理 App Icon 与 Start 页设计权威候选包
