@@ -34,6 +34,8 @@
 
 ## 最近关键改动
 
+- **[yiyi 2026-07-17] Start v23 屏幕适配问题**：Ant大小姐实机测试后反馈，TT 提供的底图为 1080x1920（9:16），但现代手机屏幕比例更长（约 9:19.5~9:20），导致开屏页上下出现黑条。当前实现使用 `fillMaxHeight().aspectRatio(9/16)` 居中，黑条是预期行为但视觉不理想。需要 PM 决策：(A) 改为全屏裁切铺满，标题和 START 位置会因裁切略偏移；(B) 让 TT 出更长的底图（如 1080x2400）适配长屏。
+- **[yiyi 2026-07-17] 非任务操作记录**：本次会话中 yiyi 在 Ant大小姐直接要求下执行了两项非 PM 派发的操作：(1) 关闭 Windows 开机自启应用（飞书、钉钉、Edge）；(2) 排查并修复 OpenAI Codex 桌面端 401 Unauthorized 错误（根因为 Codex 自动更新后 config.toml 中自定义 provider block 破坏了 OAuth 认证链路，解决方法为删除 auth.json 和 config.toml 后重新登录）。这两项不属于 NagisHeart 项目任务，记录在此供 PM 知悉。
 - TT 已完成 `TASK-20260715-002` 候选包；PM 核验通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_TT_ICON_START_20260716.md`
 - Ant大小姐确认 TT Start 页方案 OK；PM 已登记 `DEC-20260717-001` 并新增 yiyi 开发任务 `TASK-20260717-001`
 - Ant大小姐确认 XoXo 候选版局部修订口径：开屏用 TT 方案、主页去顶部标题、设置页小字/数值右置；其他页面通过；PM 已登记 `DEC-20260717-002`
