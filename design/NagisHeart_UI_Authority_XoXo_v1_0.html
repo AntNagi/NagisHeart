@@ -1,0 +1,1448 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nagi's Heart · UI 权威候选版 · XoXo v1.0</title>
+  <style>
+    :root {
+      --snow: #f7f9fc;
+      --mist: #e8eef6;
+      --silver: #c9d1dc;
+      --sub: rgba(232, 238, 246, 0.72);
+      --gold: #d7be86;
+      --gold-soft: rgba(215, 190, 134, 0.52);
+      --deep: #101827;
+      --deep-2: #131f33;
+      --panel: rgba(11, 19, 32, 0.78);
+      --glass: rgba(27, 36, 48, 0.28);
+      --glass-strong: rgba(19, 32, 51, 0.38);
+      --glass-line: rgba(255, 255, 255, 0.08);
+      --shadow: 0 22px 80px rgba(0, 0, 0, 0.34);
+      --font-title: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif SC", serif;
+      --font-ui: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+      --cut-sm: polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px));
+      --cut-md: polygon(0 14px, 14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px));
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--snow);
+      font-family: var(--font-ui);
+      background:
+        radial-gradient(ellipse at top left, rgba(215, 190, 134, 0.08), transparent 32%),
+        linear-gradient(160deg, #09111d 0%, #111b2c 100%);
+    }
+
+    .stage {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .ambient {
+      position: absolute;
+      inset: -4%;
+      background-image: var(--bg);
+      background-size: cover;
+      background-position: var(--pos, center);
+      filter: blur(28px) saturate(0.74);
+      transform: scale(1.08);
+      opacity: 0.2;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 18px;
+      top: 18px;
+      bottom: 18px;
+      width: 340px;
+      z-index: 20;
+      display: grid;
+      grid-template-rows: auto auto auto 1fr auto;
+      gap: 14px;
+      padding: 18px;
+      background: rgba(9, 17, 29, 0.74);
+      backdrop-filter: blur(18px) saturate(0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      clip-path: var(--cut-md);
+    }
+
+    .sidebar h1 {
+      margin: 0;
+      font-family: var(--font-title);
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.16;
+    }
+
+    .sidebar p,
+    .sidebar li,
+    .sidebar small {
+      color: var(--sub);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .sidebar strong {
+      color: var(--snow);
+      font-weight: 600;
+    }
+
+    .block {
+      display: grid;
+      gap: 8px;
+    }
+
+    .block-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .block-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(215, 190, 134, 0.36), transparent);
+    }
+
+    .view-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      align-content: start;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .view-grid button {
+      min-height: 36px;
+      padding: 0 10px;
+      border: 0;
+      color: rgba(247, 249, 252, 0.84);
+      background: rgba(255, 255, 255, 0.06);
+      font: inherit;
+      font-size: 12px;
+      clip-path: var(--cut-sm);
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease;
+    }
+
+    .view-grid button.active {
+      color: var(--gold);
+      background: rgba(215, 190, 134, 0.14);
+    }
+
+    .pending {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .phone-wrap {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px 18px 18px 380px;
+      z-index: 10;
+    }
+
+    .phone {
+      position: relative;
+      width: min(100vw - 420px, calc((100vh - 36px) * 9 / 16));
+      max-width: 430px;
+      height: min(100vh - 36px, calc((100vw - 420px) * 16 / 9));
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      background: #101827;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .phone::before,
+    .phone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .phone::before {
+      z-index: -3;
+      background-image: var(--bg);
+      background-size: cover;
+      background-position: var(--pos, center);
+      transform: scale(1.015);
+    }
+
+    .phone::after {
+      z-index: -2;
+      background: var(--overlay);
+    }
+
+    .phone[data-theme="dark"] {
+      --text: var(--snow);
+      --subtext: rgba(232, 238, 246, 0.74);
+      --hud: rgba(247, 249, 252, 0.84);
+      --hud-soft: rgba(247, 249, 252, 0.12);
+      --overlay:
+        linear-gradient(to bottom, rgba(16, 24, 39, 0.48), rgba(16, 24, 39, 0.08) 42%, rgba(16, 24, 39, 0.9) 100%),
+        linear-gradient(to right, rgba(16, 24, 39, 0.12), transparent 36%, transparent 64%, rgba(16, 24, 39, 0.12));
+    }
+
+    .phone[data-theme="light"] {
+      --text: #1b2430;
+      --subtext: rgba(27, 36, 48, 0.62);
+      --hud: rgba(27, 36, 48, 0.84);
+      --hud-soft: rgba(27, 36, 48, 0.12);
+      --overlay:
+        linear-gradient(to bottom, rgba(247, 249, 252, 0.12), rgba(247, 249, 252, 0.03) 38%, rgba(247, 249, 252, 0.82) 100%),
+        linear-gradient(to right, rgba(247, 249, 252, 0.1), transparent 36%, transparent 64%, rgba(247, 249, 252, 0.08));
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .phone[data-view="start"] .screen-start,
+    .phone[data-view="home"] .screen-home,
+    .phone[data-view="prologue"] .screen-prologue,
+    .phone[data-view="name"] .screen-name,
+    .phone[data-view="chapter-opening"] .screen-chapter-opening,
+    .phone[data-view="section-opening"] .screen-section-opening,
+    .phone[data-view="dialogue"] .screen-dialogue,
+    .phone[data-view="choice"] .screen-choice,
+    .phone[data-view="line"] .screen-line,
+    .phone[data-view="long-narration"] .screen-long-narration,
+    .phone[data-view="story-recap"] .screen-story-recap,
+    .phone[data-view="save"] .screen-save,
+    .phone[data-view="gallery"] .screen-gallery,
+    .phone[data-view="settings"] .screen-settings,
+    .phone[data-view="ending"] .screen-ending,
+    .phone[data-view="skip-confirm"] .screen-skip-confirm {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .screen.system::before,
+    .screen.story::before,
+    .screen.splash::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .screen.splash::before {
+      background:
+        linear-gradient(to bottom, rgba(16, 24, 39, 0.04), rgba(16, 24, 39, 0.12) 38%, rgba(16, 24, 39, 0.86) 100%),
+        radial-gradient(ellipse at 46% 34%, transparent 0 22%, rgba(16, 24, 39, 0.34) 72%, rgba(16, 24, 39, 0.7) 100%);
+    }
+
+    .screen.system::before {
+      background:
+        linear-gradient(to bottom, rgba(19, 32, 51, 0.32), rgba(19, 32, 51, 0.12) 42%, rgba(19, 32, 51, 0.66)),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.04), transparent 18%, transparent 70%, rgba(255, 255, 255, 0.02));
+    }
+
+    .screen.story::before {
+      background:
+        linear-gradient(to bottom, rgba(19, 32, 51, 0.22), rgba(19, 32, 51, 0.10) 24%, rgba(19, 32, 51, 0.18) 58%, rgba(19, 32, 51, 0.42) 100%),
+        linear-gradient(to right, rgba(19, 32, 51, 0.10), transparent 34%, transparent 72%, rgba(19, 32, 51, 0.12));
+    }
+
+    .hud {
+      position: absolute;
+      left: 17px;
+      right: 17px;
+      top: 14px;
+      z-index: 10;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--hud);
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.48);
+    }
+
+    .hud-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-btn {
+      width: 36px;
+      height: 36px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      font-size: 0;
+    }
+
+    .hud-btn::before {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      background: radial-gradient(ellipse at center, var(--hud-soft), transparent 68%);
+      clip-path: polygon(50% 0%, 96% 35%, 79% 91%, 21% 91%, 4% 35%);
+    }
+
+    .hud-btn::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background: currentColor;
+      -webkit-mask: var(--icon) center / contain no-repeat;
+      mask: var(--icon) center / contain no-repeat;
+      opacity: 0.92;
+    }
+
+    .ico-back { --icon: url("../assets/ui/svg/ic_back.svg"); }
+    .ico-auto { --icon: url("../assets/ui/svg/ic_auto.svg"); }
+    .ico-save { --icon: url("../assets/ui/svg/ic_save.svg"); }
+    .ico-menu { --icon: url("../assets/ui/svg/ic_menu.svg"); }
+
+    .hud-title {
+      position: relative;
+      padding: 7px 14px 7px 18px;
+      font-family: var(--font-title);
+      font-size: 14px;
+    }
+
+    .hud-title::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(to right, var(--hud-soft), transparent 78%),
+        linear-gradient(to bottom, transparent 0 46%, var(--hud-soft) 47% 53%, transparent 54%);
+      clip-path: var(--cut-sm);
+    }
+
+    .content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
+
+    .poster-title {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      top: 82px;
+      z-index: 3;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.56);
+    }
+
+    .poster-title .title-nagi {
+      display: block;
+      font-family: var(--font-title);
+      font-size: 38px;
+      line-height: 0.92;
+    }
+
+    .poster-title .title-heart {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--font-title);
+      font-size: 78px;
+      line-height: 0.9;
+    }
+
+    .poster-caption {
+      margin: 20px 0 0;
+      max-width: 220px;
+      color: rgba(247, 249, 252, 0.76);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .start-menu {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 36px;
+      z-index: 3;
+      display: grid;
+      gap: 18px;
+    }
+
+    .primary-start {
+      font-family: var(--font-title);
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-align: center;
+      color: var(--snow);
+    }
+
+    .primary-start span {
+      display: block;
+      margin-top: 14px;
+      color: rgba(247, 249, 252, 0.74);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    .minor-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+      font-size: 12px;
+      color: rgba(247, 249, 252, 0.76);
+    }
+
+    .tt-start-poster {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      overflow: hidden;
+      background: #101827;
+    }
+
+    .tt-start-poster img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tt-start-hit {
+      position: absolute;
+      left: 30.56%;
+      top: 85.42%;
+      width: 38.89%;
+      height: 10.94%;
+      border: 0;
+      padding: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .tt-start-note {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 14px;
+      z-index: 4;
+      color: rgba(247, 249, 252, 0.62);
+      font-size: 11px;
+      line-height: 1.45;
+      text-align: center;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.72);
+      pointer-events: none;
+    }
+
+    .title-tight {
+      position: absolute;
+      left: 28px;
+      top: 78px;
+      z-index: 3;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.56);
+    }
+
+    .title-tight .title-nagi {
+      display: block;
+      font-family: var(--font-title);
+      font-size: 30px;
+      line-height: 0.96;
+    }
+
+    .title-tight .title-heart {
+      display: block;
+      margin-top: 10px;
+      font-family: var(--font-title);
+      font-size: 72px;
+      line-height: 0.92;
+    }
+
+    .home-actions {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 32px;
+      z-index: 3;
+      display: grid;
+      gap: 18px;
+    }
+
+    .home-main {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      row-gap: 18px;
+      align-items: baseline;
+    }
+
+    .home-main strong {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--snow);
+    }
+
+    .home-main span {
+      font-size: 13px;
+      color: rgba(244, 241, 234, 0.82);
+    }
+
+    .home-sub {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+      font-size: 12px;
+      color: rgba(244, 241, 234, 0.9);
+    }
+
+    .topline {
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      top: 66px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(244, 241, 234, 0.92);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.42);
+    }
+
+    .topline::before,
+    .topline::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(215, 190, 134, 0.60), transparent);
+    }
+
+    .opening-center {
+      position: absolute;
+      left: 100px;
+      right: 100px;
+      top: 50%;
+      z-index: 3;
+      transform: translateY(-50%);
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: 31px;
+      line-height: 1.6;
+      color: #f7f3ec;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.68);
+    }
+
+    .tap-note {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 58px;
+      z-index: 3;
+      text-align: center;
+      font-size: 14px;
+      color: rgba(244, 241, 234, 0.84);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.44);
+    }
+
+    .name-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 250px;
+      z-index: 3;
+      text-align: center;
+    }
+
+    .name-title {
+      font-family: var(--font-title);
+      font-size: 34px;
+      line-height: 1.2;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.68);
+    }
+
+    .field {
+      width: 72%;
+      margin: 38px auto 0;
+      text-align: center;
+    }
+
+    .field .line {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(244, 241, 234, 0.66);
+      border-bottom: 1px solid rgba(215, 190, 134, 0.74);
+      font-size: 16px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.42);
+    }
+
+    .enter-story {
+      margin-top: 42px;
+      font-family: var(--font-title);
+      font-size: 19px;
+      color: #f7f3ec;
+      text-shadow: 0 4px 22px rgba(0, 0, 0, 0.62);
+    }
+
+    .chapter-poster {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      bottom: 72px;
+      z-index: 3;
+      display: grid;
+      gap: 14px;
+      color: rgba(247, 249, 252, 0.94);
+      text-shadow: 0 2px 22px rgba(0, 0, 0, 0.72);
+    }
+
+    .chapter-poster.section {
+      bottom: 96px;
+    }
+
+    .kicker {
+      width: fit-content;
+      position: relative;
+      padding-left: 30px;
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    .kicker::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 22px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+
+    .poster-copy {
+      display: grid;
+      gap: 8px;
+    }
+
+    .poster-copy small {
+      color: var(--gold);
+      font-family: var(--font-title);
+      font-size: 14px;
+    }
+
+    .poster-copy h3 {
+      margin: 0;
+      font-family: var(--font-title);
+      font-size: 29px;
+      font-weight: 400;
+      line-height: 1.24;
+    }
+
+    .poster-lines {
+      color: rgba(247, 249, 252, 0.82);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .dialogue-box {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 34px;
+      z-index: 4;
+      padding: 18px 20px 22px;
+      background: linear-gradient(to bottom, rgba(16, 24, 39, 0.46), rgba(16, 24, 39, 0.66));
+      backdrop-filter: blur(16px);
+      clip-path: var(--cut-md);
+    }
+
+    .speaker {
+      margin-bottom: 10px;
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    .dialogue-text {
+      margin: 0;
+      color: rgba(247, 249, 252, 0.94);
+      font-size: 17px;
+      line-height: 1.9;
+    }
+
+    .continue {
+      width: 10px;
+      height: 10px;
+      margin-left: auto;
+      margin-top: 14px;
+      background: rgba(215, 190, 134, 0.82);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0 50%);
+    }
+
+    .choice-list {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 34px;
+      z-index: 4;
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice-row {
+      padding: 14px 16px;
+      background: rgba(16, 24, 39, 0.48);
+      backdrop-filter: blur(12px);
+      clip-path: var(--cut-sm);
+      display: grid;
+      gap: 6px;
+    }
+
+    .choice-row.current {
+      background: rgba(191, 160, 138, 0.18);
+    }
+
+    .choice-tag {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+    }
+
+    .choice-copy {
+      color: rgba(247, 249, 252, 0.92);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .soft-screen {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 84px;
+      bottom: 34px;
+      z-index: 3;
+      padding: 18px;
+      background: linear-gradient(to bottom, rgba(16, 24, 39, 0.34), rgba(16, 24, 39, 0.52));
+      backdrop-filter: blur(16px);
+      clip-path: var(--cut-md);
+      overflow: hidden;
+    }
+
+    .line-thread {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: rgba(247, 249, 252, 0.92);
+    }
+
+    .date,
+    .read {
+      color: rgba(247, 249, 252, 0.56);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .bubble {
+      width: fit-content;
+      max-width: 86%;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      clip-path: var(--cut-sm);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .bubble.me {
+      margin-left: auto;
+      background: rgba(215, 190, 134, 0.18);
+    }
+
+    .page-title {
+      margin: 0 0 18px;
+      font-family: var(--font-title);
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    .rows {
+      display: grid;
+      gap: 10px;
+    }
+
+    .row {
+      min-height: 66px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      clip-path: var(--cut-sm);
+      font-size: 14px;
+    }
+
+    .row small {
+      color: rgba(247, 249, 252, 0.58);
+      font-size: 12px;
+    }
+
+    .settings-rows .setting-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .setting-row small {
+      justify-self: end;
+      min-width: 92px;
+      text-align: right;
+    }
+
+    .thumb {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.06);
+      clip-path: var(--cut-sm);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .memory-card {
+      aspect-ratio: 1 / 1;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background:
+        linear-gradient(to top, rgba(16, 24, 39, 0.86), rgba(16, 24, 39, 0.14)),
+        var(--img, none) center / cover no-repeat;
+      clip-path: var(--cut-sm);
+      font-size: 14px;
+    }
+
+    .memory-card span {
+      margin-top: 6px;
+      color: rgba(247, 249, 252, 0.56);
+      font-size: 12px;
+    }
+
+    .memory-card.locked {
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(247, 249, 252, 0.56);
+    }
+
+    .ending-card {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 42px;
+      z-index: 4;
+      padding: 22px 22px 24px;
+      background: linear-gradient(to bottom, rgba(16, 24, 39, 0.36), rgba(16, 24, 39, 0.72));
+      backdrop-filter: blur(18px);
+      clip-path: var(--cut-md);
+    }
+
+    .ending-label {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .ending-card h2 {
+      margin: 10px 0 12px;
+      font-family: var(--font-title);
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.16;
+    }
+
+    .ending-card p {
+      margin: 0;
+      color: rgba(247, 249, 252, 0.86);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .narration-stage {
+      position: absolute;
+      inset: 88px 24px 58px;
+      z-index: 3;
+      display: grid;
+      align-content: center;
+    }
+
+    .narration-backdrop {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 148px;
+      bottom: 152px;
+      z-index: 2;
+      backdrop-filter: blur(16px);
+      background: radial-gradient(ellipse at center, rgba(16, 24, 39, 0.34) 0%, rgba(16, 24, 39, 0.22) 58%, rgba(16, 24, 39, 0) 100%);
+      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.94) 56%, rgba(0, 0, 0, 0) 100%);
+      mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.94) 56%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .narration-copy {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      gap: 24px;
+      padding: 0 16px;
+      color: rgba(244, 241, 234, 0.92);
+      font-family: var(--font-title);
+      font-size: 16px;
+      line-height: 1.88;
+      text-shadow: 0 1px 8px rgba(10, 15, 25, 0.18);
+    }
+
+    .narration-copy p {
+      margin: 0;
+    }
+
+    .recap-page {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      padding: 88px 0 34px;
+      background: rgba(19, 32, 51, 0.52);
+    }
+
+    .recap-inner {
+      height: 100%;
+      width: 78%;
+      margin: 0 auto;
+      overflow: hidden;
+      color: rgba(244, 241, 234, 0.92);
+      font-family: var(--font-title);
+      font-size: 16px;
+      line-height: 1.92;
+      text-shadow: 0 1px 8px rgba(10, 15, 25, 0.18);
+    }
+
+    .recap-inner p {
+      margin: 0;
+    }
+
+    .recap-inner p + p {
+      margin-top: 22px;
+    }
+
+    .recap-inner .speaker {
+      margin-top: 24px;
+      color: var(--gold);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .skip-chip {
+      position: absolute;
+      right: 18px;
+      top: 76px;
+      z-index: 12;
+      min-height: 34px;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      color: rgba(244, 241, 234, 0.9);
+      background: rgba(27, 36, 54, 0.26);
+      backdrop-filter: blur(12px);
+      clip-path: var(--cut-sm);
+      font-size: 12px;
+    }
+
+    .page-dim {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      background: rgba(16, 24, 39, 0.36);
+    }
+
+    .dialog {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      top: 236px;
+      z-index: 11;
+      padding: 22px 22px 18px;
+      background: linear-gradient(to bottom, rgba(20, 31, 49, 0.48), rgba(20, 31, 49, 0.34));
+      backdrop-filter: blur(16px);
+      clip-path: var(--cut-md);
+    }
+
+    .dialog h3 {
+      margin: 0 0 18px;
+      font-family: var(--font-title);
+      font-size: 28px;
+      font-weight: 400;
+      color: rgba(247, 249, 252, 0.96);
+    }
+
+    .dialog p {
+      margin: 0;
+      color: rgba(244, 241, 234, 0.88);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .dialog-actions {
+      margin-top: 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 24px;
+      font-size: 15px;
+      color: rgba(244, 241, 234, 0.74);
+    }
+
+    .dialog-actions strong {
+      color: var(--snow);
+      font-weight: 500;
+    }
+
+    .source-tag {
+      position: absolute;
+      left: 16px;
+      bottom: 14px;
+      z-index: 20;
+      padding: 4px 8px;
+      font-size: 11px;
+      color: rgba(247, 249, 252, 0.64);
+      background: rgba(9, 17, 29, 0.42);
+      clip-path: var(--cut-sm);
+      backdrop-filter: blur(10px);
+    }
+
+    @media (max-width: 1100px) {
+      body { overflow: auto; }
+      .sidebar {
+        position: relative;
+        left: auto;
+        top: auto;
+        bottom: auto;
+        width: auto;
+        margin: 16px;
+      }
+      .phone-wrap {
+        position: relative;
+        inset: auto;
+        padding: 0 16px 16px;
+      }
+      .phone {
+        width: min(100%, 430px);
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" style="--bg:url('../assets/bg/bg_bluelock_meeting_contract_room.png');--pos:center;">
+    <div class="ambient"></div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="block">
+      <h1>UI 权威候选版<br />XoXo v1.0</h1>
+      <p>本版按 `TASK-20260715-001` 严格合版：只拼接，不重设计。母版为 `NagisHeart_P0_HiFi_Design_XoXo_v2_0.html`，只补入已明确通过的缺页，并采用 Lulu 的长旁白 / 剧情回顾结构做冷色校准。</p>
+    </div>
+
+    <div class="block">
+      <div class="block-title">来源范围</div>
+      <small><strong>采用：</strong>v2.0 母版；Missing Pages 的主页、开场白、名字设置、大章开始、小节开始、跳过确认；Lulu 的长旁白、剧情回顾。</small>
+      <small><strong>不采用：</strong>Missing Pages 的大章结束、小节结束、长旁白、剧情回顾。</small>
+    </div>
+
+    <div class="block">
+      <div class="block-title">页面切换</div>
+      <div class="view-grid">
+        <button data-view="start" class="active">开屏</button>
+        <button data-view="home">主页</button>
+        <button data-view="prologue">开场白</button>
+        <button data-view="name">名字设置</button>
+        <button data-view="chapter-opening">大章开始</button>
+        <button data-view="section-opening">小节开始</button>
+        <button data-view="dialogue">对白</button>
+        <button data-view="choice">选项</button>
+        <button data-view="line">LINE</button>
+        <button data-view="long-narration">长旁白</button>
+        <button data-view="story-recap">剧情回顾</button>
+        <button data-view="save">存档</button>
+        <button data-view="gallery">回忆画廊</button>
+        <button data-view="settings">系统设置</button>
+        <button data-view="ending">结局</button>
+        <button data-view="skip-confirm">跳过确认</button>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">待确认</div>
+      <ul class="pending">
+        <li>章节目录：保持待确认，本版不拍板。</li>
+        <li>大章结束页：保持待确认，本版不补设计。</li>
+        <li>小节结束页：保持待确认，本版不补设计。</li>
+      </ul>
+    </div>
+
+    <small>浏览方式：左侧切换页面；右下角来源标签用于开发追溯。</small>
+  </aside>
+
+  <main class="phone-wrap">
+    <section
+      id="phone"
+      class="phone"
+      data-theme="dark"
+      data-view="start"
+      style="--bg:url('../assets/bg/bg_bluelock_meeting_contract_room.png');--pos:center;"
+    >
+      <!-- Source: DEC-20260717-001 + TT Start v23 authority package / start -->
+      <section class="screen splash screen-start">
+        <div class="content">
+          <div class="tt-start-poster" aria-label="TT Start v23 authority reference">
+            <img src="authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
+            <img src="authority/icon_start_tt/start/layers/start_title_overlay_v23.svg" alt="" />
+            <img src="authority/icon_start_tt/start/layers/start_button_static_v23.svg" alt="" />
+            <button class="tt-start-hit" aria-label="Start"></button>
+            <div class="tt-start-note">Start authority: TT v23 layered poster. XoXo does not keep a competing Start page.</div>
+          </div>
+        </div>
+        <div class="source-tag">来源：DEC-20260717-001 / TT Start v23</div>
+      </section>
+
+      <!-- Source: Missing Pages / home -->
+      <section class="screen system screen-home">
+        <div class="content">
+          <div class="home-actions">
+            <div class="home-main">
+              <strong>继续故事</strong><span>从上次继续</span>
+              <strong>新的故事</strong><span>重新开始</span>
+            </div>
+            <div class="home-sub">
+              <span>存档进度</span><span>章节目录</span><span>回忆画廊</span><span>系统设置</span>
+            </div>
+          </div>
+        </div>
+        <div class="source-tag">来源：Missing Pages / 主页</div>
+      </section>
+
+      <!-- Source: Missing Pages / opening -->
+      <section class="screen system screen-prologue">
+        <div class="content">
+          <div class="topline">开场白　02 / 08</div>
+          <div class="opening-center">Nagi总是这样说。</div>
+          <div class="tap-note">轻触继续</div>
+        </div>
+        <div class="source-tag">来源：Missing Pages / 开场白</div>
+      </section>
+
+      <!-- Source: Missing Pages / naming -->
+      <section class="screen system screen-name">
+        <div class="content">
+          <div class="topline">开始之前</div>
+          <div class="name-wrap">
+            <div class="name-title">写下你的名字</div>
+            <div class="field">
+              <div class="line">在故事里的称呼</div>
+            </div>
+            <div class="enter-story">进入故事</div>
+          </div>
+        </div>
+        <div class="source-tag">来源：Missing Pages / 名字设置</div>
+      </section>
+
+      <!-- Source: Missing Pages / chapter opening -->
+      <section class="screen story screen-chapter-opening">
+        <div class="content">
+          <div class="chapter-poster">
+            <div class="kicker">Chapter Opening</div>
+            <div class="poster-copy">
+              <small>第一部 · 原作前置篇</small>
+              <h3>他还没看见你，<br />你已经看见了他</h3>
+            </div>
+            <div class="poster-lines">轻触继续，进入本章内容。</div>
+          </div>
+        </div>
+        <div class="source-tag">来源：Missing Pages / 大章开始</div>
+      </section>
+
+      <!-- Source: Missing Pages / section opening -->
+      <section class="screen story screen-section-opening">
+        <div class="content">
+          <div class="chapter-poster section">
+            <div class="kicker">Section Opening</div>
+            <div class="poster-copy">
+              <small>第一节</small>
+              <h3>作战室·初遇</h3>
+            </div>
+            <div class="poster-lines">轻触继续，进入本节内容。</div>
+          </div>
+        </div>
+        <div class="source-tag">来源：Missing Pages / 小节开始</div>
+      </section>
+
+      <!-- Source: Mother / dialogue -->
+      <section class="screen story screen-dialogue">
+        <div class="hud">
+          <div class="hud-group">
+            <span class="hud-btn ico-back"></span>
+            <span class="hud-title">Chapter 03 · 作战室·初遇</span>
+          </div>
+          <div class="hud-group">
+            <span class="hud-btn ico-auto"></span>
+            <span class="hud-btn ico-save"></span>
+            <span class="hud-btn ico-menu"></span>
+          </div>
+        </div>
+        <div class="dialogue-box">
+          <div class="speaker">Nagi Seishiro</div>
+          <p class="dialogue-text">如果你一直在这里的话，我大概也会想赢得更认真一点。</p>
+          <div class="continue" aria-hidden="true"></div>
+        </div>
+        <div class="source-tag">来源：XoXo v2.0 / 对白</div>
+      </section>
+
+      <!-- Source: Mother / choice -->
+      <section class="screen story screen-choice">
+        <div class="hud">
+          <div class="hud-group">
+            <span class="hud-btn ico-back"></span>
+            <span class="hud-title">Chapter 03 · 作战室·初遇</span>
+          </div>
+          <div class="hud-group">
+            <span class="hud-btn ico-auto"></span>
+            <span class="hud-btn ico-save"></span>
+            <span class="hud-btn ico-menu"></span>
+          </div>
+        </div>
+        <div class="choice-list">
+          <div class="choice-row current"><span class="choice-tag">靠近</span><span class="choice-copy">把围巾往他那边推过去一点。</span></div>
+          <div class="choice-row"><span class="choice-tag">沉默</span><span class="choice-copy">假装没有听见他的低声抱怨。</span></div>
+          <div class="choice-row"><span class="choice-tag">理解</span><span class="choice-copy">问他是不是真的想成为世界第一。</span></div>
+        </div>
+        <div class="source-tag">来源：XoXo v2.0 / 选项</div>
+      </section>
+
+      <!-- Source: Mother / line -->
+      <section class="screen story screen-line">
+        <div class="hud">
+          <div class="hud-group">
+            <span class="hud-btn ico-back"></span>
+            <span class="hud-title">Chapter 03 · 作战室·初遇</span>
+          </div>
+          <div class="hud-group">
+            <span class="hud-btn ico-auto"></span>
+            <span class="hud-btn ico-save"></span>
+            <span class="hud-btn ico-menu"></span>
+          </div>
+        </div>
+        <div class="soft-screen line-thread">
+          <div class="date">Today 22:14</div>
+          <div class="bubble">到家了吗。</div>
+          <div class="bubble me">到了。你不是说训练后会很困吗？</div>
+          <div class="read">read</div>
+          <div class="bubble">嗯。</div>
+          <div class="bubble">但是想到你可能还醒着。</div>
+        </div>
+        <div class="source-tag">来源：XoXo v2.0 / LINE</div>
+      </section>
+
+      <!-- Source: Lulu / long narration structure + cold calibration -->
+      <section class="screen story screen-long-narration">
+        <div class="hud">
+          <div class="hud-group">
+            <span class="hud-btn ico-back"></span>
+            <span class="hud-title">Chapter 03 · 作战室·初遇</span>
+          </div>
+          <div class="hud-group">
+            <span class="hud-btn ico-auto"></span>
+            <span class="hud-btn ico-save"></span>
+            <span class="hud-btn ico-menu"></span>
+          </div>
+        </div>
+        <div class="narration-backdrop"></div>
+        <div class="narration-stage">
+          <div class="narration-copy">
+            <p>蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
+            <p>数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。</p>
+            <p>你坐在观察席后方。桌上放着 JFA 提供的项目资料、风险评估、后续商业开发草案，以及一份还没有签字的追加投资确认书。</p>
+          </div>
+        </div>
+        <div class="tap-note">轻触继续</div>
+        <div class="source-tag">来源：Lulu v1.0 / 长旁白结构</div>
+      </section>
+
+      <!-- Source: Lulu / story recap structure + cold calibration -->
+      <section class="screen story screen-story-recap">
+        <div class="hud">
+          <div class="hud-group">
+            <span class="hud-btn ico-back"></span>
+            <span class="hud-title">剧情回顾</span>
+          </div>
+          <div class="hud-group">
+            <span class="hud-btn ico-auto"></span>
+            <span class="hud-btn ico-save"></span>
+            <span class="hud-btn ico-menu"></span>
+          </div>
+        </div>
+        <div class="recap-page">
+          <div class="recap-inner">
+            <p>蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
+            <p>数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。</p>
+            <p>你坐在观察席后方。桌上放着 JFA 提供的项目资料、风险评估、后续商业开发草案，以及一份还没有签字的追加投资确认书。</p>
+            <div class="speaker">JFA会长</div>
+            <p>年轻、热血、国家队更新、世界级前锋培养，这些关键词本身就具备极高的商业价值。</p>
+            <p>所以你签了字。这个理由完全成立。至少，你现在必须这样告诉自己。</p>
+          </div>
+        </div>
+        <div class="source-tag">来源：Lulu v1.0 / 剧情回顾结构</div>
+      </section>
+
+      <!-- Source: Mother / save -->
+      <section class="screen system screen-save">
+        <div class="soft-screen">
+          <h2 class="page-title">保存进度</h2>
+          <div class="rows">
+            <div class="row"><div class="thumb"></div><div>作战室·初遇<br /><small>2026/07/15 21:48</small></div><small>01</small></div>
+            <div class="row"><div class="thumb"></div><div>自动存档<br /><small>投资的私心 · 21:02</small></div><small>A</small></div>
+            <div class="row"><div class="thumb"></div><div>空白存档位<br /><small>---</small></div><small>03</small></div>
+          </div>
+        </div>
+        <div class="source-tag">来源：XoXo v2.0 / 存档</div>
+      </section>
+
+      <!-- Source: Mother / gallery -->
+      <section class="screen system screen-gallery">
+        <div class="soft-screen">
+          <h2 class="page-title">回忆画廊</h2>
+          <div class="gallery-grid">
+            <div class="memory-card" style="--img:url('../assets/bg/hug.jpg')">CG 01 <span>已解锁</span></div>
+            <div class="memory-card" style="--img:url('../assets/bg/scarf.jpg')">CG 02 <span>已解锁</span></div>
+            <div class="memory-card locked">??? <span>未解锁</span></div>
+            <div class="memory-card locked">END <span>未解锁</span></div>
+          </div>
+        </div>
+        <div class="source-tag">来源：XoXo v2.0 / 回忆画廊</div>
+      </section>
+
+      <!-- Source: Mother / settings -->
+      <section class="screen system screen-settings">
+        <div class="soft-screen">
+          <h2 class="page-title">系统设置</h2>
+          <div class="rows settings-rows">
+            <div class="row setting-row"><span>文字速度</span><small>正常</small></div>
+            <div class="row setting-row"><span>自动播放速度</span><small>3</small></div>
+            <div class="row setting-row"><span>背景音乐</span><small>80%</small></div>
+            <div class="row setting-row"><span>显示模式</span><small>Light / Auto</small></div>
+            <div class="row setting-row"><span>数据管理</span><small>管理</small></div>
+          </div>
+        </div>
+        <div class="source-tag">来源：XoXo v2.0 / 设置</div>
+      </section>
+
+      <!-- Source: Mother / ending -->
+      <section class="screen story screen-ending">
+        <div class="ending-card">
+          <div class="ending-label">TRUE END</div>
+          <h2>世界第一，与他</h2>
+          <p>你看见他的光，也承认那束光不是你制造的。于是他回头时，看见的也不是归处，而是同样站在光里的你。</p>
+        </div>
+        <div class="source-tag">来源：XoXo v2.0 / 结局</div>
+      </section>
+
+      <!-- Source: Missing Pages / skip dialog -->
+      <section class="screen story screen-skip-confirm">
+        <div class="hud">
+          <div class="hud-group">
+            <span class="hud-btn ico-back"></span>
+            <span class="hud-title">Chapter 03 · 投资的私心</span>
+          </div>
+          <div class="hud-group">
+            <span class="hud-btn ico-auto"></span>
+            <span class="hud-btn ico-save"></span>
+            <span class="hud-btn ico-menu"></span>
+          </div>
+        </div>
+        <div class="skip-chip">跳过本节</div>
+        <div class="page-dim"></div>
+        <div class="dialog">
+          <h3>跳过本节</h3>
+          <p>确定跳过「投资的私心」？<br />跳过后将直接进入本节结束页。</p>
+          <div class="dialog-actions"><span>取消</span><strong>确定跳过</strong></div>
+        </div>
+        <div class="source-tag">来源：Missing Pages / 跳过确认弹窗</div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const phone = document.getElementById("phone");
+    const views = [...document.querySelectorAll("button[data-view]")];
+    const presets = {
+      start: { bg: "url('authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png')", pos: "center", theme: "dark" },
+      home: { bg: "url('../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      prologue: { bg: "url('../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      name: { bg: "url('../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "chapter-opening": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      "section-opening": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      dialogue: { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      choice: { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      line: { bg: "url('../assets/bg/bedroom.jpg')", pos: "center", theme: "dark" },
+      "long-narration": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      "story-recap": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      save: { bg: "url('../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
+      gallery: { bg: "url('../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
+      settings: { bg: "url('../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
+      ending: { bg: "url('../assets/bg/worldstage.jpg')", pos: "center", theme: "dark" },
+      "skip-confirm": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" }
+    };
+
+    function applyView(view) {
+      const preset = presets[view];
+      phone.dataset.view = view;
+      phone.dataset.theme = preset.theme;
+      phone.style.setProperty("--bg", preset.bg);
+      phone.style.setProperty("--pos", preset.pos);
+      document.querySelector(".stage").style.setProperty("--bg", preset.bg);
+      document.querySelector(".stage").style.setProperty("--pos", preset.pos);
+      views.forEach((button) => button.classList.toggle("active", button.dataset.view === view));
+    }
+
+    views.forEach((button) => {
+      button.addEventListener("click", () => applyView(button.dataset.view));
+    });
+
+    applyView(phone.dataset.view);
+  </script>
+</body>
+</html>
