@@ -8,3 +8,4 @@ local.properties
 app/build/
 app/src/main/assets/bg/
 app/src/main/assets/story-data/
+.kotlin/

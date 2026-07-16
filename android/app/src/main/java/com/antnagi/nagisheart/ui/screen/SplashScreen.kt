@@ -10,87 +10,97 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.antnagi.nagisheart.R
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
 
 @Composable
 fun SplashScreen(onFinished: () -> Unit) {
-    val pulse = rememberInfiniteTransition(label = "startPulse")
-    val startAlpha = pulse.animateFloat(
-        initialValue = 0.72f,
-        targetValue = 1f,
+    val transition = rememberInfiniteTransition(label = "startBreath")
+    val startAlpha by transition.animateFloat(
+        initialValue = 0.68f,
+        targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1800, easing = FastOutSlowInEasing),
+            animation = tween(durationMillis = 800, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "startAlpha"
     )
-    val startScale = pulse.animateFloat(
-        initialValue = 0.992f,
-        targetValue = 1.012f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1800, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "startScale"
-    )
 
-    BoxWithConstraints(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = onFinished
-            )
+            .background(Color.Black),
+        contentAlignment = Alignment.Center
     ) {
-        val w = maxWidth
-        val h = maxHeight
-
-        // Layer 1: Background — full bleed, no dark overlay
-        Image(
-            painter = painterResource(R.drawable.splash_bg),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
-
-        // Layer 2: Title overlay (tight, transparent PNG)
-        // 1080×1920 spec: x=81, y=86, w=898, h=290
-        // Percentages: left 7.5%, top 4.5%, width 83.1%, height 15.1%
-        Image(
-            painter = painterResource(R.drawable.splash_title),
-            contentDescription = "Nagi's Heart",
-            contentScale = ContentScale.FillBounds,
+        BoxWithConstraints(
             modifier = Modifier
-                .offset(x = w * 0.075f, y = h * 0.045f)
-                .size(width = w * 0.831f, height = h * 0.151f)
-        )
+                .fillMaxHeight()
+                .aspectRatio(1080f / 1920f)
+        ) {
+            val designW = maxWidth
+            val designH = maxHeight
 
-        // Layer 3: START overlay (tight, transparent PNG)
-        // 1080×1920 spec: x=388, y=1730, w=305, h=86
-        // Percentages: left 35.9%, top 90.1%, width 28.2%, height 4.5%
-        Image(
-            painter = painterResource(R.drawable.splash_start),
-            contentDescription = "START",
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier
-                .offset(x = w * 0.359f, y = h * 0.901f)
-                .size(width = w * 0.282f, height = h * 0.045f)
-                .graphicsLayer {
-                    alpha = startAlpha.value
-                    scaleX = startScale.value
-                    scaleY = startScale.value
-                }
-        )
+            // Layer 1: Clean background
+            Image(
+                painter = painterResource(R.drawable.start_bg_v23),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.matchParentSize()
+            )
+
+            // Layer 2: Title overlay (full-canvas SVG)
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("file:///android_asset/start/start_title_overlay_v23.svg")
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.matchParentSize()
+            )
+
+            // Layer 3: START breathing layer (full-canvas SVG)
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("file:///android_asset/start/start_button_static_v23.svg")
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .matchParentSize()
+                    .graphicsLayer { alpha = startAlpha }
+            )
+
+            // Layer 4: Transparent click hit area
+            // 1080x1920 base: x=330 y=1640 w=420 h=210
+            // Relative: left 30.56% top 85.42% width 38.89% height 10.94%
+            Box(
+                modifier = Modifier
+                    .offset(x = designW * 0.3056f, y = designH * 0.8542f)
+                    .size(width = designW * 0.3889f, height = designH * 0.1094f)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = onFinished
+                    )
+            )
+        }
     }
 }
