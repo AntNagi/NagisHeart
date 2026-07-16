@@ -1,6 +1,6 @@
 # NagisHeart 项目文件结构说明
 
-> 更新日期：2026-07-14  
+> 更新日期：2026-07-16
 > 目的：先把仓库现有文件按职责分清楚，解决“最新 PRD / 交互 / UI 规范 / 资源 / 协同文档找不到”的问题。  
 > 当前原则：本文件只建立索引和分类，不移动现有文件，避免与当前未提交代码和资源改动混在一起。
 
@@ -10,7 +10,7 @@
 
 | 路径 | 类型 | 说明 | 当前处理建议 |
 |---|---|---|---|
-| `README_AI.md` | AI 协作规则 | Codex / Claude / CoCo 等协作者每次开工先读的读写规则。 | 保持短、明确、可执行。 |
+| `README_AI.md` | AI 协作规则 | Codex / Claude / XoXo 等协作者每次开工先读的读写规则。 | 保持短、明确、可执行。 |
 | `TASKS.md` | 任务板 | 当前任务、交接状态、下一步建议。 | 只放轻量任务状态，不写成长文档。 |
 | `00_harness/` | Workspace 协作层 | governance / planning / handoff / execution / reports / authority 等协作账本统一入口。 | 已纳入 Git；仅在 PM 协调、跨 agent 追踪、权威核对、交班、测试回填任务中读取。 |
 | `android/` | 应用代码 | Android 主版本工程，包含 Kotlin 代码、主题、组件、资源配置。 | 保持为工程目录，不放产品/设计过程文档。 |
@@ -39,17 +39,31 @@
 
 ### 1.3 UI / 视觉规范
 
-UI 目前不是单文件权威，需要按页面类型组合读取：
+UI 目前不是单文件正式权威，需要按 harness 决策和页面类型组合读取。
+
+当前正式合版决策见：
+
+- `00_harness/01_governance/decision_log.md`
+- `00_harness/04_execution/design/TASK_XOXO_UI_AUTHORITY_MERGE_20260715.md`
+
+当前原则：
+
+1. `design/NagisHeart_P0_HiFi_Design_XoXo_v2_0.html` 是唯一 UI 合版母版。
+2. `design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html` 只作为缺页来源，只拼入已通过页面。
+3. `design/NagisHeart_LongNarration_StoryRecap_Redesign_Lulu_v1_0.html` 只覆盖长旁白与剧情回顾，并统一冷色。
+4. `CoCo_Design_Handoff_20260713.md` 只作为历史覆盖关系参考，不再作为当前 UI 合版权威。
 
 | 文件 | 状态 | 用途 |
 |---|---|---|
 | `handoff/yiyi_final_visual_slices_20260711/XoXo_UI_Final_MinSpec_20260712.md` | 当前 UI 数值主规范 | 开屏、系统页、剧情页、HUD、对白、长旁白、剧情回顾等可开发数值。 |
 | `handoff/yiyi_final_visual_slices_20260711/XoXo_Dev_Ready_Spec_20260712.md` | 当前可直接开发清单 | 已锁定、不需继续等设计的规则。 |
 | `handoff/yiyi_final_visual_slices_20260711/XoXo_Design_Pending_For_Dev_20260712.md` | 待补设计清单 | 不应由开发自行发挥的项目。 |
-| `design/CoCo_Design_Handoff_20260713.md` | 最新设计决策覆盖说明 | 说明系统页以 v1 缺页版为准、剧情内页以 v2.0 为准，长旁白/剧情回顾由 lulu 后续方案覆盖。 |
-| `design/NagisHeart_P0_HiFi_Design_XoXo_v2_0.html` | 剧情内页高保真参考 | 剧情内页 light/dark 方案基准。 |
-| `design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html` | 系统级页面高保真参考 | 系统级页面基准。 |
-| `design/NagisHeart_LongNarration_StoryRecap_Redesign_Lulu_v1_0.html` | 特定页面覆盖方案 | 长旁白和剧情回顾的后续重设计参考。 |
+| `00_harness/01_governance/decision_log.md` | 当前正式 UI 决策 | 记录 UI 合版母版、缺页采用范围、lulu 覆盖范围。 |
+| `00_harness/04_execution/design/TASK_XOXO_UI_AUTHORITY_MERGE_20260715.md` | 当前 UI 合版任务单 | XoXo 的严格合版执行规则，只做拼接，不做重设计。 |
+| `design/NagisHeart_P0_HiFi_Design_XoXo_v2_0.html` | 当前 UI 合版唯一母版 | 整体 UI 风格、light/dark 体系、HUD、人物对白、选项、LINE、存档、回忆画廊、设置、结局等母版内容。 |
+| `design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html` | 缺页来源 | 只拼入主页、开场白、名字设置、大章开始、小节开始、弹窗；不采用大章/小节结束、长旁白、剧情回顾。 |
+| `design/NagisHeart_LongNarration_StoryRecap_Redesign_Lulu_v1_0.html` | 特定页面覆盖方案 | 只覆盖长旁白和剧情回顾，色彩统一到母版冷色体系。 |
+| `design/CoCo_Design_Handoff_20260713.md` | 历史设计交接参考 | 只保留历史覆盖关系说明，不再作为当前 UI 合版权威。 |
 
 ### 1.4 技术/架构
 
@@ -101,7 +115,7 @@ UI 目前不是单文件权威，需要按页面类型组合读取：
 | `design/CoCo_PM_Review_Package_v1_0.md` | PM 评审包 | 给 PM 检查的设计包。 |
 | `design/CoCo_Minimal_Check_Delivery_v1_0.md` | 最小检查交付 | CoCo 最小检查交付说明。 |
 | `design/CoCo_to_XoXo_Design_Handoff_v1_0.md` | 设计交接 | CoCo 到 XoXo 的交接。 |
-| `design/CoCo_Design_Handoff_20260713.md` | 设计交接 | lulu 到 CoCo 的最新设计交接。 |
+| `design/CoCo_Design_Handoff_20260713.md` | 历史设计交接 | lulu 到 CoCo 的历史设计交接，仅作追溯，不作为当前合版权威。 |
 | `design/CoCo_UI_Resource_Audit*.md` | 资源审计 | UI/资源接入问题和修复顺序。 |
 | `QA_Design_Compliance_Audit_Laud_v1.md` | QA/设计一致性审计 | 根目录设计合规审计。 |
 
@@ -243,7 +257,7 @@ UI 目前不是单文件权威，需要按页面类型组合读取：
 
 | 文件/目录 | 状态 | 用途 |
 |---|---|---|
-| `design/CoCo_Design_Handoff_20260713.md` | 当前设计交接 | lulu 到 CoCo 的设计状态和权威关系。 |
+| `design/CoCo_Design_Handoff_20260713.md` | 历史设计交接 | lulu 到 CoCo 的历史设计状态和覆盖关系，仅作追溯。 |
 | `design/NagisHeart_XoXo_Final_Design_Handoff_20260711.md` | XoXo 设计交接 | XoXo 最终设计交接记录。 |
 | `handoff/yiyi_final_visual_slices_20260711/README_yiyi.md` | 切图交付说明 | 最终视觉切图交付给 yiyi 的说明。 |
 | `handoff/*/README_yiyi.md` | 阶段交付说明 | yiyi 多轮设计/切图接收说明，多数为历史阶段记录。 |
@@ -332,7 +346,7 @@ docs/
 | 剧本文本 / 人设表达 | `design/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `story-data/nodes.json` 中对应节点 |
 | 剧情逻辑 / 路由 / 结局 | `story-data/*.json` 中对应文件 | `design/ARCHITECTURE.md`、`design/TECH_TASKS_v1.1.md` |
 | 背景 / mood / uiTheme | `story-data/scene_visuals.json` | `design/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` |
-| UI 视觉 / 页面样式 | `handoff/yiyi_final_visual_slices_20260711/XoXo_UI_Final_MinSpec_20260712.md` | `design/CoCo_Design_Handoff_20260713.md`、相关 HTML mockup |
+| UI 视觉 / 页面样式 | `00_harness/01_governance/decision_log.md`、`00_harness/04_execution/design/TASK_XOXO_UI_AUTHORITY_MERGE_20260715.md` | `design/NagisHeart_P0_HiFi_Design_XoXo_v2_0.html`、`design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html`、`design/NagisHeart_LongNarration_StoryRecap_Redesign_Lulu_v1_0.html`、MinSpec |
 | Android 实现 | 相关 `android/app/src/main/...` 文件 | `handoff/handoff_to_cc_20260713.md` |
 | Web 实现 | 相关 `web/src/` 或 `web/styles/` 文件 | `design/NagisHeart_Web_Architecture_v1_0.md` |
 | QA / bug 反馈 | 对应 QA 或 audit 文档 | 相关代码 / 数据 / UI spec |
