@@ -6,6 +6,19 @@
 
 ---
 
+### TASK-20260717-001
+- 项目：NagisHeart
+- 标题：接入 TT Start v23 分层开屏页
+- 来源：Ant大小姐确认 TT 开屏页 OK / `DEC-20260717-001`
+- 负责人：yiyi（Android 开发）
+- 状态：ready
+- 优先级：P0
+- 当前动作：yiyi 按 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_YIYI_20260717_START_V23_INTEGRATION.md` 接入 Android Start v23，并回写开发报告
+- 涉及文件：`design/authority/icon_start_tt/start/`、Android Start 页相关实现文件、Android 资源文件
+- 依赖：不依赖 App Icon 最终确认；不得扩大到 XoXo UI 合版或未确认页面
+- 完成定义：Android 显示 TT v23 Start 海报入口；START 以 1.6s alpha 呼吸；透明点击热区进入既有叙事入口；旧五按钮菜单不出现在 Start poster；构建或阻塞原因有明确证据
+- 最新更新时间：2026-07-17
+
 ### TASK-20260716-001
 - 项目：NagisHeart
 - 标题：判断 BGM 资源接入候选是否进入首版
@@ -24,26 +37,26 @@
 - 标题：整理 App Icon 与 Start 页设计权威候选包
 - 来源：Ant大小姐 2026-07-15 权威文件整理要求
 - 负责人：TT（平面设计）
-- 状态：ready
+- 状态：review
 - 优先级：P0
-- 当前动作：按 `00_harness/04_execution/design/TASK_TT_ICON_START_AUTHORITY_20260715.md` 自主核对全部历史版本并整理权威候选包
+- 当前动作：Start v23 已确认可进入开发接入并已拆给 yiyi；App Icon 仍等待 Ant大小姐最终确认
 - 涉及文件：TT 历史 icon / Start 页设计稿、底图、切图、预览与实现规范
-- 依赖：无；最终视觉确认由 Ant大小姐完成
+- 依赖：Ant大小姐确认 Icon 五边形装饰强度及是否将 Icon/Start 整包提升为最终权威
 - 完成定义：TT 自主选出候选权威版，并交付设计方案说明、预览效果图、底图、关键切图、完整尺寸与实现方法；历史版本与最终采用版关系可追溯
-- 最新更新时间：2026-07-15
+- 最新更新时间：2026-07-17
 
 ### TASK-20260715-001
 - 项目：NagisHeart
 - 标题：合并三份已确认 UI 设计为单一权威候选版
 - 来源：Ant大小姐 2026-07-15 设计合版要求 / `DEC-20260715-001`
 - 负责人：XoXo（主 UI 设计）
-- 状态：ready
+- 状态：review
 - 优先级：P0
-- 当前动作：按 `00_harness/04_execution/design/TASK_XOXO_UI_AUTHORITY_MERGE_20260715.md` 进行严格整合合版，不做重设计
+- 当前动作：XoXo 已按 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260717_UI_AUTHORITY_REVISION.md` 完成局部修订：开屏改用 TT 方案、主页去顶部标题、设置页小字/数值右置；其余页面保持通过，等待 PM / Ant 复核
 - 涉及文件：三份指定 HTML 源文件、合版输出 HTML、合版记录
-- 依赖：无
+- 依赖：XoXo 完成局部修订后回报 PM；章节目录、大章结束页、小节结束页仍 pending
 - 完成定义：输出单一可浏览权威候选 HTML 和逐页来源记录；已通过页面保持原设计；未通过/待确认页面未被擅自补写；完成两轮自检后回报 PM 一一
-- 最新更新时间：2026-07-15
+- 最新更新时间：2026-07-17
 
 ## 任务状态
 

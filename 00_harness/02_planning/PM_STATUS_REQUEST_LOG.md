@@ -18,3 +18,5 @@
 | 2026-07-11 14:35+ | Dev | yiyi | Claude desktop `developer yiyi` | Sent / confirmed visible | PM一一 sent status intake + P0/P1 closure request; message visible in yiyi chat stream; Claude started responding |
 | 2026-07-11 22:39+ | Design | XoXo | Codex thread `设计师XoXo` + `PM_AGENT_INBOX` | Sent / confirmed visible | Full-scope task brief prepared and sent: `PM_AGENT_INBOX\\TASK_TO_XOXO_20260711_FULL_SCOPE.md` |
 | 2026-07-11 22:39+ | Dev | yiyi | `PM_AGENT_INBOX` | Pending Claude send | Full-scope task brief prepared: `PM_AGENT_INBOX\\TASK_TO_YIYI_20260711_FULL_SCOPE.md` |
+| 2026-07-17 | Dev | yiyi | Claude desktop `developer yiyi` + `PM_AGENT_INBOX` | Sent / confirmed visible | Start v23 integration task sent in Claude window and backed by `PM_AGENT_INBOX\\TASK_TO_YIYI_20260717_START_V23_INTEGRATION.md` |
+| 2026-07-17 | Design | XoXo | Codex thread `UI设计师XoXo` + `PM_AGENT_INBOX` | Sent | UI authority revision task sent to Codex thread and backed by `PM_AGENT_INBOX\\TASK_TO_XOXO_20260717_UI_AUTHORITY_REVISION.md` |

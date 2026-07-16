@@ -12,15 +12,15 @@
 
 ## 当前真实状态
 
-- 当前阶段：权威文件逐类合并阶段
-- 当前主线任务：XoXo 合并 UI 权威候选版；TT 并行整理 App Icon 与 Start 页权威候选包
+- 当前阶段：权威文件逐类合并与复核阶段
+- 当前主线任务：TT Start v23 已获 Ant大小姐确认并拆给 yiyi 接入；XoXo UI 权威候选版局部修订已完成并回到 PM / Ant 复核；TT App Icon 仍等待最终视觉确认
 - 当前主要风险：历史交接错误地把未通过页面写成已定稿；整合任务再次被做成重设计
 
 ## 当前最优先的 3 件事
 
-1. XoXo 完成 UI 严格合版并提交 PM 复核
-2. TT 自主核对至最新 v23，整理 Icon / Start 权威候选包
-3. PM 分别检查来源、交付完整性和开发可执行性，再交 Ant大小姐视觉确认
+1. yiyi 接入 TT Start v23 分层开屏页
+2. PM / Ant 复核 XoXo UI 权威候选版局部修订
+3. Ant大小姐确认 TT App Icon 候选与整包最终权威
 
 ## 当前阻塞
 
@@ -34,12 +34,21 @@
 
 ## 最近关键改动
 
+- TT 已完成 `TASK-20260715-002` 候选包；PM 核验通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_TT_ICON_START_20260716.md`
+- Ant大小姐确认 TT Start 页方案 OK；PM 已登记 `DEC-20260717-001` 并新增 yiyi 开发任务 `TASK-20260717-001`
+- Ant大小姐确认 XoXo 候选版局部修订口径：开屏用 TT 方案、主页去顶部标题、设置页小字/数值右置；其他页面通过；PM 已登记 `DEC-20260717-002`
+- XoXo 已完成 `TASK_TO_XOXO_20260717_UI_AUTHORITY_REVISION.md` 的 3 项局部修订，回报见 `00_harness/04_execution/pm/PM_AGENT_OUTBOX/status_design_xoxo_ui_authority_revision_20260717.md`
+- XoXo 已输出 `design/NagisHeart_UI_Authority_XoXo_v1_0.html` 与逐页合版记录，`TASK-20260715-001` 已转 `review`
+- PM 已完成 XoXo 候选版核验，记录见 `00_harness/05_reports/validation/PM_REVIEW_XOXO_UI_AUTHORITY_20260717.md`
+- 已完成本地浏览器抽查，修复首次打开背景预设与 Missing Pages 历史系统底图断链
 - 已登记 `DEC-20260715-001` 与 `TASK-20260715-001`
 - 已登记 `TASK-20260715-002`，不预设 TT 的最终选版结论
+- 已给 yiyi 准备开发 brief：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_YIYI_20260717_START_V23_INTEGRATION.md`
+- 已给 XoXo 准备修订 brief：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260717_UI_AUTHORITY_REVISION.md`
 
 ## 最近验证结论
 
-- 三份 HTML 源文件均存在；页面来源和采用边界已核对
+- XoXo 候选版符合 `DEC-20260715-001`；16 个预览入口与 16 个页面状态对应；3 个 pending 页面未进入预览主链；本地 `url(...)` 资源引用均存在
 
 ## 下一位接手者先读
 

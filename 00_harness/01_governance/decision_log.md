@@ -5,6 +5,24 @@
 
 ---
 
+### DEC-20260717-002
+- 时间：2026-07-17
+- 项目：NagisHeart
+- 来源：Ant大小姐 / PM 一一确认
+- 决策内容：XoXo UI 权威候选版中，开屏 / Start 页采用 TT 的 Start v23 方案，XoXo 候选版不需要保留自己的开屏图作为权威页；主页去掉顶部标题，因为该标题字体与 TT 开屏页标题不一致；设置页各行的小字 / 数值放到右侧；除上述修订点外，其他页面通过。
+- 生效范围：`TASK-20260715-001` UI 权威候选版修订、XoXo 合版文件、后续 UI authority 确认
+- 覆盖旧规则：覆盖 XoXo 候选版中自带开屏页作为权威页的表述；不覆盖 TT Start v23 接入决策 `DEC-20260717-001`
+- 执行要求：XoXo 只做上述局部修订，不重新设计已通过页面；章节目录、大章结束页、小节结束页继续保持 pending
+
+### DEC-20260717-001
+- 时间：2026-07-17
+- 项目：NagisHeart
+- 来源：Ant大小姐 / PM 一一确认
+- 决策内容：TT 的 Start 页 v23 分层方案可进入开发接入。采用 `design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png` 作为干净底图，`start_title_overlay_v23.svg` 作为静态标题层，`start_button_static_v23.svg` 作为 START 层，并由开发用原生 alpha 动效实现 `0.68 -> 1.00 -> 0.68`、`1.6s` 循环呼吸。Start 页是开场海报入口，不承载 Continue / Chapter / Gallery / Settings 菜单。
+- 生效范围：TT Start v23 开发接入任务、Android Start 页实现、后续 Start 页 QA 验收
+- 覆盖旧规则：覆盖旧 Start 页上五按钮菜单或两套 Start 页并存的实现口径；不覆盖 App Icon 候选结论
+- 执行要求：yiyi 只接入 Start v23 分层方案，保留现有叙事路由，不处理 App Icon，不改 XoXo UI authority candidate，不扩展到章节目录、大章结束页或小节结束页
+
 ### DEC-20260715-001
 - 时间：2026-07-15
 - 项目：NagisHeart
