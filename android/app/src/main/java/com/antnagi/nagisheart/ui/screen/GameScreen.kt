@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -448,6 +449,18 @@ private fun GlassBacking(
                     1f to Color.Transparent
                 )
             )
+            // Authority §14.1: center highlight rgba(247,249,252,0.09)
+            .drawBehind {
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color(0x17F7F9FC), Color.Transparent),
+                        center = Offset(size.width / 2, size.height / 2),
+                        radius = size.width * 0.5f
+                    ),
+                    radius = size.width * 0.5f,
+                    center = Offset(size.width / 2, size.height / 2)
+                )
+            }
             .border(
                 width = 1.dp,
                 color = Color(0x14FFFFFF),
@@ -473,6 +486,18 @@ private fun ClearCard(
                     1f to Color(0x3D1B2436)
                 )
             )
+            // Authority §14.2: center micro-light rgba(247,249,252,0.10)
+            .drawBehind {
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(Color(0x1AF7F9FC), Color.Transparent),
+                        center = Offset(size.width / 2, size.height / 2),
+                        radius = size.width * 0.45f
+                    ),
+                    radius = size.width * 0.45f,
+                    center = Offset(size.width / 2, size.height / 2)
+                )
+            }
             .border(
                 width = 1.dp,
                 color = Color(0x14FFFFFF),

@@ -1,7 +1,9 @@
 package com.antnagi.nagisheart.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -9,16 +11,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.antnagi.nagisheart.data.Chapter
-import com.antnagi.nagisheart.data.ChapterSection
 import com.antnagi.nagisheart.data.SectionState
 import com.antnagi.nagisheart.ui.component.SystemPageBackground
 import com.antnagi.nagisheart.ui.icon.NagiIcon
@@ -49,7 +52,33 @@ fun ChapterScreen(
             }
         }.toMap()
     }
-    val lineColor = NagiPalette.roseGold.copy(alpha = 0.72f)
+
+    data class CatalogItem(
+        val chapterName: String,
+        val sectionTitle: String,
+        val sectionIndex: Int,
+        val chapterId: String,
+        val startNode: String,
+        val state: SectionState
+    )
+
+    val catalogItems = remember(chapters, sectionStates) {
+        chapters.flatMap { chapter ->
+            chapter.sections.mapIndexed { index, section ->
+                CatalogItem(
+                    chapterName = chapter.name,
+                    sectionTitle = section.title,
+                    sectionIndex = index,
+                    chapterId = chapter.id,
+                    startNode = section.startNode,
+                    state = sectionStates["${chapter.id}:$index"] ?: SectionState.LOCKED
+                )
+            }
+        }
+    }
+
+    val currentItem = catalogItems.firstOrNull { it.state == SectionState.IN_PROGRESS }
+    val goldColor = Color(0xFFD7BE86)
 
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
         SystemPageBackground {
@@ -59,7 +88,7 @@ fun ChapterScreen(
                     .statusBarsPadding()
                     .navigationBarsPadding()
             ) {
-                // Header
+                // Header with back button
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -69,158 +98,175 @@ fun ChapterScreen(
                 ) {
                     NagiIconButton(icon = NagiIcon.Back, onClick = onBack)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        text = "章节目录",
-                        fontFamily = FontFamily.Serif,
-                        fontSize = 14.sp,
-                        color = NagiTheme.colors.textPrimary
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.width(36.dp))
                 }
 
-                // Soft screen area
-                Column(
+                // Authority §16.2: catalog-panel, left/right=18, top=84(from screen top, already have header), bottom=34
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 26.dp, bottom = 32.dp)
+                        .padding(horizontal = 18.dp)
+                        .padding(bottom = 34.dp)
+                        .clip(NagiShapes.cutMedium)
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(
+                                    Color(0x57101827), // 34%
+                                    Color(0x85101827)  // 52%
+                                )
+                            )
+                        )
+                        .border(1.dp, Color(0x1AFFFFFF), NagiShapes.cutMedium)
                 ) {
-                    Text(
-                        text = "章节目录",
-                        fontFamily = FontFamily.Serif,
-                        fontSize = 27.sp,
-                        color = NagiTheme.colors.textPrimary,
-                        modifier = Modifier.padding(bottom = 22.dp)
-                    )
-
-                    // Timeline with vertical line
-                    LazyColumn(
+                    Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = 26.dp)
-                            .drawBehind {
-                                drawLine(
-                                    brush = Brush.verticalGradient(
-                                        listOf(Color.Transparent, lineColor, Color.Transparent)
-                                    ),
-                                    start = Offset(8.dp.toPx(), 10.dp.toPx()),
-                                    end = Offset(8.dp.toPx(), size.height - 10.dp.toPx()),
-                                    strokeWidth = 1.dp.toPx()
-                                )
-                            },
-                        verticalArrangement = Arrangement.spacedBy(18.dp),
-                        contentPadding = PaddingValues(vertical = 10.dp)
+                            .padding(18.dp)
                     ) {
-                        chapters.forEach { chapter ->
-                            items(chapter.sections.mapIndexed { i, s -> i to s }) { (index, section) ->
-                                val state = sectionStates["${chapter.id}:$index"] ?: SectionState.LOCKED
-                                TimelineNode(
-                                    title = section.title,
-                                    subtitle = chapter.name,
-                                    state = state,
-                                    onClick = {
-                                        when (state) {
-                                            SectionState.COMPLETED, SectionState.SKIPPED_COMPLETED ->
-                                                onReplaySection(section.startNode, chapter.id, index)
-                                            SectionState.IN_PROGRESS ->
-                                                onJumpToNode(section.startNode)
-                                            SectionState.LOCKED -> {}
-                                        }
+                        // Title area: authority §16.2
+                        Text(
+                            text = "章节目录",
+                            fontFamily = FontFamily.Serif,
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = NagiTheme.colors.textPrimary
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "选择章节重新阅读，或继续当前进度。",
+                            fontSize = 12.sp,
+                            lineHeight = (12 * 1.7).sp,
+                            color = Color(0xB3F4F1EA) // 70%
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // List area
+                        LazyColumn(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(catalogItems) { item ->
+                                val isCurrent = item.state == SectionState.IN_PROGRESS
+                                val isLocked = item.state == SectionState.LOCKED
+                                val stateText = when (item.state) {
+                                    SectionState.IN_PROGRESS -> "进行中"
+                                    SectionState.COMPLETED -> "已完成"
+                                    SectionState.SKIPPED_COMPLETED -> "已跳过"
+                                    SectionState.LOCKED -> "未解锁"
+                                }
+
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .defaultMinSize(minHeight = 68.dp)
+                                        .then(if (isLocked) Modifier.alpha(0.52f) else Modifier)
+                                        .clip(NagiShapes.cutSmall)
+                                        .background(
+                                            if (isCurrent) Color(0x2ED7BE86) // gold sweep 18%
+                                            else Color(0x0BFFFFFF)           // 4.5%
+                                        )
+                                        .border(
+                                            1.dp,
+                                            if (isCurrent) Color(0x47D7BE86) // gold border 28%
+                                            else Color(0x12FFFFFF),          // 7%
+                                            NagiShapes.cutSmall
+                                        )
+                                        .then(
+                                            if (!isLocked) Modifier.clickable(
+                                                interactionSource = remember { MutableInteractionSource() },
+                                                indication = null,
+                                                onClick = {
+                                                    when (item.state) {
+                                                        SectionState.COMPLETED, SectionState.SKIPPED_COMPLETED ->
+                                                            onReplaySection(item.startNode, item.chapterId, item.sectionIndex)
+                                                        SectionState.IN_PROGRESS ->
+                                                            onJumpToNode(item.startNode)
+                                                        else -> {}
+                                                    }
+                                                }
+                                            ) else Modifier
+                                        )
+                                        .padding(horizontal = 14.dp, vertical = 13.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = item.sectionTitle,
+                                            fontFamily = FontFamily.Default,
+                                            fontWeight = FontWeight.Medium,
+                                            fontSize = 15.sp,
+                                            color = Color(0xF0F7F9FC), // 94%
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                        Spacer(modifier = Modifier.height(3.dp))
+                                        Text(
+                                            text = item.chapterName,
+                                            fontSize = 12.sp,
+                                            color = Color(0xA3F4F1EA), // 64%
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
                                     }
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = stateText,
+                                        fontSize = 12.sp,
+                                        color = if (isCurrent) goldColor else Color(0xB3F4F1EA) // gold or 70%
+                                    )
+                                }
+                            }
+                        }
+
+                        // Bottom actions: authority §16.4
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .drawBehind {
+                                    drawLine(
+                                        color = Color(0x14FFFFFF),
+                                        start = Offset(0f, 0f),
+                                        end = Offset(size.width, 0f),
+                                        strokeWidth = 1f
+                                    )
+                                }
+                                .padding(top = 14.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "返回主页",
+                                    fontSize = 14.sp,
+                                    color = Color(0xB3F4F1EA),
+                                    modifier = Modifier.clickable(
+                                        interactionSource = remember { MutableInteractionSource() },
+                                        indication = null,
+                                        onClick = onBack
+                                    )
                                 )
+                                if (currentItem != null) {
+                                    Text(
+                                        text = "继续当前章节",
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        color = Color(0xFFF7F9FC),
+                                        modifier = Modifier.clickable(
+                                            interactionSource = remember { MutableInteractionSource() },
+                                            indication = null,
+                                            onClick = { onJumpToNode(currentItem.startNode) }
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun TimelineNode(
-    title: String,
-    subtitle: String,
-    state: SectionState,
-    onClick: () -> Unit
-) {
-    val colors = NagiTheme.colors
-    val diamondColor = when (state) {
-        SectionState.COMPLETED -> NagiPalette.paleGold
-        SectionState.SKIPPED_COMPLETED -> NagiPalette.paleGold.copy(alpha = 0.6f)
-        SectionState.IN_PROGRESS -> NagiPalette.roseGold
-        SectionState.LOCKED -> colors.glassBgSoft.copy(alpha = 0.3f)
-    }
-    val textColor = when (state) {
-        SectionState.COMPLETED -> colors.textPrimary
-        SectionState.IN_PROGRESS -> colors.textPrimary
-        SectionState.SKIPPED_COMPLETED -> colors.textSecondary
-        SectionState.LOCKED -> colors.textSecondary.copy(alpha = 0.52f)
-    }
-    val stateLabel = when (state) {
-        SectionState.IN_PROGRESS -> "进行中"
-        SectionState.COMPLETED -> "已完成"
-        SectionState.SKIPPED_COMPLETED -> "已跳过"
-        SectionState.LOCKED -> null
-    }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(if (state != SectionState.LOCKED) Modifier.clickable(onClick = onClick) else Modifier),
-        verticalAlignment = Alignment.Top
-    ) {
-        Box(
-            modifier = Modifier
-                .size(12.dp)
-                .offset(x = (-23).dp, y = 5.dp)
-                .clip(DiamondShape)
-                .background(diamondColor)
-        )
-
-        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    text = title,
-                    style = NagiTheme.typography.buttonText.copy(fontSize = 14.sp),
-                    color = textColor
-                )
-                if (stateLabel != null) {
-                    Text(
-                        text = stateLabel,
-                        style = NagiTheme.typography.micro,
-                        color = diamondColor.copy(alpha = 0.72f)
-                    )
-                }
-            }
-            Text(
-                text = subtitle,
-                style = NagiTheme.typography.micro,
-                color = colors.textSecondary.copy(alpha = 0.5f)
-            )
-        }
-    }
-}
-
-private val DiamondShape = object : androidx.compose.ui.graphics.Shape {
-    override fun createOutline(
-        size: androidx.compose.ui.geometry.Size,
-        layoutDirection: androidx.compose.ui.unit.LayoutDirection,
-        density: androidx.compose.ui.unit.Density
-    ): androidx.compose.ui.graphics.Outline {
-        val path = androidx.compose.ui.graphics.Path().apply {
-            val cx = size.width / 2
-            val cy = size.height / 2
-            moveTo(cx, 0f)
-            lineTo(size.width, cy)
-            lineTo(cx, size.height)
-            lineTo(0f, cy)
-            close()
-        }
-        return androidx.compose.ui.graphics.Outline.Generic(path)
     }
 }
