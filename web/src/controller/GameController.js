@@ -418,9 +418,9 @@ export class GameController extends EventTarget {
       errorMessage: null,
     });
 
-    if (visual?.bg) {
+    if (visual?.bg || visual?.bgm) {
       this.dispatchEvent(new CustomEvent('scenechange', {
-        detail: { bg: bgPath, uiTheme: visual?.uiTheme || 'Dark', mood: visual?.mood },
+        detail: { bg: bgPath, uiTheme: visual?.uiTheme || 'Dark', mood: visual?.mood, bgm: visual?.bgm || null },
       }));
     }
 

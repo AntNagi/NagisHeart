@@ -24,6 +24,7 @@ export class SettingsOverlay {
     const s = this._mgr.get();
     const tsLabel = TEXT_SPEEDS.find(t => t.id === s.textSpeed)?.label || '正常';
     const dtLabel = DISPLAY_THEMES.find(t => t.id === s.displayTheme)?.label || '深色';
+    const bgmLabel = `${s.bgmVolume * 10}%`;
 
     this.el.innerHTML = `
       <div class="overlay-header">
@@ -41,6 +42,10 @@ export class SettingsOverlay {
           <div class="settings-row" data-setting="autoSpeed">
             <span class="settings-label">自动播放速度</span>
             <span class="settings-value">${s.autoSpeed}</span>
+          </div>
+          <div class="settings-row" data-setting="bgmVolume">
+            <span class="settings-label">BGM 音量</span>
+            <span class="settings-value">${bgmLabel}</span>
           </div>
           <div class="settings-row" data-setting="displayTheme">
             <span class="settings-label">显示模式</span>
@@ -61,6 +66,9 @@ export class SettingsOverlay {
       }
       case 'autoSpeed':
         s.autoSpeed = s.autoSpeed >= 5 ? 1 : s.autoSpeed + 1;
+        break;
+      case 'bgmVolume':
+        s.bgmVolume = s.bgmVolume >= 10 ? 0 : s.bgmVolume + 1;
         break;
       case 'displayTheme': {
         const idx = DISPLAY_THEMES.findIndex(t => t.id === s.displayTheme);

@@ -107,6 +107,12 @@ class StoryEngine(
         }
     }
 
+    fun getPlayerVisibleChoices(choices: List<Choice>, state: GameState): List<Choice> {
+        return getVisibleChoices(choices, state).filter { choice ->
+            !choice.autoAdvance && choice.label != "→" && choice.label.isNotBlank()
+        }
+    }
+
     /**
      * Determine the next destination after a choice is made.
      * Returns the target ID from transition, or null if flow should be used.

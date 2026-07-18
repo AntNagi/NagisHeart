@@ -335,16 +335,19 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             } else null
         }
 
+        var pendingBgPath: String? = null
         if (nextStartNode != null) {
             val resolution = engine.resolve(nextStartNode, gameState)
             if (resolution is NodeResolution.Found) {
                 pendingNodeAfterTransition = resolution
+                pendingBgPath = resolution.visual?.bg?.removePrefix("assets/")
             }
         }
 
         _uiState.update {
             it.copy(
                 phase = GamePhase.ChapterTransition,
+                bgAssetPath = pendingBgPath ?: it.bgAssetPath,
                 chapterTransition = ChapterTransitionInfo(
                     chapterName = chapter.name,
                     chapterTitle = section.title,
@@ -533,9 +536,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 backlog.clear()
                 pendingNodeAfterTransition = found
                 pendingNextChapter = newChapter
+                val pendingBgPath = found.visual?.bg?.removePrefix("assets/")
                 _uiState.update {
                     it.copy(
                         phase = GamePhase.ChapterEnding,
+                        bgAssetPath = pendingBgPath ?: it.bgAssetPath,
                         chapterTransition = ChapterTransitionInfo(
                             chapterName = oldChapter?.name ?: "",
                             chapterTitle = oldChapter?.title ?: "",
@@ -557,9 +562,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                     if (sectionTitle != null) {
                         currentSectionIndex = newSectionIndex
                         pendingNodeAfterTransition = found
+                        val pendingBgPath = found.visual?.bg?.removePrefix("assets/")
                         _uiState.update {
                             it.copy(
                                 phase = GamePhase.SectionTransition,
+                                bgAssetPath = pendingBgPath ?: it.bgAssetPath,
                                 sectionTransition = SectionTransitionInfo(
                                     chapterName = chapter.name,
                                     sectionTitle = sectionTitle
@@ -713,7 +720,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun presentChoices() {
         stopAuto()
         stopSkip()
-        val resolved = currentChoices.map { c ->
+        val playerChoices = currentChoices.filter { c ->
+            !c.autoAdvance && c.label != "→" && c.label.isNotBlank()
+        }
+        val resolved = playerChoices.map { c ->
             c.copy(label = c.label.replace("{{playerName}}", playerName).replace("{{nagiCall}}", nagiCall))
         }
         _uiState.update {

@@ -13,6 +13,21 @@ export class DialogueBox {
     container.appendChild(this.el);
     this._typewriterTimer = null;
     this._currentText = '';
+    this._fullText = '';
+    this._isAnimating = false;
+  }
+
+  get isAnimating() { return this._isAnimating; }
+
+  completeText() {
+    if (!this._isAnimating) return false;
+    if (this._typewriterTimer) {
+      clearTimeout(this._typewriterTimer);
+      this._typewriterTimer = null;
+    }
+    this._textEl.textContent = this._fullText;
+    this._isAnimating = false;
+    return true;
   }
 
   update({ speaker, text, display }) {
@@ -25,6 +40,7 @@ export class DialogueBox {
     this._speakerEl.style.display = speaker ? '' : 'none';
     if (text !== this._currentText) {
       this._currentText = text;
+      this._fullText = text;
       this._animateText(text);
     }
   }
@@ -37,6 +53,7 @@ export class DialogueBox {
     const chars = [...text];
     let i = 0;
     this._textEl.textContent = '';
+    this._isAnimating = true;
     const step = () => {
       i += 1;
       this._textEl.textContent = chars.slice(0, i).join('');
@@ -44,10 +61,13 @@ export class DialogueBox {
         this._typewriterTimer = setTimeout(step, 16);
       } else {
         this._typewriterTimer = null;
+        this._isAnimating = false;
       }
     };
     if (chars.length > 0) {
       this._typewriterTimer = setTimeout(step, 16);
+    } else {
+      this._isAnimating = false;
     }
   }
 

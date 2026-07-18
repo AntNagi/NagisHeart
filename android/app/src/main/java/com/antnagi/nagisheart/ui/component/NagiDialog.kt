@@ -1,8 +1,5 @@
 package com.antnagi.nagisheart.ui.component
 
-import android.graphics.RenderEffect
-import android.graphics.Shader
-import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,9 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asComposeRenderEffect
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,9 +25,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 private val DialogShape = RoundedCornerShape(24.dp)
-private val ScrimColor = Color(0x52090E18)
-private val ContainerBg = Color(0x521B2436)
-private val ContainerBorder = Color(0x1FFFFFFF)
+private val ScrimColor = Color(0x61090E18)
+private val ContainerBg = Color(0x8F1B2436)
+private val ContainerBorder = Color(0x24FFFFFF)
+private val TextShadowColor = Color(0x59000000)
 private val TitleColor = Color(0xFFF4F1EA)
 private val BodyColor = Color(0xD1F4F1EA)
 private val DismissColor = Color(0xFFD6D2CB)
@@ -67,32 +68,51 @@ fun NagiDialog(
                         indication = null,
                         onClick = {}
                     )
-                    .then(
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            Modifier.graphicsLayer {
-                                renderEffect = RenderEffect.createBlurEffect(
-                                    20f, 20f, Shader.TileMode.CLAMP
-                                ).asComposeRenderEffect()
-                            }
-                        } else Modifier
+                    .shadow(
+                        elevation = 18.dp,
+                        shape = DialogShape,
+                        ambientColor = Color(0x5C000000),
+                        spotColor = Color(0x5C000000)
                     )
                     .clip(DialogShape)
                     .background(ContainerBg)
+                    .background(
+                        Brush.verticalGradient(
+                            0f to Color(0x0FFFFFFF),
+                            0.18f to Color.Transparent,
+                            1f to Color.Transparent
+                        ),
+                        DialogShape
+                    )
                     .border(1.dp, ContainerBorder, DialogShape)
                     .padding(start = 40.dp, end = 40.dp, top = 32.dp, bottom = 28.dp)
             ) {
                 Column {
                     Text(
                         text = title,
-                        fontFamily = FontFamily.Serif,
-                        fontSize = 28.sp,
+                        style = TextStyle(
+                            fontFamily = FontFamily.Serif,
+                            fontSize = 28.sp,
+                            shadow = Shadow(
+                                color = TextShadowColor,
+                                offset = Offset(0f, 1f),
+                                blurRadius = 2f
+                            )
+                        ),
                         color = TitleColor
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = text,
-                        fontSize = 16.sp,
-                        lineHeight = 28.sp,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            lineHeight = 28.sp,
+                            shadow = Shadow(
+                                color = TextShadowColor,
+                                offset = Offset(0f, 1f),
+                                blurRadius = 2f
+                            )
+                        ),
                         color = BodyColor
                     )
                     Spacer(modifier = Modifier.height(24.dp))
@@ -102,7 +122,14 @@ fun NagiDialog(
                     ) {
                         Text(
                             text = dismissText,
-                            fontSize = 16.sp,
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                shadow = Shadow(
+                                    color = TextShadowColor,
+                                    offset = Offset(0f, 1f),
+                                    blurRadius = 2f
+                                )
+                            ),
                             color = DismissColor,
                             modifier = Modifier
                                 .clickable(
@@ -115,7 +142,14 @@ fun NagiDialog(
                         Spacer(modifier = Modifier.width(26.dp))
                         Text(
                             text = confirmText,
-                            fontSize = 16.sp,
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                shadow = Shadow(
+                                    color = TextShadowColor,
+                                    offset = Offset(0f, 1f),
+                                    blurRadius = 2f
+                                )
+                            ),
                             color = ConfirmColor,
                             modifier = Modifier
                                 .clickable(

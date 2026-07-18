@@ -10,9 +10,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import androidx.compose.ui.unit.dp
 import com.antnagi.nagisheart.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -44,29 +45,42 @@ fun SplashScreen(onFinished: () -> Unit) {
         label = "startAlpha"
     )
 
-    Box(
+    // Strategy A: cover-height background + protected 9:16 UI safe layer.
+    // Tunable: uiVerticalBias 0.0=top, 0.5=center, 1.0=bottom
+    val uiVerticalBias = 0.5f
+
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
-        contentAlignment = Alignment.Center
+            .background(Color.Black)
     ) {
-        BoxWithConstraints(
+        val screenW = maxWidth
+        val screenH = maxHeight
+
+        // Layer 1: Background — scale 1080x1920 to fill screen height, center-crop horizontal overflow
+        Image(
+            painter = painterResource(R.drawable.start_bg_v23),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            alignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        // UI safe layer: 9:16 proportioned box for SVG overlays
+        val uiHeight = screenW * (1920f / 1080f)
+        val extraV = screenH - uiHeight
+        val uiOffsetY = if (extraV > 0.dp) extraV * uiVerticalBias else 0.dp
+
+        Box(
             modifier = Modifier
-                .fillMaxHeight()
-                .aspectRatio(1080f / 1920f)
+                .fillMaxWidth()
+                .height(uiHeight)
+                .offset(y = uiOffsetY)
         ) {
-            val designW = maxWidth
-            val designH = maxHeight
+            val designW = screenW
+            val designH = uiHeight
 
-            // Layer 1: Clean background
-            Image(
-                painter = painterResource(R.drawable.start_bg_v23),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.matchParentSize()
-            )
-
-            // Layer 2: Title overlay (full-canvas SVG)
+            // Layer 2: Title overlay (full-canvas SVG, inside safe layer)
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data("file:///android_asset/start/start_title_overlay_v23.svg")
@@ -76,7 +90,7 @@ fun SplashScreen(onFinished: () -> Unit) {
                 modifier = Modifier.matchParentSize()
             )
 
-            // Layer 3: START breathing layer (full-canvas SVG)
+            // Layer 3: START breathing layer (full-canvas SVG, inside safe layer)
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data("file:///android_asset/start/start_button_static_v23.svg")
@@ -88,9 +102,8 @@ fun SplashScreen(onFinished: () -> Unit) {
                     .graphicsLayer { alpha = startAlpha }
             )
 
-            // Layer 4: Transparent click hit area
+            // Layer 4: Transparent click hit area (relative to UI safe layer)
             // 1080x1920 base: x=330 y=1640 w=420 h=210
-            // Relative: left 30.56% top 85.42% width 38.89% height 10.94%
             Box(
                 modifier = Modifier
                     .offset(x = designW * 0.3056f, y = designH * 0.8542f)

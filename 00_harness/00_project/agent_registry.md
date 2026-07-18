@@ -116,3 +116,14 @@
 
 本文件只定义“谁是谁、谁当前有效、谁能做什么、谁不能越界”。
 具体 loop、交班格式、入账格式、任务格式，分别以 `00_harness/07_scheduler/`、`00_harness/03_handoffs/`、`00_harness/06_templates/` 为准。
+# Agent Roster - Current Override 2026-07-18
+
+> Latest PM override. This section supersedes older roster lines below if there is any conflict.
+
+- `yiyi`（Claude / former Android developer）: **离职 / inactive**. Do not assign new tasks. Historical reports remain as trace evidence only.
+- `PP`（Claude / Android 开发工程师）: **current Android implementation owner**, replacing yiyi. Android UI / Android implementation tasks should go to PP unless PM explicitly assigns otherwise.
+- `DeDe`（Codex / 测试）: **current Codex-side QA owner**. DeDe reads the real repository `D:\Nagi's Heart\NagisHeart`, follows Harness / Loop rules, writes QA reports to PM outbox, and does not modify code unless PM explicitly creates a fix task.
+- `Wewe`（Claude / Web 开发）: current Web implementation owner. Web only; Android touched: no.
+- `XoXo` / `TT`: remain current design owners by their existing scopes.
+
+---

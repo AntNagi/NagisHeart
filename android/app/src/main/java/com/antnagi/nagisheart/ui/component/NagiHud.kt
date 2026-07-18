@@ -2,6 +2,7 @@ package com.antnagi.nagisheart.ui.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -12,9 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,7 +56,8 @@ fun NagiHud(
             Spacer(modifier = Modifier.width(8.dp))
             Box(
                 modifier = Modifier
-                    .weight(1f)
+                    .widthIn(max = 210.dp)
+                    .height(34.dp)
                     .combinedClickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
@@ -60,26 +65,41 @@ fun NagiHud(
                         onLongClick = { onTitleLongPress?.invoke() }
                     )
                     .clip(NagiShapes.cutSmall)
-                    .background(colors.glassBg)
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Color(0x380F1827),
+                                Color(0x140F1827)
+                            )
+                        )
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = Color(0x1AFFFFFF),
+                        shape = NagiShapes.cutSmall
+                    )
+                    .padding(horizontal = 16.dp),
+                contentAlignment = Alignment.CenterStart
             ) {
                 Text(
                     text = chapterTitle,
                     style = TextStyle(
-                        fontFamily = FontFamily.Serif,
-                        fontSize = 14.sp,
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 13.sp,
+                        letterSpacing = 0.02.sp,
                         shadow = Shadow(
                             color = colors.textShadowColor,
                             offset = Offset(0f, 2f),
                             blurRadius = 14f
                         )
                     ),
-                    color = colors.hudColor.copy(alpha = 0.64f),
+                    color = Color(0xE0F4F1EA),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.weight(1f))
         } else {
             Spacer(modifier = Modifier.weight(1f))
         }

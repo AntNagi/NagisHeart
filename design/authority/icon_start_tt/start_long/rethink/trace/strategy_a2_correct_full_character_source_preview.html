@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+html, body {
+  margin: 0;
+  width: 1080px;
+  height: 2400px;
+  overflow: hidden;
+  background: #000;
+}
+.screen {
+  position: relative;
+  width: 1080px;
+  height: 2400px;
+  overflow: hidden;
+  background: #efd6d2;
+}
+.full-character-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: saturate(.92) brightness(.92);
+}
+.tone {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(16,24,39,.10), rgba(16,24,39,.02) 42%, rgba(16,24,39,.34)),
+    linear-gradient(to right, rgba(16,24,39,.10), transparent 30%, transparent 70%, rgba(16,24,39,.10));
+}
+.ui-layer {
+  position: absolute;
+  left: 0;
+  top: 240px;
+  width: 1080px;
+  height: 1920px;
+}
+</style>
+</head>
+<body>
+<div class="screen">
+  <img class="full-character-bg" src="file:///D:/Nagi%27s%20Heart/NagisHeart/assets/home.jpg">
+  <div class="tone"></div>
+  <img class="ui-layer" src="file:///D:/Nagi%27s%20Heart/NagisHeart/design/authority/icon_start_tt/start/layers/start_title_overlay_v23.svg">
+  <img class="ui-layer" src="file:///D:/Nagi%27s%20Heart/NagisHeart/design/authority/icon_start_tt/start/layers/start_button_static_v23.svg">
+</div>
+</body>
+</html>

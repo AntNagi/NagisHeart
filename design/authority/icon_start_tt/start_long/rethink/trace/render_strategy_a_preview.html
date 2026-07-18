@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+html, body {
+  margin: 0;
+  width: 1080px;
+  height: 2400px;
+  overflow: hidden;
+  background: #000;
+}
+.screen {
+  position: relative;
+  width: 1080px;
+  height: 2400px;
+  overflow: hidden;
+  background: #e7ecec;
+}
+.underlay {
+  position: absolute;
+  inset: 0;
+  width: 1080px;
+  height: 2400px;
+  object-fit: cover;
+}
+.poster {
+  position: absolute;
+  left: 0;
+  top: 240px;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 1080px;
+  height: 1920px;
+  display: block;
+}
+.edge-veils {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(232,237,237,.36), rgba(232,237,237,0) 16%, rgba(232,237,237,0) 84%, rgba(232,237,237,.30));
+}
+</style>
+</head>
+<body>
+<div class="screen">
+  <img class="underlay" src="file:///D:/Nagi%27s%20Heart/NagisHeart/design/authority/icon_start_tt/start_long/rethink/trace/strategy_a_fullscreen_underlay.png">
+  <div class="poster">
+    <img class="layer" src="file:///D:/Nagi%27s%20Heart/NagisHeart/design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png">
+    <img class="layer" src="file:///D:/Nagi%27s%20Heart/NagisHeart/design/authority/icon_start_tt/start/layers/start_title_overlay_v23.svg">
+    <img class="layer" src="file:///D:/Nagi%27s%20Heart/NagisHeart/design/authority/icon_start_tt/start/layers/start_button_static_v23.svg">
+  </div>
+  <div class="edge-veils"></div>
+</div>
+</body>
+</html>

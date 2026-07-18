@@ -5,7 +5,13 @@ export class StartScreen {
     this.el.className = 'screen start-screen screen-enter';
 
     this.el.innerHTML = `
+      <div class="start-screen-bg">
+        <img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
+      </div>
       <div class="start-screen-overlay"></div>
+      <div class="start-screen-title-layer">
+        <img src="../design/authority/icon_start_tt/start/layers/start_title_overlay_v23.svg" alt="" />
+      </div>
       <div class="start-menu">
         <button class="start-btn" data-action="new">新的故事</button>
         <button class="start-btn" data-action="continue" disabled>继续</button>

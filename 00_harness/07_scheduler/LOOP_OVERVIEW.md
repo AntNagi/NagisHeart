@@ -27,6 +27,11 @@
 4. 每个循环只完成一个受控小步骤。
 5. 每个循环结束时都必须留下书面结果，即使结果只是“阻塞”或“无变更”。
 6. 如果某个循环改变了范围、优先级或权威文件，PM 必须在下一轮开始前更新对应的 harness 文件。
+7. 每个循环结束前都必须判断是否需要清理 / 归档：
+   - 活跃目录只保留当前权威、当前候选、当前可执行资源；
+   - 被打回、废弃、过期、重复、易误用的文件应进入 `99_archive/`，不得继续混在活跃目录；
+   - 无需清理也要在回传或 PM review 中写明 `Cleanup status: none`；
+   - archive 只用于追溯，不作为开发引用来源。
 
 ## 建议读取顺序
 
@@ -41,3 +46,11 @@
 - 执行循环：每次只推进一个分配任务中的小步骤
 - 测试循环：执行者声明完成一个步骤后，或进入验收前
 - 交班循环：家里班和公司班切换前强制执行
+## PM dispatch is two-channel when immediate action is needed
+
+For active workers with an available chat/window, PM dispatch requires both:
+
+- a formal file in `00_harness/04_execution/pm/PM_AGENT_INBOX/`;
+- a direct window/thread message that points to that file.
+
+The file is the authority. The message is the wake-up signal. If the message cannot be sent, PM must record the reason and not assume the worker has been woken.

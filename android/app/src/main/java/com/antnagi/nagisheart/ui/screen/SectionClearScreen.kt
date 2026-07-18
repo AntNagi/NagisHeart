@@ -2,19 +2,18 @@ package com.antnagi.nagisheart.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -32,10 +31,10 @@ fun SectionClearScreen(
     onContinue: () -> Unit
 ) {
     val goldColor = Color(0xFFD7BE86)
-    val titleColor = Color(0xF5F7F9FC)
+    val titleColor = Color(0xF0F7F9FC)
     val descColor = Color(0xC7F7F9FC)
-    val dismissColor = Color(0xB8F4F1EA)
-    val confirmColor = Color(0xFFF4F1EA)
+    val dismissColor = Color(0xDBF4F1EA)
+    val confirmColor = Color(0xFFF7F9FC)
     val bgPath = bgAssetPath ?: "bg/pillow.jpg"
 
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
@@ -64,59 +63,48 @@ fun SectionClearScreen(
                     .align(Alignment.BottomStart)
                     .fillMaxWidth()
                     .navigationBarsPadding()
-                    .padding(start = 30.dp, end = 30.dp, bottom = 72.dp)
+                    .padding(start = 28.dp, end = 28.dp, bottom = 82.dp)
+                    .clip(NagiShapes.cutMedium)
+                    .background(
+                        Brush.verticalGradient(
+                            0f to Color(0x331B2436),
+                            0.5f to Color(0x241B2436),
+                            1f to Color(0x3D1B2436)
+                        )
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = Color(0x14FFFFFF),
+                        shape = NagiShapes.cutMedium
+                    )
+                    .padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 22.dp)
             ) {
-                // Kicker
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .width(22.dp)
-                            .height(1.dp)
-                            .background(
-                                Brush.horizontalGradient(listOf(Color.Transparent, goldColor))
-                            )
-                    )
-                    Spacer(modifier = Modifier.width(30.dp))
-                    Text(
-                        text = "SECTION CLEAR",
-                        fontSize = 12.sp,
-                        color = goldColor
-                    )
-                }
+                Text(
+                    text = "SECTION CLEAR",
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 11.sp,
+                    letterSpacing = (0.14 * 11).sp,
+                    color = goldColor
+                )
                 Spacer(modifier = Modifier.height(14.dp))
-                // Title
                 Text(
                     text = sectionTitle,
                     fontFamily = FontFamily.Serif,
-                    fontSize = 29.sp,
-                    lineHeight = (29 * 1.24).sp,
-                    color = titleColor,
-                    style = LocalTextStyle.current.copy(
-                        shadow = Shadow(
-                            color = Color(0xC7000000),
-                            offset = Offset(0f, 3f),
-                            blurRadius = 28f
-                        )
-                    )
+                    fontSize = 28.sp,
+                    lineHeight = (28 * 1.25).sp,
+                    maxLines = 2,
+                    color = titleColor
                 )
                 Spacer(modifier = Modifier.height(14.dp))
-                // Description
                 Text(
-                    text = if (isSkipped) "本节已跳过。你可以返回目录，或继续下一节内容。"
+                    text = if (isSkipped) "本节已跳过完成。你可以返回目录，或继续下一节内容。"
                            else "本节完成。你可以返回目录，或继续下一节内容。",
-                    fontSize = 16.sp,
-                    lineHeight = (16 * 1.9).sp,
-                    color = descColor,
-                    style = LocalTextStyle.current.copy(
-                        shadow = Shadow(
-                            color = Color(0xB8000000),
-                            offset = Offset(0f, 2f),
-                            blurRadius = 22f
-                        )
-                    )
+                    fontSize = 13.sp,
+                    lineHeight = (13 * 1.8).sp,
+                    color = descColor
                 )
                 Spacer(modifier = Modifier.height(22.dp))
-                // Action buttons
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween

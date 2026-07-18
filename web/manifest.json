@@ -1,0 +1,22 @@
+{
+  "name": "Nagi's Heart",
+  "short_name": "Nagi's Heart",
+  "description": "Blue Lock 乙女向视觉小说",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101827",
+  "theme_color": "#101827",
+  "icons": [
+    {
+      "src": "../design/authority/icon_start_tt/icon/store/play_store_icon_tt_candidate_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "../design/authority/icon_start_tt/icon/master/app_icon_tt_candidate_1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}

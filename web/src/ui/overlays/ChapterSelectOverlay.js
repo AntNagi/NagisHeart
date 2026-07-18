@@ -5,7 +5,7 @@ export class ChapterSelectOverlay {
     this._onJump = onJump;
 
     this.el = document.createElement('div');
-    this.el.className = 'overlay chapter-select-overlay';
+    this.el.className = 'overlay catalog-overlay';
     container.appendChild(this.el);
 
     this._render();
@@ -21,14 +21,12 @@ export class ChapterSelectOverlay {
     );
 
     let html = `
-      <div class="overlay-header">
-        <button class="overlay-back-btn" data-action="close">←</button>
-        <span class="overlay-title">章节目录</span>
-        <span class="overlay-spacer"></span>
-      </div>
-      <div class="overlay-body">
-        <h2 class="overlay-heading">章节目录</h2>
-        <div class="chapter-timeline">
+      <div class="catalog-panel cut-medium">
+        <div class="catalog-header">
+          <h2 class="catalog-title">章节目录</h2>
+          <div class="catalog-desc">选择已解锁的章节重新阅读</div>
+        </div>
+        <div class="catalog-list">
     `;
 
     for (const chapter of unlocked) {
@@ -39,33 +37,39 @@ export class ChapterSelectOverlay {
 
         const isCurrent = this._isSectionCurrent(chapter, i, currentNodeId);
         const state = this._controller.getSectionState(chapter.id, i, section.startNode);
-        const stateClass = isCurrent ? 'in-progress' : (state === 'COMPLETED' ? 'completed' : (state === 'SKIPPED_COMPLETED' ? 'skipped' : 'locked'));
+        const stateClass = isCurrent ? 'current' : (state === 'COMPLETED' ? 'completed' : (state === 'SKIPPED_COMPLETED' ? 'completed' : 'locked'));
         const stateLabel = isCurrent ? '进行中' : (state === 'COMPLETED' ? '已完成' : (state === 'SKIPPED_COMPLETED' ? '已跳过' : ''));
         const clickable = state === 'COMPLETED' || state === 'SKIPPED_COMPLETED' || isCurrent;
 
         html += `
-          <div class="timeline-node ${stateClass} ${clickable ? 'clickable' : ''}"
+          <div class="catalog-item cut-small ${stateClass} ${clickable ? 'clickable' : ''}"
                data-start="${section.startNode}" data-chapter="${chapter.id}" data-section="${i}">
-            <div class="timeline-diamond"></div>
-            <div class="timeline-content">
-              <div class="timeline-title-row">
-                <span class="timeline-title">${section.title}</span>
-                ${stateLabel ? `<span class="timeline-state">${stateLabel}</span>` : ''}
-              </div>
-              <div class="timeline-subtitle">${chapter.name}</div>
+            <div class="catalog-item-text">
+              <span class="catalog-item-title">${section.title}</span>
+              <span class="catalog-item-sub">${chapter.name}</span>
             </div>
+            ${stateLabel ? `<span class="catalog-item-state ${stateClass}">${stateLabel}</span>` : ''}
           </div>
         `;
       }
     }
 
-    html += '</div></div>';
+    html += `
+        </div>
+        <div class="catalog-actions">
+          <span class="catalog-action-secondary" data-action="close">返回</span>
+          <span class="catalog-action-primary" data-action="continue">继续当前章节</span>
+        </div>
+      </div>
+    `;
+
     this.el.innerHTML = html;
 
     this.el.addEventListener('click', (e) => {
       e.stopPropagation();
       if (e.target.closest('[data-action="close"]')) { this._onClose(); return; }
-      const node = e.target.closest('.timeline-node.clickable');
+      if (e.target.closest('[data-action="continue"]')) { this._onClose(); return; }
+      const node = e.target.closest('.catalog-item.clickable');
       if (node) {
         const startNode = node.dataset.start;
         const chapterId = node.dataset.chapter;
@@ -80,8 +84,6 @@ export class ChapterSelectOverlay {
     if (!section) return false;
     if (section.startNode === currentNodeId) return true;
     if (section.altStartNode === currentNodeId) return true;
-    const nextSection = chapter.sections[sectionIndex + 1];
-    if (!nextSection) return false;
     return false;
   }
 

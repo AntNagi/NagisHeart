@@ -514,3 +514,330 @@
 - `nagiCall` 本轮不做，不设置，不替换
 - 名字设置页只保留玩家名输入
 
+---
+
+## 14. TASK-20260717-011 实机反馈补齐：章节开始 / Chapter Clear / 顶部动作 chip
+
+来源：Ant大小姐 2026-07-17 实机反馈；PM 任务 `TASK_TO_XOXO_20260717_CHAPTER_UI_REAL_DEVICE_FEEDBACK.md`。
+适用范围：UI authority / 设计规范。不得在本规则下修改 Android 代码、story/script、BG mapping、TT Start、App Icon 或删除资源。
+
+### 14.1 章节开始页文字托底
+
+大章开始与小节开始继续使用 final UI 的 story dark 方向和章节海报语言，但标题组必须增加“很浅的透明托底”，解决实机背景上文字不清楚的问题。
+
+1080 x 1920 基准：
+
+- 容器：承载 kicker、章节副标题、章节标题、轻触继续文案的整组文字，不单独只托标题。
+- 位置：沿用现有章节开始布局；大章默认 bottom=72，小节默认 bottom=96。
+- 左右边距：30。
+- 内边距：左右 24，上 22，下 20。
+- 背景：`linear-gradient(to right, rgba(16,24,39,0.30), rgba(16,24,39,0.14) 62%, transparent)` + 中心极轻高光 `rgba(247,249,252,0.09)`。
+- 描边：`rgba(255,255,255,0.08)`，1dp。
+- 模糊：blur 10dp，saturation 0.92。
+- 裁切：沿用 final UI cut-md 切角。
+- 透明感：整体视觉应像“雾面托底条”，不是弹窗、不是厚卡片；不得使用纯黑/纯白大底。
+- 文本：主标题 `Noto Serif SC / Source Han Serif SC`，29sp，line-height 1.24，颜色 `rgba(247,249,252,0.94)`；kicker 与 small 使用 gold `#D7BE86`；提示文案 16sp，颜色 `rgba(247,249,252,0.82)`。
+
+长屏规则：
+
+- 托底随文字组保持在安全区内，底部不得压到系统手势区。
+- 若标题超过两行，优先缩小到 27sp 或增加容器高度，不取消托底。
+
+### 14.2 大章结束 / Chapter Clear
+
+本次任务将历史 Missing Pages 的“大章结束”方向提升为当前可实现 UI authority，但做如下收口：它是章节过渡页，不是普通弹窗，不是系统按钮页。
+
+1080 x 1920 基准：
+
+- 页面背景：使用当前章节 story BG；默认 dark readability overlay。
+- 主容器：`clear-card`，left/right=28，bottom=82。
+- 内边距：左右 24，上 28，下 22。
+- 背景：轻玻璃渐变，主体 `rgba(27,36,54,0.20 -> 0.14 -> 0.24)`，可叠加中心微光 `rgba(247,249,252,0.10)`。
+- 描边：`rgba(255,255,255,0.08)`，1dp。
+- 模糊：blur 16dp，saturation 0.92。
+- 裁切：final UI cut-md。
+- Label：`CHAPTER CLEAR`，Noto Sans SC，11sp，letter-spacing 0.14em，颜色 `#D7BE86`。
+- 标题：章节名，例如 `第一部 · 原作前置篇`；Noto Serif SC / Source Han Serif SC，30sp，line-height 1.25，最多两行。
+- Body：13sp，line-height 1.8，颜色 `rgba(247,249,252,0.78)`；文案表达“本章完成，可返回目录或继续下一章”。
+- Actions：底部左右分布；左侧 `返回目录` 常规文本，右侧 `进入第二部` / `继续下一章` 强调文本；14sp，右侧颜色 `#F7F9FC`，左侧 `rgba(244,241,234,0.86)`。
+
+长屏规则：
+
+- 卡片可保持 bottom=82，并应避开底部手势区；如果设备极长，允许将卡片整体下移不超过 24dp，但不能贴边。
+- 内容多于两行动作说明时，不扩大成全屏卡；应缩短文案或分页。
+
+### 14.3 小节结束 / Section Clear
+
+小节结束与大章结束共用 `clear-card` 组件，但语义更轻。
+
+- Label：`SECTION CLEAR`。
+- 标题：当前小节名，例如 `作战室·初遇`，30sp，可降至 28sp。
+- Body：表达“本节完成，可返回目录或继续下一节”。
+- Actions：`返回目录` + `进入下一节`。
+- 若是“跳过完成”状态，可将 body 改为“本节已跳过完成”，但组件样式不变。
+
+### 14.4 顶部标题 chip 与下一章 / 跳过动作 chip
+
+剧情内页顶部标题、右上动作 chip 必须回到 final glass HUD 语言，不允许使用厚重切角按钮或系统默认按钮。
+
+标题 chip：
+
+- 高度：34。
+- 左右 padding：14~18。
+- 最大宽度：约 210dp；超长章节名单行省略，不换行压住右侧 HUD。
+- 字体：Noto Sans SC Medium，13sp，letter-spacing 0.02em。
+- 颜色：`rgba(244,241,234,0.88)`。
+- 背景：`rgba(15,24,39,0.22)` 起的轻玻璃渐隐，叠加 final HUD 细线语言。
+- 描边：`rgba(255,255,255,0.10)`，1dp。
+- 模糊：blur 12dp。
+- 对齐：左侧与 back icon 成组，垂直居中。
+
+动作 chip（跳过 / 下一章 / 继续下一节）：
+
+- 右侧对齐；默认 top=76 或位于顶部 HUD 下方 14~18dp，不与标题 chip 抢同一行。
+- 高度：34。
+- 左右 padding：14~16。
+- 字体：Noto Sans SC Medium，12~13sp。
+- 背景、描边、模糊与标题 chip 一致。
+- 文本颜色：`rgba(244,241,234,0.90)`；强调态最多提高到 `#F7F9FC`，不要加厚实按钮底。
+
+给 yiyi 的实现说明：
+
+1. 可把章节开始托底、Chapter Clear、Section Clear、HUD title chip、action chip 抽成可复用 Compose 组件。
+2. chapter opening / section opening 不要再裸文字压背景；必须有轻透明托底。
+3. Chapter Clear / Section Clear 目前已不再 pending；章节目录已由 section 16 补齐为 review authority，后续按 section 16 实现。
+4. 本规则只补 UI authority，不要求改 story/script 文案来源；实际章节名与下一章名由现有数据提供。
+
+---
+
+## 15. TASK-20260717-014 实机反馈补齐：高亮背景下 HUD 统一与 speaker 金色可读性
+
+来源：Ant大小姐 2026-07-17 实机反馈；PM 任务 `TASK_TO_XOXO_20260717_HUD_DIALOGUE_READABILITY_REAL_DEVICE.md`。
+适用范围：UI authority / 设计规范。不得在本规则下修改 Android/Web 代码、story-data、BG mapping、TT Start、App Icon、章节目录或删除资源。
+
+### 15.1 HUD icon / title / action 统一规则
+
+高亮或复杂背景下，顶部 HUD 不允许出现“title/action 有背景，但 back/auto/save/backlog/menu 图标裸白线”的不统一状态。所有 HUD 元素必须进入同一套 final glass HUD 家族。
+
+#### Icon button
+
+1080 x 1920 基准与 Compose dp 基准：
+
+- 容器：36 x 36。
+- 图标：18 x 18，居中。
+- 背景：轻玻璃底，不是厚按钮。
+  - 主体：`rgba(15,24,39,0.30)` 到 `rgba(15,24,39,0.18)` 的纵向轻渐变。
+  - 中心极轻高光：`rgba(247,249,252,0.08)` radial。
+- 描边：`rgba(255,255,255,0.10)`，1dp。
+- 模糊：blur 12dp，saturation 0.92。
+- 裁切：沿用 final UI cut-sm。
+- 图标颜色：`rgba(247,249,252,0.94)`。
+- 图标 shadow / halo：
+  - dark shadow：`0 1dp 2dp rgba(0,0,0,0.64)`；
+  - soft light halo：`0 0 8dp rgba(247,249,252,0.20)`。
+- 容器外层可加 `dropShadow 0 3dp 12dp rgba(0,0,0,0.42)`，用于亮底图分离。
+
+Android 若无法对每个 HUD 元素使用真实 blur：
+
+- 使用半透明深色渐变 + 1dp 描边 + shadow 作为 fallback。
+- 不要改成实心黑按钮、纯白按钮或 Material 默认按钮。
+
+#### Title chip
+
+沿用 section 14 的 final glass HUD 规则，但需要和 icon button 同源：
+
+- 高度：34。
+- 左右 padding：14~18。
+- 最大宽度：约 210dp，超长章节名单行省略。
+- 背景：`rgba(15,24,39,0.22)` 到 `rgba(15,24,39,0.08)`，描边 `rgba(255,255,255,0.10)`。
+- 模糊：blur 12dp；无 blur 时同 icon fallback。
+- 字体：Noto Sans SC Medium，13sp。
+- 文本颜色：`rgba(244,241,234,0.88)`。
+
+#### Action chip
+
+适用于 `跳过本节`、`下一章`、`继续下一节` 等右侧动作：
+
+- 高度：34。
+- 左右 padding：14~16。
+- 字体：Noto Sans SC Medium，12~13sp。
+- 背景 / 描边 / blur / fallback 与 title chip 一致。
+- 文本颜色：`rgba(244,241,234,0.90)`；强调态最多到 `#F7F9FC`。
+- 右侧对齐，默认位于 HUD 下方 14~18dp；不得与 title chip 或右侧 icon group 互相挤压。
+
+#### Spacing / alignment
+
+- 顶部 HUD 外边距沿用现有 final authority：left/right 17，top 14，HUD 高 44。
+- 左组：back icon + title chip，gap 8。
+- 右组：auto / save / backlog or menu icons，gap 8。
+- 所有 HUD 元素视觉中心对齐。
+
+### 15.2 Dialogue speaker / name gold readability
+
+Ant 仍喜欢 speaker/name 的金色，因此保留金色方向；但亮底图或复杂背景下必须增加轻量可读性保护。
+
+Speaker chip 规则：
+
+- 文本颜色：从原 `#D7BE86` 提亮到 `#E4CA8F`。
+- 字体：Noto Sans SC Medium，13sp，letter-spacing 0.04em，font-weight 600。
+- 轻衬底：只包住 speaker/name 文本，不扩大成整行卡片。
+  - padding：left/right 9，上 3，下 4。
+  - 背景：`linear-gradient(to right, rgba(16,24,39,0.30), rgba(16,24,39,0.10))`。
+  - 描边：`rgba(215,190,134,0.18)`，1dp。
+  - 模糊：blur 8dp，saturation 0.92。
+  - 裁切：cut-sm。
+- 文本 shadow / halo：
+  - `0 1dp 2dp rgba(0,0,0,0.72)`；
+  - `0 0 10dp rgba(215,190,134,0.20)`。
+
+限制：
+
+- 不要把 speaker/name 做成厚 name plate。
+- 不要改成白字或普通系统标签。
+- 不要为了 speaker 可读性加整条黑底；只允许轻衬底、shadow、halo、轻描边。
+- 该规则同时适用于 dialogue box speaker 与 recap/long narration 中出现的 speaker label。
+
+### 15.3 给 yiyi 的实现说明
+
+1. HUD icon button、title chip、action chip 应抽成同一套 `GlassHud` 样式 token：background / border / blur fallback / shadow / cut shape 一致。
+2. back、auto、save、backlog/menu 等图标按钮不再裸线显示；在所有剧情页默认带轻玻璃 backing。
+3. speaker/name 保留金色，但统一加轻衬底与 text halo；若背景特别亮，不要再临时改成白底或粗黑牌。
+4. 本规则已同步到 `00_harness/08_authority_current/04_ui/`；开发以本 section 15 为准。
+
+---
+
+## 16. TASK-20260717-016 章节目录 authority + Dialog Android fallback
+
+来源：PM `TASK_TO_XOXO_20260717_CHAPTER_CATALOG_DIALOG_FALLBACK_AUTHORITY.md` 与 `DEC-20260717-016` UI 谨慎变更检查。
+适用范围：UI authority / 设计规范。不得在本规则下修改 Android/Web 代码、story-data、script、BG mapping、TT Start、App Icon 或删除资源；不得重设计已通过页面；不得重改 section 15 HUD / speaker 规则。
+
+### 16.1 章节目录状态
+
+章节目录从本节开始不再是 pending，而是当前可开发的 review authority。
+旧 section 14 中“章节目录仍 pending，不要顺手补目录”的限制，被本 section 16 覆盖；其余 section 14/15 规则不受影响。
+
+### 16.2 章节目录页面结构
+
+章节目录是系统级页面，沿用 Home / Save / Settings 的 dark system glass 语言，不引入全新风格，不扩展成成就系统。
+
+1080 x 1920 基准：
+
+- 背景：沿用系统级背景 `splash_bg` / final system background，默认 dark overlay。
+- 主容器：`catalog-panel`，left/right=18，top=84，bottom=34。
+- 主容器背景：`linear-gradient(to bottom, rgba(16,24,39,0.34), rgba(16,24,39,0.52))`。
+- 描边：`rgba(255,255,255,0.10)`，1dp。
+- Blur：16dp，saturation 0.92；无真实 blur 时用该背景色与描边直接 fallback。
+- Shape：final cut-md。
+- Padding：18。
+- 布局：标题区 / 列表区 / 底部动作区三段式。
+
+标题区：
+
+- 标题：`章节目录`，沿用 `.page-title`，Noto Serif SC / Source Han Serif SC，28sp，font-weight 400。
+- 说明文：Noto Sans SC，12sp，line-height 1.7，颜色 `rgba(244,241,234,0.70)`。
+
+列表区：
+
+- 列表项高度：min 68。
+- 列表项 padding：left/right 14，top/bottom 13。
+- 列表项结构：编号/锁定标记 + 文案 + 状态。
+- 列表项背景：`rgba(255,255,255,0.045)`，描边 `rgba(255,255,255,0.07)`，shape cut-sm。
+- 当前项：背景可加 gold 轻扫光 `rgba(215,190,134,0.18)`，描边 `rgba(215,190,134,0.28)`。
+- 锁定项：整体 opacity 0.52，不新增复杂锁图系统；可用文字 `锁` 或 existing `ic_lock`。
+
+文案：
+
+- 章节标题：Noto Sans SC Medium，15sp，颜色 `rgba(247,249,252,0.94)`，单行 ellipsis。
+- 小节 / 进度副文：12sp，颜色 `rgba(244,241,234,0.64)`，单行 ellipsis。
+- 状态文字：12sp，右对齐，普通 `rgba(244,241,234,0.70)`，当前项可用 gold `#D7BE86`。
+
+支持状态：
+
+- `current` / `进行中`
+- `unlocked` / `已解锁`
+- `completed` / `已完成`
+- `locked` / `未解锁`
+
+第一版不做：
+
+- 成就系统；
+- CG 收集展示；
+- 多筛选器；
+- 章节评分；
+- 复杂进度图谱。
+
+### 16.3 章节 / 小节层级与长标题策略
+
+- 目录第一层显示大章 / 部。
+- 第二行显示当前小节、完成进度或简短说明。
+- 长章节标题单行省略，不撑高列表项。
+- Android 第一版允许垂直滚动；若条目很多，优先 lazy list，不做分页。
+- 顶部与底部安全区必须保留，不让列表压住底部动作。
+
+### 16.4 返回 / 继续动作
+
+底部动作区固定在主容器底部：
+
+- 左侧：`返回主页` 或 `返回`，普通文本。
+- 右侧：`继续当前章节`，强调文本。
+- 字体：14sp。
+- 顶部边线：`rgba(255,255,255,0.08)`，与 Home / Settings 轻分割线一致。
+- 不做厚按钮，不做系统默认按钮。
+
+### 16.5 Dialog Android fallback hardening
+
+本节收紧 section 11 的 Android fallback。设计方向仍是 final light glass dialog；但当 Android / Compose 无法做真实 frosted background blur 时，必须使用固定 fallback token，不允许开发凭感觉继续调 alpha。
+
+#### Preferred token with true background blur
+
+沿用 section 11：
+
+- Dialog card background：`rgba(27,36,54,0.32)`。
+- Background blur：20dp。
+- Border：`rgba(255,255,255,0.12)`，1dp。
+- Scrim：`rgba(9,14,24,0.32)`。
+- Radius：24dp。
+
+#### Android no-real-blur fallback token
+
+当无法模糊弹窗背后的游戏画面时，使用以下固定 token：
+
+- Dialog card background：`rgba(27,36,54,0.56)`。
+- 允许微调范围：0.52 ~ 0.60。不得低于 0.52，不得高于 0.64。
+- Scrim：`rgba(9,14,24,0.38)`。
+- 允许微调范围：0.34 ~ 0.42。
+- Border：`rgba(255,255,255,0.14)`，1dp。
+- Inner highlight：顶部可加 `rgba(255,255,255,0.06)` 的轻微纵向高光。
+- Shadow：`0 18dp 42dp rgba(0,0,0,0.36)`。
+- Text shadow：标题和正文可使用 `0 1dp 2dp rgba(0,0,0,0.35)`，但不得模糊文字本身。
+- Radius：24dp。
+- Padding / typography / actions 继续沿用 section 11，不重排。
+
+亮背景 / 暗背景微调：
+
+- 亮背景：优先把 scrim 提到 0.40，card 保持 0.56；只有仍不可读时才把 card 提到 0.60。
+- 暗背景：card 可降到 0.52，scrim 可降到 0.34。
+- 微调只能在上述范围内；超出范围必须回 UI/PM 复核。
+
+明确禁止：
+
+- 禁止系统默认 Dialog。
+- 禁止纯黑 / 纯白实底。
+- 禁止 80% 以上厚重深色大卡片。
+- 禁止用会模糊弹窗文字和按钮自身的 `RenderEffect`。
+- 禁止为了可读性牺牲 final glass language。
+
+必须回 UI/PM 复核的情况：
+
+1. 在 card 0.60 + scrim 0.42 下仍不可读。
+2. Android 实现只能做纯色实底，无法保留描边 / shadow / 透明层次。
+3. 文案长度导致弹窗超过 80% 画面宽或压到底部安全区。
+4. 需要改变按钮布局、标题字号或弹窗位置。
+
+### 16.6 给 yiyi / Wewe 的实现口径
+
+1. 章节目录可实现为系统级 Compose screen，使用 `catalog-panel` + lazy list + bottom actions。
+2. 目录数据只需要章节/小节标题、解锁状态、完成状态、当前进度；不要新增成就/评分/CG 系统。
+3. Dialog fallback 直接使用 section 16.5 token；不要再凭感觉调 alpha/shadow。
+4. 若无真 background blur，不要使用会模糊 Dialog 自身内容的 RenderEffect。
+5. 本 section 已同步到 `00_harness/08_authority_current/04_ui/`，后续实现以这里为准。

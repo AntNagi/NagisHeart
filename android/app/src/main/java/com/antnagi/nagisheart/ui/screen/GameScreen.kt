@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -158,7 +159,8 @@ fun GameScreen(
                         ChapterOpeningOverlay(
                             chapterName = info.chapterName,
                             chapterTitle = info.chapterTitle,
-                            bgAssetPath = state.bgAssetPath
+                            bgAssetPath = state.bgAssetPath,
+                            onTap = { viewModel.onTap() }
                         )
                     }
                 }
@@ -168,7 +170,8 @@ fun GameScreen(
                         SectionOpeningOverlay(
                             sectionTitle = info.sectionTitle,
                             chapterName = info.chapterName,
-                            bgAssetPath = state.bgAssetPath
+                            bgAssetPath = state.bgAssetPath,
+                            onTap = { viewModel.onTap() }
                         )
                     }
                 }
@@ -213,23 +216,33 @@ fun GameScreen(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .statusBarsPadding()
-                        .padding(top = 52.dp, end = 12.dp)
+                        .padding(top = 62.dp, end = 12.dp)
+                        .height(34.dp)
+                        .clip(NagiShapes.cutSmall)
                         .background(
-                            NagiTheme.colors.glassBg,
-                            shape = androidx.compose.foundation.shape.RoundedCornerShape(14.dp)
+                            Brush.verticalGradient(
+                                listOf(
+                                    Color(0x380F1827),
+                                    Color(0x140F1827)
+                                )
+                            )
                         )
                         .border(
-                            width = 0.5.dp,
-                            color = NagiTheme.colors.borderSubtle,
-                            shape = androidx.compose.foundation.shape.RoundedCornerShape(14.dp)
+                            width = 1.dp,
+                            color = Color(0x1AFFFFFF),
+                            shape = NagiShapes.cutSmall
                         )
                         .clickable { showSkipConfirm = true }
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                        .padding(horizontal = 15.dp),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "跳过本节",
-                        style = NagiTheme.typography.micro,
-                        color = NagiTheme.colors.textSecondary.copy(alpha = 0.7f)
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 12.sp,
+                        letterSpacing = 0.02.sp,
+                        color = Color(0xE6F4F1EA)
                     )
                 }
             }
@@ -421,19 +434,77 @@ private fun KickerLabel(text: String) {
 }
 
 @Composable
+private fun GlassBacking(
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = modifier
+            .clip(NagiShapes.cutMedium)
+            .background(
+                Brush.horizontalGradient(
+                    0f to Color(0x4D101827),
+                    0.62f to Color(0x24101827),
+                    1f to Color.Transparent
+                )
+            )
+            .border(
+                width = 1.dp,
+                color = Color(0x14FFFFFF),
+                shape = NagiShapes.cutMedium
+            )
+            .padding(start = 24.dp, end = 24.dp, top = 22.dp, bottom = 20.dp),
+        content = content
+    )
+}
+
+@Composable
+private fun ClearCard(
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = modifier
+            .clip(NagiShapes.cutMedium)
+            .background(
+                Brush.verticalGradient(
+                    0f to Color(0x331B2436),
+                    0.5f to Color(0x241B2436),
+                    1f to Color(0x3D1B2436)
+                )
+            )
+            .border(
+                width = 1.dp,
+                color = Color(0x14FFFFFF),
+                shape = NagiShapes.cutMedium
+            )
+            .padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 22.dp),
+        content = content
+    )
+}
+
+@Composable
 private fun ChapterOpeningOverlay(
     chapterName: String,
     chapterTitle: String,
-    bgAssetPath: String?
+    bgAssetPath: String?,
+    onTap: () -> Unit
 ) {
     val goldColor = Color(0xFFD7BE86)
-    val titleColor = Color(0xF5F7F9FC)
-    val hintColor = Color(0xF0F7F9FC)
+    val titleColor = Color(0xF0F7F9FC)
+    val hintColor = Color(0xD1F7F9FC)
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = onTap
+        )
+    ) {
         PosterPageBackground(bgAssetPath)
 
-        Column(
+        GlassBacking(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .fillMaxWidth()
@@ -464,30 +535,12 @@ private fun ChapterOpeningOverlay(
                 )
             )
             Spacer(modifier = Modifier.height(14.dp))
-            Box(
-                modifier = Modifier
-                    .widthIn(max = 320.dp)
-                    .background(
-                        Brush.horizontalGradient(
-                            listOf(Color(0x33101827), Color.Transparent)
-                        )
-                    )
-                    .padding(vertical = 4.dp)
-            ) {
-                Text(
-                    text = "轻触继续，进入本章内容。",
-                    fontSize = 16.sp,
-                    lineHeight = (16 * 1.9).sp,
-                    color = hintColor,
-                    style = LocalTextStyle.current.copy(
-                        shadow = Shadow(
-                            color = Color(0xB8000000),
-                            offset = Offset(0f, 2f),
-                            blurRadius = 22f
-                        )
-                    )
-                )
-            }
+            Text(
+                text = "轻触继续，进入本章内容。",
+                fontSize = 16.sp,
+                lineHeight = (16 * 1.9).sp,
+                color = hintColor
+            )
         }
     }
 }
@@ -496,16 +549,24 @@ private fun ChapterOpeningOverlay(
 private fun SectionOpeningOverlay(
     sectionTitle: String,
     chapterName: String,
-    bgAssetPath: String?
+    bgAssetPath: String?,
+    onTap: () -> Unit
 ) {
     val goldColor = Color(0xFFD7BE86)
-    val titleColor = Color(0xF5F7F9FC)
-    val hintColor = Color(0xF0F7F9FC)
+    val titleColor = Color(0xF0F7F9FC)
+    val hintColor = Color(0xD1F7F9FC)
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = onTap
+        )
+    ) {
         PosterPageBackground(bgAssetPath)
 
-        Column(
+        GlassBacking(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .fillMaxWidth()
@@ -536,30 +597,12 @@ private fun SectionOpeningOverlay(
                 )
             )
             Spacer(modifier = Modifier.height(14.dp))
-            Box(
-                modifier = Modifier
-                    .widthIn(max = 320.dp)
-                    .background(
-                        Brush.horizontalGradient(
-                            listOf(Color(0x33101827), Color.Transparent)
-                        )
-                    )
-                    .padding(vertical = 4.dp)
-            ) {
-                Text(
-                    text = "轻触继续，进入本节内容。",
-                    fontSize = 16.sp,
-                    lineHeight = (16 * 1.9).sp,
-                    color = hintColor,
-                    style = LocalTextStyle.current.copy(
-                        shadow = Shadow(
-                            color = Color(0xB8000000),
-                            offset = Offset(0f, 2f),
-                            blurRadius = 22f
-                        )
-                    )
-                )
-            }
+            Text(
+                text = "轻触继续，进入本节内容。",
+                fontSize = 16.sp,
+                lineHeight = (16 * 1.9).sp,
+                color = hintColor
+            )
         }
     }
 }
@@ -573,50 +616,44 @@ private fun ChapterEndingOverlay(
     onContinue: () -> Unit
 ) {
     val goldColor = Color(0xFFD7BE86)
-    val titleColor = Color(0xF5F7F9FC)
+    val titleColor = Color(0xF0F7F9FC)
     val descColor = Color(0xC7F7F9FC)
-    val dismissColor = Color(0xB8F4F1EA)
-    val confirmColor = Color(0xFFF4F1EA)
+    val dismissColor = Color(0xDBF4F1EA)
+    val confirmColor = Color(0xFFF7F9FC)
 
     Box(modifier = Modifier.fillMaxSize()) {
         PosterPageBackground(bgAssetPath)
 
-        Column(
+        ClearCard(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .fillMaxWidth()
                 .navigationBarsPadding()
-                .padding(start = 30.dp, end = 30.dp, bottom = 72.dp)
+                .padding(start = 28.dp, end = 28.dp, bottom = 82.dp)
         ) {
-            KickerLabel("CHAPTER CLEAR")
+            Text(
+                text = "CHAPTER CLEAR",
+                fontFamily = FontFamily.Default,
+                fontWeight = FontWeight.Normal,
+                fontSize = 11.sp,
+                letterSpacing = (0.14 * 11).sp,
+                color = goldColor
+            )
             Spacer(modifier = Modifier.height(14.dp))
             Text(
                 text = "$chapterName · $chapterTitle",
                 fontFamily = FontFamily.Serif,
-                fontSize = 29.sp,
-                lineHeight = (29 * 1.24).sp,
-                color = titleColor,
-                style = LocalTextStyle.current.copy(
-                    shadow = Shadow(
-                        color = Color(0xC7000000),
-                        offset = Offset(0f, 3f),
-                        blurRadius = 28f
-                    )
-                )
+                fontSize = 30.sp,
+                lineHeight = (30 * 1.25).sp,
+                maxLines = 2,
+                color = titleColor
             )
             Spacer(modifier = Modifier.height(14.dp))
             Text(
                 text = "本章完成。你可以返回目录，或继续下一章内容。",
-                fontSize = 16.sp,
-                lineHeight = (16 * 1.9).sp,
-                color = descColor,
-                style = LocalTextStyle.current.copy(
-                    shadow = Shadow(
-                        color = Color(0xB8000000),
-                        offset = Offset(0f, 2f),
-                        blurRadius = 22f
-                    )
-                )
+                fontSize = 13.sp,
+                lineHeight = (13 * 1.8).sp,
+                color = descColor
             )
             Spacer(modifier = Modifier.height(22.dp))
             Row(

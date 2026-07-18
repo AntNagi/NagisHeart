@@ -28,6 +28,15 @@ export class GameScreen {
     this._tapArea.addEventListener('click', () => this._handleTap());
     this.el.appendChild(this._tapArea);
 
+    // Keyboard: Space/Enter for typewriter skip + advance
+    this._onKeyDown = (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        this._handleTap();
+      }
+    };
+    document.addEventListener('keydown', this._onKeyDown);
+
     // UI layer (pointer-events: none, children opt-in)
     this._uiLayer = document.createElement('div');
     this._uiLayer.className = 'game-ui-layer';
@@ -49,6 +58,7 @@ export class GameScreen {
         case 'auto': this._controller.toggleAuto(); break;
         case 'skip': this._controller.toggleSkip(); break;
         case 'menu': this._openMenu(); break;
+        case 'skipSection': this._controller.skipSection(); break;
       }
     });
 
@@ -67,6 +77,10 @@ export class GameScreen {
     const state = this._controller.state;
     if (this._narration.isActive && state.displayType === 'long_narration') {
       if (this._narration.handleTap()) return;
+    }
+    if (this._dialogueBox.isAnimating) {
+      this._dialogueBox.completeText();
+      return;
     }
     this._controller.onTap();
   }
@@ -146,10 +160,12 @@ export class GameScreen {
     }
 
     // HUD
+    const isGameplay = state.phase === GamePhase.Dialogue || state.phase === GamePhase.Response || state.phase === GamePhase.Choice;
     this._hud.update({
       sceneTitle: state.sceneTitle,
       isAutoPlaying: state.isAutoPlaying,
       isSkipping: state.isSkipping,
+      showSkipSection: isGameplay,
     });
 
     // Determine which layer to show
@@ -189,6 +205,8 @@ export class GameScreen {
           this._transitionCard.showChapterEnding({
             ...state.chapterTransition,
             bgPath: state.bgAssetPath,
+            onCatalog: () => this._openChapterSelect(),
+            onNext: () => this._controller.onTap(),
           });
         }
         break;
@@ -231,6 +249,7 @@ export class GameScreen {
 
   destroy() {
     this._closeOverlay();
+    document.removeEventListener('keydown', this._onKeyDown);
     this._controller.removeEventListener('statechange', this._onStateChange);
     this._bg.destroy();
     this._dialogueBox.destroy();

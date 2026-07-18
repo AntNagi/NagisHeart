@@ -17,6 +17,7 @@ export { TEXT_SPEEDS, DISPLAY_THEMES };
 export class SettingsManager {
   constructor() {
     this._settings = this._load();
+    this._listeners = [];
   }
 
   get() { return { ...this._settings }; }
@@ -24,6 +25,7 @@ export class SettingsManager {
   update(partial) {
     Object.assign(this._settings, partial);
     this._save();
+    this._notify();
   }
 
   getTextSpeedMs() {
@@ -33,6 +35,18 @@ export class SettingsManager {
 
   getAutoDelayMs() {
     return 1000 + (5 - this._settings.autoSpeed) * 500;
+  }
+
+  getBgmVolume() {
+    return this._settings.bgmVolume;
+  }
+
+  onBgmVolumeChange(cb) {
+    this._listeners.push(cb);
+  }
+
+  _notify() {
+    for (const cb of this._listeners) cb(this._settings);
   }
 
   _load() {
@@ -52,6 +66,7 @@ export class SettingsManager {
       textSpeed: 'Normal',
       autoSpeed: 3,
       displayTheme: 'Dark',
+      bgmVolume: 5,
     };
   }
 }

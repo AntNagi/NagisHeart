@@ -20,3 +20,7 @@
 | 2026-07-11 22:39+ | Dev | yiyi | `PM_AGENT_INBOX` | Pending Claude send | Full-scope task brief prepared: `PM_AGENT_INBOX\\TASK_TO_YIYI_20260711_FULL_SCOPE.md` |
 | 2026-07-17 | Dev | yiyi | Claude desktop `developer yiyi` + `PM_AGENT_INBOX` | Sent / confirmed visible | Start v23 integration task sent in Claude window and backed by `PM_AGENT_INBOX\\TASK_TO_YIYI_20260717_START_V23_INTEGRATION.md` |
 | 2026-07-17 | Design | XoXo | Codex thread `UI设计师XoXo` + `PM_AGENT_INBOX` | Sent | UI authority revision task sent to Codex thread and backed by `PM_AGENT_INBOX\\TASK_TO_XOXO_20260717_UI_AUTHORITY_REVISION.md` |
+| 2026-07-17 | Design | XoXo | Codex thread `UI设计师XoXo` + `PM_AGENT_INBOX` | Sent | Android resource audit task sent to Codex thread and backed by `PM_AGENT_INBOX\\TASK_TO_XOXO_20260717_ANDROID_RESOURCE_AUDIT.md` |
+| 2026-07-17 | Design | TT | `PM_AGENT_INBOX` | Prepared for Codex send | Start long-screen adaptation task prepared: `PM_AGENT_INBOX\\TASK_TO_TT_20260717_START_LONG_SCREEN_ADAPTATION.md` |
+| 2026-07-17 | Dev | yiyi | `PM_AGENT_INBOX` | Prepared for Claude send | Start v23 PM decision follow-up prepared: `PM_AGENT_INBOX\\TASK_TO_YIYI_20260717_START_V23_PM_DECISION.md` |
+| 2026-07-17 | Dev | yiyi | `PM_AGENT_INBOX` | Prepared for Claude send | Android UI resource fixes task prepared: `PM_AGENT_INBOX\\TASK_TO_YIYI_20260717_ANDROID_RESOURCE_FIXES.md` |

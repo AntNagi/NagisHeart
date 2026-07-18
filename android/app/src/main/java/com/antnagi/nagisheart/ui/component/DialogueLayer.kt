@@ -2,6 +2,7 @@ package com.antnagi.nagisheart.ui.component
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -15,8 +16,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.antnagi.nagisheart.R
 import com.antnagi.nagisheart.ui.theme.*
 
@@ -66,37 +71,54 @@ private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = M
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 20.dp)
         ) {
-            // Speaker tag — cut corner shape with pentagon marker
+            // Speaker tag — gold with light glass backing for readability
+            val speakerGold = Color(0xFFE4CA8F)
             Box(
                 modifier = Modifier
-                    .widthIn(min = 150.dp)
                     .clip(NagiShapes.cutSmall)
                     .background(
                         Brush.horizontalGradient(
                             listOf(
-                                colors.glassBgStrong,
-                                colors.glassBgSoft.copy(alpha = 0.22f),
-                                Color.Transparent
+                                Color(0x4D101827),
+                                Color(0x1A101827)
                             )
                         )
                     )
-                    .padding(vertical = 5.dp, horizontal = 16.dp)
-                    .padding(start = 32.dp)
+                    .border(1.dp, Color(0x2ED7BE86), NagiShapes.cutSmall)
+                    .padding(start = 9.dp, end = 9.dp, top = 3.dp, bottom = 4.dp)
             ) {
-                // Pentagon marker
-                Box(
-                    modifier = Modifier
-                        .size(18.dp)
-                        .align(Alignment.CenterStart)
-                        .offset(x = (-28).dp)
-                        .clip(NagiShapes.pentagon)
-                        .background(NagiPalette.roseGold.copy(alpha = 0.36f))
-                )
-                Text(
-                    text = speaker,
-                    style = NagiTheme.typography.speakerName,
-                    color = NagiPalette.roseGold
-                )
+                Box {
+                    Text(
+                        text = speaker,
+                        style = TextStyle(
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 13.sp,
+                            letterSpacing = 0.04.sp,
+                            shadow = Shadow(
+                                color = Color(0x33D7BE86),
+                                offset = Offset(0f, 0f),
+                                blurRadius = 10f
+                            )
+                        ),
+                        color = speakerGold
+                    )
+                    Text(
+                        text = speaker,
+                        style = TextStyle(
+                            fontFamily = FontFamily.Default,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 13.sp,
+                            letterSpacing = 0.04.sp,
+                            shadow = Shadow(
+                                color = Color(0xB8000000),
+                                offset = Offset(0f, 1f),
+                                blurRadius = 2f
+                            )
+                        ),
+                        color = speakerGold
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(12.dp))

@@ -1,15 +1,17 @@
+import { NagiDialog } from '../components/NagiDialog.js';
+
 export class SaveLoadOverlay {
   constructor(container, { controller, mode, onClose, onLoaded }) {
     this._controller = controller;
     this._mode = mode;
     this._onClose = onClose;
     this._onLoaded = onLoaded;
+    this._container = container;
 
     this.el = document.createElement('div');
     this.el.className = 'overlay save-load-overlay';
     container.appendChild(this.el);
 
-    this._confirmSlotId = null;
     this._render();
   }
 
@@ -60,7 +62,13 @@ export class SaveLoadOverlay {
   async _handleSlotClick(slotId, existingSlot) {
     if (this._mode === 'save') {
       if (existingSlot) {
-        if (!confirm(`存档位 ${slotId} 已有内容，确定覆盖？`)) return;
+        const ok = await NagiDialog.confirm(this._container, {
+          title: '覆盖存档',
+          body: `存档位 ${slotId} 已有内容，确定覆盖？`,
+          dismiss: '取消',
+          confirm: '覆盖',
+        });
+        if (!ok) return;
       }
       await this._controller.saveGame(slotId);
       this._render();

@@ -49,7 +49,9 @@ export class NarrationOverlay {
     const total = String(this._longTexts.length).padStart(2, '0');
     this.el.className = 'long-narration';
     this.el.innerHTML = `
-      <div class="long-narration-text">${text}</div>
+      <div class="long-narration-frame cut-medium">
+        <div class="long-narration-text">${text}</div>
+      </div>
       <div class="long-narration-pager">${page} / ${total}</div>
     `;
   }

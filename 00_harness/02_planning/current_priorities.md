@@ -7,9 +7,11 @@
 
 ## 当前优先级
 
-1. `TASK-20260717-001` - 接入 TT Start v23 分层开屏页 - yiyi
-2. `TASK-20260715-001` - 按 Ant大小姐反馈修订 XoXo UI 权威候选版 - XoXo
-3. `TASK-20260715-002` - 确认 App Icon 候选与整包最终权威 - Ant大小姐
+1. `TASK-20260718-003` - Web MVP P0 已转 review，等待 Ant 浏览器视觉/交互确认 - PM / Ant
+2. `TASK-20260718-002` - Android App Icon 已转 review，等待构建/实机 launcher 视觉验证 - yiyi / PM / Ant
+3. `TASK-20260717-004` - Gradle wrapper / CLI 构建验证能力，可并行 - yiyi
+4. `TASK-20260717-015` - Android HUD/speaker 已转 review，等待构建与实机确认 - yiyi / PM / Ant
+5. `TASK-20260717-008` - Start v23 长屏 Strategy A Android layout 实机回图确认 - yiyi / PM / Ant
 
 ---
 

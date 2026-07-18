@@ -22,7 +22,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
+import androidx.compose.ui.res.painterResource
+import com.antnagi.nagisheart.R
 import com.antnagi.nagisheart.data.PrologueLine
 import com.antnagi.nagisheart.ui.theme.*
 
@@ -54,7 +55,7 @@ fun PrologueScreen(
         ) {
             // Background
             Image(
-                painter = rememberAsyncImagePainter("file:///android_asset/bg/poster_start_nagis_heart_bg_clean.png"),
+                painter = painterResource(R.drawable.splash_bg),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

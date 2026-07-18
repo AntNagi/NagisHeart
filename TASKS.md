@@ -89,3 +89,12 @@ powershell -ExecutionPolicy Bypass -File tools/setup-workspace-compat.ps1
 - 业务权威内容仍保留在仓库对应业务目录。
 - 办公室、家里、第三端必须使用同一套文件夹结构、同一套 harness 合约、同一套协作入口。
 - 新增任务先入 PM 一一，再写入 harness task board，之后才执行。
+# Current PM Staffing Override - 2026-07-18
+
+- `yiyi` is inactive / 离职. No new work should be assigned to yiyi.
+- `PP` is the current Android developer replacing yiyi.
+- `DeDe` is the current Codex-side QA owner. DeDe should test through Harness / Loop, write reports to PM outbox, and not modify code.
+- `Wewe` remains Web developer; Web-only scope.
+- Formal tasks are tracked in `00_harness/02_planning/task_board.md`.
+
+---

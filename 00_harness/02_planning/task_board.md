@@ -6,16 +6,405 @@
 
 ---
 
+### TASK-20260718-010
+- 项目：NagisHeart
+- 标题：Web Mobile P0 Rework - 移动端首屏黑屏 / Start v23 显示修复
+- 来源：Ant大小姐 2026-07-18 移动端预览反馈：Web 版仍是黑黢黢的屏幕；PM 本地手机视口复核确认 Start 资源加载但实际画面黑屏
+- 负责人：Wewe（Web 开发 / Claude）
+- 状态：assigned
+- 优先级：P0
+- 当前动作：已派发返工任务 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEWE_20260718_WEB_MOBILE_P0_REWORK.md`；本轮只允许修 Web 移动端首屏/基础适配，不得修改 Android 或 authority_current；完成必须提交 393x852 与 430x932 两张移动端截图
+- 涉及文件：`web/`、`00_harness/05_reports/validation/web_mobile_p0_rework_20260718/`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mobile_p0_rework_20260718.md`
+- 依赖：读取最新 UI authority、interaction authority、Wewe P1 回报与 PM review；不得引用 archive；不得修改 Android/story-data/BG mapping/TT authority/App Icon authority
+- 完成定义：两个移动端视口 Start v23 可见；回报包含根因、修改文件、截图路径、Console 检查、资源加载检查、`Android touched: no`、cleanup status
+- 最新更新时间：2026-07-18
+
+### TASK-20260718-011
+- 项目：NagisHeart
+- 标题：Web Mobile Full Regression - 移动端全流程独立 QA
+- 来源：Ant大小姐 2026-07-18 反馈：Web 移动端不只是黑屏问题；如果 Wewe 认为做完但实际仍不对，需要独立测试复核
+- 负责人：Web QA / 独立测试
+- 状态：assigned
+- 优先级：P0
+- 当前动作：已派发独立 QA 任务 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEB_QA_20260718_WEB_MOBILE_FULL_REGRESSION.md`；测试只读，不改代码；覆盖 393x852 / 430x932 移动视口、Start/Home/Prologue/Name/Game/HUD/Dialog/Backlog/Chapter Catalog/Opening/Clear/BGM/Console/Network
+- 涉及文件：`00_harness/05_reports/validation/web_mobile_qa_20260718/`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_web_mobile_full_regression_20260718.md`
+- 依赖：最新 UI authority、interaction authority、Wewe P1 回报、PM review、Wewe 010 返工任务单
+- 完成定义：输出 P0/P1/P2 QA 报告、截图证据、复现步骤、实际/期望结果、Console/Network 检查，并确认 `Code touched: no`
+- 最新更新时间：2026-07-18
+
+### TASK-20260718-012
+- 项目：NagisHeart
+- 标题：Android UI Phase 2 Authority Implementation - PP 接手实现
+- 来源：PP `TASK-20260718-009` Phase 1 只读差异审计 + PM 复核通过
+- 负责人：Android 开发工程师 PP
+- 状态：assigned
+- 优先级：P0
+- 当前动作：已批准进入 Phase 2，实现范围限定为 `NagiIconButton.kt`、`NagiDialog.kt`、`ChapterScreen.kt`、`ChapterOpeningScreen.kt`、`GameScreen.kt`；禁止改 story-data、BG mapping、TT Start、App Icon V4、Web、BGM、archive、unrelated cleanup；独立 `SectionOpeningScreen.kt` / `ChapterEndingScreen.kt` 暂不改，标记后续 cleanup audit candidate
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260718_ANDROID_UI_PHASE2_AUTHORITY_IMPLEMENTATION.md`、`00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_UI_TAKEOVER_DIFF_20260718.md`、`android/app/src/main/java/com/antnagi/nagisheart/ui/`
+- 依赖：最新 UI authority、Interaction authority、PP Phase 1 diff report、PM review
+- 完成定义：HUD / dialog 变轻；Chapter catalog 改为 authority catalog-panel list；ChapterOpeningScreen 对齐 story bg + glass backing；GameScreen 只补 center highlight / micro-light；回报 `dev_reply_pp_android_ui_phase2_20260718.md` 完整并确认禁止范围未触碰
+- 最新更新时间：2026-07-18
+
+### TASK-20260718-013
+- 项目：NagisHeart
+- 标题：DeDe Codex QA Reboot + Web Mobile Full Regression
+- 来源：Ant大小姐 2026-07-18 指示：DeDe 重新建立在真正仓库目录，先讲新 harness/loop，再派 Web 移动端全流程 QA；临时 QA 不再使用
+- 负责人：DeDe（Codex / QA）
+- 状态：assigned
+- 优先级：P0
+- 当前动作：已写入任务单 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_DEDE_20260718_CODEX_QA_REBOOT_AND_WEB_MOBILE_REGRESSION.md`；DeDe 必须使用 `D:\Nagi's Heart\NagisHeart`，只读测试，不改代码；输出 Web mobile QA 报告与截图证据
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_mobile_full_regression_20260718.md`、`00_harness/05_reports/validation/web_mobile_qa_dede_20260718/`
+- 依赖：最新 agent_registry、task_board、decision_log、UI authority、interaction authority、Wewe mobile P0 rework task
+- 完成定义：P0/P1/P2 QA 报告完整；截图证据完整；Console/Network 检查完整；明确 `Code touched: no`
+- 最新更新时间：2026-07-18
+
+### TASK-20260718-014
+- 项目：NagisHeart
+- 标题：Web Mobile QA Reject Fix - DeDe 阶段性回归打回修复
+- 来源：DeDe `TASK-20260718-013` 阶段性 QA：当前 Web 移动端不可进入 Ant 视觉/交互验收，发现 2 个 P0 + 4 个 P1
+- 负责人：Wewe（Web 开发 / Claude）
+- 状态：ready / waiting Claude quota
+- 优先级：P0
+- 当前动作：已写入返工任务 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEWE_20260718_WEB_MOBILE_QA_REJECT_FIX.md`；Claude 当前五小时限额，暂不发窗口消息；恢复后派发。返工范围：Game 移动端布局、Chapter/Section transition 可见与可点击、Backlog 路由、Skip 确认弹窗、HUD authority 信息架构、Settings BGM 控件。
+- 涉及文件：`web/`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mobile_qa_reject_fix_20260718.md`
+- 依赖：DeDe QA 报告 `qa_reply_dede_web_mobile_full_regression_20260718.md`、PM review `PM_REVIEW_DEDE_WEB_MOBILE_QA_STAGE1_20260718.md`、最新 UI / Interaction authority
+- 完成定义：两个 P0 均修复；四个 P1 至少完成可验收实现；提交 393x852 / 430x932 截图；声明 `Android touched: no`；修复后重新交 DeDe 回归
+- 最新更新时间：2026-07-18
+
+### TASK-20260718-008
+- 项目：NagisHeart
+- 标题：App Icon launcher V4 integration
+- 来源：PM一一 2026-07-18 派发；Ant大小姐视觉确认 TT V4 launcher rework 包
+- 负责人：yiyi（Android 开发）
+- 状态：review
+- 优先级：P1
+- 当前动作：yiyi 已完成 V4 资源接入并回传。5 密度 adaptive foreground/background + legacy ic_launcher 已从 V4 包复制到 mipmap-*；旧 ic_launcher_round.png（5 密度）已删除（adaptive XML 已覆盖 round icon）；ic_launcher.xml 和 ic_launcher_round.xml 无需修改。等待实机构建验证。
+- 涉及文件：`design/authority/icon_start_tt/icon/android_launcher_rework_v4/`、`android/app/src/main/res/mipmap-*/`、`android/app/src/main/res/mipmap-anydpi-v26/`
+- 依赖：不得改 Start、HUD/Dialog/speaker UI、Web、story-data、BG mapping、BGM、TT 设计包、UI authority、unrelated cleanup
+- 完成定义：V4 adaptive + legacy 资源就位；adaptive XML 正确指向 foreground/background；旧 round PNG fallback 已清理；回传含 git status scope、cleanup status
+- 最新更新时间：2026-07-18
+- yiyi完成（2026-07-18）：V4 资源 copy 完毕（5 密度 × 3 文件 = 15 文件覆盖）；旧 ic_launcher_round.png 5 文件已删除；adaptive XML 无需改动。回传见 `dev_reply_yiyi_app_icon_launcher_v4_integration_20260718.md`。
+
+### TASK-20260718-007
+- 项目：NagisHeart
+- 标题：App Icon Android launcher 黑边适配重出包
+- 来源：Ant大小姐 2026-07-18 实机截图反馈：Android launcher 图标出现黑边 / 黑块，第三版 icon 在圆形 launcher mask 下不干净
+- 负责人：TT（视觉设计）
+- 状态：rework
+- 优先级：P0
+- 当前动作：Ant大小姐再次复核后决定 icon 暂停：v3 虽去掉了卡片感，但人脸裁切过狠、人物显示不完整，不作为可接入候选。当前不再消耗 TT / yiyi token 继续 icon；不得交 yiyi 接入，旧 Android icon 问题暂挂起，等后续单独视觉会审。
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_TT_20260718_APP_ICON_ANDROID_LAUNCHER_EDGE_REWORK.md`、`design/authority/icon_start_tt/icon/android_launcher_rework/`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/status_design_tt_app_icon_android_launcher_edge_rework_20260718.md`
+- 依赖：不得改 Android；不得换 icon 概念；必须保留 Ant 确认的第三版 / `rounded rect v2 decorated` 方向；PM/Ant 看新 preview 通过后再交 yiyi 接入
+- 完成定义：TT 输出无黑边 Android launcher rework 包，包含 adaptive foreground/background、legacy 如需更新、圆形/squircle launcher 预览、manifest、self check、给 yiyi 的接入口径
+- 最新更新时间：2026-07-18
+- PM复核（2026-07-18）：包完整，概念保留，黑边修复方向为浅色不透明 safe background + 放大 foreground + legacy flatten；旧 `ic_launcher_round.png` 是 cleanup candidate，需在新包接入验证后删除或重生成。
+- Ant复核（2026-07-18）：不通过。圆形 launcher 内不能看到内层方形/圆角矩形边界；TT 必须重新做 round-safe 适配，而不是直接把原正方形边强行裁进 launcher mask。
+- Ant复核v2（2026-07-18）：v2 round 改善但 squircle 仍有明显卡片感；v3 必须让 round / squircle / legacy 三种 mask 都不读成“原卡片被塞进去”。
+- Ant复核v3（2026-07-18）：暂停。v3 卡片感改善，但人脸裁切过狠，人物不完整；icon 不进入当前 yiyi 开发队列。
+
+### TASK-20260718-006
+- 项目：NagisHeart
+- 标题：Android 实机功能 bug：opening 背景错 / opening 点不动 / BGM 断链
+- 来源：Ant大小姐 2026-07-18 实机反馈：很多章节默认第一张 Nagi 抱枕背景、章节开篇点不动、BGM 不见了
+- 负责人：yiyi（Android 开发）
+- 状态：review
+- 优先级：P0
+- 当前动作：yiyi 已完成三项修复并回传，PM 静态复核通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_YIYI_006_FUNCTIONAL_BUGS_FIX_20260718.md`。等待 Ant大小姐实机构建验证，不标 done；yiyi 可继续执行 004 UI 受控修正。
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_YIYI_20260718_ANDROID_REAL_DEVICE_FUNCTIONAL_BUGS.md`、`00_harness/04_execution/pm/PM_AGENT_INBOX/PM_DISPATCH_TO_YIYI_20260718_EXECUTE_006_THEN_004.md`、`android/app/src/main/java/com/antnagi/nagisheart/ui/viewmodel/GameViewModel.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/GameScreen.kt`、`android/app/src/main/java/com/antnagi/nagisheart/data/BgmManager.kt`、`android/app/src/main/assets/bgm/bgm.mp3`
+- 依赖：不得改 Web；不得改 story-data 正文；不得改 BG mapping 权威，除非先回报 PM 证明 mapping 本身错误；不得混入 HUD/Dialog UI rework
+- 完成定义：章节/小节 opening 使用即将进入节点的背景；opening 可轻触继续不再卡住；Android BGM 资源/path 修复并实机可听；回报包含验证章节、BGM 结果、cleanup status
+- 最新更新时间：2026-07-18
+- PM派发（2026-07-18）：Codex token 紧张，Claude/yiyi 仍可继续工作；当前明确让 yiyi 先做 006，006 回传后再做 004。App Icon 暂停，不得混入。
+- yiyi完成（2026-07-18）：三项 bug 已修复。根因：opening bg 用了上一节点的 bgAssetPath（enterNode 在 transition return 前未更新 UI state）；opening 没有自身 clickable 导致轻触不可靠；BGM 文件未从 repo assets/ 复制到 Android assets/bgm/。修改文件：GameViewModel.kt、GameScreen.kt、android assets bgm/bgm.mp3（新增）。
+- PM复核（2026-07-18）：006 静态通过。BGM asset hash 与 root `assets/bgm.mp3` 一致；opening overlay root clickable 已接入；transition pending bg 已提前写入 UI state。等实机验证。
+
+### TASK-20260718-005
+- 项目：NagisHeart
+- 标题：Web P1 controlled continuation
+- 来源：Ant大小姐 2026-07-18 确认 Wewe 可继续，但 Web 开发绝对不能动 Android 代码
+- 负责人：Wewe（Web 开发 / Claude）
+- 状态：review
+- 优先级：P1
+- 当前动作：Wewe 已完成 7/7 P1 项并回传，PM 静态复核通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_WEWE_WEB_P1_CONTROLLED_CONTINUATION_20260718.md`。当前转 review，等待 Ant大小姐浏览器视觉/交互确认；不得标 done。
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEWE_20260718_WEB_P1_CONTROLLED_CONTINUATION.md`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_p1_controlled_continuation_20260718.md`、`web/`、`assets/bgm.mp3`、TT authority icon 路径
+- 依赖：不得改 Android；不得改 story-data 正文；不得改 BG mapping 权威；不得改 `00_harness/08_authority_current/`；不得引用 archive
+- 完成定义：Web P1 至少推进 Save/Load、Settings、Web BGM、NagiDialog/native confirm、打字机跳过、PWA/icon 或 Chapter Clear actions 中的可执行项；回报必须声明 `Android touched: no`
+- 最新更新时间：2026-07-18
+- PM复核（2026-07-18）：JS 语法检查通过；native `confirm()` 已替换为 `NagiDialog.confirm()`；BGM 与 icon 引用资源存在；本地 repo server 下路径可用。PWA 生产部署仍需后续把 icon 复制/打包进发布路径，Service Worker 仍 P2。Cleanup status: none。
+
+### TASK-20260718-004
+- 项目：NagisHeart
+- 标题：Android UI authority implementation rework / ownership gate
+- 来源：Ant大小姐 2026-07-18 实机截图反馈：当前 HUD / Dialog UI 仍明显不符合最新权威稿，并质疑是否应更换开发
+- 负责人：PM 一一先收口；后续执行人待定（yiyi 仅可机械修正，不得自由调 UI；若下一轮仍偏离，建议更换 Android UI 实现人）
+- 状态：review
+- 优先级：P0
+- 当前动作：yiyi 已按 diff table 完成 4 个文件修正并回传。等待 Ant大小姐实机构建验证 5 个截图验证点。回传见 `dev_reply_yiyi_004_ui_controlled_correction_20260718.md`。
+- 涉及文件：`00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_XoXo_v1_0.html`、`00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md` section 15 / 16.5、`android/app/src/main/java/com/antnagi/nagisheart/ui/component/NagiHud.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/icon/NagiIconButton.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/component/NagiDialog.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/component/DialogueLayer.kt`
+- 依赖：开发执行前必须读取最新 `08_authority_current/04_ui/` 与 PM reject review；不得改 story-data、BG mapping、TT Start、App Icon、BGM、Web 或资源清理；不得凭感觉调 alpha / shadow / shape
+- 完成定义：HUD icon/title/action、Dialog fallback、speaker/name 金色可读性在亮背景和复杂背景下均经 Ant大小姐实机确认贴近 authority；若 yiyi 下一轮仍明显偏离，则 UI 实现职责转交其他 Android UI 开发
+- 最新更新时间：2026-07-18
+- PM复核（2026-07-18）：004 差异表接受。允许后续只改 `NagiIconButton.kt`、`NagiDialog.kt`、`DialogueLayer.kt`、`BacklogScreen.kt`；title/action chip 不改；004 排在 006 功能 P0 之后执行。
+- PM派发（2026-07-18）：006 静态通过后，允许 yiyi 执行 004；仍保持 scope gate，不得混入 BGM/App Icon/Web/story-data/BG mapping/资源清理。
+- yiyi完成（2026-07-18）：4 文件按 diff table 修正完毕。NagiIconButton shadow 降重 + alpha 0.94；NagiDialog card bg 56%/scrim 38%/border 14%/shadow 18dp/text shadow 35%+inner highlight；DialogueLayer + BacklogScreen speaker 加 gold halo。Icon shadow/halo 因 Compose 限制未实现（已说明）。Title/action chip 未改。
+
+### TASK-20260718-003
+- 项目：NagisHeart
+- 标题：Web MVP overnight implementation pass
+- 来源：Ant大小姐 2026-07-18 说明 Web 版已有 MVP，希望明早醒来看到开发好了的消息
+- 负责人：Wewe（Web 开发 / Claude）
+- 状态：review
+- 优先级：P0
+- 当前动作：Wewe 已完成 P0-A/B/C/D/E 并回传；PM 静态复核通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_WEWE_WEB_MVP_OVERNIGHT_20260718.md`。本地验证 `node web/serve.js` 可打开 `/web/`，story-data 与 TT Start v23 关键资源返回 200；等待 Ant大小姐浏览器视觉/交互确认后再转 done
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEWE_20260718_WEB_MVP_OVERNIGHT_IMPLEMENTATION.md`、`web/`、`story-data/`、`assets/`、`design/authority/icon_start_tt/`、`00_harness/08_authority_current/`
+- 依赖：Claude / Wewe token 恢复；不得改 Android；不得改 authority_current；不得改 story-data 正文或 BG mapping 权威；不得引用 archive
+- 完成定义：Web MVP 可本地打开并有明确 P0 开发推进；输出 `dev_reply_wewe_web_mvp_overnight_20260718.md`，包含运行方式、修改文件、验证结果、剩余差异、cleanup status
+- 最新更新时间：2026-07-18
+- Wewe执行更新（2026-07-18）：P0 全部 5 项完成，新增 `web/serve.js`，回报见 `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mvp_overnight_20260718.md`。P1 remaining：Save/Load glass dialog、Settings 细节、BGM、PWA、打字机跳过、NagiDialog。Cleanup candidates 已记录但未清理。
+
+### TASK-20260718-002
+- 项目：NagisHeart
+- 标题：Android App Icon 接入 TT confirmed 第三版
+- 来源：Ant大小姐 2026-07-18 确认“icon 用第三版”（TT icon 总览图顶部第三张 / 右上 `rounded rect mask preview`），并指出当前 yiyi/Android 侧 icon 用错
+- 负责人：yiyi（Android 开发）
+- 状态：review
+- 优先级：P1
+- 当前动作：yiyi 已完成 Android App Icon 接入修正，转 review。(1) 5 个密度 `mipmap-*/ic_launcher.png` 已替换为 TT authority exports；(2) TT adaptive foreground/background PNG 已复制到 `mipmap-*/ic_launcher_foreground.png` 和 `ic_launcher_background.png`；(3) 新建 `mipmap-anydpi-v26/ic_launcher.xml` 和 `ic_launcher_round.xml` adaptive icon XML；(4) `AndroidManifest.xml` 已新增 `android:roundIcon="@mipmap/ic_launcher_round"`。PM 静态复核通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_YIYI_APP_ICON_AUTHORITY_FIX_20260718.md`；等待构建/实机 launcher 视觉验证
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_YIYI_20260718_APP_ICON_AUTHORITY_FIX.md`、`design/authority/icon_start_tt/icon/`、`android/app/src/main/res/mipmap-*/`、`android/app/src/main/res/mipmap-anydpi-v26/`、`android/app/src/main/AndroidManifest.xml`
+- 依赖：Ant大小姐已确认 App Icon 第三版；TT authority package 已存在；执行后仍需构建/实机 launcher 视觉确认
+- 完成定义：Android launcher icon 使用 TT confirmed App Icon；legacy/adaptive/round icon 口径清楚；回传文件清单、验证结果和 cleanup status
+- 最新更新时间：2026-07-18
+- Ant二次确认（2026-07-18）：确认”第三版”就是 TT icon 总览图顶部第三张 / 右上 `rounded rect mask preview`。
+- yiyi执行更新（2026-07-18）：已完成 icon 替换和 adaptive icon 配置，转 `review`。Cleanup candidates: 旧 `ic_launcher_round.png`（5 个密度）可清理，当前未删除。
+- PM复核（2026-07-18）：legacy `ic_launcher.png`、adaptive foreground/background 5 个密度 hash 均与 TT authority exports 一致；adaptive XML 与 manifest 配置正确。旧 `ic_launcher_round.png` 暂不删除，待构建/实机 launcher 视觉确认后另开清理。
+
+### TASK-20260718-001
+- 项目：NagisHeart
+- 标题：废弃视觉资源安全清理归档
+- 来源：Ant大小姐 2026-07-18 要求清理已经不需要的文件和资源，避免新旧版本混淆
+- 负责人：PM 一一
+- 状态：done
+- 优先级：P0
+- 当前动作：已将 TT Start 长屏 V1/V2/V3 被打回候选包与 Android 旧 Start/splash 资源移入 `00_harness/99_archive/obsolete_assets/20260718_cleanup/`；活跃路径只保留 `start_long/rethink/` 与当前 Android 权威资源
+- 涉及文件：`design/authority/icon_start_tt/start_long/`、`android/app/src/main/res/drawable-nodpi/`、`android/app/src/main/assets/bg/`、`00_harness/99_archive/obsolete_assets/20260718_cleanup/`、`00_harness/05_reports/validation/PM_REVIEW_OBSOLETE_ASSET_CLEANUP_20260718.md`
+- 依赖：不做不可逆删除；archive 只供历史追溯，不得作为开发引用源
+- 完成定义：废弃候选不再留在活跃资源路径；清理记录和治理记录已落账；后续恢复必须另开 restore task
+- 最新更新时间：2026-07-18
+
+### TASK-20260717-016
+- 项目：NagisHeart
+- 标题：章节目录 UI authority 补齐 + 弹窗 Android fallback 口径收紧
+- 来源：Ant大小姐 2026-07-17 要求 PM/UI 在开发 token 不可用期间先做好能做的事；PM 按 `DEC-20260717-016` 检查发现章节目录仍 pending，弹窗无真实 blur fallback 仍不够明确
+- 负责人：XoXo（UI 设计）
+- 状态：done
+- 优先级：P0
+- 当前动作：PM review 通过，章节目录已成为 review authority；Dialog fallback token 已可交 yiyi / Wewe 实现；交互 section 30 也已同步
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260717_CHAPTER_CATALOG_DIALOG_FALLBACK_AUTHORITY.md`、`design/NagisHeart_UI_Authority_XoXo_v1_0.html`、`design/NagisHeart_UI_Authority_Merge_Record_20260715.md`、`design/NagisHeart_Interaction_Design_v1_0.md`、`00_harness/08_authority_current/02_interaction/NagisHeart_Interaction_Design_v1_0.md`、`00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md`
+- 依赖：遵守 `DEC-20260717-014` 权威同步硬规则与 `DEC-20260717-016` UI 谨慎变更规则；不得改 Android/Web/story/BG/TT/App Icon
+- 完成定义：章节目录从 pending 变成 review authority；交互文档与 UI 文档一致；弹窗 fallback 有可实现 token；authority_current 同步完成；回传 status_design_xoxo_chapter_catalog_dialog_fallback_20260717.md
+- 最新更新时间：2026-07-17
+
+- XoXo执行更新（2026-07-17）：`TASK-20260717-016` 已完成并转 `review`；章节目录已从 pending 转为 review authority；Dialog Android no-real-blur fallback token 已补齐；authority_current 已同步到 `00_harness/08_authority_current/04_ui/`。
+- PM复核（2026-07-17）：通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_XOXO_CHAPTER_CATALOG_DIALOG_FALLBACK_20260717.md`；交互权威见 `00_harness/08_authority_current/02_interaction/NagisHeart_Interaction_Design_v1_0.md` section 30。
+
+### TASK-20260717-015
+- 项目：NagisHeart
+- 标题：Android 接入 XoXo 014 HUD 统一与 speaker 金色可读性规则
+- 来源：Ant大小姐 2026-07-17 实机反馈 + XoXo `TASK-20260717-014` authority patch；高亮背景下 icon buttons 裸白线不可读，speaker/name 金色喜欢但需要可读性保护
+- 负责人：yiyi（Android 开发）
+- 状态：review
+- 优先级：P0
+- 当前动作：yiyi 已完成两项实现并转 review，但 Ant 2026-07-18 实机截图显示 HUD 过重、偏厚，未贴近 final glass HUD 轻玻璃语言；PM 实机复核不通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_ANDROID_UI_REAL_DEVICE_REJECT_20260718.md`。后续并入 `TASK-20260718-004` 做受控 rework / ownership gate
+- 涉及文件：`NagiIconButton.kt`、`NagiHud.kt`、`GameScreen.kt`、`DialogueLayer.kt`、`BacklogScreen.kt`
+- 依赖：实机构建验证需要 TASK-20260717-004 Gradle wrapper 或 Android Studio 手动构建
+- 完成定义：HUD back/auto/save/backlog/menu icon buttons 不再裸线不可读；title/action/icon 同属 final glass HUD；speaker/name 保留金色但可读；回传 dev reply
+- 最新更新时间：2026-07-17
+- PM复核（2026-07-18）：静态代码曾通过，但 Ant 实机截图复核不通过；以 `00_harness/05_reports/validation/PM_REVIEW_ANDROID_UI_REAL_DEVICE_REJECT_20260718.md` 为当前最新结论。Cleanup status: none。
+
+### TASK-20260717-014
+- 项目：NagisHeart
+- 标题：实机反馈：高亮背景下 HUD 统一与 speaker 金色可读性补齐
+- 来源：Ant大小姐 2026-07-17 实机反馈：标题/跳过有背景和线框但图标按钮没有，亮底图下图标不可见且整体不协调；底部人名金色喜欢但在背景里不清楚
+- 负责人：XoXo（UI 设计）
+- 状态：done
+- 优先级：P0
+- 当前动作：PM review 通过，已转 yiyi `TASK-20260717-015` 实现
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260717_HUD_DIALOGUE_READABILITY_REAL_DEVICE.md`、`design/NagisHeart_UI_Authority_XoXo_v1_0.html`、`design/NagisHeart_UI_Authority_Merge_Record_20260715.md`、`00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md`
+- 依赖：遵守 `DEC-20260717-014` 权威同步硬规则；不改 Android/Web/story-data；章节目录仍 pending
+- 完成定义：XoXo 回传 HUD icon/title/action 统一规则、speaker/name 金色可读性规则、给 yiyi 的实现说明，并明确 authority_current 已同步
+- 最新更新时间：2026-07-17
+- XoXo执行更新（2026-07-17）：`TASK-20260717-014` 已完成并转 `review`；authority sync 已完成到 `00_harness/08_authority_current/04_ui/`。
+- PM复核（2026-07-17）：通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_XOXO_HUD_DIALOGUE_READABILITY_20260717.md`；后续实现任务为 `TASK-20260717-015`。
+
+### TASK-20260717-013
+- 项目：NagisHeart
+- 标题：实机反馈二轮：HUD title chip / 剧情回顾滑动翻页 / 弹窗 authority 视觉回修
+- 来源：Ant大小姐 2026-07-17 实机复验反馈：标题背景仍不明显；剧情回顾不需要上一页/下一页按钮，应左右滑动换页；弹窗 UI 不像已确认权威页
+- 负责人：yiyi（Android 开发）
+- 状态：review
+- 优先级：P0
+- 当前动作：yiyi 已完成三项回修并转 review，但 Ant 2026-07-18 实机截图显示 Dialog 仍不像 final light glass authority，且 HUD 仍偏离；PM 实机复核不通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_ANDROID_UI_REAL_DEVICE_REJECT_20260718.md`。Backlog 左右滑动方向可保留；HUD / Dialog 并入 `TASK-20260718-004` 做受控 rework / ownership gate
+- 涉及文件：`NagiHud.kt`、`GameScreen.kt`、`BacklogScreen.kt`、`NagiDialog.kt`
+- 依赖：实机构建验证需要 TASK-20260717-004 Gradle wrapper 或 Android Studio 手动构建
+- 完成定义：标题 chip 有可见轻玻璃托底；剧情回顾默认通过左右滑动翻页且不显示上一页/下一页文字按钮；弹窗不再像当前厚重深色大卡片，并保持可读/可点/层级正确；回传 dev reply 和验证说明
+- 最新更新时间：2026-07-17
+- PM复核（2026-07-18）：静态代码曾通过，但 Ant 实机截图复核不通过；以 `00_harness/05_reports/validation/PM_REVIEW_ANDROID_UI_REAL_DEVICE_REJECT_20260718.md` 为当前最新结论。Backlog 左右滑动方向保留；HUD / Dialog 需 rework。Cleanup status: none。
+
+### TASK-20260717-012
+- 项目：NagisHeart
+- 标题：Web 开发接手入职与只读审计
+- 来源：Ant大小姐说明 Web 版本由新 Web 开发 Wewe 接手；cc 已有基础 Web 开发和架构文档，需要先培训接手而非直接改代码
+- 负责人：Wewe（Web 开发 / Claude）
+- 状态：done
+- 优先级：P1
+- 当前动作：已被 Ant大小姐 2026-07-18 的新口径覆盖：Web 版已经有 MVP，不再停留在只读审计；入职必读内容并入 `TASK-20260718-003` overnight implementation pass
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/CLAUDE_WEB_DEV_WEWE_BOOTSTRAP.md`、`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEWE_20260717_WEB_ONBOARDING_AUDIT.md`、`design/NagisHeart_Web_Architecture_v1_0.md`、`handoff/handoff_to_cc_20260713.md`、`web/`、`00_harness/08_authority_current/`
+- 依赖：新任务 `TASK-20260718-003` 执行时仍必须先读 bootstrap 与 authority_current
+- 完成定义：旧只读任务不再单独执行，避免浪费 token；Web 开发直接进入 overnight 实现任务
+- 最新更新时间：2026-07-18
+
+### TASK-20260717-011
+- 项目：NagisHeart
+- 标题：实机反馈：章节开始 / 章节结束 / 顶部标题与下一章视觉权威补齐
+- 来源：Ant大小姐 2026-07-17 实机反馈：章节开始字体无托底不清楚；章节结束页、顶部标题与“下一章/跳过”等动作样式没有按 UI authority 做
+- 负责人：XoXo（UI 设计）
+- 状态：review
+- 优先级：P0
+- 当前动作：XoXo 已完成 UI authority 补齐，PM review 通过并保持 `review`：章节开始/小节开始加轻透明雾面托底；Chapter Clear / Section Clear 已提升为当前可实现 authority；顶部标题 chip 与跳过/下一章动作 chip 已收口为 final glass HUD。等待 yiyi 后续按规范实现并回传实机图给 Ant 确认。
+- 涉及文件：`design/NagisHeart_UI_Authority_XoXo_v1_0.html`、`design/NagisHeart_UI_Authority_Merge_Record_20260715.md`、`00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md`、`design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html`、`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260717_CHAPTER_UI_REAL_DEVICE_FEEDBACK.md`
+- 依赖：不得把历史 Missing Pages 的章节结束页直接当 final；需要明确采用、修订或替换；不得混入 story/script、BG mapping、TT Start、App Icon、Android 代码或资源删除
+- 完成定义：章节开始/章节结束/标题与下一章动作的视觉规则足够明确，yiyi 可按规范实现而不需要自行设计；回传设计 reply、修改文件清单和实现提示
+- 最新更新时间：2026-07-17
+
+- XoXo执行更新（2026-07-17）：`TASK-20260717-011` 已完成 UI authority 补齐并转 `review`；章节开始/小节开始已加轻透明雾面托底；Chapter Clear / Section Clear 已进入当前可实现 authority；顶部标题 chip 与跳过/下一章动作 chip 已收口为 final glass HUD。等待 PM 复核后交 yiyi 实现。
+
+### TASK-20260717-010
+- 项目：NagisHeart
+- 标题：实机弹窗层级与 final UI authority 样式修复
+- 来源：Ant大小姐实机测试反馈 / yiyi 转报：游戏内确认类弹窗跑到其他 UI 元素后面且样式仍是旧版
+- 负责人：yiyi（Android 开发）
+- 状态：review
+- 优先级：P0
+- 当前动作：yiyi 已完成修复：移除 `RenderEffect.createBlurEffect`（根因：blur 作用于 Dialog 自身内容而非背景，导致文字不可读 + 弹窗看起来在后面）；容器背景透明度从 `0x52`（32%）提升到 `0xCC`（80%），确保弹窗在游戏画面上清晰可见；增加 `shadow(12.dp)` 提供层次感；其余样式（ScrimColor、ContainerBorder、DialogShape 24dp、Title Serif 28sp #F4F1EA、Body 16sp #D1F4F1EA、Dismiss #D6D2CB、Confirm #F4F1EA、右对齐按钮 26dp 间距、L/R 40dp + top 32dp + bottom 28dp padding）已对齐 final UI authority；z-order 本身无问题（`Dialog()` 创建独立 window）；等待实机构建验证
+- 涉及文件：`android/app/src/main/java/com/antnagi/nagisheart/ui/component/NagiDialog.kt`
+- 依赖：实机构建验证需要 TASK-20260717-004 Gradle wrapper 或 Android Studio 手动构建
+- 完成定义：确认类弹窗不再被其他 UI 盖住且可点击；遮罩在视觉和交互上位于底层 UI 之上；弹窗视觉与 final UI authority 的 glass dialog 方向一致；输出 dev reply、文件清单和截图/阻塞说明
+- 最新更新时间：2026-07-17
+
+### TASK-20260717-009
+- 项目：NagisHeart
+- 标题：剧情文案 / 章节 BG / 交互规则遗留项闭环
+- 来源：Ant大小姐追问旧测试 bug 图片中“剧情没写好、章节 BG 要换、交互规则”等非 UI authority 项是否已处理；并追加 2026-07-17 实机反馈：剧情回顾不要滚屏、章节页统一 dark 提升可读性
+- 负责人：yiyi（Android 开发）+ PM 一一（文案口径确认）
+- 状态：review
+- 优先级：P0
+- 当前动作：PM 静态复核通过，详见 `00_harness/05_reports/validation/PM_REVIEW_YIYI_ENGINE_CONTENT_LEGACY_CLOSURE_20260717.md`；等待实机构建/截图验证。已完成：(A) autoAdvance/→/空白选项从玩家视图过滤，引擎路由不受影响；(B) 剧情回顾改为翻页（8条/页）；(C) wc_offer BG 从 back.jpg 同步为 living_room.jpg；(D) 好卖→有用 文案同步；(E) nagiCall 保持 deferred；(F) scene_visuals 无 Light，章节/story gameplay 使用 Dark 可读性方案；(G) 章节/小节 opening 加 GlassBacking、Chapter/Section Clear 加 ClearCard、HUD title chip 和 action chip 按 Section 14 实现。阻塞：u20j 目标 BG `vs_u20_goal.jpg` 不存在，保留当前 `bg_u20j_worldcup_goal_kick.jpg`，需 PM/Ant 确认口径；blur 效果因 Compose 限制使用半透明背景+边框替代，需实机确认
+- 涉及文件：`story-data/nodes.json`、`story-data/scene_visuals.json`、`android/app/src/main/java/com/antnagi/nagisheart/engine/StoryEngine.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/viewmodel/GameViewModel.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/BacklogScreen.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/GameScreen.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/SectionClearScreen.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/component/NagiHud.kt`
+- 依赖：`u20j` 目标 BG `vs_u20_goal.jpg` 当前不存在，已保留现有 `bg_u20j_worldcup_goal_kick.jpg`，需 PM 确认是补资源还是保留；实机构建验证需要 TASK-20260717-004 Gradle wrapper 或 Android Studio 手动构建
+- 完成定义：输出修复/核验报告；明确哪些已改、哪些因缺资源或 UI authority 阻塞；运行数据同步设计权威源后不再含 `好卖` 旧文案、`wc_offer` 不再使用 `back.jpg`；不再出现 `→` / 空白 / autoAdvance 占位选项给玩家；剧情回顾/剧情回复为翻页不是滚屏；章节/story gameplay 页面默认 dark；Backlog 回归点清楚；章节 BG 不新增断链
+- 最新更新时间：2026-07-17
+
+### TASK-20260717-008
+- 项目：NagisHeart
+- 标题：Start v23 长屏 Strategy A Android layout experiment
+- 来源：TT `TASK-20260717-003` rethink / `DEC-20260717-012`
+- 负责人：yiyi（Android 开发）
+- 状态：review
+- 优先级：P0
+- 当前动作：yiyi 已完成 Strategy A layout 实现：背景 `ContentScale.Crop` 全屏填充 + 9:16 UI safe layer 居中放置 SVG/hit area；可调参数 `uiVerticalBias`（0.0~1.0）；无构建/截图（缺 gradlew），等待 PM 静态复核或 TASK-20260717-004 构建验证后回图
+- 涉及文件：`design/authority/icon_start_tt/start/`、`design/authority/icon_start_tt/start_long/rethink/START_LONG_SCREEN_ADAPTATION_RETHINK_v1.md`、Android Start 页相关实现文件
+- 依赖：不得接入 `start_long/` V1、`start_long/v2/`、`start_long/v3/` 作为 final；不得使用 V1 毛玻璃/模糊补边；不得改 App Icon、XoXo final UI authority、story/script 数据或旧资源清理；完成后必须由 PM / Ant 复核 Android 实机视觉
+- 完成定义：Android 长屏设备/模拟器无上下黑条；保留左侧主体关系和 Nagi 下巴/下颌线；标题/START/Tap to start 使用 v23 SVG/图层字感且不独立漂移；START 1.6s alpha 呼吸和点击热区正常；回传截图/录屏和 dev reply
+- 最新更新时间：2026-07-17
+
+### TASK-20260717-007
+- 项目：NagisHeart
+- 标题：Android 当前 UI 与 final UI authority 全系统差异审计
+- 来源：Ant大小姐要求资源补全后先让 yiyi 全量对比检查，先回差异结果再决定调整
+- 负责人：yiyi（Android 开发）
+- 状态：done
+- 优先级：P0
+- 当前动作：PM 已复核 yiyi 全系统差异审计并通过，详见 `00_harness/05_reports/validation/PM_REVIEW_YIYI_ANDROID_UI_AUTHORITY_DIFF_AUDIT_20260717.md`；后续按裁决执行 `TASK-20260717-005`
+- 涉及文件：`design/NagisHeart_UI_Authority_XoXo_v1_0.html`、`design/NagisHeart_UI_Authority_Merge_Record_20260715.md`、`android/` UI 实现、`assets/ui/android/drawable/`、XoXo/TT authority reports
+- 依赖：XoXo 资源补给已通过 PM review；TT 长屏 V3 仍 pending；App Icon 仍 pending
+- 完成定义：输出 Android vs final UI authority 差异矩阵、资源/接线缺口、pending authority dependencies、建议 PM 决策；不得修改代码或资源
+- 最新更新时间：2026-07-17
+
+### TASK-20260717-006
+- 项目：NagisHeart
+- 标题：补齐并整理 Android 缺失 UI 资源交付包
+- 来源：Ant大小姐纠正资源职责 / `DEC-20260717-007` / XoXo Android 资源审计
+- 负责人：XoXo（主 UI 设计）
+- 状态：done
+- 优先级：P0
+- 当前动作：PM 已复核 XoXo Android UI 资源包并通过，详见 `00_harness/05_reports/validation/PM_REVIEW_XOXO_UI_RESOURCE_SUPPLY_ANDROID_20260717.md`；后续交 yiyi 执行 `TASK-20260717-005`
+- 涉及文件：`assets/ui/android/drawable/`、`assets/ui/svg/`、final UI authority、XoXo Android 资源审计报告、必要的 UI 资源清单
+- 依赖：不替换 App Icon；不改 Android 代码；不删除旧资源；不改 TT Start 长屏资源
+- 完成定义：输出 Android 开发可接入的 UI 资源包清单 / 缺口补齐文件 / Prologue-Name 背景口径 / 保留旧资源说明，并回报 PM
+- 最新更新时间：2026-07-17
+
+### TASK-20260717-005
+- 项目：NagisHeart
+- 标题：修复 Android UI 资源缺口与错误引用
+- 来源：XoXo Android 资源审计 / `DEC-20260717-005`
+- 负责人：yiyi（Android 开发）
+- 状态：review
+- 优先级：P0
+- 当前动作：yiyi 已完成最小 P0 修复并在实机构建中补了资源合并问题：`ANDROID_DRAWABLE_RESOURCE_MANIFEST_20260717.md` 已移出 drawable 目录，`res/drawable/` 重复 icon 副本已删除，保留 `assets/ui/android/drawable/` 作为 Gradle `res.srcDirs` 单一资源来源；Prologue/Name 已改用 `R.drawable.splash_bg`，旧 splash/keyart 无主动代码引用；最终 done 等成功构建结果
+- 涉及文件：`PrologueScreen.kt`、`NameSetupScreen.kt`、`android/app/src/main/res/drawable/`、`assets/ui/android/drawable/`、旧 splash/keyart 引用位置
+- 依赖：不得替换 App Icon；不得删除旧资源；不得混入 Gradle wrapper 工作；不要接入 TT 长屏 V1/V2/V3，长屏等新适配策略确认
+- 完成定义：Prologue/Name 不再引用缺失 asset path；XoXo 提供的 drawable icons 可被 Android 编译引用；旧 splash/keyart 主动引用清单明确；输出 dev reply；构建验证通过后可标记 done
+- 最新更新时间：2026-07-17
+
+### TASK-20260717-004
+- 项目：NagisHeart
+- 标题：补充 Gradle Wrapper 与 CLI 构建验证能力
+- 来源：yiyi `TASK-20260717-001` 回报指出项目缺 `gradlew` / `gradlew.bat`
+- 负责人：yiyi（Android 开发）
+- 状态：ready
+- 优先级：P1
+- 当前动作：PM 批准现在执行。yiyi 在单独改动中生成 Gradle wrapper，并确认 wrapper 版本与项目 Gradle/AGP 匹配；完成后立即用 CLI 做最小构建验证，重点验证 `TASK-20260717-005` 的 icons / `R.drawable.splash_bg` 修复是否编译通过；不得混入视觉资源改动
+- 涉及文件：`gradlew`、`gradlew.bat`、`gradle/wrapper/`、Gradle 配置文件
+- 依赖：本地 Gradle 可用；若不可用，回报阻塞原因
+- 完成定义：CLI 可执行基础构建命令并给出结果；若本地 Gradle / SDK 不足，明确记录阻塞原因；输出独立 dev reply，并说明 `TASK-20260717-005` 是否可转 done
+- 最新更新时间：2026-07-17
+
+### TASK-20260717-003
+- 项目：NagisHeart
+- 标题：补充 TT Start v23 长屏适配资源包
+- 来源：yiyi Start v23 实机适配回报 / `DEC-20260717-004`
+- 负责人：TT（平面设计）
+- 状态：done
+- 优先级：P0
+- 当前动作：TT 已完成 rethink，并追加说明确认本次 Start final 仍沿用 Start v23 / remeet 底图方向；PM 已登记 `DEC-20260717-012`，后续开发动作移交 `TASK-20260717-008`
+- 涉及文件：`design/authority/icon_start_tt/start/`、`design/authority/icon_start_tt/start_long/rethink/`、Start 规范补充
+- 依赖：yiyi 执行 `TASK-20260717-008` 后由 PM / Ant 根据真机截图确认是否固化；不改 App Icon；不改 XoXo final UI authority；不改 Android 代码
+- 完成定义：TT 已输出适配策略分析、Strategy A 预览、manifest/self-check，并明确 V1/V2/V3 不作为 final；PM 已收口并拆给开发实验
+- 最新更新时间：2026-07-17
+
+### TASK-20260717-002
+- 项目：NagisHeart
+- 标题：核对 Android 当前 UI 资源与最终 UI authority 的缺漏/冗余
+- 来源：Ant大小姐确认 XoXo 修订版 OK 后要求 UI 侧检查 Android 当前资源 / `DEC-20260717-003`
+- 负责人：XoXo（主 UI 设计）
+- 状态：done
+- 优先级：P0
+- 当前动作：PM 已复核 XoXo Android 资源审计并通过，详见 `00_harness/05_reports/validation/PM_REVIEW_XOXO_ANDROID_RESOURCE_AUDIT_20260717.md`；资源补齐职责已修正为先由 XoXo 执行 `TASK-20260717-006`，再交给 yiyi 接入 `TASK-20260717-005`
+- 涉及文件：`design/NagisHeart_UI_Authority_XoXo_v1_0.html`、`design/NagisHeart_UI_Authority_Merge_Record_20260715.md`、`design/authority/icon_start_tt/`、`android/app/src/main/res/`、`android/app/src/main/assets/`、Android UI screen 相关文件
+- 依赖：无
+- 完成定义：输出 required present / missing / extra obsolete / mismatched usage 四类清单，并明确哪些需要 PM 或开发决策
+- 最新更新时间：2026-07-17
+
 ### TASK-20260717-001
 - 项目：NagisHeart
 - 标题：接入 TT Start v23 分层开屏页
 - 来源：Ant大小姐确认 TT 开屏页 OK / `DEC-20260717-001`
 - 负责人：yiyi（Android 开发）
-- 状态：ready
+- 状态：blocked
 - 优先级：P0
-- 当前动作：yiyi 按 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_YIYI_20260717_START_V23_INTEGRATION.md` 接入 Android Start v23，并回写开发报告
+- 当前动作：yiyi 已实现并 push Start v23 分层接入；TT 长屏 V1/V2/V3 均未通过且不得接入。TT rethink Strategy A 已恢复为可执行 Android layout experiment，后续由 yiyi 执行 `TASK-20260717-008`，真机回图后再决定是否解除长屏阻塞并固化
 - 涉及文件：`design/authority/icon_start_tt/start/`、Android Start 页相关实现文件、Android 资源文件
-- 依赖：不依赖 App Icon 最终确认；不得扩大到 XoXo UI 合版或未确认页面
+- 依赖：`TASK-20260717-008` 真机/模拟器回图通过 PM / Ant 确认；Android Studio 或 Gradle wrapper 完成构建验证；`TASK-20260717-005` P0 编译阻塞修复
 - 完成定义：Android 显示 TT v23 Start 海报入口；START 以 1.6s alpha 呼吸；透明点击热区进入既有叙事入口；旧五按钮菜单不出现在 Start poster；构建或阻塞原因有明确证据
 - 最新更新时间：2026-07-17
 
@@ -23,38 +412,39 @@
 - 项目：NagisHeart
 - 标题：判断 BGM 资源接入候选是否进入首版
 - 来源：公司电脑工作区差异审计 / `WORKSPACE_DIFF_AUDIT_OFFICE_20260716.md`
-- 负责人：cc（开发）
-- 状态：ready
+- 负责人：PM 一一
+- 状态：done
 - 优先级：P1
-- 当前动作：检查 `assets/bgm/bgm.mp3`、`android/app/build.gradle.kts`、`tools/validate.js` 是否应作为一组 BGM 接入改动保留并提交
-- 涉及文件：`assets/bgm/bgm.mp3`、`android/app/build.gradle.kts`、`tools/validate.js`、`story-data/scene_visuals.json`
-- 依赖：PM 已授权公司一一清理非技术遗留；技术接入由 cc 判断
-- 完成定义：cc 明确结论为 `保留并提交` / `修改后提交` / `丢弃本地改动`，并说明原因
-- 最新更新时间：2026-07-16
+- 当前动作：Ant大小姐确认 BGM 早已接入；PM 静态核验发现 `assets/bgm.mp3` 存在，Android 有 `BgmManager.kt`、`UserSettings.bgmVolume`、`SettingsScreen` 音量入口、`GameViewModel` 按 scene visual `bgm` 播放逻辑；不再作为待决接入候选
+- 涉及文件：`assets/bgm.mp3`、`android/app/src/main/java/com/antnagi/nagisheart/data/BgmManager.kt`、`android/app/src/main/java/com/antnagi/nagisheart/data/UserSettings.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/viewmodel/GameViewModel.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/SettingsScreen.kt`
+- 依赖：后续只需常规构建/实机音量验证，不再需要 cc 判断是否进入首版
+- 完成定义：BGM 接入口径已确认并从当前待办移除
+- 最新更新时间：2026-07-18
 
 ### TASK-20260715-002
 - 项目：NagisHeart
 - 标题：整理 App Icon 与 Start 页设计权威候选包
 - 来源：Ant大小姐 2026-07-15 权威文件整理要求
 - 负责人：TT（平面设计）
-- 状态：review
+- 状态：done
 - 优先级：P0
-- 当前动作：Start v23 已确认可进入开发接入并已拆给 yiyi；App Icon 仍等待 Ant大小姐最终确认
+- 当前动作：Ant大小姐已确认 App Icon 使用第三版，即 TT icon 总览图顶部第三张 / 右上 `rounded rect mask preview`；TT 包中对应开发资源为 `rounded rect v2 decorated` / `app_icon_tt_candidate_1024.png`；Start v23 已另行拆给 yiyi，长屏适配由 `TASK-20260717-008` 跟进；Android 当前 icon 用错，已新增 `TASK-20260718-002` 修正
 - 涉及文件：TT 历史 icon / Start 页设计稿、底图、切图、预览与实现规范
-- 依赖：Ant大小姐确认 Icon 五边形装饰强度及是否将 Icon/Start 整包提升为最终权威
-- 完成定义：TT 自主选出候选权威版，并交付设计方案说明、预览效果图、底图、关键切图、完整尺寸与实现方法；历史版本与最终采用版关系可追溯
-- 最新更新时间：2026-07-17
+- 依赖：Android 端按 `TASK-20260718-002` 接入正确 App Icon；Start 长屏实机体验仍由独立任务跟进
+- 完成定义：TT 已交付完整候选包；Start v23 与 App Icon 均已获 Ant大小姐确认；后续为开发接入/验证任务
+- 最新更新时间：2026-07-18
+- Ant二次确认（2026-07-18）：App Icon 采用 TT icon 总览图顶部第三张 / 右上 `rounded rect mask preview`。
 
 ### TASK-20260715-001
 - 项目：NagisHeart
 - 标题：合并三份已确认 UI 设计为单一权威候选版
 - 来源：Ant大小姐 2026-07-15 设计合版要求 / `DEC-20260715-001`
 - 负责人：XoXo（主 UI 设计）
-- 状态：review
+- 状态：done
 - 优先级：P0
-- 当前动作：XoXo 已按 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260717_UI_AUTHORITY_REVISION.md` 完成局部修订：开屏改用 TT 方案、主页去顶部标题、设置页小字/数值右置；其余页面保持通过，等待 PM / Ant 复核
+- 当前动作：Ant大小姐已确认修订版 OK；已登记 `DEC-20260717-003` 并提升为当前 UI final authority
 - 涉及文件：三份指定 HTML 源文件、合版输出 HTML、合版记录
-- 依赖：XoXo 完成局部修订后回报 PM；章节目录、大章结束页、小节结束页仍 pending
+- 依赖：无；章节目录、大章结束页、小节结束页仍 pending，另行处理
 - 完成定义：输出单一可浏览权威候选 HTML 和逐页来源记录；已通过页面保持原设计；未通过/待确认页面未被擅自补写；完成两轮自检后回报 PM 一一
 - 最新更新时间：2026-07-17
 
@@ -100,3 +490,12 @@
 - 依赖：无
 - 完成定义：
 - 最新更新时间：
+# PM OVERRIDE - TASK-20260718-007 App Icon V4 resume (2026-07-18)
+
+- Codex token has reset; `TASK-20260718-007` is reopened for TT V4 rework.
+- New task brief: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_TT_20260718_APP_ICON_LAUNCHER_REWORK_V4.md`.
+- Current requirement: keep the confirmed third App Icon direction, but solve all rejected points together:
+  - no black edge;
+  - no inner square / rounded-rect card boundary under round, squircle, or legacy masks;
+  - no aggressive face crop or incomplete character like v3.
+- Do not hand anything to yiyi until PM / Ant preview approval.

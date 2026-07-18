@@ -189,7 +189,7 @@
 | c6a | `assets/bg/goal.jpg` | competition / loss | 与 U-20 / 世界赛高光拆开，保留淘汰低谷感 |
 | side_b_return | `assets/bg/living_room.jpg` | reflection | 白色邀请函特写 |
 | wc_roster | `assets/bg/dining_room.jpg` | reflection | 平板名单 / 吧台文件 |
-| wc_offer | `assets/bg/back.jpg` | triumph | 豪门来信 / 酒店商务桌 |
+| wc_offer | `assets/bg/living_room.jpg` | reflection / transition | 豪门来信 / 家中收到下一阶段通知 |
 | m_shallow | `assets/bg/trainning_room.png` | tension | 训练室执行感 |
 | w_noodle | `assets/bg/wakeup.jpg` | daily | 酸奶 / 泡面道具 |
 | e_tipsy | `assets/bg/bar.png` | romance | 游戏椅 + 微醺互动 |
@@ -230,7 +230,7 @@
 | 4 | wc_roster | 世界杯追加名单 | 临时代用 | `assets/bg/dining_room.jpg` | light / auto | 保留长桌和桌面留白，便于叠加“名单 / 平板”信息层 | 比旧 `livingroom.jpg` 更像正式查看名单与讨论去向的节点。 |
 | 4 | wc_interval | 淘汰赛前训练·花环 | 已配 | `assets/bg/summer.jpg` | light | 人物头部和花环不能被 HUD 遮挡 | 花环、夏日、球场气质匹配。 |
 | 4 | wc_keygoal | 生死局·世界看见他 | 已配 | `assets/bg/bg_u20j_worldcup_goal_kick.jpg` | dark | 射门动作是主体，底部加深 | 比旧 `goal.jpg` 更适合世界赛高光。 |
-| 4 | wc_offer | 豪门来信 | 临时代用 | `assets/bg/back.jpg` | light / auto | 保留行李箱和商务空间 | 可表达豪门邀请 / 出发感，但采访区和酒店房间不完整。 |
+| 4 | wc_offer | 豪门来信 | 临时代用 | `assets/bg/living_room.jpg` | light / auto | 保留客厅与楼梯视线，底部文本避开前景桌面 | 改用东京公寓共享空间，承接“在家里收到下一阶段通知”的叙事情境，避免继续使用旧 `back.jpg` 泛用图。 |
 | 5 | w_home | 归来·沙发上的拥抱 | 已配 | `assets/bg/bg_home_soft_nagi_beanbag.jpg` | light | 人物与懒人沙发居中，底部文本避开腿部 | 比旧 `home_full.jpg` 更有人物和“这里太舒服了”的柔软感。 |
 | 5 | mt3 | 同居·这里太舒服了 | 已配 | `assets/bg/bg_home_soft_nagi_beanbag.jpg` | light | 人物居中，底部保留叙事层 | 强匹配 Nagi 在 Ant 家松弛下来的感觉。 |
 | 5 | m_igate | 亲密门（路由器） | 系统 | N/A | N/A | N/A | 内部判定，不显示给玩家。 |

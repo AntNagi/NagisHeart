@@ -149,3 +149,16 @@ docs/
 ```
 
 Do not perform this move casually. Any directory move must be its own commit and include an old-path to new-path mapping.
+# Current PM Staffing Override - 2026-07-18
+
+Read this before using older role references:
+
+- `yiyi` is inactive / 离职. Do not assign new tasks to yiyi.
+- `PP` is the current Android developer replacing yiyi.
+- `DeDe` is the Codex-side QA owner for current testing tasks.
+- `Wewe` is the Web developer; Web-only tasks must not touch Android.
+- Current real repository: `D:\Nagi's Heart\NagisHeart`.
+- Current source of truth for formal tasks: `00_harness/02_planning/task_board.md`.
+- Current role roster: `00_harness/00_project/agent_registry.md`.
+
+---

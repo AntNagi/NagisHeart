@@ -1,11 +1,11 @@
 package com.antnagi.nagisheart.ui.screen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +26,9 @@ import com.antnagi.nagisheart.ui.theme.*
 import com.antnagi.nagisheart.ui.viewmodel.BacklogEntry
 import com.antnagi.nagisheart.ui.viewmodel.GameViewModel
 
+private const val ENTRIES_PER_PAGE = 8
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BacklogScreen(
     viewModel: GameViewModel,
@@ -33,13 +36,14 @@ fun BacklogScreen(
 ) {
     val entries = remember { viewModel.getBacklog() }
     val bgAssetPath = viewModel.uiState.collectAsState().value.bgAssetPath
-    val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = (entries.size - 1).coerceAtLeast(0)
+    val totalPages = ((entries.size + ENTRIES_PER_PAGE - 1) / ENTRIES_PER_PAGE).coerceAtLeast(1)
+    val pagerState = rememberPagerState(
+        initialPage = totalPages - 1,
+        pageCount = { totalPages }
     )
 
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
         Box(modifier = Modifier.fillMaxSize()) {
-            // Current scene bg
             if (bgAssetPath != null) {
                 Image(
                     painter = rememberAsyncImagePainter("file:///android_asset/$bgAssetPath"),
@@ -49,7 +53,6 @@ fun BacklogScreen(
                 )
             }
 
-            // Heavy dark overlay for readability
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -62,7 +65,6 @@ fun BacklogScreen(
                     .statusBarsPadding()
                     .navigationBarsPadding()
             ) {
-                // HUD header
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -95,23 +97,43 @@ fun BacklogScreen(
 
                 Spacer(modifier = Modifier.height(22.dp))
 
-                // Content — immersive full-page text
-                LazyColumn(
-                    state = listState,
+                HorizontalPager(
+                    state = pagerState,
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 50.dp, end = 50.dp)
-                        .padding(bottom = 78.dp)
+                        .weight(1f)
+                        .fillMaxWidth()
+                ) { page ->
+                    val startIdx = page * ENTRIES_PER_PAGE
+                    val endIdx = (startIdx + ENTRIES_PER_PAGE).coerceAtMost(entries.size)
+                    val pageEntries = if (startIdx < entries.size) entries.subList(startIdx, endIdx) else emptyList()
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(start = 50.dp, end = 50.dp)
+                    ) {
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            pageEntries.forEachIndexed { index, entry ->
+                                BacklogItem(
+                                    entry = entry,
+                                    isFirst = index == 0
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    itemsIndexed(entries) { index, entry ->
-                        BacklogItem(
-                            entry = entry,
-                            isFirst = index == 0
-                        )
-                    }
-                    item {
-                        Spacer(modifier = Modifier.height(40.dp))
-                    }
+                    Text(
+                        text = "${pagerState.currentPage + 1} / $totalPages",
+                        fontSize = 12.sp,
+                        color = Color(0x99F4F1EA)
+                    )
                 }
             }
         }
@@ -123,7 +145,7 @@ private fun BacklogItem(
     entry: BacklogEntry,
     isFirst: Boolean
 ) {
-    val goldColor = Color(0xFFD7BE86)
+    val goldColor = Color(0xFFE4CA8F)
     val textColor = Color(0xFFF6F3EE)
     val textShadow = Shadow(
         color = Color(0x57000000),
@@ -131,8 +153,13 @@ private fun BacklogItem(
         blurRadius = 12f
     )
     val speakerShadow = Shadow(
-        color = Color(0x47000000),
-        offset = Offset(0f, 2f),
+        color = Color(0xB8000000),
+        offset = Offset(0f, 1f),
+        blurRadius = 2f
+    )
+    val speakerHalo = Shadow(
+        color = Color(0x33D7BE86),
+        offset = Offset(0f, 0f),
         blurRadius = 10f
     )
 
@@ -141,17 +168,30 @@ private fun BacklogItem(
             if (!isFirst) {
                 Spacer(modifier = Modifier.height(26.dp))
             }
-            Text(
-                text = entry.speaker,
-                style = TextStyle(
-                    fontFamily = FontFamily.Default,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp,
-                    letterSpacing = 0.02.sp,
-                    shadow = speakerShadow
-                ),
-                color = goldColor
-            )
+            Box {
+                Text(
+                    text = entry.speaker,
+                    style = TextStyle(
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 13.sp,
+                        letterSpacing = 0.04.sp,
+                        shadow = speakerHalo
+                    ),
+                    color = goldColor
+                )
+                Text(
+                    text = entry.speaker,
+                    style = TextStyle(
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 13.sp,
+                        letterSpacing = 0.04.sp,
+                        shadow = speakerShadow
+                    ),
+                    color = goldColor
+                )
+            }
             Spacer(modifier = Modifier.height(10.dp))
         } else if (!isFirst) {
             Spacer(modifier = Modifier.height(22.dp))

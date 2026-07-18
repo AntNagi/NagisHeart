@@ -12,23 +12,14 @@
   transition: opacity var(--duration-scene) var(--ease-out);
 }
 
-.scene-bg-enter {
-  animation: bg-fade-in var(--duration-scene) var(--ease-out) forwards;
-}
-
-@keyframes bg-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* ── Chapter/Section transition cards ── */
+/* ── Chapter/Section opening cards ── */
 .chapter-card {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 var(--space-lg) 96px;
+  padding: 0 30px 96px;
   background: rgba(16, 24, 39, 0.72);
   cursor: pointer;
   animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
@@ -39,25 +30,36 @@
   to   { opacity: 1; }
 }
 
+/* Fog-glass backing for chapter/section opening text per MinSpec 14.1 */
+.chapter-card-backing {
+  backdrop-filter: blur(10px) saturate(0.92);
+  -webkit-backdrop-filter: blur(10px) saturate(0.92);
+  background:
+    radial-gradient(ellipse at center, rgba(247,249,252,0.09), transparent 70%),
+    linear-gradient(to right, rgba(16,24,39,0.30), rgba(16,24,39,0.14) 62%, transparent);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 22px 24px 20px;
+}
+
 .chapter-card-kicker {
   font-size: 11px;
-  color: var(--success-special);
-  letter-spacing: 2px;
+  color: #D7BE86;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: var(--space-xs);
 }
 
 .chapter-card-name {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: #D7BE86;
   margin-bottom: var(--space-sm);
 }
 
 .chapter-card-title {
   font-family: var(--font-serif);
-  font-size: 22px;
-  line-height: 32px;
-  color: var(--text-primary);
+  font-size: 29px;
+  line-height: 1.24;
+  color: rgba(247,249,252,0.94);
   text-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
@@ -68,21 +70,21 @@
 }
 
 .chapter-card-hint {
-  font-size: 12px;
-  color: var(--text-weak);
+  font-size: 16px;
+  color: rgba(247,249,252,0.82);
   margin-top: var(--space-lg);
   opacity: 0;
   animation: breathe 1.6s ease-in-out 1s infinite;
 }
 
-/* ── Chapter ending card (poster style) ── */
+/* ── Chapter/Section Clear card per MinSpec 14.2/14.3 ── */
 .chapter-ending-card {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 var(--space-lg) 96px;
+  padding: 0 28px 82px;
   cursor: pointer;
   animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
 }
@@ -93,24 +95,70 @@
   background: rgba(16, 24, 39, 0.60);
 }
 
-.chapter-ending-content {
+.clear-card {
   position: relative;
   z-index: 1;
+  backdrop-filter: blur(16px) saturate(0.92);
+  -webkit-backdrop-filter: blur(16px) saturate(0.92);
+  background:
+    radial-gradient(ellipse at center, rgba(247,249,252,0.10), transparent 60%),
+    linear-gradient(to bottom, rgba(27,36,54,0.20), rgba(27,36,54,0.14) 50%, rgba(27,36,54,0.24));
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 28px 24px 22px;
 }
 
-.chapter-ending-actions {
-  display: flex;
-  gap: var(--space-lg);
-  margin-top: var(--space-lg);
+.clear-card-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #D7BE86;
+  margin-bottom: var(--space-sm);
 }
 
-.chapter-ending-btn {
+.clear-card-title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  line-height: 1.25;
+  color: rgba(247,249,252,0.94);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.clear-card-subtitle {
+  font-size: 14px;
+  color: rgba(247,249,252,0.78);
+  margin-top: 4px;
+}
+
+.clear-card-body {
   font-size: 13px;
-  color: var(--text-secondary);
-  letter-spacing: 1px;
-  transition: color var(--duration-fast);
+  line-height: 1.8;
+  color: rgba(247,249,252,0.78);
+  margin-top: var(--space-md);
 }
 
-.chapter-ending-btn:hover {
-  color: var(--text-primary);
+.clear-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-lg);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: var(--space-md);
+}
+
+.clear-card-action-secondary {
+  font-size: 14px;
+  color: rgba(244,241,234,0.86);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.clear-card-action-primary {
+  font-size: 14px;
+  color: #F7F9FC;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.clear-card-action-secondary:hover,
+.clear-card-action-primary:hover {
+  opacity: 0.8;
 }
