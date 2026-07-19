@@ -1,6 +1,6 @@
-.game-screen {
-  position: relative;
-}
+/* .game-screen inherits position:absolute + inset:0 from .screen (layout.css).
+   Do NOT override position here: position:relative collapses height to 0
+   because inset:0 no longer stretches the element. */
 
 .game-screen-tap-area {
   position: absolute;

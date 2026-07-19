@@ -11,11 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import android.graphics.BlurMaskFilter
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -64,18 +70,34 @@ fun NagiHud(
                         onClick = {},
                         onLongClick = { onTitleLongPress?.invoke() }
                     )
+                    .drawBehind {
+                        drawIntoCanvas { canvas ->
+                            val paint = Paint().asFrameworkPaint().apply {
+                                isAntiAlias = true
+                                color = Color(0x57000000).toArgb()
+                                maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                            }
+                            val cut = 8.dp.toPx()
+                            canvas.nativeCanvas.drawRoundRect(
+                                0f, 3.dp.toPx(),
+                                size.width, size.height,
+                                cut, cut,
+                                paint
+                            )
+                        }
+                    }
                     .clip(NagiShapes.cutSmall)
                     .background(
                         Brush.verticalGradient(
                             listOf(
-                                Color(0x380F1827),
-                                Color(0x140F1827)
+                                Color(0x4D0F1827), // §17.2: 0.30
+                                Color(0x1F0F1827)  // §17.2: 0.12
                             )
                         )
                     )
                     .border(
                         width = 1.dp,
-                        color = Color(0x1AFFFFFF),
+                        color = Color(0x1FFFFFFF), // §17.2: 0.12
                         shape = NagiShapes.cutSmall
                     )
                     .padding(horizontal = 16.dp),
@@ -89,9 +111,9 @@ fun NagiHud(
                         fontSize = 13.sp,
                         letterSpacing = 0.02.sp,
                         shadow = Shadow(
-                            color = colors.textShadowColor,
-                            offset = Offset(0f, 2f),
-                            blurRadius = 14f
+                            color = Color(0x73000000), // §17.2: 0.45
+                            offset = Offset(0f, 1f),
+                            blurRadius = 2f
                         )
                     ),
                     color = Color(0xE0F4F1EA),

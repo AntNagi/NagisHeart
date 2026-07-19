@@ -2,8 +2,15 @@ export class TransitionCard {
   constructor(container) {
     this.el = document.createElement('div');
     this.el.style.display = 'none';
+    this._onTap = null;
+    this.el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (this._onTap) this._onTap();
+    });
     container.appendChild(this.el);
   }
+
+  setOnTap(cb) { this._onTap = cb; }
 
   showChapterOpening({ chapterName, chapterTitle, timeRange }) {
     this.el.style.display = '';
@@ -57,6 +64,7 @@ export class TransitionCard {
         <div class="chapter-card-hint">轻触继续</div>
       </div>
     `;
+    this.el.style.cursor = 'pointer';
   }
 
   showSectionEnding({ chapterName, sectionTitle, nextLabel, onCatalog, onNext }) {

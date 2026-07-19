@@ -46,7 +46,7 @@ fun GalleryScreen(
     onBack: () -> Unit
 ) {
     val definitions = remember { viewModel.getEndingDefinitions() }
-    val unlockedEndings = remember { viewModel.getUnlockedEndings() }
+    val unlockedEndings = viewModel.getUnlockedEndings()
     var selectedItem by remember { mutableStateOf<GalleryItem?>(null) }
 
     val galleryItems = remember(definitions, unlockedEndings) {

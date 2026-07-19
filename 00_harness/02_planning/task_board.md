@@ -6,6 +6,120 @@
 
 ---
 
+### TASK-20260719-015
+- 项目：NagisHeart
+- 标题：Android Ending Verification Hook + Evidence
+- 来源：Laud `TASK-20260719-014`：Android UI 多项已有截图方向级通过，但结局页 / Home after ending / Gallery unlock 均因无法全量通关而 blocked
+- 负责人：Android 开发工程师 PP（Claude）
+- 状态：review_passed
+- 优先级：P0
+- 当前动作：PP 已完成 rework，PM 复核通过，记录见 `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_ENDING_VERIFICATION_HOOK_REWORK_20260719.md`。B01 clean ending、B02 Home only `新的故事`、B03 Gallery TRUE END unlock 均有截图证据。该任务解除结局/Home/Gallery evidence blocker；debug hook 属于后续 release-readiness review item。
+- 涉及文件：Android ending/home/gallery/progress/debug route 相关代码；证据目录 `00_harness/05_reports/validation/android_ending_verification_pp_20260719/`
+- 依赖：MinSpec §18；Interaction authority；Laud Android QA report；PM review
+- 完成定义：提供安全测试路径；截图证明 terminal ending page、Home after ending `新的故事`、Gallery ending unlock、Prologue typography；证明 debug/release 安全；确认禁改范围未触碰
+
+### TASK-20260719-016
+- 项目：NagisHeart
+- 标题：Android Chapter Catalog locked title privacy fix
+- 来源：Laud `TASK-20260719-014` 新发现：章节目录 locked 条目泄露未来真实标题
+- 负责人：Android 开发工程师 PP（Claude）
+- 状态：assigned
+- 优先级：P1
+- 当前动作：015 已 PM review passed，016 现在可执行。任务单 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_CHAPTER_LOCKED_TITLE_PRIVACY_FIX.md`。目标：locked 条目显示中性文案，不暴露未来标题。
+- 涉及文件：Android chapter/catalog screen 及必要的 progress status display logic；证据目录 `00_harness/05_reports/validation/android_chapter_locked_title_pp_20260719/`
+- 依赖：MinSpec §16 Chapter Catalog；Interaction authority；Laud screenshot `android_chapter_dir.png`
+- 完成定义：locked 条目不显示真实未来标题；unlocked/current/completed 仍显示真实标题；截图证明 locked 和 unlocked 两种状态；构建/安装 freshness；确认禁改范围未触碰
+
+### TASK-20260719-014
+- 项目：NagisHeart
+- 标题：Laud QA Android + Web evidence sweep
+- 来源：Ant 指示 Codex token 紧张，改由 Claude 测试 Laud 接手；同时补 DeDe 暂停的 Web follow-up；不能空测，UI 类必须有截图
+- 负责人：Laud（Claude / QA）
+- 状态：review
+- 优先级：P0
+- 当前动作：Laud 已完成 Android-only QA evidence sweep。PM 复核通过但带主流程 blocker，记录见 `00_harness/05_reports/validation/PM_REVIEW_LAUD_ANDROID_EVIDENCE_SWEEP_20260719.md`。Section Clear removal、Dialog/HUD、Backlog、长旁白、Chapter/Section Opening、Chapter Clear 均有截图方向级通过；Ending/Home after ending/Gallery unlock 全 blocked；Prologue 字号未测；新增发现 locked chapter directory 泄露未来真实标题。
+- 涉及文件：Android 最新 APK/模拟器或实机；`web/` 本地移动端；`00_harness/05_reports/validation/laud_android_evidence_sweep_20260719/`；`00_harness/05_reports/validation/laud_web_mobile_followup_20260719/`
+- 依赖：最新 UI / Interaction authority；PP 013 PM review；XoXo Android mapping review；DeDe Web pending reports
+- 完成定义：本轮先输出 Android-only `qa_reply_laud_android_evidence_sweep_20260719.md`；每个 UI pass/reject 有截图；每个逻辑 pass/reject 有复现步骤；明确 pass/reject/blocked/unverified；确认 `Code touched: no`、`Cleanup status: none`。Web follow-up 保持 paused。
+
+### TASK-20260719-013
+- 项目：NagisHeart
+- 标题：Android Section Clear Removal P0
+- 来源：XoXo `TASK-20260719-012` 审阅：A10 证明 standalone `SECTION CLEAR` 仍活跃，违反 UI MinSpec §17.6；skip 弹窗文案仍写“进入本节结束页”，与当前产品口径冲突
+- 负责人：Android 开发工程师 PP（Claude）
+- 状态：review
+- 优先级：P0
+- 当前动作：PP 已完成 Phase B 并回报。PM 复核通过但带 caveat，记录见 `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_SECTION_CLEAR_REMOVAL_P0_20260719.md`。已确认 skip-flow P0：跳过弹窗不再说进入本节结束页，确认后进入下一节 Section Opening，不再出现 Section Clear。未转 done：A11 Chapter Clear 未复现；自然小节结束截图证据偏弱；`Routes.SECTION_CLEAR` / `advanceAfterSectionClear()` / `SectionClearScreen.kt` 仍为 cleanup candidates。
+- 涉及文件：`android/app/src/main/java/com/antnagi/nagisheart/ui/navigation/NavGraph.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/GameScreen.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/viewmodel/GameViewModel.kt`、`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/SectionClearScreen.kt`
+- 依赖：`XoXo_UI_Final_MinSpec_20260712.md` §17.6 / §17.3；`XOXO_REVIEW_ANDROID_IMPLEMENTATION_MAPPING_20260719.md`；`PM_REVIEW_XOXO_ANDROID_IMPLEMENTATION_MAPPING_20260719.md`
+- 完成定义：Section Clear 不再从当前运行链路出现；skip 文案不再承诺进入本节结束页；提供 build/install freshness、`sectionClear` 静态搜索结果、A04/A10/A11 截图证据；未通过截图不得标 done。
+
+### TASK-20260718-018
+- 项目：NagisHeart
+- 标题：Web Mobile P1 Settings readability and BGM verification follow-up
+- 来源：DeDe `TASK-20260718-017` 独立复测：Wewe 016 五项功能 reject 均通过，但 Settings 明亮背景上对比度不足；BGM 持久化与实际 audio 音量未完整验证；精确移动视口证据仍缺
+- 负责人：Wewe（Web 开发 / Claude）
+- 状态：ready
+- 优先级：P1
+- 当前动作：Wewe 已回报完成；PM 静态复核通过但带证据 caveat，记录见 `00_harness/05_reports/validation/PM_REVIEW_WEWE_WEB_MOBILE_P1_SETTINGS_BGM_VERIFY_20260719.md`。Web 版不由 Ant 直接验收，已新增 DeDe 短回归 `TASK-20260719-010` 验证 Settings/BGM/视口证据。018 保持 review，等待 DeDe 结论。
+- 涉及文件：`web/`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_mobile_after_wewe_016_20260718.md`、`00_harness/05_reports/validation/web_mobile_qa_dede_after_wewe_016_20260718/`
+- 依赖：最新 UI / Interaction authority；不得修改 Android、story-data、BG mapping authority、authority_current、TT authority、archive
+- 完成定义：Settings 在明亮背景下可读；BGM slider reload 后持久化可验证；实际音频音量链路或明确不可验证原因；回报含截图/证据、console/resource 检查、`Android touched: no`、cleanup status
+- PM review note（2026-07-19）：018 转 `review`，不转 `done`；原因是证据目录 `00_harness/05_reports/validation/web_mobile_p1_settings_bgm_verify_20260718/` 当前为空，且需 DeDe 独立 QA。
+
+### TASK-20260719-010
+
+- 项目：NagisHeart
+- 标题：Web Mobile P1 Settings / BGM Short Regression
+- 来源：Wewe `TASK-20260718-018` 回报 + PM review caveat；Ant 指示 Web 验收转 DeDe 测试
+- 负责人：DeDe（Codex / QA）
+- 状态：paused
+- 优先级：P1
+- 当前动作：Ant / PM 已暂停本任务以保留 Codex token 给 Android P0 主线。DeDe 已收到暂停消息；有 token 后再由 PM 显式恢复。短回归只测 Wewe 018：Settings 明亮背景可读性、BGM slider 持久化、Audio runtime volume caveat、393x852 / 430x932 精确视口证据；只测不改。
+- 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_DEDE_20260719_WEB_MOBILE_P1_SETTINGS_BGM_RERUN.md`
+- 依赖：Wewe 018 回报、PM review、DeDe 017 报告、最新 UI/Interaction authority
+- 完成定义：输出 `qa_reply_dede_web_mobile_p1_settings_bgm_rerun_20260719.md` 与证据目录；逐项 pass/reject/caveat；确认 Code touched: no。
+- 最新更新时间：2026-07-18
+
+### TASK-20260718-017
+- 项目：NagisHeart
+- 标题：Web Mobile QA rerun after Wewe 016 Round 2 fix
+- 来源：Wewe `TASK-20260718-016` 回报 5 项 DeDe reject 问题已修复；PM 静态检查 JS 语法通过，但 Wewe 证据目录为空，必须由 DeDe 独立复测
+- 负责人：DeDe（Codex / QA）
+- 状态：done
+- 优先级：P0
+- 当前动作：DeDe 已完成独立复测，报告见 `00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_mobile_after_wewe_016_20260718.md`，证据见 `00_harness/05_reports/validation/web_mobile_qa_dede_after_wewe_016_20260718/`；5 项 Wewe 016 功能修复均验证通过，无 P0。Settings 明亮背景可读性、BGM 持久化/实际音频、精确视口证据作为后续 P1/P2 跟进。
+- 涉及文件：`web/`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mobile_qa_reject_fix_round2_20260718.md`、`00_harness/05_reports/validation/web_mobile_qa_reject_fix_round2_20260718/`、`00_harness/05_reports/validation/web_mobile_qa_dede_after_wewe_016_20260718/`
+- 依赖：Wewe 016 回报、DeDe 015 reject 报告、最新 UI / Interaction authority
+- 完成定义：独立验证 Opening/Clear 可点击推进、Section/Chapter Clear 可达、skip-section NagiDialog、HUD authority、BGM slider 可操作、Opening/Clear 隐藏 HUD；输出截图/证据、P0/P1/P2 结论、console/resource 检查，并确认 `Code touched: no`
+- 最新更新时间：2026-07-18
+
+### TASK-20260718-016
+- 项目：NagisHeart
+- 标题：Web Mobile QA Reject Fix Round 2
+- 来源：DeDe `TASK-20260718-015` 复测：Wewe 010 仅部分修复，Web 移动端仍 reject，不可进入 Ant 验收
+- 负责人：Wewe（Web 开发 / Claude）
+- 状态：review
+- 优先级：P0
+- 当前动作：Wewe 已回报 5 项修复完成，DeDe `TASK-20260718-017` 独立复测已验证通过，无 P0；功能层从 reject 转为 review passed。仍保留 P1 caveat：Settings 明亮背景可读性不足；BGM 持久化/实际音频未完整验证；精确 393x852 / 430x932 视口证据未落地。后续由 `TASK-20260718-018` 跟进，不阻塞 016 的功能收口。
+- 涉及文件：`web/`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mobile_qa_reject_fix_round2_20260718.md`
+- 依赖：DeDe 015 报告 `qa_reply_dede_web_mobile_rerun_after_wewe_p0_20260718.md`、PM review `PM_REVIEW_DEDE_WEB_MOBILE_RERUN_AFTER_WEWE_P0_20260718.md`、最新 UI / Interaction authority
+- 完成定义：旧 P0/P1 均有可验证修复；Section/Chapter Clear 可达；393x852 与 430x932 或明确说明的等效移动证据齐全；回报含 `Android touched: no`、console/resource 检查与 cleanup status
+- 最新更新时间：2026-07-18
+
+### TASK-20260718-015
+- 项目：NagisHeart
+- 标题：Web Mobile Full Regression Rerun after Wewe P0 Rework
+- 来源：Wewe `TASK-20260718-010` 回报完成后，PM 复核认为 Start 黑屏根因与 Start 证据成立，但 DeDe 上轮 P0/P1 覆盖范围尚未被独立验证
+- 负责人：DeDe（Codex / QA）
+- 状态：ready
+- 优先级：P0
+- 当前动作：等待 PM 通过 DeDe 窗口派发复测。复测必须基于当前工作区运行 Web MVP，不改代码，只输出 QA 报告与截图证据。
+- 涉及文件：`00_harness/05_reports/validation/PM_REVIEW_WEWE_WEB_MOBILE_P0_REWORK_20260718.md`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mobile_p0_rework_20260718.md`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_mobile_full_regression_20260718.md`、`00_harness/05_reports/validation/web_mobile_p0_rework_20260718/`、`00_harness/05_reports/validation/web_mobile_qa_dede_rerun_20260718/`
+- 依赖：Wewe 010 已回报；DeDe 必须读取最新 UI / Interaction authority 与本 PM review；不得修改 `web/`、`android/`、story-data、BG mapping、authority_current、TT authority 或 archive
+- 完成定义：393x852 与 430x932 两个移动视口完成 Start/Home/Prologue/Name/Game/HUD/Dialog/Backlog/Chapter Catalog/Opening/Clear/BGM/Console/Network 复测；输出 P0/P1/P2 结论、截图证据、复现步骤、实际/期望结果，并确认 `Code touched: no`
+- 最新更新时间：2026-07-18
+
 ### TASK-20260718-010
 - 项目：NagisHeart
 - 标题：Web Mobile P0 Rework - 移动端首屏黑屏 / Start v23 显示修复
@@ -37,9 +151,9 @@
 - 标题：Android UI Phase 2 Authority Implementation - PP 接手实现
 - 来源：PP `TASK-20260718-009` Phase 1 只读差异审计 + PM 复核通过
 - 负责人：Android 开发工程师 PP
-- 状态：assigned
+- 状态：review
 - 优先级：P0
-- 当前动作：已批准进入 Phase 2，实现范围限定为 `NagiIconButton.kt`、`NagiDialog.kt`、`ChapterScreen.kt`、`ChapterOpeningScreen.kt`、`GameScreen.kt`；禁止改 story-data、BG mapping、TT Start、App Icon V4、Web、BGM、archive、unrelated cleanup；独立 `SectionOpeningScreen.kt` / `ChapterEndingScreen.kt` 暂不改，标记后续 cleanup audit candidate
+- 当前动作：PP 已回报 Phase 2 实现完成并构建通过，回报见 `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_ui_phase2_20260718.md`；PM 已做静态收口，记录见 `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_UI_PHASE2_20260718.md`。当前转 review，等待 Ant 大小姐实机验收 5 个截图点；未实机确认前不得标 done。
 - 涉及文件：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260718_ANDROID_UI_PHASE2_AUTHORITY_IMPLEMENTATION.md`、`00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_UI_TAKEOVER_DIFF_20260718.md`、`android/app/src/main/java/com/antnagi/nagisheart/ui/`
 - 依赖：最新 UI authority、Interaction authority、PP Phase 1 diff report、PM review
 - 完成定义：HUD / dialog 变轻；Chapter catalog 改为 authority catalog-panel list；ChapterOpeningScreen 对齐 story bg + glass backing；GameScreen 只补 center highlight / micro-light；回报 `dev_reply_pp_android_ui_phase2_20260718.md` 完整并确认禁止范围未触碰
@@ -499,3 +613,166 @@
   - no inner square / rounded-rect card boundary under round, squircle, or legacy masks;
   - no aggressive face crop or incomplete character like v3.
 - Do not hand anything to yiyi until PM / Ant preview approval.
+---
+
+### TASK-20260719-001
+- 项目：NagisHeart
+- 标题：Android 实机反馈 UI authority 补齐：全局可读性、HUD/Dialog、长旁白、结局页
+- 来源：Ant 大小姐 2026-07-19 实机反馈 / `DEC-20260719-001`
+- 负责人：XoXo（UI）
+- 状态：review
+- 优先级：P0
+- 当前动作：XoXo 已补齐 UI authority candidate，并按 `DEC-20260719-002` 增加 developer-readable token 与 PP implementation alignment checklist；等待 PM / Ant 确认，不得直接宣布 final dev authority。
+- 涉及文件：`design/NagisHeart_UI_Authority_XoXo_v1_0.html`、`00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md`、UI merge record、decision log、PM outbox
+- 依赖：PM 已补 PRD/Interaction override；Ant 确认后才可交 PP 实现；PP 执行前必须按 alignment / code-review gate 回传 authority-to-code 对齐表
+- 完成定义：全局文字托底、HUD/Dialog Android fallback、长旁白宽度、结局页 final-candidate 均进入 UI authority；写明 Ant 待确认项、PP 开发口径、PP implementation alignment checklist、cleanup status
+- 最新更新时间：2026-07-19
+
+- XoXo执行更新（2026-07-19）：已完成 `TASK-20260719-001` UI authority candidate；HTML / MinSpec / merge record / decision log 已更新，并同步到 `08_authority_current/04_ui/`；小章节结束页从当前 UI 范围移除；结局页仍需 PM / Ant 确认后才可转 final。
+
+- PM review（2026-07-19）：已完成 XoXo 回传收口，记录见 `00_harness/05_reports/validation/PM_REVIEW_XOXO_ANDROID_READABILITY_ENDING_UI_AUTHORITY_20260719.md`。MinSpec 17.2（HUD/nav/action chip）与 17.3（Dialog fallback）批准用于 PP `TASK-20260719-007` 最小修复；17.1 / 17.4 / 17.5 / 17.6 仍等待 Ant 确认，不交给开发混做。
+
+### TASK-20260719-002
+- 项目：NagisHeart
+- 标题：Android 主流程逻辑 P0 与 UI 偏差根因审计
+- 来源：Ant 大小姐 2026-07-19 实机反馈 / `PM_REVIEW_ANDROID_REAL_DEVICE_FEEDBACK_20260719.md`
+- 负责人：PP（Android）
+- 状态：ready
+- 优先级：P0
+- 当前动作：只读审计，先定位结局误触发、结局后继续、远处的世界第一卡死、画廊未解锁，以及 Dialog/HUD 为什么一直没按权威落地；未获 PM 批准前不改代码。
+- 涉及文件：`story-data/flow.json`、`story-data/routers.json`、`story-data/endings.json`、`StoryEngine.kt`、`GameViewModel.kt`、`GameScreen.kt`、`GalleryScreen.kt`、`BacklogScreen.kt`、`NagiDialog.kt`、`NagiHud.kt`、`NagiIconButton.kt`
+- 依赖：无；但 UI 视觉实现修复需等 `TASK-20260719-001` 设计确认
+- 完成定义：输出逐项 owner / root-cause / evidence / minimal fix plan；明确哪些是 PRD、UI、story-data、Android code、旧 APK 风险；写 PM outbox
+- 最新更新时间：2026-07-19
+
+### TASK-20260719-003
+- 项目：NagisHeart
+- 标题：Harness 对齐与 code review 门禁补强
+- 来源：Ant 大小姐 2026-07-19 对多轮 UI 返工的信息对齐反馈
+- 负责人：PM 一一
+- 状态：done
+- 优先级：P0
+- 当前动作：已将开发前 alignment table、开发后 code-review table、旧 APK / 重复组件 / 错误实现路径排查写入 PM_LOOP、WORKER_LOOP、LOOP_OVERVIEW，并新增模板。
+- 涉及文件：`00_harness/07_scheduler/PM_LOOP.md`、`00_harness/07_scheduler/WORKER_LOOP.md`、`00_harness/07_scheduler/LOOP_OVERVIEW.md`、`00_harness/06_templates/tpl_alignment_code_review_gate.md`、`decision_log.md`、`latest_status_snapshot.md`
+- 依赖：无
+- 完成定义：后续 UI / interaction / story-flow / routing / progress / gallery 实现任务均必须先对齐、后 code review；若实机仍旧样，优先查信息链路而不是盲调。
+- 最新更新时间：2026-07-19
+
+### TASK-20260719-004
+- 项目：NagisHeart
+- 标题：Android release-readiness code health audit
+- 来源：Ant 大小姐 2026-07-19 上线前代码健康 review 要求 / `DEC-20260719-003`
+- 负责人：PP（Android）
+- 状态：queued
+- 优先级：P0
+- 当前动作：等待 `TASK-20260719-002` 主流程逻辑/信息对齐审计回传后执行；第一阶段只读审计，不改代码。
+- 涉及文件：Android app source、story engine、state/progress/save/gallery、UI component active paths、asset path loading
+- 依赖：`TASK-20260719-002`
+- 完成定义：输出 Android runtime architecture map、重复/废弃代码表、P0/P1/P2 风险表、最小整改任务建议、cleanup candidates；不改代码。
+- 最新更新时间：2026-07-19
+
+### TASK-20260719-006
+- Project: NagisHeart
+- Title: PM investigation - Android Dialog / HUD repeated UI mismatch root cause
+- Source: Ant 2026-07-19 demand for a concrete conclusion on why Dialog / navigation keep missing UI authority
+- Owner: PM 一一
+- Status: done
+- Priority: P0
+- Current action: Android active-path static investigation completed; conclusion written to PM validation report and PP mandatory addendum.
+- Files:
+  - `00_harness/05_reports/validation/PM_INVESTIGATION_ANDROID_DIALOG_HUD_ROOT_CAUSE_20260719.md`
+  - `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_DIALOG_HUD_ROOT_CAUSE_ADDENDUM.md`
+- Dependency: none
+- Done definition: File-level evidence explains Dialog / HUD / skip action / system-screen header mismatch root cause; PP must read the addendum before any further Android UI implementation.
+- Latest update: 2026-07-19
+
+### TASK-20260719-007
+- Project: NagisHeart
+- Title: Android Dialog / HUD minimal authority fix
+- Source: Ant accepted PM root-cause conclusion and approved testing the two concrete fixes first
+- Owner: PP（Android）
+- Status: ready
+- Priority: P0
+- Current action: Implement only Dialog section 17.3 and Navigation/HUD section 17.2 active-path fixes; do not mix story logic, ending, gallery, backlog, Web, BGM, App Icon, or TT Start.
+- Files: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_DIALOG_HUD_MINIMAL_FIX.md`
+- Dependency: `TASK-20260719-006`
+- Done definition: Dialog no longer reads as rounded rectangle line-frame; HUD/nav title/icon/action family is unified on bright/dark backgrounds; PP reply includes active-path table, token table, build freshness proof, screenshot checklist, cleanup status.
+- Latest update: 2026-07-19
+
+### TASK-20260719-008
+- Project: NagisHeart
+- Title: Ending page authority revision - one action only and Home new-story state
+- Source: Ant review of XoXo section 17 ending preview, 2026-07-19
+- Owner: XoXo（UI）
+- Status: review
+- Priority: P0
+- Current action: PM 静态复核通过，等待 Ant 最终视觉确认；结局页 unlock feedback 已改成轻量、明确不可交互的状态说明，`返回主页` 仍是唯一按钮。未获 Ant 确认前不交 PP / Wewe 实现。
+- Files: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260719_ENDING_PAGE_AUTHORITY_REVISION.md`、`design/NagisHeart_UI_Authority_XoXo_v1_0.html`、`design/NagisHeart_UI_Authority_Merge_Record_20260715.md`、`00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md`、`00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_XoXo_v1_0.html`、`00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_Merge_Record_20260715.md`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/status_design_xoxo_ending_page_authority_revision_20260719.md`
+- Dependency: `TASK-20260719-001`
+- Done definition: HTML / MinSpec / merge record / authority_current synchronized; ending page visual has only one action `返回主页`; unlock feedback is visually non-interactive and not styled like a button; Home after-ending state says `新的故事`; prologue body font reduced by one step and token documented; visible product mock screens contain no PM/dev/internal notes; PM outbox status written; cleanup status included.
+- Latest update: 2026-07-19
+
+- PM review update（2026-07-19）：二次返修已通过 PM 静态复核，记录见 `00_harness/05_reports/validation/PM_REVIEW_XOXO_ENDING_PAGE_AUTHORITY_REVISION_ADDENDUM_20260719.md`。可提交 Ant 做最终视觉确认；未获 Ant 确认前不得交开发实现结局页。
+
+- XoXo execution update（2026-07-19）：`TASK-20260719-008` 已完成二次返修 unlock feedback visual hierarchy；`已解锁...` 已降为非交互 status feedback（小号 inline note / gold dot / 无边框无矩形无 action rhythm），`返回主页` 保持唯一 primary action；MinSpec section 18 已写明 ending page 三层 content / status feedback / primary action，status feedback 禁止实现为 Button / ChipButton / action cell；cleanup status: none。
+- Ant confirmation（2026-07-19）：Ant 已确认二次返修“就这样吧”。结局页 section 18 可作为 Android/Web 后续实现 authority；仍需开发实现后实机确认。
+
+### TASK-20260719-009
+
+- 标题：Android P0 Logic + Confirmed UI Controlled Pass
+- 来源：Ant 2026-07-19 实机反馈 + XoXo `TASK-20260719-008` 已确认 + PM root-cause investigation
+- 负责人：PP（Android）
+- 状态：review
+- 优先级：P0
+- 当前动作：PP 已完成 Phase A 逻辑审计 + Phase B 实现。核心修复：StoryEngine.resolve() 优先级重排（isEndingNode 先于 isNode）；EndingOverlay 按 §18 重建（三层结构 + 返回主页唯一动作）；Gallery ID 匹配修复 + 缓存移除；NagiDialog CutCornerShape(14dp) + §17.3 tokens；NagiHud/NagiIconButton/skip chip §17.2 tokens；BacklogScreen 首页打开；Home after-ending 新的故事；Prologue 28sp/1.68 line-height。无 JDK 环境无法构建验证。转 review，等 Ant 实机验收。
+- Files: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_P0_LOGIC_AND_UI_CONTROLLED_PASS.md`、`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_p0_logic_and_ui_controlled_pass_20260719.md`
+- PM static review（2026-07-19）：记录见 `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_P0_LOGIC_AND_UI_CONTROLLED_PASS_20260719.md`。主流程 P0 根因判断基本成立，11 个 Android 改动文件范围干净；但仅为 `review_with_caveats`，不可转 done：① PP 未 build，需 Ant Android Studio 构建/实机确认；② Backlog 仅改默认第一页，固定 8 条分页仍可能裁字，Ant 已反馈的“单页文字没有显示全”未真正关闭；③ LongNarration 宽度仍为 0.78f，Ant 已反馈的“长旁白太窄”未关闭；④ 普通存档继续 / 结局后新的故事状态需实机确认。
+- PM freshness investigation（2026-07-19）：记录见 `00_harness/05_reports/validation/PM_INVESTIGATION_ANDROID_STALE_APK_REAL_DEVICE_20260719.md`。连接设备 `com.antnagi.nagisheart` 安装时间 `02:32:54`，而本地最新 debug APK 为 `02:36:16`；Ant 最新“基本没变”实机结果运行的是旧安装包，不能作为 PP 009 验收结论。下一步必须安装最新 APK / Android Studio 重新 Run 后再测。
+- Ant retest update（2026-07-19）：Ant 重新跑后仍反馈“完全没变化”，并要求停止盲修，转为 Android 全盘实现-设计映射 review。PM 再次 adb 检查连接设备 `lastUpdateTime` 仍为 `02:32:54`，说明当前设备安装状态仍未证明已经刷新到最新代码；但鉴于多轮返工混乱，新增 `TASK-20260719-011` 强制 PP 先做 full code design mapping，不继续 blind implementation。
+- PM pause（2026-07-19）：Ant 决定 PP 之前声称完成但未由 fresh build + runtime screenshots 证明的 Android 改动，均不得计入通过。`TASK-20260719-009` 保持 `paused / not accepted pending fresh install + screenshot evidence`；PP 不得继续补丁式改代码，直到 `TASK-20260719-011` 映射审计与截图证据完成并经 PM/XoXo review。
+
+### TASK-20260719-011
+
+- 标题：Android Code Design Mapping Full Review
+- 来源：Ant 2026-07-19 强烈反馈“实机完全没变化 / Android 项目实现乱 / 需要吃透否则重写”
+- 负责人：PP（Android）
+- 状态：ready
+- 优先级：P0
+- 当前动作：已写任务单 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_CODE_DESIGN_MAPPING_FULL_REVIEW.md`。PP 必须先产出 `00_harness/05_reports/validation/ANDROID_CODE_DESIGN_MAPPING_PP_20260719.md`，映射 authority → Kotlin active component → route/phase → assets → persistence → build/install freshness → Ant bug correlation。此任务禁止改代码，除非只做 build/install freshness 证明。
+- 依赖：无；阻塞后续 Android UI/logic blind patch。
+- Done definition：完整报告存在；所有 Ant issue 分类；所有 active/stale/duplicate path 证明；PM 可交 XoXo 做 UI implementation mapping review。
+- Loop gate update（2026-07-19）：根据 `DEC-20260719-006`，PP 此任务必须先做 pre-implementation / audit alignment，不得开始 coding；若后续转 implementation，必须先提交 section-by-section checklist 并等 PM 批准。`where relevant` 不再允许由 worker 自行解释。
+- Evidence gate update（2026-07-19）：PP 之前 `TASK-20260718-009` Phase 1 是静态只读 diff，没有 AS 模拟器/运行截图/安装新鲜度证据，因此不能作为当前验收依据。`TASK-20260719-011` 现强制要求 AS emulator 或物理设备 runtime screenshots，目录 `00_harness/05_reports/validation/android_code_design_mapping_pp_20260719_screens/`；无截图证据不得报 review。
+- Emulator baseline（2026-07-19）：PM 已建立 Android runtime baseline，记录见 `00_harness/05_reports/validation/ANDROID_EMULATOR_BASELINE_20260719.md`。`Pixel_9a` / `emulator-5554` 已运行 `com.antnagi.nagisheart/.MainActivity`，本地等效安装时间 `2026-07-19 03:35:23 +08:00`，分辨率 `1080x2424`。PP 后续 `TASK-20260719-011` 截图审计应基于此环境或明确说明差异。
+
+### TASK-20260719-012
+
+- 标题：XoXo Review Android Implementation Mapping vs UI Authority
+- 来源：PM 为解决 Android UI 多轮改不准的信息对齐问题
+- 负责人：XoXo（UI）
+- 状态：ready
+- 优先级：P0
+- 当前动作：已写任务单 `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260719_ANDROID_IMPLEMENTATION_MAPPING_UI_REVIEW.md`。等待 PP 完成 `ANDROID_CODE_DESIGN_MAPPING_PP_20260719.md` 后，由 XoXo 审查 Android active component 与 UI authority 对应是否正确，区分 implementation bug / design ambiguity / missing resource / stale path。
+- 当前动作：PP 映射报告与截图目录已到位，XoXo 可以开始审阅。必须读取 `00_harness/05_reports/validation/ANDROID_CODE_DESIGN_MAPPING_PP_20260719.md`、`00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_CODE_DESIGN_MAPPING_FULL_REVIEW_20260719.md`、截图目录 `00_harness/05_reports/validation/android_code_design_mapping_pp_20260719_screens/`，并输出 `00_harness/05_reports/validation/XOXO_REVIEW_ANDROID_IMPLEMENTATION_MAPPING_20260719.md`。
+- 依赖：`TASK-20260719-011`
+- Done definition：XoXo 输出 `00_harness/05_reports/validation/XOXO_REVIEW_ANDROID_IMPLEMENTATION_MAPPING_20260719.md`，PM 可据此给 PP  bounded implementation correction list。
+- Evidence requirement：XoXo 必须同时审阅 PP runtime screenshots；只看文字映射不够。
+- PP return（2026-07-19）：PP 已完成 `TASK-20260719-011` 映射报告与截图目录，报告见 `00_harness/05_reports/validation/ANDROID_CODE_DESIGN_MAPPING_PP_20260719.md`、回报见 `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_code_design_mapping_full_review_20260719.md`。PM review 见 `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_CODE_DESIGN_MAPPING_FULL_REVIEW_20260719.md`，结论为 `mapping_review_accepted_with_blockers`：可交 XoXo 审图，但不能视为实现通过。P0 `SectionClearScreen.kt` / `sectionClear` 仍活跃；A06/A07/A11/A12/A13 缺 runtime screenshot，不能宣称通过。
+- 依赖：XoXo section 18 已获 Ant 确认；Wewe/Web 不在本任务范围；story-data/BG mapping 变更如需涉及必须先 blocked 回 PM。
+- 完成定义：PP 回传主流程 P0 root-cause table、实现文件清单、active-path proof、authority alignment table、build freshness proof、Ant 实机截图 checklist、cleanup status；状态转 review，不得直接 done。
+- PM authority check（2026-07-19）：已补 PRD 21.4 与 Interaction 31.3，废止旧”结局页进入回忆画廊 / 重看本结局 / 相关章节入口”口径；当前结局页只允许 `返回主页` 一个动作，Gallery unlock 为后台持久状态。PP task 已追加 Backlog 单页裁切与 Gallery unlock 明确验收。
+- PP完成（2026-07-19）：Phase A + Phase B 全部实现完毕，回报见 `dev_reply_pp_android_p0_logic_and_ui_controlled_pass_20260719.md`。无 JDK/Gradle 环境无法构建验证，需实机构建。
+- 最新更新时间：2026-07-19
+
+### TASK-20260719-005
+- 项目：NagisHeart
+- 标题：Web release-readiness code health audit
+- 来源：Ant 大小姐 2026-07-19 上线前代码健康 review 要求 / `DEC-20260719-003`
+- 负责人：Wewe（Web）
+- 状态：queued
+- 优先级：P1
+- 当前动作：等待当前 Web P1 Settings/BGM 验证任务后执行；第一阶段只读审计，不改代码。
+- 涉及文件：`web/` runtime、Web story engine、save/progress/gallery/BGM、mobile CSS、PWA/icon path
+- 依赖：当前 Web P1 验证任务
+- 完成定义：输出 Web runtime architecture map、重复/废弃代码表、P0/P1/P2 风险表、最小整改任务建议、cleanup candidates；Android touched: no；不改代码。
+- 最新更新时间：2026-07-19

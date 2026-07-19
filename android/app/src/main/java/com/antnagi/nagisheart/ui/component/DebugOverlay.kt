@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.antnagi.nagisheart.ui.theme.NagiShapes
@@ -20,7 +22,8 @@ import com.antnagi.nagisheart.ui.viewmodel.DebugInfo
 @Composable
 fun DebugOverlay(
     debugInfo: DebugInfo,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onJumpEnding: ((String) -> Unit)? = null
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -81,6 +84,26 @@ fun DebugOverlay(
                             key, display,
                             valueColor = if (highlight) Color(0xFFC98A96) else Color(0xFF6E7A89)
                         )
+                    }
+
+                    if (onJumpEnding != null) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("── test actions ──", color = Color(0xFF6E7A89), fontSize = 10.sp)
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Box(
+                            modifier = Modifier
+                                .semantics { contentDescription = "debug_jump_true_end" }
+                                .clip(NagiShapes.cutSmall)
+                                .background(Color(0xFF8B2252))
+                                .clickable { onJumpEnding("end_true") }
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = "DEBUG: Jump TRUE END",
+                                color = Color(0xFFF4F1EA),
+                                fontSize = 11.sp
+                            )
+                        }
                     }
                 }
             }

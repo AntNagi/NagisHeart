@@ -54,3 +54,13 @@ For active workers with an available chat/window, PM dispatch requires both:
 - a direct window/thread message that points to that file.
 
 The file is the authority. The message is the wake-up signal. If the message cannot be sent, PM must record the reason and not assume the worker has been woken.
+
+## Alignment / code-review gate
+
+To prevent repeated drift between authority, implementation, and real-device output, implementation loops now require:
+
+1. Pre-implementation alignment table before coding.
+2. Code-review table after coding and before QA / Ant verification.
+3. Explicit stale-build / wrong-component / duplicate-implementation risk check whenever screenshots still show old behavior.
+
+This applies especially to Android UI, Web UI, story routing, endings, gallery unlocks, backlog, save/progress, and any cross-owner design-to-development handoff.

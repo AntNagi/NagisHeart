@@ -204,6 +204,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun hasPlayed(): Boolean = saveManager.hasAutoSave()
 
+    fun hasCompletedEnding(): Boolean = progressManager.getUnlockedEndings().isNotEmpty()
+
     fun saveAutoProgress() {
         if (isReplayMode) return
         val state = _uiState.value
@@ -335,25 +337,17 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             } else null
         }
 
-        var pendingBgPath: String? = null
-        if (nextStartNode != null) {
-            val resolution = engine.resolve(nextStartNode, gameState)
-            if (resolution is NodeResolution.Found) {
-                pendingNodeAfterTransition = resolution
-                pendingBgPath = resolution.visual?.bg?.removePrefix("assets/")
-            }
+        if (nextStartNode == null) {
+            _uiState.update { it.copy(phase = GamePhase.Error, errorMessage = "No next content after skip") }
+            return
         }
 
-        _uiState.update {
-            it.copy(
-                phase = GamePhase.ChapterTransition,
-                bgAssetPath = pendingBgPath ?: it.bgAssetPath,
-                chapterTransition = ChapterTransitionInfo(
-                    chapterName = chapter.name,
-                    chapterTitle = section.title,
-                    timeRange = null
-                )
-            )
+        when (val resolution = engine.resolve(nextStartNode, gameState)) {
+            is NodeResolution.Found -> enterNode(resolution)
+            is NodeResolution.EndingReached -> showEnding(resolution)
+            is NodeResolution.NotFound -> _uiState.update {
+                it.copy(phase = GamePhase.Error, errorMessage = "Skip resolve failed: ${resolution.reason}")
+            }
         }
     }
 
@@ -776,7 +770,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun showEnding(ending: NodeResolution.EndingReached) {
         stopAuto()
         stopSkip()
-        progressManager.unlockEnding(ending.endingId)
+        progressManager.unlockEnding(ending.endingId.removePrefix("end_"))
+        saveManager.deleteAutoSave()
         _uiState.update {
             it.copy(
                 phase = GamePhase.Ending,
@@ -806,6 +801,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     override fun onCleared() {
         super.onCleared()
         bgmManager.release()
+    }
+
+    fun debugJumpToEnding(endingId: String) {
+        if (!BuildConfig.DEBUG_MODE) return
+        val key = endingId.removePrefix("end_")
+        val definition = engine.getEndingDefinition(key) ?: return
+        showEnding(NodeResolution.EndingReached(endingId, definition))
     }
 
     private fun buildDebugInfo(cursor: String): DebugInfo? {

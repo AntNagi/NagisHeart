@@ -264,3 +264,144 @@
 
 - 章节目录：从 pending 转为 review authority。
 - Dialog fallback：已补齐，可交 yiyi / Wewe 按 section 16.5 实现。
+
+---
+
+## 12. Android 实机反馈 UI authority 补齐记录（2026-07-19 / TASK-20260719-001）
+
+依据：
+
+1. `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260719_ANDROID_READABILITY_ENDING_UI_AUTHORITY.md`
+2. `00_harness/05_reports/validation/PM_REVIEW_ANDROID_REAL_DEVICE_FEEDBACK_20260719.md`
+3. `00_harness/08_authority_current/02_interaction/NagisHeart_Interaction_Design_v1_0.md` section 31
+4. `00_harness/08_authority_current/01_product/NagisHeart_PRD_v2_0.md` section 21
+
+本轮按 PM 要求只补 UI authority / 设计规范，并提交给 PM / Ant 确认；不直接给开发 final，不修改 Android/Web/story-data/script/BG mapping/TT Start/App Icon，不做资源删除。
+
+| 范围 | 本轮决定 | 给 PP / Wewe 的候选口径 |
+|---|---|---|
+| 全局压图文字可读性 | gameplay、long narration、backlog、chapter opening、chapter clear、dialog、HUD、ending page 均必须有轻玻璃托底；保留 final glass language，但比当前实机更稳。 | 文本压图不得裸压亮图；优先使用半透明深色渐变、弱描边、shadow、icon halo；无真实 blur 时使用固定 no-real-blur fallback，不凭感觉临时调。 |
+| HUD / nav / skip 统一 | title chip、icon button、action/skip chip 必须同族；避免 title 有底但 icon 裸白、厚系统按钮或明显圆角矩形硬框。 | icon button 36x36，18x18 icon，深色轻玻璃底 `rgba(15,24,39,0.34 -> 0.22)`，描边 `rgba(255,255,255,0.12)`，shadow + icon halo；title/action chip 同 token。 |
+| Dialog Android fallback | 修正 7/17 fallback 里容易被做成“圆角矩形线框”的风险；dialog 不再以大圆角硬边框作为 final。 | 优先 cut-corner / `cut-md`；无真实 blur 时 card `rgba(27,36,54,0.56)`、scrim `rgba(9,14,24,0.40)`、border 降为 `rgba(255,255,255,0.08)`、inner highlight `0.05~0.06`、shadow `0 18dp 42dp rgba(0,0,0,0.36)`。若只能做圆角硬框，必须回 UI/PM 复核。 |
+| 长旁白宽度 | 长旁白正文宽度必须与底部单行旁白正文宽度同基准。 | 外边距 18、内边距 20；文本宽度 = 屏宽 - 76dp，不再使用更窄 max-width；底部预留 120dp 以上，避免被 tap note / 手势区裁切。 |
+| 结局页 | 本行记录的是 2026-07-19 早期历史候选，已被第 13 节覆盖；不得作为开发实现依据。 | 当前实现口径见第 13 / 13.1 节：结局页只保留一个可见 action `返回主页`；unlock feedback 是静态状态提示；不展示回忆画廊 / 重看本结局 / 相关章节按钮。 |
+| 小节结束页 | 根据 PRD section 21 与 Interaction section 31，小章节结束页已移出当前产品范围。 | HTML authority 已移除 `section-clear` 可视入口与页面；历史第 9 节的 Section Clear 口径被本节覆盖，不再作为当前实现目标。 |
+
+文件变化：
+
+- `design/NagisHeart_UI_Authority_XoXo_v1_0.html`
+  - 强化 HUD icon/title/skip、dialogue box、chapter clear、long narration、recap、dialog fallback、ending card 的可读性托底。
+  - 移除 `section-clear` 切换入口、可视页面与 preset。
+  - 结局页曾改为 2026-07-19 早期终局页候选；该候选已被第 13 节覆盖。
+  - 跳过确认页作为 Dialog Android no-real-blur fallback 可见样例，并修正跳过后流向文案。
+- `00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md`
+  - 新增 section 17：Android 实机反馈 UI authority candidate。
+- 已同步 authority current 副本：
+  - `00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_XoXo_v1_0.html`
+  - `00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_Merge_Record_20260715.md`
+
+Ant / PM 需确认：
+
+1. 结局页 TRUE/GOOD/NORMAL/BAD 共用结构与终局动作是否 OK。
+2. Dialog cut-corner + 弱边界 fallback 是否摆脱“圆角矩形线框感”。
+3. 长旁白宽度对齐底部旁白正文后，实机阅读是否舒服。
+
+PP implementation alignment checklist：
+
+| Authority section | 目标效果 | Android 组件 | 关键 token | 实机验收截图点 |
+|---|---|---|---|---|
+| MinSpec 17.1 / 17.2 | HUD 全套同族轻玻璃，亮图可读 | `NagiHud.kt`、`NagiIconButton.kt` | icon 36dp，cut-sm，bg `0.34 -> 0.22`，border `0.12`，shadow，icon halo | 亮背景下 back/auto/save/menu/backlog 不裸白；title 与 icon 不割裂 |
+| MinSpec 17.3 | Dialog 不再是圆角矩形线框 | `NagiDialog.kt` | `CutCornerShape(14dp)`，card `0.56 -> 0.52`，scrim `0.40`，border `0.08`，inner highlight，shadow | 跳过确认弹窗截图；边框不能成为主视觉 |
+| MinSpec 17.1 | 底部对白与 speaker/name 可读 | `DialogueLayer.kt` | dialogue bg `0.54 -> 0.70`，speaker gold chip `#E4CA8F` + gold halo | 亮背景对白截图，金色姓名清晰但不变厚牌 |
+| MinSpec 17.4 | 长旁白与底部旁白正文同宽，不裁切 | long narration text layer | outer 18dp，inner 20dp，正文宽 = screen - 76dp，bottom reserve 120dp | 5~7 行长旁白截图，左右宽度与底部旁白正文对齐 |
+| MinSpec 17.5 | 历史候选已废止；不得实现四动作模型 | ending screen / terminal route view | 以 MinSpec section 18 为准 | 验收看 section 18.1 / 18.5：status feedback 非按钮，`返回主页` 是唯一 action |
+| MinSpec 17.6 | 小章节结束页从当前范围移除 | route / screen registry | 移除 standalone `section-clear` 运行入口；保留 Chapter Clear | 小节结束进入下一小节 opening；最后小节进入 Chapter Clear 或 Ending |
+
+禁止样式：
+
+1. 圆角矩形硬线框 dialog。
+2. 厚系统按钮 / Material 默认按钮替代 final glass。
+3. 裸白 HUD icon 压亮背景。
+4. title/action chip 有底但 icon button 无底。
+5. 旧 handoff / archive / 截图印象样式。
+6. 未同步到 `08_authority_current` 的聊天口径。
+
+Blocked 判断：
+
+- 本轮 UI authority 已补足可实现 token，XoXo 当前不标 blocked。
+- 若 PP 无法实现 cut-corner、inner highlight、shadow、icon halo，或无法确认 active component path / stale APK / duplicate UI path，必须在开发前 alignment table 标 blocked，不得自行猜。
+
+Cleanup status：
+
+- 旧 UI / 未引用资源本轮只标记口径，不删除。
+- Android/Web 接入、构建、实机验证仍需另由 PP / Wewe 执行。
+
+---
+
+## 13. 结局页 authority 返修 + 开场白字号 + 可视文案 hygiene（2026-07-19 / TASK-20260719-008）
+
+依据：
+
+1. `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260719_ENDING_PAGE_AUTHORITY_REVISION.md`
+2. Ant 2026-07-19 对结局页动作模型、开场白字号、手机 mock 可视文案的返修意见。
+
+本轮仍为 UI authority only：不改 Android/Web/story-data/script/BG mapping/TT Start/App Icon，不删除资源。
+
+| 范围 | 本轮决定 | 给 PP / Wewe 的口径 |
+|---|---|---|
+| 结局页 candidate 字样 | 手机 mock / app UI 中不得出现 `candidate`、`terminal page candidate`、`待 PM 确认` 等内部状态。 | 设计状态可写在 spec / record，不得渲染在手机画面。 |
+| 结局页动作 | 覆盖第 12 节的四动作候选模型；结局页只保留 1 个可见动作：`返回主页`。 | 移除 `回忆画廊`、`重看本结局`、`相关章节` 作为结局页可见按钮。 |
+| 画廊解锁 | 画廊解锁是后台状态结果，不是结局页按钮。 | 可保留轻量 unlock feedback 文案，但不可做成可点击入口。 |
+| Home after-ending | Ending 完成后返回 Home，主 CTA 是 `新的故事`，不是 `继续故事`。 | PP 需区分普通可继续存档态与 ending-complete 后 new-run state。 |
+| 开场白字号 | Prologue / 开场白正文小一档。 | `.opening-center` 从 31px 调整为 28px，line-height 从 1.6 调整为 1.68；Start title 与 Name Setup 不变。 |
+| 可视文案 hygiene | 手机 mock 只保留玩家真实可见文案。 | source tag、PM/dev/internal notes、`第一版...`、`不扩展...`、fallback/candidate/source 说明均移出可视屏幕。 |
+
+文件变化：
+
+- `design/NagisHeart_UI_Authority_XoXo_v1_0.html`
+  - 结局页 subtitle 改为 `Ending unlocked`，移除 user-facing `terminal page candidate`。
+  - 结局页 action grid 改为单动作，只保留 `返回主页`。
+  - Home 可视主 CTA 改为 `新的故事` / `开始新的运行`，不再以 `继续故事` 作为 after-ending 主 CTA。
+  - Prologue `.opening-center` 字号从 31px 降至 28px，line-height 调整为 1.68。
+  - 章节目录说明改为玩家文案 `选择你想回到的章节。`
+  - 移除手机 mock 中的 source-tag 可见追溯文案。
+- `00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md`
+  - 新增 section 18，覆盖结局页动作模型、Home after-ending、Prologue typography、visible copy hygiene。
+- 已同步 authority current 副本：
+  - `00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_XoXo_v1_0.html`
+  - `00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_Merge_Record_20260715.md`
+
+确认项：
+
+1. user-facing candidate 字样已从手机 mock 移除。
+2. 结局页只剩 `返回主页` 一个可见动作。
+3. Home after-ending 主 CTA 是 `新的故事`，不是 `继续故事`。
+4. 开场白正文字号已小一档，并写入 MinSpec token。
+5. visible mock 屏幕已移除 PM/dev/internal notes。
+
+Cleanup status：
+
+- Cleanup status: none。
+- 本轮不删除资源、不清理旧文件；仅收紧 authority 与可视 mock 文案。
+
+### 13.1 二次返修：结局页 status feedback 与 primary action 层级（2026-07-19）
+
+Ant 二次反馈指出：`已解锁：TRUE END / 回忆画廊新增 1 项` 是状态反馈，不是按钮；`返回主页` 才是唯一操作。但上一版两者视觉节奏过近，容易被误读为两个同类按钮。
+
+本次修正：
+
+| 范围 | 修正结果 |
+|---|---|
+| 结局页结构 | 明确为三层：content / status feedback / primary action。 |
+| Status feedback | `已解锁...` 改为 11px 低强调 inline status note；无边框、无矩形填充、无 cut/action shape、非 full-width。 |
+| Primary action | `返回主页` 保持唯一可点击 action cell。 |
+| 禁止实现 | status feedback 不得实现为 Button、ChipButton、action cell，不得与 `返回主页` 共用同样高度、边框、填充矩形、hover/action rhythm。 |
+| MinSpec | section 18.1 / 18.5 已补三层结构与 PP 验收点。 |
+
+确认保留前序要求：
+
+- 无 user-facing candidate 字样。
+- 无 PM/dev/internal note 可视文案。
+- 无 `回忆画廊`、`重看本结局`、`相关章节` 按钮。
+- Home after-ending CTA 仍是 `新的故事`。
+- 开场白字号小一档不回退。

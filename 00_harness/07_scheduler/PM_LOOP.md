@@ -167,3 +167,57 @@ Direct message must include:
 - execution order;
 - prohibited scope;
 - required reply / cleanup status.
+
+## Mandatory alignment and code-review gate
+
+For any task involving Android/Web implementation of UI, interaction, story flow, persistence, routing, gallery unlocks, or other user-visible behavior, PM must require two explicit checkpoints.
+
+### PM responsibility
+
+PM is responsible for making the task executable. If PM writes broad language such as `Use MinSpec 17.1 / 17.2 / 17.3 / 17.4 / 18 where relevant`, PM must also provide or require a section-by-section checklist. PM must not let the worker decide the scope from vague wording.
+
+For any high-risk task, multi-section UI task, previously failed fix, or user-visible flow bug, PM must require:
+
+1. pre-implementation alignment table first;
+2. PM approval of that alignment before coding;
+3. post-implementation code-review table before review/QA;
+4. build/install freshness proof before Ant real-device validation.
+
+If PM skips this gate and the worker misses scope, that is a PM process failure.
+
+### 1. Pre-implementation alignment table
+
+Before coding, the worker must produce an alignment table that maps:
+
+- authority file and exact section;
+- user-facing target / expected screenshot behavior;
+- current code file and component/function;
+- current deviation;
+- proposed file changes;
+- prohibited scope;
+- verification points.
+
+If the task depends on UI authority that is incomplete, stale, contradictory, or not synchronized into `08_authority_current`, PM must route it to the UI/product owner first. Development must not guess.
+
+PM must reject any pre-implementation table that:
+
+- omits any authority section named by PM;
+- does not prove the active runtime component path;
+- fails to identify duplicate/stale implementations;
+- lacks user-visible acceptance points;
+- says only "as relevant" without explicit implement / out-of-scope / blocked classification.
+
+### 2. Post-implementation code-review table
+
+Before PM can move the task toward QA / Ant verification, PM must request or perform a code-review table that checks:
+
+- changed files are exactly within approved scope;
+- no duplicate/parallel implementation exists that could make the real app use an old component;
+- no stale authority, archive, historical handoff, or rejected candidate was used;
+- no hardcoded temporary visual values were introduced without authority;
+- build/install freshness risk is recorded;
+- verification evidence matches the acceptance list.
+
+If real-device screenshots still show the old behavior after a reported fix, PM must treat it as an information-alignment failure until proven otherwise: possible stale APK, wrong build variant, wrong component path, duplicate implementation, missing authority detail, or implementation mismatch.
+
+PM must not accept `review` if the worker's self-check contains any unchecked / omitted / "not looked at" authority section that was in the task brief.

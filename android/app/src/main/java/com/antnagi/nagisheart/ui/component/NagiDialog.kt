@@ -6,7 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import com.antnagi.nagisheart.ui.theme.NagiShapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -28,11 +29,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
-private val DialogShape = RoundedCornerShape(24.dp)
-private val ScrimColor = Color(0x61090E18)       // authority §16.5: 38%
-private val ContainerBg = Color(0x8F1B2436)      // authority §16.5: 56%
-private val ContainerBorder = Color(0x24FFFFFF)   // authority §16.5: 14%
-private val TextShadowColor = Color(0x59000000)   // authority §16.5: 35%
+private val DialogShape = NagiShapes.cutMedium
+private val ScrimColor = Color(0x66090E18)       // §17.3: 40%
+private val ContainerBgTop = Color(0x8F1B2436)   // §17.3: 56%
+private val ContainerBgBottom = Color(0x85142131) // §17.3: 52%
+private val ContainerBorder = Color(0x14FFFFFF)   // §17.3: 8%
+private val TextShadowColor = Color(0x59000000)   // §17.3: 35%
 private val TitleColor = Color(0xFFF4F1EA)
 private val BodyColor = Color(0xD1F4F1EA)
 private val DismissColor = Color(0xFFD6D2CB)
@@ -72,7 +74,6 @@ fun NagiDialog(
                         indication = null,
                         onClick = {}
                     )
-                    // Authority §16.5: shadow "0 18dp 42dp rgba(0,0,0,0.36)" — soft diffuse
                     .drawBehind {
                         drawIntoCanvas { canvas ->
                             val paint = Paint().asFrameworkPaint().apply {
@@ -80,19 +81,30 @@ fun NagiDialog(
                                 color = Color(0x5C000000).toArgb()
                                 maskFilter = BlurMaskFilter(42.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                             }
-                            canvas.nativeCanvas.drawRoundRect(
-                                0f, 18.dp.toPx(),
-                                size.width, size.height + 8.dp.toPx(),
-                                24.dp.toPx(), 24.dp.toPx(),
-                                paint
-                            )
+                            val cut = 14.dp.toPx()
+                            val path = android.graphics.Path().apply {
+                                moveTo(cut, 18.dp.toPx())
+                                lineTo(size.width - cut, 18.dp.toPx())
+                                lineTo(size.width, 18.dp.toPx() + cut)
+                                lineTo(size.width, size.height + 8.dp.toPx() - cut)
+                                lineTo(size.width - cut, size.height + 8.dp.toPx())
+                                lineTo(cut, size.height + 8.dp.toPx())
+                                lineTo(0f, size.height + 8.dp.toPx() - cut)
+                                lineTo(0f, 18.dp.toPx() + cut)
+                                close()
+                            }
+                            canvas.nativeCanvas.drawPath(path, paint)
                         }
                     }
                     .clip(DialogShape)
-                    .background(ContainerBg)
                     .background(
                         Brush.verticalGradient(
-                            0f to Color(0x0FFFFFFF),
+                            listOf(ContainerBgTop, ContainerBgBottom)
+                        )
+                    )
+                    .background(
+                        Brush.verticalGradient(
+                            0f to Color(0x0DFFFFFF),
                             0.18f to Color.Transparent,
                             1f to Color.Transparent
                         ),

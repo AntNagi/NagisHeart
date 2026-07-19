@@ -150,3 +150,64 @@ Workers must not start from chat memory alone. Before acting, read the exact PM 
 - verification result;
 - blocked items, if any;
 - cleanup status.
+
+## Mandatory alignment and code-review response rule
+
+For any implementation task that touches UI, interaction, story flow, routing, save/progress, gallery unlocks, or other visible behavior, workers must not start coding from chat memory alone.
+
+### Mandatory pre-implementation gate
+
+Before coding, the worker must complete the alignment template:
+
+`00_harness/06_templates/tpl_alignment_code_review_gate.md`
+
+For high-risk tasks, multi-section UI tasks, previously failed fixes, or any task where PM says "wait for approval", the worker must send the completed pre-implementation alignment table to PM first and wait for PM approval. Coding before PM approval is a loop violation.
+
+The worker must not treat `where relevant` as permission to choose only the obvious sections. If a PM task references multiple authority sections, the worker must enumerate every referenced section and mark it:
+
+- `implement now`
+- `explicitly out of scope`
+- `blocked / needs PM or owner decision`
+
+Missing a referenced authority section is a failed task, even if some code was changed correctly.
+
+Before coding, return or include a pre-implementation alignment table:
+
+- authority file and exact section read;
+- PM task id and intended user-visible result;
+- current code path / component / function;
+- observed deviation or suspected root cause;
+- exact files proposed for change;
+- prohibited scope;
+- verification points after change.
+
+If authority is missing, contradictory, not in `08_authority_current`, or not precise enough to implement, stop and report a blocker. Do not invent UI, flow, or product behavior.
+
+For UI tasks, the worker must also compare against the latest authority HTML / MinSpec when available, not only the text task brief. If the worker cannot open or inspect the visual authority, report a blocker or request PM/UI owner confirmation.
+
+After coding, return a code-review table:
+
+- changed files;
+- why each changed file was necessary;
+- how each change maps back to authority / PM acceptance criteria;
+- what was not changed;
+- build/check result;
+- stale build / install risk;
+- cleanup status.
+
+If multiple components appear to implement the same visible UI, report the duplicate path risk instead of assuming the file you changed is the active one.
+
+### Review self-check gate
+
+Before reporting `review`, the worker must answer:
+
+1. Did I read every PM-named authority file and section?
+2. Did I expand all `where relevant` wording into a section-by-section checklist?
+3. Did I implement every checklist item marked `implement now`?
+4. Did I explicitly explain every checklist item not implemented?
+5. Did I prove the active runtime path?
+6. Did I check duplicate/stale components or resources?
+7. Did I record build/install freshness?
+8. Did I avoid forbidden scope?
+
+If any answer is `no`, the worker must not mark the task as `review`.

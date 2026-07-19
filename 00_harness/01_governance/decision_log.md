@@ -299,3 +299,180 @@
 - 相关文件：`00_harness/00_project/agent_registry.md`、`README_AI.md`、`TASKS.md`、`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_DEDE_20260718_CODEX_QA_REBOOT_AND_WEB_MOBILE_REGRESSION.md`
 
 ---
+---
+
+## DEC-20260719-001 — Android real-device feedback authority override
+
+- Date: 2026-07-19
+- Decider: Ant 大小姐 / PM 一一
+- Status: accepted
+
+### Decision
+
+The 2026-07-19 Android real-device feedback supersedes earlier rules that caused implementation drift:
+
+1. Backlog / 剧情回顾 opens on the first page, not the latest / last page.
+2. Backlog pagination must fit visible content; fixed 8 entries per page is not allowed when text clips.
+3. Normal flow removes standalone Section Clear / 小章节结束页. Section body should go directly to the next section opening, while chapter ending remains.
+4. Skip-section confirmation no longer lands on current Section Clear; it lands on next section opening, chapter ending, or ending flow depending on position.
+5. Ending page is a terminal flow and must unlock gallery immediately. It must not resume normal story after display.
+6. Ending page UI is missing from current final authority and must be designed by XoXo, then confirmed by Ant before development implementation.
+7. Dialog/HUD/readability fixes must be based on latest `08_authority_current` plus explicit Android no-real-blur fallback. Developers must provide authority-to-code comparison before claiming fixed.
+
+### Files
+
+- `00_harness/08_authority_current/01_product/NagisHeart_PRD_v2_0.md`
+- `00_harness/08_authority_current/02_interaction/NagisHeart_Interaction_Design_v1_0.md`
+- `design/NagisHeart_PRD_v2_0.md`
+- `design/NagisHeart_Interaction_Design_v1_0.md`
+- `00_harness/05_reports/validation/PM_REVIEW_ANDROID_REAL_DEVICE_FEEDBACK_20260719.md`
+
+### Cleanup status
+
+None. This decision changes authority rules and task scope only.
+
+---
+
+## DEC-20260719-002 — Mandatory alignment and code-review gate
+
+- Date: 2026-07-19
+- Decider: Ant 大小姐 / PM 一一
+- Status: accepted
+
+### Decision
+
+Repeated Android UI failures are treated as an information-alignment and code-review process failure, not merely as individual developer mistakes.
+
+For UI / interaction / story-flow / routing / progress / gallery implementation tasks:
+
+1. Developers must produce a pre-implementation alignment table before coding.
+2. Developers must produce a post-implementation code-review table before PM sends the task to QA / Ant verification.
+3. PM must block implementation when authority is missing, stale, contradictory, or not synchronized to `08_authority_current`.
+4. If real-device output still shows old behavior after a reported fix, PM must explicitly check for stale APK, wrong build variant, duplicate component path, inactive code path, missing authority detail, or implementation mismatch.
+5. XoXo/UI authority updates must include developer-readable token / fallback / acceptance checklist, not only visual direction.
+
+### Files
+
+- `00_harness/07_scheduler/PM_LOOP.md`
+- `00_harness/07_scheduler/WORKER_LOOP.md`
+- `00_harness/07_scheduler/LOOP_OVERVIEW.md`
+- `00_harness/06_templates/tpl_alignment_code_review_gate.md`
+- `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_MAIN_FLOW_LOGIC_AND_UI_AUDIT.md`
+- `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260719_ANDROID_READABILITY_ENDING_UI_AUTHORITY.md`
+
+### Cleanup status
+
+None. This is a process gate update.
+
+---
+
+## DEC-20260719-003 — XoXo Android readability / ending UI authority candidate tokenization
+
+- Date: 2026-07-19
+- Decider: XoXo acting under PM 一一 task `TASK-20260719-001`
+- Status: review authority candidate / pending PM + Ant confirmation
+
+### Decision
+
+XoXo updated the current UI authority candidate so the 2026-07-19 Android real-device feedback is no longer expressed only as visual direction. The affected UI components now carry developer-readable tokens and an implementation alignment checklist:
+
+1. Global text-over-image readability backing uses stronger light-glass tokens instead of naked text or thick black/white cards.
+2. HUD title chip, icon buttons, and skip/action chip must share one final glass HUD family with explicit shape / alpha / border / shadow / icon halo values.
+3. Dialog Android no-real-blur fallback is cut-corner, weak-border, inner-highlight glass; rounded rectangle hard-line-frame styling is prohibited.
+4. Long narration text width matches the bottom single-line narration body width: outer 18dp, inner 20dp, text width = screen width - 76dp.
+5. Ending page is added as a terminal final-candidate page with ending tag, title, subtitle, description, unlock feedback, return home, gallery, replay ending, and related chapter actions.
+6. Standalone Section Clear / 小章节结束页 is removed from the current product UI scope; historical Section Clear UI authority is superseded by PRD section 21 and Interaction section 31.
+
+### Files
+
+- `design/NagisHeart_UI_Authority_XoXo_v1_0.html`
+- `design/NagisHeart_UI_Authority_Merge_Record_20260715.md`
+- `00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md`
+- `00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_XoXo_v1_0.html`
+- `00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_Merge_Record_20260715.md`
+
+### Gate
+
+PP must use the alignment / code-review gate before any implementation. If active Android component paths are ambiguous, stale build risk is present, or the authority tokens cannot be implemented without inventing UI, PP must report blocked instead of guessing.
+
+### Cleanup status
+
+None. This decision changes UI authority candidate and developer alignment requirements only; no resource deletion is authorized.
+
+---
+
+## DEC-20260719-003 — Release-readiness code health review gate
+
+- Date: 2026-07-19
+- Decider: Ant 大小姐 / PM 一一
+- Status: accepted
+
+### Decision
+
+The project has gone through many implementation and design revisions. Before treating Android or Web as release-ready, PM must run a release-readiness code health review gate.
+
+This review is broader than a per-task diff check. It must evaluate:
+
+1. overall code design and maintainability;
+2. duplicate or parallel implementations of the same screen/component;
+3. obsolete active code paths left behind by old versions;
+4. conflicting rules between PRD, interaction authority, UI authority, story-data, and runtime code;
+5. state-machine / routing / progress / save / gallery unlock risks;
+6. resource path conflicts, stale assets, and archive leakage;
+7. build/install freshness and QA traceability.
+
+No worker may use this review as permission for broad refactoring. The first pass is audit-only. Any cleanup or refactor must become a scoped follow-up task with PM approval.
+
+### Files
+
+- `00_harness/05_reports/validation/PM_RELEASE_READINESS_CODE_REVIEW_PLAN_20260719.md`
+- `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_CODE_HEALTH_AUDIT.md`
+- `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEWE_20260719_WEB_CODE_HEALTH_AUDIT.md`
+
+### Cleanup status
+
+None. This creates a release gate and audit tasks only.
+
+---
+
+## DEC-20260719-004 — Android Dialog / HUD root cause handling
+
+- Date: 2026-07-19
+- Decider: PM 一一, responding to Ant real-device feedback
+- Status: accepted
+
+### Decision
+
+The repeated Android Dialog / HUD mismatch must be treated as an active-path and authority-alignment failure, not as another blind visual-tuning task.
+
+PM static investigation found:
+
+1. `NagiDialog.kt` still uses old section 16.5-style `RoundedCornerShape(24.dp)` / 14% border / rounded shadow, while current UI authority section 17.3 requires cut-corner weak-border glass and explicitly prohibits the rounded rectangle line-frame look.
+2. `NagiHud.kt` title chip and `GameScreen.kt` skip/action chip still use weaker old glass tokens and are not centralized.
+3. System-screen headers such as Backlog / Chapter / Settings / Save / Gallery do not all share one navigation/header component, so a fix to `NagiHud` alone cannot guarantee global navigation consistency.
+4. Future Android UI implementation must include active component proof, authority token comparison, and stale APK / wrong build variant checks before being marked review.
+
+### Files
+
+- `00_harness/05_reports/validation/PM_INVESTIGATION_ANDROID_DIALOG_HUD_ROOT_CAUSE_20260719.md`
+- `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_DIALOG_HUD_ROOT_CAUSE_ADDENDUM.md`
+
+### Cleanup status
+
+None. Investigation and process decision only; no code or resource deletion authorized.
+# DEC-20260719-006 - Implementation tasks require hard alignment gate before coding
+
+- Date: 2026-07-19
+- Owner: PM 一一
+- Trigger: Ant reported repeated Android implementation failures where workers claimed fixes but real-device behavior remained old or incomplete. PP also acknowledged it skipped referenced MinSpec sections and started coding before completing full section comparison.
+- Decision:
+  - Any Android/Web implementation task touching UI, interaction, story flow, routing, persistence, gallery unlocks, or other visible behavior must use the alignment/code-review gate.
+  - High-risk, multi-section, or previously failed tasks must complete a pre-implementation alignment table and wait for PM approval before coding.
+  - PM must expand vague scope such as `where relevant` into explicit section-by-section checklist, or require the worker to do so before coding.
+  - Missing a referenced authority section is a failed task, even if some code changes are correct.
+  - Post-implementation review must include active runtime path proof, duplicate/stale path check, build/install freshness proof, forbidden-scope confirmation, and cleanup status.
+- Files updated:
+  - `00_harness/06_templates/tpl_alignment_code_review_gate.md`
+  - `00_harness/07_scheduler/WORKER_LOOP.md`
+  - `00_harness/07_scheduler/PM_LOOP.md`
+- Impact: Applies immediately to PP / Wewe / any future implementation worker.

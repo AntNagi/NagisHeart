@@ -12,11 +12,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import android.graphics.BlurMaskFilter
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -35,8 +39,8 @@ fun GameScreen(
     onNavigateToSave: () -> Unit,
     onNavigateToBacklog: () -> Unit = {},
     onNavigateToBack: () -> Unit = {},
-    onNavigateToSectionClear: () -> Unit = {},
-    onReplayFinished: () -> Unit = {}
+    onReplayFinished: () -> Unit = {},
+    onReturnToHome: () -> Unit = {}
 ) {
     val state by viewModel.uiState.collectAsState()
     var debugOverlayVisible by remember { mutableStateOf(false) }
@@ -137,7 +141,8 @@ fun GameScreen(
                         state.ending?.let { ending ->
                             EndingOverlay(
                                 ending = ending,
-                                bgAssetPath = state.bgAssetPath
+                                bgAssetPath = state.bgAssetPath,
+                                onReturnToHome = onReturnToHome
                             )
                         }
                     }
@@ -194,14 +199,15 @@ fun GameScreen(
             }
 
             // Debug overlay — hidden by default, toggle via long-press on HUD title
-            if (debugOverlayVisible) {
+            if (debugOverlayVisible && state.phase != GamePhase.Ending) {
                 state.debugInfo?.let { info ->
                     DebugOverlay(
                         debugInfo = info,
                         modifier = Modifier
                             .align(Alignment.TopStart)
                             .statusBarsPadding()
-                            .padding(top = NagiTheme.sizes.hudButton)
+                            .padding(top = NagiTheme.sizes.hudButton),
+                        onJumpEnding = { endingId -> viewModel.debugJumpToEnding(endingId) }
                     )
                 }
             }
@@ -219,18 +225,33 @@ fun GameScreen(
                         .statusBarsPadding()
                         .padding(top = 62.dp, end = 12.dp)
                         .height(34.dp)
+                        .drawBehind {
+                            drawIntoCanvas { canvas ->
+                                val paint = android.graphics.Paint().apply {
+                                    isAntiAlias = true
+                                    color = Color(0x6B000000).toArgb()
+                                    maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                                }
+                                canvas.nativeCanvas.drawRoundRect(
+                                    0f, 3.dp.toPx(),
+                                    size.width, size.height,
+                                    8.dp.toPx(), 8.dp.toPx(),
+                                    paint
+                                )
+                            }
+                        }
                         .clip(NagiShapes.cutSmall)
                         .background(
                             Brush.verticalGradient(
                                 listOf(
-                                    Color(0x380F1827),
-                                    Color(0x140F1827)
+                                    Color(0x4D0F1827), // §17.2: 0.30
+                                    Color(0x1F0F1827)  // §17.2: 0.12
                                 )
                             )
                         )
                         .border(
                             width = 1.dp,
-                            color = Color(0x1AFFFFFF),
+                            color = Color(0x1FFFFFFF), // §17.2: 0.12
                             shape = NagiShapes.cutSmall
                         )
                         .clickable { showSkipConfirm = true }
@@ -253,13 +274,12 @@ fun GameScreen(
                 NagiDialog(
                     onDismissRequest = { showSkipConfirm = false },
                     title = "跳过本节",
-                    text = if (sectionTitle.isNotEmpty()) "确定跳过「$sectionTitle」？跳过后将直接进入本节结束页。"
-                           else "确定跳过当前章节？跳过后将直接进入本节结束页。",
+                    text = if (sectionTitle.isNotEmpty()) "确定跳过「$sectionTitle」？跳过后将直接进入后续内容。"
+                           else "确定跳过当前章节？跳过后将直接进入后续内容。",
                     confirmText = "确定跳过",
                     onConfirm = {
                         showSkipConfirm = false
                         viewModel.skipSection()
-                        onNavigateToSectionClear()
                     },
                     onDismiss = { showSkipConfirm = false }
                 )
@@ -296,7 +316,8 @@ fun GameScreen(
 @Composable
 private fun EndingOverlay(
     ending: com.antnagi.nagisheart.data.EndingDefinition,
-    bgAssetPath: String? = null
+    bgAssetPath: String? = null,
+    onReturnToHome: () -> Unit = {}
 ) {
     val accentColor = when {
         ending.tag.contains("TRUE") -> NagiPalette.paleGold
@@ -306,7 +327,13 @@ private fun EndingOverlay(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = {}
+            )
     ) {
         if (bgAssetPath != null) {
             Image(
@@ -330,6 +357,7 @@ private fun EndingOverlay(
             )
         }
 
+        // Layer 1: Content
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -353,6 +381,69 @@ private fun EndingOverlay(
                 style = NagiTheme.typography.narration,
                 color = NagiPalette.silverBlue
             )
+        }
+
+        // Layer 2: Status feedback + Layer 3: Primary action
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .padding(horizontal = 28.dp)
+                .padding(bottom = 42.dp)
+                .navigationBarsPadding()
+        ) {
+            // Status feedback — static text, NOT a button
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(5.dp)
+                        .clip(NagiShapes.cutSmall)
+                        .background(Color(0xB8D7BE86))
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = "已解锁：${ending.tag} / 回忆画廊新增 1 项",
+                    fontSize = 11.sp,
+                    color = Color(0xB3F4F1EA)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(22.dp))
+
+            // Primary action — only 返回主页
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clip(NagiShapes.cutMedium)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Color(0x561B2436),
+                                Color(0x4D142131)
+                            )
+                        )
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = Color(0x14FFFFFF),
+                        shape = NagiShapes.cutMedium
+                    )
+                    .clickable(onClick = onReturnToHome),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "返回主页",
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp,
+                    color = NagiPalette.snowWhite
+                )
+            }
         }
     }
 }

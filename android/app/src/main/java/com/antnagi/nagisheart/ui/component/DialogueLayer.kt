@@ -1,5 +1,6 @@
 package com.antnagi.nagisheart.ui.component
 
+import android.graphics.BlurMaskFilter
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,10 +12,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -42,107 +48,135 @@ fun DialogueLayer(
     }
 }
 
+// §17.1 dialogue-box tokens
+private val DialogueCardBgTop = Color(0x8A101827)       // rgba(16,24,39,0.54)
+private val DialogueCardBgBottom = Color(0xB3101827)     // rgba(16,24,39,0.70)
+private val DialogueCardBorder = Color(0x14FFFFFF)       // rgba(255,255,255,0.08)
+private val DialogueCardShadowColor = Color(0x42000000)  // rgba(0,0,0,0.26)
+
 @Composable
 private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = Modifier) {
     val colors = NagiTheme.colors
 
-    Box(modifier = modifier.fillMaxWidth()) {
-        // Gradient fog background — matches design's radial gradient + linear gradient
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 18.dp)
+            .padding(bottom = 34.dp)
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(230.dp)
-                .align(Alignment.BottomCenter)
+                // §17.1: card shadow 0 18dp 40dp rgba(0,0,0,0.26)
+                .drawBehind {
+                    drawIntoCanvas { canvas ->
+                        val paint = Paint().asFrameworkPaint().apply {
+                            isAntiAlias = true
+                            color = DialogueCardShadowColor.toArgb()
+                            maskFilter = BlurMaskFilter(40.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                        }
+                        val cut = 14.dp.toPx()
+                        val path = android.graphics.Path().apply {
+                            moveTo(cut, 18.dp.toPx())
+                            lineTo(size.width - cut, 18.dp.toPx())
+                            lineTo(size.width, 18.dp.toPx() + cut)
+                            lineTo(size.width, size.height + 8.dp.toPx() - cut)
+                            lineTo(size.width - cut, size.height + 8.dp.toPx())
+                            lineTo(cut, size.height + 8.dp.toPx())
+                            lineTo(0f, size.height + 8.dp.toPx() - cut)
+                            lineTo(0f, 18.dp.toPx() + cut)
+                            close()
+                        }
+                        canvas.nativeCanvas.drawPath(path, paint)
+                    }
+                }
+                // §17.1: cut-md
+                .clip(NagiShapes.cutMedium)
+                // §17.1: bg linear-gradient 0.54 -> 0.70
                 .background(
                     Brush.verticalGradient(
-                        0f to Color.Transparent,
-                        0.28f to Color.Transparent,
-                        0.76f to colors.glassBgStrong,
-                        1f to colors.glassBgSoft
+                        listOf(DialogueCardBgTop, DialogueCardBgBottom)
                     )
                 )
-        )
-
-        // Content
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 20.dp)
+                // §17.1: border rgba(255,255,255,0.08) 1dp
+                .border(1.dp, DialogueCardBorder, NagiShapes.cutMedium)
+                .padding(start = 20.dp, end = 20.dp, top = 18.dp, bottom = 22.dp)
         ) {
-            // Speaker tag — gold with light glass backing for readability
-            val speakerGold = Color(0xFFE4CA8F)
-            Box(
-                modifier = Modifier
-                    .clip(NagiShapes.cutSmall)
-                    .background(
-                        Brush.horizontalGradient(
-                            listOf(
-                                Color(0x4D101827),
-                                Color(0x1A101827)
+            Column {
+                // §17.1: speaker cut-sm, gold border, gold halo + dark shadow
+                val speakerGold = Color(0xFFE4CA8F)
+                Box(
+                    modifier = Modifier
+                        .clip(NagiShapes.cutSmall)
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(
+                                    Color(0x4D101827), // rgba(16,24,39,0.30)
+                                    Color(0x1A101827)  // rgba(16,24,39,0.10)
+                                )
                             )
                         )
-                    )
-                    .border(1.dp, Color(0x2ED7BE86), NagiShapes.cutSmall)
-                    .padding(start = 9.dp, end = 9.dp, top = 3.dp, bottom = 4.dp)
-            ) {
-                Box {
-                    Text(
-                        text = speaker,
-                        style = TextStyle(
-                            fontFamily = FontFamily.Default,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 13.sp,
-                            letterSpacing = 0.04.sp,
-                            shadow = Shadow(
-                                color = Color(0x33D7BE86),
-                                offset = Offset(0f, 0f),
-                                blurRadius = 10f
-                            )
-                        ),
-                        color = speakerGold
-                    )
-                    Text(
-                        text = speaker,
-                        style = TextStyle(
-                            fontFamily = FontFamily.Default,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 13.sp,
-                            letterSpacing = 0.04.sp,
-                            shadow = Shadow(
-                                color = Color(0xB8000000),
-                                offset = Offset(0f, 1f),
-                                blurRadius = 2f
-                            )
-                        ),
-                        color = speakerGold
-                    )
+                        .border(1.dp, Color(0x2ED7BE86), NagiShapes.cutSmall) // gold rgba(215,190,134,0.18)
+                        .padding(start = 9.dp, end = 9.dp, top = 3.dp, bottom = 4.dp)
+                ) {
+                    Box {
+                        Text(
+                            text = speaker,
+                            style = TextStyle(
+                                fontFamily = FontFamily.Default,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 13.sp,
+                                letterSpacing = 0.04.sp,
+                                shadow = Shadow(
+                                    color = Color(0x33D7BE86), // gold halo
+                                    offset = Offset(0f, 0f),
+                                    blurRadius = 10f
+                                )
+                            ),
+                            color = speakerGold
+                        )
+                        Text(
+                            text = speaker,
+                            style = TextStyle(
+                                fontFamily = FontFamily.Default,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 13.sp,
+                                letterSpacing = 0.04.sp,
+                                shadow = Shadow(
+                                    color = Color(0xB8000000), // dark shadow
+                                    offset = Offset(0f, 1f),
+                                    blurRadius = 2f
+                                )
+                            ),
+                            color = speakerGold
+                        )
+                    }
                 }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                // §17.1: dialogue text with light shadow
+                Text(
+                    text = text,
+                    style = TextStyle(
+                        fontFamily = FontFamily.Default,
+                        fontSize = 17.sp,
+                        lineHeight = (17 * 1.9).sp,
+                        shadow = Shadow(
+                            color = colors.textShadowColor,
+                            offset = Offset(0f, 2f),
+                            blurRadius = 14f
+                        )
+                    ),
+                    color = Color(0xF0F7F9FC) // rgba(247,249,252,0.94)
+                )
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                BreathingIndicator(
+                    modifier = Modifier.align(Alignment.End)
+                )
             }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Dialogue text
-            Text(
-                text = text,
-                style = NagiTheme.typography.dialogue.copy(
-                    shadow = Shadow(
-                        color = colors.textShadowColor,
-                        offset = Offset(0f, 2f),
-                        blurRadius = 14f
-                    )
-                ),
-                color = colors.textPrimary,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-
-            Spacer(modifier = Modifier.height(14.dp))
-
-            // Continue indicator — breathing animation
-            BreathingIndicator(
-                modifier = Modifier.align(Alignment.End).padding(end = 22.dp, bottom = 14.dp)
-            )
         }
     }
 }
@@ -151,47 +185,68 @@ private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = M
 private fun BottomNarration(text: String, modifier: Modifier = Modifier) {
     val colors = NagiTheme.colors
 
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 18.dp)
+            .padding(bottom = 34.dp)
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(230.dp)
-                .align(Alignment.BottomCenter)
+                .drawBehind {
+                    drawIntoCanvas { canvas ->
+                        val paint = Paint().asFrameworkPaint().apply {
+                            isAntiAlias = true
+                            color = DialogueCardShadowColor.toArgb()
+                            maskFilter = BlurMaskFilter(40.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                        }
+                        val cut = 14.dp.toPx()
+                        val path = android.graphics.Path().apply {
+                            moveTo(cut, 18.dp.toPx())
+                            lineTo(size.width - cut, 18.dp.toPx())
+                            lineTo(size.width, 18.dp.toPx() + cut)
+                            lineTo(size.width, size.height + 8.dp.toPx() - cut)
+                            lineTo(size.width - cut, size.height + 8.dp.toPx())
+                            lineTo(cut, size.height + 8.dp.toPx())
+                            lineTo(0f, size.height + 8.dp.toPx() - cut)
+                            lineTo(0f, 18.dp.toPx() + cut)
+                            close()
+                        }
+                        canvas.nativeCanvas.drawPath(path, paint)
+                    }
+                }
+                .clip(NagiShapes.cutMedium)
                 .background(
                     Brush.verticalGradient(
-                        0f to Color.Transparent,
-                        0.28f to Color.Transparent,
-                        0.76f to colors.glassBgStrong,
-                        1f to colors.glassBgSoft
+                        listOf(DialogueCardBgTop, DialogueCardBgBottom)
                     )
                 )
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 20.dp)
+                .border(1.dp, DialogueCardBorder, NagiShapes.cutMedium)
+                .padding(start = 20.dp, end = 20.dp, top = 18.dp, bottom = 22.dp)
         ) {
-            Text(
-                text = text,
-                style = NagiTheme.typography.narration.copy(
-                    shadow = Shadow(
-                        color = colors.textShadowColor,
-                        offset = Offset(0f, 2f),
-                        blurRadius = 14f
-                    )
-                ),
-                color = colors.textPrimary.copy(alpha = 0.94f),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            Column {
+                Text(
+                    text = text,
+                    style = TextStyle(
+                        fontFamily = FontFamily.Serif,
+                        fontSize = 17.sp,
+                        lineHeight = (17 * 1.9).sp,
+                        shadow = Shadow(
+                            color = colors.textShadowColor,
+                            offset = Offset(0f, 2f),
+                            blurRadius = 14f
+                        )
+                    ),
+                    color = Color(0xF0F7F9FC).copy(alpha = 0.94f)
+                )
 
-            Spacer(modifier = Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
-            BreathingIndicator(
-                modifier = Modifier.align(Alignment.End).padding(end = 22.dp, bottom = 14.dp)
-            )
+                BreathingIndicator(
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
         }
     }
 }

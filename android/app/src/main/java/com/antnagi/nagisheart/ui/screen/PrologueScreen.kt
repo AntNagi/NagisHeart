@@ -103,8 +103,8 @@ fun PrologueScreen(
                         Text(
                             text = line.text,
                             fontFamily = FontFamily.Serif,
-                            fontSize = 31.sp,
-                            lineHeight = (31 * 1.6).sp,
+                            fontSize = 28.sp,
+                            lineHeight = (28 * 1.68).sp,
                             color = TextPrimary,
                             textAlign = TextAlign.Center,
                             style = LocalTextStyle.current.copy(

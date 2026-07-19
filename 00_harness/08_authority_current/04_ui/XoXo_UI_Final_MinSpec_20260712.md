@@ -841,3 +841,249 @@ Speaker chip 规则：
 3. Dialog fallback 直接使用 section 16.5 token；不要再凭感觉调 alpha/shadow。
 4. 若无真 background blur，不要使用会模糊 Dialog 自身内容的 RenderEffect。
 5. 本 section 已同步到 `00_harness/08_authority_current/04_ui/`，后续实现以这里为准。
+
+---
+
+## 17. TASK-20260719-001 Android 实机反馈 UI authority candidate：可读性 / HUD / Dialog / 长旁白 / 结局页
+
+来源：PM `TASK_TO_XOXO_20260719_ANDROID_READABILITY_ENDING_UI_AUTHORITY.md`、PM review `PM_REVIEW_ANDROID_REAL_DEVICE_FEEDBACK_20260719.md`、`DEC-20260719-001`、`DEC-20260719-002`。  
+状态：review authority candidate。必须先给 PM / Ant 确认；确认前不得称为 final dev authority，也不得由 PP 直接按聊天印象实现。  
+范围：只补 UI authority / spec，不改 Android/Web/story-data/script/BG mapping/TT Start/App Icon，不删除资源。
+
+### 17.1 全局压图文字可读性 token
+
+所有压在 story BG / 亮图 / 复杂图上的文字层，默认必须有轻玻璃托底。视觉方向仍是 final glass，不是厚黑底、厚系统按钮或纯白卡片。
+
+| 组件 | Shape | Alpha / background | Border | Shadow / halo | Android no-real-blur fallback | 禁止样式 |
+|---|---|---|---|---|---|---|
+| Dialogue bottom box | `cut-md` | `linear-gradient rgba(16,24,39,0.54) -> rgba(16,24,39,0.70)` | `rgba(255,255,255,0.08)` 1dp | card shadow `0 18dp 40dp rgba(0,0,0,0.26)`；文本轻 shadow | 无 blur 时保持同 alpha，不降到 0.46 以下；必须保留 border + shadow | 裸文字；厚黑整条；纯系统圆角卡片 |
+| Speaker / name | `cut-sm`，只包住姓名文本 | `rgba(16,24,39,0.30) -> rgba(16,24,39,0.10)` | gold `rgba(215,190,134,0.18)` 1dp | text shadow `0 1dp 2dp rgba(0,0,0,0.72)` + gold halo `0 0 10dp rgba(215,190,134,0.20)` | 无 blur 时仍保留半透明底、gold border、shadow/halo | 改成白字；整条 name plate；厚黑姓名底 |
+| Chapter opening text group | `cut-md` | `rgba(16,24,39,0.38) -> rgba(16,24,39,0.24) -> transparent` | `rgba(255,255,255,0.10)` 1dp | `0 14dp 36dp rgba(0,0,0,0.30)` | 无 blur 时 alpha 不得低于 0.34；可加强 shadow，不可取消托底 | 标题裸压背景；大弹窗；实心黑/白底 |
+| Chapter Clear card | `cut-md` | `rgba(27,36,54,0.34) -> 0.24 -> 0.36` + center highlight `rgba(247,249,252,0.12)` | `rgba(255,255,255,0.10)` 1dp | text shadow `0 2dp 20dp rgba(0,0,0,0.54)` | 无 blur 时 card 主体保持 0.34/0.36，不能回到 0.20/0.24 的弱托底 | 普通弹窗；厚按钮页；Section Clear 复用为当前范围 |
+| Backlog / recap panel | system dark glass | page overlay `rgba(19,32,51,0.58)` | 沿用 system panel token | text shadow `0 1dp 8dp rgba(10,15,25,0.18)` | 无 blur 时保持 0.58 overlay，优先分页避免裁切 | 固定 8 条导致裁切；裸白文字压图 |
+| Ending page card | `cut-md` | `rgba(16,24,39,0.50) -> rgba(16,24,39,0.76)` + mood accent radial | `rgba(255,255,255,0.10)` 1dp | `0 22dp 54dp rgba(0,0,0,0.34)` | 无 blur 时 card 不低于 0.56 下缘 0.76；action 使用轻 glass cell | 章节结束页替代结局页；厚系统按钮；自动继续故事 |
+
+### 17.2 HUD / nav / action chip developer-readable token
+
+HUD 全家族必须同源：title chip、icon button、skip/action chip 都有轻玻璃 backing。不得出现 title 有底、icon 裸白的断裂状态。
+
+| 组件 | Size / safe area | Shape | Alpha / background | Border | Shadow / icon halo | Android component target | 验收截图点 |
+|---|---|---|---|---|---|---|---|
+| HUD icon button | 36x36dp；icon 18x18dp；top 14dp；left/right 17dp；group gap 8dp | `cut-sm` / Compose `CutCornerShape(8dp)` | radial highlight `rgba(247,249,252,0.08)` + vertical `rgba(15,24,39,0.34) -> rgba(15,24,39,0.22)` | `rgba(255,255,255,0.12)` 1dp | container drop shadow `0 3dp 12dp rgba(0,0,0,0.42)`；icon `rgba(247,249,252,0.94)` + dark shadow `0 1dp 2dp rgba(0,0,0,0.64)` + light halo `0 0 8dp rgba(247,249,252,0.20)` | `NagiIconButton` / `NagiHud` icon slots | 亮背景、复杂背景各截一张：back/auto/save/menu/backlog 不能裸白漂浮 |
+| HUD title chip | height 34dp；padding 14~18dp；max-width 210dp；single-line ellipsis | `cut-sm` | `rgba(15,24,39,0.30) -> rgba(15,24,39,0.12)` | `rgba(255,255,255,0.12)` 1dp | `0 3dp 12dp rgba(0,0,0,0.34)`；text shadow `0 1dp 2dp rgba(0,0,0,0.45)` | `NagiHud` title composable | 与 icon 同一视觉家族；长标题省略，不挤压右侧 icon |
+| Skip / action chip | height 34dp；right 18dp；top 76dp 或 HUD 下方 14~18dp；padding 14~16dp | `cut-sm` | 与 title chip 同 token：`0.30 -> 0.18/0.12` | `rgba(255,255,255,0.12)` 1dp | drop shadow `0 3dp 12dp rgba(0,0,0,0.42)`；text shadow `0 1dp 2dp rgba(0,0,0,0.45)` | skip section / next chapter / continue action chip | “跳过本节”在亮图上仍清晰，但不能像厚按钮 |
+
+禁止样式列表：
+
+- 裸白图标直接压亮背景。
+- title/action 有背景但 icon buttons 没背景。
+- Material 默认厚按钮、实心黑按钮、纯白按钮。
+- 大圆角矩形硬边框，尤其是看起来像系统弹窗线框。
+- 旧 handoff / archive 样式、临时截图样式、未进入 `08_authority_current` 的聊天口径。
+
+### 17.3 Dialog Android no-real-blur fallback hard token
+
+本节覆盖 section 16.5 中“border 0.14 / radius 24”可能造成圆角线框感的旧风险。Dialog final direction 是轻玻璃切角浮层，不是大圆角矩形线框。
+
+| 项 | Preferred with real blur | Android no-real-blur fallback | Hard limit |
+|---|---|---|---|
+| Shape | `cut-md` | Compose `CutCornerShape(14dp)`；如确实无法切角，必须回 UI/PM 复核后才能使用圆角 | 不得默认 `RoundedCornerShape(24dp)` + 高 alpha border |
+| Card background | `rgba(27,36,54,0.32)` + blur 16dp | `linear-gradient rgba(27,36,54,0.56) -> rgba(20,31,49,0.52)` | card 不低于 0.52；不高于 0.64 |
+| Scrim | `rgba(9,14,24,0.32)` | `rgba(9,14,24,0.40)` | 允许 0.38~0.42；超出回 PM/UI |
+| Border | `rgba(255,255,255,0.10)` | 降为 `rgba(255,255,255,0.08)` 1dp | 不得高于 0.10，避免线框感 |
+| Inner highlight | top highlight `rgba(255,255,255,0.05)` | 必须保留，用来替代硬边框的“玻璃边缘” | 不得用纯描边承担全部轮廓 |
+| Shadow | `0 18dp 42dp rgba(0,0,0,0.32)` | `0 18dp 42dp rgba(0,0,0,0.36)` | 不得取消 shadow |
+| Text | title snow 0.96；body 0.88 | title/body 可加 `0 1dp 2dp rgba(0,0,0,0.35)` | 不得模糊文字本身 |
+
+HTML preview：`design/NagisHeart_UI_Authority_XoXo_v1_0.html` 的 `skip-confirm` 页面是本轮 dialog fallback 可见样例。
+
+Blocked rule：如果 Android 无法做 `CutCornerShape` / 弱 border / inner highlight / shadow 中任一关键层，PP 必须标 blocked 或回 PM/UI 复核，不能自行改成圆角系统 Dialog。
+
+### 17.4 长旁白宽度与底部裁切规则
+
+长旁白正文宽度与底部单行旁白正文宽度同基准。
+
+| 项 | Token |
+|---|---|
+| 外边距 | left/right 18dp，与 `.dialogue-box` 外边距一致 |
+| 内边距 | left/right 20dp，与 `.dialogue-box` 正文内边距一致 |
+| 正文宽度公式 | `screenWidth - 18*2 - 20*2 = screenWidth - 76dp` |
+| max-width | 不再设置比底部旁白更窄的 max-width；文本容器不得用 78% / 80% 压窄 |
+| 垂直安全 | 底部至少预留 120dp，避免 tap note、导航手势区或长屏缩放裁切 |
+| 背景 | radial backing `rgba(16,24,39,0.44) -> 0.32 -> transparent`；无 blur 时保持相同 alpha |
+| 验收截图点 | 选一段 5~7 行长旁白，在亮背景和暗背景各截图；正文左右宽度应与底部单行旁白正文对齐，底部不裁切 |
+
+### 17.5 结局页历史候选（已废止，禁止实现）
+
+> PM note 2026-07-19: this historical candidate model is superseded by section 18.1. Do not implement this section as product UI. Current implementation authority is section 18: content / status feedback / primary action, only one visible action `返回主页`, and no user-facing candidate wording.
+
+结局页是 terminal ending page，不是 Chapter Clear，也不是普通剧情节点。到达 ending 后不得空白点击继续普通 story；必须写入 unlock 后停在终局页。
+
+历史候选结构（仅保留为变更追溯，禁止开发实现）：
+
+1. `ending tag`：TRUE / GOOD / NORMAL / BAD。
+2. `title`：结局名。
+3. `subtitle`：ending unlocked / route mood。
+4. `description`：2~3 行结局说明。
+5. `unlock feedback`：例如“已解锁：TRUE END / 回忆画廊新增 1 项”。
+6. 主动作：返回主页。
+
+废止项：
+
+- 不再展示额外结局按钮。
+- 不再把回忆画廊、重看本结局、相关章节作为结局页可见 action。
+- unlock feedback 只允许作为低强调静态状态说明，不得做成 Button / ChipButton / action cell。
+
+Mood token：
+
+| Ending type | Accent | Mood note |
+|---|---|---|
+| TRUE | gold `#D7BE86` + snow highlight | 最亮、最温柔，但仍保留深色 glass terminal card |
+| GOOD | warm gold / soft amber | 比 TRUE 稍低调，动作结构相同 |
+| NORMAL | mist silver `rgba(220,226,234,0.78)` | 冷静、中性，减少 gold 强调 |
+| BAD | cold blue `rgba(151,178,215,0.72)` + lower saturation | 不做恐怖红黑，不跳出 final UI |
+
+确认状态：本小节已废止，不得作为 PP / Wewe 实现依据。后续开发只看 section 18。
+
+### 17.6 小章节结束页移出当前范围
+
+根据 PRD section 21 与 Interaction section 31：
+
+- standalone Section Clear / 小章节结束页已从当前产品范围移除。
+- 小节正常结束后直接进入下一小节 opening。
+- 如果当前小节是大章最后一小节，进入 Chapter Clear。
+- 如果当前节点已到 story ending，进入 terminal ending page。
+- 历史 section 14.3 与 merge record 第 9 节中“Section Clear 可实现”的口径，被本 section 覆盖。
+
+HTML authority 已移除 `section-clear` 入口、页面和 preset。
+
+### 17.7 PP implementation alignment checklist
+
+| Authority section | 目标效果 | Android 组件 / 路径 | 关键 token | 实机验收截图点 |
+|---|---|---|---|---|
+| 17.1 / 17.2 HUD | 顶部 HUD 全部轻玻璃同族，亮图可读 | `NagiHud.kt`、`NagiIconButton.kt` | icon 36dp / cut-sm / bg 0.34→0.22 / border 0.12 / shadow / icon halo | 亮背景：back、auto、save、menu/backlog 全可见；title 和 icon 不割裂 |
+| 17.3 Dialog | 不再像圆角矩形线框；无 blur 也有玻璃层次 | `NagiDialog.kt` | CutCornerShape 14dp / card 0.56→0.52 / scrim 0.40 / border 0.08 / inner highlight / shadow | `skip-confirm` 或跳过确认实机截图；边框不能成为主要视觉 |
+| 17.1 Dialogue | 底部对白压图可读但不厚重 | `DialogueLayer.kt` | box bg 0.54→0.70 / border 0.08 / card shadow；speaker gold chip | 亮背景对白截图；speaker 金色清晰但不是白字 |
+| 17.4 Long narration | 长旁白宽度与底部旁白正文同基准、不裁切 | long narration screen / text layer | outer 18dp / inner 20dp / width = screen - 76dp / bottom reserve 120dp | 5~7 行长旁白截图；左右宽度与底部旁白正文对齐 |
+| 17.5 Ending page | 历史候选已废止；只用于追溯，不作为实现依据 | Ending screen / terminal route view | see section 18 | 开发验收必须看 section 18.1 / 18.5：status feedback 非按钮，`返回主页` 是唯一 action |
+| 17.6 Flow removal | 不再显示 standalone Section Clear | route / screen registry | 移除 section-clear 运行入口；保留 Chapter Clear | 小节结束后进入下一小节 opening；最后小节进入 Chapter Clear / Ending |
+
+如果上述任一组件无法定位 active Android path，或存在多个重复实现路径，PP 必须在 pre-implementation alignment 表中标出 duplicate / stale path risk，不得假设自己改到的文件就是运行文件。
+
+### 17.8 Blocker judgment
+
+本 UI authority 对本轮范围已补齐到可审核 token 粒度；当前 XoXo 不标 blocked。  
+但若出现以下情况，后续开发必须 blocked 回 PM/UI：
+
+1. Android 无法实现 cut-corner / inner highlight / shadow / icon halo 的关键层。
+2. PP 找不到 active component path，或发现重复 UI 组件路径。
+3. 实机仍显示旧样式，无法确认是 stale APK、wrong variant、还是 active path 不一致。
+4. Ending page 的 TRUE/GOOD/NORMAL/BAD 文案、终局动作或 unlock 反馈需要 Ant 进一步产品确认。
+
+### 17.9 给 PP / Wewe 的实现口径
+
+1. 不要按旧 handoff、archive、聊天截图或历史 7/17 section-clear 口径实现；必须读 `08_authority_current/04_ui/` section 17。
+2. UI 任务开始前必须按 `tpl_alignment_code_review_gate.md` 写 pre-implementation alignment table。
+3. 实现后必须写 code-review table，逐项映射 authority section → Android 文件 → token → 验收截图。
+4. 本 section 是 review authority candidate；Ant 确认前，结局页不得宣布 final。
+5. Web 若同步 visual rule，也以本 section token 为准，但不得因此改 story-data 或 Android code。
+
+---
+
+## 18. TASK-20260719-008 Ending page authority revision + Prologue typography + visible copy hygiene
+
+来源：PM `TASK_TO_XOXO_20260719_ENDING_PAGE_AUTHORITY_REVISION.md`；Ant 2026-07-19 返修意见。  
+状态：UI authority revision / review。仍为 UI authority only；不改 Android/Web/story-data/script/BG mapping/TT Start/App Icon，不删除资源。  
+本节覆盖 section 17.5 中结局页四动作候选模型；同时补充 Prologue 字号 token 和手机 mock 文案 hygiene 规则。
+
+### 18.1 Ending page action model revision
+
+结局页是 terminal ending page，但不再展示多入口动作。PRD 未定义的入口不得由 UI 自行发明。
+
+| 项 | Revised authority |
+|---|---|
+| User-facing candidate wording | 禁止。手机 mock / app UI 中不得出现 `candidate`、`terminal page candidate`、`待 PM 确认` 等内部状态字样。 |
+| Visible action count | 只保留 1 个可见动作。 |
+| Only visible action | `返回主页`。 |
+| Removed visible actions | `回忆画廊`、`重看本结局`、`相关章节`。 |
+| Gallery unlock | 后台状态结果，可显示轻量解锁反馈文案；不是结局页按钮。 |
+| Blank tap | 不推进普通 story。 |
+
+Ending page visual hierarchy is fixed to three layers:
+
+| Layer | Role | Allowed implementation | Forbidden implementation |
+|---|---|---|---|
+| Content | ending tag / title / description | static text inside ending card | clickable route / hidden navigation |
+| Status feedback | unlock result, e.g. `已解锁：TRUE END / 回忆画廊新增 1 项` | static text line, low-emphasis inline note, or small non-interactive badge; 10~11sp; no action rhythm | `Button`、`ChipButton`、action cell、same-height glass bar、same padding/border/hover rhythm as primary action |
+| Primary action | only `返回主页` | one full-width / clear primary action cell | any additional ending action |
+
+Status feedback token：
+
+- font-size: 11px preview token；
+- color: `rgba(244,241,234,0.70)`；
+- optional small gold status dot: 5dp, `rgba(215,190,134,0.72)`；
+- no border；
+- no rectangular fill；
+- no `cut-sm` action shape；
+- width = content / fit-content, not full-width；
+- margin-top 14dp, then primary action margin-top 22dp so the action rhythm is visually separated.
+
+结局页仍可显示：
+
+1. ending type tag：TRUE / GOOD / NORMAL / BAD；
+2. ending title；
+3. short ending description；
+4. 轻量 unlock feedback，例如“已解锁：TRUE END / 回忆画廊新增 1 项”；
+5. 单一 action：`返回主页`。
+
+### 18.2 Home after-ending state
+
+当一个 ending 已完成并返回 Home 时，Home 必须进入 new-run state：
+
+| 项 | Token / rule |
+|---|---|
+| Home primary CTA after ending | `新的故事` |
+| Forbidden after-ending primary CTA | `继续故事` |
+| Supporting copy | 可使用 `开始新的运行` / `重新开始` 这一类玩家可见文案 |
+| Gallery unlock | 后台已解锁；不要求从结局页直接进入 Gallery |
+| Implementation note | PP 必须区分普通存档继续态与 ending-complete 后的新运行态；不要把 completed ending 的 Home 继续显示为 `继续故事`。 |
+
+### 18.3 Prologue / 开场白 typography token
+
+Ant 反馈开场白正文偏大，本节只调 Prologue main body typography，不改 Start title，不改 Name Setup。
+
+| Component | Previous preview token | Revised token | Scope |
+|---|---|---|---|
+| Prologue main body `.opening-center` | 31px, line-height 1.6 | 28px, line-height 1.68 | 仅 Prologue / 开场白正文 |
+
+规则：
+
+- 保持原布局、背景、进度 label、tap note、视觉 mood。
+- Start 标题字号不变。
+- Name Setup 字号不变；当前 HTML 中 Name Setup 未共用 `.opening-center`，因此本轮无需拆 token。
+- Android / Web 实现不得猜字号；Prologue 正文字号按 28px preview 等比换算为当前平台 token。
+
+### 18.4 Visible mock copy hygiene
+
+手机 mock 屏幕只能出现真实玩家会看到的产品文案。PM / dev / source / candidate / fallback / implementation notes 必须移到 MinSpec 或 merge record，不能放进 phone mock 可视区域。
+
+必须移除或不得出现：
+
+1. `candidate` / `terminal page candidate` / `待 PM 确认` 等内部状态；
+2. `Source:` / `来源：...` / source tag；
+3. `第一版...`、`不扩展...`、`developer...`、`fallback preview...` 等实现说明；
+4. PM / dev / implementation / handoff 口径；
+5. 任何可能被 PP / Wewe 照抄进 app 的非玩家说明。
+
+HTML 追溯信息可以保留在注释、merge record、MinSpec；但不得作为 phone mock 可见文案出现。
+
+### 18.5 Updated PP alignment points
+
+| Authority section | 目标效果 | Android 组件 / 路径 | 关键 token | 实机验收截图点 |
+|---|---|---|---|---|
+| 18.1 | 结局页三层清晰：content / status feedback / primary action | ending screen / terminal route view | status feedback = static 11sp inline note, no border/fill/button rhythm；primary action = only `返回主页` | 一眼能看出 `已解锁...` 只是提示，`返回主页` 才是唯一按钮；截图中没有 `回忆画廊` / `重看本结局` / `相关章节` / `candidate` |
+| 18.2 | Ending 后 Home 进入新运行态 | Home screen / state mapping | primary CTA = `新的故事`；forbidden = `继续故事` | 完成结局后返回 Home 截图，主 CTA 是 `新的故事` |
+| 18.3 | 开场白正文小一档 | Prologue screen text | 28px preview token / line-height 1.68；Name Setup unaffected | 开场白截图字体小于旧版；Name Setup / Start 字体未变化 |
+| 18.4 | 手机 mock 没有 PM/dev/internal notes | all visible screens | no source tag / no candidate / no internal explanatory copy | 随机抽查章节目录、结局页、Start、Dialog；只有玩家可见文案 |
+
+Blocked rule：如果 PP 发现 Home 普通继续态与 ending-complete 后新运行态在当前代码里无法区分，必须 blocked 回 PM / product；不得用“继续故事”临时代替 after-ending Home。

@@ -38,7 +38,7 @@ fun BacklogScreen(
     val bgAssetPath = viewModel.uiState.collectAsState().value.bgAssetPath
     val totalPages = ((entries.size + ENTRIES_PER_PAGE - 1) / ENTRIES_PER_PAGE).coerceAtLeast(1)
     val pagerState = rememberPagerState(
-        initialPage = totalPages - 1,
+        initialPage = 0,
         pageCount = { totalPages }
     )
 
@@ -84,12 +84,12 @@ fun BacklogScreen(
                             fontFamily = FontFamily.Serif,
                             fontSize = 14.sp,
                             shadow = Shadow(
-                                color = Color(0xB8000000),
-                                offset = Offset(0f, 2f),
-                                blurRadius = 14f
+                                color = Color(0x73000000),
+                                offset = Offset(0f, 1f),
+                                blurRadius = 2f
                             )
                         ),
-                        color = NagiTheme.colors.hudColor.copy(alpha = 0.64f)
+                        color = NagiTheme.colors.textPrimary
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.width(36.dp))

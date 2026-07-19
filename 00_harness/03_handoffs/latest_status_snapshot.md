@@ -5,6 +5,224 @@
 
 ---
 
+## PM update - PP Android follow-ups assigned after Laud QA (2026-07-19)
+
+- Based on Laud Android QA and PM review, Android UI direction is mostly screenshot-backed, but final acceptance is blocked by missing ending flow proof.
+- New P0 task: `TASK-20260719-015 Android Ending Verification Hook + Evidence`.
+  - Task file: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_ENDING_VERIFICATION_HOOK_AND_EVIDENCE.md`.
+  - PP submitted Phase A: `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_ending_verification_hook_phase_a_20260719.md`.
+  - PM approved Phase A with constraints: `00_harness/05_reports/validation/PM_APPROVAL_PP_ENDING_VERIFICATION_HOOK_PHASE_A_20260719.md`.
+  - Goal: safe DEBUG-only/test path to capture terminal Ending page, Home after ending `新的故事`, Gallery ending unlock, and Prologue typography. No story-data changes.
+  - Constraint: do not hijack HUD title long-press directly. Long-press may open debug overlay; ending jump must be an explicit DEBUG-only action inside the overlay.
+  - PP completed Phase B: `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_ending_verification_hook_and_evidence_20260719.md`.
+  - PM review: `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_ENDING_VERIFICATION_HOOK_20260719.md`.
+  - Verdict: `rework_required`. B03 Gallery unlock is valid; B04 Prologue typography path exists. B01 ending screenshot is polluted by debug overlay and needs clean recapture. B02 Home after ending is rejected because it still shows both `继续故事` and `新的故事`; Ant's product decision requires no `继续故事` after completed ending.
+  - PP completed rework: `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_ending_verification_hook_rework_20260719.md`.
+  - PM rework review: `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_ENDING_VERIFICATION_HOOK_REWORK_20260719.md`.
+  - Verdict: `review_passed`. Clean B01 ending screenshot, B02 Home only `新的故事`, and B03 Gallery TRUE END unlock are accepted. Debug hook remains DEBUG-gated; track as future release-readiness review item.
+  - 016 is now unblocked and assigned.
+- New P1 task: `TASK-20260719-016 Android Chapter Catalog locked title privacy fix`.
+  - Task file: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_CHAPTER_LOCKED_TITLE_PRIVACY_FIX.md`.
+  - Goal: locked chapter/catalog rows must not reveal future story titles; use neutral copy such as `未解锁章节` / `继续故事后开放`.
+  - Default scheduling: after 015 Phase A or PM instruction; do not distract from P0 ending verification.
+- Web follow-up remains paused.
+
+## PM update - Laud QA assigned for Android/Web evidence sweep (2026-07-19)
+
+- Ant instructed PM to use Claude tester Laud because Codex token is tight, and to include the Web follow-up DeDe had paused.
+- New task: `TASK-20260719-014`.
+- Task file: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_LAUD_20260719_QA_ANDROID_WEB_EVIDENCE_SWEEP.md`.
+- Scope: QA only, no code changes.
+- Ant update: run Android first only. Web follow-up is paused until PM explicitly resumes it.
+- Android scope: Section Clear removal proof, Ending/Home/Gallery logic, Backlog first page + long text, Long narration width, Chapter/Section Opening, Chapter Clear if reachable, Dialog/HUD visual screenshots.
+- Web scope: paused backlog — DeDe paused follow-up not executed in this pass.
+- Hard rule: UI pass/reject requires screenshots; logic pass/reject requires steps/expected/actual/reproducibility. No screenshot means `unverified`, not pass.
+- Output for Android-first pass: `00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_laud_android_evidence_sweep_20260719.md`; evidence folder `00_harness/05_reports/validation/laud_android_evidence_sweep_20260719/`.
+- Laud completed Android-only QA. PM review: `00_harness/05_reports/validation/PM_REVIEW_LAUD_ANDROID_EVIDENCE_SWEEP_20260719.md`.
+- Verdict: `android_ui_evidence_pass_with_main_flow_blockers`.
+- Accepted direction-level screenshot evidence: Section Clear removal, Dialog/HUD, Backlog first page/visible text, Long narration width, Chapter Opening, Section Opening, Chapter Clear.
+- Blocked/unverified: Terminal Ending, Home after ending `新的故事`, Gallery ending unlock, Prologue typography.
+- New confirmed issue: Chapter Directory locked entries reveal real future story titles; needs follow-up.
+- Android is not final-acceptance ready until ending/Home/Gallery proof exists.
+
+## PM update - XoXo Android mapping review accepted with blockers; PP Section Clear P0 assigned (2026-07-19)
+
+- XoXo completed `TASK-20260719-012`: `00_harness/05_reports/validation/XOXO_REVIEW_ANDROID_IMPLEMENTATION_MAPPING_20260719.md`.
+- PM accepted the review: `00_harness/05_reports/validation/PM_REVIEW_XOXO_ANDROID_IMPLEMENTATION_MAPPING_20260719.md`.
+- Verdict: Android implementation is **not** approved. PP's mapping is useful, but current implementation still has blockers.
+- Confirmed P0 blocker: `A10 Section Clear` still exists. Static search also confirms active `sectionClear` route / `SectionClearScreen` / `advanceAfterSectionClear()` / skip copy saying `跳过后将直接进入本节结束页。`.
+- XoXo visual notes:
+  - A02/A03 HUD + DialogueLayer: acceptable with caveat, slightly heavier/darker than HTML authority.
+  - A04 Dialog shell: visually acceptable, but copy/flow is wrong until Section Clear is removed.
+  - A08 Chapter opening: not approved; screenshot does not prove authority hierarchy.
+  - A06/A07/A11/A12/A13: cannot approve due to missing screenshots.
+- New PP task: `TASK-20260719-013 Android Section Clear Removal P0`.
+- Task file: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_SECTION_CLEAR_REMOVAL_P0.md`.
+- Hard rule: PP must first send Phase A alignment table and wait for PM approval before coding. This is to prevent another blind patch.
+- PP submitted Phase A: `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_section_clear_removal_p0_phase_a_20260719.md`.
+- PM approved Phase A with constraints: `00_harness/05_reports/validation/PM_APPROVAL_PP_SECTION_CLEAR_REMOVAL_PHASE_A_20260719.md`.
+- Phase B may begin, but PM explicitly rejected adding parallel section/chapter/ending branching logic inside `skipSection()`. PP must reuse existing `StoryEngine.resolve()` → `enterNode()` / `showEnding()` main-flow dispatch.
+- PP completed Phase B: `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_section_clear_removal_p0_20260719.md`.
+- PM review: `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_SECTION_CLEAR_REMOVAL_P0_20260719.md`.
+- Verdict: `review_passed_with_caveats`. The verified skip-flow P0 is fixed: skip copy says `后续内容`, confirm skip enters next Section Opening, and no standalone Section Clear appears in that runtime proof. Static search shows only dead `Routes.SECTION_CLEAR`, `advanceAfterSectionClear()`, and `SectionClearScreen.kt` declaration remain.
+- Not done: `A11_chapter_clear_if_reached.png` missing due to reproduction blocker; `A10_normal_section_end_no_section_clear.png` is weak evidence; dead cleanup candidates remain.
+- Completion gate remains: do not mark `TASK-20260719-013` done until Ant/QA confirms no Section Clear in real-device flow, chapter-boundary proof is captured, and cleanup candidates are resolved or explicitly retained.
+- Cleanup status: none.
+
+## PP update - TASK-20260719-009 Phase A+B complete, review (2026-07-19)
+
+- PP 已完成 `TASK-20260719-009` Phase A 主流程 P0 逻辑审计 + Phase B Android 实现修复，状态转 `review`。
+- **Phase A root cause**: 全部 4 个 P0 追溯到单一根因 — `StoryEngine.resolve()` 中 `isNode()` 在 `isEndingNode()` 之前检查。`end_true/end_good/end_normal/end_bad` 同时存在于 `nodes.json` 和 `endings.json`，导致 `EndingReached` 永远不会被触发。
+- **Phase B 修复清单**:
+  1. `StoryEngine.kt`: `isEndingNode()` 优先级提升至 `isNode()` 之前
+  2. `GameViewModel.kt`: `unlockEnding()` 存储 stripped key (e.g. "true" not "end_true"); `showEnding()` 后清除 auto-save; 新增 `hasCompletedEnding()`
+  3. `GameScreen.kt EndingOverlay`: 按 §18 重建三层结构 — content/status feedback/返回主页; blank tap 不推进 story; 新增 `onReturnToHome` 回调
+  4. `GalleryScreen.kt`: 移除 `remember{}` 缓存
+  5. `NagiDialog.kt`: `CutCornerShape(14dp)` + §17.3 tokens (card 0.56→0.52, border 0.08, scrim 0.40, cut-corner shadow)
+  6. `NagiHud.kt`: title chip §17.2 tokens (bg 0.30→0.12, border 0.12, drop shadow, text shadow 0.45)
+  7. `NagiIconButton.kt`: §17.2 tokens (bg 0.34→0.22, border 0.12)
+  8. `GameScreen.kt skip chip`: §17.2 tokens + drop shadow
+  9. `BacklogScreen.kt`: `initialPage = 0` (首页打开); title 文字改用 textPrimary
+  10. `StartScreen.kt` + `NavGraph.kt`: `hasCompletedEnding` → Home CTA 改为 `新的故事`
+  11. `PrologueScreen.kt`: 28sp / line-height 1.68
+- **Build**: 无 JDK/Gradle 环境，无法本地构建验证。需 Ant 实机构建。
+- Report: `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_p0_logic_and_ui_controlled_pass_20260719.md`
+- Cleanup status: none.
+- PM static review: `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_P0_LOGIC_AND_UI_CONTROLLED_PASS_20260719.md`.
+- PM verdict: `review_with_caveats`, not done. Main-flow ending/gallery root cause is plausible and Android-only scope is clean, but build is unverified; Backlog clipping was not fully solved (`ENTRIES_PER_PAGE = 8` still fixed); LongNarration width remains open (`fillMaxWidth(0.78f)`); Start save-vs-after-ending CTA state needs real-device confirmation.
+- Real-device freshness investigation: `00_harness/05_reports/validation/PM_INVESTIGATION_ANDROID_STALE_APK_REAL_DEVICE_20260719.md`. Connected device package `com.antnagi.nagisheart` had `lastUpdateTime=2026-07-19 02:32:54`, while local `android/app/build/outputs/apk/debug/app-debug.apk` was `2026-07-19 02:36:16`; Ant's latest "nothing changed" run was on a stale installed APK and cannot validate PP 009.
+- Ant reran and still reports "no change"; PM rechecked connected device and `lastUpdateTime` still reads `2026-07-19 02:32:54`, so build/install freshness remains unproven. Because Android has accumulated too many blind patches, PM opened:
+  - `TASK-20260719-011` for PP: full Android code design mapping review, no code changes, output `00_harness/05_reports/validation/ANDROID_CODE_DESIGN_MAPPING_PP_20260719.md`.
+  - `TASK-20260719-012` for XoXo: review PP's mapping against UI authority after PP report exists.
+  - Required template: `00_harness/08_authority_current/05_implementation/Android_Code_Design_Mapping_REQUIRED_20260719.md`.
+- Process hardening: `DEC-20260719-006` added. Implementation tasks touching UI/interaction/story/routing/persistence/gallery/visible behavior now require hard alignment gate. High-risk or previously failed tasks must send pre-implementation alignment table and wait for PM approval before coding. `where relevant` must be expanded into a section checklist. Missing a referenced authority section is a failed task. Updated `WORKER_LOOP.md`, `PM_LOOP.md`, and `tpl_alignment_code_review_gate.md`.
+- Evidence upgrade: PP's earlier `TASK-20260718-009` Phase 1 read-only diff was static-only and lacked AS emulator/runtime screenshots/build-install proof. `TASK-20260719-011` now requires emulator or physical-device runtime screenshots in `00_harness/05_reports/validation/android_code_design_mapping_pp_20260719_screens/`; no screenshot evidence means no PM acceptance. XoXo must review screenshots, not text only.
+- PP Android implementation pause: Ant/PM do not accept prior PP "completed" implementation tasks as passed without fresh build/install + runtime screenshot evidence. `TASK-20260719-009` is paused/not accepted pending evidence. PP must not continue coding; only `TASK-20260719-011` audit/mapping/screenshot setup is allowed.
+- Android emulator baseline established: `00_harness/05_reports/validation/ANDROID_EMULATOR_BASELINE_20260719.md`. `Pixel_9a` / `emulator-5554` is running `com.antnagi.nagisheart/.MainActivity`, size `1080x2424`, density `420`; emulator package update time is `2026-07-18 19:35:23 GMT` = local `2026-07-19 03:35:23 +08:00`. Current screenshot saved at `00_harness/05_reports/validation/android_emulator_baseline_20260719/emulator_current_screen.png`.
+- PP completed `TASK-20260719-011` Android code design mapping with screenshots. PM review: `00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_CODE_DESIGN_MAPPING_FULL_REVIEW_20260719.md`; verdict `mapping_review_accepted_with_blockers`. Key blocker: `SectionClearScreen.kt` / `sectionClear` still active (A10 screenshot), P0 not fixed. Missing screenshots: A06 Backlog long-text, A07 LongNarration, A11 Chapter Clear, A12 Terminal Ending, A13 Home after ending. XoXo `TASK-20260719-012` moved to ready to review available screenshots + mapping; do not accept PP implementation as passed yet.
+
+## PM update - Android Dialog / HUD root cause investigation (2026-07-19)
+
+- Ant requested a concrete conclusion for why Android Dialog and navigation/HUD repeatedly fail to match UI authority.
+- PM investigation report: `00_harness/05_reports/validation/PM_INVESTIGATION_ANDROID_DIALOG_HUD_ROOT_CAUSE_20260719.md`.
+- PP mandatory addendum: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_DIALOG_HUD_ROOT_CAUSE_ADDENDUM.md`.
+- Conclusion: not primarily missing resources. Current Android active code still contains stale/fragmented UI implementation:
+  - `NagiDialog.kt` still uses old rounded 24dp / 14% border section 16.5-style fallback, conflicting with current section 17.3 cut-corner weak-border dialog.
+  - `NagiHud.kt` title chip and `GameScreen.kt` skip/action chip still use weak old tokens and are not centralized.
+  - Backlog / Chapter / Settings / Save / Gallery headers do not all share `NagiHud`, so navigation fixes can drift by screen.
+- New decision: `DEC-20260719-004`. PP must prove active component path, current-vs-authority token values, and stale APK/build freshness before any further Android UI fix is accepted.
+- Cleanup status: none.
+
+## PM update - Android Dialog / HUD minimal fix task (2026-07-19)
+
+- Ant accepted the PM root-cause conclusion as plausible if the two concrete areas are actually fixed first.
+- New PP task: `TASK-20260719-007`.
+- Task file: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_DIALOG_HUD_MINIMAL_FIX.md`.
+- Scope is deliberately narrow:
+  - Fix Dialog against UI authority section 17.3.
+  - Fix Navigation/HUD active paths against UI authority section 17.2.
+  - Do not mix ending logic, gallery unlock, backlog pagination, long narration, section clear removal, Web, BGM, App Icon, TT Start, story-data, or BG mapping.
+- PP reply must include active-path proof, token table, build freshness proof, screenshot checklist, and cleanup status.
+
+## PM update - XoXo TASK-20260719-001 review scoping (2026-07-19)
+
+- XoXo's UI authority candidate has been PM-reviewed: `00_harness/05_reports/validation/PM_REVIEW_XOXO_ANDROID_READABILITY_ENDING_UI_AUTHORITY_20260719.md`.
+- Result:
+  - MinSpec 17.2 HUD / nav / action chip and 17.3 Dialog fallback are accepted as immediate Android implementation authority for `TASK-20260719-007`.
+  - MinSpec 17.1 text backing, 17.4 long narration width, 17.5 ending page, and 17.6 removal of standalone Section Clear remain pending Ant confirmation before full implementation.
+- `TASK-20260719-001` stays `review`, not `done`.
+- Cleanup status: none.
+
+## PM update - Ending page authority rejected / revision assigned (2026-07-19)
+
+- Ant reviewed current ending page preview and rejected the action model.
+- Issue: visual page still says candidate / terminal page candidate and contains four actions: 返回主页、回忆画廊、重看本结局、相关章节.
+- Product decision: ending page only needs one action, `返回主页`.
+- Product decision: after an ending completes, Home must not show `继续故事`; completed run resets to new run state, so Home primary CTA becomes `新的故事`.
+- Additional Ant feedback: Prologue / 开场白 main body font is too large; XoXo must reduce it by one size step in UI authority, without redesigning Start or Name Setup typography.
+- Additional Ant feedback: visible authority mock screens must not contain PM/dev/internal explanatory copy such as "第一版只保留..." because developers may accidentally implement it as product UI. XoXo must remove such visible notes and move required guidance into MinSpec / merge record.
+- New XoXo task: `TASK-20260719-008`.
+- Task file: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_XOXO_20260719_ENDING_PAGE_AUTHORITY_REVISION.md`.
+- Scope: UI authority only; no Android/Web/story-data/BG mapping changes.
+- Cleanup status: none.
+
+## PM update - XoXo TASK-20260719-008 review passed with caveat (2026-07-19)
+
+- XoXo completed ending page authority revision, prologue font reduction, and visible mock copy hygiene.
+- PM review: `00_harness/05_reports/validation/PM_REVIEW_XOXO_ENDING_PAGE_AUTHORITY_REVISION_20260719.md`.
+- Result:
+  - visible ending page no longer says candidate;
+  - only visible ending action is `返回主页`;
+  - after-ending Home CTA is `新的故事`, not `继续故事`;
+  - Prologue body token is 28px / line-height 1.68;
+  - visible PM/dev/internal notes were removed from phone mock screens.
+- PM caveat resolved: old MinSpec section 17.5 has been marked historical / superseded and must not be implemented. Developers must use section 18 for ending page implementation.
+- Cleanup status: none.
+
+## PM update - Ending unlock feedback visual hierarchy rejected (2026-07-19)
+
+- Ant rejected the revised ending preview hierarchy: `已解锁：TRUE END / 回忆画廊新增 1 项` currently looks like the same kind of glass bar as the `返回主页` button.
+- Product/UI decision: unlock feedback is status/explanatory copy, not an action.
+- XoXo task `TASK-20260719-008` reopened for rework:
+  - unlock feedback must become visually lighter and clearly non-interactive;
+  - it must not share the same filled bar / border / button rhythm as `返回主页`;
+  - `返回主页` remains the only visible action and the only button.
+- Cleanup status: none.
+
+## PM update - DeDe TASK-20260718-017 pass / Wewe 018 P1 follow-up (2026-07-18)
+
+- DeDe 完成 `TASK-20260718-017` 独立复测，报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_mobile_after_wewe_016_20260718.md`，证据：`00_harness/05_reports/validation/web_mobile_qa_dede_after_wewe_016_20260718/`。
+- DeDe 结论：Wewe 016 声称修复的 5 项 reject 均已实际验证通过，无 P0。
+- 已验证通过：Opening/Clear 点击推进；Section Clear、下一节 Opening/gameplay、Chapter Clear/下一章 Opening 均真实可达；skip-section NagiDialog 取消回原位、确认落当前 Section Clear；HUD 已无 `AUTO / SKIP / MENU`；BGM slider 可由 50% 实时改到 80%；Opening/Clear 均隐藏 HUD。
+- PM review：`00_harness/05_reports/validation/PM_REVIEW_DEDE_WEB_MOBILE_AFTER_WEWE_016_20260718.md`。
+- `TASK-20260718-017` 标记 `done`；`TASK-20260718-016` 功能层从 reject 转为 review passed，但保留 caveat，不标 done。
+- 新增 `TASK-20260718-018`：`Web Mobile P1 Settings readability and BGM verification follow-up`，任务单：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEWE_20260718_WEB_MOBILE_P1_SETTINGS_READABILITY_BGM_VERIFY.md`。
+- 018 处理：Settings 明亮背景可读性 P1、BGM reload/localStorage 持久化验证、实际 audio 音量链路验证；Web-only，`Android touched: no`。
+- 注意：DeDe 017 的 Browser viewport override 仍未精确落地，实际为 `1280x720` / app `430x720`，不能虚报 393x852 / 430x932 全流程精确通过。
+- Cleanup status: none。
+
+## PM update - Wewe TASK-20260718-016 review intake / DeDe 017 rerun (2026-07-18)
+
+- Wewe 回报 `TASK-20260718-016 Web Mobile QA Reject Fix Round 2` 完成，回报文件：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mobile_qa_reject_fix_round2_20260718.md`。
+- Wewe 声称修复 5 项：Opening/Clear 点击推进、skip-section NagiDialog、HUD authority、BGM slider、Opening/Clear 隐藏 HUD。
+- PM 静态检查：关键 JS `node --check` 通过；Wewe 回报 `Android touched: no`；但 Wewe 证据目录 `00_harness/05_reports/validation/web_mobile_qa_reject_fix_round2_20260718/` 当前为空，且回报“6 文件”与表格列出的 7 个 Web 文件不一致。
+- PM review：`00_harness/05_reports/validation/PM_REVIEW_WEWE_WEB_MOBILE_QA_REJECT_FIX_ROUND2_20260718.md`。
+- `TASK-20260718-016` 转 `review`，不进入 Ant 验收。
+- 新增 `TASK-20260718-017` 交 DeDe 独立复测，任务单：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_DEDE_20260718_WEB_MOBILE_RERUN_AFTER_WEWE_016.md`。
+- DeDe 017 必须只测不改，重点复核 5 项 reject 是否真实修复，并输出截图/证据；通过后再提交 Ant 浏览器验收。
+- Cleanup status: none。
+
+## PM update - PP TASK-20260718-012 Phase 2 review intake (2026-07-18)
+
+- PP 回报 `TASK-20260718-012 Android UI Phase 2 Authority Implementation` 已完成，回报文件：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_pp_android_ui_phase2_20260718.md`。
+- PM 静态收口记录：`00_harness/05_reports/validation/PM_REVIEW_PP_ANDROID_UI_PHASE2_20260718.md`。
+- 任务状态已从 `assigned` 转为 `review`，未转 `done`；必须等待 Ant 大小姐实机验收。
+- PP 回报的 5 个验收点：明亮背景 HUD、深色背景 HUD、skip-section dialog、Chapter catalog、Chapter opening。
+- PM 静态检查确认：`ChapterScreen.kt` 当前已有 catalog list 方向；`ChapterOpeningScreen.kt` 当前已有 light glass backing；`GameScreen.kt` 当前已有 GlassBacking / ClearCard 微光；`NagiIconButton.kt` 与 `NagiDialog.kt` 当前有柔和 shadow 相关实现。
+- 注意：当前 `git diff --name-status` 仅显示 `NagiIconButton.kt` / `NagiDialog.kt` 为 Android 未提交差异，PP 回报中的 `ChapterScreen.kt` / `ChapterOpeningScreen.kt` / `GameScreen.kt` 内容虽静态存在但未显示为当前 diff；因此必须用实机结果兜底确认，不得仅凭回报标 done。
+- yiyi 不再接 Android UI 新任务；如本轮实机仍不符合 authority，由 PP 继续修。
+- Cleanup status: none。
+
+## PM update - DeDe TASK-20260718-015 rerun reject (2026-07-18)
+
+- DeDe 已完成 `TASK-20260718-015` 阶段性复测，报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_mobile_rerun_after_wewe_p0_20260718.md`，证据：`00_harness/05_reports/validation/web_mobile_qa_dede_rerun_20260718/`。
+- 结论：Web mobile 仍 `reject / not ready for Ant acceptance`。
+- 已修复：旧 P0-001 Game 高度塌缩/背景不可见；Backlog 路由不再打开章节目录。
+- 仍阻塞：Chapter Opening 虽可见但点击不能继续，Section/Chapter Clear 不可达，仍为 P0。
+- 仍未修复 P1：skip-section 无 NagiDialog 确认；HUD 仍为 `AUTO / SKIP / MENU` 旧结构；BGM `50%` 仍为静态不可操作文本；Opening 仍错误保留剧情 HUD。
+- PM review：`00_harness/05_reports/validation/PM_REVIEW_DEDE_WEB_MOBILE_RERUN_AFTER_WEWE_P0_20260718.md`。
+- 新增 Wewe 返工任务 `TASK-20260718-016`：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_WEWE_20260718_WEB_MOBILE_QA_REJECT_FIX_ROUND2.md`。Claude 可用后需直接发送给 Wewe；发送前不宣称已通知。
+
+
+## PM update - Wewe TASK-20260718-010 review intake (2026-07-18)
+
+- Wewe 回报 `TASK-20260718-010 Web Mobile P0 Rework` 完成，报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mobile_p0_rework_20260718.md`。
+- PM 复核结论：Start 黑屏根因说明可信，Start v23 在 `393x852` / `430x932` 两张提交截图中可见；但该证据只覆盖 Start，不能代表 DeDe 上轮发现的 Game/Opening/Backlog/Skip/BGM 等 P0/P1 全部修复。
+- PM review 已写入：`00_harness/05_reports/validation/PM_REVIEW_WEWE_WEB_MOBILE_P0_REWORK_20260718.md`。
+- 新增 `TASK-20260718-015`：DeDe 在 Wewe 010 后重跑 Web 移动端全流程回归。010 保持 review / waiting independent QA rerun，不得直接标 done。
+- Scope：Wewe 回报 Android touched: no；PM 本轮未修改业务代码。
+
+
 ## 当前项目
 
 - 活跃项目：NagisHeart
@@ -308,3 +526,96 @@
 - New DeDe QA task: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_DEDE_20260718_CODEX_QA_REBOOT_AND_WEB_MOBILE_REGRESSION.md`.
 
 ---
+---
+
+## PM update — Android 2026-07-19 real-device feedback split
+
+- Ant 大小姐新增 Android 实机反馈，PM 已拆分为 P0 主流程逻辑、UI authority 缺口、Android 实现偏差三类。
+- 主流程逻辑 P0：结局突然出现、结局后继续接正文、后续“远处的世界第一”卡死、结局未解锁画廊。该线交 PP 只读审计优先，不让 UI 任务掩盖主流程问题。
+- UI authority 缺口：Dialog/HUD 仍不像 final、全局文字托底弱、长旁白宽度窄、结局页 UI 缺失。该线交 XoXo 补 authority 并给 Ant 确认。
+- PM 已新增 authority override：
+  - `DEC-20260719-001`
+  - PRD section 21
+  - Interaction section 31
+- 已废止旧口径：Backlog 默认最后页、小章节必须有结束页、跳过本节必须进入当前小章节结束页。
+- 新口径：Backlog 默认第一页并动态分页；普通流程取消 Section Clear；结局页为终局流程并必须即时解锁画廊。
+- 新任务：
+  - `TASK-20260719-001` → XoXo，UI authority 补齐，ready。
+  - `TASK-20260719-002` → PP，Android 主流程逻辑 P0 + UI 偏差根因审计，ready。
+- PM review：`00_harness/05_reports/validation/PM_REVIEW_ANDROID_REAL_DEVICE_FEEDBACK_20260719.md`
+- Cleanup status: none.
+
+## PM process update — alignment / code-review gate (2026-07-19)
+
+- Ant 大小姐指出 Android 多轮 UI 仍未改对，PM 判定为信息对齐与 code review 门禁不足。
+- 已新增 `DEC-20260719-002`：所有 UI / interaction / story-flow / routing / progress / gallery 类实现任务，开发前必须提交 alignment table，开发后必须提交 code-review table。
+- 若实机仍显示旧行为，默认按“信息对齐失败”排查：旧 APK、错误 build variant、重复组件、非活跃代码路径、authority 缺失、实现偏差，而不是继续盲调。
+- 已更新：
+  - `00_harness/07_scheduler/PM_LOOP.md`
+  - `00_harness/07_scheduler/WORKER_LOOP.md`
+  - `00_harness/07_scheduler/LOOP_OVERVIEW.md`
+  - `00_harness/06_templates/tpl_alignment_code_review_gate.md`
+- 已补强当前任务：
+  - `TASK_TO_PP_20260719_ANDROID_MAIN_FLOW_LOGIC_AND_UI_AUDIT.md`
+  - `TASK_TO_XOXO_20260719_ANDROID_READABILITY_ENDING_UI_AUTHORITY.md`
+- Cleanup status: none.
+
+## PM release gate update — code health review (2026-07-19)
+
+- Ant 大小姐明确：项目多轮修改后必须维护已有成品，review 要看整体代码设计合理性、冗余、冲突和上线风险。
+- PM 已新增 `DEC-20260719-003`：release-readiness code health review gate。
+- 已新增 PM review plan：
+  - `00_harness/05_reports/validation/PM_RELEASE_READINESS_CODE_REVIEW_PLAN_20260719.md`
+- 新任务：
+  - `TASK-20260719-004` → PP：Android release-readiness code health audit，queued，P0，audit-only first。
+  - `TASK-20260719-005` → Wewe：Web release-readiness code health audit，queued，P1，audit-only first。
+- 关键口径：这不是授权大重构。先审计、列风险、列 cleanup/refactor candidates；所有整改另开 scoped task。
+- Cleanup status: none.
+
+## XoXo update — TASK-20260719-008 ending page authority revision returned (2026-07-19)
+
+- XoXo 已完成 PM 追加返修 `TASK-20260719-008`，状态转 `review`，等待 PM / Ant review。
+- 回传文件：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/status_design_xoxo_ending_page_authority_revision_20260719.md`。
+- 已更新并同步：`design/NagisHeart_UI_Authority_XoXo_v1_0.html`、`design/NagisHeart_UI_Authority_Merge_Record_20260715.md`、`00_harness/08_authority_current/04_ui/XoXo_UI_Final_MinSpec_20260712.md` section 18、`00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_XoXo_v1_0.html`、`00_harness/08_authority_current/04_ui/NagisHeart_UI_Authority_Merge_Record_20260715.md`。
+- 结局页可视 `candidate` 字样已移除；可见动作只剩 `返回主页`；`回忆画廊`、`重看本结局`、`相关章节` 不再作为结局页按钮。
+- Home after-ending 口径：主 CTA 是 `新的故事`，不是 `继续故事`；画廊解锁是后台状态结果，不是结局页入口按钮。
+- Prologue / 开场白正文 token：`.opening-center` 由 31px 调整为 28px，line-height 1.68；Start title 与 Name Setup 不改。
+- 手机 mock 可视区域已移除 PM/dev/internal notes：source tags、candidate/source/fallback/internal explanatory copy 不再显示或作为产品文案存在。
+- Cleanup status: none。本轮不删资源、不改 Android/Web/story-data/BG mapping。
+
+## XoXo addendum — TASK-20260719-008 ending status feedback hierarchy fixed (2026-07-19)
+
+- Ant 二次反馈：结局页 `已解锁：TRUE END / 回忆画廊新增 1 项` 是状态反馈，不是按钮；上一版与 `返回主页` 的 glass/action rhythm 太接近。
+- XoXo 已完成二次返修：`已解锁...` 改为低强调 inline status note（11px、muted text、小 gold dot、fit-content、无边框、无矩形填充、无 cut/action shape、无 hover/action rhythm）。
+- `返回主页` 保持唯一 primary action cell。
+- MinSpec section 18 已写明 Ending page 三层：content / status feedback / primary action；status feedback 禁止实现为 Button / ChipButton / action cell。
+- Authority current HTML / merge record 已同步。
+- 前序通过项保持不回退：无 candidate 字样、无 internal visible copy、无额外结局按钮、Home after-ending CTA 为 `新的故事`、Prologue 28px。
+- PM static review passed: `00_harness/05_reports/validation/PM_REVIEW_XOXO_ENDING_PAGE_AUTHORITY_REVISION_ADDENDUM_20260719.md`.
+- PM additionally cleaned historical authority wording so old section 17 / merge-record four-action candidate cannot be mistaken for current implementation authority. Current ending page implementation authority is MinSpec section 18 only.
+- Ant confirmed revised ending visual with “就这样吧”. Section 18 can now be used as implementation authority; implementation still requires real-device validation.
+
+## PM update - PP TASK-20260719-009 ready (2026-07-19)
+
+- New PP task file: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_P0_LOGIC_AND_UI_CONTROLLED_PASS.md`.
+- Scope: Android only. Wewe/Web is explicitly excluded.
+- Required order: Phase A main-flow P0 logic audit first; Phase B only localized Android fixes if root cause is Android-side.
+- Main-flow P0 issues covered: sudden ending, ending resumes story, `远处的世界第一` stuck/cannot return, ending reached but Gallery not unlocked.
+- Confirmed UI scopes covered: MinSpec 17.2 HUD/nav/action chip, 17.3 Dialog fallback, section 18 Ending page, Prologue 18.3 if encountered.
+- Guardrail: no story-data/BG mapping edits without PM approval; no old section 17.5 four-action ending model; no Web/App Icon/TT Start/resource deletion.
+- PM authority cleanup: PRD 21.4 and Interaction 31.3 have been updated to match Ant-confirmed ending authority. Old ending actions (`进入回忆画廊` / `重看本结局` / `相关章节`) are explicitly deprecated for the ending page. Gallery unlock remains mandatory as background persistent state.
+- PP task addendum: Backlog text clipping is explicitly covered; fixed 8 items/page is not allowed if it clips on mobile. Gallery unlock after ending is explicitly covered and must be visible without app restart.
+- Cleanup status: none。
+
+## PM update - Wewe TASK-20260718-018 review intake (2026-07-19)
+
+- Wewe 回报 `TASK-20260718-018 Web Mobile P1 Settings readability and BGM verification follow-up` 完成。
+- Report: `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_wewe_web_mobile_p1_settings_bgm_verify_20260718.md`.
+- PM review: `00_harness/05_reports/validation/PM_REVIEW_WEWE_WEB_MOBILE_P1_SETTINGS_BGM_VERIFY_20260719.md`.
+- Static pass: `web/styles/overlays.css` adds `.settings-overlay` dark glass backing and improves BGM slider track visibility; Android touched: no for this task.
+- Caveat: reported evidence directory `00_harness/05_reports/validation/web_mobile_p1_settings_bgm_verify_20260718/` exists but is empty. Keep 018 in `review`, not `done`, until DeDe independent QA passes.
+- BGM runtime caveat: persistence / code chain is documented, but live `audio.volume` proof still requires a scene with runtime BGM.
+- Ant corrected PM: Web version should be validated by DeDe, not by Ant direct acceptance.
+- New DeDe short regression task: `00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_DEDE_20260719_WEB_MOBILE_P1_SETTINGS_BGM_RERUN.md`.
+- Scope: only Settings bright-background readability, BGM persistence, actual audio-volume caveat, and exact mobile viewport evidence; Code touched: no.
+- Ant / PM pause: DeDe `TASK-20260719-010` has been paused to conserve Codex token for Android P0 work. Resume only when PM explicitly restarts it.

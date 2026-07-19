@@ -5,6 +5,7 @@ import { NarrationOverlay } from '../components/NarrationOverlay.js';
 import { ChoicePanel } from '../components/ChoicePanel.js';
 import { HUD } from '../components/HUD.js';
 import { TransitionCard } from '../components/TransitionCard.js';
+import { NagiDialog } from '../components/NagiDialog.js';
 import { GameMenuOverlay } from '../overlays/GameMenuOverlay.js';
 import { SaveLoadOverlay } from '../overlays/SaveLoadOverlay.js';
 import { SettingsOverlay } from '../overlays/SettingsOverlay.js';
@@ -49,6 +50,9 @@ export class GameScreen {
     this._choicePanel = new ChoicePanel(this._uiLayer);
     this._transitionCard = new TransitionCard(this._uiLayer);
 
+    // TransitionCard tap advances Opening/Clear
+    this._transitionCard.setOnTap(() => this._controller.onTap());
+
     // Active overlay
     this._activeOverlay = null;
 
@@ -56,9 +60,10 @@ export class GameScreen {
     this._hud.setOnAction((action) => {
       switch (action) {
         case 'auto': this._controller.toggleAuto(); break;
-        case 'skip': this._controller.toggleSkip(); break;
-        case 'menu': this._openMenu(); break;
-        case 'skipSection': this._controller.skipSection(); break;
+        case 'save': this._openSaveLoad('save'); break;
+        case 'backlog': this._openBacklog(); break;
+        case 'back': this._openMenu(); break;
+        case 'skipSection': this._confirmSkipSection(); break;
       }
     });
 
@@ -83,6 +88,19 @@ export class GameScreen {
       return;
     }
     this._controller.onTap();
+  }
+
+  _confirmSkipSection() {
+    if (this._activeOverlay) return;
+    const sectionTitle = this._controller.getCurrentSectionTitle() || '本节';
+    NagiDialog.show(this.el, {
+      title: '跳过本节？',
+      body: `确认后将直接进入「${sectionTitle}」结束页。`,
+      dismiss: '取消',
+      confirm: '确认跳过',
+      onDismiss: () => {},
+      onConfirm: () => { this._controller.skipToSectionClear(); },
+    });
   }
 
   _openMenu() {
@@ -159,12 +177,16 @@ export class GameScreen {
       this._bg.update(state.bgAssetPath);
     }
 
-    // HUD
+    // HUD — hide during full-screen Opening/Clear states
+    const isFullscreenTransition = state.phase === GamePhase.ChapterTransition
+      || state.phase === GamePhase.ChapterEnding
+      || state.phase === GamePhase.SectionTransition
+      || state.phase === GamePhase.SectionEnding;
     const isGameplay = state.phase === GamePhase.Dialogue || state.phase === GamePhase.Response || state.phase === GamePhase.Choice;
+    this._hud.setVisible(!isFullscreenTransition);
     this._hud.update({
       sceneTitle: state.sceneTitle,
       isAutoPlaying: state.isAutoPlaying,
-      isSkipping: state.isSkipping,
       showSkipSection: isGameplay,
     });
 
@@ -173,14 +195,11 @@ export class GameScreen {
     const isNarration = isDialogue && (state.displayType === 'fullscreen' || state.displayType === 'long_narration');
     const isBottomDialogue = isDialogue && !isNarration;
     const isChoice = state.phase === GamePhase.Choice;
-    const isTransition = state.phase === GamePhase.ChapterTransition
-      || state.phase === GamePhase.ChapterEnding
-      || state.phase === GamePhase.SectionTransition;
 
     if (!isBottomDialogue) this._dialogueBox.hide();
     if (!isNarration) this._narration.hide();
     if (!isChoice) this._choicePanel.hide();
-    if (!isTransition) this._transitionCard.hide();
+    if (!isFullscreenTransition) this._transitionCard.hide();
 
     switch (state.phase) {
       case GamePhase.Dialogue:
@@ -214,6 +233,16 @@ export class GameScreen {
       case GamePhase.SectionTransition:
         if (state.sectionTransition) {
           this._transitionCard.showSectionOpening(state.sectionTransition);
+        }
+        break;
+
+      case GamePhase.SectionEnding:
+        if (state.sectionTransition) {
+          this._transitionCard.showSectionEnding({
+            ...state.sectionTransition,
+            onCatalog: () => this._openChapterSelect(),
+            onNext: () => this._controller.onTap(),
+          });
         }
         break;
 

@@ -15,6 +15,7 @@ export const GamePhase = {
   ChapterTransition: 'ChapterTransition',
   ChapterEnding: 'ChapterEnding',
   SectionTransition: 'SectionTransition',
+  SectionEnding: 'SectionEnding',
 };
 
 export class GameController extends EventTarget {
@@ -49,6 +50,7 @@ export class GameController extends EventTarget {
     this._currentSectionIndex = 0;
     this._pendingNodeAfterTransition = null;
     this._pendingNextChapter = null;
+    this._pendingSectionOpening = null;
     this._isReplayMode = false;
     this._replayBoundaryNodes = new Set();
 
@@ -220,6 +222,23 @@ export class GameController extends EventTarget {
         if (pending) this._enterNode(pending);
         break;
       }
+      case GamePhase.SectionEnding: {
+        if (this._pendingSectionOpening) {
+          const { chapterName, sectionTitle, newSectionIndex, found } = this._pendingSectionOpening;
+          this._pendingSectionOpening = null;
+          this._currentSectionIndex = newSectionIndex;
+          this._pendingNodeAfterTransition = found;
+          this._updateState({
+            phase: GamePhase.SectionTransition,
+            sectionTransition: { chapterName, sectionTitle },
+          });
+        } else {
+          const pending = this._pendingNodeAfterTransition;
+          this._pendingNodeAfterTransition = null;
+          if (pending) this._enterNode(pending);
+        }
+        break;
+      }
     }
   }
 
@@ -265,11 +284,18 @@ export class GameController extends EventTarget {
   }
 
   skipSection() {
+    this.skipToSectionClear();
+  }
+
+  skipToSectionClear() {
     this._stopAuto();
     this._stopSkip();
     const chapter = this._chapters.find(c => c.id === this._currentChapterId);
     if (!chapter) return;
     this._progressManager.markSectionSkipped(this._currentChapterId, this._currentSectionIndex);
+
+    const section = chapter.sections[this._currentSectionIndex];
+    const sectionTitle = section?.title || '';
 
     const nextSectionIndex = this._currentSectionIndex + 1;
     let nextStartNode = null;
@@ -293,11 +319,10 @@ export class GameController extends EventTarget {
     }
 
     this._updateState({
-      phase: GamePhase.ChapterTransition,
-      chapterTransition: {
+      phase: GamePhase.SectionEnding,
+      sectionTransition: {
         chapterName: chapter.name,
-        chapterTitle: chapter.sections[this._currentSectionIndex]?.title || '',
-        timeRange: null,
+        sectionTitle,
       },
     });
   }
@@ -376,21 +401,28 @@ export class GameController extends EventTarget {
           this._progressManager.markSectionCompleted(this._currentChapterId, this._currentSectionIndex);
           this._backlog = [];
           const chapter = this._chapters.find(c => c.id === this._currentChapterId);
-          const sectionTitle = chapter?.sections[newSectionIndex]?.title;
-          if (sectionTitle) {
-            this._currentSectionIndex = newSectionIndex;
-            this._pendingNodeAfterTransition = found;
+          const oldSection = chapter?.sections[this._currentSectionIndex];
+          const newSection = chapter?.sections[newSectionIndex];
+          if (oldSection?.title) {
+            this._pendingSectionOpening = {
+              chapterName: chapter.name,
+              sectionTitle: newSection?.title || '',
+              newSectionIndex,
+              found,
+            };
             this._updateState({
-              phase: GamePhase.SectionTransition,
+              phase: GamePhase.SectionEnding,
               sectionTransition: {
                 chapterName: chapter.name,
-                sectionTitle,
+                sectionTitle: oldSection.title,
               },
             });
             return;
           }
+          this._currentSectionIndex = newSectionIndex;
+        } else {
+          this._currentSectionIndex = newSectionIndex;
         }
-        this._currentSectionIndex = newSectionIndex;
       }
     }
 

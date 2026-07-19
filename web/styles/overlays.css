@@ -177,7 +177,13 @@
   color: var(--text-secondary);
 }
 
-/* ── Settings ── */
+/* ── Settings (dark glass for bright-bg readability) ── */
+.settings-overlay {
+  background: rgba(16, 24, 39, 0.88);
+  backdrop-filter: blur(12px) saturate(0.92);
+  -webkit-backdrop-filter: blur(12px) saturate(0.92);
+}
+
 .settings-list {
   display: flex;
   flex-direction: column;
@@ -495,5 +501,54 @@
 
 /* ── Settings value right-align ── */
 .settings-value {
+  text-align: right;
+}
+
+/* ── BGM volume slider ── */
+.settings-row-bgm {
+  cursor: default;
+}
+
+.settings-bgm-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-bgm-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.28);
+  outline: none;
+  pointer-events: auto;
+}
+
+.settings-bgm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--text-primary, #F7F9FC);
+  border: 2px solid rgba(255,255,255,0.3);
+  cursor: pointer;
+}
+
+.settings-bgm-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--text-primary, #F7F9FC);
+  border: 2px solid rgba(255,255,255,0.3);
+  cursor: pointer;
+}
+
+.settings-bgm-value {
+  font-size: 11px;
+  color: var(--text-secondary);
+  min-width: 32px;
   text-align: right;
 }

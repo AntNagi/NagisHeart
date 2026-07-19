@@ -65,13 +65,13 @@ fun LongNarrationLayer(
                     .navigationBarsPadding(),
                 contentAlignment = Alignment.Center
             ) {
-                // Reading area with frameless faded backdrop
+                // §17.4: outer 18dp, inner 20dp, width = screen - 76dp
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.78f)
+                        .fillMaxWidth()
+                        .padding(horizontal = 18.dp)
                         .heightIn(min = 280.dp, max = 760.dp)
                         .drawBehind {
-                            // Soft radial backdrop — fades to transparent at edges
                             val w = size.width
                             val h = size.height
                             val cx = w / 2f
@@ -79,7 +79,8 @@ fun LongNarrationLayer(
                             val rx = w * 0.62f
                             val ry = h * 0.58f
 
-                            val backdropColor = Color(0xFF101827).copy(alpha = 0.28f)
+                            // §17.4: radial backing rgba(16,24,39,0.44) -> 0.32 -> transparent
+                            val backdropColor = Color(0xFF101827).copy(alpha = 0.44f)
 
                             // Draw radial gradient backdrop
                             drawRect(
@@ -120,7 +121,7 @@ fun LongNarrationLayer(
                                 topLeft = Offset(0f, h - fadeEdge)
                             )
                         }
-                        .padding(horizontal = 40.dp, vertical = 36.dp),
+                        .padding(horizontal = 20.dp, vertical = 36.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
@@ -154,7 +155,7 @@ fun LongNarrationLayer(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
-                .padding(bottom = 42.dp)
+                .padding(bottom = 120.dp)
         ) {
             val indicatorColor = Color(0xFFF4F1EA).copy(alpha = 0.78f)
             if (currentPage < totalPages - 1) {

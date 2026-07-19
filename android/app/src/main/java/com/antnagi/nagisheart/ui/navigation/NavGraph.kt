@@ -105,29 +105,6 @@ fun NagiNavGraph(
             )
         }
 
-        composable(Routes.SECTION_CLEAR) {
-            val transition = gameViewModel.getChapterTransition()
-            val currentBg = gameViewModel.uiState.collectAsState().value.bgAssetPath
-            SectionClearScreen(
-                sectionTitle = transition?.let {
-                    "${it.chapterName} · ${it.chapterTitle}"
-                } ?: "第一部 · 作战室 · 初遇",
-                bgAssetPath = currentBg,
-                isSkipped = true,
-                onReturnToMenu = {
-                    navController.navigate(Routes.START) {
-                        popUpTo(Routes.START) { inclusive = true }
-                    }
-                },
-                onContinue = {
-                    gameViewModel.advanceAfterSectionClear()
-                    navController.navigate(Routes.GAME) {
-                        popUpTo(Routes.SECTION_CLEAR) { inclusive = true }
-                    }
-                }
-            )
-        }
-
         composable(Routes.START) {
             val hasPlayed = gameViewModel.hasPlayed()
             var showNewGameConfirm by remember { mutableStateOf(false) }
@@ -150,6 +127,7 @@ fun NagiNavGraph(
 
             StartScreen(
                 hasSave = hasPlayed,
+                hasCompletedEnding = gameViewModel.hasCompletedEnding(),
                 onContinue = {
                     if (gameViewModel.continueGame()) {
                         navController.navigate(Routes.GAME) {
@@ -203,13 +181,13 @@ fun NagiNavGraph(
                         popUpTo(Routes.START) { inclusive = true }
                     }
                 },
-                onNavigateToSectionClear = {
-                    navController.navigate(Routes.SECTION_CLEAR) {
-                        popUpTo(Routes.GAME) { inclusive = true }
-                    }
-                },
                 onReplayFinished = {
                     navController.popBackStack()
+                },
+                onReturnToHome = {
+                    navController.navigate(Routes.START) {
+                        popUpTo(Routes.START) { inclusive = true }
+                    }
                 }
             )
         }

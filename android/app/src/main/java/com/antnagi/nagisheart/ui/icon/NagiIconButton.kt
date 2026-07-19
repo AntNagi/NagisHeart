@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -71,8 +72,8 @@ fun NagiIconButton(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color(0x4D0F1827), // 30%
-                        Color(0x2E0F1827)  // 18%
+                        Color(0x570F1827), // §17.2: 34%
+                        Color(0x380F1827)  // §17.2: 22%
                     )
                 )
             )
@@ -88,7 +89,7 @@ fun NagiIconButton(
                     center = Offset(size.width / 2, size.height / 2)
                 )
             }
-            .border(1.dp, Color(0x1AFFFFFF), NagiShapes.cutSmall)
+            .border(1.dp, Color(0x1FFFFFFF), NagiShapes.cutSmall)
             .clickable(
                 enabled = state != NagiIconState.Disabled,
                 interactionSource = remember { MutableInteractionSource() },

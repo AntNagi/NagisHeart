@@ -25,7 +25,8 @@ fun StartScreen(
     onSettings: () -> Unit = {},
     onChapter: () -> Unit = {},
     onGallery: () -> Unit = {},
-    hasSave: Boolean = false
+    hasSave: Boolean = false,
+    hasCompletedEnding: Boolean = false
 ) {
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
         SystemPageBackground {
@@ -40,7 +41,7 @@ fun StartScreen(
                         .navigationBarsPadding(),
                     verticalArrangement = Arrangement.spacedBy(9.dp)
                 ) {
-                    if (hasSave) {
+                    if (hasSave && !hasCompletedEnding) {
                         PrimaryStartButton(
                             text = "继续故事",
                             subtitle = "从上次继续",
@@ -49,7 +50,11 @@ fun StartScreen(
                     }
 
                     PrimaryStartButton(
-                        text = if (hasSave) "新的故事" else "开始故事",
+                        text = when {
+                            hasSave -> "新的故事"
+                            hasCompletedEnding -> "新的故事"
+                            else -> "开始故事"
+                        },
                         subtitle = if (hasSave) "重新开始" else null,
                         onClick = onStartNew
                     )
