@@ -143,8 +143,6 @@ class StoryEngine(
         return RouterResult(router.fallback, router.fallbackSideEffects)
     }
 
-    fun getEndingDefinition(key: String): EndingDefinition? = endings.definitions[key]
-
     private fun isEndingNode(id: String): Boolean {
         if (!id.startsWith("end_")) return false
         val key = id.removePrefix("end_")

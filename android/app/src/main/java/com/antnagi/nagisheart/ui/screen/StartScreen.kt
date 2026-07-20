@@ -46,7 +46,7 @@ fun StartScreen(
                         .navigationBarsPadding(),
                     verticalArrangement = Arrangement.spacedBy(18.dp) // §P2-2: gap 18dp
                 ) {
-                    if (hasSave && !hasCompletedEnding) {
+                    if (hasSave) {
                         PrimaryStartButton(
                             text = "继续故事",
                             subtitle = "从上次继续",

@@ -1,10 +1,10 @@
-# Nagi's Heart · SCRIPT V15 BG Mapping · CoCo/XoXo Draft v1.4
+# Nagi's Heart · SCRIPT V15 BG Mapping · CoCo/XoXo Draft v1.5
 
 > Owner: CoCo Design  
 > Source script: `design/Nagis_Heart_SCRIPT_V15_Calibrated.md`  
 > BG source: `assets/bg/`  
 > Date: 2026-07-12  
-> Review status: v1.0 approved; v1.1 adds PM review adjustments; v1.2 adds newly imported WeChat image assets and normalized asset names; v1.3 adds TT meeting room and XoXo-generated functional BG assets; v1.4 rescans the full BG pool, upgrades chapter-1 opening to monitor room, and reduces weak crop / duplicate competition usage.
+> Review status: v1.0 approved; v1.1 adds PM review adjustments; v1.2 adds newly imported WeChat image assets and normalized asset names; v1.3 adds TT meeting room and XoXo-generated functional BG assets; v1.4 rescans the full BG pool, upgrades chapter-1 opening to monitor room, and reduces weak crop / duplicate competition usage; v1.5 Ant 全量重配，按实际素材池逐节点确认最终 BG 匹配。
 
 ---
 
@@ -70,6 +70,19 @@
 | `bg_bad_afterglow_media_wall.png` | XoXo 生成 | bad_afterglow | 舆论热搜 / 媒体监控墙 / 新闻流屏。 |
 | `bg_stay_final_tv_glow_living_room.png` | XoXo 生成 | stay_final | 深夜电视微光，普通结局的余温。 |
 | `bg_bad_far_award_broadcast.png` | XoXo 生成 | bad_far | 奖杯直播 / 远处的世界第一 / 距离感结局。 |
+
+## 0.1.4 v1.5 Ant 全量重配（2026-07-21）
+
+Ant 在 Excel 节点匹配表中逐节点确认最终 BG 图片，Antset 列为 Owner 终审结果。本轮 30 个节点的 bgAsset 发生变更，2 个节点（c2、e_depart）暂不改动沿用原值。
+
+主要变更：
+1. 大量节点替换为新导入的素材文件名（如 `remeet`、`first_meet`、`falling_down`、`pillow`、`nagi_with_cat` 等），更贴合剧情。
+2. `birthay_at_home.jpg` 改名为 `birthday_at_home.jpg`（修正 typo）。
+3. `prologue` 改用 `remeet.jpg`（系统级背景）。
+4. 部分复用图调整：`stay_cozy` 从 `dining` 改为 `bar`；`wc_roster` 从 `dining_room` 改为 `bar`。
+5. 结局相关图调整：`dream_final` → `true_end`；`bad_far` → `goal_faraway`。
+
+---
 
 ## 0.1.3 v1.4 全量重扫与去重调整
 
@@ -209,42 +222,42 @@
 
 | Part | nodeId | 标题 | 状态 | bgAsset | uiTheme | 裁切 / 安全区 | CoCo note |
 |---|---|---|---|---|---|---|---|
-| Prologue | prologue | 开场白 | 已配 | `assets/bg/worldstage.jpg` | dark | 焦点在上中部眼睛，底部留旁白区 | 适合“世界在他脚下改变形状”的命运感。 |
+| Prologue | prologue | 开场白 | 已配 | `assets/bg/remeet.jpg` | dark | 系统级背景 | Ant 指定。 |
 | 1 | p1 | 作战室·初遇 | 已配 | `assets/bg/bluelock_monitor_room.jpg` | dark | 屏幕墙和观察席放上半部，底部留旁白区；`nagi_in_the_monitor_room.jpg` / `bg_p1_nagi_cutin_first_seen.jpg` 仅作 cut-in 叠层 | 正式改用监控室主 BG，开篇第一视觉回到“蓝锁观察 / 被看见”的世界观锚点。 |
 | 1 | p2 | 投资的私心 | 已配 | `assets/bg/bg_bluelock_meeting_contract_room.png` | light / auto | 桌面文件和签字页在下半部，底部 UI 需加柔白遮罩 | TT 会议室图含签字文件、蓝锁标识和数据屏，匹配投资签字场景。 |
-| 1 | c1a | 会议室初见 | 已配 | `assets/bg/bg_bluelock_meeting_contract_room.png` | light / auto | 会议室纵深明确，底部桌面可承接对话框 | 替换 v1.2 的蓝锁长凳临代。 |
+| 1 | c1a | 会议室初见 | 已配 | `assets/bg/first_meet.png` | light / auto | 会议室纵深明确，底部桌面可承接对话框 | 替换 v1.2 的蓝锁长凳临代。 |
 | 1 | c1b | 不麻烦的人 | 已配 | `assets/bg/easygoing _person.jpg` | dark / auto | 人物近景偏情绪图，底部需加深色文本托底 | Owner 指定用于“不麻烦的人”。 |
-| 1 | u20j | U-20日本代表战·被日本看见 | 已配 | `assets/bg/bg_u20j_worldcup_goal_kick.jpg` | dark | 人物动作占中下，底部文本需深色遮罩 | 比旧 `goal.jpg` 更明确是大赛高光，可用于“被日本看见”。 |
+| 1 | u20j | U-20日本代表战·被日本看见 | 已配 | `assets/bg/vs_u20_japan_kick.jpg` | dark | 人物动作占中下，底部文本需深色遮罩 | 比旧 `goal.jpg` 更明确是大赛高光，可用于”被日本看见”。 |
 | 2 | c3 | 开放日 | 已配 | `assets/bg/openday.jpg` | light | 横图需 9:16 重裁，焦点保留人物 / 宿舍感 | 对应开放日和宿舍探访。 |
 | 2 | e_lemontea | 你的，我的 | 已配 | `assets/bg/lemontea.jpg` | light | 人物右侧，文字区放底部或左下 | 文件名和剧情饮品强匹配。 |
 | 2 | c2 | 假期的消息 | 临时代用 | `assets/bg/lemontea.jpg` | light | LINE 弹层需提高可读性 | 节点前半是假期日常，后半是消息推进；可同图承接。 |
 | 2 | e_invite | 高级公寓的邀请 | 已配 | `assets/bg/apartment.jpg` | light | 人物居中偏上，底部叙事层避开手部饮料 | 高层公寓感强，适合邀请。 |
 | 2 | e_lolly | 棒棒糖·自动刷脸 | 已配 | `assets/bg/lolly.jpg` | light | 脸部上中，底部对话区 | 对应棒棒糖小事件。 |
 | 3 | e_depart | NEL启程·闭关送别 | 临时代用 | `assets/bg/living_room.jpg` | dark / auto | 取客厅远景与楼梯纵深，底部保留送别对白区 | 比 `home_full.jpg` 更完整，也避免继续使用早期泛用全景；仍缺明确行李特写。 |
-| 3 | c6a | 聚少离多·从高光到淘汰 | 临时代用 | `assets/bg/goal.jpg` | dark | 亮部压暗、饱和度降低，底部对白区加冷遮罩 | 刻意与 `u20j` / `wc_keygoal` 拆开，保留“比赛过后只剩失落”的低谷氛围。 |
+| 3 | c6a | 聚少离多·从高光到淘汰 | 已配 | `assets/bg/falling_down.jpg` | dark | 亮部压暗、饱和度降低，底部对白区加冷遮罩 | 刻意与 `u20j` / `wc_keygoal` 拆开，保留”比赛过后只剩失落”的低谷氛围。 |
 | 3 | e_curry | Nagi做的咖喱饭 | 已配 | `assets/bg/curry.jpg` | light | 厨房和人物居中，底部可读 | 高匹配。 |
-| 3 | e_bday | 被遗忘的生日 | 已配 | `assets/bg/birthday.jpg` | dark / auto | 蛋糕在中部，避免 UI 遮挡蜡烛 | 高匹配。 |
+| 3 | e_bday | 被遗忘的生日 | 已配 | `assets/bg/birthday_at_home.jpg` | dark / auto | 蛋糕在中部，避免 UI 遮挡蜡烛 | 高匹配。 |
 | 3 | e_hug | 拥抱 | 已配 | `assets/bg/hug.jpg` | dark | 人物贴近，底部文本需深色毛玻璃 | 高匹配。 |
 | 3 | e_intimate | 亲密 | 已配 | `assets/bg/bedroom.jpg` | dark | 横图裁中间床区，避开顶部 HUD 过亮 | 适合亲密节点，不直接露骨。 |
-| 3 | side_b_return | Side-B·重返蓝色监狱 | 临时代用 | `assets/bg/living_room.jpg` | light / auto | 保留客厅与楼梯视线，底部文本避开前景桌面 | 比旧 `livingroom.jpg` 空间更干净，适合“在家里收到下一段命运通知”。 |
-| 4 | wc_roster | 世界杯追加名单 | 临时代用 | `assets/bg/dining_room.jpg` | light / auto | 保留长桌和桌面留白，便于叠加“名单 / 平板”信息层 | 比旧 `livingroom.jpg` 更像正式查看名单与讨论去向的节点。 |
+| 3 | side_b_return | Side-B·重返蓝色监狱 | 已配 | `assets/bg/living_room.jpg` | light / auto | 保留客厅与楼梯视线，底部文本避开前景桌面 | Ant 确认。 |
+| 4 | wc_roster | 世界杯追加名单 | 已配 | `assets/bg/bar.png` | light / auto | 保留长桌和桌面留白，便于叠加”名单 / 平板”信息层 | Ant 指定。 |
 | 4 | wc_interval | 淘汰赛前训练·花环 | 已配 | `assets/bg/summer.jpg` | light | 人物头部和花环不能被 HUD 遮挡 | 花环、夏日、球场气质匹配。 |
 | 4 | wc_keygoal | 生死局·世界看见他 | 已配 | `assets/bg/bg_u20j_worldcup_goal_kick.jpg` | dark | 射门动作是主体，底部加深 | 比旧 `goal.jpg` 更适合世界赛高光。 |
-| 4 | wc_offer | 豪门来信 | 临时代用 | `assets/bg/living_room.jpg` | light / auto | 保留客厅与楼梯视线，底部文本避开前景桌面 | 改用东京公寓共享空间，承接“在家里收到下一阶段通知”的叙事情境，避免继续使用旧 `back.jpg` 泛用图。 |
-| 5 | w_home | 归来·沙发上的拥抱 | 已配 | `assets/bg/bg_home_soft_nagi_beanbag.jpg` | light | 人物与懒人沙发居中，底部文本避开腿部 | 比旧 `home_full.jpg` 更有人物和“这里太舒服了”的柔软感。 |
-| 5 | mt3 | 同居·这里太舒服了 | 已配 | `assets/bg/bg_home_soft_nagi_beanbag.jpg` | light | 人物居中，底部保留叙事层 | 强匹配 Nagi 在 Ant 家松弛下来的感觉。 |
+| 4 | wc_offer | 豪门来信 | 已配 | `assets/bg/bg_nagi_daily_city_room_icecream.jpg` | light / auto | 东京公寓日常空间 | Ant 指定。 |
+| 5 | w_home | 归来·沙发上的拥抱 | 已配 | `assets/bg/living_room.jpg` | light | 客厅空间 | Ant 指定。 |
+| 5 | mt3 | 同居·这里太舒服了 | 已配 | `assets/bg/pillow.jpg` | light | 人物居中，底部保留叙事层 | Ant 指定。 |
 | 5 | m_igate | 亲密门（路由器） | 系统 | N/A | N/A | N/A | 内部判定，不显示给玩家。 |
 | 5 | m_shallow | 客气的距离 | 临时代用 | `assets/bg/trainning_room.png` | dark | 训练屏和器械放上中部，底部对白区单独压暗 | 从卧室切到训练房，距离感更像“他把状态锁回训练模式”。 |
-| 5 | e_intimate_cohabit | 同居·靠近 | 已配 | `assets/bg/hug.jpg` | dark | 人物面部安全区优先 | 可复用亲密拥抱图。 |
-| 5 | e_cozy | 甜蜜同居·深夜等你 | 已配 | `assets/bg/living_room.jpg` | dark / auto | 客厅中下部留给对话，楼梯与暖灯放上半部 | 比旧 `home_full.jpg` 更像真正住人的共享空间，也能和其他公寓节点拉开层次。 |
-| 5 | w_noodle | 深夜·酸奶与泡面哲学 | 临时代用 | `assets/bg/bg_nagi_daily_city_room_icecream.jpg` | light | 甜点和手机在中下，底部文本需避开桌面 | 道具不是酸奶 / 泡面，但“深夜吃东西 + 懒散日常”更贴近。 |
-| 5 | w_game | 游戏冷战·ADC走脸事件 | 已配 | `assets/bg/gameroom.png` | dark | 双人电竞桌和大屏在中上部，底部沙发暗区可承接文本 | Owner 指定使用 gameroom，匹配双排游戏 / 冷战节点。 |
-| 5 | e_tipsy | 微醺之夜 | 临时代用 | `assets/bg/bar.png` | dark | 保留吧台灯光与高脚椅，底部对白区单独压暗 | 比旧 `dining.jpg` 更直接是“喝酒的那一角”，微醺情绪更明确。 |
-| 5 | e_morning | 早安赖床 | 已配 | `assets/bg/bg_home_soft_nagi_beanbag.jpg` | light | 居家柔光，人物偏中 | 比旧 `morning.jpg` 更像室内赖床/懒散延展。 |
+| 5 | e_intimate_cohabit | 同居·靠近 | 已配 | `assets/bg/nagi_with_cat.jpg` | dark | 人物面部安全区优先 | Ant 指定。 |
+| 5 | e_cozy | 甜蜜同居·深夜等你 | 已配 | `assets/bg/live_together_some_days.jpg` | dark / auto | 客厅中下部留给对话 | Ant 指定。 |
+| 5 | w_noodle | 深夜·酸奶与泡面哲学 | 已配 | `assets/bg/nagi_at_home_3.jpg` | light | 甜点和手机在中下，底部文本需避开桌面 | Ant 指定。 |
+| 5 | w_game | 游戏冷战·ADC走脸事件 | 已配 | `assets/bg/gaming_room.png` | dark | 双人电竞桌和大屏在中上部，底部沙发暗区可承接文本 | Ant 指定。 |
+| 5 | e_tipsy | 微醺之夜 | 已配 | `assets/bg/bar.png` | dark | 保留吧台灯光与高脚椅，底部对白区单独压暗 | Ant 确认。 |
+| 5 | e_morning | 早安赖床 | 已配 | `assets/bg/wakeup.jpg` | light | 居家柔光，人物偏中 | Ant 指定。 |
 | 5 | c4 | 七夕·蓝色玫瑰与夏夜 | 系统 | N/A | N/A | N/A | 章节总节点，画面由 c4a / c4d 承接。 |
-| 5 | c4a | 七夕·蓝色玫瑰 | 已配 | `assets/bg/qixi.jpg` | light | 人物和饮品在中上，底部文本 | 七夕约会感可用。 |
-| 5 | c4d | 七夕之夜 | 临时代用 | `assets/bg/qixi.jpg` | dark / auto | 夜间亲密段需加深底部 | 缺蓝玫瑰 / 蛋糕特写，暂用同日约会图承接。 |
-| 5 | e_festival | 夏日祭·浴衣与烟火 | 已配 | `assets/bg/bg_summer_festival_coconut.jpg` | light / auto | 人物近景，底部文本需半透明托底 | 更有夏日活动和轻喜剧感；若要烟火夜景仍可回退 `summerfestival.jpg`。 |
+| 5 | c4a | 七夕·蓝色玫瑰 | 已配 | `assets/bg/white_suits.jpg` | light | 人物和饮品在中上，底部文本 | Ant 指定。 |
+| 5 | c4d | 七夕之夜 | 已配 | `assets/bg/bedroom.jpg` | dark / auto | 夜间亲密段需加深底部 | Ant 指定。 |
+| 5 | e_festival | 夏日祭·浴衣与烟火 | 已配 | `assets/bg/summer_festival.jpg` | light / auto | 人物近景，底部文本需半透明托底 | Ant 指定。 |
 | 5 | transfer_contract | 夏窗·签约桌上的好麻烦 | 临时代用 | `assets/bg/bg_bluelock_meeting_contract_room.png` | light / auto | 合同桌面安全区充足，底部可放选择 / 对话 | 文件桌和签字页可承接合同谈判，但后续若要豪门夏窗质感可再补专图。 |
 | 6 | club_arrival | 曼城·新的房间 | 已配 | `assets/bg/bg_manchester_living_piano.jpg` | light | 大窗、钢琴、城市高层空间完整，底部可读 | 比旧 `back.jpg` 更像豪门公寓首次抵达。 |
 | 6 | club_alone | 一个人的曼城 | 已配 | `assets/bg/bg_manchester_bedroom_city_night.jpg` | dark / auto | 城市窗景是主体，床区在右下，适合孤独感 | 明确异国高层夜景，适合“资源能到，人不能一直在”。 |
@@ -255,31 +268,31 @@
 | 6 | e_drive | 飙车实录 | 已配 | `assets/bg/drive.jpg` | dark / auto | 人物脸部上中，底部对话 | 高匹配。 |
 | 6 | route_mj_hidden | 第六部隐藏分流 | 系统 | N/A | N/A | N/A | 内部判定，不显示给玩家。 |
 | 7 | e_agency_launch | 她站在光里 | 已配 | `assets/bg/bg_agency_launch_stage.png` | light / auto | 舞台与发言台在中上部，底部观众席可压暗 | 经纪公司发布会舞台，适合作女主高光节点。 |
-| 7M | e_scarf | 送围巾 | 已配 | `assets/bg/bg_scarf_flower_delivery.jpg` | light | 花束和人物上半安全，底部文本避开手部 | 更像“送围巾/送花式关心”的柔软节点；旧 `scarf.jpg` 可作备用。 |
-| 7M | e_sick_fragile | 还是感冒了 | 临时代用 | `assets/bg/afterwork.jpg` | light / auto | 桌面和城市窗景保留 | 可表达下班疲惫，但缺书房病弱照护。 |
+| 7M | e_scarf | 送围巾 | 已配 | `assets/bg/scarf.jpg` | light | 花束和人物上半安全，底部文本避开手部 | Ant 指定。 |
+| 7M | e_sick_fragile | 还是感冒了 | 已配 | `assets/bg/nagi_at_home_2.jpg` | light / auto | 桌面和城市窗景保留 | Ant 指定。 |
 | 7J | e_dressup | 任人打扮 | 已配 | `assets/bg/dressup.jpg` | light | 商店背景和人物保留 | 高匹配。 |
 | 7J | e_softrice | 软饭王哲学 | 已配 | `assets/bg/softrice.jpg` | light | 食物和人物上半保留 | 高匹配。 |
-| 7J | e_drunk | 借着醉意 | 临时代用 | `assets/bg/bar.png` | dark | 吧台灯光保留，底部文本加深 | 与 `e_tipsy` 共享同一酒吧角，但构图上更偏夜深后的靠近与失衡。 |
+| 7J | e_drunk | 借着醉意 | 已配 | `assets/bg/bar.png` | dark | 吧台灯光保留，底部文本加深 | Ant 确认。 |
 | 7 | route_love_hidden | 爱还是习惯隐藏判定 | 系统 | N/A | N/A | N/A | 内部判定，不显示给玩家。 |
 | 8 | p8_route | 假期结束·春季名单 | 临时代用 | `assets/bg/bg_manchester_bedroom_city_night.jpg` | dark | 城市窗景和床区留白较好，适合分岔前夜 | 仍不是机场 / 离别，但比旧 bedroom 更有“世界在窗外”的分岔感。 |
 | Dream | dream_exist | 没有你的世界 | 临时代用 | `assets/bg/bg_manchester_bedroom_city_night.jpg` | dark | 城市夜景和空床区可承载孤独旁白 | 仍缺欧洲酒店雨夜，但比旧 bedroom 更适合“没有你的世界”。 |
-| Dream | dream_match | 他的名字 | 已配 | `assets/bg/bg_final_match_stadium_kick.jpg` | dark | 射门动作在中部，底部加深 | 更适合最终决赛 / 成名战。 |
-| Dream | dream_celebrate | 看台上的庆祝 | 临时代用 | `assets/bg/bg_final_match_stadium_kick.jpg` | dark | 可承接比赛后庆祝前一刻，尽量取高光与观众席亮带 | 继续用决赛图，但不再和前面低谷比赛共用同一张。 |
+| Dream | dream_match | 他的名字 | 已配 | `assets/bg/bg_bad_impact_kick_cutin.jpg` | dark | 射门动作在中部，底部加深 | Ant 指定。 |
+| Dream | dream_celebrate | 看台上的庆祝 | 已配 | `assets/bg/star.jpg` | dark | 庆祝与高光 | Ant 指定。 |
 | Dream | dream_return | 久别重逢 | 已配 | `assets/bg/remeet.jpg` | dark / auto | 人物上中，城市夜景保留 | 重逢感匹配。 |
-| Dream | dream_home | 花园别墅·秘密基地 | 已配 | `assets/bg/villa.jpg` | light | 花园和人物保留，底部文本 | 高匹配。 |
-| Dream | dream_final | 世界第一，与你 | 已配 | `assets/bg/ending_true_nagi_soft_gaze.jpg` | light / ending | 人脸近景占右侧，左侧与底部可叠加柔白渐变承载 Ending 标题 | TRUE 走“世界第一之后看向你”的安静结局感，不强求奖杯构图。 |
-| Stay | stay_match | 还不是今天 | 临时代用 | `assets/bg/teamV.jpg` | dark | 取倒地与抬手构图，整体降亮压冷，底部对白区加深 | 从“高光射门”换成更像失手后余震的画面，和 Dream 线明确分开。 |
-| Stay | stay_intro | 他常回来 | 已配 | `assets/bg/bg_home_soft_nagi_beanbag.jpg` | light | 室内日常和懒散坐姿明确 | 普通情侣节奏更强。 |
-| Stay | stay_cozy | 暗爽·可可白兰地 | 已配 | `assets/bg/dining.jpg` | dark | 吧台灯光保留 | 高匹配。 |
+| Dream | dream_home | 花园别墅·秘密基地 | 已配 | `assets/bg/new_home.jpg` | light | 花园和人物保留，底部文本 | Ant 指定。 |
+| Dream | dream_final | 世界第一，与你 | 已配 | `assets/bg/true_end.jpg` | light / ending | 人脸近景占右侧，左侧与底部可叠加柔白渐变承载 Ending 标题 | Ant 指定。 |
+| Stay | stay_match | 还不是今天 | 已配 | `assets/bg/ending_true_nagi_soft_gaze.jpg` | dark | 取倒地与抬手构图，整体降亮压冷，底部对白区加深 | Ant 指定（图片内容已更换）。 |
+| Stay | stay_intro | 他常回来 | 已配 | `assets/bg/back.jpg` | light | 室内日常 | Ant 指定。 |
+| Stay | stay_cozy | 暗爽·可可白兰地 | 已配 | `assets/bg/bar.png` | dark | 吧台灯光保留 | Ant 指定。 |
 | Stay | stay_daily | 情人节玩偶熊 | 已配 | `assets/bg/valentine.jpg` | light | 熊和气球在中上，底部对话 | 高匹配。 |
 | Stay | stay_final | 关掉的比赛录像 | 已配 | `assets/bg/bg_stay_final_tv_glow_living_room.png` | dark / ending | 电视冷光在中上部，茶几和沙发底部留 Ending UI | 深夜比赛回放和普通结局余温明确。 |
 | Bad | bad_elegant | 优雅与世俗 | 临时代用 | `assets/bg/dining_room.jpg` | dark / auto | 长桌与夜景放中上部，底部文本加深 | 比旧 `apartment.jpg` 更像“吃完那顿恢复餐后，关系却更冷”的空间。 |
 | Bad | bad_plan | 他的名字，由我来写 | 已配 | `assets/bg/bg_bad_plan_data_war_room.png` | dark | 数据屏在上半部，会议桌底部留对白安全区 | 深夜数据会议室 / 预案屏幕墙匹配。 |
-| Bad | bad_match | 加冕之夜 | 临时代用 | `assets/bg/teamV.jpg` | dark | 取压迫感更强的抬手/倒地构图，整体偏冷 | 不再复用普通 `goal.jpg`，让 BAD 线比赛画面更不舒服、更带代价感。 |
+| Bad | bad_match | 加冕之夜 | 已配 | `assets/bg/king.jpg` | dark | 取压迫感更强的构图，整体偏冷 | Ant 指定。 |
 | Bad | bad_afterglow | 全世界都看见你 | 已配 | `assets/bg/bg_bad_afterglow_media_wall.png` | dark | 屏幕墙信息密集，底部桌面暗区可承接文本 | 舆论热搜、媒体监控、新闻流屏匹配。 |
-| Bad | bad_cold | 渐行渐远 | 已配 | `assets/bg/bedroom.jpg` | dark | 视频通话式构图，底部留白 | 夜间视频通话匹配。 |
-| Bad | bad_last | 我不是不想赢 | 临时代用 / cut-in | `assets/bg/bg_bad_impact_kick_cutin.jpg` | dark | 只适合激烈情绪 cut-in，不适合长对话背景 | 仍缺雨后训练基地外；本图可用于冲突瞬间或 BAD 情绪闪回。 |
-| Bad | bad_far | 远处的世界第一 | 已配 | `assets/bg/bg_bad_far_award_broadcast.png` | dark / ending | 奖杯直播在上半部，前景桌面留出孤独距离感 | BAD 结局按“远处观看世界第一”处理，避免和 TRUE 近景温柔感撞。 |
+| Bad | bad_cold | 渐行渐远 | 已配 | `assets/bg/walk-in_closet.png` | dark | 视频通话式构图，底部留白 | Ant 指定。 |
+| Bad | bad_last | 我不是不想赢 | 已配 | `assets/bg/pitch.jpg` | dark | 训练场 | Ant 指定。 |
+| Bad | bad_far | 远处的世界第一 | 已配 | `assets/bg/goal_faraway.jpg` | dark / ending | 奖杯直播在上半部，前景桌面留出孤独距离感 | Ant 指定。 |
 
 ---
 

@@ -815,13 +815,6 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         bgmManager.release()
     }
 
-    fun debugJumpToEnding(endingId: String) {
-        if (!BuildConfig.DEBUG_MODE) return
-        val key = endingId.removePrefix("end_")
-        val definition = engine.getEndingDefinition(key) ?: return
-        showEnding(NodeResolution.EndingReached(endingId, definition))
-    }
-
     private fun buildDebugInfo(cursor: String): DebugInfo? {
         if (!BuildConfig.DEBUG_MODE) return null
         if (!::gameState.isInitialized) return null

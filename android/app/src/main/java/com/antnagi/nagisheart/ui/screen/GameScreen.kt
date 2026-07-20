@@ -207,7 +207,6 @@ fun GameScreen(
                             .align(Alignment.TopStart)
                             .statusBarsPadding()
                             .padding(top = NagiTheme.sizes.hudButton),
-                        onJumpEnding = { endingId -> viewModel.debugJumpToEnding(endingId) }
                     )
                 }
             }
