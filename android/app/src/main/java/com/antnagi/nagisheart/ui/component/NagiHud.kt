@@ -15,6 +15,7 @@ import android.graphics.BlurMaskFilter
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
@@ -90,11 +91,20 @@ fun NagiHud(
                     .background(
                         Brush.verticalGradient(
                             listOf(
-                                Color(0x4D0F1827), // §17.2: 0.30
-                                Color(0x1F0F1827)  // §17.2: 0.12
+                                Color(0x4D0F1827), // §7: 0.30
+                                Color(0x1F0F1827)  // §7: 0.12
                             )
                         )
                     )
+                    .drawBehind {
+                        val lineY = size.height * 0.5f
+                        val lineH = 2f
+                        drawRect(
+                            color = Color(0x1FF7F9FC), // §7: rgba(247,249,252,0.12)
+                            topLeft = Offset(0f, lineY - lineH / 2),
+                            size = Size(size.width, lineH)
+                        )
+                    }
                     .border(
                         width = 1.dp,
                         color = Color(0x1FFFFFFF), // §17.2: 0.12

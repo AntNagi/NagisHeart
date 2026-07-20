@@ -30,15 +30,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 private val DialogShape = NagiShapes.cutMedium
-private val ScrimColor = Color(0x66090E18)       // §17.3: 40%
-private val ContainerBgTop = Color(0x8F1B2436)   // §17.3: 56%
-private val ContainerBgBottom = Color(0x85142131) // §17.3: 52%
-private val ContainerBorder = Color(0x14FFFFFF)   // §17.3: 8%
-private val TextShadowColor = Color(0x59000000)   // §17.3: 35%
-private val TitleColor = Color(0xFFF4F1EA)
-private val BodyColor = Color(0xD1F4F1EA)
-private val DismissColor = Color(0xFFD6D2CB)
-private val ConfirmColor = Color(0xFFF4F1EA)
+private val ScrimColor = Color(0x66090E18)       // §11: 40%
+private val ContainerBgTop = Color(0x8F1B2436)   // §11: 56%
+private val ContainerBgBottom = Color(0x85142131) // §11: 52%
+private val ContainerBorder = Color(0x14FFFFFF)   // §11: 8%
+private val TextShadowColor = Color(0x59000000)   // §11: 35%
+private val TitleColor = Color(0xF5F7F9FC)        // §11: rgba(247,249,252,0.96)
+private val BodyColor = Color(0xE0F4F1EA)         // §11: rgba(244,241,234,0.88)
+private val DismissColor = Color(0xBDF4F1EA)      // §11: rgba(244,241,234,0.74)
+private val ConfirmColor = Color(0xFFF7F9FC)      // §11: #F7F9FC
 
 @Composable
 fun NagiDialog(
@@ -67,7 +67,8 @@ fun NagiDialog(
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.80f)
+                    .fillMaxWidth()
+                    .padding(horizontal = 28.dp)
                     .defaultMinSize(minHeight = 135.dp)
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
@@ -105,13 +106,13 @@ fun NagiDialog(
                     .background(
                         Brush.verticalGradient(
                             0f to Color(0x0DFFFFFF),
-                            0.18f to Color.Transparent,
+                            0.36f to Color.Transparent,
                             1f to Color.Transparent
                         ),
                         DialogShape
                     )
                     .border(1.dp, ContainerBorder, DialogShape)
-                    .padding(start = 40.dp, end = 40.dp, top = 32.dp, bottom = 28.dp)
+                    .padding(start = 22.dp, end = 22.dp, top = 22.dp, bottom = 18.dp)
             ) {
                 Column {
                     Text(
@@ -149,7 +150,7 @@ fun NagiDialog(
                         Text(
                             text = dismissText,
                             style = TextStyle(
-                                fontSize = 16.sp,
+                                fontSize = 15.sp,
                                 shadow = Shadow(
                                     color = TextShadowColor,
                                     offset = Offset(0f, 1f),
@@ -165,11 +166,11 @@ fun NagiDialog(
                                 )
                                 .padding(8.dp)
                         )
-                        Spacer(modifier = Modifier.width(26.dp))
+                        Spacer(modifier = Modifier.width(24.dp))
                         Text(
                             text = confirmText,
                             style = TextStyle(
-                                fontSize = 16.sp,
+                                fontSize = 15.sp,
                                 shadow = Shadow(
                                     color = TextShadowColor,
                                     offset = Offset(0f, 1f),

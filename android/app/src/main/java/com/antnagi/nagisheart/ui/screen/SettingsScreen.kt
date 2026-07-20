@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -142,15 +141,7 @@ private fun SettingsRow(
             .fillMaxWidth()
             .heightIn(min = 56.dp)
             .clip(NagiShapes.cutSmall)
-            .background(
-                Brush.horizontalGradient(
-                    listOf(
-                        colors.glassBgStrong,
-                        colors.glassBgSoft.copy(alpha = 0.38f),
-                        Color.Transparent
-                    )
-                )
-            )
+            .background(Color.White.copy(alpha = 0.04f))
             .clickable(onClick = onClick)
             .padding(start = 18.dp, end = 4.dp, top = 10.dp, bottom = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,

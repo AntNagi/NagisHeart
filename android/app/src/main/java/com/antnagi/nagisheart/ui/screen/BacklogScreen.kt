@@ -56,7 +56,7 @@ fun BacklogScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFF132033).copy(alpha = 0.52f))
+                    .background(Color(0xFF132033).copy(alpha = 0.58f))
             )
 
             Column(

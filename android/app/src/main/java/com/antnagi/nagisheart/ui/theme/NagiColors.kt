@@ -16,7 +16,7 @@ object NagiPalette {
     val coldGray = Color(0xFF6E7A89)
     val silverBlue = Color(0xFFC9D1DC)
     val silver = Color(0xFFC9D1DC)
-    val weakText = Color(0xFFB7B3AD)
+    val weakText = Color(0xFFC9D1DC)
     val mutedRose = Color(0xFFC98A96)
     val roseGold = Color(0xFFBFA08A)
     val driedWine = Color(0xFF7A3F4A)

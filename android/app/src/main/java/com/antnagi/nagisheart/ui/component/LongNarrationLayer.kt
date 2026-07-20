@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -38,7 +37,6 @@ fun LongNarrationLayer(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFF101827).copy(alpha = 0.42f))
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
@@ -125,7 +123,7 @@ fun LongNarrationLayer(
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(18.dp)
+                        verticalArrangement = Arrangement.spacedBy(24.dp)
                     ) {
                         val pageTexts = pages.getOrElse(pageIndex) { emptyList() }
                         pageTexts.forEach { text ->
@@ -142,7 +140,7 @@ fun LongNarrationLayer(
                                         blurRadius = 8f
                                     )
                                 ),
-                                color = Color(0xFFF4F1EA)
+                                color = Color(0xFFF4F1EA).copy(alpha = 0.92f)
                             )
                         }
                     }
