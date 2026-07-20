@@ -67,7 +67,7 @@ val DefaultNagiTypography = NagiTypography(
         fontFamily = sansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 15.sp,
-        lineHeight = 21.sp
+        lineHeight = 27.sp // §P2-5: 15 × 1.8
     ),
     lineMessage = TextStyle(
         fontFamily = sansFamily,

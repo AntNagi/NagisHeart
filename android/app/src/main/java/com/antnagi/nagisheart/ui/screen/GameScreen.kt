@@ -319,13 +319,6 @@ private fun EndingOverlay(
     bgAssetPath: String? = null,
     onReturnToHome: () -> Unit = {}
 ) {
-    val accentColor = when {
-        ending.tag.contains("TRUE") -> NagiPalette.paleGold
-        ending.tag.contains("GOOD") -> NagiPalette.roseGold
-        ending.tag.contains("BAD") -> NagiPalette.driedWine
-        else -> NagiPalette.nagiGrayBlue
-    }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -335,6 +328,7 @@ private fun EndingOverlay(
                 onClick = {}
             )
     ) {
+        // Scene BG
         if (bgAssetPath != null) {
             Image(
                 painter = rememberAsyncImagePainter(
@@ -344,11 +338,6 @@ private fun EndingOverlay(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(NagiPalette.deepBlueNight.copy(alpha = 0.4f))
-            )
         } else {
             Box(
                 modifier = Modifier
@@ -357,91 +346,201 @@ private fun EndingOverlay(
             )
         }
 
-        // Layer 1: Content
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        // §18.1: ending gradient overlay
+        Box(
             modifier = Modifier
-                .align(Alignment.Center)
-                .padding(horizontal = NagiTheme.spacing.xl)
-        ) {
-            Text(
-                text = ending.tag,
-                style = NagiTheme.typography.caption,
-                color = accentColor
-            )
-            Spacer(modifier = Modifier.height(NagiTheme.spacing.s))
-            Text(
-                text = ending.title,
-                style = NagiTheme.typography.titlePage,
-                color = NagiPalette.snowWhite
-            )
-            Spacer(modifier = Modifier.height(NagiTheme.spacing.xxl))
-            Text(
-                text = ending.description,
-                style = NagiTheme.typography.narration,
-                color = NagiPalette.silverBlue
-            )
-        }
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        0f to Color(0x1A090E18),
+                        0.35f to Color(0x47090E18),
+                        0.65f to Color(0x9E090E18),
+                        1f to Color(0xD1090E18)
+                    )
+                )
+        )
 
-        // Layer 2: Status feedback + Layer 3: Primary action
+        // §18.1: ending-card
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .padding(horizontal = 28.dp)
-                .padding(bottom = 42.dp)
                 .navigationBarsPadding()
+                .padding(horizontal = 18.dp)
+                .padding(bottom = 34.dp)
+                .drawBehind {
+                    drawIntoCanvas { canvas ->
+                        val paint = android.graphics.Paint().apply {
+                            isAntiAlias = true
+                            color = Color(0x66000000).toArgb()
+                            maskFilter = BlurMaskFilter(54.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
+                        }
+                        canvas.nativeCanvas.drawRect(
+                            0f, 22.dp.toPx(), size.width, size.height, paint
+                        )
+                    }
+                }
+                .clip(NagiShapes.cutMedium)
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Color(0x8F101827),
+                            Color(0xCC101827)
+                        )
+                    )
+                )
+                .drawBehind {
+                    drawRect(
+                        brush = Brush.radialGradient(
+                            0f to Color(0x2ED7BE86),
+                            0.42f to Color.Transparent,
+                            center = Offset(size.width * 0.7f, 0f),
+                            radius = size.width * 0.6f
+                        )
+                    )
+                    drawRect(
+                        brush = Brush.radialGradient(
+                            0f to Color(0x0FD7BE86),
+                            0.5f to Color.Transparent,
+                            center = Offset(size.width * 0.3f, size.height),
+                            radius = size.width * 0.6f
+                        )
+                    )
+                    drawLine(
+                        color = Color(0x0FFFFFFF),
+                        start = Offset(0f, 0.5f),
+                        end = Offset(size.width, 0.5f),
+                        strokeWidth = 1.dp.toPx()
+                    )
+                }
+                .border(
+                    width = 1.dp,
+                    color = Color(0x1AFFFFFF),
+                    shape = NagiShapes.cutMedium
+                )
+                .padding(start = 24.dp, end = 24.dp, top = 26.dp, bottom = 22.dp)
         ) {
-            // Status feedback — static text, NOT a button
+            // Layer 1 — Content
+            Text(
+                text = ending.tag,
+                fontSize = 12.sp,
+                letterSpacing = (0.14 * 12).sp,
+                color = Color(0xFFD7BE86),
+                style = LocalTextStyle.current.copy(
+                    shadow = Shadow(
+                        color = Color(0x99000000),
+                        offset = Offset(0f, 1f),
+                        blurRadius = 3f
+                    )
+                )
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = ending.subtitle,
+                fontSize = 13.sp,
+                letterSpacing = (0.06 * 13).sp,
+                color = Color(0xEBD7BE86),
+                style = LocalTextStyle.current.copy(
+                    shadow = Shadow(
+                        color = Color(0x3DD7BE86),
+                        offset = Offset(0f, 0f),
+                        blurRadius = 12f
+                    )
+                )
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = ending.title,
+                fontFamily = FontFamily.Serif,
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Normal,
+                lineHeight = (32 * 1.16).sp,
+                color = NagiPalette.snowWhite,
+                style = LocalTextStyle.current.copy(
+                    shadow = Shadow(
+                        color = Color(0x80000000),
+                        offset = Offset(0f, 2f),
+                        blurRadius = 16f
+                    )
+                )
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = ending.description,
+                fontSize = 15.sp,
+                lineHeight = (15 * 1.9).sp,
+                color = Color(0xE0F7F9FC),
+                style = LocalTextStyle.current.copy(
+                    shadow = Shadow(
+                        color = Color(0x66000000),
+                        offset = Offset(0f, 1f),
+                        blurRadius = 6f
+                    )
+                )
+            )
+
+            // Layer 2 — Status feedback
+            Spacer(modifier = Modifier.height(14.dp))
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(
                     modifier = Modifier
                         .size(5.dp)
-                        .clip(NagiShapes.cutSmall)
+                        .drawBehind {
+                            drawIntoCanvas { canvas ->
+                                val paint = android.graphics.Paint().apply {
+                                    isAntiAlias = true
+                                    color = Color(0x2ED7BE86).toArgb()
+                                    maskFilter = BlurMaskFilter(
+                                        8.dp.toPx(), BlurMaskFilter.Blur.NORMAL
+                                    )
+                                }
+                                canvas.nativeCanvas.drawCircle(
+                                    size.width / 2, size.height / 2,
+                                    size.width / 2, paint
+                                )
+                            }
+                        }
+                        .clip(androidx.compose.foundation.shape.CircleShape)
                         .background(Color(0xB8D7BE86))
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = "已解锁：${ending.tag} / 回忆画廊新增 1 项",
                     fontSize = 11.sp,
+                    letterSpacing = (0.02 * 11).sp,
                     color = Color(0xB3F4F1EA)
                 )
             }
 
+            // Layer 3 — Primary action
             Spacer(modifier = Modifier.height(22.dp))
-
-            // Primary action — only 返回主页
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
-                    .clip(NagiShapes.cutMedium)
+                    .heightIn(min = 38.dp)
+                    .clip(NagiShapes.cutSmall)
                     .background(
-                        Brush.verticalGradient(
+                        Brush.horizontalGradient(
                             listOf(
-                                Color(0x561B2436),
-                                Color(0x4D142131)
+                                Color(0x33D7BE86),
+                                Color(0x12FFFFFF)
                             )
                         )
                     )
                     .border(
                         width = 1.dp,
-                        color = Color(0x14FFFFFF),
-                        shape = NagiShapes.cutMedium
+                        color = Color(0x42D7BE86),
+                        shape = NagiShapes.cutSmall
                     )
                     .clickable(onClick = onReturnToHome),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "返回主页",
-                    fontFamily = FontFamily.Default,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp,
-                    color = NagiPalette.snowWhite
+                    fontSize = 13.sp,
+                    color = Color(0xFFF7F9FC)
                 )
             }
         }

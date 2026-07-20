@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.antnagi.nagisheart.data.Choice
@@ -26,13 +24,15 @@ fun ChoiceLayer(
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = BiasAlignment(0f, -0.14f)
+        contentAlignment = Alignment.BottomCenter
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 34.dp),
-            verticalArrangement = Arrangement.spacedBy(NagiTheme.spacing.m)
+                .padding(horizontal = 18.dp)
+                .padding(bottom = 34.dp)
+                .navigationBarsPadding(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             choices.forEachIndexed { index, choice ->
                 AnimatedVisibility(
@@ -55,39 +55,19 @@ private fun ChoiceItem(
     text: String,
     onClick: () -> Unit
 ) {
-    val colors = NagiTheme.colors
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 54.dp)
             .clip(NagiShapes.cutSmall)
-            .background(
-                Brush.horizontalGradient(
-                    listOf(
-                        colors.glassBgStrong,
-                        colors.glassBgSoft.copy(alpha = 0.38f),
-                        Color.Transparent
-                    )
-                )
-            )
+            .background(Color(0x7A101827)) // §19: rgba(16,24,39,0.48)
             .clickable(onClick = onClick)
-            .padding(start = 34.dp, end = 14.dp, top = 8.dp, bottom = 8.dp)
+            .padding(horizontal = 16.dp, vertical = 14.dp),
+        contentAlignment = Alignment.CenterStart
     ) {
-        // Pentagon marker
-        Box(
-            modifier = Modifier
-                .size(10.dp)
-                .align(Alignment.CenterStart)
-                .offset(x = (-25).dp)
-                .clip(NagiShapes.pentagon)
-                .background(NagiPalette.roseGold.copy(alpha = 0.36f))
-        )
         Text(
             text = text,
             style = NagiTheme.typography.choiceText,
-            color = colors.textPrimary,
-            modifier = Modifier.align(Alignment.CenterStart)
+            color = Color(0xEBF7F9FC) // §19.5: rgba(247,249,252,0.92)
         )
     }
 }

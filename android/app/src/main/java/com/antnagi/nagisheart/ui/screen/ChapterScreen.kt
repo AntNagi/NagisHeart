@@ -164,8 +164,17 @@ fun ChapterScreen(
                                         .then(if (isLocked) Modifier.alpha(0.52f) else Modifier)
                                         .clip(NagiShapes.cutSmall)
                                         .background(
-                                            if (isCurrent) Color(0x2ED7BE86) // gold sweep 18%
-                                            else Color(0x0BFFFFFF)           // 4.5%
+                                            if (isCurrent) Brush.horizontalGradient( // §P2-4: gradient
+                                                listOf(
+                                                    Color(0x2ED7BE86), // rgba(215,190,134,0.18)
+                                                    Color(0x0AFFFFFF)  // rgba(255,255,255,0.04)
+                                                )
+                                            ) else Brush.horizontalGradient(
+                                                listOf(
+                                                    Color(0x0BFFFFFF),
+                                                    Color(0x0BFFFFFF)
+                                                )
+                                            )
                                         )
                                         .border(
                                             1.dp,
@@ -233,7 +242,7 @@ fun ChapterScreen(
                                         strokeWidth = 1f
                                     )
                                 }
-                                .padding(top = 14.dp)
+                                .padding(top = 10.dp) // §P2-4: 10dp
                         ) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -242,7 +251,7 @@ fun ChapterScreen(
                                 Text(
                                     text = "返回主页",
                                     fontSize = 14.sp,
-                                    color = Color(0xB3F4F1EA),
+                                    color = Color(0xD1F4F1EA), // §P2-4: rgba(244,241,234,0.82)
                                     modifier = Modifier.clickable(
                                         interactionSource = remember { MutableInteractionSource() },
                                         indication = null,
@@ -254,7 +263,7 @@ fun ChapterScreen(
                                         text = "继续当前章节",
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Medium,
-                                        color = Color(0xFFF7F9FC),
+                                        color = Color(0xF5F7F9FC), // §P2-4: rgba(247,249,252,0.96)
                                         modifier = Modifier.clickable(
                                             interactionSource = remember { MutableInteractionSource() },
                                             indication = null,

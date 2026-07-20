@@ -11,8 +11,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.antnagi.nagisheart.ui.component.SystemPageBackground
 import com.antnagi.nagisheart.ui.theme.*
@@ -39,7 +44,7 @@ fun StartScreen(
                         .padding(horizontal = 28.dp)
                         .padding(bottom = 22.dp)
                         .navigationBarsPadding(),
-                    verticalArrangement = Arrangement.spacedBy(9.dp)
+                    verticalArrangement = Arrangement.spacedBy(18.dp) // §P2-2: gap 18dp
                 ) {
                     if (hasSave && !hasCompletedEnding) {
                         PrimaryStartButton(
@@ -59,14 +64,29 @@ fun StartScreen(
                         onClick = onStartNew
                     )
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    // §P2-2: divider between primary and secondary actions
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawBehind {
+                                drawLine(
+                                    color = Color(0x14FFFFFF), // rgba(255,255,255,0.08)
+                                    start = Offset(0f, 0f),
+                                    end = Offset(size.width, 0f),
+                                    strokeWidth = 1f
+                                )
+                            }
+                            .padding(top = 16.dp) // §P2-2: padding-top 16dp
                     ) {
-                        MinorAction("存档进度", onSave, Modifier.weight(1f))
-                        MinorAction("章节目录", onChapter, Modifier.weight(1f))
-                        MinorAction("回忆画廊", onGallery, Modifier.weight(1f))
-                        MinorAction("系统设置", onSettings, Modifier.weight(1f))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            MinorAction("存档进度", onSave, Modifier.weight(1f))
+                            MinorAction("章节目录", onChapter, Modifier.weight(1f))
+                            MinorAction("回忆画廊", onGallery, Modifier.weight(1f))
+                            MinorAction("系统设置", onSettings, Modifier.weight(1f))
+                        }
                     }
                 }
             }
@@ -106,13 +126,14 @@ private fun PrimaryStartButton(
         ) {
             Text(
                 text = text,
-                style = NagiTheme.typography.buttonText,
+                fontSize = 17.sp, // §P2-2: 17sp
+                fontWeight = FontWeight.Medium,
                 color = NagiPalette.snowWhite
             )
             if (subtitle != null) {
                 Text(
                     text = subtitle,
-                    style = NagiTheme.typography.micro,
+                    fontSize = 13.sp, // §P2-2: 13sp
                     color = NagiPalette.silver.copy(alpha = 0.82f)
                 )
             }
@@ -138,8 +159,8 @@ private fun MinorAction(
     ) {
         Text(
             text = text,
-            style = NagiTheme.typography.micro,
-            color = NagiPalette.snowWhite.copy(alpha = 0.84f)
+            fontSize = 12.sp, // §P2-2: 12sp
+            color = Color(0xE6F4F1EA) // §P2-2: rgba(244,241,234,0.90)
         )
     }
 }

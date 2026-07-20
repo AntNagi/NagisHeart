@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -32,9 +33,9 @@ import com.antnagi.nagisheart.ui.theme.*
 
 private val GoldColor = Color(0xFFD7BE86)
 private val TitleColor = Color(0xFFF4F1EA)
-private val SubtitleColor = Color(0xFFD6D2CB)
+private val SubtitleColor = Color(0xB8E8EEF6) // §P2-1: rgba(232,238,246,0.72)
 private val LabelColor = Color(0xD1F4F1EA)
-private val PlaceholderColor = Color(0x94F4F1EA)
+private val PlaceholderColor = Color(0xA8F4F1EA) // §P2-1: rgba(244,241,234,0.66)
 private val InputLineColor = Color(0xBDD7BE86)
 private val ConfirmActiveColor = Color(0xFFF7F3EC)
 
@@ -53,11 +54,33 @@ fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            // Dark overlay
+            // §1: story dark layer 1 — vertical gradient
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0x52132033))
+                    .background(
+                        Brush.verticalGradient(
+                            0f to Color(0x0A101827),
+                            0.38f to Color(0x1F101827),
+                            1f to Color(0xDB101827)
+                        )
+                    )
+            )
+            // §1: story dark layer 2 — radial vignette
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .drawBehind {
+                        drawRect(
+                            brush = Brush.radialGradient(
+                                0.22f to Color.Transparent,
+                                0.72f to Color(0x57101827),
+                                1f to Color(0xB3101827),
+                                center = Offset(size.width * 0.46f, size.height * 0.34f),
+                                radius = maxOf(size.width, size.height) * 0.7f
+                            )
+                        )
+                    }
             )
 
             Column(

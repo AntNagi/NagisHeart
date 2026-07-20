@@ -27,22 +27,28 @@ fun SystemPageBackground(
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        // Global dim layer
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(SystemDimColor.copy(alpha = 0.32f))
-        )
-        // Bottom gradient
+        // §1: multi-layer dim
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(
-                            SystemDimColor.copy(alpha = 0f),
-                            SystemDimColor.copy(alpha = 0.80f)
-                        )
+                        0f to SystemDimColor.copy(alpha = 0.32f),
+                        0.42f to SystemDimColor.copy(alpha = 0.12f),
+                        1f to SystemDimColor.copy(alpha = 0.66f)
+                    )
+                )
+        )
+        // White breath highlight
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        0f to Color.White.copy(alpha = 0.04f),
+                        0.18f to Color.Transparent,
+                        0.70f to Color.Transparent,
+                        1f to Color.White.copy(alpha = 0.02f)
                     )
                 )
         )

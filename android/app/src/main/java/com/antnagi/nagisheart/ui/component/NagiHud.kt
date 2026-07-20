@@ -89,11 +89,9 @@ fun NagiHud(
                     }
                     .clip(NagiShapes.cutSmall)
                     .background(
-                        Brush.verticalGradient(
-                            listOf(
-                                Color(0x4D0F1827), // §7: 0.30
-                                Color(0x1F0F1827)  // §7: 0.12
-                            )
+                        Brush.horizontalGradient( // §P2-3: to right
+                            0f to Color(0x4D0F1827),    // §7: 0.30
+                            0.78f to Color(0x1F0F1827)  // §7: 0.12 @78%
                         )
                     )
                     .drawBehind {
@@ -121,9 +119,9 @@ fun NagiHud(
                         fontSize = 13.sp,
                         letterSpacing = 0.02.sp,
                         shadow = Shadow(
-                            color = Color(0x73000000), // §17.2: 0.45
-                            offset = Offset(0f, 1f),
-                            blurRadius = 2f
+                            color = Color(0x7A000000), // §P2-3: 0.48
+                            offset = Offset(0f, 2f),
+                            blurRadius = 14f
                         )
                     ),
                     color = Color(0xE0F4F1EA),
@@ -138,7 +136,7 @@ fun NagiHud(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp) // §P2-3: 8dp
         ) {
             if (onAuto != null) {
                 NagiIconButton(

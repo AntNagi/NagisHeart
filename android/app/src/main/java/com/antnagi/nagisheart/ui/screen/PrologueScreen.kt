@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -60,11 +61,33 @@ fun PrologueScreen(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            // Dark overlay
+            // §1: story dark layer 1 — vertical gradient
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0x52132033))
+                    .background(
+                        Brush.verticalGradient(
+                            0f to Color(0x0A101827),
+                            0.38f to Color(0x1F101827),
+                            1f to Color(0xDB101827)
+                        )
+                    )
+            )
+            // §1: story dark layer 2 — radial vignette
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .drawBehind {
+                        drawRect(
+                            brush = Brush.radialGradient(
+                                0.22f to Color.Transparent,
+                                0.72f to Color(0x57101827),
+                                1f to Color(0xB3101827),
+                                center = Offset(size.width * 0.46f, size.height * 0.34f),
+                                radius = maxOf(size.width, size.height) * 0.7f
+                            )
+                        )
+                    }
             )
 
             // Header: 开场白 · 01 / 08
