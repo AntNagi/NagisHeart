@@ -109,6 +109,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
+    private val _hasAutoSave = MutableStateFlow(saveManager.hasAutoSave())
+    val hasAutoSave: StateFlow<Boolean> = _hasAutoSave.asStateFlow()
+
+    private val _hasCompletedEnding = MutableStateFlow(progressManager.getUnlockedEndings().isNotEmpty())
+    val hasCompletedEndingFlow: StateFlow<Boolean> = _hasCompletedEnding.asStateFlow()
+
     private val _dataLoaded = MutableStateFlow(false)
     val dataLoaded: StateFlow<Boolean> = _dataLoaded.asStateFlow()
 
@@ -220,6 +226,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 sceneTitle = state.sceneTitle
             )
         )
+        _hasAutoSave.value = true
     }
 
     fun continueGame(): Boolean {
@@ -235,6 +242,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun resetAndStartNew() {
         saveManager.deleteAutoSave()
+        _hasAutoSave.value = false
         startNewGame("", "Nagi")
     }
 
@@ -255,6 +263,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun getUnlockedNodes(): Set<String> = progressManager.getVisitedNodes()
 
     fun getUnlockedEndings(): Set<String> = progressManager.getUnlockedEndings()
+
+    fun getEndingBgPath(endingId: String): String? = progressManager.getEndingBgPath(endingId)
 
     fun getSectionState(chapterId: String, sectionIndex: Int, startNode: String): SectionState {
         val isUnlocked = startNode in progressManager.getVisitedNodes()
@@ -770,8 +780,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun showEnding(ending: NodeResolution.EndingReached) {
         stopAuto()
         stopSkip()
-        progressManager.unlockEnding(ending.endingId.removePrefix("end_"))
+        progressManager.unlockEnding(ending.endingId.removePrefix("end_"), _uiState.value.bgAssetPath)
         saveManager.deleteAutoSave()
+        _hasAutoSave.value = false
+        _hasCompletedEnding.value = true
         _uiState.update {
             it.copy(
                 phase = GamePhase.Ending,

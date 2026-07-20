@@ -330,3 +330,22 @@
 4. BAD 线是否需要独立冷商业视觉包，避免和 Dream 线共用世界舞台感。
 5. Ending Card 由 CoCo 单独出四类视觉，不从现有普通 bg 中挑图。
 6. V15 文本里 `bad_far` 的系统行仍是 `BAD END｜远处的世界第一`，但当前产品口径已改为 `BAD END：好麻烦`。结局卡和 UI 展示必须按产品口径。
+
+---
+
+## 7. 回忆画廊结局页背景
+
+回忆画廊不使用独立的结局背景图。画廊结局详情页的背景**必须与剧情到达结局时的BG一致**，即复用 `scene_visuals.json` 中对应结局节点的 `bg` 字段。
+
+| 结局 | 结局节点 | 背景来源 | bg 路径 |
+|---|---|---|---|
+| TRUE END | `end_true` | = 剧情BG | `assets/bg/ending_true_nagi_soft_gaze.jpg` |
+| GOOD END | `end_good` | = 剧情BG | 使用剧情到达 `end_good` 时的当前 bg（`scene_visuals.json` 定义） |
+| NORMAL END | `end_normal` | = 剧情BG | `assets/bg/bg_stay_final_tv_glow_living_room.png` |
+| BAD END | `end_bad` | = 剧情BG | `assets/bg/bg_bad_far_award_broadcast.png` |
+
+开发实现规则：
+
+1. `GalleryScreen` 不维护独立的 `endingBgMap`；结局背景统一从 `scene_visuals.json` 的结局节点定义读取。
+2. 画廊卡片缩略图裁切使用 `Alignment.TopCenter`，优先露出人物脸部区域。
+3. 若 `scene_visuals.json` 中结局节点的 bg 后续更新，画廊自动跟随，无需额外同步。

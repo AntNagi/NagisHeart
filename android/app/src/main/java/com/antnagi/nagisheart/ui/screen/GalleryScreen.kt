@@ -33,7 +33,7 @@ private data class GalleryItem(
     val bgPath: String?
 )
 
-private val endingBgMap = mapOf(
+private val endingBgFallback = mapOf(
     "true" to "bg/ending_true_nagi_soft_gaze.jpg",
     "good" to "bg/ending_candidate_crystal_king.jpg",
     "normal" to "bg/bg_stay_final_tv_glow_living_room.png",
@@ -56,7 +56,7 @@ fun GalleryScreen(
                     endingId = key,
                     definition = def,
                     unlocked = key in unlockedEndings,
-                    bgPath = endingBgMap[key]
+                    bgPath = viewModel.getEndingBgPath(key) ?: endingBgFallback[key]
                 )
             }
         }
@@ -164,6 +164,7 @@ private fun MemoryCard(
                 ),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
+                alignment = Alignment.TopCenter,
                 modifier = Modifier.fillMaxSize()
             )
             Box(
@@ -225,6 +226,7 @@ private fun EndingDetailOverlay(
                 ),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
+                alignment = Alignment.TopCenter,
                 modifier = Modifier.fillMaxSize()
             )
             Box(

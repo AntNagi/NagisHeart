@@ -15933,7 +15933,7 @@
   },
   "end_good": {
     "mode": "vn",
-    "sceneTitle": "那么完美，那么爱你",
+    "sceneTitle": "那么完美，那么爱他",
     "dialogue": [
       {
         "id": "end_good_d001",
@@ -15964,7 +15964,7 @@
       {
         "id": "end_good_d006",
         "speaker": "",
-        "text": "GOOD END｜那么完美，那么爱你",
+        "text": "GOOD END｜那么完美，那么爱他",
         "display": "fullscreen"
       },
       {

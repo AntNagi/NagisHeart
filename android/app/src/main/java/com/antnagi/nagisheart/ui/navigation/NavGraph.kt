@@ -106,7 +106,8 @@ fun NagiNavGraph(
         }
 
         composable(Routes.START) {
-            val hasPlayed = gameViewModel.hasPlayed()
+            val hasPlayed by gameViewModel.hasAutoSave.collectAsState()
+            val hasEnding by gameViewModel.hasCompletedEndingFlow.collectAsState()
             var showNewGameConfirm by remember { mutableStateOf(false) }
 
             if (showNewGameConfirm) {
@@ -127,7 +128,7 @@ fun NagiNavGraph(
 
             StartScreen(
                 hasSave = hasPlayed,
-                hasCompletedEnding = gameViewModel.hasCompletedEnding(),
+                hasCompletedEnding = hasEnding,
                 onContinue = {
                     if (gameViewModel.continueGame()) {
                         navController.navigate(Routes.GAME) {

@@ -17,14 +17,22 @@ class ProgressManager(context: Context) {
     fun getVisitedNodes(): Set<String> =
         prefs.getStringSet("visited_nodes", emptySet()) ?: emptySet()
 
-    fun unlockEnding(endingId: String) {
+    fun unlockEnding(endingId: String, bgPath: String? = null) {
         val endings = getUnlockedEndings().toMutableSet()
         endings.add(endingId)
-        prefs.edit().putStringSet("unlocked_endings", endings).apply()
+        prefs.edit()
+            .putStringSet("unlocked_endings", endings)
+            .apply()
+        if (bgPath != null) {
+            prefs.edit().putString("ending_bg_$endingId", bgPath).apply()
+        }
     }
 
     fun getUnlockedEndings(): Set<String> =
         prefs.getStringSet("unlocked_endings", emptySet()) ?: emptySet()
+
+    fun getEndingBgPath(endingId: String): String? =
+        prefs.getString("ending_bg_$endingId", null)
 
     fun markSectionSkipped(chapterId: String, sectionIndex: Int) {
         val skipped = getSkippedSections().toMutableSet()

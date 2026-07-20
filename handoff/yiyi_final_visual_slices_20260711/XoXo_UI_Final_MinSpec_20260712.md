@@ -30,18 +30,24 @@
 - 全部使用同一张背景：`poster_start_nagis_heart_bg_clean.png`
 - 路径：`android/app/src/main/assets/bg/poster_start_nagis_heart_bg_clean.png`
 
-暗层规则：
+暗层规则（2026-07-20 按 authority HTML 修订，废止旧版"统一叠 0.32"口径）：
 
 - 开屏页：**不叠暗层**
-- 其余系统级页面：统一叠暗层 `rgba(19, 32, 51, 0.32)`
+- 系统级页面（主页 / 存档 / 章节目录 / 回忆画廊 / 系统设置）：
+  - 第一层：`linear-gradient(to bottom, rgba(19, 32, 51, 0.32), rgba(19, 32, 51, 0.12) 42%, rgba(19, 32, 51, 0.66))`
+  - 第二层（白色呼吸高光）：`linear-gradient(to bottom, rgba(255, 255, 255, 0.04), transparent 18%, transparent 70%, rgba(255, 255, 255, 0.02))`
+- 开场白 / 名字设置页（splash 类）：
+  - 第一层：`linear-gradient(to bottom, rgba(16, 24, 39, 0.04), rgba(16, 24, 39, 0.12) 38%, rgba(16, 24, 39, 0.86) 100%)`
+  - 第二层（径向暗角）：`radial-gradient(ellipse at 46% 34%, transparent 0 22%, rgba(16, 24, 39, 0.34) 72%, rgba(16, 24, 39, 0.7) 100%)`
+- 剧情内页（story 类）：
+  - 第一层：`linear-gradient(to bottom, rgba(19, 32, 51, 0.22), rgba(19, 32, 51, 0.10) 24%, rgba(19, 32, 51, 0.18) 58%, rgba(19, 32, 51, 0.42) 100%)`
+  - 第二层（左右暗边）：`linear-gradient(to right, rgba(19, 32, 51, 0.10), transparent 34%, transparent 72%, rgba(19, 32, 51, 0.12))`
 
 浮层统一：
 
 - 浮层底色：`linear-gradient(to bottom, rgba(16, 24, 39, 0.34), rgba(16, 24, 39, 0.52))`
-- 浮层描边：不使用显式描边；如需分离感，依赖 backdrop-filter 与渐变层次
-- 浮层模糊：`16dp`
-- 如页面底部承载文字/操作，再叠底部渐隐：
-  - `rgba(19, 32, 51, 0.00)` -> `rgba(19, 32, 51, 0.80)`
+- 浮层描边：`rgba(255, 255, 255, 0.10)`，1dp
+- 浮层模糊：`16dp`，`saturate(0.92)`
 
 统一文字色：
 
@@ -100,13 +106,15 @@
 背景：
 
 - 使用 `poster_start_nagis_heart_bg_clean.png`
-- 叠暗层 `rgba(19, 32, 51, 0.32)`
+- 叠 splash 暗层（见 §1 暗层规则 — splash 类）：
+  - 第一层：`linear-gradient(to bottom, rgba(16, 24, 39, 0.04), rgba(16, 24, 39, 0.12) 38%, rgba(16, 24, 39, 0.86) 100%)`
+  - 第二层：`radial-gradient(ellipse at 46% 34%, transparent 0 22%, rgba(16, 24, 39, 0.34) 72%, rgba(16, 24, 39, 0.7) 100%)`
 
 结构：
 
 - 上方小标题
 - 中间一句正文
-- 下方“轻触继续”
+- 下方”轻触继续”
 
 顶部小标题：
 
@@ -147,7 +155,9 @@
 背景：
 
 - 使用 `poster_start_nagis_heart_bg_clean.png`
-- 叠暗层 `rgba(19, 32, 51, 0.32)`
+- 叠 splash 暗层（见 §1 暗层规则 — splash 类）：
+  - 第一层：`linear-gradient(to bottom, rgba(16, 24, 39, 0.04), rgba(16, 24, 39, 0.12) 38%, rgba(16, 24, 39, 0.86) 100%)`
+  - 第二层：`radial-gradient(ellipse at 46% 34%, transparent 0 22%, rgba(16, 24, 39, 0.34) 72%, rgba(16, 24, 39, 0.7) 100%)`
 
 结构：
 
