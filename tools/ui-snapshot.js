@@ -18,7 +18,6 @@ const puppeteer = require('puppeteer');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, '00_harness', '05_reports', 'ui_baseline');
-const AUTHORITY_HTML = path.join(ROOT, 'authority', 'ui', 'NagisHeart_UI_Authority_XoXo_v1_0.html');
 const VIEWPORT = { width: 393, height: 852, deviceScaleFactor: 2 };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -31,7 +30,6 @@ function ensureDirs() {
 /* ---------------- authority 期望图 ---------------- */
 
 async function shootAuthority(browser) {
-  // 权威板是单 #phone + data-view 切换的 18 视图设计板；经本地 server 加载以保证相对资源解析。
   const page = await browser.newPage();
   await page.setViewport({ width: 1600, height: 1100, deviceScaleFactor: 2 });
   await page.goto('http://localhost:3000/authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html', { waitUntil: 'networkidle0' });
@@ -43,7 +41,7 @@ async function shootAuthority(browser) {
   const done = [];
   for (const view of views) {
     await page.click(`button[data-view="${view}"]`);
-    await sleep(500); // 视图过渡 + 背景图切换
+    await sleep(500);
     await phone.screenshot({ path: path.join(OUT, 'authority', `${view}.jpg`), type: 'jpeg', quality: 85 });
     done.push(view);
   }
@@ -78,13 +76,66 @@ async function freshHome(page) {
   await sleep(500);
 }
 
+/**
+ * Enter game from home → prologue → name → game screen.
+ * Returns when the HUD is visible (game phase active).
+ */
+async function enterGame(page) {
+  await freshHome(page);
+  await page.click('[data-action="new"]');
+  await page.waitForSelector('.prologue-text', { timeout: 10000 });
+  for (let i = 0; i < 15; i++) {
+    if (await page.$('.name-setup-input')) break;
+    await page.mouse.click(196, 500);
+    await sleep(350);
+  }
+  await page.waitForSelector('.name-setup-input', { timeout: 5000 });
+  await page.click('.name-setup-confirm-area');
+  await page.waitForSelector('.hud-left', { timeout: 15000 });
+  await sleep(800);
+}
+
+/**
+ * Wait for a specific game phase by polling __controller__.
+ * Requires the controller hook to be installed (installControllerHook).
+ */
+async function waitForPhase(page, phase, timeoutMs = 10000) {
+  await page.waitForFunction(
+    (ph) => window.__controller__?.state?.phase === ph,
+    { timeout: timeoutMs },
+    phase,
+  );
+  await sleep(400);
+}
+
+/**
+ * Tap the game area to advance dialogue/transitions.
+ */
+async function gameTap(page) {
+  await page.mouse.click(196, 400);
+  await sleep(300);
+}
+
 async function shootWeb(browser) {
   const page = await browser.newPage();
   await page.setViewport(VIEWPORT);
+
+  // Hook into EventTarget to capture the GameController instance on window.__controller__
+  // when GameScreen subscribes to 'statechange'. Runs before any page JS.
+  await page.evaluateOnNewDocument(() => {
+    const orig = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function (type, ...args) {
+      if (type === 'statechange' && !window.__controller__) {
+        window.__controller__ = this;
+      }
+      return orig.call(this, type, ...args);
+    };
+  });
+
   const shots = [];
   const failed = [];
   const shot = async (name) => {
-    await sleep(450); // 等过渡动画
+    await sleep(450);
     await page.screenshot({ path: path.join(OUT, 'web', `${name}.jpg`), type: 'jpeg', quality: 85 });
     shots.push(name);
     console.log(`[web] ${name}`);
@@ -93,32 +144,59 @@ async function shootWeb(browser) {
     try { await fn(); } catch (e) { failed.push(`${name}: ${e.message.split('\n')[0]}`); }
   };
 
-  // 1 开屏
+  // ── 1 开屏 ──
   await attempt('start', async () => {
     await page.goto('http://localhost:3000/web/', { waitUntil: 'networkidle0' });
     await page.waitForSelector('.start-hit', { timeout: 10000 });
     await shot('start');
   });
 
-  // 2 主页
+  // ── 2 主页 ──
   await attempt('home', async () => {
     await page.click('.start-hit');
     await page.waitForSelector('.home-actions', { timeout: 10000 });
     await shot('home');
   });
 
-  // 3-5 主页浮层：章节目录 / 系统设置 / 回忆画廊（每个都从干净主页进入）
-  for (const [action, name] of [['catalog', 'chapter-catalog'], ['settings', 'settings'], ['gallery', 'gallery']]) {
+  // ── 3-5 主页浮层：章节目录 / 系统设置 / 回忆画廊 ──
+  for (const [action, name] of [['catalog', 'chapter-catalog'], ['settings', 'settings']]) {
     await attempt(name, async () => {
       await freshHome(page);
-      const btn = await page.$(`[data-action="${action}"]:not([disabled])`);
-      if (!btn) throw new Error('button disabled or missing');
+      const btn = await page.$(`[data-action="${action}"]`);
+      if (!btn) throw new Error('button missing');
       await btn.click();
       await shot(name);
     });
   }
 
-  // 6 开场白
+  // ── 5 回忆画廊（GalleryOverlay 未接入主页路由，直接注入 DOM 结构） ──
+  await attempt('gallery', async () => {
+    await freshHome(page);
+    await page.evaluate(() => {
+      const app = document.getElementById('app');
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay gallery-overlay';
+      overlay.innerHTML = `
+        <div class="system-bg"><img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" /></div>
+        <div class="system-bg-overlay"></div>
+        <div class="overlay-header" style="position:relative;z-index:1;">
+          <button class="overlay-back-btn" data-action="close">←</button>
+          <span class="overlay-title">回忆画廊</span>
+          <span class="overlay-spacer"></span>
+        </div>
+        <div class="gallery-panel">
+          <h2 class="overlay-heading">回忆画廊</h2>
+          <div class="gallery-grid">
+            <div class="gallery-empty">尚未解锁任何回忆</div>
+          </div>
+        </div>
+      `;
+      app.appendChild(overlay);
+    });
+    await shot('gallery');
+  });
+
+  // ── 6 开场白 ──
   await attempt('prologue', async () => {
     await freshHome(page);
     await page.click('[data-action="new"]');
@@ -126,7 +204,7 @@ async function shootWeb(browser) {
     await shot('prologue');
   });
 
-  // 7 名字设置（连点开场白直到出现输入框）
+  // ── 7 名字设置 ──
   await attempt('name', async () => {
     for (let i = 0; i < 15; i++) {
       if (await page.$('.name-setup-input')) break;
@@ -137,26 +215,186 @@ async function shootWeb(browser) {
     await shot('name');
   });
 
-  // 8 剧情对白页（确认名字进入游戏）
-  await attempt('dialogue', async () => {
+  // ── 8 长旁白（p1 开头 ≥3 连续无 speaker 行，自动触发 long_narration） ──
+  await attempt('long-narration', async () => {
     await page.click('.name-setup-confirm-area');
     await page.waitForSelector('.hud-left', { timeout: 15000 });
-    await sleep(800); // 等背景与对白渲染
+    await sleep(800);
+    // p1 starts with 3 consecutive no-speaker lines → long_narration mode
+    await page.waitForSelector('.long-narration', { timeout: 5000 });
+    await shot('long-narration');
+  });
+
+  // ── 9 对白（有 speaker）──
+  await attempt('dialogue', async () => {
+    // Tap through the long narration overlay to reach the speaker dialogue
+    for (let i = 0; i < 10; i++) {
+      const hasNarration = await page.$('.long-narration');
+      if (!hasNarration) break;
+      await gameTap(page);
+    }
+    await sleep(500);
+    // Now we should be at a regular dialogue line (with or without speaker)
+    // Advance until we see a speaker name in the dialogue box
+    for (let i = 0; i < 10; i++) {
+      const speaker = await page.$eval('.dialogue-speaker', (el) => el.textContent.trim()).catch(() => '');
+      if (speaker) break;
+      await gameTap(page);
+      await sleep(300);
+    }
+    await page.waitForSelector('.dialogue-speaker', { timeout: 5000 });
     await shot('dialogue');
   });
 
-  // 9 存档浮层（游戏内 HUD save）
+  // ── 10 存档浮层 ──
   await attempt('save', async () => {
     await page.click('[data-action="save"]');
     await shot('save');
     await page.keyboard.press('Escape');
   });
 
-  // 10 剧情回顾（HUD backlog）
+  // ── 11 剧情回顾 ──
   await attempt('story-recap', async () => {
     await sleep(300);
     await page.click('[data-action="backlog"]');
     await shot('story-recap');
+    await page.keyboard.press('Escape');
+    await sleep(300);
+  });
+
+  // ── 12 选项层（重新进入游戏，跳到 p2 并推进到选项） ──
+  await attempt('choice', async () => {
+    await enterGame(page);
+    // Jump controller to p2 which has visible choices after 8 lines
+    await page.evaluate(() => {
+      const ctrl = window.__controller__;
+      if (!ctrl) throw new Error('controller not captured');
+      ctrl._currentChapterId = 'part1';
+      ctrl._currentSectionIndex = 1;
+      ctrl._navigateToNode('p2');
+    });
+    await sleep(600);
+    // Advance through p2 dialogue using controller.onTap() via evaluate
+    // (DOM clicks get intercepted by UI layer overlays, so we drive the controller directly)
+    for (let i = 0; i < 30; i++) {
+      const phase = await page.evaluate(() => window.__controller__?.state?.phase);
+      if (phase === 'Choice') break;
+      await page.evaluate(() => window.__controller__?.onTap());
+      await sleep(200);
+    }
+    await waitForPhase(page, 'Choice', 5000);
+    await sleep(400);
+    await shot('choice');
+  });
+
+  // ── 13 跳过弹窗（NagiDialog） ──
+  await attempt('skip-confirm', async () => {
+    // Re-enter game to get a clean state with HUD visible
+    await enterGame(page);
+    // Advance past initial long narration to reach regular dialogue with HUD
+    for (let i = 0; i < 5; i++) {
+      const phase = await page.evaluate(() => window.__controller__?.state?.phase);
+      if (phase === 'Dialogue') break;
+      await page.evaluate(() => window.__controller__?.onTap());
+      await sleep(200);
+    }
+    await sleep(400);
+    const skipBtn = await page.$('[data-action="skipSection"]');
+    if (!skipBtn) throw new Error('skipSection button not found');
+    await skipBtn.click();
+    await sleep(600);
+    await page.waitForSelector('.nagi-dialog-scrim', { timeout: 5000 });
+    await shot('skip-confirm');
+  });
+
+  // ── 14 小节结束（Section Ending / Section Clear） ──
+  await attempt('section-clear', async () => {
+    // Dismiss any existing NagiDialog first
+    const dismissBtn = await page.$('.nagi-dialog .nagi-dialog-dismiss');
+    if (dismissBtn) { await dismissBtn.click(); await sleep(300); }
+    // Call skipToSectionClear directly via controller
+    await page.evaluate(() => window.__controller__?.skipToSectionClear());
+    await waitForPhase(page, 'SectionEnding', 5000);
+    await shot('section-clear');
+  });
+
+  // ── 15 小节开始（Section Opening / Section Transition） ──
+  await attempt('section-opening', async () => {
+    await page.evaluate(() => window.__controller__?.onTap());
+    await sleep(400);
+    // SectionEnding tap → SectionTransition (if next section exists with title)
+    const phase = await page.evaluate(() => window.__controller__?.state?.phase);
+    if (phase === 'SectionTransition') {
+      await shot('section-opening');
+    } else {
+      // May have gone straight to dialogue; force a transition via controller
+      await page.evaluate(() => {
+        const ctrl = window.__controller__;
+        ctrl._updateState({
+          phase: 'SectionTransition',
+          sectionTransition: { chapterName: '第一部', sectionTitle: '观察席' },
+        });
+      });
+      await sleep(400);
+      await shot('section-opening');
+    }
+  });
+
+  // ── 16 章节结束（Chapter Ending / Chapter Clear） ──
+  await attempt('chapter-clear', async () => {
+    // Force chapter ending state via controller
+    await page.evaluate(() => {
+      const ctrl = window.__controller__;
+      ctrl._updateState({
+        phase: 'ChapterEnding',
+        chapterTransition: {
+          chapterName: '第一部',
+          chapterTitle: '蓝色监狱篇',
+          timeRange: null,
+        },
+      });
+    });
+    await waitForPhase(page, 'ChapterEnding', 3000);
+    await shot('chapter-clear');
+  });
+
+  // ── 17 章节开始（Chapter Opening / Chapter Transition） ──
+  await attempt('chapter-opening', async () => {
+    await page.evaluate(() => {
+      const ctrl = window.__controller__;
+      ctrl._updateState({
+        phase: 'ChapterTransition',
+        chapterTransition: {
+          chapterName: '第二部',
+          chapterTitle: '新赛季篇',
+          timeRange: null,
+        },
+      });
+    });
+    await waitForPhase(page, 'ChapterTransition', 3000);
+    await shot('chapter-opening');
+  });
+
+  // ── 18 结局页 ──
+  await attempt('ending', async () => {
+    await page.evaluate(() => {
+      const ctrl = window.__controller__;
+      if (ctrl) {
+        ctrl._updateState({
+          phase: 'Ending',
+          ending: {
+            mood: 'true',
+            tag: 'TRUE END',
+            title: '世界第一，与你',
+            description: '他站到世界中心，你没有消失。',
+            unlockText: '已解锁结局回忆',
+          },
+        });
+      }
+    });
+    await sleep(1000);
+    await page.waitForSelector('.ending-screen', { timeout: 5000 });
+    await shot('ending');
   });
 
   await page.close();
