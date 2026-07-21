@@ -25,19 +25,19 @@
   letter-spacing: 0.04em;
   color: #E4CA8F;
   padding: 3px 9px 4px;
-  background: linear-gradient(to right, rgba(16,24,39,0.30), rgba(16,24,39,0.10));
-  border: 1px solid rgba(215,190,134,0.18);
+  background: linear-gradient(to right, var(--deep-30), var(--deep-10));
+  border: 1px solid var(--gold-18);
   backdrop-filter: blur(8px) saturate(0.92);
   -webkit-backdrop-filter: blur(8px) saturate(0.92);
   clip-path: var(--clip-cut-sm);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.72), 0 0 10px rgba(215,190,134,0.20);
+  text-shadow: 0 1px 2px var(--black-72), 0 0 10px var(--gold-20);
   margin-bottom: var(--space-xs);
 }
 
 .dialogue-text {
   font-size: var(--fs-dialogue);
   line-height: var(--lh-dialogue);
-  color: rgba(247, 249, 252, 0.94);
+  color: var(--snow-94);
   text-shadow: 0 1px 3px var(--text-shadow-color);
 }
 
@@ -82,7 +82,7 @@
   font-family: var(--font-serif);
   font-size: var(--fs-narration);
   line-height: var(--lh-narration);
-  color: rgba(247, 249, 252, 0.94);
+  color: var(--snow-94);
   text-align: center;
   text-shadow: 0 1px 4px var(--text-shadow-color);
 }
@@ -103,9 +103,9 @@
   position: relative;
   backdrop-filter: blur(16px) saturate(0.92);
   -webkit-backdrop-filter: blur(16px) saturate(0.92);
-  background: radial-gradient(ellipse at center, rgba(16, 24, 39, 0.44) 0%, rgba(16, 24, 39, 0.32) 58%, rgba(16, 24, 39, 0) 100%);
-  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0.94) 56%, rgba(0,0,0,0) 100%);
-  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0.94) 56%, rgba(0,0,0,0) 100%);
+  background: radial-gradient(ellipse at center, var(--deep-44) 0%, var(--deep-32) 58%, var(--deep-0) 100%);
+  -webkit-mask-image: radial-gradient(ellipse at center, var(--mask-center) 0%, var(--mask-mid) 56%, var(--mask-edge) 100%);
+  mask-image: radial-gradient(ellipse at center, var(--mask-center) 0%, var(--mask-mid) 56%, var(--mask-edge) 100%);
   padding: 20px;
   width: 100%;
   min-height: 280px;
@@ -116,9 +116,9 @@
   font-family: var(--font-serif);
   font-size: 16px;
   line-height: 1.88;
-  color: rgba(244, 241, 234, 0.92);
+  color: var(--parchment-92);
   text-align: left;
-  text-shadow: 0 1px 8px rgba(10, 15, 25, 0.18);
+  text-shadow: 0 1px 8px var(--ink-shadow-18);
 }
 
 .long-narration-pager {

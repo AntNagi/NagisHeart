@@ -20,7 +20,7 @@
 .name-setup-top-label {
   font-size: 12px;
   font-family: var(--font-sans);
-  color: rgba(244, 241, 234, 0.92);
+  color: var(--parchment-92);
   letter-spacing: 0.12em;
   text-align: center;
   display: flex;
@@ -33,7 +33,7 @@
   content: '';
   width: 40px;
   height: 1px;
-  background: rgba(215, 190, 134, 0.60);
+  background: var(--gold-60);
 }
 
 .name-setup-title {
@@ -46,7 +46,7 @@
 .name-setup-subtitle {
   font-size: 15px;
   font-family: var(--font-sans);
-  color: rgba(232, 238, 246, 0.72);
+  color: var(--text-secondary);
   text-align: center;
   margin-top: -10px;
 }
@@ -63,7 +63,7 @@
 .name-setup-label {
   font-size: 13px;
   font-family: var(--font-sans);
-  color: rgba(244, 241, 234, 0.82);
+  color: var(--parchment-82);
   letter-spacing: 0.5px;
 }
 
@@ -72,7 +72,7 @@
   padding: 10px 0;
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(215, 190, 134, 0.74);
+  border-bottom: 1px solid var(--gold-74);
   color: #F7F9FC;
   font-size: 18px;
   font-family: var(--font-sans);
@@ -82,11 +82,11 @@
 }
 
 .name-setup-input::placeholder {
-  color: rgba(244, 241, 234, 0.66);
+  color: var(--parchment-66);
 }
 
 .name-setup-input:focus {
-  border-bottom-color: rgba(215, 190, 134, 1);
+  border-bottom-color: var(--gold-100);
 }
 
 .name-setup-confirm-area {
@@ -104,6 +104,6 @@
 .name-setup-confirm-hint {
   font-size: 14px;
   font-family: var(--font-sans);
-  color: rgba(244, 241, 234, 0.82);
+  color: var(--parchment-82);
   margin-top: 8px;
 }

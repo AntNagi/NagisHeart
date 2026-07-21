@@ -20,9 +20,9 @@
   backdrop-filter: blur(12px) saturate(0.92);
   -webkit-backdrop-filter: blur(12px) saturate(0.92);
   background:
-    radial-gradient(ellipse at center, rgba(247, 249, 252, 0.08), transparent 66%),
-    linear-gradient(to bottom, rgba(15, 24, 39, 0.34), rgba(15, 24, 39, 0.22));
-  border: 1px solid rgba(255, 255, 255, 0.12);
+    radial-gradient(ellipse at center, var(--snow-08), transparent 66%),
+    linear-gradient(to bottom, var(--hud-blue-34), var(--hud-blue-22));
+  border: 1px solid var(--white-12);
   clip-path: var(--clip-cut-sm);
 }
 
@@ -32,8 +32,8 @@
   -webkit-backdrop-filter: blur(12px) saturate(0.92);
   background:
     linear-gradient(to bottom, transparent 0 46%, var(--hud-soft) 47% 53%, transparent 54%),
-    linear-gradient(to right, rgba(15, 24, 39, 0.30), rgba(15, 24, 39, 0.12) 78%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+    linear-gradient(to right, var(--hud-blue-30), var(--hud-blue-12) 78%);
+  border: 1px solid var(--white-12);
   clip-path: var(--clip-cut-sm);
 }
 
@@ -54,7 +54,7 @@
   font-size: 13px;
   font-weight: 500;
   font-family: var(--font-sans);
-  color: rgba(244, 241, 234, 0.88);
+  color: var(--parchment-88);
   padding: 7px 14px 7px 18px;
   height: 34px;
   line-height: 20px;
@@ -63,7 +63,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.48);
+  text-shadow: 0 2px 14px var(--black-48);
 }
 
 /* Icon buttons */
@@ -73,8 +73,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(247, 249, 252, 0.94);
-  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.42));
+  color: var(--snow-94);
+  filter: drop-shadow(0 3px 12px var(--black-42));
   transition: opacity var(--duration-fast);
   cursor: pointer;
   border: none;
@@ -84,7 +84,7 @@
 .hud-btn svg {
   width: 18px;
   height: 18px;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.64)) drop-shadow(0 0 8px rgba(247, 249, 252, 0.20));
+  filter: drop-shadow(0 1px 2px var(--black-64)) drop-shadow(0 0 8px var(--snow-20));
 }
 
 .hud-btn:hover {
@@ -106,9 +106,9 @@
   font-weight: 500;
   font-family: var(--font-sans);
   letter-spacing: 0.02em;
-  color: rgba(244, 241, 234, 0.90);
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.48);
-  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.42));
+  color: var(--parchment-90);
+  text-shadow: 0 2px 14px var(--black-48);
+  filter: drop-shadow(0 3px 12px var(--black-42));
   line-height: 34px;
   white-space: nowrap;
   pointer-events: auto;

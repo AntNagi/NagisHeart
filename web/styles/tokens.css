@@ -89,6 +89,108 @@
   --dialogue-box-shadow: 0 18px 40px rgba(0, 0, 0, 0.26);
 }
 
+/* ── Game UI color tokens (alpha variants of base palette) ── */
+
+  /* Snow white (247, 249, 252) alpha variants */
+  --snow-96: rgba(247, 249, 252, 0.96);
+  --snow-94: rgba(247, 249, 252, 0.94);
+  --snow-92: rgba(247, 249, 252, 0.92);
+  --snow-82: rgba(247, 249, 252, 0.82);
+  --snow-78: rgba(247, 249, 252, 0.78);
+  --snow-56: rgba(247, 249, 252, 0.56);
+  --snow-20: rgba(247, 249, 252, 0.20);
+  --snow-12: rgba(247, 249, 252, 0.12);
+  --snow-09: rgba(247, 249, 252, 0.09);
+  --snow-08: rgba(247, 249, 252, 0.08);
+  --snow-04: rgba(247, 249, 252, 0.04);
+
+  /* Parchment (244, 241, 234) alpha variants */
+  --parchment-92: rgba(244, 241, 234, 0.92);
+  --parchment-90: rgba(244, 241, 234, 0.90);
+  --parchment-88: rgba(244, 241, 234, 0.88);
+  --parchment-86: rgba(244, 241, 234, 0.86);
+  --parchment-84: rgba(244, 241, 234, 0.84);
+  --parchment-82: rgba(244, 241, 234, 0.82);
+  --parchment-74: rgba(244, 241, 234, 0.74);
+  --parchment-70: rgba(244, 241, 234, 0.70);
+  --parchment-66: rgba(244, 241, 234, 0.66);
+  --parchment-64: rgba(244, 241, 234, 0.64);
+
+  /* Deep blue (16, 24, 39) alpha variants */
+  --deep-76: rgba(16, 24, 39, 0.76);
+  --deep-72: rgba(16, 24, 39, 0.72);
+  --deep-60: rgba(16, 24, 39, 0.60);
+  --deep-50: rgba(16, 24, 39, 0.50);
+  --deep-48: rgba(16, 24, 39, 0.48);
+  --deep-44: rgba(16, 24, 39, 0.44);
+  --deep-40: rgba(16, 24, 39, 0.40);
+  --deep-34: rgba(16, 24, 39, 0.34);
+  --deep-32: rgba(16, 24, 39, 0.32);
+  --deep-30: rgba(16, 24, 39, 0.30);
+  --deep-18: rgba(16, 24, 39, 0.18);
+  --deep-14: rgba(16, 24, 39, 0.14);
+  --deep-10: rgba(16, 24, 39, 0.10);
+  --deep-0: rgba(16, 24, 39, 0);
+
+  /* HUD blue (15, 24, 39) alpha variants */
+  --hud-blue-34: rgba(15, 24, 39, 0.34);
+  --hud-blue-30: rgba(15, 24, 39, 0.30);
+  --hud-blue-22: rgba(15, 24, 39, 0.22);
+  --hud-blue-12: rgba(15, 24, 39, 0.12);
+
+  /* Gold (215, 190, 134) alpha variants */
+  --gold-100: rgba(215, 190, 134, 1);
+  --gold-74: rgba(215, 190, 134, 0.74);
+  --gold-72: rgba(215, 190, 134, 0.72);
+  --gold-60: rgba(215, 190, 134, 0.60);
+  --gold-28: rgba(215, 190, 134, 0.28);
+  --gold-26: rgba(215, 190, 134, 0.26);
+  --gold-20: rgba(215, 190, 134, 0.20);
+  --gold-18: rgba(215, 190, 134, 0.18);
+  --gold-16: rgba(215, 190, 134, 0.16);
+
+  /* Black alpha variants */
+  --black-72: rgba(0, 0, 0, 0.72);
+  --black-64: rgba(0, 0, 0, 0.64);
+  --black-60: rgba(0, 0, 0, 0.6);
+  --black-54: rgba(0, 0, 0, 0.54);
+  --black-50: rgba(0, 0, 0, 0.5);
+  --black-48: rgba(0, 0, 0, 0.48);
+  --black-42: rgba(0, 0, 0, 0.42);
+  --black-34: rgba(0, 0, 0, 0.34);
+  --black-28: rgba(0, 0, 0, 0.28);
+
+  /* White alpha variants */
+  --white-30: rgba(255, 255, 255, 0.3);
+  --white-28: rgba(255, 255, 255, 0.28);
+  --white-12: rgba(255, 255, 255, 0.12);
+  --white-10: rgba(255, 255, 255, 0.10);
+  --white-08: rgba(255, 255, 255, 0.08);
+  --white-07: rgba(255, 255, 255, 0.07);
+  --white-045: rgba(255, 255, 255, 0.045);
+  --white-04: rgba(255, 255, 255, 0.04);
+
+  /* Ink navy (27, 36, 54) alpha variants */
+  --ink-36: rgba(27, 36, 54, 0.36);
+  --ink-34: rgba(27, 36, 54, 0.34);
+  --ink-24: rgba(27, 36, 54, 0.24);
+
+  /* Gray-blue (174, 186, 200) alpha variants */
+  --gray-blue-18: rgba(174, 186, 200, 0.18);
+  --gray-blue-12: rgba(174, 186, 200, 0.12);
+
+  /* Misc unique colors */
+  --scrim-dark-58: rgba(19, 32, 51, 0.58);
+  --ink-shadow-18: rgba(10, 15, 25, 0.18);
+  --rose-gold-18: rgba(191, 160, 138, 0.18);
+  --ending-normal: rgba(220, 226, 234, 0.78);
+  --ending-bad: rgba(151, 178, 215, 0.72);
+
+  /* Mask values (used in -webkit-mask-image) */
+  --mask-center: rgba(0,0,0,1);
+  --mask-mid: rgba(0,0,0,0.94);
+  --mask-edge: rgba(0,0,0,0);
+
 /* ── Dark Theme (default) ── */
 [data-theme="dark"] {
   --bg-primary: var(--nagi-deep-blue-night);

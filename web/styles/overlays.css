@@ -66,7 +66,7 @@
 .game-menu-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--black-60);
 }
 
 .game-menu-panel {
@@ -133,7 +133,7 @@
   padding: 10px 18px;
   background: linear-gradient(90deg,
     var(--glass-bg-strong) 0%,
-    rgba(174, 186, 200, 0.12) 60%,
+    var(--gray-blue-12) 60%,
     transparent 100%
   );
   clip-path: polygon(
@@ -152,7 +152,7 @@
 .save-slot-row.clickable:hover {
   background: linear-gradient(90deg,
     var(--glass-bg) 0%,
-    rgba(174, 186, 200, 0.18) 60%,
+    var(--gray-blue-18) 60%,
     transparent 100%
   );
 }
@@ -207,7 +207,7 @@
   padding: 10px 18px;
   background: linear-gradient(90deg,
     var(--glass-bg-strong) 0%,
-    rgba(174, 186, 200, 0.12) 60%,
+    var(--gray-blue-12) 60%,
     transparent 100%
   );
   clip-path: polygon(
@@ -223,7 +223,7 @@
 .settings-row:hover {
   background: linear-gradient(90deg,
     var(--glass-bg) 0%,
-    rgba(174, 186, 200, 0.18) 60%,
+    var(--gray-blue-18) 60%,
     transparent 100%
   );
 }
@@ -240,7 +240,7 @@
 
 /* ── Backlog (paged, no scroll) ── */
 .backlog-overlay {
-  background: rgba(19, 32, 51, 0.58);
+  background: var(--scrim-dark-58);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -277,7 +277,7 @@
   font-weight: 600;
   color: var(--nagi-pale-gold);
   letter-spacing: 0.02em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+  text-shadow: 0 2px 10px var(--black-28);
   margin-bottom: 10px;
 }
 
@@ -285,8 +285,8 @@
   font-family: var(--font-serif);
   font-size: 16px;
   line-height: 1.92;
-  color: rgba(244, 241, 234, 0.92);
-  text-shadow: 0 1px 8px rgba(10, 15, 25, 0.18);
+  color: var(--parchment-92);
+  text-shadow: 0 1px 8px var(--ink-shadow-18);
 }
 
 .backlog-gap {
@@ -337,7 +337,7 @@
 .catalog-desc {
   font-size: 12px;
   line-height: 1.7;
-  color: rgba(244,241,234,0.70);
+  color: var(--parchment-70);
 }
 
 .catalog-list {
@@ -354,8 +354,8 @@
   justify-content: space-between;
   min-height: 68px;
   padding: 13px 14px;
-  background: rgba(255,255,255,0.045);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: var(--white-045);
+  border: 1px solid var(--white-07);
   pointer-events: auto;
 }
 
@@ -364,12 +364,12 @@
 }
 
 .catalog-item.clickable:hover {
-  background: rgba(255,255,255,0.08);
+  background: var(--white-08);
 }
 
 .catalog-item.current {
-  background: linear-gradient(to right, rgba(215,190,134,0.18), rgba(255,255,255,0.04));
-  border-color: rgba(215,190,134,0.28);
+  background: linear-gradient(to right, var(--gold-18), var(--white-04));
+  border-color: var(--gold-28);
 }
 
 .catalog-item.locked {
@@ -387,7 +387,7 @@
 .catalog-item-title {
   font-size: 15px;
   font-weight: 500;
-  color: rgba(247,249,252,0.94);
+  color: var(--snow-94);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -395,7 +395,7 @@
 
 .catalog-item-sub {
   font-size: 12px;
-  color: rgba(244,241,234,0.64);
+  color: var(--parchment-64);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -403,7 +403,7 @@
 
 .catalog-item-state {
   font-size: 12px;
-  color: rgba(244,241,234,0.70);
+  color: var(--parchment-70);
   flex-shrink: 0;
   margin-left: 8px;
 }
@@ -418,13 +418,13 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 10px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid var(--white-08);
   margin-top: 14px;
 }
 
 .catalog-action-secondary {
   font-size: 14px;
-  color: rgba(244,241,234,0.82);
+  color: var(--parchment-82);
   cursor: pointer;
   pointer-events: auto;
 }
@@ -481,7 +481,7 @@
   font-family: var(--font-serif);
   font-size: 28px;
   font-weight: 400;
-  color: rgba(247, 249, 252, 0.96);
+  color: var(--snow-96);
   margin-bottom: 14px;
 }
 
@@ -489,7 +489,7 @@
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.9;
-  color: rgba(244, 241, 234, 0.88);
+  color: var(--parchment-88);
   margin-bottom: 22px;
 }
 
@@ -501,7 +501,7 @@
 
 .nagi-dialog-dismiss {
   font-size: 15px;
-  color: rgba(244, 241, 234, 0.74);
+  color: var(--parchment-74);
   cursor: pointer;
   pointer-events: auto;
 }
@@ -541,7 +541,7 @@
   width: 120px;
   height: 4px;
   border-radius: 2px;
-  background: rgba(255,255,255,0.28);
+  background: var(--white-28);
   outline: none;
   pointer-events: auto;
 }
@@ -553,7 +553,7 @@
   height: 20px;
   border-radius: 50%;
   background: var(--text-primary, #F7F9FC);
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid var(--white-30);
   cursor: pointer;
 }
 
@@ -562,7 +562,7 @@
   height: 20px;
   border-radius: 50%;
   background: var(--text-primary, #F7F9FC);
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid var(--white-30);
   cursor: pointer;
 }
 

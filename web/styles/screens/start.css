@@ -81,21 +81,21 @@
   font-size: 17px;
   font-weight: 500;
   color: #F7F9FC;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 3px var(--black-50);
   letter-spacing: 2px;
 }
 
 .home-main-desc {
   font-size: 13px;
   font-family: var(--font-sans);
-  color: rgba(244, 241, 234, 0.82);
+  color: var(--parchment-82);
 }
 
 /* ── Divider between main and sub ── */
 .home-divider {
   width: 100%;
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--white-08);
 }
 
 /* ── Sub actions: 4-column grid ── */
@@ -109,7 +109,7 @@
 .home-sub-btn {
   font-size: 12px;
   font-family: var(--font-sans);
-  color: rgba(244, 241, 234, 0.90);
+  color: var(--parchment-90);
   text-align: center;
   cursor: pointer;
   pointer-events: auto;
