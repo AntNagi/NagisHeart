@@ -77,6 +77,15 @@
 - 说明：该 bug 全 harness 无记录无修复账，疑似修复随 Android 工作区回滚丢失。story-data 数据层已核验正常（c3 链路/选项目标/校验器全过）。Ant 在当前版本实机走第二部第一节"开放日"：不复现即关闭；复现则拍图，feibo 直接修引擎显示层。
 - 最新更新时间：2026-07-21
 
+### TASK-20260721-007
+- 标题：MinSpec 效果的 Compose 翻译规范
+- 负责人：lulu（UI）/ feibo（把关）
+- 状态：pending
+- 优先级：P2
+- 说明：MinSpec 中 CSS 专属效果（backdrop blur、clip-path 切角、mask 渐隐、radial 高光等）在 Compose 无直接等价物，历史上开发各自"近似"导致反复打回。lulu 逐项定死 Android 替代方案（写进 MinSpec §17 fallback 列或新增小节），此后开发无裁量权。
+- 完成定义：每个不可直译效果都有唯一指定的 Compose 实现口径；按权威修改流程更新 MANIFEST 哈希。
+- 最新更新时间：2026-07-21
+
 ### TASK-20260721-001
 - 标题：权威文档收拢隔离（authority/ 建立）+ 周末场外协作补账
 - 负责人：feibo（CTO）
