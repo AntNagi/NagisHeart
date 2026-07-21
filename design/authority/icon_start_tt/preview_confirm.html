@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Icon 安全区修正预览</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background:#111; color:#eee; padding:24px; }
+h1 { font-size:22px; margin-bottom:20px; color:#F7F9FC; }
+h2 { font-size:17px; margin:28px 0 12px; color:#D7BE86; border-bottom:1px solid #333; padding-bottom:6px; }
+.row { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; justify-content:center; }
+.card { background:#1a1a1a; border:1px solid #333; border-radius:8px; padding:12px; text-align:center; }
+.card img { border-radius:4px; }
+.label { font-size:12px; color:#aaa; margin-top:6px; }
+.full { max-width:100%; }
+</style>
+</head>
+<body>
+
+<h1>App Icon V4 安全区修正 — 确认预览</h1>
+
+<h2>修正前 vs 修正后（圆形遮罩）</h2>
+<div class="card" style="max-width:100%">
+  <img class="full" src="icon/android_launcher_rework_v4_safezone/previews/safezone_before_after.png" />
+</div>
+
+<h2>修正后 — 三种遮罩</h2>
+<div class="row">
+  <div class="card">
+    <img src="icon/android_launcher_rework_v4_safezone/previews/safezone_round_preview.png" width="220" />
+    <div class="label">圆形</div>
+  </div>
+  <div class="card">
+    <img src="icon/android_launcher_rework_v4_safezone/previews/safezone_squircle_preview.png" width="220" />
+    <div class="label">圆角方形</div>
+  </div>
+  <div class="card">
+    <img src="icon/android_launcher_rework_v4_safezone/previews/safezone_legacy_preview.png" width="220" />
+    <div class="label">Legacy</div>
+  </div>
+</div>
+
+<h2>原始 V4（修正前）— 对比参考</h2>
+<div class="row">
+  <div class="card">
+    <img src="icon/android_launcher_rework_v4/previews/launcher_rework_v4_round_preview.png" width="180" />
+    <div class="label">V4 旧圆形预览</div>
+  </div>
+  <div class="card">
+    <img src="icon/android_launcher_rework_v4/previews/launcher_rework_v4_squircle_preview.png" width="180" />
+    <div class="label">V4 旧圆角方形预览</div>
+  </div>
+  <div class="card">
+    <img src="icon/android_launcher_rework_v4/previews/launcher_rework_v4_legacy_preview.png" width="180" />
+    <div class="label">V4 旧 Legacy 预览</div>
+  </div>
+</div>
+
+</body>
+</html>
