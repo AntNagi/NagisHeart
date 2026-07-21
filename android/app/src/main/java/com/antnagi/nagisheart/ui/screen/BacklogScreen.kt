@@ -58,7 +58,7 @@ fun BacklogScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFF132033).copy(alpha = 0.58f))
+                    .background(NagiTokens.systemDim.copy(alpha = 0.58f))
             )
 
             Column(
@@ -86,7 +86,7 @@ fun BacklogScreen(
                             fontFamily = FontFamily.Serif,
                             fontSize = 14.sp,
                             shadow = Shadow(
-                                color = Color(0x73000000),
+                                color = Color.Black.copy(alpha = 0.45f),
                                 offset = Offset(0f, 1f),
                                 blurRadius = 2f
                             )
@@ -138,7 +138,7 @@ fun BacklogScreen(
                     Text(
                         text = "${pagerState.currentPage + 1} / $totalPages",
                         fontSize = 12.sp,
-                        color = Color(0x99F4F1EA)
+                        color = NagiTokens.parchment.copy(alpha = 0.60f)
                     )
                 }
             }
@@ -151,20 +151,20 @@ private fun BacklogItem(
     entry: BacklogEntry,
     isFirst: Boolean
 ) {
-    val goldColor = Color(0xFFE4CA8F)
+    val goldColor = NagiTokens.speakerGold
     val textColor = Color(0xFFF6F3EE)
     val textShadow = Shadow(
-        color = Color(0x57000000),
+        color = Color.Black.copy(alpha = 0.34f),
         offset = Offset(0f, 3f),
         blurRadius = 12f
     )
     val speakerShadow = Shadow(
-        color = Color(0xB8000000),
+        color = Color.Black.copy(alpha = 0.72f),
         offset = Offset(0f, 1f),
         blurRadius = 2f
     )
     val speakerHalo = Shadow(
-        color = Color(0x33D7BE86),
+        color = NagiTokens.goldGlow,
         offset = Offset(0f, 0f),
         blurRadius = 10f
     )

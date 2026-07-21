@@ -31,13 +31,13 @@ import androidx.compose.ui.res.painterResource
 import com.antnagi.nagisheart.R
 import com.antnagi.nagisheart.ui.theme.*
 
-private val GoldColor = Color(0xFFD7BE86)
-private val TitleColor = Color(0xFFF4F1EA)
-private val SubtitleColor = Color(0xB8E8EEF6) // §P2-1: rgba(232,238,246,0.72)
-private val LabelColor = Color(0xD1F4F1EA)
-private val PlaceholderColor = Color(0xA8F4F1EA) // §P2-1: rgba(244,241,234,0.66)
-private val InputLineColor = Color(0xBDD7BE86)
-private val ConfirmActiveColor = Color(0xFFF7F3EC)
+private val GoldColor = NagiTokens.gold
+private val TitleColor = NagiTokens.parchment
+private val SubtitleColor = Color(0xB8E8EEF6) // §P2-1: unique base E8EEF6
+private val LabelColor = NagiTokens.parchment.copy(alpha = 0.82f)
+private val PlaceholderColor = NagiTokens.parchment.copy(alpha = 0.66f)
+private val InputLineColor = NagiTokens.gold.copy(alpha = 0.74f)
+private val ConfirmActiveColor = Color(0xFFF7F3EC) // unique base F7F3EC
 
 @Composable
 fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
@@ -60,9 +60,9 @@ fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
                     .fillMaxSize()
                     .background(
                         Brush.verticalGradient(
-                            0f to Color(0x0A101827),
-                            0.38f to Color(0x1F101827),
-                            1f to Color(0xDB101827)
+                            0f to NagiTokens.deepBlue.copy(alpha = 0.04f),
+                            0.38f to NagiTokens.deepBlue.copy(alpha = 0.12f),
+                            1f to NagiTokens.deepBlue.copy(alpha = 0.86f)
                         )
                     )
             )
@@ -74,8 +74,8 @@ fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
                         drawRect(
                             brush = Brush.radialGradient(
                                 0.22f to Color.Transparent,
-                                0.72f to Color(0x57101827),
-                                1f to Color(0xB3101827),
+                                0.72f to NagiTokens.deepBlue.copy(alpha = 0.34f),
+                                1f to NagiTokens.deepBlue.copy(alpha = 0.70f),
                                 center = Offset(size.width * 0.46f, size.height * 0.34f),
                                 radius = maxOf(size.width, size.height) * 0.7f
                             )
@@ -111,7 +111,7 @@ fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
                     color = TitleColor,
                     style = LocalTextStyle.current.copy(
                         shadow = Shadow(
-                            color = Color(0xAD000000),
+                            color = Color.Black.copy(alpha = 0.68f),
                             offset = Offset(0f, 4f),
                             blurRadius = 24f
                         )
@@ -162,7 +162,7 @@ fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
                                             Brush.horizontalGradient(
                                                 listOf(
                                                     Color.Transparent,
-                                                    Color(0x14132033),
+                                                    NagiTokens.systemDim.copy(alpha = 0.08f),
                                                     Color.Transparent
                                                 )
                                             )
@@ -213,7 +213,7 @@ fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
                     color = ConfirmActiveColor.copy(alpha = confirmAlpha),
                     style = LocalTextStyle.current.copy(
                         shadow = Shadow(
-                            color = Color(0x9E000000),
+                            color = Color.Black.copy(alpha = 0.62f),
                             offset = Offset(0f, 4f),
                             blurRadius = 22f
                         )

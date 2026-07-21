@@ -228,7 +228,7 @@ fun GameScreen(
                             drawIntoCanvas { canvas ->
                                 val paint = android.graphics.Paint().apply {
                                     isAntiAlias = true
-                                    color = Color(0x6B000000).toArgb()
+                                    color = Color.Black.copy(alpha = 0.42f).toArgb()
                                     maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                                 }
                                 canvas.nativeCanvas.drawRoundRect(
@@ -243,14 +243,14 @@ fun GameScreen(
                         .background(
                             Brush.verticalGradient(
                                 listOf(
-                                    Color(0x4D0F1827), // §17.2: 0.30
-                                    Color(0x1F0F1827)  // §17.2: 0.12
+                                    NagiTokens.hudBlue.copy(alpha = 0.30f),
+                                    NagiTokens.hudBlue.copy(alpha = 0.12f)
                                 )
                             )
                         )
                         .border(
                             width = 1.dp,
-                            color = Color(0x1FFFFFFF), // §17.2: 0.12
+                            color = NagiTokens.borderGlass12,
                             shape = NagiShapes.cutSmall
                         )
                         .clickable { showSkipConfirm = true }
@@ -263,7 +263,7 @@ fun GameScreen(
                         fontWeight = FontWeight.Medium,
                         fontSize = 12.sp,
                         letterSpacing = 0.02.sp,
-                        color = Color(0xE6F4F1EA)
+                        color = NagiTokens.parchment.copy(alpha = 0.90f)
                     )
                 }
             }
@@ -351,10 +351,10 @@ private fun EndingOverlay(
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
-                        0f to Color(0x1A090E18),
-                        0.35f to Color(0x47090E18),
-                        0.65f to Color(0x9E090E18),
-                        1f to Color(0xD1090E18)
+                        0f to NagiTokens.scrimDark.copy(alpha = 0.10f),
+                        0.35f to NagiTokens.scrimDark.copy(alpha = 0.28f),
+                        0.65f to NagiTokens.scrimDark.copy(alpha = 0.62f),
+                        1f to NagiTokens.scrimDark.copy(alpha = 0.82f)
                     )
                 )
         )
@@ -371,7 +371,7 @@ private fun EndingOverlay(
                     drawIntoCanvas { canvas ->
                         val paint = android.graphics.Paint().apply {
                             isAntiAlias = true
-                            color = Color(0x66000000).toArgb()
+                            color = Color.Black.copy(alpha = 0.40f).toArgb()
                             maskFilter = BlurMaskFilter(54.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                         }
                         canvas.nativeCanvas.drawRect(
@@ -383,15 +383,15 @@ private fun EndingOverlay(
                 .background(
                     Brush.verticalGradient(
                         listOf(
-                            Color(0x8F101827),
-                            Color(0xCC101827)
+                            NagiTokens.deepBlue.copy(alpha = 0.56f),
+                            NagiTokens.deepBlue.copy(alpha = 0.80f)
                         )
                     )
                 )
                 .drawBehind {
                     drawRect(
                         brush = Brush.radialGradient(
-                            0f to Color(0x2ED7BE86),
+                            0f to NagiTokens.goldPlayer,
                             0.42f to Color.Transparent,
                             center = Offset(size.width * 0.7f, 0f),
                             radius = size.width * 0.6f
@@ -399,14 +399,14 @@ private fun EndingOverlay(
                     )
                     drawRect(
                         brush = Brush.radialGradient(
-                            0f to Color(0x0FD7BE86),
+                            0f to NagiTokens.gold.copy(alpha = 0.06f),
                             0.5f to Color.Transparent,
                             center = Offset(size.width * 0.3f, size.height),
                             radius = size.width * 0.6f
                         )
                     )
                     drawLine(
-                        color = Color(0x0FFFFFFF),
+                        color = Color.White.copy(alpha = 0.06f),
                         start = Offset(0f, 0.5f),
                         end = Offset(size.width, 0.5f),
                         strokeWidth = 1.dp.toPx()
@@ -414,7 +414,7 @@ private fun EndingOverlay(
                 }
                 .border(
                     width = 1.dp,
-                    color = Color(0x1AFFFFFF),
+                    color = NagiTokens.borderGlass10,
                     shape = NagiShapes.cutMedium
                 )
                 .padding(start = 24.dp, end = 24.dp, top = 26.dp, bottom = 22.dp)
@@ -424,10 +424,10 @@ private fun EndingOverlay(
                 text = ending.tag,
                 fontSize = 12.sp,
                 letterSpacing = (0.14 * 12).sp,
-                color = Color(0xFFD7BE86),
+                color = NagiTokens.gold,
                 style = LocalTextStyle.current.copy(
                     shadow = Shadow(
-                        color = Color(0x99000000),
+                        color = Color.Black.copy(alpha = 0.60f),
                         offset = Offset(0f, 1f),
                         blurRadius = 3f
                     )
@@ -438,10 +438,10 @@ private fun EndingOverlay(
                 text = ending.subtitle,
                 fontSize = 13.sp,
                 letterSpacing = (0.06 * 13).sp,
-                color = Color(0xEBD7BE86),
+                color = NagiTokens.gold.copy(alpha = 0.92f),
                 style = LocalTextStyle.current.copy(
                     shadow = Shadow(
-                        color = Color(0x3DD7BE86),
+                        color = NagiTokens.gold.copy(alpha = 0.24f),
                         offset = Offset(0f, 0f),
                         blurRadius = 12f
                     )
@@ -457,7 +457,7 @@ private fun EndingOverlay(
                 color = NagiPalette.snowWhite,
                 style = LocalTextStyle.current.copy(
                     shadow = Shadow(
-                        color = Color(0x80000000),
+                        color = Color.Black.copy(alpha = 0.50f),
                         offset = Offset(0f, 2f),
                         blurRadius = 16f
                     )
@@ -468,10 +468,10 @@ private fun EndingOverlay(
                 text = ending.description,
                 fontSize = 15.sp,
                 lineHeight = (15 * 1.9).sp,
-                color = Color(0xE0F7F9FC),
+                color = NagiTokens.snow.copy(alpha = 0.88f),
                 style = LocalTextStyle.current.copy(
                     shadow = Shadow(
-                        color = Color(0x66000000),
+                        color = Color.Black.copy(alpha = 0.40f),
                         offset = Offset(0f, 1f),
                         blurRadius = 6f
                     )
@@ -490,7 +490,7 @@ private fun EndingOverlay(
                             drawIntoCanvas { canvas ->
                                 val paint = android.graphics.Paint().apply {
                                     isAntiAlias = true
-                                    color = Color(0x2ED7BE86).toArgb()
+                                    color = NagiTokens.goldPlayer.toArgb()
                                     maskFilter = BlurMaskFilter(
                                         8.dp.toPx(), BlurMaskFilter.Blur.NORMAL
                                     )
@@ -502,14 +502,14 @@ private fun EndingOverlay(
                             }
                         }
                         .clip(androidx.compose.foundation.shape.CircleShape)
-                        .background(Color(0xB8D7BE86))
+                        .background(NagiTokens.gold.copy(alpha = 0.72f))
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = "已解锁：${ending.tag} / 回忆画廊新增 1 项",
                     fontSize = 11.sp,
                     letterSpacing = (0.02 * 11).sp,
-                    color = Color(0xB3F4F1EA)
+                    color = NagiTokens.parchment.copy(alpha = 0.70f)
                 )
             }
 
@@ -523,14 +523,14 @@ private fun EndingOverlay(
                     .background(
                         Brush.horizontalGradient(
                             listOf(
-                                Color(0x33D7BE86),
-                                Color(0x12FFFFFF)
+                                NagiTokens.goldGlow,
+                                NagiTokens.white7
                             )
                         )
                     )
                     .border(
                         width = 1.dp,
-                        color = Color(0x42D7BE86),
+                        color = NagiTokens.gold.copy(alpha = 0.26f),
                         shape = NagiShapes.cutSmall
                     )
                     .clickable(onClick = onReturnToHome),
@@ -539,7 +539,7 @@ private fun EndingOverlay(
                 Text(
                     text = "返回主页",
                     fontSize = 13.sp,
-                    color = Color(0xFFF7F9FC)
+                    color = NagiTokens.snow
                 )
             }
         }
@@ -593,10 +593,10 @@ private fun PosterPageBackground(bgAssetPath: String?) {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    0f to Color(0x38132033),
-                    0.24f to Color(0x1A132033),
-                    0.58f to Color(0x2E132033),
-                    1f to Color(0x6B132033)
+                    0f to NagiTokens.systemDim.copy(alpha = 0.22f),
+                    0.24f to NagiTokens.systemDim.copy(alpha = 0.10f),
+                    0.58f to NagiTokens.systemDim.copy(alpha = 0.18f),
+                    1f to NagiTokens.systemDim.copy(alpha = 0.42f)
                 )
             )
     )
@@ -604,7 +604,7 @@ private fun PosterPageBackground(bgAssetPath: String?) {
 
 @Composable
 private fun KickerLabel(text: String) {
-    val goldColor = Color(0xFFD7BE86)
+    val goldColor = NagiTokens.gold
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
             modifier = Modifier
@@ -633,8 +633,8 @@ private fun GlassBacking(
             .clip(NagiShapes.cutMedium)
             .background(
                 Brush.horizontalGradient(
-                    0f to Color(0x4D101827),
-                    0.62f to Color(0x24101827),
+                    0f to NagiTokens.deepBlue.copy(alpha = 0.30f),
+                    0.62f to NagiTokens.deepBlue.copy(alpha = 0.14f),
                     1f to Color.Transparent
                 )
             )
@@ -642,7 +642,7 @@ private fun GlassBacking(
             .drawBehind {
                 drawCircle(
                     brush = Brush.radialGradient(
-                        colors = listOf(Color(0x17F7F9FC), Color.Transparent),
+                        colors = listOf(NagiTokens.white9, Color.Transparent),
                         center = Offset(size.width / 2, size.height / 2),
                         radius = size.width * 0.5f
                     ),
@@ -652,7 +652,7 @@ private fun GlassBacking(
             }
             .border(
                 width = 1.dp,
-                color = Color(0x14FFFFFF),
+                color = NagiTokens.borderGlass,
                 shape = NagiShapes.cutMedium
             )
             .padding(start = 24.dp, end = 24.dp, top = 22.dp, bottom = 20.dp),
@@ -670,16 +670,16 @@ private fun ClearCard(
             .clip(NagiShapes.cutMedium)
             .background(
                 Brush.verticalGradient(
-                    0f to Color(0x331B2436),
-                    0.5f to Color(0x241B2436),
-                    1f to Color(0x3D1B2436)
+                    0f to NagiTokens.inkNavy.copy(alpha = 0.20f),
+                    0.5f to NagiTokens.inkNavy.copy(alpha = 0.14f),
+                    1f to NagiTokens.inkNavy.copy(alpha = 0.24f)
                 )
             )
             // Authority §14.2: center micro-light rgba(247,249,252,0.10)
             .drawBehind {
                 drawCircle(
                     brush = Brush.radialGradient(
-                        colors = listOf(Color(0x1AF7F9FC), Color.Transparent),
+                        colors = listOf(NagiTokens.snow.copy(alpha = 0.10f), Color.Transparent),
                         center = Offset(size.width / 2, size.height / 2),
                         radius = size.width * 0.45f
                     ),
@@ -689,7 +689,7 @@ private fun ClearCard(
             }
             .border(
                 width = 1.dp,
-                color = Color(0x14FFFFFF),
+                color = NagiTokens.borderGlass,
                 shape = NagiShapes.cutMedium
             )
             .padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 22.dp),
@@ -704,9 +704,9 @@ private fun ChapterOpeningOverlay(
     bgAssetPath: String?,
     onTap: () -> Unit
 ) {
-    val goldColor = Color(0xFFD7BE86)
-    val titleColor = Color(0xF0F7F9FC)
-    val hintColor = Color(0xD1F7F9FC)
+    val goldColor = NagiTokens.gold
+    val titleColor = NagiTokens.textSnow94
+    val hintColor = NagiTokens.snow.copy(alpha = 0.82f)
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -742,7 +742,7 @@ private fun ChapterOpeningOverlay(
                 color = titleColor,
                 style = LocalTextStyle.current.copy(
                     shadow = Shadow(
-                        color = Color(0xC7000000),
+                        color = Color.Black.copy(alpha = 0.78f),
                         offset = Offset(0f, 3f),
                         blurRadius = 28f
                     )
@@ -766,9 +766,9 @@ private fun SectionOpeningOverlay(
     bgAssetPath: String?,
     onTap: () -> Unit
 ) {
-    val goldColor = Color(0xFFD7BE86)
-    val titleColor = Color(0xF0F7F9FC)
-    val hintColor = Color(0xD1F7F9FC)
+    val goldColor = NagiTokens.gold
+    val titleColor = NagiTokens.textSnow94
+    val hintColor = NagiTokens.snow.copy(alpha = 0.82f)
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -804,7 +804,7 @@ private fun SectionOpeningOverlay(
                 color = titleColor,
                 style = LocalTextStyle.current.copy(
                     shadow = Shadow(
-                        color = Color(0xC7000000),
+                        color = Color.Black.copy(alpha = 0.78f),
                         offset = Offset(0f, 3f),
                         blurRadius = 28f
                     )
@@ -829,11 +829,11 @@ private fun ChapterEndingOverlay(
     onReturnToMenu: () -> Unit,
     onContinue: () -> Unit
 ) {
-    val goldColor = Color(0xFFD7BE86)
-    val titleColor = Color(0xF0F7F9FC)
-    val descColor = Color(0xC7F7F9FC)
-    val dismissColor = Color(0xDBF4F1EA)
-    val confirmColor = Color(0xFFF7F9FC)
+    val goldColor = NagiTokens.gold
+    val titleColor = NagiTokens.textSnow94
+    val descColor = NagiTokens.snow.copy(alpha = 0.78f)
+    val dismissColor = NagiTokens.parchment.copy(alpha = 0.86f)
+    val confirmColor = NagiTokens.snow
 
     Box(modifier = Modifier.fillMaxSize()) {
         PosterPageBackground(bgAssetPath)

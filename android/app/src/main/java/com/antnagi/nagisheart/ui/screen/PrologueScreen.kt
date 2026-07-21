@@ -28,12 +28,12 @@ import com.antnagi.nagisheart.R
 import com.antnagi.nagisheart.data.PrologueLine
 import com.antnagi.nagisheart.ui.theme.*
 
-private val GoldColor = Color(0xFFD7BE86)
+private val GoldColor = NagiTokens.gold
 private val TextPrimary = Color(0xFFF7F3EC)
-private val HeaderTextColor = Color(0xEBF4F1EA)
-private val GoldLineColor = Color(0x99D7BE86)
-private val DividerColor = Color(0x66F4F1EA)
-private val HintColor = Color(0xD6F4F1EA)
+private val HeaderTextColor = NagiTokens.parchment.copy(alpha = 0.92f)
+private val GoldLineColor = NagiTokens.gold.copy(alpha = 0.60f)
+private val DividerColor = NagiTokens.parchment.copy(alpha = 0.40f)
+private val HintColor = NagiTokens.parchment.copy(alpha = 0.84f)
 
 @Composable
 fun PrologueScreen(
@@ -67,9 +67,9 @@ fun PrologueScreen(
                     .fillMaxSize()
                     .background(
                         Brush.verticalGradient(
-                            0f to Color(0x0A101827),
-                            0.38f to Color(0x1F101827),
-                            1f to Color(0xDB101827)
+                            0f to NagiTokens.deepBlue.copy(alpha = 0.04f),
+                            0.38f to NagiTokens.deepBlue.copy(alpha = 0.12f),
+                            1f to NagiTokens.deepBlue.copy(alpha = 0.86f)
                         )
                     )
             )
@@ -81,8 +81,8 @@ fun PrologueScreen(
                         drawRect(
                             brush = Brush.radialGradient(
                                 0.22f to Color.Transparent,
-                                0.72f to Color(0x57101827),
-                                1f to Color(0xB3101827),
+                                0.72f to NagiTokens.deepBlue.copy(alpha = 0.34f),
+                                1f to NagiTokens.deepBlue.copy(alpha = 0.70f),
                                 center = Offset(size.width * 0.46f, size.height * 0.34f),
                                 radius = maxOf(size.width, size.height) * 0.7f
                             )
@@ -132,7 +132,7 @@ fun PrologueScreen(
                             textAlign = TextAlign.Center,
                             style = LocalTextStyle.current.copy(
                                 shadow = Shadow(
-                                    color = Color(0xAD000000),
+                                    color = Color.Black.copy(alpha = 0.68f),
                                     offset = Offset(0f, 4f),
                                     blurRadius = 24f
                                 )
@@ -179,7 +179,7 @@ fun PrologueScreen(
                     color = HintColor,
                     style = LocalTextStyle.current.copy(
                         shadow = Shadow(
-                            color = Color(0x70000000),
+                            color = Color.Black.copy(alpha = 0.44f),
                             offset = Offset(0f, 2f),
                             blurRadius = 12f
                         )
@@ -218,7 +218,7 @@ internal fun HeaderWithDecoration(text: String) {
             color = HeaderTextColor,
             style = LocalTextStyle.current.copy(
                 shadow = Shadow(
-                    color = Color(0x6B000000),
+                    color = Color.Black.copy(alpha = 0.42f),
                     offset = Offset(0f, 2f),
                     blurRadius = 14f
                 )

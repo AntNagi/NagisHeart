@@ -78,7 +78,7 @@ fun ChapterScreen(
     }
 
     val currentItem = catalogItems.firstOrNull { it.state == SectionState.IN_PROGRESS }
-    val goldColor = Color(0xFFD7BE86)
+    val goldColor = NagiTokens.gold
 
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
         SystemPageBackground {
@@ -111,12 +111,12 @@ fun ChapterScreen(
                         .background(
                             Brush.verticalGradient(
                                 listOf(
-                                    Color(0x57101827), // 34%
-                                    Color(0x85101827)  // 52%
+                                    NagiTokens.deepBlue.copy(alpha = 0.34f),
+                                    NagiTokens.glassRowEnd
                                 )
                             )
                         )
-                        .border(1.dp, Color(0x1AFFFFFF), NagiShapes.cutMedium)
+                        .border(1.dp, NagiTokens.borderGlass10, NagiShapes.cutMedium)
                 ) {
                     Column(
                         modifier = Modifier
@@ -136,7 +136,7 @@ fun ChapterScreen(
                             text = "选择章节重新阅读，或继续当前进度。",
                             fontSize = 12.sp,
                             lineHeight = (12 * 1.7).sp,
-                            color = Color(0xB3F4F1EA) // 70%
+                            color = NagiTokens.parchment.copy(alpha = 0.70f)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
 
@@ -166,20 +166,20 @@ fun ChapterScreen(
                                         .background(
                                             if (isCurrent) Brush.horizontalGradient( // §P2-4: gradient
                                                 listOf(
-                                                    Color(0x2ED7BE86), // rgba(215,190,134,0.18)
-                                                    Color(0x0AFFFFFF)  // rgba(255,255,255,0.04)
+                                                    NagiTokens.goldPlayer,
+                                                    NagiTokens.white4
                                                 )
                                             ) else Brush.horizontalGradient(
                                                 listOf(
-                                                    Color(0x0BFFFFFF),
-                                                    Color(0x0BFFFFFF)
+                                                    NagiTokens.white4Bg,
+                                                    NagiTokens.white4Bg
                                                 )
                                             )
                                         )
                                         .border(
                                             1.dp,
-                                            if (isCurrent) Color(0x47D7BE86) // gold border 28%
-                                            else Color(0x12FFFFFF),          // 7%
+                                            if (isCurrent) NagiTokens.borderGoldAccent
+                                            else NagiTokens.white7,
                                             NagiShapes.cutSmall
                                         )
                                         .then(
@@ -206,7 +206,7 @@ fun ChapterScreen(
                                             fontFamily = FontFamily.Default,
                                             fontWeight = FontWeight.Medium,
                                             fontSize = 15.sp,
-                                            color = Color(0xF0F7F9FC), // 94%
+                                            color = NagiTokens.textSnow94,
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis
                                         )
@@ -214,7 +214,7 @@ fun ChapterScreen(
                                         Text(
                                             text = if (isLocked) "未解锁章节" else item.chapterName,
                                             fontSize = 12.sp,
-                                            color = Color(0xA3F4F1EA), // 64%
+                                            color = NagiTokens.parchment.copy(alpha = 0.64f),
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis
                                         )
@@ -223,7 +223,7 @@ fun ChapterScreen(
                                     Text(
                                         text = stateText,
                                         fontSize = 12.sp,
-                                        color = if (isCurrent) goldColor else Color(0xB3F4F1EA) // gold or 70%
+                                        color = if (isCurrent) goldColor else NagiTokens.parchment.copy(alpha = 0.70f)
                                     )
                                 }
                             }
@@ -236,7 +236,7 @@ fun ChapterScreen(
                                 .fillMaxWidth()
                                 .drawBehind {
                                     drawLine(
-                                        color = Color(0x14FFFFFF),
+                                        color = NagiTokens.borderGlass,
                                         start = Offset(0f, 0f),
                                         end = Offset(size.width, 0f),
                                         strokeWidth = 1f
@@ -251,7 +251,7 @@ fun ChapterScreen(
                                 Text(
                                     text = "返回主页",
                                     fontSize = 14.sp,
-                                    color = Color(0xD1F4F1EA), // §P2-4: rgba(244,241,234,0.82)
+                                    color = NagiTokens.parchment.copy(alpha = 0.82f),
                                     modifier = Modifier.clickable(
                                         interactionSource = remember { MutableInteractionSource() },
                                         indication = null,
@@ -263,7 +263,7 @@ fun ChapterScreen(
                                         text = "继续当前章节",
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Medium,
-                                        color = Color(0xF5F7F9FC), // §P2-4: rgba(247,249,252,0.96)
+                                        color = NagiTokens.snow.copy(alpha = 0.96f),
                                         modifier = Modifier.clickable(
                                             interactionSource = remember { MutableInteractionSource() },
                                             indication = null,

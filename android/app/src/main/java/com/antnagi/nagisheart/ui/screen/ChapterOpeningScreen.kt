@@ -33,9 +33,9 @@ fun ChapterOpeningScreen(
     bgAssetPath: String? = null,
     onContinue: () -> Unit
 ) {
-    val goldColor = Color(0xFFD7BE86)
-    val titleColor = Color(0xF0F7F9FC)  // 94%
-    val hintColor = Color(0xD1F7F9FC)   // 82%
+    val goldColor = NagiTokens.gold
+    val titleColor = NagiTokens.textSnow94
+    val hintColor = NagiTokens.snow.copy(alpha = 0.82f)
     val bgPath = bgAssetPath ?: "bg/pillow.jpg"
 
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
@@ -61,10 +61,10 @@ fun ChapterOpeningScreen(
                     .fillMaxSize()
                     .background(
                         Brush.verticalGradient(
-                            0f to Color(0x38132033),
-                            0.24f to Color(0x1A132033),
-                            0.58f to Color(0x2E132033),
-                            1f to Color(0x6B132033)
+                            0f to NagiTokens.systemDim.copy(alpha = 0.22f),
+                            0.24f to NagiTokens.systemDim.copy(alpha = 0.10f),
+                            0.58f to NagiTokens.systemDim.copy(alpha = 0.18f),
+                            1f to NagiTokens.systemDim.copy(alpha = 0.42f)
                         )
                     )
             )
@@ -83,8 +83,8 @@ fun ChapterOpeningScreen(
                     .clip(NagiShapes.cutMedium)
                     .background(
                         Brush.horizontalGradient(
-                            0f to Color(0x4D101827),    // 30%
-                            0.62f to Color(0x24101827), // 14%
+                            0f to NagiTokens.deepBlue.copy(alpha = 0.30f),
+                            0.62f to NagiTokens.deepBlue.copy(alpha = 0.14f)
                             1f to Color.Transparent
                         )
                     )
@@ -92,7 +92,7 @@ fun ChapterOpeningScreen(
                     .drawBehind {
                         drawCircle(
                             brush = Brush.radialGradient(
-                                colors = listOf(Color(0x17F7F9FC), Color.Transparent),
+                                colors = listOf(NagiTokens.white9, Color.Transparent),
                                 center = Offset(size.width / 2, size.height / 2),
                                 radius = size.width * 0.5f
                             ),
@@ -100,7 +100,7 @@ fun ChapterOpeningScreen(
                             center = Offset(size.width / 2, size.height / 2)
                         )
                     }
-                    .border(1.dp, Color(0x14FFFFFF), NagiShapes.cutMedium)
+                    .border(1.dp, NagiTokens.borderGlass, NagiShapes.cutMedium)
                     .padding(start = 24.dp, end = 24.dp, top = 22.dp, bottom = 20.dp)
             ) {
                 // Kicker
@@ -123,7 +123,7 @@ fun ChapterOpeningScreen(
                     color = titleColor,
                     style = LocalTextStyle.current.copy(
                         shadow = Shadow(
-                            color = Color(0xC7000000),
+                            color = Color.Black.copy(alpha = 0.78f),
                             offset = Offset(0f, 3f),
                             blurRadius = 28f
                         )
@@ -135,7 +135,7 @@ fun ChapterOpeningScreen(
                         text = chapterSubtitle,
                         fontSize = 14.sp,
                         lineHeight = (14 * 1.6).sp,
-                        color = Color(0xB3F7F9FC)
+                        color = NagiTokens.snow.copy(alpha = 0.70f)
                     )
                 }
                 Spacer(modifier = Modifier.height(14.dp))
@@ -147,7 +147,7 @@ fun ChapterOpeningScreen(
                     color = hintColor,
                     style = LocalTextStyle.current.copy(
                         shadow = Shadow(
-                            color = Color(0xB8000000),
+                            color = Color.Black.copy(alpha = 0.72f),
                             offset = Offset(0f, 2f),
                             blurRadius = 22f
                         )
@@ -160,7 +160,7 @@ fun ChapterOpeningScreen(
 
 @Composable
 private fun KickerLabel(text: String) {
-    val goldColor = Color(0xFFD7BE86)
+    val goldColor = NagiTokens.gold
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
             modifier = Modifier
