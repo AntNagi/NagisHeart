@@ -30,15 +30,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
 private val DialogShape = NagiShapes.cutMedium
-private val ScrimColor = Color(0x66090E18)       // §11: 40%
-private val ContainerBgTop = Color(0x8F1B2436)   // §11: 56%
-private val ContainerBgBottom = Color(0x85142131) // §11: 52%
-private val ContainerBorder = Color(0x14FFFFFF)   // §11: 8%
-private val TextShadowColor = Color(0x59000000)   // §11: 35%
-private val TitleColor = Color(0xF5F7F9FC)        // §11: rgba(247,249,252,0.96)
-private val BodyColor = Color(0xE0F4F1EA)         // §11: rgba(244,241,234,0.88)
-private val DismissColor = Color(0xBDF4F1EA)      // §11: rgba(244,241,234,0.74)
-private val ConfirmColor = Color(0xFFF7F9FC)      // §11: #F7F9FC
+private val ScrimColor = NagiTokens.scrimDark.copy(alpha = 0.40f)
+private val ContainerBgTop = NagiTokens.inkNavy.copy(alpha = 0.56f)
+private val ContainerBgBottom = Color(0x85142131) // §17.3: unique base 142131
+private val ContainerBorder = NagiTokens.borderGlass
+private val TextShadowColor = Color.Black.copy(alpha = 0.35f)
+private val TitleColor = NagiTokens.snow.copy(alpha = 0.96f)
+private val BodyColor = NagiTokens.parchment.copy(alpha = 0.88f)
+private val DismissColor = NagiTokens.parchment.copy(alpha = 0.74f)
+private val ConfirmColor = NagiTokens.snow
 
 @Composable
 fun NagiDialog(
@@ -79,7 +79,7 @@ fun NagiDialog(
                         drawIntoCanvas { canvas ->
                             val paint = Paint().asFrameworkPaint().apply {
                                 isAntiAlias = true
-                                color = Color(0x5C000000).toArgb()
+                                color = Color.Black.copy(alpha = 0.36f).toArgb()
                                 maskFilter = BlurMaskFilter(42.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                             }
                             val cut = 14.dp.toPx()
@@ -105,7 +105,7 @@ fun NagiDialog(
                     )
                     .background(
                         Brush.verticalGradient(
-                            0f to Color(0x0DFFFFFF),
+                            0f to NagiTokens.white5,
                             0.36f to Color.Transparent,
                             1f to Color.Transparent
                         ),

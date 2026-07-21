@@ -27,6 +27,7 @@ object NagiTokens {
     // ── Gold alpha variants (§18, §19, §20) ──
     val goldPlayer = Color(0x2ED7BE86)
     val goldGlow = Color(0x33D7BE86)
+    val speakerGold = Color(0xFFE4CA8F)
 
     // ── Text on dark (§17.1) ──
     val textSnow94 = Color(0xF0F7F9FC)

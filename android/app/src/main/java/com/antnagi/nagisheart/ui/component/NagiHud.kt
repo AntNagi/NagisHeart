@@ -75,7 +75,7 @@ fun NagiHud(
                         drawIntoCanvas { canvas ->
                             val paint = Paint().asFrameworkPaint().apply {
                                 isAntiAlias = true
-                                color = Color(0x57000000).toArgb()
+                                color = Color.Black.copy(alpha = 0.34f).toArgb()
                                 maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                             }
                             val cut = 8.dp.toPx()
@@ -90,22 +90,22 @@ fun NagiHud(
                     .clip(NagiShapes.cutSmall)
                     .background(
                         Brush.horizontalGradient( // §P2-3: to right
-                            0f to Color(0x4D0F1827),    // §7: 0.30
-                            0.78f to Color(0x1F0F1827)  // §7: 0.12 @78%
+                            0f to NagiTokens.hudBlue.copy(alpha = 0.30f),
+                            0.78f to NagiTokens.hudBlue.copy(alpha = 0.12f)
                         )
                     )
                     .drawBehind {
                         val lineY = size.height * 0.5f
                         val lineH = 2f
                         drawRect(
-                            color = Color(0x1FF7F9FC), // §7: rgba(247,249,252,0.12)
+                            color = NagiTokens.snow.copy(alpha = 0.12f),
                             topLeft = Offset(0f, lineY - lineH / 2),
                             size = Size(size.width, lineH)
                         )
                     }
                     .border(
                         width = 1.dp,
-                        color = Color(0x1FFFFFFF), // §17.2: 0.12
+                        color = NagiTokens.borderGlass12,
                         shape = NagiShapes.cutSmall
                     )
                     .padding(horizontal = 16.dp),
@@ -119,12 +119,12 @@ fun NagiHud(
                         fontSize = 13.sp,
                         letterSpacing = 0.02.sp,
                         shadow = Shadow(
-                            color = Color(0x7A000000), // §P2-3: 0.48
+                            color = Color.Black.copy(alpha = 0.48f),
                             offset = Offset(0f, 2f),
                             blurRadius = 14f
                         )
                     ),
-                    color = Color(0xE0F4F1EA),
+                    color = NagiTokens.parchment.copy(alpha = 0.88f),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

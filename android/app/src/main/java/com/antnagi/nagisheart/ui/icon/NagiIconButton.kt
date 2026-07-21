@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.antnagi.nagisheart.ui.theme.NagiShapes
 import com.antnagi.nagisheart.ui.theme.NagiTheme
+import com.antnagi.nagisheart.ui.theme.NagiTokens
 
 enum class NagiIconState { Default, Active, Disabled }
 
@@ -40,9 +41,9 @@ fun NagiIconButton(
     val colors = NagiTheme.colors
     // Authority §15.1: icon color rgba(247,249,252,0.94) — use full white * 0.94, not hudColor(82%) * 0.94
     val tint = when (state) {
-        NagiIconState.Default -> Color(0xF0F7F9FC)
+        NagiIconState.Default -> NagiTokens.textSnow94
         NagiIconState.Active -> colors.accentPrimary
-        NagiIconState.Disabled -> Color(0x47F7F9FC)
+        NagiIconState.Disabled -> NagiTokens.snow.copy(alpha = 0.28f)
     }
 
     val context = LocalContext.current
@@ -56,7 +57,7 @@ fun NagiIconButton(
                 drawIntoCanvas { canvas ->
                     val paint = Paint().asFrameworkPaint().apply {
                         isAntiAlias = true
-                        color = Color(0x6B000000).toArgb()
+                        color = Color.Black.copy(alpha = 0.42f).toArgb()
                         maskFilter = BlurMaskFilter(12.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                     }
                     val inset = 2.dp.toPx()
@@ -72,8 +73,8 @@ fun NagiIconButton(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color(0x570F1827), // §17.2: 34%
-                        Color(0x380F1827)  // §17.2: 22%
+                        NagiTokens.hudBlue.copy(alpha = 0.34f),
+                        NagiTokens.hudBlue.copy(alpha = 0.22f)
                     )
                 )
             )
@@ -81,7 +82,7 @@ fun NagiIconButton(
             .drawBehind {
                 drawCircle(
                     brush = Brush.radialGradient(
-                        colors = listOf(Color(0x14F7F9FC), Color.Transparent),
+                        colors = listOf(NagiTokens.snow.copy(alpha = 0.08f), Color.Transparent),
                         center = Offset(size.width / 2, size.height / 2),
                         radius = size.width * 0.6f
                     ),
@@ -89,7 +90,7 @@ fun NagiIconButton(
                     center = Offset(size.width / 2, size.height / 2)
                 )
             }
-            .border(1.dp, Color(0x1FFFFFFF), NagiShapes.cutSmall)
+            .border(1.dp, NagiTokens.borderGlass12, NagiShapes.cutSmall)
             .clickable(
                 enabled = state != NagiIconState.Disabled,
                 interactionSource = remember { MutableInteractionSource() },
@@ -112,7 +113,7 @@ fun NagiIconButton(
                         drawIntoCanvas { canvas ->
                             val haloPaint = Paint().asFrameworkPaint().apply {
                                 isAntiAlias = true
-                                color = Color(0x33F7F9FC).toArgb()
+                                color = NagiTokens.snow.copy(alpha = 0.20f).toArgb()
                                 maskFilter = BlurMaskFilter(8.dp.toPx(), BlurMaskFilter.Blur.NORMAL)
                             }
                             canvas.nativeCanvas.drawCircle(

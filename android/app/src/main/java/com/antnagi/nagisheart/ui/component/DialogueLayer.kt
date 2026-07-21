@@ -49,10 +49,10 @@ fun DialogueLayer(
 }
 
 // §17.1 dialogue-box tokens
-private val DialogueCardBgTop = Color(0x8A101827)       // rgba(16,24,39,0.54)
-private val DialogueCardBgBottom = Color(0xB3101827)     // rgba(16,24,39,0.70)
-private val DialogueCardBorder = Color(0x14FFFFFF)       // rgba(255,255,255,0.08)
-private val DialogueCardShadowColor = Color(0x42000000)  // rgba(0,0,0,0.26)
+private val DialogueCardBgTop = NagiTokens.deepBlue.copy(alpha = 0.54f)
+private val DialogueCardBgBottom = NagiTokens.deepBlue.copy(alpha = 0.70f)
+private val DialogueCardBorder = NagiTokens.borderGlass
+private val DialogueCardShadowColor = Color.Black.copy(alpha = 0.26f)
 
 @Composable
 private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = Modifier) {
@@ -104,19 +104,19 @@ private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = M
         ) {
             Column {
                 // §17.1: speaker cut-sm, gold border, gold halo + dark shadow
-                val speakerGold = Color(0xFFE4CA8F)
+                val speakerGold = NagiTokens.speakerGold
                 Box(
                     modifier = Modifier
                         .clip(NagiShapes.cutSmall)
                         .background(
                             Brush.horizontalGradient(
                                 listOf(
-                                    Color(0x4D101827), // rgba(16,24,39,0.30)
-                                    Color(0x1A101827)  // rgba(16,24,39,0.10)
+                                    NagiTokens.deepBlue.copy(alpha = 0.30f),
+                                    NagiTokens.deepBlue.copy(alpha = 0.10f)
                                 )
                             )
                         )
-                        .border(1.dp, Color(0x2ED7BE86), NagiShapes.cutSmall) // gold rgba(215,190,134,0.18)
+                        .border(1.dp, NagiTokens.goldPlayer, NagiShapes.cutSmall)
                         .padding(start = 9.dp, end = 9.dp, top = 3.dp, bottom = 4.dp)
                 ) {
                     Box {
@@ -128,7 +128,7 @@ private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = M
                                 fontSize = 13.sp,
                                 letterSpacing = 0.04.sp,
                                 shadow = Shadow(
-                                    color = Color(0x33D7BE86), // gold halo
+                                    color = NagiTokens.goldGlow,
                                     offset = Offset(0f, 0f),
                                     blurRadius = 10f
                                 )
@@ -143,7 +143,7 @@ private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = M
                                 fontSize = 13.sp,
                                 letterSpacing = 0.04.sp,
                                 shadow = Shadow(
-                                    color = Color(0xB8000000), // dark shadow
+                                    color = Color.Black.copy(alpha = 0.72f),
                                     offset = Offset(0f, 1f),
                                     blurRadius = 2f
                                 )
@@ -168,7 +168,7 @@ private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = M
                             blurRadius = 14f
                         )
                     ),
-                    color = Color(0xF0F7F9FC) // rgba(247,249,252,0.94)
+                    color = NagiTokens.textSnow94
                 )
 
                 Spacer(modifier = Modifier.height(14.dp))
@@ -238,7 +238,7 @@ private fun BottomNarration(text: String, modifier: Modifier = Modifier) {
                             blurRadius = 14f
                         )
                     ),
-                    color = Color(0xF0F7F9FC).copy(alpha = 0.94f)
+                    color = NagiTokens.textSnow94
                 )
 
                 Spacer(modifier = Modifier.height(14.dp))
