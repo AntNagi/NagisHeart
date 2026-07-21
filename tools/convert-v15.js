@@ -14,7 +14,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const SCRIPT = path.join(__dirname, '..', 'design', 'Nagis_Heart_SCRIPT_V15_Calibrated.md');
+const SCRIPT = path.join(__dirname, '..', 'authority', 'script', 'Nagis_Heart_SCRIPT_V15_Calibrated.md');
 const OUT = path.join(__dirname, '..', 'story-data', 'nodes.json');
 
 const raw = fs.readFileSync(SCRIPT, 'utf-8');
