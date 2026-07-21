@@ -799,14 +799,6 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getSectionTransition(): SectionTransitionInfo? = _uiState.value.sectionTransition
 
-    fun advanceAfterSectionClear() {
-        val pending = pendingNodeAfterTransition
-        pendingNodeAfterTransition = null
-        if (pending != null) {
-            enterNode(pending)
-        }
-    }
-
     fun pauseBgm() = bgmManager.pause()
     fun resumeBgm() = bgmManager.resume()
 
