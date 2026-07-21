@@ -1,0 +1,29 @@
+# NagisHeart line-ending & binary policy (2026-07-21)
+# Repo stores LF for text; Windows checkout converts per core.autocrlf.
+
+* text=auto
+
+# Windows scripts must check out with CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets — never touch
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.zip binary
+*.xlsx binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.jar binary
+*.keystore binary
+*.apk binary
+*.aab binary
