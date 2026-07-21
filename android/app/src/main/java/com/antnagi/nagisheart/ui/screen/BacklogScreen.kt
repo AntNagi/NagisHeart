@@ -152,7 +152,7 @@ private fun BacklogItem(
     isFirst: Boolean
 ) {
     val goldColor = NagiTokens.speakerGold
-    val textColor = Color(0xFFF6F3EE)
+    val textColor = Color(0xFFF6F3EE) // token-exempt
     val textShadow = Shadow(
         color = Color.Black.copy(alpha = 0.34f),
         offset = Offset(0f, 3f),

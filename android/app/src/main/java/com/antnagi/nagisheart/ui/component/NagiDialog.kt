@@ -32,7 +32,7 @@ import androidx.compose.ui.window.DialogProperties
 private val DialogShape = NagiShapes.cutMedium
 private val ScrimColor = NagiTokens.scrimDark.copy(alpha = 0.40f)
 private val ContainerBgTop = NagiTokens.inkNavy.copy(alpha = 0.56f)
-private val ContainerBgBottom = Color(0x85142131) // §17.3: unique base 142131
+private val ContainerBgBottom = Color(0x85142131) // token-exempt: unique base 142131
 private val ContainerBorder = NagiTokens.borderGlass
 private val TextShadowColor = Color.Black.copy(alpha = 0.35f)
 private val TitleColor = NagiTokens.snow.copy(alpha = 0.96f)

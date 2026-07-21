@@ -135,7 +135,7 @@ fun LongNarrationLayer(
                                     fontSize = 16.sp,
                                     lineHeight = 30.sp,
                                     shadow = Shadow(
-                                        color = Color(0x2E0A0F19),
+                                        color = Color(0x2E0A0F19), // token-exempt
                                         offset = Offset(0f, 1f),
                                         blurRadius = 8f
                                     )

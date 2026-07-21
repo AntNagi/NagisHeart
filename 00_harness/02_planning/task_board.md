@@ -57,7 +57,15 @@
 - 说明：原 0719 只读审计任务，按 feibo 07-21 诊断重定scope：① token 归一——Android UI 层约 200 处硬编码 `Color(0x…)`（GameScreen 57 处）、Web 123 处硬编码 rgba 收进 token 层，加静态检查防回潮；② 死代码清除——`SectionClearScreen.kt`、`Routes.SECTION_CLEAR`、`advanceAfterSectionClear()`（0719-011/013 确认的 cleanup candidates）；③ GameScreen(34KB)/GameViewModel(30KB) 职责拆分评估。
 - 进度：
   - ② 死代码清除已完成（`ea9bac9`）——SectionClearScreen.kt 删除、Routes.SECTION_CLEAR 移除、advanceAfterSectionClear() 移除。feibo review：147 行清零、全仓库无残留引用，通过。
-  - ① Android token归一完成（`c3e71b7`→`3266fba`→`61f2677`，4 批提交）：NagiTokens.kt 新增 26 个语义 token（gold/snow/parchment/deepBlue/hudBlue/systemDim/scrimDark/inkNavy + border/glass/text/white 系列 + speakerGold）。ui/（theme/ 除外）全部 Color(0x…) 已替换：13 个文件，约 180 处转为 token 引用。残留 Color(0x…) 仅限：(a) DebugOverlay.kt 7 处（debug-only，非设计体系）；(b) 5 处 unique 单用基色（F6F3EE/E8EEF6/F7F3EC/142131/0A0F19）保留 hex。值变更差异：零。待做：B（Web tokens.css）、C（check-tokens.ps1）、③（GameScreen/GameViewModel 拆分评估）。
+  - ① Android token归一完成（`c3e71b7`→`3266fba`→`61f2677`，4 批提交）：NagiTokens.kt 新增 26 个语义 token。ui/（theme/ 除外）约 180 处 Color(0x…) → token 引用。残留仅 DebugOverlay（debug-only）+ 5 处 unique 单用基色。值变更差异：零。
+  - C. `tools/check-tokens.ps1` 防回潮脚本已完成：Android grep `Color(0x` + Web grep `rgba(` 非 token 文件即 fail；`// token-exempt` 标记豁免。当前 pass。
+  - ③ GameScreen/GameViewModel 拆分评估（PP，不动手拆）：
+    - **GameViewModel.kt（725 行）现职责**：(1) 数据加载 loadData；(2) 存档管理 save/load/autoSave 7 个方法；(3) 设置管理 get/updateSettings；(4) 引擎驱动 navigateToNode/enterNode/onTap/onChoiceSelected（核心 250 行）；(5) 对话序列 showDialogueLine/advanceDialogue/presentChoices/showResponseLine 等（150 行）；(6) Auto/Skip 模式控制 toggle/timer/loop（90 行）；(7) 回放模式 startReplay/stopReplay；(8) 进度查询 getUnlockedNodes/getSectionState/getChapters 等代理方法（~10 个一行方法）；(9) BGM 代理 pause/resumeBgm。
+    - **GameScreen.kt（864 行）现职责**：(1) 主 Composable 含 phase 分发逻辑（~100 行）；(2) 7 个 private Composable 子组件：EndingOverlay(232 行)、ChapterOpeningOverlay/SectionOpeningOverlay(各 60 行)、ChapterEndingOverlay(70 行)、ReplayCompleteOverlay(30 行)、PosterPageBackground(15 行)、GlassBacking/ClearCard/KickerLabel(共 90 行，布局模板)。
+    - **建议拆分边界**：(A) GameScreen → 主屏 + 5 个独立文件（EndingOverlay、ChapterOpeningOverlay、SectionOpeningOverlay、ChapterEndingOverlay、ReplayCompleteOverlay），每个自成 @Composable；GlassBacking/ClearCard/KickerLabel/PosterPageBackground 提为 component/。(B) GameViewModel → 引擎核心不拆；存档/设置/进度查询 delegate 到独立 Manager（现已有 SaveManager/ProgressManager，ViewModel 只做代理——考虑直接让 Screen 层持有 Manager 或注入 UseCase，减少 ViewModel 透传）。Auto/Skip 逻辑可提为 AutoPlayController 内部类。
+    - **风险**：(1) GameScreen 拆分低风险，纯 UI 提取，无共享状态；(2) ViewModel 拆分中风险——enterNode 和对话序列紧耦合 _uiState，拆出去需要回调或 SharedFlow，复杂度可能增加而非降低；(3) 当前 864+725=1589 行对一个 VN 游戏主画面来说可接受，拆分收益主要在可维护性而非功能需求。
+    - **结论**：建议先做 (A) GameScreen UI 提取（低风险、高可读性收益），(B) ViewModel 暂不拆（紧耦合的引擎/对话状态机拆出去未必更好）。feibo 裁决。
+  - 待做：B（Web tokens.css 归一）。
 - feibo 方向（2026-07-21，① token 归一执行口径）：
   - A. Android：盘点 `ui/`（theme/ 除外）全部硬编码 `Color(0x…)`，在 `ui/theme/` 按 authority 语义命名新增 token（命名对齐 MinSpec §17 token 表，如 GlassBg、GoldSpeaker、ScrimHeavy），替换引用。**铁律：替换过程数值零变更**；发现代码值与 authority 值不一致的，不得顺手"修正"，记入差异清单贴在本条目下交 feibo 裁决。按文件小步提交。
   - B. Web：同理，散落 rgba 收进 `tokens.css` 变量，规则同上。

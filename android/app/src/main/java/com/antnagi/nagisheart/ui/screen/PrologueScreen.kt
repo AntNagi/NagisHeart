@@ -29,7 +29,7 @@ import com.antnagi.nagisheart.data.PrologueLine
 import com.antnagi.nagisheart.ui.theme.*
 
 private val GoldColor = NagiTokens.gold
-private val TextPrimary = Color(0xFFF7F3EC)
+private val TextPrimary = Color(0xFFF7F3EC) // token-exempt
 private val HeaderTextColor = NagiTokens.parchment.copy(alpha = 0.92f)
 private val GoldLineColor = NagiTokens.gold.copy(alpha = 0.60f)
 private val DividerColor = NagiTokens.parchment.copy(alpha = 0.40f)

@@ -33,11 +33,11 @@ import com.antnagi.nagisheart.ui.theme.*
 
 private val GoldColor = NagiTokens.gold
 private val TitleColor = NagiTokens.parchment
-private val SubtitleColor = Color(0xB8E8EEF6) // §P2-1: unique base E8EEF6
+private val SubtitleColor = Color(0xB8E8EEF6) // token-exempt: unique base E8EEF6
 private val LabelColor = NagiTokens.parchment.copy(alpha = 0.82f)
 private val PlaceholderColor = NagiTokens.parchment.copy(alpha = 0.66f)
 private val InputLineColor = NagiTokens.gold.copy(alpha = 0.74f)
-private val ConfirmActiveColor = Color(0xFFF7F3EC) // unique base F7F3EC
+private val ConfirmActiveColor = Color(0xFFF7F3EC) // token-exempt: unique base F7F3EC
 
 @Composable
 fun NameSetupScreen(onConfirm: (name: String) -> Unit) {
