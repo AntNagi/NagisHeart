@@ -9,11 +9,11 @@
 
 ## 当前优先级
 
-1. feibo 搭截图对比验收工具（权威 HTML 期望图基准库 + Web 对比报告）→ 支撑 `TASK-20260721-006`
+1. feibo 搭截图对比验收工具（权威 HTML 期望图基准库 + Web 对比报告，基建）→ 支撑 `TASK-20260721-006`
 2. `TASK-20260721-006` Web 90 项对齐验收 - Ant
 3. `TASK-20260719-016` locked 标题隐私修复 - PP
-4. `TASK-20260719-004` 代码健康专项 / `TASK-20260721-003` V3_1 审计 - feibo
-5. 小项：002 回顾末行裁切、004 补 BG、005 开放日复验
+4. `TASK-20260719-004` 代码健康专项 - PP 执行 / feibo 把关；`TASK-20260721-003` V3_1 审计 - PM 一一 执行 / feibo 指导
+5. 小项：002 回顾末行裁切（PP）、004 补 BG（lulu/TT）、005 开放日复验（Ant）——由 PM 一一 跟催
 
 ---
 
@@ -47,7 +47,7 @@
 
 ### TASK-20260719-004
 - 标题：Android/Web release-readiness 代码健康专项（token 归一 + 死代码 + 结构）
-- 负责人：feibo（主导）+ PP
+- 负责人：PP（执行）/ feibo（把关）
 - 状态：queued
 - 优先级：P1
 - 说明：原 0719 只读审计任务，按 feibo 07-21 诊断重定scope：① token 归一——Android UI 层约 200 处硬编码 `Color(0x…)`（GameScreen 57 处）、Web 123 处硬编码 rgba 收进 token 层，加静态检查防回潮；② 死代码清除——`SectionClearScreen.kt`、`Routes.SECTION_CLEAR`、`advanceAfterSectionClear()`（0719-011/013 确认的 cleanup candidates）；③ GameScreen(34KB)/GameViewModel(30KB) 职责拆分评估。
@@ -55,7 +55,7 @@
 
 ### TASK-20260721-003
 - 标题：V3_1 ↔ story-data 全量差异审计
-- 负责人：feibo
+- 负责人：PM 一一（执行）/ feibo（指导）
 - 状态：queued
 - 优先级：P1
 - 说明：剧情逻辑 coreDesign（V3.1）与运行数据逐项比对，输出差异裁决表交 Ant。已实锤一处：GOOD END 标题 V3_1"那么完美，那么爱你" vs 运行数据"那么完美，那么爱他"。

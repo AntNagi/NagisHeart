@@ -155,7 +155,8 @@ Do not perform this move casually. Any directory move must be its own commit and
 # Roles v2 - 2026-07-21
 
 - Ant: owner, the ONLY acceptance gate (real device / browser). Agent QA is discontinued.
-- feibo (CTO): triage, architecture, review, bookkeeping.
+- feibo (CTO): top-level only - rules, architecture, major reviews, infrastructure tooling.
+- PM 一一: in-rules executor - task board ops, dispatching, evidence collection, routine review. Bound by v2: four ledgers only, no process files.
 - Workers on demand: PP = Android, Wewe = Web, lulu = UI design, TT = KV visual. Web tasks must not touch Android and vice versa.
 - Formal tasks: `00_harness/02_planning/task_board.md`. Full process rules: `00_harness/README.md`.
 

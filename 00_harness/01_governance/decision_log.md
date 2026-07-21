@@ -503,3 +503,14 @@ None. Investigation and process decision only; no code or resource deletion auth
   - History is not to be relitigated: archives and old handoff/design process files are read-only and carry no authority.
 - Files updated: 00_harness/README.md (rewritten), README_AI.md, TASKS.md (rewritten slim), 02_planning/task_board.md, PROJECT_STRUCTURE.md
 - Cleanup status: archive-only moves, no deletion.
+
+# DEC-20260721-003 - PM role reinstated within rules v2
+
+- Date: 2026-07-21
+- Owner: Ant (directive) / feibo (implementation)
+- Decision:
+  - PM 一一 is reinstated as an in-rules executor: task board operations (open/update/close ledger), dispatching to workers, evidence collection, routine review, priorities sync.
+  - feibo (CTO) narrows to top-level only: rules, architecture, major reviews, infrastructure tooling. No day-to-day board ops.
+  - PM is fully bound by rules v2: works only inside the four ledgers; may not create process files (no task sheets, dev replies, review files); v1 PM workflows in 99_archive stay retired.
+  - Board reassignments: TASK-20260721-003 (V3_1 audit) -> PM 一一 exec / feibo guide; TASK-20260719-004 (code health) -> PP exec / feibo gate.
+- Files updated: 00_harness/README.md, README_AI.md, 02_planning/task_board.md
