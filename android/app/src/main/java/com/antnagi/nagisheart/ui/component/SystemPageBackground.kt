@@ -15,8 +15,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import com.antnagi.nagisheart.R
+import com.antnagi.nagisheart.ui.theme.NagiTokens
 
-private val SystemDimColor = Color(0xFF132033)
+private val SystemDimColor = NagiTokens.systemDim
 
 @Composable
 fun SystemPageBackground(

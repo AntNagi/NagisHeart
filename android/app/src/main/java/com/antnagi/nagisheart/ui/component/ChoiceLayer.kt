@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.antnagi.nagisheart.data.Choice
 import com.antnagi.nagisheart.ui.theme.*
@@ -59,7 +58,7 @@ private fun ChoiceItem(
         modifier = Modifier
             .fillMaxWidth()
             .clip(NagiShapes.cutSmall)
-            .background(Color(0x7A101827)) // §19: rgba(16,24,39,0.48)
+            .background(NagiTokens.deepBlue.copy(alpha = 0.48f)) // §19
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 14.dp),
         contentAlignment = Alignment.CenterStart
@@ -67,7 +66,7 @@ private fun ChoiceItem(
         Text(
             text = text,
             style = NagiTheme.typography.choiceText,
-            color = Color(0xEBF7F9FC) // §19.5: rgba(247,249,252,0.92)
+            color = NagiTokens.textSnow92 // §19.5
         )
     }
 }

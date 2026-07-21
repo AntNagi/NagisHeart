@@ -70,7 +70,7 @@ fun StartScreen(
                             .fillMaxWidth()
                             .drawBehind {
                                 drawLine(
-                                    color = Color(0x14FFFFFF), // rgba(255,255,255,0.08)
+                                    color = NagiTokens.borderGlass,
                                     start = Offset(0f, 0f),
                                     end = Offset(size.width, 0f),
                                     strokeWidth = 1f
@@ -160,7 +160,7 @@ private fun MinorAction(
         Text(
             text = text,
             fontSize = 12.sp, // §P2-2: 12sp
-            color = Color(0xE6F4F1EA) // §P2-2: rgba(244,241,234,0.90)
+            color = NagiTokens.parchment.copy(alpha = 0.90f) // §P2-2
         )
     }
 }
