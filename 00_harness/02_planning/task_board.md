@@ -9,7 +9,7 @@
 
 ## 当前优先级
 
-1. feibo 搭截图对比验收工具（权威 HTML 期望图基准库 + Web 对比报告，基建）→ 支撑 `TASK-20260721-006`
+1. ✅ 截图对比验收工具已上线（07-21）：`node tools/ui-snapshot.js all` 一键生成权威 18 页期望图 + Web 9 状态实现图 + 并排报告 `00_harness/05_reports/ui_baseline/compare_report.html`。`TASK-20260721-006` 的验收直接看该报告
 2. `TASK-20260721-006` Web 90 项对齐验收 - Ant
 3. `TASK-20260719-016` locked 标题隐私修复 - PP
 4. `TASK-20260719-004` 代码健康专项 - PP 执行 / feibo 把关；`TASK-20260721-003` V3_1 审计 - PM 一一 执行 / feibo 指导
@@ -66,7 +66,7 @@
 - 负责人：lulu / TT（视觉）
 - 状态：pending
 - 优先级：P2
-- 说明：`assets/bg/goal.jpg`（c6a 节点）、`assets/bg/bg_scarf_flower_delivery.jpg`（e_scarf 节点）引用缺失（validate.js WARN）。补图或改 `scene_visuals.json` 映射二选一。
+- 说明：`assets/bg/goal.jpg`（c6a 节点）、`assets/bg/bg_scarf_flower_delivery.jpg`（e_scarf 节点）引用缺失（validate.js WARN）；另 UI 权威板结局页引用的 `assets/bg/worldstage.jpg` 也缺失（07-21 截图基线发现）。补图或改映射。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260721-005
