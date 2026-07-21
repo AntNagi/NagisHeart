@@ -6,6 +6,18 @@ $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $manifest = Get-Content (Join-Path $root 'authority\MANIFEST.md') -Raw -Encoding UTF8
 
+# 文本文件（md/html）用换行无关哈希：解码文本、剥 CR、按 UTF-8 无 BOM 重编码后取 MD5。
+# 这样不同机器 autocrlf 设置不同也不会误报漂移。二进制（xlsx 等）仍按原始字节。
+function Get-AuthorityMd5([string]$path) {
+    if ($path -match '\.(md|html)$') {
+        $text = [IO.File]::ReadAllText($path).Replace("`r", "")
+        $bytes = [Text.UTF8Encoding]::new($false).GetBytes($text)
+        $md5 = [Security.Cryptography.MD5]::Create()
+        return ([BitConverter]::ToString($md5.ComputeHash($bytes)).Replace('-', ''))
+    }
+    return (Get-FileHash $path -Algorithm MD5).Hash
+}
+
 # 从 MANIFEST 表格解析 "文件路径 | MD5" 对（反引号包裹的相对路径 + 32 位哈希）
 $pattern = '\|\s*`([^`]+\.(?:md|html|xlsx))`\s*\|\s*`([0-9A-F]{32})`'
 $entries = [regex]::Matches($manifest, $pattern)
@@ -20,7 +32,7 @@ foreach ($m in $entries) {
     if (-not (Test-Path $full)) {
         Write-Host ("MISSING  {0}" -f $rel); $fail++; continue
     }
-    $actual = (Get-FileHash $full -Algorithm MD5).Hash
+    $actual = Get-AuthorityMd5 $full
     if ($actual -ne $expected) {
         Write-Host ("DRIFT    {0}" -f $rel)
         Write-Host ("         manifest: {0}" -f $expected)
