@@ -1,9 +1,19 @@
 # 任务板
 
-> 用途：当前唯一正式任务源。
-> 原则：只有写进本文件、明确负责人和状态的事项，才算正式可执行任务。新任务追加在最上方。
+> 用途：当前唯一正式任务源（含优先级，不再有单独 priorities 文件）。
+> 原则：只有写进本文件、明确负责人和状态的事项，才算正式可执行任务。新任务追加在最上方。协作规则 v2 见 `00_harness/README.md`。
 > 2026-07-21 大扫除：历史任务全量归档至 `task_board_archive_20260715_20260721.md`，本板只保留活跃任务 + 关闭台账。
 > QA 口径（2026-07-21 起）：agent QA 停用，**Ant 本人实机/浏览器测试是唯一验收关口**；开发交付物应尽量是截图/对比图而非文字清单。
+
+---
+
+## 当前优先级
+
+1. feibo 搭截图对比验收工具（权威 HTML 期望图基准库 + Web 对比报告）→ 支撑 `TASK-20260721-006`
+2. `TASK-20260721-006` Web 90 项对齐验收 - Ant
+3. `TASK-20260719-016` locked 标题隐私修复 - PP
+4. `TASK-20260719-004` 代码健康专项 / `TASK-20260721-003` V3_1 审计 - feibo
+5. 小项：002 回顾末行裁切、004 补 BG、005 开放日复验
 
 ---
 
@@ -22,7 +32,7 @@
 - 负责人：PP（Android）
 - 状态：assigned
 - 优先级：P1
-- 说明：locked 条目须显示中性文案，不暴露未来真实标题。**feibo 07-21 代码核验：仍未修**——`ChapterScreen.kt:205` locked 行仍渲染 `item.sectionTitle` 真实标题（仅压 alpha 0.52）。任务单：`00_harness/04_execution/pm/PM_AGENT_INBOX/TASK_TO_PP_20260719_ANDROID_CHAPTER_LOCKED_TITLE_PRIVACY_FIX.md`。
+- 说明：locked 条目须显示中性文案（如"？？？"或"未解锁章节"），不暴露未来真实标题；unlocked/current/completed 不变。**feibo 07-21 代码核验：仍未修**——`ChapterScreen.kt:205` locked 行仍渲染 `item.sectionTitle` 真实标题（仅压 alpha 0.52）。本条目即完整任务说明，无需读旧任务单。
 - 完成定义：locked 显示中性文案；unlocked/current/completed 仍显示真实标题；截图两种状态给 Ant。
 - 最新更新时间：2026-07-21
 

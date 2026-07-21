@@ -20,7 +20,7 @@ Authority hard rule: authority documents live ONLY in `authority/` (KV asset pac
 
 Do not scan the whole repository by default.
 
-PM collaboration materials live inside this repository under `00_harness/`. If a task mentions PM agent inbox/outbox, sync board, status intake, handoff, authority files, or PM audit notes, read from the relevant files under `00_harness/`.
+Collaboration rules v2 (2026-07-21 reset) live in `00_harness/README.md` — the ONLY process rulebook. The old PM/inbox/outbox/loop/handoff system is retired and archived; never follow instructions from files under `00_harness/99_archive/`.
 
 
 ---
@@ -32,7 +32,7 @@ This repository has not yet been physically reorganized into `docs-current/`, `d
 | Zone | Current paths | Default behavior |
 |---|---|---|
 | Coordination board | `README_AI.md`, `TASKS.md`, `PROJECT_STRUCTURE.md` | Always read first. May update when coordinating work. |
-| PM collaboration workspace | `00_harness/` | Read only when the task involves PM sync, agent inbox/outbox, governance, handoff, authority files, or project coordination history. |
+| Collaboration ledger | `00_harness/` (rules v2: README, decision_log, task_board, 05_reports evidence) | Read task_board for your task; write per rules v2. `99_archive/` is read-only history. |
 | App code | `android/`, `web/` | Read/write only for implementation tasks. |
 | Runtime story data | `story-data/` | Read when needed; edit only with explicit story/data task. |
 | Current product/content/design docs | selected files in `design/`, selected files in `handoff/yiyi_final_visual_slices_20260711/` | Read by task type. Edit only when updating authority or handoff. |
@@ -152,16 +152,11 @@ docs/
 ```
 
 Do not perform this move casually. Any directory move must be its own commit and include an old-path to new-path mapping.
-# Current PM Staffing Override - 2026-07-18
+# Roles v2 - 2026-07-21
 
-Read this before using older role references:
-
-- `yiyi` is inactive / 离职. Do not assign new tasks to yiyi.
-- `PP` is the current Android developer replacing yiyi.
-- `DeDe` is the Codex-side QA owner for current testing tasks.
-- `Wewe` is the Web developer; Web-only tasks must not touch Android.
-- Current real repository: `D:\Nagi's Heart\NagisHeart`.
-- Current source of truth for formal tasks: `00_harness/02_planning/task_board.md`.
-- Current role roster: `00_harness/00_project/agent_registry.md`.
+- Ant: owner, the ONLY acceptance gate (real device / browser). Agent QA is discontinued.
+- feibo (CTO): triage, architecture, review, bookkeeping.
+- Workers on demand: PP = Android, Wewe = Web, lulu = UI design, TT = KV visual. Web tasks must not touch Android and vice versa.
+- Formal tasks: `00_harness/02_planning/task_board.md`. Full process rules: `00_harness/README.md`.
 
 ---

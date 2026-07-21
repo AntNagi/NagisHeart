@@ -489,3 +489,17 @@ None. Investigation and process decision only; no code or resource deletion auth
   - Confirmed still-open items re-verified in code before keeping: TASK-20260719-016 locked-title privacy NOT fixed (ChapterScreen.kt renders real title when locked); icon V4 safezone IS integrated (res hash matches package); gradlew does not exist (0717-004 cancelled).
 - Files updated: 02_planning/task_board.md, 02_planning/task_board_archive_20260715_20260721.md, 02_planning/current_priorities.md, authority/ui/XoXo_UI_Final_MinSpec_20260712.md, authority/MANIFEST.md, TASKS.md
 - Cleanup status: none (archive only, no deletion).
+
+# DEC-20260721-002 - Harness rules v2 reset (lightweight)
+
+- Date: 2026-07-21
+- Owner: feibo (CTO) / directed by Ant
+- Trigger: Ant directive: clean slate — drop all historical baggage, work only from current authority versions and current state; old harness/loop rules must be cleared and replaced with lightweight rules before any dev work.
+- Decision:
+  - Harness v1 retired entirely: role handbooks (00_project), shift handoffs (03_handoffs), PM inbox/outbox mailbox (04_execution), templates (06_templates), loop/scheduler (07_scheduler), governance inbox, PM sync/status files, separate current_priorities file. All archived to 99_archive/harness_v1_retired_20260721/ read-only.
+  - New single rulebook: 00_harness/README.md (roles, four ledgers, task lifecycle, session startup, commit rules, red lines). Priorities folded into task_board.
+  - Four ledgers only: authority/ (MANIFEST), task_board.md, decision_log.md, 05_reports/<task-id>/ evidence. Process chatter lives in commit messages, never in new files.
+  - No new dev_reply / status / PM_REVIEW / TASK_TO_* files may be created.
+  - History is not to be relitigated: archives and old handoff/design process files are read-only and carry no authority.
+- Files updated: 00_harness/README.md (rewritten), README_AI.md, TASKS.md (rewritten slim), 02_planning/task_board.md, PROJECT_STRUCTURE.md
+- Cleanup status: archive-only moves, no deletion.

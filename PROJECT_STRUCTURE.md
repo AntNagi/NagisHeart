@@ -12,7 +12,7 @@
 |---|---|---|---|
 | `README_AI.md` | AI 协作规则 | Codex / Claude / XoXo 等协作者每次开工先读的读写规则。 | 保持短、明确、可执行。 |
 | `TASKS.md` | 任务板 | 当前任务、交接状态、下一步建议。 | 只放轻量任务状态，不写成长文档。 |
-| `00_harness/` | Workspace 协作层 | governance / planning / handoff / execution / reports / authority 等协作账本统一入口。 | 已纳入 Git；仅在 PM 协调、跨 agent 追踪、权威核对、交班、测试回填任务中读取。 |
+| `00_harness/` | 协作账本（v2，2026-07-21 重置） | 规则 README + decision_log + task_board + 05_reports 证据；其余全部在 99_archive 只读。 | 规则见 `00_harness/README.md`；旧 PM/信箱/loop 体系已废止。 |
 | `android/` | 应用代码 | Android 主版本工程，包含 Kotlin 代码、主题、组件、资源配置。 | 保持为工程目录，不放产品/设计过程文档。 |
 | `web/` | 应用代码 | Web 版本实现，包含页面入口、样式、JS 源码。 | 保持为工程目录。 |
 | `story-data/` | 应用运行数据 | 剧情节点、流程、变量、章节、结局、视觉映射等 JSON 数据。 | 作为双端共享数据源，不混放设计稿。 |
