@@ -21,7 +21,9 @@ export class ChapterSelectOverlay {
     );
 
     let html = `
-      <div class="catalog-panel cut-medium">
+      <div class="system-bg"><img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" /></div>
+      <div class="system-bg-overlay"></div>
+      <div class="catalog-panel">
         <div class="catalog-header">
           <h2 class="catalog-title">章节目录</h2>
           <div class="catalog-desc">选择已解锁的章节重新阅读</div>

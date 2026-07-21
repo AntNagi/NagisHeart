@@ -1,3 +1,4 @@
+/* ── Splash / Opening Screen (§2) ── */
 .splash-screen {
   display: flex;
   align-items: center;
@@ -20,12 +21,18 @@
 }
 
 .start-breathing {
-  animation: startBreath 1.6s ease-in-out infinite;
+  animation: startBreath 1.8s ease-in-out infinite;
 }
 
 @keyframes startBreath {
-  0%, 100% { opacity: 0.68; }
-  50% { opacity: 1; }
+  0%, 100% {
+    opacity: 0.72;
+    transform: scale(0.992);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.012);
+  }
 }
 
 .start-hit {

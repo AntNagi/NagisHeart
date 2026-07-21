@@ -1,3 +1,4 @@
+/* ── Name Setup (§4) ── */
 .name-setup-screen {
   display: flex;
   flex-direction: column;
@@ -18,21 +19,34 @@
 
 .name-setup-top-label {
   font-size: 12px;
+  font-family: var(--font-sans);
   color: rgba(244, 241, 234, 0.92);
   letter-spacing: 0.12em;
   text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.name-setup-top-label::before,
+.name-setup-top-label::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: rgba(215, 190, 134, 0.60);
 }
 
 .name-setup-title {
   font-family: var(--font-serif);
   font-size: 34px;
-  color: #F4F1EA;
+  color: #F7F9FC;
   text-align: center;
 }
 
 .name-setup-subtitle {
   font-size: 15px;
-  color: #D6D2CB;
+  font-family: var(--font-sans);
+  color: rgba(232, 238, 246, 0.72);
   text-align: center;
   margin-top: -10px;
 }
@@ -48,6 +62,7 @@
 
 .name-setup-label {
   font-size: 13px;
+  font-family: var(--font-sans);
   color: rgba(244, 241, 234, 0.82);
   letter-spacing: 0.5px;
 }
@@ -58,7 +73,7 @@
   background: transparent;
   border: none;
   border-bottom: 1px solid rgba(215, 190, 134, 0.74);
-  color: #F4F1EA;
+  color: #F7F9FC;
   font-size: 18px;
   font-family: var(--font-sans);
   outline: none;
@@ -67,7 +82,7 @@
 }
 
 .name-setup-input::placeholder {
-  color: rgba(244, 241, 234, 0.58);
+  color: rgba(244, 241, 234, 0.66);
 }
 
 .name-setup-input:focus {
@@ -88,6 +103,7 @@
 
 .name-setup-confirm-hint {
   font-size: 14px;
+  font-family: var(--font-sans);
   color: rgba(244, 241, 234, 0.82);
   margin-top: 8px;
 }

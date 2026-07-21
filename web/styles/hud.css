@@ -1,4 +1,4 @@
-/* ── HUD ── */
+/* ── HUD (§7 / §15 / §17.2) ── */
 .hud {
   position: absolute;
   top: 0;
@@ -15,18 +15,26 @@
   pointer-events: auto;
 }
 
-/* Glass HUD shared token */
-.hud-glass {
+/* Glass HUD icon button — §15.1 / §17.2 */
+.hud-glass-icon {
   backdrop-filter: blur(12px) saturate(0.92);
   -webkit-backdrop-filter: blur(12px) saturate(0.92);
-  background: linear-gradient(to bottom, rgba(15,24,39,0.30), rgba(15,24,39,0.18));
-  border: 1px solid rgba(255,255,255,0.10);
-  clip-path: polygon(
-    6px 0, calc(100% - 6px) 0,
-    100% 6px, 100% calc(100% - 6px),
-    calc(100% - 6px) 100%, 6px 100%,
-    0 calc(100% - 6px), 0 6px
-  );
+  background:
+    radial-gradient(ellipse at center, rgba(247, 249, 252, 0.08), transparent 66%),
+    linear-gradient(to bottom, rgba(15, 24, 39, 0.34), rgba(15, 24, 39, 0.22));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  clip-path: var(--clip-cut-sm);
+}
+
+/* Glass HUD title chip — §7 / §15.1 / §17.2: to right gradient + center line */
+.hud-glass-title {
+  backdrop-filter: blur(12px) saturate(0.92);
+  -webkit-backdrop-filter: blur(12px) saturate(0.92);
+  background:
+    linear-gradient(to bottom, transparent 0 46%, var(--hud-soft) 47% 53%, transparent 54%),
+    linear-gradient(to right, rgba(15, 24, 39, 0.30), rgba(15, 24, 39, 0.12) 78%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  clip-path: var(--clip-cut-sm);
 }
 
 .hud-left {
@@ -45,16 +53,17 @@
 .hud-scene-title {
   font-size: 13px;
   font-weight: 500;
-  color: rgba(244,241,234,0.88);
-  padding: 0 14px;
+  font-family: var(--font-sans);
+  color: rgba(244, 241, 234, 0.88);
+  padding: 7px 14px 7px 18px;
   height: 34px;
-  line-height: 34px;
+  line-height: 20px;
   letter-spacing: 0.02em;
   max-width: 210px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.64), 0 0 8px rgba(247,249,252,0.20);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.48);
 }
 
 /* Icon buttons */
@@ -64,8 +73,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(247,249,252,0.94);
-  filter: drop-shadow(0 3px 12px rgba(0,0,0,0.42));
+  color: rgba(247, 249, 252, 0.94);
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.42));
   transition: opacity var(--duration-fast);
   cursor: pointer;
   border: none;
@@ -75,6 +84,7 @@
 .hud-btn svg {
   width: 18px;
   height: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.64)) drop-shadow(0 0 8px rgba(247, 249, 252, 0.20));
 }
 
 .hud-btn:hover {
@@ -85,7 +95,7 @@
   color: var(--success-special);
 }
 
-/* Action chip (skip section / next chapter) */
+/* Action chip (skip section / next chapter) — §14.4 / §15.1 */
 .hud-action-chip {
   position: absolute;
   right: 17px;
@@ -94,10 +104,11 @@
   padding: 0 14px;
   font-size: 12px;
   font-weight: 500;
+  font-family: var(--font-sans);
   letter-spacing: 0.02em;
-  color: rgba(244,241,234,0.90);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.64), 0 0 8px rgba(247,249,252,0.20);
-  filter: drop-shadow(0 3px 12px rgba(0,0,0,0.42));
+  color: rgba(244, 241, 234, 0.90);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.48);
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.42));
   line-height: 34px;
   white-space: nowrap;
   pointer-events: auto;

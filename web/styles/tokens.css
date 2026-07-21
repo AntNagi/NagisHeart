@@ -8,26 +8,27 @@
   --nagi-ink-navy: #1B2430;
   --nagi-cold-gray: #6E7A89;
   --nagi-silver-blue: #C9D1DC;
-  --nagi-weak-text: #B7B3AD;
+  --nagi-weak-text: #C9D1DC;
   --nagi-muted-rose: #C98A96;
   --nagi-rose-gold: #BFA08A;
   --nagi-dried-wine: #7A3F4A;
   --nagi-pale-gold: #D8C38A;
+  --nagi-gold: #D7BE86;
 
   /* ── Typography ── */
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
   --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', Georgia, serif;
 
   --fs-dialogue: 17px;
-  --lh-dialogue: 29px;
+  --lh-dialogue: 1.9;
   --fs-narration: 17px;
-  --lh-narration: 29px;
+  --lh-narration: 1.9;
   --fs-choice: 15px;
-  --lh-choice: 21px;
+  --lh-choice: 1.8;
   --fs-speaker: 13px;
   --fs-hud: 13px;
-  --fs-prologue: 16px;
-  --lh-prologue: 32px;
+  --fs-prologue: 28px;
+  --lh-prologue: 1.68;
 
   /* ── Spacing ── */
   --space-xs: 4px;
@@ -38,8 +39,22 @@
   --space-2xl: 42px;
 
   /* ── Cut corners ── */
-  --cut-small: 8px;
-  --cut-medium: 14px;
+  --cut-sm: 8px;
+  --cut-md: 14px;
+
+  /* ── Cut corner clip-path helpers ── */
+  --clip-cut-sm: polygon(
+    8px 0, calc(100% - 8px) 0,
+    100% 8px, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%,
+    0 calc(100% - 8px), 0 8px
+  );
+  --clip-cut-md: polygon(
+    14px 0, calc(100% - 14px) 0,
+    100% 14px, 100% calc(100% - 14px),
+    calc(100% - 14px) 100%, 14px 100%,
+    0 calc(100% - 14px), 0 14px
+  );
 
   /* ── Animation ── */
   --duration-fast: 150ms;
@@ -47,6 +62,31 @@
   --duration-slow: 600ms;
   --duration-scene: 800ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── Authority overlay layers ── */
+  --overlay-system-1: linear-gradient(to bottom, rgba(19, 32, 51, 0.32), rgba(19, 32, 51, 0.12) 42%, rgba(19, 32, 51, 0.66));
+  --overlay-system-2: linear-gradient(to bottom, rgba(255, 255, 255, 0.04), transparent 18%, transparent 70%, rgba(255, 255, 255, 0.02));
+  --overlay-splash-1: linear-gradient(to bottom, rgba(16, 24, 39, 0.04), rgba(16, 24, 39, 0.12) 38%, rgba(16, 24, 39, 0.86) 100%);
+  --overlay-splash-2: radial-gradient(ellipse at 46% 34%, transparent 0 22%, rgba(16, 24, 39, 0.34) 72%, rgba(16, 24, 39, 0.7) 100%);
+  --overlay-story-1: linear-gradient(to bottom, rgba(19, 32, 51, 0.22), rgba(19, 32, 51, 0.10) 24%, rgba(19, 32, 51, 0.18) 58%, rgba(19, 32, 51, 0.42) 100%);
+  --overlay-story-2: linear-gradient(to right, rgba(19, 32, 51, 0.10), transparent 34%, transparent 72%, rgba(19, 32, 51, 0.12));
+
+  /* ── Authority glass tokens ── */
+  --glass-panel-bg: linear-gradient(to bottom, rgba(16, 24, 39, 0.34), rgba(16, 24, 39, 0.52));
+  --glass-panel-border: rgba(255, 255, 255, 0.10);
+  --glass-panel-blur: blur(16px) saturate(0.92);
+
+  /* ── Dialog tokens ── */
+  --dialog-card-bg: linear-gradient(to bottom, rgba(27, 36, 54, 0.56), rgba(20, 31, 49, 0.52));
+  --dialog-border: rgba(255, 255, 255, 0.08);
+  --dialog-scrim: rgba(9, 14, 24, 0.40);
+  --dialog-shadow: 0 18px 42px rgba(0, 0, 0, 0.36);
+  --dialog-inner-highlight: linear-gradient(to bottom, rgba(247, 249, 252, 0.05), transparent 36%);
+
+  /* ── Dialogue box tokens ── */
+  --dialogue-box-bg: linear-gradient(to bottom, rgba(16, 24, 39, 0.54), rgba(16, 24, 39, 0.70));
+  --dialogue-box-border: rgba(255, 255, 255, 0.08);
+  --dialogue-box-shadow: 0 18px 40px rgba(0, 0, 0, 0.26);
 }
 
 /* ── Dark Theme (default) ── */
@@ -54,15 +94,15 @@
   --bg-primary: var(--nagi-deep-blue-night);
   --bg-secondary: var(--nagi-deep-blue-night);
   --text-primary: var(--nagi-snow-white);
-  --text-secondary: var(--nagi-silver-blue);
-  --text-weak: var(--nagi-weak-text);
+  --text-secondary: rgba(232, 238, 246, 0.72);
+  --text-weak: #C9D1DC;
   --text-inverse: var(--nagi-ink-navy);
-  --border-subtle: rgba(174, 186, 200, 0.28);
-  --icon-default: rgba(201, 209, 220, 0.78);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --icon-default: rgba(247, 249, 252, 0.94);
   --accent-primary: var(--nagi-rose-gold);
   --accent-heart: rgba(201, 138, 150, 0.78);
   --danger: var(--nagi-dried-wine);
-  --success-special: var(--nagi-pale-gold);
+  --success-special: var(--nagi-gold);
 
   --glass-bg: rgba(27, 36, 54, 0.26);
   --glass-bg-strong: rgba(27, 36, 54, 0.32);
@@ -72,8 +112,8 @@
   --overlay-bottom-end: rgba(16, 24, 39, 0.90);
   --overlay-full-dim: rgba(16, 24, 39, 0.28);
 
-  --hud-color: rgba(247, 249, 252, 0.82);
-  --hud-soft: rgba(247, 249, 252, 0.16);
+  --hud-color: rgba(244, 241, 234, 0.88);
+  --hud-soft: rgba(247, 249, 252, 0.12);
 
   --text-shadow-color: rgba(0, 0, 0, 0.72);
 }
@@ -83,15 +123,15 @@
   --bg-primary: var(--nagi-snow-white);
   --bg-secondary: var(--nagi-mist-blue);
   --text-primary: var(--nagi-ink-navy);
-  --text-secondary: var(--nagi-cold-gray);
-  --text-weak: var(--nagi-weak-text);
+  --text-secondary: rgba(27, 36, 48, 0.62);
+  --text-weak: rgba(27, 36, 48, 0.42);
   --text-inverse: var(--nagi-snow-white);
-  --border-subtle: rgba(174, 186, 200, 0.45);
-  --icon-default: rgba(174, 186, 200, 0.82);
+  --border-subtle: rgba(27, 36, 48, 0.08);
+  --icon-default: rgba(27, 36, 48, 0.76);
   --accent-primary: var(--nagi-rose-gold);
   --accent-heart: var(--nagi-muted-rose);
   --danger: var(--nagi-dried-wine);
-  --success-special: var(--nagi-pale-gold);
+  --success-special: #B89B62;
 
   --glass-bg: rgba(247, 249, 252, 0.38);
   --glass-bg-strong: rgba(247, 249, 252, 0.62);
@@ -102,7 +142,7 @@
   --overlay-full-dim: rgba(16, 24, 39, 0.28);
 
   --hud-color: rgba(27, 36, 48, 0.76);
-  --hud-soft: rgba(27, 36, 48, 0.16);
+  --hud-soft: rgba(27, 36, 48, 0.12);
 
   --text-shadow-color: rgba(255, 255, 255, 0.48);
 }

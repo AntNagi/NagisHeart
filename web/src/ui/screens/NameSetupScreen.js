@@ -7,7 +7,7 @@ export class NameSetupScreen {
       <div class="system-bg">
         <img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
       </div>
-      <div class="system-bg-overlay"></div>
+      <div class="system-bg-overlay splash"></div>
       <div class="name-setup-content">
         <div class="name-setup-top-label">开始之前</div>
         <div class="name-setup-title">写下你的名字</div>

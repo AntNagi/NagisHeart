@@ -12,17 +12,31 @@
   transition: opacity var(--duration-scene) var(--ease-out);
 }
 
-/* ── Chapter/Section opening cards ── */
+/* ── Story overlay layers (§1) ── */
+.story-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    var(--overlay-story-2),
+    var(--overlay-story-1);
+  pointer-events: none;
+}
+
+/* ── Chapter/Section opening cards (§14.1) ── */
 .chapter-card {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 30px 96px;
-  background: rgba(16, 24, 39, 0.72);
+  padding: 0 30px 72px;
   cursor: pointer;
   animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
+}
+
+.chapter-card.section-opening {
+  padding-bottom: 96px;
 }
 
 @keyframes card-fade-in {
@@ -30,15 +44,17 @@
   to   { opacity: 1; }
 }
 
-/* Fog-glass backing for chapter/section opening text per MinSpec 14.1 */
+/* Glass backing for chapter/section opening text per §14.1 */
 .chapter-card-backing {
   backdrop-filter: blur(10px) saturate(0.92);
   -webkit-backdrop-filter: blur(10px) saturate(0.92);
   background:
-    radial-gradient(ellipse at center, rgba(247,249,252,0.09), transparent 70%),
+    radial-gradient(ellipse at 36% 42%, rgba(247,249,252,0.09), transparent 64%),
     linear-gradient(to right, rgba(16,24,39,0.30), rgba(16,24,39,0.14) 62%, transparent);
   border: 1px solid rgba(255,255,255,0.08);
+  clip-path: var(--clip-cut-md);
   padding: 22px 24px 20px;
+  opacity: 0.92;
 }
 
 .chapter-card-kicker {
@@ -60,7 +76,7 @@
   font-size: 29px;
   line-height: 1.24;
   color: rgba(247,249,252,0.94);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 22px rgba(0,0,0,0.72);
 }
 
 .chapter-card-time {
@@ -77,7 +93,7 @@
   animation: breathe 1.6s ease-in-out 1s infinite;
 }
 
-/* ── Chapter/Section Clear card per MinSpec 14.2/14.3 ── */
+/* ── Chapter Clear card per §14.2 ── */
 .chapter-ending-card {
   position: absolute;
   inset: 0;
@@ -101,25 +117,30 @@
   backdrop-filter: blur(16px) saturate(0.92);
   -webkit-backdrop-filter: blur(16px) saturate(0.92);
   background:
-    radial-gradient(ellipse at center, rgba(247,249,252,0.10), transparent 60%),
-    linear-gradient(to bottom, rgba(27,36,54,0.20), rgba(27,36,54,0.14) 50%, rgba(27,36,54,0.24));
-  border: 1px solid rgba(255,255,255,0.08);
+    radial-gradient(ellipse at center, rgba(247,249,252,0.12), rgba(247,249,252,0.04) 30%, rgba(16,24,39,0.18) 72%, transparent),
+    linear-gradient(to bottom, rgba(27,36,54,0.34), rgba(27,36,54,0.24) 38%, rgba(27,36,54,0.36));
+  border: 1px solid rgba(255,255,255,0.10);
+  clip-path: var(--clip-cut-md);
   padding: 28px 24px 22px;
+  color: rgba(247,249,252,0.94);
+  text-shadow: 0 2px 20px rgba(0,0,0,0.54);
 }
 
 .clear-card-label {
+  font-family: var(--font-sans);
   font-size: 11px;
   letter-spacing: 0.14em;
   color: #D7BE86;
+  text-transform: uppercase;
   margin-bottom: var(--space-sm);
 }
 
 .clear-card-title {
   font-family: var(--font-serif);
   font-size: 30px;
+  font-weight: 400;
   line-height: 1.25;
   color: rgba(247,249,252,0.94);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .clear-card-subtitle {
@@ -142,6 +163,7 @@
   margin-top: var(--space-lg);
   border-top: 1px solid rgba(255,255,255,0.08);
   padding-top: var(--space-md);
+  gap: 18px;
 }
 
 .clear-card-action-secondary {
@@ -153,6 +175,7 @@
 
 .clear-card-action-primary {
   font-size: 14px;
+  font-weight: 500;
   color: #F7F9FC;
   cursor: pointer;
   pointer-events: auto;
@@ -161,4 +184,145 @@
 .clear-card-action-secondary:hover,
 .clear-card-action-primary:hover {
   opacity: 0.8;
+}
+
+/* ── Ending page (§18.1) ── */
+.ending-card-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 28px 82px;
+  animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
+}
+
+.ending-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(16, 24, 39, 0.40), rgba(16, 24, 39, 0.72));
+}
+
+.ending-card {
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(18px) saturate(0.92);
+  -webkit-backdrop-filter: blur(18px) saturate(0.92);
+  background:
+    radial-gradient(ellipse at 70% 0%, rgba(215,190,134,0.16), transparent 38%),
+    linear-gradient(to bottom, rgba(16,24,39,0.50), rgba(16,24,39,0.76));
+  border: 1px solid rgba(255,255,255,0.10);
+  clip-path: var(--clip-cut-md);
+  padding: 28px 24px 22px;
+  box-shadow: 0 22px 54px rgba(0,0,0,0.34);
+}
+
+.ending-card-tag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-sm);
+}
+
+.ending-card-tag.true { color: #D7BE86; }
+.ending-card-tag.good { color: #C9A85C; }
+.ending-card-tag.normal { color: rgba(220,226,234,0.78); }
+.ending-card-tag.bad { color: rgba(151,178,215,0.72); }
+
+.ending-card-title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: rgba(247,249,252,0.94);
+  text-shadow: 0 2px 20px rgba(0,0,0,0.54);
+}
+
+.ending-card-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(247,249,252,0.78);
+  margin-top: var(--space-sm);
+}
+
+/* Status feedback — static inline note, NOT a button (§18.1) */
+.ending-unlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: rgba(244, 241, 234, 0.70);
+  width: fit-content;
+  margin-top: 14px;
+}
+
+.ending-unlock-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(215, 190, 134, 0.72);
+  box-shadow: 0 0 8px rgba(215,190,134,0.18);
+  flex-shrink: 0;
+}
+
+/* Primary action — only "返回主页" (§18.1) */
+.ending-action-primary {
+  margin-top: 22px;
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  color: #F7F9FC;
+  background: linear-gradient(to right, rgba(215,190,134,0.20), rgba(255,255,255,0.07));
+  border: 1px solid rgba(215,190,134,0.26);
+  clip-path: var(--clip-cut-sm);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.ending-action-primary:hover {
+  opacity: 0.85;
+}
+
+/* ── LINE Chat Layer (§20) ── */
+.line-chat-container {
+  position: absolute;
+  top: 84px;
+  left: 18px;
+  right: 18px;
+  bottom: 34px;
+  padding: 18px;
+  background: var(--glass-panel-bg);
+  backdrop-filter: blur(16px) saturate(0.92);
+  -webkit-backdrop-filter: blur(16px) saturate(0.92);
+  clip-path: var(--clip-cut-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  z-index: 4;
+}
+
+.line-bubble {
+  max-width: 86%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  clip-path: var(--clip-cut-sm);
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(247, 249, 252, 0.92);
+  align-self: flex-start;
+}
+
+.line-bubble.me {
+  background: rgba(215, 190, 134, 0.18);
+  align-self: flex-end;
+}
+
+.line-timestamp {
+  font-size: 12px;
+  color: rgba(247, 249, 252, 0.56);
+  text-align: center;
 }

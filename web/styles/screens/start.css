@@ -1,8 +1,9 @@
+/* ── Home / Start Screen (§5) ── */
 .start-screen {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 0 var(--space-lg) 80px;
+  padding: 0 28px 32px;
 }
 
 .start-screen-bg {
@@ -17,11 +18,14 @@
   object-fit: cover;
 }
 
+/* System-level dual overlay per §1 */
 .start-screen-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(19, 32, 51, 0.32);
   z-index: 1;
+  background:
+    var(--overlay-system-2),
+    var(--overlay-system-1);
 }
 
 .start-screen-title-layer {
@@ -37,37 +41,87 @@
   object-fit: cover;
 }
 
-.start-menu {
+/* ── Home actions container ── */
+.home-actions {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
-.start-btn {
-  font-size: 15px;
-  letter-spacing: 2px;
-  color: #F4F1EA;
-  text-align: left;
-  padding: 8px 0;
-  transition: color var(--duration-fast);
-  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+/* ── Main actions: 2-column grid ── */
+.home-main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.start-btn:hover {
-  color: var(--success-special);
+.home-main-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  cursor: pointer;
+  pointer-events: auto;
+  padding: 4px 0;
+  transition: opacity var(--duration-fast);
 }
 
-.start-btn:disabled {
-  color: var(--text-weak);
-  opacity: 0.5;
+.home-main-row:hover {
+  opacity: 0.8;
+}
+
+.home-main-row:disabled,
+.home-main-row[data-disabled="true"] {
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-.start-btn-divider {
-  width: 40px;
+.home-main-label {
+  font-size: 17px;
+  font-weight: 500;
+  color: #F7F9FC;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+}
+
+.home-main-desc {
+  font-size: 13px;
+  font-family: var(--font-sans);
+  color: rgba(244, 241, 234, 0.82);
+}
+
+/* ── Divider between main and sub ── */
+.home-divider {
+  width: 100%;
   height: 1px;
   background: rgba(255, 255, 255, 0.08);
-  margin: 4px 0;
+}
+
+/* ── Sub actions: 4-column grid ── */
+.home-sub {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding-top: 16px;
+}
+
+.home-sub-btn {
+  font-size: 12px;
+  font-family: var(--font-sans);
+  color: rgba(244, 241, 234, 0.90);
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+  padding: 6px 0;
+  transition: opacity var(--duration-fast);
+}
+
+.home-sub-btn:hover {
+  opacity: 0.8;
+}
+
+.home-sub-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }

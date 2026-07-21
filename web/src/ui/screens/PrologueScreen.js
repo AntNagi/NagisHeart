@@ -11,7 +11,7 @@ export class PrologueScreen {
       <div class="system-bg">
         <img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
       </div>
-      <div class="system-bg-overlay"></div>
+      <div class="system-bg-overlay splash"></div>
       <div class="prologue-counter"></div>
       <div class="prologue-text"></div>
       <div class="prologue-hint">轻触继续</div>

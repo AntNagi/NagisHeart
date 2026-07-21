@@ -20,6 +20,8 @@ export class SaveLoadOverlay {
     const slots = await this._controller.getSaveSlots();
 
     let html = `
+      <div class="system-bg"><img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" /></div>
+      <div class="system-bg-overlay"></div>
       <div class="overlay-header">
         <button class="overlay-back-btn" data-action="close">←</button>
         <span class="overlay-title">存档进度</span>
