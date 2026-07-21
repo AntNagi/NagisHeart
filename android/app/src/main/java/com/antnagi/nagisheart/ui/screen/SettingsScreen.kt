@@ -1,6 +1,7 @@
 package com.antnagi.nagisheart.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -8,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -141,7 +143,15 @@ private fun SettingsRow(
             .fillMaxWidth()
             .heightIn(min = 56.dp)
             .clip(NagiShapes.cutSmall)
-            .background(Color.White.copy(alpha = 0.04f))
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        Color(0x61101827),
+                        Color(0x85101827)
+                    )
+                )
+            )
+            .border(1.dp, Color(0x14FFFFFF), NagiShapes.cutSmall)
             .clickable(onClick = onClick)
             .padding(start = 18.dp, end = 4.dp, top = 10.dp, bottom = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
