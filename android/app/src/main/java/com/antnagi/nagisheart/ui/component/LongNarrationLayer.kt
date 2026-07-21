@@ -78,7 +78,7 @@ fun LongNarrationLayer(
                             val ry = h * 0.58f
 
                             // §17.4: radial backing rgba(16,24,39,0.44) -> 0.32 -> transparent
-                            val backdropColor = Color(0xFF101827).copy(alpha = 0.44f)
+                            val backdropColor = NagiTokens.deepBlue.copy(alpha = 0.44f)
 
                             // Draw radial gradient backdrop
                             drawRect(
@@ -135,12 +135,12 @@ fun LongNarrationLayer(
                                     fontSize = 16.sp,
                                     lineHeight = 30.sp,
                                     shadow = Shadow(
-                                        color = Color(0xFF0A0F19).copy(alpha = 0.18f),
+                                        color = Color(0x2E0A0F19),
                                         offset = Offset(0f, 1f),
                                         blurRadius = 8f
                                     )
                                 ),
-                                color = Color(0xFFF4F1EA).copy(alpha = 0.92f)
+                                color = NagiTokens.parchment.copy(alpha = 0.92f)
                             )
                         }
                     }
@@ -155,7 +155,7 @@ fun LongNarrationLayer(
                 .navigationBarsPadding()
                 .padding(bottom = 120.dp)
         ) {
-            val indicatorColor = Color(0xFFF4F1EA).copy(alpha = 0.78f)
+            val indicatorColor = NagiTokens.parchment.copy(alpha = 0.78f)
             if (currentPage < totalPages - 1) {
                 Text(
                     text = "%02d / %02d".format(currentPage + 1, totalPages),

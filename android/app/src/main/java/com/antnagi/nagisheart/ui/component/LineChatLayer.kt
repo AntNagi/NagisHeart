@@ -48,14 +48,14 @@ fun LineChatLayer(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color(0x57101827), // §20.1: rgba(16,24,39,0.34)
-                        Color(0x85101827)  // §20.1: rgba(16,24,39,0.52)
+                        NagiTokens.deepBlue.copy(alpha = 0.34f), // §20.1
+                        NagiTokens.glassRowEnd  // §20.1: 0.52
                     )
                 )
             )
             .border(
                 width = 1.dp,
-                color = Color(0x14FFFFFF),
+                color = NagiTokens.borderGlass,
                 shape = NagiShapes.cutMedium
             )
             .padding(18.dp)
@@ -88,7 +88,7 @@ private fun ChatBubble(message: ChatMessage) {
                 Text(
                     text = message.speaker,
                     style = NagiTheme.typography.micro,
-                    color = Color(0xEBF7F9FC).copy(alpha = 0.6f), // §20.2 secondary
+                    color = NagiTokens.textSnow92.copy(alpha = 0.6f), // §20.2 secondary
                     modifier = Modifier.padding(
                         start = NagiTheme.spacing.s,
                         bottom = 2.dp
@@ -98,9 +98,9 @@ private fun ChatBubble(message: ChatMessage) {
 
             // §20.2/20.3: bubble colors
             val bgColor = if (message.isPlayer)
-                Color(0x2ED7BE86) // §20.3: rgba(215,190,134,0.18)
+                NagiTokens.goldPlayer // §20.3: rgba(215,190,134,0.18)
             else
-                Color(0x14FFFFFF) // §20.2: rgba(255,255,255,0.08)
+                NagiTokens.borderGlass // §20.2: rgba(255,255,255,0.08)
 
             Box(
                 modifier = Modifier
@@ -112,7 +112,7 @@ private fun ChatBubble(message: ChatMessage) {
                     text = message.text,
                     fontSize = 14.sp, // §20.2: 14sp
                     lineHeight = (14 * 1.7).sp, // §20.2: line-height 1.7
-                    color = Color(0xEBF7F9FC) // §20.2: rgba(247,249,252,0.92)
+                    color = NagiTokens.textSnow92 // §20.2: rgba(247,249,252,0.92)
                 )
             }
 
@@ -120,7 +120,7 @@ private fun ChatBubble(message: ChatMessage) {
                 Text(
                     text = "read",
                     style = NagiTheme.typography.micro,
-                    color = Color(0xEBF7F9FC).copy(alpha = 0.4f),
+                    color = NagiTokens.textSnow92.copy(alpha = 0.4f),
                     modifier = Modifier.padding(
                         end = NagiTheme.spacing.xs,
                         top = 2.dp

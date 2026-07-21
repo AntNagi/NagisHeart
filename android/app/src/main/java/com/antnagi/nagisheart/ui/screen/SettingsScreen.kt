@@ -146,12 +146,12 @@ private fun SettingsRow(
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color(0x61101827),
-                        Color(0x85101827)
+                        NagiTokens.glassRowStart,
+                        NagiTokens.glassRowEnd
                     )
                 )
             )
-            .border(1.dp, Color(0x14FFFFFF), NagiShapes.cutSmall)
+            .border(1.dp, NagiTokens.borderGlass, NagiShapes.cutSmall)
             .clickable(onClick = onClick)
             .padding(start = 18.dp, end = 4.dp, top = 10.dp, bottom = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
