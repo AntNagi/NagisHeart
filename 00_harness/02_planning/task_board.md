@@ -35,6 +35,7 @@
 - 说明：locked 条目须显示中性文案（如"？？？"或"未解锁章节"），不暴露未来真实标题；unlocked/current/completed 不变。**feibo 07-21 代码核验：仍未修**——`ChapterScreen.kt:205` locked 行仍渲染 `item.sectionTitle` 真实标题（仅压 alpha 0.52）。本条目即完整任务说明，无需读旧任务单。
 - 完成定义：locked 显示中性文案；unlocked/current/completed 仍显示真实标题；截图两种状态给 Ant。
 - 完成：`2238b5a` locked 行标题→"？？？"、副标题→"未解锁章节"；alpha 0.52 + 状态文字"未解锁"不变。待 Ant 实机截图验收。
+- feibo review（2026-07-21）：静态通过。两行条件渲染，范围干净。注：locked 条目章节名一并遮蔽属从严处理，可接受；若 Ant 希望当前大章内 locked 小节保留大章名，实机反馈后一行改回。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260721-002
@@ -45,6 +46,7 @@
 - 说明：Ant 07-20 实机复验最后一行仍显示不全；MinSpec §21.2 第 4 行原"已通过"记录已作废（07-21 修正）。根因方向：`BacklogScreen.kt` 固定 `ENTRIES_PER_PAGE = 8`，与 §17.4"固定 8 条导致裁切"禁止项冲突；改为按可用高度动态分页或保证末行完整。
 - 完成定义：小屏/大屏实机截图证明末行完整。
 - 完成：`625b3ea` 保留 ENTRIES_PER_PAGE=8 分页不变，给页内 Column 加 verticalScroll，内容超出时可滚动查看末行。待 Ant 实机验收。
+- feibo review（2026-07-21）：**方向保留意见**。页内 verticalScroll 与 Ant 07-17 交互权威"剧情回顾不要滚屏、改为翻页"冲突——等于用被否掉的交互掩盖被禁止的裁切。裁决交 Ant 今晚实机：(a) 正常浏览经常触发滚动 → 打回，改按可用高度动态分页（页容量=实际放得下的条数，无页内滚动）；(b) 8 条几乎总放得下、滚动仅极端长文本兜底 → 可接受，但须在交互权威补一行 fallback 口径并走 MANIFEST 流程。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260719-004
@@ -53,7 +55,12 @@
 - 状态：in_progress
 - 优先级：P1
 - 说明：原 0719 只读审计任务，按 feibo 07-21 诊断重定scope：① token 归一——Android UI 层约 200 处硬编码 `Color(0x…)`（GameScreen 57 处）、Web 123 处硬编码 rgba 收进 token 层，加静态检查防回潮；② 死代码清除——`SectionClearScreen.kt`、`Routes.SECTION_CLEAR`、`advanceAfterSectionClear()`（0719-011/013 确认的 cleanup candidates）；③ GameScreen(34KB)/GameViewModel(30KB) 职责拆分评估。
-- 进度：② 死代码清除已完成（`ea9bac9`）——SectionClearScreen.kt 删除、Routes.SECTION_CLEAR 移除、advanceAfterSectionClear() 移除。① token 归一和 ③ 拆分评估待 feibo 把关后执行。
+- 进度：② 死代码清除已完成（`ea9bac9`）——SectionClearScreen.kt 删除、Routes.SECTION_CLEAR 移除、advanceAfterSectionClear() 移除。feibo review：147 行清零、全仓库无残留引用，通过。
+- feibo 方向（2026-07-21，① token 归一执行口径）：
+  - A. Android：盘点 `ui/`（theme/ 除外）全部硬编码 `Color(0x…)`，在 `ui/theme/` 按 authority 语义命名新增 token（命名对齐 MinSpec §17 token 表，如 GlassBg、GoldSpeaker、ScrimHeavy），替换引用。**铁律：替换过程数值零变更**；发现代码值与 authority 值不一致的，不得顺手"修正"，记入差异清单贴在本条目下交 feibo 裁决。按文件小步提交。
+  - B. Web：同理，散落 rgba 收进 `tokens.css` 变量，规则同上。
+  - C. 防回潮：新增 `tools/check-tokens.ps1`（grep `ui/` 非 theme 的 `Color(0x` 与 css 非 tokens 的 `rgba(`，非零即 fail），并写进协作规则会话启动可选项。
+  - ③ GameScreen/GameViewModel 拆分：PP 只出评估（现职责清单、建议拆分边界、风险，几行写在本条目下），**不动手拆**，feibo 看完评估再裁决。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260721-003
