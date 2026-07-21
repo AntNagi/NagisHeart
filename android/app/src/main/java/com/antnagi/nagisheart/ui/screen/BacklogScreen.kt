@@ -6,6 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -112,7 +114,11 @@ fun BacklogScreen(
                             .fillMaxSize()
                             .padding(start = 50.dp, end = 50.dp)
                     ) {
-                        Column(modifier = Modifier.fillMaxWidth()) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .verticalScroll(rememberScrollState())
+                        ) {
                             pageEntries.forEachIndexed { index, entry ->
                                 BacklogItem(
                                     entry = entry,
