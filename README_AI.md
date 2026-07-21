@@ -12,8 +12,11 @@ Start with these files:
 1. `README_AI.md` - collaboration and read/write rules.
 2. `TASKS.md` - current task board and handoff notes.
 3. `PROJECT_STRUCTURE.md` - file map and document authority rules.
+4. `authority/MANIFEST.md` - the ONLY authority document registry (7 docs + 2 KV packages). Run `powershell -ExecutionPolicy Bypass -File tools/check-authority.ps1` at session start; investigate before working if it fails.
 
 Then read only the files needed for the specific task.
+
+Authority hard rule: authority documents live ONLY in `authority/` (KV asset packages in `design/authority/icon_start_tt/`). Never copy them elsewhere; process docs must reference by path + section number. Any other copy you find (old snapshots, handoff, design/) is historical and must not be used as a development basis.
 
 Do not scan the whole repository by default.
 
@@ -44,12 +47,12 @@ This repository has not yet been physically reorganized into `docs-current/`, `d
 
 Use the smallest useful reading set:
 
-- Product scope: read `design/NagisHeart_PRD_v2_0.md`.
-- Interaction rules: read `design/NagisHeart_Interaction_Design_v1_0.md`.
-- Script source: read targeted sections of `design/Nagis_Heart_SCRIPT_V15_Calibrated.md`; do not load the full script unless necessary.
-- Story logic: read the relevant `story-data/*.json` file.
-- Background/mood mapping: read `story-data/scene_visuals.json` and, if needed, `design/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md`.
-- UI spec: read `handoff/yiyi_final_visual_slices_20260711/XoXo_UI_Final_MinSpec_20260712.md` and `design/CoCo_Design_Handoff_20260713.md`.
+- Product scope: read `authority/product/NagisHeart_PRD_v2_0.md`.
+- Interaction rules: read `authority/interaction/NagisHeart_Interaction_Design_v1_0.md`.
+- Script source: read targeted sections of `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`; do not load the full script unless necessary.
+- Story logic design: read `authority/story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md`; runtime truth is the relevant `story-data/*.json` file.
+- Background/mood mapping: read `story-data/scene_visuals.json` and, if needed, `authority/visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md`.
+- UI spec: read `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` (values) and `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` (visual master). The handoff copy of MinSpec is stale history - do not use it.
 - Android work: read the relevant `android/app/src/main/...` files.
 - Web work: read the relevant `web/src/` or `web/styles/` files.
 
@@ -74,8 +77,8 @@ Before writing any file:
 
 Never casually edit:
 
+- `authority/` (any file - requires decision_log entry + MANIFEST hash update in the same commit)
 - `story-data/*.json`
-- `design/Nagis_Heart_SCRIPT_V15_Calibrated.md`
 - `assets/bg/`
 - `assets/main pic/`
 - `android/app/src/main/res/`

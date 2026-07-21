@@ -6,6 +6,20 @@
 
 ---
 
+### TASK-20260721-001
+- 项目：NagisHeart
+- 标题：权威文档收拢隔离（authority/ 建立）+ 周末场外协作补账
+- 来源：Ant 2026-07-21 指示 CTO feibo 诊断项目并整顿权威文档
+- 负责人：feibo（CTO / Claude）
+- 状态：done
+- 优先级：P0
+- 当前动作：已完成。(1) 补账：07-19/20 周末 Codex token 耗尽期间，Ant 与 lulu/PP 场外直接协作，完成 UI 规范修订（MinSpec §19-§22、UI HTML ending-card、BG Mapping §7、icon V4 safezone）与 Web 90 项 authority 对齐、Android SaveLoad/Settings §22 修正，未走 harness 流程，本条目补记。(2) 七份权威文档 + 节点匹配表收拢至根目录 `authority/`，全仓库单副本；KV 资产包（Start V23 / Icon V4 safezone）原位登记。(3) 建立 `authority/MANIFEST.md`（哈希清单+修改铁律）与 `tools/check-authority.ps1` 校验。(4) `00_harness/08_authority_current/` 快照证实三日内双向漂移，整体退役至 `99_archive/authority_current_retired_20260721/`。(5) 入口三件套改指路。
+- 涉及文件：`authority/`、`tools/check-authority.ps1`、`README_AI.md`、`TASKS.md`、`PROJECT_STRUCTURE.md`、`00_harness/99_archive/authority_current_retired_20260721/`
+- 依赖：Ant 确认七份权威名单（含交互文档）与 KV 两包（Start V23、Icon V4 safezone）
+- 完成定义：check-authority.ps1 全绿；入口文档不再指向任何过期副本
+- 遗留跟进：V3_1↔story-data 全量差异审计（已发现 GOOD END 标题"爱你/爱他"分歧）；handoff 内 MinSpec 过期副本已在 MANIFEST 标注警示；2 张缺失 BG（goal.jpg、bg_scarf_flower_delivery.jpg）
+- 最新更新时间：2026-07-21
+
 ### TASK-20260719-015
 - 项目：NagisHeart
 - 标题：Android Ending Verification Hook + Evidence

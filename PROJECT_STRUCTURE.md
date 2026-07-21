@@ -24,6 +24,21 @@
 
 ## 1. 当前权威文档
 
+> **2026-07-21 重要变更**：全部权威文档已收拢到根目录 `authority/`，唯一清单见 `authority/MANIFEST.md`。本节及下文各表中所有 `design/` 下的权威文档旧路径均已失效，对应关系：
+>
+> | 权威 | 新路径 |
+> |---|---|
+> | PRD | `authority/product/NagisHeart_PRD_v2_0.md` |
+> | 交互设计 | `authority/interaction/NagisHeart_Interaction_Design_v1_0.md` |
+> | 剧本母版 | `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` |
+> | 剧情逻辑 coreDesign | `authority/story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` |
+> | UI 设计稿 | `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` |
+> | UI 数值 MinSpec | `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` |
+> | BG Mapping v1.2 | `authority/visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` |
+> | Start 页（TT V23）/ Icon（V4 safezone） | `design/authority/icon_start_tt/`（原位保留，受 MANIFEST 约束） |
+>
+> 非权威的历史/参考/审计文档仍在 `design/`、`handoff/` 原位。`00_harness/08_authority_current/` 快照已退役归档。
+
 ### 1.1 产品需求
 
 | 文件 | 状态 | 用途 |

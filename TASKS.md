@@ -7,7 +7,8 @@
 
 ## 当前规则
 
-- 每个新会话先读 `README_AI.md`，再读本文件，再读 `PROJECT_STRUCTURE.md`。
+- 每个新会话先读 `README_AI.md`，再读本文件，再读 `PROJECT_STRUCTURE.md`，再读 `authority/MANIFEST.md` 并运行 `tools/check-authority.ps1`。
+- 权威文档唯一入口是根目录 `authority/`（KV 资产包在 `design/authority/icon_start_tt/`）。旧的 `00_harness/08_authority_current/` 快照已于 2026-07-21 退役，任何指向它的旧路径一律以 `authority/` 为准。
 - 如果任务涉及 PM 同步、收件箱/发件箱、状态日志、handoff、权威文件或跨 agent 协作，再读 `00_harness/README.md` 和相关 harness 文件。
 - 正式任务只以 `00_harness/02_planning/task_board.md` 为准。
 - 正式决策只以 `00_harness/01_governance/decision_log.md` 为准。
@@ -47,11 +48,9 @@
 
 正式决策见 `00_harness/01_governance/decision_log.md`。
 
-- UI 权威合版以 `design/NagisHeart_P0_HiFi_Design_XoXo_v2_0.html` 为唯一母版。
-- 只从 `design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html` 拼入已通过页面：主页、开场白、名字设置、大章开始、小节开始、弹窗。
-- 不采用 Missing Pages 的大章结束页、小节结束页、长旁白页、剧情回顾页。
-- 长旁白与剧情回顾采用 `design/NagisHeart_LongNarration_StoryRecap_Redesign_Lulu_v1_0.html` 的结构，但统一为母版冷色体系。
-- XoXo 只做拼接、替换、删减、对齐和结构整理；不得重设计。
+- UI 合版已完成：当前 UI 设计权威是 `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html`，数值权威是 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md`。
+- Start 页权威是 TT V23（`design/authority/icon_start_tt/start/`）；App Icon 权威是 V4 safe-zone（`design/authority/icon_start_tt/icon/android_launcher_rework_v4_safezone/`）。
+- 上述及全部权威清单以 `authority/MANIFEST.md` 为准；历史合版来源文件（P0 HiFi v2_0、Missing Pages、Lulu 长旁白稿）仅作追溯。
 
 ---
 
@@ -71,8 +70,8 @@
 ## 公司电脑当前注意事项
 
 - `TASKS.md` 冲突已按 harness-first 规则整理为本文件。
-- `README_AI.md`、`PROJECT_STRUCTURE.md`、`00_harness/README.md` 是当前根入口。
-- `00_harness/08_authority_current/` 是权威候选快照，只读，不直接编辑。
+- `README_AI.md`、`PROJECT_STRUCTURE.md`、`00_harness/README.md`、`authority/MANIFEST.md` 是当前根入口。
+- `00_harness/08_authority_current/` 快照机制已于 2026-07-21 退役（副本漂移），权威只读 `authority/`。
 - 如需兼容旧绝对路径，再运行：
 
 ```powershell
