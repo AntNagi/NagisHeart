@@ -325,10 +325,10 @@
         drop-shadow(0 0 8px rgba(247, 249, 252, 0.20));
     }
 
-    .ico-back { --icon: url("../assets/ui/svg/ic_back.svg"); }
-    .ico-auto { --icon: url("../assets/ui/svg/ic_auto.svg"); }
-    .ico-save { --icon: url("../assets/ui/svg/ic_save.svg"); }
-    .ico-menu { --icon: url("../assets/ui/svg/ic_menu.svg"); }
+    .ico-back { --icon: url("../../assets/ui/svg/ic_back.svg"); }
+    .ico-auto { --icon: url("../../assets/ui/svg/ic_auto.svg"); }
+    .ico-save { --icon: url("../../assets/ui/svg/ic_save.svg"); }
+    .ico-menu { --icon: url("../../assets/ui/svg/ic_menu.svg"); }
 
     .hud-title {
       position: relative;
@@ -1381,7 +1381,7 @@
   </style>
 </head>
 <body>
-  <div class="stage" style="--bg:url('../assets/bg/bg_bluelock_meeting_contract_room.png');--pos:center;">
+  <div class="stage" style="--bg:url('../../assets/bg/bg_bluelock_meeting_contract_room.png');--pos:center;">
     <div class="ambient"></div>
   </div>
 
@@ -1430,15 +1430,15 @@
       class="phone"
       data-theme="dark"
       data-view="start"
-      style="--bg:url('../assets/bg/bg_bluelock_meeting_contract_room.png');--pos:center;"
+      style="--bg:url('../../assets/bg/bg_bluelock_meeting_contract_room.png');--pos:center;"
     >
       <!-- Source: DEC-20260717-001 + TT Start v23 authority package / start -->
       <section class="screen splash screen-start">
         <div class="content">
           <div class="tt-start-poster" aria-label="TT Start v23 authority reference">
-            <img src="authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
-            <img src="authority/icon_start_tt/start/layers/start_title_overlay_v23.svg" alt="" />
-            <img src="authority/icon_start_tt/start/layers/start_button_static_v23.svg" alt="" />
+            <img src="../../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
+            <img src="../../design/authority/icon_start_tt/start/layers/start_title_overlay_v23.svg" alt="" />
+            <img src="../../design/authority/icon_start_tt/start/layers/start_button_static_v23.svg" alt="" />
             <button class="tt-start-hit" aria-label="Start"></button>
           </div>
         </div>
@@ -1696,8 +1696,8 @@
         <div class="soft-screen">
           <h2 class="page-title">回忆画廊</h2>
           <div class="gallery-grid">
-            <div class="memory-card" style="--img:url('../assets/bg/hug.jpg')">CG 01 <span>已解锁</span></div>
-            <div class="memory-card" style="--img:url('../assets/bg/scarf.jpg')">CG 02 <span>已解锁</span></div>
+            <div class="memory-card" style="--img:url('../../assets/bg/hug.jpg')">CG 01 <span>已解锁</span></div>
+            <div class="memory-card" style="--img:url('../../assets/bg/scarf.jpg')">CG 02 <span>已解锁</span></div>
             <div class="memory-card locked">??? <span>未解锁</span></div>
             <div class="memory-card locked">END <span>未解锁</span></div>
           </div>
@@ -1760,24 +1760,24 @@
     const phone = document.getElementById("phone");
     const views = [...document.querySelectorAll("button[data-view]")];
     const presets = {
-      start: { bg: "url('authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png')", pos: "center", theme: "dark" },
-      home: { bg: "url('../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
-      prologue: { bg: "url('../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
-      name: { bg: "url('../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
-      "chapter-catalog": { bg: "url('../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
-      "chapter-opening": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
-      "section-opening": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
-      "chapter-clear": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
-      dialogue: { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
-      choice: { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
-      line: { bg: "url('../assets/bg/bedroom.jpg')", pos: "center", theme: "dark" },
-      "long-narration": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
-      "story-recap": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
-      save: { bg: "url('../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
-      gallery: { bg: "url('../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
-      settings: { bg: "url('../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
-      ending: { bg: "url('../assets/bg/worldstage.jpg')", pos: "center", theme: "dark" },
-      "skip-confirm": { bg: "url('../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" }
+      start: { bg: "url('../../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png')", pos: "center", theme: "dark" },
+      home: { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      prologue: { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      name: { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "chapter-catalog": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "chapter-opening": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      "section-opening": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      "chapter-clear": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      dialogue: { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      choice: { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      line: { bg: "url('../../assets/bg/bedroom.jpg')", pos: "center", theme: "dark" },
+      "long-narration": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      "story-recap": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      save: { bg: "url('../../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
+      gallery: { bg: "url('../../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
+      settings: { bg: "url('../../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
+      ending: { bg: "url('../../assets/bg/worldstage.jpg')", pos: "center", theme: "dark" },
+      "skip-confirm": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" }
     };
 
     function applyView(view) {
