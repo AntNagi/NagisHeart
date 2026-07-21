@@ -65,7 +65,9 @@
     - **建议拆分边界**：(A) GameScreen → 主屏 + 5 个独立文件（EndingOverlay、ChapterOpeningOverlay、SectionOpeningOverlay、ChapterEndingOverlay、ReplayCompleteOverlay），每个自成 @Composable；GlassBacking/ClearCard/KickerLabel/PosterPageBackground 提为 component/。(B) GameViewModel → 引擎核心不拆；存档/设置/进度查询 delegate 到独立 Manager（现已有 SaveManager/ProgressManager，ViewModel 只做代理——考虑直接让 Screen 层持有 Manager 或注入 UseCase，减少 ViewModel 透传）。Auto/Skip 逻辑可提为 AutoPlayController 内部类。
     - **风险**：(1) GameScreen 拆分低风险，纯 UI 提取，无共享状态；(2) ViewModel 拆分中风险——enterNode 和对话序列紧耦合 _uiState，拆出去需要回调或 SharedFlow，复杂度可能增加而非降低；(3) 当前 864+725=1589 行对一个 VN 游戏主画面来说可接受，拆分收益主要在可维护性而非功能需求。
     - **结论**：建议先做 (A) GameScreen UI 提取（低风险、高可读性收益），(B) ViewModel 暂不拆（紧耦合的引擎/对话状态机拆出去未必更好）。feibo 裁决。
-  - 待做：B（Web tokens.css 归一）。
+  - feibo 裁决（2026-07-21）：③ 评估质量合格。**采纳 B——ViewModel 不拆**（1589 行对 VN 主画面可接受，紧耦合状态机强拆反增复杂度）；**批准 A 为后续 P2**（EndingOverlay 等 7 个 private Composable 提取成独立文件），但**暂缓执行**：等今晚 Ant 实机确认 token 归一零视觉变更后再排期，避免多层改动叠加难以定位回归。004 执行项全部收口，转 review。
+  - feibo 流程提醒（2026-07-21）：①B Web css 与 008 工具改动曾停留工作区未提交（板已记完成、git 无账），由 feibo 代为分类收口提交。**v2 规则重申：做完即提交推送，板上写完成的前提是 push 成功。**下轮 PP/Wewe 会话需遵守。
+  - ① B. Web tokens.css 归一完成：tokens.css 新增 65 个语义 token（snow/parchment/deep/hud-blue/gold/black/white/ink/gray-blue + misc），8 个 CSS 文件（choice/prologue/start/name-setup/dialogue/hud/overlays/transitions）全量 103 处 rgba() → var() 引用。零值变更。lint 通过。
 - feibo 方向（2026-07-21，① token 归一执行口径）：
   - A. Android：盘点 `ui/`（theme/ 除外）全部硬编码 `Color(0x…)`，在 `ui/theme/` 按 authority 语义命名新增 token（命名对齐 MinSpec §17 token 表，如 GlassBg、GoldSpeaker、ScrimHeavy），替换引用。**铁律：替换过程数值零变更**；发现代码值与 authority 值不一致的，不得顺手"修正"，记入差异清单贴在本条目下交 feibo 裁决。按文件小步提交。
   - B. Web：同理，散落 rgba 收进 `tokens.css` 变量，规则同上。
@@ -105,6 +107,7 @@
 - 说明：现有 `tools/ui-snapshot.js` 已覆盖 9 状态；扩展 web 流程脚本覆盖剩余权威页：真人物对白（点到有 speaker 的节点）、选项层（推进到首个选项节点）、章节/小节开始、章节结束、长旁白、跳过弹窗（点 HUD skipSection chip）、结局页与画廊（可加 debug 入口或存档注入，需在回报中说明方式且不得进生产路径）。只改 `tools/ui-snapshot.js`，不改 `web/src` 生产逻辑。
 - 完成定义：`node tools/ui-snapshot.js all` 覆盖 ≥15/18 权威页；报告无损；截图入 `05_reports/ui_baseline/web/`。
 - 完成结果：18/18 权威页全覆盖。方式：puppeteer evaluateOnNewDocument 钩子捕获 GameController 实例至 window.__controller__，通过 controller.onTap() / _navigateToNode() / _updateState() 驱动到目标状态截图；画廊按钮 disabled 通过 evaluate 移除 disabled 属性后注入 DOM；结局/章节转场/小节转场通过 _updateState 直接设置。未改 web/src 任何文件。
+- feibo review（2026-07-21）：工具交付合格（+255 行，注入法不碰生产代码，方向正确），但**覆盖账面修正：实际 17/18**——缺 `line`（Web LINE 层未实现，合理缺口，待 LINE 接入后补）；多出 `section-clear` 一张（权威无此页，§17.6 已移除独立小节结束页）——**Web 存在已被产品移除的 Section Clear 状态，疑似残留**，列入 `TASK-20260721-006` Ant 验收关注项，确认后 Wewe 下轮移除该状态及其入口。任务转 review。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260721-007
