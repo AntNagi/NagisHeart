@@ -2,23 +2,22 @@
 
 > 用途：给当前班次和当前循环一个最短优先级入口。  
 > 原则：只保留当前最重要的 3 到 5 项，不写成长清单。  
-> 更新：2026-07-21 feibo（旧版停留在 07-18 且含已离职 yiyi 条目，已重写）
+> 更新：2026-07-21 feibo（任务板大扫除后同步）
 
 ---
 
 ## 当前优先级
 
-1. Web 90 项 authority 对齐后的回归验收 - Ant 浏览器/移动视口过一遍（改动量大，未经独立 QA）- Ant / PM
-2. `TASK-20260719-016` - Android 章节目录 locked 标题隐私修复（P1，已派发待执行）- PP
-3. Android 07-21 改动实机验收：SaveLoad/Settings §22 行项 + BG mapping v1.5 + 系统 vignette - Ant
-4. V3_1 ↔ story-data 全量差异审计（GOOD END 标题分歧已实锤，需逐条裁决表）- 待 PM 派发
-5. 补齐 2 张缺失 BG：`assets/bg/goal.jpg`（c6a）、`bg_scarf_flower_delivery.jpg`（e_scarf）- 待派发
+1. `TASK-20260721-006` - Web 90 项对齐浏览器验收（桌面 + 移动视口）- Ant
+2. `TASK-20260719-016` - Android 章节目录 locked 标题隐私修复（代码核验确认未修）- PP
+3. `TASK-20260719-004` - 代码健康专项：token 归一 / 死代码 / 结构（feibo 主导）- feibo / PP
+4. `TASK-20260721-003` - V3_1 ↔ story-data 差异审计 - feibo
+5. 小项：`002` 回顾页末行裁切（P2）、`004` 补 2 张 BG（P2）、`005` 开放日实机复验（Ant 顺手）
 
 ---
 
 ## 说明
 
-- 本文件用于快速进入状态
-- 完整任务信息仍以 `task_board.md` 为准
-- 权威文档唯一入口：`authority/MANIFEST.md`（2026-07-21 起）
-- 如果本文件与任务板不一致，由 PM 立即修正
+- 完整任务信息以 `task_board.md` 为准（2026-07-21 已大扫除，历史见 `task_board_archive_20260715_20260721.md`）
+- 权威文档唯一入口：`authority/MANIFEST.md`
+- QA 口径：agent QA 停用，Ant 实机/浏览器测试是唯一验收关口

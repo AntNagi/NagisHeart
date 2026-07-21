@@ -476,3 +476,16 @@ None. Investigation and process decision only; no code or resource deletion auth
   - `00_harness/07_scheduler/WORKER_LOOP.md`
   - `00_harness/07_scheduler/PM_LOOP.md`
 - Impact: Applies immediately to PP / Wewe / any future implementation worker.
+
+# DEC-20260721-001 - Task board sweep, QA model change, and MinSpec 21.2 record correction
+
+- Date: 2026-07-21
+- Owner: feibo (CTO) / approved by Ant
+- Trigger: Ant directive "任务要关掉，文件信息要对齐" after weekend off-harness work made most board entries stale.
+- Decision:
+  - Agent QA is discontinued. Ant's own real-device / browser testing is the only acceptance gate. Dev deliverables should be screenshots/comparison images, not text claims.
+  - Task board swept: 34 historical tasks closed (closed-done / closed-superseded / closed-cancelled) and archived to 02_planning/task_board_archive_20260715_20260721.md with a one-line reason ledger on the active board.
+  - MinSpec section 21.2 row 4 (BacklogScreen "已通过") is a falsified record: Ant 07-20 real-device retest still shows last-line clipping. Row corrected in authority/ui/XoXo_UI_Final_MinSpec_20260712.md; rework tracked as TASK-20260721-002. MANIFEST hash updated in the same commit per authority iron rule 2.
+  - Confirmed still-open items re-verified in code before keeping: TASK-20260719-016 locked-title privacy NOT fixed (ChapterScreen.kt renders real title when locked); icon V4 safezone IS integrated (res hash matches package); gradlew does not exist (0717-004 cancelled).
+- Files updated: 02_planning/task_board.md, 02_planning/task_board_archive_20260715_20260721.md, 02_planning/current_priorities.md, authority/ui/XoXo_UI_Final_MinSpec_20260712.md, authority/MANIFEST.md, TASKS.md
+- Cleanup status: none (archive only, no deletion).

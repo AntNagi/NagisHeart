@@ -31,16 +31,9 @@
 
 ## 正式任务入口
 
-| 任务 | 负责人 | 状态 | 正式文件 |
-|---|---|---|---|
-| UI 权威候选版严格合版 | XoXo | ready | `00_harness/04_execution/design/TASK_XOXO_UI_AUTHORITY_MERGE_20260715.md` |
-| App Icon 与 Start 页权威候选包整理 | TT | ready | `00_harness/04_execution/design/TASK_TT_ICON_START_AUTHORITY_20260715.md` |
+正式任务只看 `00_harness/02_planning/task_board.md`（2026-07-21 已大扫除：只保留活跃任务 + 关闭台账；历史任务见 `task_board_archive_20260715_20260721.md`）。
 
-查看完整任务板：
-
-```text
-00_harness/02_planning/task_board.md
-```
+QA 口径（2026-07-21 起）：agent QA 停用，Ant 本人实机/浏览器测试是唯一验收关口。
 
 ---
 
