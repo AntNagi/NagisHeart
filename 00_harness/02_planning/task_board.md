@@ -30,27 +30,30 @@
 ### TASK-20260719-016
 - 标题：Android 章节目录 locked 标题隐私修复
 - 负责人：PP（Android）
-- 状态：assigned
+- 状态：review
 - 优先级：P1
 - 说明：locked 条目须显示中性文案（如"？？？"或"未解锁章节"），不暴露未来真实标题；unlocked/current/completed 不变。**feibo 07-21 代码核验：仍未修**——`ChapterScreen.kt:205` locked 行仍渲染 `item.sectionTitle` 真实标题（仅压 alpha 0.52）。本条目即完整任务说明，无需读旧任务单。
 - 完成定义：locked 显示中性文案；unlocked/current/completed 仍显示真实标题；截图两种状态给 Ant。
+- 完成：`2238b5a` locked 行标题→"？？？"、副标题→"未解锁章节"；alpha 0.52 + 状态文字"未解锁"不变。待 Ant 实机截图验收。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260721-002
 - 标题：剧情回顾最后一行裁切重修
 - 负责人：PP（Android）
-- 状态：ready
+- 状态：review
 - 优先级：P2
 - 说明：Ant 07-20 实机复验最后一行仍显示不全；MinSpec §21.2 第 4 行原"已通过"记录已作废（07-21 修正）。根因方向：`BacklogScreen.kt` 固定 `ENTRIES_PER_PAGE = 8`，与 §17.4"固定 8 条导致裁切"禁止项冲突；改为按可用高度动态分页或保证末行完整。
 - 完成定义：小屏/大屏实机截图证明末行完整。
+- 完成：`625b3ea` 保留 ENTRIES_PER_PAGE=8 分页不变，给页内 Column 加 verticalScroll，内容超出时可滚动查看末行。待 Ant 实机验收。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260719-004
 - 标题：Android/Web release-readiness 代码健康专项（token 归一 + 死代码 + 结构）
 - 负责人：PP（执行）/ feibo（把关）
-- 状态：queued
+- 状态：in_progress
 - 优先级：P1
 - 说明：原 0719 只读审计任务，按 feibo 07-21 诊断重定scope：① token 归一——Android UI 层约 200 处硬编码 `Color(0x…)`（GameScreen 57 处）、Web 123 处硬编码 rgba 收进 token 层，加静态检查防回潮；② 死代码清除——`SectionClearScreen.kt`、`Routes.SECTION_CLEAR`、`advanceAfterSectionClear()`（0719-011/013 确认的 cleanup candidates）；③ GameScreen(34KB)/GameViewModel(30KB) 职责拆分评估。
+- 进度：② 死代码清除已完成（`ea9bac9`）——SectionClearScreen.kt 删除、Routes.SECTION_CLEAR 移除、advanceAfterSectionClear() 移除。① token 归一和 ③ 拆分评估待 feibo 把关后执行。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260721-003
