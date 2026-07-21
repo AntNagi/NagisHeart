@@ -202,7 +202,7 @@ fun ChapterScreen(
                                 ) {
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(
-                                            text = item.sectionTitle,
+                                            text = if (isLocked) "？？？" else item.sectionTitle,
                                             fontFamily = FontFamily.Default,
                                             fontWeight = FontWeight.Medium,
                                             fontSize = 15.sp,
@@ -212,7 +212,7 @@ fun ChapterScreen(
                                         )
                                         Spacer(modifier = Modifier.height(3.dp))
                                         Text(
-                                            text = item.chapterName,
+                                            text = if (isLocked) "未解锁章节" else item.chapterName,
                                             fontSize = 12.sp,
                                             color = Color(0xA3F4F1EA), // 64%
                                             maxLines = 1,
