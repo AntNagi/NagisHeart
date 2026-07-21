@@ -77,6 +77,15 @@
 - 说明：该 bug 全 harness 无记录无修复账，疑似修复随 Android 工作区回滚丢失。story-data 数据层已核验正常（c3 链路/选项目标/校验器全过）。Ant 在当前版本实机走第二部第一节"开放日"：不复现即关闭；复现则拍图，feibo 直接修引擎显示层。
 - 最新更新时间：2026-07-21
 
+### TASK-20260721-008
+- 标题：ui-snapshot 工具深流程覆盖 v2
+- 负责人：Wewe（Web）
+- 状态：pending
+- 优先级：P2
+- 说明：现有 `tools/ui-snapshot.js` 已覆盖 9 状态；扩展 web 流程脚本覆盖剩余权威页：真人物对白（点到有 speaker 的节点）、选项层（推进到首个选项节点）、章节/小节开始、章节结束、长旁白、跳过弹窗（点 HUD skipSection chip）、结局页与画廊（可加 debug 入口或存档注入，需在回报中说明方式且不得进生产路径）。只改 `tools/ui-snapshot.js`，不改 `web/src` 生产逻辑。
+- 完成定义：`node tools/ui-snapshot.js all` 覆盖 ≥15/18 权威页；报告无损；截图入 `05_reports/ui_baseline/web/`。
+- 最新更新时间：2026-07-21
+
 ### TASK-20260721-007
 - 标题：MinSpec 效果的 Compose 翻译规范
 - 负责人：lulu（UI）/ feibo（把关）
