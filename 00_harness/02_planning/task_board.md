@@ -17,7 +17,7 @@
 - 涉及文件：`authority/`、`tools/check-authority.ps1`、`README_AI.md`、`TASKS.md`、`PROJECT_STRUCTURE.md`、`00_harness/99_archive/authority_current_retired_20260721/`
 - 依赖：Ant 确认七份权威名单（含交互文档）与 KV 两包（Start V23、Icon V4 safezone）
 - 完成定义：check-authority.ps1 全绿；入口文档不再指向任何过期副本
-- 遗留跟进：V3_1↔story-data 全量差异审计（已发现 GOOD END 标题"爱你/爱他"分歧）；handoff 内 MinSpec 过期副本已在 MANIFEST 标注警示；2 张缺失 BG（goal.jpg、bg_scarf_flower_delivery.jpg）
+- 遗留跟进：V3_1↔story-data 全量差异审计（已发现 GOOD END 标题"爱你/爱他"分歧）；handoff 内 MinSpec 过期副本已在 MANIFEST 标注警示；2 张缺失 BG（goal.jpg、bg_scarf_flower_delivery.jpg）；**开放日（c3）"剧情和选项乱掉" bug 全 harness 无记录无修复账**，疑似修复随某次 Android 工作区回滚丢失（story-data 数据层已核验正常，若为引擎显示层 bug 可能已被 PP 后续 GameViewModel 重写覆盖）——待 Ant 实机复验第二部第一节，若复现则开新任务；剧情回顾固定 8 条/页仍在代码中（`BacklogScreen.kt` ENTRIES_PER_PAGE=8），MinSpec §17.4 警示"固定 8 条导致裁切"为禁止项，小屏需实机确认
 - 最新更新时间：2026-07-21
 
 ### TASK-20260719-015
