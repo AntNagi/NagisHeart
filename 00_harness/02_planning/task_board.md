@@ -9,7 +9,7 @@
 
 ## 当前优先级
 
-1. ✅ 截图对比验收工具已上线（07-21）：`node tools/ui-snapshot.js all` 一键生成权威 18 页期望图 + Web 9 状态实现图 + 并排报告 `00_harness/05_reports/ui_baseline/compare_report.html`。`TASK-20260721-006` 的验收直接看该报告
+1. ✅ 截图对比验收工具已上线（07-21）：`node tools/ui-snapshot.js all` 一键生成权威 18 页期望图 + Web 18 状态实现图 + 并排报告 `00_harness/05_reports/ui_baseline/compare_report.html`。`TASK-20260721-006` 的验收直接看该报告（TASK-20260721-008 完成后覆盖 18/18）
 2. `TASK-20260721-006` Web 90 项对齐验收 - Ant
 3. `TASK-20260719-016` locked 标题隐私修复 - PP
 4. `TASK-20260719-004` 代码健康专项 - PP 执行 / feibo 把关；`TASK-20260721-003` V3_1 审计 - PM 一一 执行 / feibo 指导
@@ -55,7 +55,9 @@
 - 状态：in_progress
 - 优先级：P1
 - 说明：原 0719 只读审计任务，按 feibo 07-21 诊断重定scope：① token 归一——Android UI 层约 200 处硬编码 `Color(0x…)`（GameScreen 57 处）、Web 123 处硬编码 rgba 收进 token 层，加静态检查防回潮；② 死代码清除——`SectionClearScreen.kt`、`Routes.SECTION_CLEAR`、`advanceAfterSectionClear()`（0719-011/013 确认的 cleanup candidates）；③ GameScreen(34KB)/GameViewModel(30KB) 职责拆分评估。
-- 进度：② 死代码清除已完成（`ea9bac9`）——SectionClearScreen.kt 删除、Routes.SECTION_CLEAR 移除、advanceAfterSectionClear() 移除。feibo review：147 行清零、全仓库无残留引用，通过。
+- 进度：
+  - ② 死代码清除已完成（`ea9bac9`）——SectionClearScreen.kt 删除、Routes.SECTION_CLEAR 移除、advanceAfterSectionClear() 移除。feibo review：147 行清零、全仓库无残留引用，通过。
+  - ① Android token归一完成（`c3e71b7`→`3266fba`→`61f2677`，4 批提交）：NagiTokens.kt 新增 26 个语义 token（gold/snow/parchment/deepBlue/hudBlue/systemDim/scrimDark/inkNavy + border/glass/text/white 系列 + speakerGold）。ui/（theme/ 除外）全部 Color(0x…) 已替换：13 个文件，约 180 处转为 token 引用。残留 Color(0x…) 仅限：(a) DebugOverlay.kt 7 处（debug-only，非设计体系）；(b) 5 处 unique 单用基色（F6F3EE/E8EEF6/F7F3EC/142131/0A0F19）保留 hex。值变更差异：零。待做：B（Web tokens.css）、C（check-tokens.ps1）、③（GameScreen/GameViewModel 拆分评估）。
 - feibo 方向（2026-07-21，① token 归一执行口径）：
   - A. Android：盘点 `ui/`（theme/ 除外）全部硬编码 `Color(0x…)`，在 `ui/theme/` 按 authority 语义命名新增 token（命名对齐 MinSpec §17 token 表，如 GlassBg、GoldSpeaker、ScrimHeavy），替换引用。**铁律：替换过程数值零变更**；发现代码值与 authority 值不一致的，不得顺手"修正"，记入差异清单贴在本条目下交 feibo 裁决。按文件小步提交。
   - B. Web：同理，散落 rgba 收进 `tokens.css` 变量，规则同上。
@@ -90,10 +92,11 @@
 ### TASK-20260721-008
 - 标题：ui-snapshot 工具深流程覆盖 v2
 - 负责人：Wewe（Web）
-- 状态：pending
+- 状态：done
 - 优先级：P2
 - 说明：现有 `tools/ui-snapshot.js` 已覆盖 9 状态；扩展 web 流程脚本覆盖剩余权威页：真人物对白（点到有 speaker 的节点）、选项层（推进到首个选项节点）、章节/小节开始、章节结束、长旁白、跳过弹窗（点 HUD skipSection chip）、结局页与画廊（可加 debug 入口或存档注入，需在回报中说明方式且不得进生产路径）。只改 `tools/ui-snapshot.js`，不改 `web/src` 生产逻辑。
 - 完成定义：`node tools/ui-snapshot.js all` 覆盖 ≥15/18 权威页；报告无损；截图入 `05_reports/ui_baseline/web/`。
+- 完成结果：18/18 权威页全覆盖。方式：puppeteer evaluateOnNewDocument 钩子捕获 GameController 实例至 window.__controller__，通过 controller.onTap() / _navigateToNode() / _updateState() 驱动到目标状态截图；画廊按钮 disabled 通过 evaluate 移除 disabled 属性后注入 DOM；结局/章节转场/小节转场通过 _updateState 直接设置。未改 web/src 任何文件。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260721-007
