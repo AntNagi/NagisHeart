@@ -6,14 +6,25 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -22,7 +33,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.antnagi.nagisheart.ui.theme.*
+import com.antnagi.nagisheart.ui.theme.NagiMotion
+import com.antnagi.nagisheart.ui.theme.NagiTheme
+import com.antnagi.nagisheart.ui.theme.NagiTokens
 
 @Composable
 fun LongNarrationLayer(
@@ -63,92 +76,80 @@ fun LongNarrationLayer(
                     .navigationBarsPadding(),
                 contentAlignment = Alignment.Center
             ) {
-                // §17.4: outer 18dp, inner 20dp, width = screen - 76dp
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 18.dp)
-                        .heightIn(min = 280.dp, max = 760.dp)
+                        .fillMaxSize()
                         .drawBehind {
-                            val w = size.width
-                            val h = size.height
-                            val cx = w / 2f
-                            val cy = h / 2f
-                            val rx = w * 0.62f
-                            val ry = h * 0.58f
+                            drawRect(
+                                brush = Brush.verticalGradient(
+                                    0f to NagiTokens.deepBlue.copy(alpha = 0.06f),
+                                    0.44f to NagiTokens.deepBlue.copy(alpha = 0.12f),
+                                    1f to NagiTokens.deepBlue.copy(alpha = 0.24f)
+                                )
+                            )
+                        }
+                )
 
-                            // §17.4: radial backing rgba(16,24,39,0.44) -> 0.32 -> transparent
-                            val backdropColor = NagiTokens.deepBlue.copy(alpha = 0.44f)
-
-                            // Draw radial gradient backdrop
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 18.dp)
+                        .padding(top = 148.dp, bottom = 152.dp)
+                        .drawBehind {
                             drawRect(
                                 brush = Brush.radialGradient(
                                     colorStops = arrayOf(
-                                        0f to backdropColor,
-                                        0.55f to backdropColor,
-                                        0.75f to backdropColor.copy(alpha = 0.14f),
+                                        0f to NagiTokens.deepBlue.copy(alpha = 0.44f),
+                                        0.58f to NagiTokens.deepBlue.copy(alpha = 0.32f),
                                         1f to Color.Transparent
                                     ),
-                                    center = Offset(cx, cy),
-                                    radius = maxOf(rx, ry)
-                                ),
-                                size = Size(w, h)
-                            )
-
-                            // Top fade-out edge (60dp)
-                            val fadeEdge = 60.dp.toPx()
-                            drawRect(
-                                brush = Brush.verticalGradient(
-                                    0f to Color.Transparent,
-                                    1f to Color.Transparent.copy(alpha = 0f),
-                                    startY = 0f,
-                                    endY = fadeEdge
-                                ),
-                                size = Size(w, fadeEdge)
-                            )
-
-                            // Bottom fade-out edge (60dp)
-                            drawRect(
-                                brush = Brush.verticalGradient(
-                                    0f to Color.Transparent.copy(alpha = 0f),
-                                    1f to Color.Transparent,
-                                    startY = h - fadeEdge,
-                                    endY = h
-                                ),
-                                size = Size(w, fadeEdge),
-                                topLeft = Offset(0f, h - fadeEdge)
+                                    center = Offset(size.width / 2f, size.height / 2f),
+                                    radius = maxOf(size.width * 0.64f, size.height * 0.62f)
+                                )
                             )
                         }
-                        .padding(horizontal = 20.dp, vertical = 36.dp),
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 18.dp, end = 18.dp, top = 88.dp, bottom = 126.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(24.dp)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 280.dp, max = 760.dp)
+                            .padding(horizontal = 20.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        val pageTexts = pages.getOrElse(pageIndex) { emptyList() }
-                        pageTexts.forEach { text ->
-                            Text(
-                                text = text,
-                                style = TextStyle(
-                                    fontFamily = FontFamily.Serif,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 16.sp,
-                                    lineHeight = 30.sp,
-                                    shadow = Shadow(
-                                        color = Color(0x2E0A0F19), // token-exempt
-                                        offset = Offset(0f, 1f),
-                                        blurRadius = 8f
-                                    )
-                                ),
-                                color = NagiTokens.parchment.copy(alpha = 0.92f)
-                            )
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(24.dp)
+                        ) {
+                            val pageTexts = pages.getOrElse(pageIndex) { emptyList() }
+                            pageTexts.forEach { text ->
+                                Text(
+                                    text = text,
+                                    style = TextStyle(
+                                        fontFamily = FontFamily.Serif,
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = 16.sp,
+                                        lineHeight = 30.sp,
+                                        shadow = Shadow(
+                                            color = NagiTokens.deepBlue.copy(alpha = 0.18f),
+                                            offset = Offset(0f, 1f),
+                                            blurRadius = 8f
+                                        )
+                                    ),
+                                    color = NagiTokens.parchment.copy(alpha = 0.92f)
+                                )
+                            }
                         }
                     }
                 }
             }
         }
 
-        // Page indicator — outside reading area
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)

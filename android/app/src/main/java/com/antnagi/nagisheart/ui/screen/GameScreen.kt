@@ -139,7 +139,7 @@ fun GameScreen(
                         })
                     } else {
                         state.ending?.let { ending ->
-                            EndingOverlay(
+                            AuthorityEndingOverlay(
                                 ending = ending,
                                 bgAssetPath = state.bgAssetPath,
                                 onReturnToHome = onReturnToHome
@@ -150,11 +150,10 @@ fun GameScreen(
 
                 GamePhase.ChapterEnding -> {
                     state.chapterTransition?.let { info ->
-                        ChapterEndingOverlay(
+                        AuthorityChapterEndingOverlay(
                             chapterName = info.chapterName,
                             chapterTitle = info.chapterTitle,
-                            bgAssetPath = state.bgAssetPath,
-                            onReturnToMenu = onNavigateToBack,
+                            onReturnToHome = onNavigateToBack,
                             onContinue = { viewModel.onTap() }
                         )
                     }
@@ -162,10 +161,9 @@ fun GameScreen(
 
                 GamePhase.ChapterTransition -> {
                     state.chapterTransition?.let { info ->
-                        ChapterOpeningOverlay(
+                        AuthorityChapterOpeningOverlay(
                             chapterName = info.chapterName,
                             chapterTitle = info.chapterTitle,
-                            bgAssetPath = state.bgAssetPath,
                             onTap = { viewModel.onTap() }
                         )
                     }
@@ -433,21 +431,7 @@ private fun EndingOverlay(
                     )
                 )
             )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = ending.subtitle,
-                fontSize = 13.sp,
-                letterSpacing = (0.06 * 13).sp,
-                color = NagiTokens.gold.copy(alpha = 0.92f),
-                style = LocalTextStyle.current.copy(
-                    shadow = Shadow(
-                        color = NagiTokens.gold.copy(alpha = 0.24f),
-                        offset = Offset(0f, 0f),
-                        blurRadius = 12f
-                    )
-                )
-            )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = ending.title,
                 fontFamily = FontFamily.Serif,
@@ -577,6 +561,427 @@ private fun ReplayCompleteOverlay(onBack: () -> Unit) {
             )
         }
     }
+}
+
+@Composable
+private fun AuthorityChapterOpeningOverlay(
+    chapterName: String,
+    chapterTitle: String,
+    onTap: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onTap
+            )
+    ) {
+        AuthorityChapterOpeningBackground()
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 96.dp, start = 42.dp, end = 42.dp, bottom = 90.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxWidth()
+                    .offset(y = (-104).dp)
+                    .height(1.dp)
+                    .background(
+                        Brush.horizontalGradient(
+                            0f to Color.Transparent,
+                            0.5f to NagiTokens.gold.copy(alpha = 0.44f),
+                            1f to Color.Transparent
+                        )
+                    )
+            )
+
+            Column(
+                modifier = Modifier.widthIn(max = 330.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(18.dp)
+            ) {
+                Text(
+                    text = chapterEyebrow(chapterName),
+                    fontSize = 12.sp,
+                    letterSpacing = (0.22 * 12).sp,
+                    color = NagiTokens.gold.copy(alpha = 0.82f),
+                    style = authorityShadowStyle()
+                )
+                Text(
+                    text = chapterName,
+                    fontFamily = FontFamily.Serif,
+                    fontSize = 18.sp,
+                    letterSpacing = (0.18 * 18).sp,
+                    color = NagiTokens.snow.copy(alpha = 0.72f),
+                    style = authorityShadowStyle()
+                )
+                Text(
+                    text = chapterTitle,
+                    fontFamily = FontFamily.Serif,
+                    fontSize = 34.sp,
+                    lineHeight = (34 * 1.34).sp,
+                    letterSpacing = (0.02 * 34).sp,
+                    color = NagiTokens.textSnow94,
+                    style = authorityShadowStyle()
+                )
+                Text(
+                    text = "轻触继续，进入本章内容。",
+                    modifier = Modifier
+                        .widthIn(max = 310.dp)
+                        .padding(top = 8.dp),
+                    fontFamily = FontFamily.Serif,
+                    fontSize = 16.sp,
+                    lineHeight = (16 * 1.92).sp,
+                    color = NagiTokens.parchment.copy(alpha = 0.78f),
+                    style = authorityShadowStyle()
+                )
+            }
+        }
+
+        Text(
+            text = "轻触继续",
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 58.dp),
+            fontSize = 13.sp,
+            letterSpacing = (0.08 * 13).sp,
+            color = NagiTokens.snow.copy(alpha = 0.56f),
+            style = authorityShadowStyle()
+        )
+    }
+}
+
+@Composable
+private fun AuthorityChapterEndingOverlay(
+    chapterName: String,
+    chapterTitle: String,
+    onReturnToHome: () -> Unit,
+    onContinue: () -> Unit
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        AuthorityChapterClearBackground()
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(top = 96.dp, start = 42.dp, end = 42.dp, bottom = 120.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(18.dp)
+        ) {
+            Box(contentAlignment = Alignment.TopCenter) {
+                Text(
+                    text = "Chapter Clear",
+                    modifier = Modifier.padding(bottom = 12.dp),
+                    fontSize = 10.sp,
+                    letterSpacing = (0.16 * 10).sp,
+                    color = NagiTokens.gold.copy(alpha = 0.54f),
+                    style = authorityShadowStyle()
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(top = 25.dp)
+                        .width(188.dp)
+                        .height(1.dp)
+                        .background(
+                            Brush.horizontalGradient(
+                                0f to Color.Transparent,
+                                0.5f to NagiTokens.gold.copy(alpha = 0.28f),
+                                1f to Color.Transparent
+                            )
+                        )
+                )
+            }
+            Text(
+                text = chapterName,
+                fontFamily = FontFamily.Serif,
+                fontSize = 14.sp,
+                color = NagiTokens.snow.copy(alpha = 0.46f),
+                style = authorityShadowStyle()
+            )
+            Text(
+                text = chapterTitle,
+                modifier = Modifier.widthIn(max = 310.dp),
+                fontFamily = FontFamily.Serif,
+                fontSize = 21.sp,
+                lineHeight = (21 * 1.42).sp,
+                color = NagiTokens.snow.copy(alpha = 0.62f),
+                style = authorityShadowStyle()
+            )
+            Text(
+                text = "本章完成。下一段故事已经在门后等着。",
+                modifier = Modifier.widthIn(max = 310.dp),
+                fontFamily = FontFamily.Serif,
+                fontSize = 14.sp,
+                lineHeight = (14 * 1.8).sp,
+                color = NagiTokens.parchment.copy(alpha = 0.54f),
+                style = authorityShadowStyle()
+            )
+        }
+
+        Text(
+            text = "进入下一章",
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 72.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onContinue
+                ),
+            fontSize = 14.sp,
+            letterSpacing = (0.12 * 14).sp,
+            color = NagiTokens.snow.copy(alpha = 0.76f),
+            style = authorityShadowStyle()
+        )
+        Text(
+            text = "返回主页",
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 42.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onReturnToHome
+                ),
+            fontSize = 11.sp,
+            letterSpacing = (0.10 * 11).sp,
+            color = NagiTokens.snow.copy(alpha = 0.38f),
+            style = authorityShadowStyle()
+        )
+    }
+}
+
+@Composable
+private fun AuthorityEndingOverlay(
+    ending: com.antnagi.nagisheart.data.EndingDefinition,
+    bgAssetPath: String?,
+    onReturnToHome: () -> Unit = {}
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = rememberAsyncImagePainter("file:///android_asset/${bgAssetPath ?: "bg/true_end.jpg"}"),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        0f to NagiTokens.scrimDark.copy(alpha = 0.34f),
+                        0.42f to NagiTokens.scrimDark.copy(alpha = 0.52f),
+                        1f to NagiTokens.scrimDark.copy(alpha = 0.72f)
+                    )
+                )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .drawBehind {
+                    drawRect(
+                        brush = Brush.radialGradient(
+                            0f to NagiTokens.deepBlue.copy(alpha = 0.12f),
+                            0.48f to Color.Transparent,
+                            center = Offset(size.width * 0.5f, size.height * 0.5f),
+                            radius = size.maxDimension * 0.58f
+                        )
+                    )
+                    drawRect(
+                        brush = Brush.verticalGradient(
+                            0f to NagiTokens.authorityVoid.copy(alpha = 0.36f),
+                            0.38f to NagiTokens.authorityVoid.copy(alpha = 0.22f),
+                            1f to NagiTokens.authorityVoid.copy(alpha = 0.64f)
+                        )
+                    )
+                }
+        )
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(top = 96.dp, start = 42.dp, end = 42.dp, bottom = 120.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(18.dp)
+        ) {
+            Box(contentAlignment = Alignment.TopCenter) {
+                Text(
+                    text = ending.tag,
+                    modifier = Modifier.padding(top = 18.dp),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = (0.16 * 18).sp,
+                    color = NagiTokens.gold.copy(alpha = 0.82f),
+                    style = authorityShadowStyle()
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(top = 54.dp)
+                        .width(178.dp)
+                        .height(1.dp)
+                        .background(NagiTokens.gold.copy(alpha = 0.48f))
+                )
+            }
+            Text(
+                text = ending.title,
+                modifier = Modifier.padding(top = 2.dp),
+                fontFamily = FontFamily.Serif,
+                fontSize = 33.sp,
+                lineHeight = (33 * 1.34).sp,
+                color = NagiTokens.textSnow94,
+                style = authorityShadowStyle()
+            )
+            Text(
+                text = ending.description,
+                modifier = Modifier.widthIn(max = 330.dp),
+                fontFamily = FontFamily.Serif,
+                fontSize = 16.sp,
+                lineHeight = (16 * 1.92).sp,
+                color = NagiTokens.snow.copy(alpha = 0.82f),
+                style = authorityShadowStyle()
+            )
+            Row(
+                modifier = Modifier.padding(top = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(5.dp)
+                        .background(NagiTokens.gold.copy(alpha = 0.72f))
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "已解锁：${ending.tag} / 回忆画廊新增 1 项",
+                    fontSize = 11.sp,
+                    letterSpacing = (0.02 * 11).sp,
+                    color = NagiTokens.parchment.copy(alpha = 0.56f),
+                    style = authorityShadowStyle()
+                )
+            }
+        }
+
+        Text(
+            text = "返回主页",
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 58.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onReturnToHome
+                ),
+            fontSize = 14.sp,
+            letterSpacing = (0.12 * 14).sp,
+            color = NagiTokens.snow.copy(alpha = 0.82f),
+            style = authorityShadowStyle()
+        )
+    }
+}
+
+@Composable
+private fun AuthorityChapterOpeningBackground() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .drawBehind {
+                drawRect(
+                    brush = Brush.linearGradient(
+                        0f to NagiTokens.authorityVoid,
+                        0.42f to NagiTokens.authorityDeep,
+                        0.72f to NagiTokens.deepBlue,
+                        1f to NagiTokens.authorityVoidEnd,
+                        start = Offset.Zero,
+                        end = Offset(size.width, size.height)
+                    )
+                )
+                drawRect(
+                    brush = Brush.radialGradient(
+                        0f to NagiTokens.deepBlue.copy(alpha = 0.18f),
+                        0.46f to Color.Transparent,
+                        center = Offset(size.width * 0.5f, size.height * 0.5f),
+                        radius = size.maxDimension * 0.58f
+                    )
+                )
+                drawRect(
+                    brush = Brush.verticalGradient(
+                        0f to NagiTokens.scrimDark.copy(alpha = 0.22f),
+                        0.35f to NagiTokens.scrimDark.copy(alpha = 0.02f),
+                        1f to NagiTokens.scrimDark.copy(alpha = 0.48f)
+                    )
+                )
+            }
+    )
+}
+
+@Composable
+private fun AuthorityChapterClearBackground() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .drawBehind {
+                drawRect(
+                    brush = Brush.linearGradient(
+                        0f to NagiTokens.authorityVoid,
+                        0.42f to NagiTokens.authorityClearDeep,
+                        0.72f to NagiTokens.authorityClearMid,
+                        1f to NagiTokens.authorityVoidEnd,
+                        start = Offset.Zero,
+                        end = Offset(size.width, size.height)
+                    )
+                )
+                drawRect(
+                    brush = Brush.radialGradient(
+                        0f to NagiTokens.gold.copy(alpha = 0.07f),
+                        0.42f to Color.Transparent,
+                        center = Offset(size.width * 0.5f, size.height * 0.32f),
+                        radius = size.maxDimension * 0.42f
+                    )
+                )
+                drawRect(
+                    brush = Brush.radialGradient(
+                        0f to NagiTokens.authorityBlueGlow.copy(alpha = 0.10f),
+                        0.48f to Color.Transparent,
+                        center = Offset(size.width * 0.5f, size.height * 0.78f),
+                        radius = size.maxDimension * 0.48f
+                    )
+                )
+            }
+    )
+}
+
+@Composable
+private fun authorityShadowStyle() = LocalTextStyle.current.copy(
+    shadow = Shadow(
+        color = Color.Black.copy(alpha = 0.64f),
+        offset = Offset(0f, 4f),
+        blurRadius = 24f
+    )
+)
+
+private fun chapterEyebrow(chapterName: String): String {
+    val number = when {
+        chapterName.contains("一") -> "01"
+        chapterName.contains("二") -> "02"
+        chapterName.contains("三") -> "03"
+        chapterName.contains("四") -> "04"
+        chapterName.contains("五") -> "05"
+        chapterName.contains("六") -> "06"
+        chapterName.contains("七") -> "07"
+        chapterName.contains("八") -> "08"
+        chapterName.contains("九") -> "09"
+        else -> null
+    }
+    return if (number != null) "Chapter $number" else "Chapter"
 }
 
 @Composable

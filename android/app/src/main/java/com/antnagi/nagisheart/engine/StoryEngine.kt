@@ -53,19 +53,19 @@ class StoryEngine(
                     currentId = result.targetId
                 }
 
-                isEndingNode(currentId) -> {
-                    val key = currentId.removePrefix("end_")
-                    val def = endings.definitions[key]
-                        ?: return NodeResolution.NotFound(currentId, "Ending definition not found")
-                    return NodeResolution.EndingReached(currentId, def)
-                }
-
                 isNode(currentId) -> {
                     return NodeResolution.Found(
                         nodeId = currentId,
                         node = nodes[currentId]!!,
                         visual = sceneVisuals[currentId]
                     )
+                }
+
+                isEndingNode(currentId) -> {
+                    val key = currentId.removePrefix("end_")
+                    val def = endings.definitions[key]
+                        ?: return NodeResolution.NotFound(currentId, "Ending definition not found")
+                    return NodeResolution.EndingReached(currentId, def)
                 }
 
                 else -> {
@@ -118,6 +118,14 @@ class StoryEngine(
      * Returns the target ID from transition, or null if flow should be used.
      */
     fun getEndingDefinitions(): Map<String, EndingDefinition> = endings.definitions
+
+    fun getNodeBg(nodeId: String): String? = sceneVisuals[nodeId]?.bg?.removePrefix("assets/")
+
+    fun getEndingForNode(nodeId: String): NodeResolution.EndingReached? {
+        val entry = endings.definitions.entries.firstOrNull { it.value.endingNode == nodeId }
+            ?: return null
+        return NodeResolution.EndingReached("end_${entry.key}", entry.value)
+    }
 
     fun processChoiceTransition(choice: Choice): String? {
         return when (choice.transition?.type) {

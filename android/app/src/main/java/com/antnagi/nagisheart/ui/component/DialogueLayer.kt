@@ -49,7 +49,8 @@ fun DialogueLayer(
 }
 
 // §17.1 dialogue-box tokens
-private val DialogueCardBgTop = NagiTokens.deepBlue.copy(alpha = 0.54f)
+private val DialogueCardBgTop = NagiTokens.deepBlue.copy(alpha = 0.18f)
+private val DialogueCardBgMid = NagiTokens.deepBlue.copy(alpha = 0.52f)
 private val DialogueCardBgBottom = NagiTokens.deepBlue.copy(alpha = 0.70f)
 private val DialogueCardBorder = NagiTokens.borderGlass
 private val DialogueCardShadowColor = Color.Black.copy(alpha = 0.26f)
@@ -95,7 +96,9 @@ private fun BottomDialogue(speaker: String, text: String, modifier: Modifier = M
                 // §17.1: bg linear-gradient 0.54 -> 0.70
                 .background(
                     Brush.verticalGradient(
-                        listOf(DialogueCardBgTop, DialogueCardBgBottom)
+                        0f to DialogueCardBgTop,
+                        0.46f to DialogueCardBgMid,
+                        1f to DialogueCardBgBottom
                     )
                 )
                 // §17.1: border rgba(255,255,255,0.08) 1dp
@@ -219,7 +222,9 @@ private fun BottomNarration(text: String, modifier: Modifier = Modifier) {
                 .clip(NagiShapes.cutMedium)
                 .background(
                     Brush.verticalGradient(
-                        listOf(DialogueCardBgTop, DialogueCardBgBottom)
+                        0f to DialogueCardBgTop,
+                        0.46f to DialogueCardBgMid,
+                        1f to DialogueCardBgBottom
                     )
                 )
                 .border(1.dp, DialogueCardBorder, NagiShapes.cutMedium)

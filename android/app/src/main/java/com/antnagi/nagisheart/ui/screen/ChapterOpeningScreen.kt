@@ -1,29 +1,36 @@
 package com.antnagi.nagisheart.ui.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
-import com.antnagi.nagisheart.ui.theme.*
+import com.antnagi.nagisheart.ui.theme.NagiTheme
+import com.antnagi.nagisheart.ui.theme.NagiTokens
+import com.antnagi.nagisheart.ui.theme.NagiUiTheme
 
 @Composable
 fun ChapterOpeningScreen(
@@ -33,11 +40,6 @@ fun ChapterOpeningScreen(
     bgAssetPath: String? = null,
     onContinue: () -> Unit
 ) {
-    val goldColor = NagiTokens.gold
-    val titleColor = NagiTokens.textSnow94
-    val hintColor = NagiTokens.snow.copy(alpha = 0.82f)
-    val bgPath = bgAssetPath ?: "bg/pillow.jpg"
-
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
         Box(
             modifier = Modifier
@@ -48,133 +50,143 @@ fun ChapterOpeningScreen(
                     onClick = onContinue
                 )
         ) {
-            // Background: current chapter bg
-            Image(
-                painter = rememberAsyncImagePainter("file:///android_asset/$bgPath"),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-            // Dark readability overlay
+            ChapterOpeningAuthorityBackground()
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            0f to NagiTokens.systemDim.copy(alpha = 0.22f),
-                            0.24f to NagiTokens.systemDim.copy(alpha = 0.10f),
-                            0.58f to NagiTokens.systemDim.copy(alpha = 0.18f),
-                            1f to NagiTokens.systemDim.copy(alpha = 0.42f)
+                    .padding(top = 96.dp, start = 42.dp, end = 42.dp, bottom = 90.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxWidth()
+                        .offset(y = (-104).dp)
+                        .height(1.dp)
+                        .background(
+                            Brush.horizontalGradient(
+                                0f to Color.Transparent,
+                                0.5f to NagiTokens.gold.copy(alpha = 0.44f),
+                                1f to Color.Transparent
+                            )
                         )
-                    )
-            )
+                )
 
-            // Authority §14.1: light glass backing wrapping the entire text group
-            // position: bottom=72, left/right=30, padding 24/24/22/20
-            // bg: horizontal gradient rgba(16,24,39,0.30)→0.14@62%→transparent + center highlight rgba(247,249,252,0.09)
-            // border: rgba(255,255,255,0.08), 1dp
-            // shape: cut-md
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .fillMaxWidth()
-                    .navigationBarsPadding()
-                    .padding(start = 30.dp, end = 30.dp, bottom = 72.dp)
-                    .clip(NagiShapes.cutMedium)
-                    .background(
-                        Brush.horizontalGradient(
-                            0f to NagiTokens.deepBlue.copy(alpha = 0.30f),
-                            0.62f to NagiTokens.deepBlue.copy(alpha = 0.14f)
-                            1f to Color.Transparent
-                        )
+                Column(
+                    modifier = Modifier.widthIn(max = 330.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(18.dp)
+                ) {
+                    Text(
+                        text = chapterEyebrow(chapterName),
+                        fontSize = 12.sp,
+                        letterSpacing = (0.22 * 12).sp,
+                        color = NagiTokens.gold.copy(alpha = 0.82f),
+                        style = authorityTextShadow()
                     )
-                    // Center highlight
-                    .drawBehind {
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(NagiTokens.white9, Color.Transparent),
-                                center = Offset(size.width / 2, size.height / 2),
-                                radius = size.width * 0.5f
-                            ),
-                            radius = size.width * 0.5f,
-                            center = Offset(size.width / 2, size.height / 2)
+                    Text(
+                        text = chapterName,
+                        fontFamily = FontFamily.Serif,
+                        fontSize = 18.sp,
+                        letterSpacing = (0.18 * 18).sp,
+                        color = NagiTokens.snow.copy(alpha = 0.72f),
+                        style = authorityTextShadow()
+                    )
+                    Text(
+                        text = chapterTitle,
+                        fontFamily = FontFamily.Serif,
+                        fontSize = 34.sp,
+                        lineHeight = (34 * 1.34).sp,
+                        letterSpacing = (0.02 * 34).sp,
+                        color = NagiTokens.textSnow94,
+                        style = authorityTextShadow()
+                    )
+                    if (!chapterSubtitle.isNullOrBlank()) {
+                        Text(
+                            text = chapterSubtitle,
+                            modifier = Modifier.widthIn(max = 310.dp),
+                            fontFamily = FontFamily.Serif,
+                            fontSize = 16.sp,
+                            lineHeight = (16 * 1.92).sp,
+                            color = NagiTokens.parchment.copy(alpha = 0.78f),
+                            style = authorityTextShadow()
                         )
                     }
-                    .border(1.dp, NagiTokens.borderGlass, NagiShapes.cutMedium)
-                    .padding(start = 24.dp, end = 24.dp, top = 22.dp, bottom = 20.dp)
-            ) {
-                // Kicker
-                KickerLabel("Chapter Opening")
-                Spacer(modifier = Modifier.height(14.dp))
-                // Chapter label
-                Text(
-                    text = chapterName,
-                    fontFamily = FontFamily.Serif,
-                    fontSize = 14.sp,
-                    color = goldColor
-                )
-                Spacer(modifier = Modifier.height(14.dp))
-                // Title
-                Text(
-                    text = chapterTitle,
-                    fontFamily = FontFamily.Serif,
-                    fontSize = 29.sp,
-                    lineHeight = (29 * 1.24).sp,
-                    color = titleColor,
-                    style = LocalTextStyle.current.copy(
-                        shadow = Shadow(
-                            color = Color.Black.copy(alpha = 0.78f),
-                            offset = Offset(0f, 3f),
-                            blurRadius = 28f
-                        )
-                    )
-                )
-                if (chapterSubtitle != null) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = chapterSubtitle,
-                        fontSize = 14.sp,
-                        lineHeight = (14 * 1.6).sp,
-                        color = NagiTokens.snow.copy(alpha = 0.70f)
-                    )
                 }
-                Spacer(modifier = Modifier.height(14.dp))
-                // Bottom hint
-                Text(
-                    text = "轻触继续，进入本章内容。",
-                    fontSize = 16.sp,
-                    lineHeight = (16 * 1.9).sp,
-                    color = hintColor,
-                    style = LocalTextStyle.current.copy(
-                        shadow = Shadow(
-                            color = Color.Black.copy(alpha = 0.72f),
-                            offset = Offset(0f, 2f),
-                            blurRadius = 22f
-                        )
-                    )
-                )
             }
+
+            Text(
+                text = "轻触继续",
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationBarsPadding()
+                    .padding(bottom = 58.dp),
+                fontSize = 13.sp,
+                letterSpacing = (0.08 * 13).sp,
+                color = NagiTokens.snow.copy(alpha = 0.56f),
+                style = authorityTextShadow()
+            )
         }
     }
 }
 
 @Composable
-private fun KickerLabel(text: String) {
-    val goldColor = NagiTokens.gold
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(
-            modifier = Modifier
-                .width(22.dp)
-                .height(1.dp)
-                .background(
-                    Brush.horizontalGradient(listOf(Color.Transparent, goldColor))
+private fun ChapterOpeningAuthorityBackground() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .drawBehind {
+                drawRect(
+                    brush = Brush.linearGradient(
+                        0f to NagiTokens.authorityVoid,
+                        0.42f to NagiTokens.authorityDeep,
+                        0.72f to NagiTokens.deepBlue,
+                        1f to NagiTokens.authorityVoidEnd,
+                        start = Offset.Zero,
+                        end = Offset(size.width, size.height)
+                    )
                 )
-        )
-        Spacer(modifier = Modifier.width(30.dp))
-        Text(
-            text = text,
-            fontSize = 12.sp,
-            color = goldColor
-        )
+                drawRect(
+                    brush = Brush.radialGradient(
+                        0f to NagiTokens.deepBlue.copy(alpha = 0.18f),
+                        0.46f to Color.Transparent,
+                        center = Offset(size.width * 0.5f, size.height * 0.5f),
+                        radius = size.maxDimension * 0.58f
+                    )
+                )
+                drawRect(
+                    brush = Brush.verticalGradient(
+                        0f to NagiTokens.scrimDark.copy(alpha = 0.22f),
+                        0.35f to NagiTokens.scrimDark.copy(alpha = 0.02f),
+                        1f to NagiTokens.scrimDark.copy(alpha = 0.48f)
+                    )
+                )
+            }
+    )
+}
+
+@Composable
+private fun authorityTextShadow() = LocalTextStyle.current.copy(
+    shadow = Shadow(
+        color = Color.Black.copy(alpha = 0.64f),
+        offset = Offset(0f, 4f),
+        blurRadius = 24f
+    )
+)
+
+private fun chapterEyebrow(chapterName: String): String {
+    val number = when {
+        chapterName.contains("一") -> "01"
+        chapterName.contains("二") -> "02"
+        chapterName.contains("三") -> "03"
+        chapterName.contains("四") -> "04"
+        chapterName.contains("五") -> "05"
+        chapterName.contains("六") -> "06"
+        chapterName.contains("七") -> "07"
+        chapterName.contains("八") -> "08"
+        chapterName.contains("九") -> "09"
+        else -> null
     }
+    return if (number != null) "Chapter $number" else "Chapter"
 }

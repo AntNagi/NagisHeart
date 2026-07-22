@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -33,13 +34,6 @@ private data class GalleryItem(
     val bgPath: String?
 )
 
-private val endingBgFallback = mapOf(
-    "true" to "bg/ending_true_nagi_soft_gaze.jpg",
-    "good" to "bg/ending_candidate_crystal_king.jpg",
-    "normal" to "bg/bg_stay_final_tv_glow_living_room.png",
-    "bad" to "bg/bg_bad_far_award_broadcast.png"
-)
-
 @Composable
 fun GalleryScreen(
     viewModel: GameViewModel,
@@ -56,7 +50,7 @@ fun GalleryScreen(
                     endingId = key,
                     definition = def,
                     unlocked = key in unlockedEndings,
-                    bgPath = viewModel.getEndingBgPath(key) ?: endingBgFallback[key]
+                    bgPath = viewModel.getEndingBgPath(key) ?: viewModel.getEndingFallbackBg(key)
                 )
             }
         }
@@ -147,6 +141,11 @@ private fun MemoryCard(
     onClick: () -> Unit
 ) {
     val colors = NagiTheme.colors
+    val imageAlignment = when (item.endingId) {
+        "normal" -> BiasAlignment(0f, -0.58f)
+        "true" -> BiasAlignment(0f, -0.16f)
+        else -> BiasAlignment(0f, 0.35f)
+    }
 
     Box(
         modifier = Modifier
@@ -164,37 +163,39 @@ private fun MemoryCard(
                 ),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                alignment = Alignment.TopCenter,
-                modifier = Modifier.fillMaxSize()
+                alignment = imageAlignment,
+                modifier = Modifier.matchParentSize()
             )
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.28f)
                     .background(
                         Brush.verticalGradient(
-                            listOf(Color.Transparent, colors.glassBgStrong)
+                            0f to Color.Transparent,
+                            1f to NagiTokens.deepBlue.copy(alpha = 0.62f)
                         )
                     )
             )
         }
 
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             if (item.unlocked) {
+                Text(
+                    text = item.definition.tag,
+                    style = NagiTheme.typography.micro,
+                    color = NagiTokens.gold
+                )
                 Text(
                     text = item.definition.title,
                     style = NagiTheme.typography.speakerName,
                     color = NagiPalette.snowWhite
-                )
-                Text(
-                    text = item.definition.tag,
-                    style = NagiTheme.typography.micro,
-                    color = colors.textSecondary
                 )
             } else {
                 Text(

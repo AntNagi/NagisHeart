@@ -82,7 +82,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var prologueData: PrologueData
 
     private var playerName: String = ""
-    private var nagiCall: String = "Nagi少爷"
+    private var nagiCall: String = "Nagi"
 
     private var currentNode: StoryNode? = null
     private var currentDialogue: List<DialogueLine> = emptyList()
@@ -164,7 +164,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     // --- Public actions ---
 
-    fun startNewGame(name: String, call: String = "Nagi少爷") {
+    fun startNewGame(name: String, call: String = "Nagi") {
         playerName = name.ifBlank { "Ant" }
         nagiCall = call
         gameState = GameState(variablesData)
@@ -176,7 +176,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun loadGame(slotId: Int): Boolean {
         val slot = saveManager.load(slotId) ?: return false
         playerName = slot.playerName.ifBlank { "Ant" }
-        nagiCall = slot.nagiCall.ifBlank { "Nagi少爷" }
+        nagiCall = slot.nagiCall.ifBlank { "Nagi" }
         gameState = GameState(variablesData)
         gameState.restoreFrom(slot.variables)
         nodeToChapter[slot.nodeId]?.let { currentChapterId = it.id }
@@ -214,6 +214,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun saveAutoProgress() {
         if (isReplayMode) return
+        if (_uiState.value.phase == GamePhase.Ending) return
         val state = _uiState.value
         saveManager.save(
             SaveSlot(
@@ -232,7 +233,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     fun continueGame(): Boolean {
         val slot = saveManager.loadAutoSave() ?: return false
         playerName = slot.playerName.ifBlank { "Ant" }
-        nagiCall = slot.nagiCall.ifBlank { "Nagi少爷" }
+        nagiCall = slot.nagiCall.ifBlank { "Nagi" }
         gameState = GameState(variablesData)
         gameState.restoreFrom(slot.variables)
         nodeToChapter[slot.nodeId]?.let { currentChapterId = it.id }
@@ -264,7 +265,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getUnlockedEndings(): Set<String> = progressManager.getUnlockedEndings()
 
-    fun getEndingBgPath(endingId: String): String? = progressManager.getEndingBgPath(endingId)
+    fun getEndingBgPath(endingId: String): String? = getEndingFallbackBg(endingId)
+
+    fun getEndingFallbackBg(endingId: String): String? {
+        if (!::engine.isInitialized) return null
+        val def = engine.getEndingDefinitions()[endingId] ?: return null
+        return engine.getNodeBg(def.endingNode)
+    }
 
     fun getSectionState(chapterId: String, sectionIndex: Int, startNode: String): SectionState {
         val isUnlocked = startNode in progressManager.getVisitedNodes()
@@ -632,7 +639,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             presentChoices()
         } else {
             val nextId = engine.getNextNodeId(found.nodeId, gameState)
-            if (nextId != null) navigateToNode(nextId)
+            if (nextId != null) {
+                navigateToNode(nextId)
+            } else {
+                finishEndingNodeIfNeeded(found.nodeId)
+            }
         }
     }
 
@@ -701,7 +712,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         when {
             currentChoices.isEmpty() -> {
                 val nextId = engine.getNextNodeId(_uiState.value.currentNodeId, gameState)
-                if (nextId != null) navigateToNode(nextId)
+                if (nextId != null) {
+                    navigateToNode(nextId)
+                } else {
+                    finishEndingNodeIfNeeded(_uiState.value.currentNodeId)
+                }
             }
             currentChoices.size == 1 && currentChoices[0].autoAdvance -> {
                 val choice = currentChoices[0]
@@ -724,9 +739,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun presentChoices() {
         stopAuto()
         stopSkip()
-        val playerChoices = currentChoices.filter { c ->
-            !c.autoAdvance && c.label != "→" && c.label.isNotBlank()
-        }
+        val playerChoices = engine.getPlayerVisibleChoices(currentChoices, gameState)
         val resolved = playerChoices.map { c ->
             c.copy(label = c.label.replace("{{playerName}}", playerName).replace("{{nagiCall}}", nagiCall))
         }
@@ -769,18 +782,42 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun advanceAfterChoice() {
+        val currentNodeId = _uiState.value.currentNodeId
+        if (pendingNextId == "ending_resolver" && engine.getEndingForNode(currentNodeId) != null) {
+            pendingNextId = null
+            finishEndingNodeIfNeeded(currentNodeId)
+            return
+        }
+
         val nextId = pendingNextId
-            ?: engine.getNextNodeId(_uiState.value.currentNodeId, gameState)
+            ?: engine.getNextNodeId(currentNodeId, gameState)
         pendingNextId = null
-        if (nextId != null) navigateToNode(nextId)
+        if (nextId != null) {
+            navigateToNode(nextId)
+        } else {
+            finishEndingNodeIfNeeded(currentNodeId)
+        }
     }
 
     // --- Ending ---
 
+    private fun finishEndingNodeIfNeeded(nodeId: String) {
+        val ending = engine.getEndingForNode(nodeId) ?: return
+        if (isReplayMode) {
+            _uiState.update {
+                it.copy(phase = GamePhase.Ending, ending = null, errorMessage = "REPLAY_COMPLETE")
+            }
+        } else {
+            showEnding(ending)
+        }
+    }
+
     private fun showEnding(ending: NodeResolution.EndingReached) {
         stopAuto()
         stopSkip()
-        progressManager.unlockEnding(ending.endingId.removePrefix("end_"), _uiState.value.bgAssetPath)
+        val endingId = ending.endingId.removePrefix("end_")
+        val endingBgPath = engine.getNodeBg(ending.definition.endingNode)
+        progressManager.unlockEnding(endingId, endingBgPath)
         saveManager.deleteAutoSave()
         _hasAutoSave.value = false
         _hasCompletedEnding.value = true

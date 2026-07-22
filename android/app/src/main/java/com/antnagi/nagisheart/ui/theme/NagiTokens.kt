@@ -12,6 +12,12 @@ object NagiTokens {
     val systemDim = Color(0xFF132033)
     val scrimDark = Color(0xFF090E18)
     val inkNavy = Color(0xFF1B2436)
+    val authorityVoid = Color(0xFF05080F)
+    val authorityVoidEnd = Color(0xFF05070C)
+    val authorityDeep = Color(0xFF0B1422)
+    val authorityClearDeep = Color(0xFF0A1220)
+    val authorityClearMid = Color(0xFF0E1726)
+    val authorityBlueGlow = Color(0xFF1E3A8A)
 
     // ── Universal borders (§17.1/17.2) ──
     val borderGlass = Color(0x14FFFFFF)

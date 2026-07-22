@@ -1077,18 +1077,5 @@
     "uiSafeZone": null,
     "visualPriority": "A",
     "mood": null
-  },
-  "prologue": {
-    "bg": "assets/bg/remeet.jpg",
-    "bgm": "bgm/bgm.mp3",
-    "cg": null,
-    "uiTheme": "Dark",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null,
-    "visualPriority": null,
-    "mood": "reflection"
   }
 }
