@@ -1,6 +1,7 @@
 import { SettingsOverlay } from '../overlays/SettingsOverlay.js';
 import { ChapterSelectOverlay } from '../overlays/ChapterSelectOverlay.js';
 import { GalleryOverlay } from '../overlays/GalleryOverlay.js';
+import { SaveLoadOverlay } from '../overlays/SaveLoadOverlay.js';
 import { NagiDialog } from '../components/NagiDialog.js';
 
 export class StartScreen {
@@ -22,24 +23,24 @@ export class StartScreen {
         <div class="home-main">
           <div class="home-main-row" data-action="new">
             <span class="home-main-label">新的故事</span>
-            <span class="home-main-desc">开始全新旅程</span>
+            <span class="home-main-desc">开始新的运行</span>
           </div>
-          <div class="home-main-row" data-action="continue" data-disabled="true">
-            <span class="home-main-label">继续</span>
-            <span class="home-main-desc">读取存档进度</span>
+          <div class="home-main-row" data-action="catalog">
+            <span class="home-main-label">章节目录</span>
+            <span class="home-main-desc">查看进度</span>
           </div>
         </div>
         <div class="home-divider"></div>
         <div class="home-sub">
+          <button class="home-sub-btn" data-action="saves">存档进度</button>
           <button class="home-sub-btn" data-action="catalog">章节目录</button>
           <button class="home-sub-btn" data-action="gallery">回忆画廊</button>
           <button class="home-sub-btn" data-action="settings">系统设置</button>
-          <button class="home-sub-btn" data-action="saves">存档进度</button>
         </div>
       </div>
     `;
 
-    this._continueRow = this.el.querySelector('[data-action="continue"]');
+
 
     this.el.addEventListener('click', (e) => {
       if (this._activeOverlay) return;
@@ -48,28 +49,25 @@ export class StartScreen {
       const action = row.dataset.action;
       if (action === 'new') {
         this._handleNewGame();
-      } else if (action === 'continue' && row.dataset.disabled !== 'true') {
-        ctx.controller.continueGame().then(ok => {
-          if (ok) ctx.router.navigate('game');
-        });
       } else if (action === 'catalog') {
         this._openCatalog();
       } else if (action === 'gallery') {
         this._openGallery();
       } else if (action === 'settings') {
         this._openSettings();
-      } else if (action === 'saves' && row.dataset.disabled !== 'true') {
-        ctx.controller.continueGame().then(ok => {
-          if (ok) ctx.router.navigate('game');
-        });
+      } else if (action === 'saves') {
+        if (this._savesBtn?.disabled) return;
+        this._openSaveLoad();
       }
     });
 
+
+
+    // Disable saves button when no auto-save exists
+    this._savesBtn = this.el.querySelector('[data-action="saves"]');
     ctx.controller.hasAutoSave().then(has => {
-      if (has) {
-        this._continueRow.removeAttribute('data-disabled');
-        const savesRow = this.el.querySelector('[data-action="saves"]');
-        if (savesRow) savesRow.removeAttribute('data-disabled');
+      if (!has && this._savesBtn) {
+        this._savesBtn.disabled = true;
       }
     });
 
@@ -126,6 +124,17 @@ export class StartScreen {
     this._activeOverlay = new GalleryOverlay(this.el, {
       controller: this._ctx.controller,
       onClose: () => this._closeOverlay(),
+    });
+  }
+
+  _openSaveLoad() {
+    this._activeOverlay = new SaveLoadOverlay(this.el, {
+      controller: this._ctx.controller,
+      onClose: () => this._closeOverlay(),
+      onLoad: () => {
+        this._closeOverlay();
+        this._ctx.router.navigate('game');
+      },
     });
   }
 
