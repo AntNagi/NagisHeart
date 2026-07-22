@@ -1,15 +1,19 @@
-const ENDINGS_DEF = [
-  { id: 'end_true', tag: 'TRUE END', emoji: '💛', title: '世界第一，与你' },
-  { id: 'end_good', tag: 'GOOD END', emoji: '💙', title: '那么完美，那么爱他' },
-  { id: 'end_normal', tag: 'NORMAL END', emoji: '🤍', title: '普通情侣' },
-  { id: 'end_bad', tag: 'BAD END', emoji: '🖤', title: '好麻烦' },
+// Memory items: CG and END mixed in single grid per HTML authority
+const MEMORY_ITEMS = [
+  // CG items (placeholder - actual CG tracking not implemented)
+  { type: 'cg', id: 'cg_01', label: 'CG 01', img: null },
+  { type: 'cg', id: 'cg_02', label: 'CG 02', img: null },
+  // END items
+  { type: 'end', id: 'end_true', label: 'TRUE END', img: null },
+  { type: 'end', id: 'end_good', label: 'GOOD END', img: null },
+  { type: 'end', id: 'end_normal', label: 'NORMAL END', img: null },
+  { type: 'end', id: 'end_bad', label: 'BAD END', img: null },
 ];
 
 export class GalleryOverlay {
   constructor(container, { controller, onClose }) {
     this._controller = controller;
     this._onClose = onClose;
-    this._tab = 'ending'; // 'ending' | 'cg'
 
     this.el = document.createElement('div');
     this.el.className = 'overlay gallery-overlay';
@@ -19,34 +23,39 @@ export class GalleryOverlay {
   }
 
   _render() {
-    const unlocked = this._controller.getUnlockedEndings();
+    const unlockedEndings = this._controller.getUnlockedEndings();
 
-    let tabsHtml = `
-      <div class="gallery-tabs">
-        <button class="gallery-tab ${this._tab === 'ending' ? 'active' : ''}" data-tab="ending">结局图鉴</button>
-        <button class="gallery-tab ${this._tab === 'cg' ? 'active' : ''}" data-tab="cg">CG 图鉴</button>
-      </div>
-    `;
-
-    let gridHtml = '';
-    if (this._tab === 'ending') {
-      gridHtml = this._renderEndings(unlocked);
-    } else {
-      gridHtml = this._renderCG();
-    }
+    const cardsHtml = MEMORY_ITEMS.map(item => {
+      const isUnlocked = item.type === 'end' ? unlockedEndings.has(item.id) : false;
+      
+      if (isUnlocked) {
+        return `
+          <div class="memory-card" ${item.img ? `style="--img:url('${item.img}')"` : ''}>
+            ${item.label}
+            <span>已解锁</span>
+          </div>
+        `;
+      }
+      return `
+        <div class="memory-card locked">
+          ???
+          <span>未解锁</span>
+        </div>
+      `;
+    }).join('');
 
     this.el.innerHTML = `
       <div class="system-bg"><img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" /></div>
       <div class="system-bg-overlay"></div>
-      <div class="overlay-header" style="position:relative;z-index:1;">
+      <div class="overlay-header">
         <button class="overlay-back-btn" data-action="close">←</button>
         <span class="overlay-title">回忆画廊</span>
         <span class="overlay-spacer"></span>
       </div>
-      <div class="gallery-panel">
-        ${tabsHtml}
+      <div class="overlay-body">
+        <h2 class="overlay-heading">回忆画廊</h2>
         <div class="gallery-grid">
-          ${gridHtml}
+          ${cardsHtml}
         </div>
       </div>
     `;
@@ -54,38 +63,7 @@ export class GalleryOverlay {
     this.el.addEventListener('click', (e) => {
       e.stopPropagation();
       if (e.target.closest('[data-action="close"]')) { this._onClose(); return; }
-      const tab = e.target.closest('[data-tab]');
-      if (tab) {
-        this._tab = tab.dataset.tab;
-        this._render();
-      }
     });
-  }
-
-  _renderEndings(unlocked) {
-    return ENDINGS_DEF.map(end => {
-      const isUnlocked = unlocked.has(end.id);
-      if (isUnlocked) {
-        return `
-          <div class="gallery-card gallery-card-unlocked">
-            <div class="gallery-card-emoji">${end.emoji}</div>
-            <div class="gallery-card-tag">${end.tag}</div>
-            <div class="gallery-card-title">${end.title}</div>
-          </div>
-        `;
-      }
-      return `
-        <div class="gallery-card gallery-card-locked">
-          <div class="gallery-card-emoji">🔒</div>
-          <div class="gallery-card-title">???</div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  _renderCG() {
-    // CG tracking not yet implemented — show empty state per §23.1
-    return `<div class="gallery-empty">还没有解锁任何 CG。<br/>继续推进故事，Nagi 会慢慢向你靠近。</div>`;
   }
 
   destroy() { this.el.remove(); }
