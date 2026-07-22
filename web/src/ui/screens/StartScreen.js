@@ -21,13 +21,13 @@ export class StartScreen {
       </div>
       <div class="home-actions">
         <div class="home-main">
+          <div class="home-main-row" data-action="continue" style="display:none">
+            <span class="home-main-label">继续故事</span>
+            <span class="home-main-desc">读取存档进度</span>
+          </div>
           <div class="home-main-row" data-action="new">
             <span class="home-main-label">新的故事</span>
             <span class="home-main-desc">开始新的运行</span>
-          </div>
-          <div class="home-main-row" data-action="catalog">
-            <span class="home-main-label">章节目录</span>
-            <span class="home-main-desc">查看进度</span>
           </div>
         </div>
         <div class="home-divider"></div>
@@ -47,7 +47,11 @@ export class StartScreen {
       const row = e.target.closest('[data-action]');
       if (!row) return;
       const action = row.dataset.action;
-      if (action === 'new') {
+      if (action === 'continue') {
+        ctx.controller.continueGame().then(ok => {
+          if (ok) ctx.router.navigate('game');
+        });
+      } else if (action === 'new') {
         this._handleNewGame();
       } else if (action === 'catalog') {
         this._openCatalog();
@@ -63,11 +67,14 @@ export class StartScreen {
 
 
 
-    // Disable saves button when no auto-save exists
+    // Show continue button when auto-save exists
+    this._continueRow = this.el.querySelector('[data-action="continue"]');
     this._savesBtn = this.el.querySelector('[data-action="saves"]');
     ctx.controller.hasAutoSave().then(has => {
-      if (!has && this._savesBtn) {
-        this._savesBtn.disabled = true;
+      if (has) {
+        this._continueRow.style.display = '';
+      } else {
+        if (this._savesBtn) this._savesBtn.disabled = true;
       }
     });
 
