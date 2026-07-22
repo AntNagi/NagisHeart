@@ -12,7 +12,19 @@ const DISPLAY_THEMES = [
   { id: 'Light', label: '浅色' },
 ];
 
-export { TEXT_SPEEDS, DISPLAY_THEMES };
+const FONT_SIZES = [
+  { id: 'Small', label: '小', scale: 0.9 },
+  { id: 'Normal', label: '标准', scale: 1.0 },
+  { id: 'Large', label: '大', scale: 1.15 },
+];
+
+const SKIP_SPEEDS = [
+  { id: 'Normal', label: '正常', delayMs: 50 },
+  { id: 'Fast', label: '快速', delayMs: 20 },
+  { id: 'Instant', label: '瞬间', delayMs: 0 },
+];
+
+export { TEXT_SPEEDS, DISPLAY_THEMES, FONT_SIZES, SKIP_SPEEDS };
 
 export class SettingsManager {
   constructor() {
@@ -41,6 +53,20 @@ export class SettingsManager {
     return this._settings.bgmVolume;
   }
 
+  getFontSizeScale() {
+    const entry = FONT_SIZES.find(s => s.id === this._settings.fontSize);
+    return entry ? entry.scale : 1.0;
+  }
+
+  getSkipDelayMs() {
+    const entry = SKIP_SPEEDS.find(s => s.id === this._settings.skipSpeed);
+    return entry ? entry.delayMs : 50;
+  }
+
+  getDialogueOpacity() {
+    return this._settings.dialogueOpacity;
+  }
+
   onBgmVolumeChange(cb) {
     this._listeners.push(cb);
   }
@@ -67,6 +93,9 @@ export class SettingsManager {
       autoSpeed: 3,
       displayTheme: 'Dark',
       bgmVolume: 5,
+      fontSize: 'Normal',
+      dialogueOpacity: 80,
+      skipSpeed: 'Normal',
     };
   }
 }

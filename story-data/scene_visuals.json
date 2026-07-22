@@ -52,7 +52,7 @@
     "mood": "tension"
   },
   "c1a": {
-    "bg": "assets/bg/bg_bluelock_meeting_contract_room.png",
+    "bg": "assets/bg/first_meet.png",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -117,7 +117,7 @@
     "mood": "reflection"
   },
   "u20j": {
-    "bg": "assets/bg/bg_u20j_worldcup_goal_kick.jpg",
+    "bg": "assets/bg/vs_u20_japan_kick.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -260,7 +260,7 @@
     "mood": "loneliness"
   },
   "c6a": {
-    "bg": "assets/bg/goal.jpg",
+    "bg": "assets/bg/falling_down.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -286,7 +286,7 @@
     "mood": "daily"
   },
   "e_bday": {
-    "bg": "assets/bg/birthday.jpg",
+    "bg": "assets/bg/birthday_at_home.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -338,7 +338,7 @@
     "mood": "reflection"
   },
   "wc_roster": {
-    "bg": "assets/bg/dining_room.jpg",
+    "bg": "assets/bg/bar.png",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -377,7 +377,7 @@
     "mood": "competition"
   },
   "wc_offer": {
-    "bg": "assets/bg/living_room.jpg",
+    "bg": "assets/bg/bg_nagi_daily_city_room_icecream.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -390,7 +390,7 @@
     "mood": "competition"
   },
   "w_home": {
-    "bg": "assets/bg/bg_home_soft_nagi_beanbag.jpg",
+    "bg": "assets/bg/living_room.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -403,7 +403,7 @@
     "mood": "daily"
   },
   "mt3": {
-    "bg": "assets/bg/bg_home_soft_nagi_beanbag.jpg",
+    "bg": "assets/bg/pillow.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -429,7 +429,7 @@
     "mood": "loss"
   },
   "e_intimate_cohabit": {
-    "bg": "assets/bg/hug.jpg",
+    "bg": "assets/bg/nagi_with_cat.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -442,7 +442,7 @@
     "mood": "romance"
   },
   "e_cozy": {
-    "bg": "assets/bg/living_room.jpg",
+    "bg": "assets/bg/live_together_some_days.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -455,7 +455,7 @@
     "mood": "daily"
   },
   "w_noodle": {
-    "bg": "assets/bg/bg_nagi_daily_city_room_icecream.jpg",
+    "bg": "assets/bg/nagi_at_home_3.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -520,7 +520,7 @@
     "mood": null
   },
   "c4a": {
-    "bg": "assets/bg/qixi.jpg",
+    "bg": "assets/bg/white_suits.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -559,7 +559,7 @@
     "mood": "romance"
   },
   "c4d": {
-    "bg": "assets/bg/qixi.jpg",
+    "bg": "assets/bg/bedroom.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -572,7 +572,7 @@
     "mood": "romance"
   },
   "e_festival": {
-    "bg": "assets/bg/bg_summer_festival_coconut.jpg",
+    "bg": "assets/bg/summer_festival.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -702,7 +702,7 @@
     "mood": "tension"
   },
   "e_scarf": {
-    "bg": "assets/bg/bg_scarf_flower_delivery.jpg",
+    "bg": "assets/bg/scarf.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -715,7 +715,7 @@
     "mood": "romance"
   },
   "e_sick_fragile": {
-    "bg": "assets/bg/afterwork.jpg",
+    "bg": "assets/bg/nagi_at_home_2.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -806,7 +806,7 @@
     "mood": "loneliness"
   },
   "dream_match": {
-    "bg": "assets/bg/bg_final_match_stadium_kick.jpg",
+    "bg": "assets/bg/bg_bad_impact_kick_cutin.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -819,7 +819,7 @@
     "mood": "competition"
   },
   "dream_celebrate": {
-    "bg": "assets/bg/bg_final_match_stadium_kick.jpg",
+    "bg": "assets/bg/star.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -845,7 +845,7 @@
     "mood": "romance"
   },
   "dream_home": {
-    "bg": "assets/bg/villa.jpg",
+    "bg": "assets/bg/new_home.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -858,7 +858,7 @@
     "mood": "romance"
   },
   "dream_final": {
-    "bg": "assets/bg/ending_true_nagi_soft_gaze.jpg",
+    "bg": "assets/bg/true_end.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -871,7 +871,7 @@
     "mood": "triumph"
   },
   "stay_match": {
-    "bg": "assets/bg/teamV.jpg",
+    "bg": "assets/bg/ending_true_nagi_soft_gaze.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -884,7 +884,7 @@
     "mood": "loss"
   },
   "stay_intro": {
-    "bg": "assets/bg/bg_home_soft_nagi_beanbag.jpg",
+    "bg": "assets/bg/back.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -897,7 +897,7 @@
     "mood": "daily"
   },
   "stay_cozy": {
-    "bg": "assets/bg/dining_room.jpg",
+    "bg": "assets/bg/bar.png",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -962,7 +962,7 @@
     "mood": "tension"
   },
   "bad_match": {
-    "bg": "assets/bg/teamV.jpg",
+    "bg": "assets/bg/king.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -988,7 +988,7 @@
     "mood": "tension"
   },
   "bad_cold": {
-    "bg": "assets/bg/bedroom.jpg",
+    "bg": "assets/bg/walk-in_closet.png",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -1001,7 +1001,7 @@
     "mood": "loneliness"
   },
   "bad_last": {
-    "bg": "assets/bg/bg_bad_impact_kick_cutin.jpg",
+    "bg": "assets/bg/pitch.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -1014,7 +1014,7 @@
     "mood": "loss"
   },
   "bad_far": {
-    "bg": "assets/bg/bg_bad_far_award_broadcast.png",
+    "bg": "assets/bg/goal_faraway.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -1077,5 +1077,18 @@
     "uiSafeZone": null,
     "visualPriority": "A",
     "mood": null
+  },
+  "prologue": {
+    "bg": "assets/bg/remeet.jpg",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "reflection"
   }
 }

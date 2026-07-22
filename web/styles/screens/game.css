@@ -19,3 +19,28 @@
 .game-ui-layer > * {
   pointer-events: auto;
 }
+
+/* ── Toast notification (§29.2 save feedback) ── */
+.game-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  padding: 12px 28px;
+  background: rgba(16, 24, 39, 0.82);
+  backdrop-filter: blur(12px) saturate(0.92);
+  -webkit-backdrop-filter: blur(12px) saturate(0.92);
+  clip-path: var(--clip-cut-sm);
+  border: 1px solid rgba(215, 190, 134, 0.26);
+  font-size: 14px;
+  color: var(--snow-94);
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.game-toast.visible {
+  opacity: 1;
+}

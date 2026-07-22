@@ -36,14 +36,18 @@ export class BacklogOverlay {
       for (let i = 0; i < pageEntries.length; i++) {
         const e = pageEntries[i];
         const isFirst = i === 0;
-        html += '<div class="backlog-entry">';
-        if (e.speaker) {
-          html += `${!isFirst ? '<div class="backlog-gap"></div>' : ''}
-            <div class="backlog-speaker">${e.speaker}</div>`;
-        } else if (!isFirst) {
-          html += '<div class="backlog-gap-sm"></div>';
+        if (e.isChoice) {
+          html += `<div class="backlog-entry backlog-choice"><div class="backlog-text">${e.text}</div></div>`;
+        } else {
+          html += '<div class="backlog-entry">';
+          if (e.speaker) {
+            html += `${!isFirst ? '<div class="backlog-gap"></div>' : ''}
+              <div class="backlog-speaker">${e.speaker}</div>`;
+          } else if (!isFirst) {
+            html += '<div class="backlog-gap-sm"></div>';
+          }
+          html += `<div class="backlog-text">${e.text}</div></div>`;
         }
-        html += `<div class="backlog-text">${e.text}</div></div>`;
       }
     }
 

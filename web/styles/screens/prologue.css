@@ -95,3 +95,23 @@
   color: var(--parchment-84);
   animation: breathe 1.6s ease-in-out infinite;
 }
+
+.prologue-skip-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+  background: transparent;
+  border: 1px solid var(--gold-60);
+  color: var(--parchment-84);
+  font-size: 12px;
+  padding: 6px 14px;
+  cursor: pointer;
+  clip-path: var(--clip-cut-sm);
+  transition: all 0.2s;
+}
+
+.prologue-skip-btn:active {
+  background: var(--gold-60);
+  color: var(--bg-dark);
+}

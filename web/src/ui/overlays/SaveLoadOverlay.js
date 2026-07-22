@@ -1,11 +1,12 @@
 import { NagiDialog } from '../components/NagiDialog.js';
 
 export class SaveLoadOverlay {
-  constructor(container, { controller, mode, onClose, onLoaded }) {
+  constructor(container, { controller, mode, onClose, onLoaded, onSaved }) {
     this._controller = controller;
     this._mode = mode;
     this._onClose = onClose;
     this._onLoaded = onLoaded;
+    this._onSaved = onSaved;
     this._container = container;
 
     this.el = document.createElement('div');
@@ -73,6 +74,7 @@ export class SaveLoadOverlay {
         if (!ok) return;
       }
       await this._controller.saveGame(slotId);
+      if (this._onSaved) this._onSaved();
       this._render();
     } else {
       const ok = await this._controller.loadGame(slotId);

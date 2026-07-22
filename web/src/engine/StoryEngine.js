@@ -85,6 +85,15 @@ export class StoryEngine {
     return this._endings.definitions;
   }
 
+  // Resolve the ending_resolver router against current state → 'end_*' node id.
+  // Used when the story is fast-forwarded (section-skip) past its final content.
+  resolveEndingId(state) {
+    const router = this._routers['ending_resolver'];
+    if (!router) return null;
+    const { targetId } = this._resolveRouter(router, state);
+    return targetId || null;
+  }
+
   _resolveRouter(router, state) {
     for (const rule of router.rules) {
       if (this._conditionParser.evaluate(rule.condition, state)) {

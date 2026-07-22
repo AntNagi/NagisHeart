@@ -248,6 +248,10 @@ export class GameController extends EventTarget {
     if (choiceIndex < 0 || choiceIndex >= choices.length) return;
     const choice = choices[choiceIndex];
 
+    // §14.4: Record player choice in backlog
+    const choiceLabel = this._templateResolver.resolve(choice.label);
+    this._backlog.push({ speaker: '', text: `你选择了：${choiceLabel}`, isChoice: true });
+
     this._gameState.applyEffects(choice.effects);
 
     if (this._handleEndingTransition(choice)) return;
@@ -294,37 +298,81 @@ export class GameController extends EventTarget {
     if (!chapter) return;
     this._progressManager.markSectionSkipped(this._currentChapterId, this._currentSectionIndex);
 
-    const section = chapter.sections[this._currentSectionIndex];
-    const sectionTitle = section?.title || '';
-
-    const nextSectionIndex = this._currentSectionIndex + 1;
-    let nextStartNode = null;
+    // §31.2: skip directly to next in-scope section start / chapter ending / ending flow.
+    // Sections carry a scope (common/dream/stay/bad/M/J); skip must respect the
+    // player's current path so it never surfaces content from another branch.
+    let nextSectionIndex = this._currentSectionIndex + 1;
+    while (nextSectionIndex < chapter.sections.length
+           && !this._isSectionInScope(chapter.sections[nextSectionIndex])) {
+      nextSectionIndex++;
+    }
     if (nextSectionIndex < chapter.sections.length) {
-      nextStartNode = chapter.sections[nextSectionIndex].startNode;
+      const nextStartNode = chapter.sections[nextSectionIndex].startNode;
+      this._currentSectionIndex = nextSectionIndex;
+      this._backlog = [];
+      this._navigateToNode(nextStartNode);
     } else {
+      // Last in-scope section of chapter → go to chapter ending
       const chapterIndex = this._chapters.findIndex(c => c.id === this._currentChapterId);
       if (chapterIndex >= 0 && chapterIndex + 1 < this._chapters.length) {
         const nextChapter = this._chapters[chapterIndex + 1];
         if (nextChapter.sections.length > 0) {
-          nextStartNode = nextChapter.sections[0].startNode;
+          const nextStartNode = nextChapter.sections[0].startNode;
+          this._currentChapterId = nextChapter.id;
+          this._currentSectionIndex = 0;
+          this._backlog = [];
+          const resolution = this._engine.resolve(nextStartNode, this._gameState);
+          if (resolution.type === 'found') {
+            this._pendingNodeAfterTransition = resolution;
+            this._pendingNextChapter = nextChapter;
+            this._updateState({
+              phase: GamePhase.ChapterEnding,
+              chapterTransition: {
+                chapterName: chapter.name,
+                chapterTitle: chapter.title,
+                timeRange: chapter.timeRange || null,
+              },
+            });
+          } else {
+            // Next chapter's opening resolves straight to an ending → resolve it
+            this._resolveEndingFromState();
+          }
         }
+      } else {
+        // No more chapters → resolve real ending via ending_resolver
+        this._resolveEndingFromState();
       }
     }
+  }
 
-    if (nextStartNode) {
-      const resolution = this._engine.resolve(nextStartNode, this._gameState);
-      if (resolution.type === 'found') {
-        this._pendingNodeAfterTransition = resolution;
+  // Section scope gating for skip: 'common' (or none) always allowed; branch
+  // scopes require the matching path/mj variable to be set.
+  _isSectionInScope(section) {
+    const scope = section.scope;
+    if (!scope || scope === 'common') return true;
+    if (scope === 'dream' || scope === 'stay' || scope === 'bad') {
+      return this._gameState.getString('path') === scope;
+    }
+    if (scope === 'M' || scope === 'J') {
+      return this._gameState.getString('mj') === scope;
+    }
+    return true;
+  }
+
+  // Evaluate endings.json judgement (via ending_resolver router) on current
+  // state and present the resulting ending. ending nodes (end_*) are real story
+  // nodes, so we resolve the id then show its definition directly.
+  _resolveEndingFromState() {
+    const endId = this._engine.resolveEndingId(this._gameState);
+    if (endId) {
+      const key = endId.replace(/^end_/, '');
+      const def = this._engine.getEndingDefinitions()[key];
+      if (def) {
+        this._showEnding({ endingId: endId, definition: def });
+        return;
       }
     }
-
-    this._updateState({
-      phase: GamePhase.SectionEnding,
-      sectionTransition: {
-        chapterName: chapter.name,
-        sectionTitle,
-      },
-    });
+    this._updateState({ phase: GamePhase.Error, errorMessage: 'ENDING_RESOLVE_FAILED' });
   }
 
   getCurrentSectionTitle() {
@@ -614,6 +662,7 @@ export class GameController extends EventTarget {
         this._stopAuto();
         this._stopSkip();
         this._progressManager.unlockEnding(`end_${tier}`);
+        this._saveManager.deleteAutoSave();
         this._updateState({ phase: GamePhase.Ending, ending: def });
         return true;
       }
@@ -627,6 +676,7 @@ export class GameController extends EventTarget {
     this._stopAuto();
     this._stopSkip();
     this._progressManager.unlockEnding(resolution.endingId);
+    this._saveManager.deleteAutoSave();
     this._updateState({
       phase: GamePhase.Ending,
       ending: resolution.definition,
@@ -658,6 +708,8 @@ export class GameController extends EventTarget {
 
   _startSkipLoop() {
     if (this._skipTimer) clearInterval(this._skipTimer);
+    const delay = this._settingsManager.getSkipDelayMs();
+    const interval = delay === 0 ? 10 : delay;
     this._skipTimer = setInterval(() => {
       const phase = this._state.phase;
       if (phase === GamePhase.Dialogue || phase === GamePhase.Response) {
@@ -665,7 +717,7 @@ export class GameController extends EventTarget {
       } else {
         this._stopSkip();
       }
-    }, 50);
+    }, interval);
   }
 
   // ── State update ──

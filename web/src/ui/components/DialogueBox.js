@@ -15,9 +15,12 @@ export class DialogueBox {
     this._currentText = '';
     this._fullText = '';
     this._isAnimating = false;
+    this._charDelay = 16;
   }
 
   get isAnimating() { return this._isAnimating; }
+
+  setCharDelay(ms) { this._charDelay = ms; }
 
   completeText() {
     if (!this._isAnimating) return false;
@@ -54,18 +57,24 @@ export class DialogueBox {
     let i = 0;
     this._textEl.textContent = '';
     this._isAnimating = true;
+    const delay = this._charDelay;
+    if (delay === 0) {
+      this._textEl.textContent = text;
+      this._isAnimating = false;
+      return;
+    }
     const step = () => {
       i += 1;
       this._textEl.textContent = chars.slice(0, i).join('');
       if (i < chars.length) {
-        this._typewriterTimer = setTimeout(step, 16);
+        this._typewriterTimer = setTimeout(step, delay);
       } else {
         this._typewriterTimer = null;
         this._isAnimating = false;
       }
     };
     if (chars.length > 0) {
-      this._typewriterTimer = setTimeout(step, 16);
+      this._typewriterTimer = setTimeout(step, delay);
     } else {
       this._isAnimating = false;
     }

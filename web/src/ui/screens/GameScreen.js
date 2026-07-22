@@ -29,14 +29,32 @@ export class GameScreen {
     this._tapArea.addEventListener('click', () => this._handleTap());
     this.el.appendChild(this._tapArea);
 
-    // Keyboard: Space/Enter for typewriter skip + advance
+    // Keyboard: Space/Enter for typewriter skip + advance, Esc for menu, Ctrl for skip
     this._onKeyDown = (e) => {
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
         this._handleTap();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        if (this._activeOverlay) {
+          this._closeOverlay();
+        } else {
+          this._openMenu();
+        }
+      } else if (e.key === 'Control') {
+        e.preventDefault();
+        if (!this._controller.state.isSkipping) {
+          this._controller.toggleSkip();
+        }
+      }
+    };
+    this._onKeyUp = (e) => {
+      if (e.key === 'Control' && this._controller.state.isSkipping) {
+        this._controller.toggleSkip();
       }
     };
     document.addEventListener('keydown', this._onKeyDown);
+    document.addEventListener('keyup', this._onKeyUp);
 
     // UI layer (pointer-events: none, children opt-in)
     this._uiLayer = document.createElement('div');
@@ -80,9 +98,21 @@ export class GameScreen {
   _handleTap() {
     if (this._activeOverlay) return;
     const state = this._controller.state;
-    if (this._narration.isActive && state.displayType === 'long_narration') {
+
+    // Long narration takes priority
+    if (state.displayType === 'long_narration' && this._narration.isActive) {
       if (this._narration.handleTap()) return;
+      // Narration consumed but still active — force hide and advance
+      this._narration.hide();
+      this._controller.onTap();
+      return;
     }
+
+    // If narration is stuck in unexpected state, clean it up
+    if (this._narration.isActive) {
+      this._narration.hide();
+    }
+
     if (this._dialogueBox.isAnimating) {
       this._dialogueBox.completeText();
       return;
@@ -92,10 +122,9 @@ export class GameScreen {
 
   _confirmSkipSection() {
     if (this._activeOverlay) return;
-    const sectionTitle = this._controller.getCurrentSectionTitle() || '本节';
     NagiDialog.show(this.el, {
       title: '跳过本节？',
-      body: `确认后将直接进入「${sectionTitle}」结束页。`,
+      body: '跳过后将进入下一小节开始。\n如果已在最后一小节，则进入大章结束或结局流程。',
       dismiss: '取消',
       confirm: '确认跳过',
       onDismiss: () => {},
@@ -129,7 +158,20 @@ export class GameScreen {
       mode,
       onClose: () => this._closeOverlay(),
       onLoaded: () => { this._closeOverlay(); },
+      onSaved: () => { this._showToast('存档成功'); },
     });
+  }
+
+  _showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'game-toast';
+    toast.textContent = message;
+    this.el.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('visible'));
+    setTimeout(() => {
+      toast.classList.remove('visible');
+      setTimeout(() => toast.remove(), 300);
+    }, 1500);
   }
 
   _openBacklog() {
@@ -164,6 +206,8 @@ export class GameScreen {
     if (this._activeOverlay) {
       this._activeOverlay.destroy();
       this._activeOverlay = null;
+      // Re-render to sync UI with controller state after overlay closes
+      this._render(this._controller.state);
     }
   }
 
@@ -189,6 +233,12 @@ export class GameScreen {
       isAutoPlaying: state.isAutoPlaying,
       showSkipSection: isGameplay,
     });
+
+    // When an overlay is open, don't update gameplay layers
+    if (this._activeOverlay) return;
+
+    // Sync text speed from settings
+    this._dialogueBox.setCharDelay(this._controller.getSettingsManager().getTextSpeedMs());
 
     // Determine which layer to show
     const isDialogue = state.phase === GamePhase.Dialogue || state.phase === GamePhase.Response;
@@ -279,6 +329,7 @@ export class GameScreen {
   destroy() {
     this._closeOverlay();
     document.removeEventListener('keydown', this._onKeyDown);
+    document.removeEventListener('keyup', this._onKeyUp);
     this._controller.removeEventListener('statechange', this._onStateChange);
     this._bg.destroy();
     this._dialogueBox.destroy();
