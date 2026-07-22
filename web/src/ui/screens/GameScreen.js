@@ -6,7 +6,6 @@ import { ChoicePanel } from '../components/ChoicePanel.js';
 import { HUD } from '../components/HUD.js';
 import { TransitionCard } from '../components/TransitionCard.js';
 import { NagiDialog } from '../components/NagiDialog.js';
-import { GameMenuOverlay } from '../overlays/GameMenuOverlay.js';
 import { SaveLoadOverlay } from '../overlays/SaveLoadOverlay.js';
 import { SettingsOverlay } from '../overlays/SettingsOverlay.js';
 import { BacklogOverlay } from '../overlays/BacklogOverlay.js';
@@ -39,7 +38,8 @@ export class GameScreen {
         if (this._activeOverlay) {
           this._closeOverlay();
         } else {
-          this._openMenu();
+          // §29.3: 剧情 HUD 不保留其他菜单，Esc 直接返回主页
+          this._ctx.router.navigate('start');
         }
       } else if (e.key === 'Control') {
         e.preventDefault();
@@ -80,7 +80,7 @@ export class GameScreen {
         case 'auto': this._controller.toggleAuto(); break;
         case 'save': this._openSaveLoad('save'); break;
         case 'backlog': this._openBacklog(); break;
-        case 'back': this._openMenu(); break;
+        case 'back': this._ctx.router.navigate('start'); break;
         case 'skipSection': this._confirmSkipSection(); break;
       }
     });
@@ -132,25 +132,7 @@ export class GameScreen {
     });
   }
 
-  _openMenu() {
-    if (this._activeOverlay) return;
-    if (this._controller.state.isAutoPlaying) this._controller.toggleAuto();
-    if (this._controller.state.isSkipping) this._controller.toggleSkip();
-    this._activeOverlay = new GameMenuOverlay(this.el, {
-      onClose: () => this._closeOverlay(),
-      onSelect: (action) => {
-        this._closeOverlay();
-        switch (action) {
-          case 'save': this._openSaveLoad('save'); break;
-          case 'load': this._openSaveLoad('load'); break;
-          case 'backlog': this._openBacklog(); break;
-          case 'chapters': this._openChapterSelect(); break;
-          case 'settings': this._openSettings(); break;
-          case 'title': this._ctx.router.navigate('start'); break;
-        }
-      },
-    });
-  }
+
 
   _openSaveLoad(mode) {
     this._activeOverlay = new SaveLoadOverlay(this.el, {
