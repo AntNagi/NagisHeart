@@ -682,3 +682,29 @@
   color: var(--text-primary);
   font-weight: 500;
 }
+
+/* ─ Memory cards (per HTML authority) ─ */
+.memory-card {
+  aspect-ratio: 1 / 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background:
+    linear-gradient(to top, rgba(16, 24, 39, 0.86), rgba(16, 24, 39, 0.14)),
+    var(--img, none) center / cover no-repeat;
+  clip-path: var(--clip-cut-sm);
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.memory-card span {
+  margin-top: 6px;
+  color: rgba(247, 249, 252, 0.56);
+  font-size: 12px;
+}
+
+.memory-card.locked {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(247, 249, 252, 0.56);
+}
