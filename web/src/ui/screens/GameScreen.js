@@ -65,6 +65,8 @@ export class GameScreen {
     this._hud = new HUD(this._uiLayer);
     this._dialogueBox = new DialogueBox(this._uiLayer);
     this._narration = new NarrationOverlay(this._uiLayer);
+    // Fix: narration overlay blocks tap-area clicks. Forward taps to game's tap handling.
+    this._narration.setOnNarrationTap(() => this._handleNarrationTap());
     this._choicePanel = new ChoicePanel(this._uiLayer);
     this._transitionCard = new TransitionCard(this._uiLayer);
 
@@ -116,6 +118,21 @@ export class GameScreen {
     if (this._dialogueBox.isAnimating) {
       this._dialogueBox.completeText();
       return;
+    }
+    this._controller.onTap();
+  }
+
+  // Fix: narration overlay blocks tap-area clicks. This handles taps on narration.
+  _handleNarrationTap() {
+    const state = this._controller.state;
+    if (state.displayType === 'long_narration' && this._narration.isActive) {
+      if (this._narration.handleTap()) return;
+      this._narration.hide();
+      this._controller.onTap();
+      return;
+    }
+    if (this._narration.isActive) {
+      this._narration.hide();
     }
     this._controller.onTap();
   }

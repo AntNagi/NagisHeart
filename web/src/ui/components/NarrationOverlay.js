@@ -8,6 +8,14 @@ export class NarrationOverlay {
     this._longTexts = [];
     this._onTap = null;
     this._currentFullscreenText = '';
+    this._onNarrationTap = null;
+
+    // Fix: narration overlay blocks tap-area clicks (z-index 6 > 5).
+    // Add click handler to forward taps to game's tap handling.
+    this.el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (this._onNarrationTap) this._onNarrationTap();
+    });
   }
 
   showFullscreen(text) {
@@ -62,6 +70,8 @@ export class NarrationOverlay {
   }
 
   get isActive() { return this._mode !== null; }
+
+  setOnNarrationTap(cb) { this._onNarrationTap = cb; }
 
   destroy() { this.el.remove(); }
 }
