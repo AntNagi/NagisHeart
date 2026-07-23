@@ -24,7 +24,7 @@
   clip-path: var(--clip-cut-sm);
   font-size: var(--fs-choice);
   line-height: var(--lh-choice);
-  color: rgba(247, 249, 252, 0.98);
+  color: var(--gold-100);
   text-align: left;
   transition: background var(--duration-fast), transform var(--duration-fast);
   cursor: pointer;
