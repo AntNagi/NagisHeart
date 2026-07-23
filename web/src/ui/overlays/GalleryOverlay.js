@@ -1,14 +1,27 @@
 // Memory items: CG and END mixed in single grid per HTML authority
+// Ending cards use BG image + bottom scrim + tag/title per Android TASK-20260723-002
 const MEMORY_ITEMS = [
   // CG items (placeholder - actual CG tracking not implemented)
   { type: 'cg', id: 'cg_01', label: 'CG 01', img: null },
   { type: 'cg', id: 'cg_02', label: 'CG 02', img: null },
-  // END items
-  { type: 'end', id: 'end_true', label: 'TRUE END', img: null },
-  { type: 'end', id: 'end_good', label: 'GOOD END', img: null },
-  { type: 'end', id: 'end_normal', label: 'NORMAL END', img: null },
-  { type: 'end', id: 'end_bad', label: 'BAD END', img: null },
+  // END items — with BG and crop rule per ending mood
+  { type: 'end', id: 'end_true', label: 'TRUE END', mood: 'true',
+    img: 'assets/bg/true_end.jpg', cropY: '35%' },
+  { type: 'end', id: 'end_good', label: 'GOOD END', mood: 'good',
+    img: 'assets/bg/king.jpg', cropY: '35%' },
+  { type: 'end', id: 'end_normal', label: 'NORMAL END', mood: 'normal',
+    img: 'assets/bg/ending_true_nagi_soft_gaze.jpg', cropY: '21%' },
+  { type: 'end', id: 'end_bad', label: 'BAD END', mood: 'bad',
+    img: 'assets/bg/goal_faraway.jpg', cropY: '35%' },
 ];
+
+// Ending definitions for tag + title display
+const ENDING_DEFS = {
+  end_true:   { tag: 'TRUE END',   title: '世界第一，与你' },
+  end_good:   { tag: 'GOOD END',   title: '那么完美，那么爱他' },
+  end_normal: { tag: 'NORMAL END', title: '普通情侣' },
+  end_bad:    { tag: 'BAD END',    title: '好麻烦' },
+};
 
 export class GalleryOverlay {
   constructor(container, { controller, onClose }) {
@@ -28,16 +41,29 @@ export class GalleryOverlay {
     const cardsHtml = MEMORY_ITEMS.map(item => {
       const isUnlocked = item.type === 'end' ? unlockedEndings.has(item.id) : false;
       
-      if (isUnlocked) {
+      if (item.type === 'end' && isUnlocked) {
+        const def = ENDING_DEFS[item.id] || { tag: item.label, title: '' };
         return `
-          <div class="memory-card" ${item.img ? `style="--img:url('${item.img}')"` : ''}>
-            ${item.label}
-            <span>已解锁</span>
+          <div class="memory-card ending-card" style="--img:url('${item.img}');--crop-y:${item.cropY || '35%'}">
+            <div class="ending-card-scrim"></div>
+            <div class="ending-card-info">
+              <span class="ending-card-tag">${def.tag}</span>
+              <span class="ending-card-title">${def.title}</span>
+            </div>
           </div>
         `;
       }
+      if (item.type === 'end' && !isUnlocked) {
+        return `
+          <div class="memory-card locked">
+            ???
+            <span>未解锁</span>
+          </div>
+        `;
+      }
+      // CG card (placeholder)
       return `
-        <div class="memory-card locked">
+        <div class="memory-card cg-card locked">
           ???
           <span>未解锁</span>
         </div>

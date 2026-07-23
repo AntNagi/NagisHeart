@@ -1,4 +1,4 @@
-/* ── Choice Panel (§19) — bottom-aligned ── */
+/* ── Choice Panel (§19 / Android TASK-20260723-002) — gradient fade + border ── */
 .choice-panel {
   position: absolute;
   bottom: 34px;
@@ -13,20 +13,36 @@
 .choice-button {
   width: 100%;
   padding: 14px 16px;
-  backdrop-filter: blur(12px) saturate(0.92);
-  -webkit-backdrop-filter: blur(12px) saturate(0.92);
-  background: var(--deep-48);
-  border: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(to right,
+    rgba(16, 24, 39, 0.48) 0%,
+    rgba(16, 24, 39, 0.44) 50%,
+    rgba(16, 24, 39, 0) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   clip-path: var(--clip-cut-sm);
   font-size: var(--fs-choice);
   line-height: var(--lh-choice);
-  color: var(--snow-92);
+  color: rgba(247, 249, 252, 0.98);
   text-align: left;
   transition: background var(--duration-fast), transform var(--duration-fast);
   cursor: pointer;
 }
 
+/* Left dot indicator (Android: 9dp pentagon, roseGold α0.76) */
+.choice-dot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  background: rgba(191, 160, 138, 0.76);
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
 .choice-button:active {
   transform: scale(0.97);
-  background: var(--rose-gold-18);
+  background: linear-gradient(to right,
+    rgba(191, 160, 138, 0.18) 0%,
+    rgba(191, 160, 138, 0.10) 50%,
+    rgba(16, 24, 39, 0) 100%);
 }

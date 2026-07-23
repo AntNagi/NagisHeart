@@ -695,7 +695,7 @@
 /* ─ Memory cards (per HTML authority) ─ */
 .memory-card {
   aspect-ratio: 1 / 1;
-  padding: 12px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -705,6 +705,8 @@
   clip-path: var(--clip-cut-sm);
   font-size: 14px;
   color: var(--text-primary);
+  overflow: hidden;
+  position: relative;
 }
 
 .memory-card span {
@@ -716,4 +718,46 @@
 .memory-card.locked {
   background: rgba(255, 255, 255, 0.04);
   color: rgba(247, 249, 252, 0.56);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* ─ Ending cards (Android TASK-20260723-002: BG + bottom scrim + tag/title) ─ */
+.ending-card {
+  padding: 0;
+  background: var(--img, none) center var(--crop-y, 35%) / cover no-repeat;
+}
+
+.ending-card-scrim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(16, 24, 39, 0.62) 100%);
+  pointer-events: none;
+}
+
+.ending-card-info {
+  position: relative;
+  z-index: 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ending-card-tag {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--gold-100);
+  text-transform: uppercase;
+}
+
+.ending-card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(247, 249, 252, 0.96);
 }

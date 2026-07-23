@@ -29,7 +29,7 @@ export class ChoicePanel {
 
     this.el.style.display = '';
     this.el.innerHTML = filtered.map(c =>
-      `<button class="choice-button" data-index="${c.originalIndex}">${c.label}</button>`
+      `<button class="choice-button" data-index="${c.originalIndex}"><span class="choice-dot"></span>${c.label}</button>`
     ).join('');
 
     this.el.querySelectorAll('.choice-button').forEach(btn => {
