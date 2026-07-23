@@ -1,9 +1,122 @@
-/* ── Ending Screen (§18.1) ── */
-.ending-screen {
+/* ── Authority Ending Screen (§18.1 / Android TASK-20260723-002) ─ */
+.authority-ending-screen {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 28px 82px;
-  background: var(--nagi-deep-blue-night);
+  align-items: center;
+  justify-content: center;
   animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
+  overflow: hidden;
+}
+
+.authority-ending-bg-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.authority-ending-bg-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.authority-ending-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(9, 14, 24, 0.34), rgba(9, 14, 24, 0.52) 42%, rgba(9, 14, 24, 0.72));
+}
+
+.authority-ending-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(14, 23, 38, 0.12) 0%, transparent 48%),
+    linear-gradient(to bottom, rgba(5, 8, 15, 0.36), rgba(5, 8, 15, 0.22) 38%, rgba(5, 8, 15, 0.64));
+}
+
+.authority-ending-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 330px;
+  padding: 0 42px;
+  gap: 18px;
+}
+
+.authority-ending-tag {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: rgba(215, 190, 134, 0.92);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.64);
+}
+
+.authority-ending-tag-line {
+  width: 188px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(215, 190, 134, 0.44), transparent);
+  margin-top: -8px;
+}
+
+.authority-ending-title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--snow-94);
+  text-align: center;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.64);
+}
+
+.authority-ending-desc {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.92;
+  color: rgba(247, 249, 252, 0.82);
+  text-align: center;
+  max-width: 330px;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.64);
+}
+
+.authority-ending-unlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: rgba(244, 241, 234, 0.56);
+  width: fit-content;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.64);
+}
+
+.authority-ending-unlock-dot {
+  width: 5px;
+  height: 5px;
+  background: rgba(215, 190, 134, 0.72);
+  flex-shrink: 0;
+}
+
+.authority-ending-home {
+  position: absolute;
+  bottom: 58px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: rgba(247, 249, 252, 0.82);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 2;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.64);
+}
+
+.authority-ending-home:hover {
+  opacity: 0.8;
 }

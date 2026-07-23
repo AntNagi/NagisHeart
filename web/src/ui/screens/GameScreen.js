@@ -296,7 +296,7 @@ export class GameScreen {
         break;
 
       case GamePhase.Ending:
-        this._ctx.router.navigate('ending', { ending: state.ending });
+        this._ctx.router.navigate('ending', { ending: state.ending, bgAssetPath: state.bgAssetPath });
         break;
 
       case GamePhase.Error:
