@@ -19,8 +19,8 @@ export class TransitionCard {
     this.el.innerHTML = `
       <div class="authority-opening-bg"></div>
       <div class="authority-opening-content">
-        <div class="authority-opening-divider"></div>
         <div class="authority-opening-eyebrow">${eyebrow}</div>
+        <div class="authority-opening-divider"></div>
         <div class="authority-opening-name">${chapterName}</div>
         <div class="authority-opening-title">${chapterTitle}</div>
         <div class="authority-opening-desc">轻触继续，进入本章内容。</div>
@@ -63,8 +63,8 @@ export class TransitionCard {
     this.el.innerHTML = `
       <div class="authority-opening-bg"></div>
       <div class="authority-opening-content">
-        <div class="authority-opening-divider"></div>
         <div class="authority-opening-eyebrow">Section</div>
+        <div class="authority-opening-divider"></div>
         <div class="authority-opening-name">${chapterName}</div>
         <div class="authority-opening-title">${sectionTitle}</div>
         <div class="authority-opening-desc">轻触继续，进入本节内容。</div>

@@ -2,7 +2,9 @@ export class EndingScreen {
   constructor(container, ctx) {
     this._ctx = ctx;
     const ending = ctx.ending;
-    const bgPath = ctx.bgAssetPath || this._getDefaultBg(ending);
+    const bgAssetPath = ctx.bgAssetPath; // e.g. 'bg/true_end.jpg' (assets/ stripped)
+    // Build image src: always prepend ../assets/ to match SceneBackground convention
+    const bgSrc = bgAssetPath ? `../assets/${bgAssetPath}` : this._getDefaultBg(ending);
 
     this.el = document.createElement('div');
     this.el.className = 'screen authority-ending-screen screen-enter';
@@ -13,7 +15,7 @@ export class EndingScreen {
     const unlockText = ending?.unlockText || '';
 
     this.el.innerHTML = `
-      <div class="authority-ending-bg-img"><img src="${bgPath}" alt="" /></div>
+      <div class="authority-ending-bg-img"><img src="${bgSrc}" alt="" /></div>
       <div class="authority-ending-scrim"></div>
       <div class="authority-ending-glow"></div>
       <div class="authority-ending-content">
@@ -41,12 +43,12 @@ export class EndingScreen {
   _getDefaultBg(ending) {
     const mood = (ending?.mood || 'normal').toLowerCase();
     const map = {
-      true: 'assets/bg/true_end.jpg',
-      good: 'assets/bg/king.jpg',
-      normal: 'assets/bg/ending_true_nagi_soft_gaze.jpg',
-      bad: 'assets/bg/goal_faraway.jpg',
+      true: '../assets/bg/true_end.jpg',
+      good: '../assets/bg/king.jpg',
+      normal: '../assets/bg/ending_true_nagi_soft_gaze.jpg',
+      bad: '../assets/bg/goal_faraway.jpg',
     };
-    return map[mood] || 'assets/bg/true_end.jpg';
+    return map[mood] || '../assets/bg/true_end.jpg';
   }
 
   destroy() { this.el.remove(); }

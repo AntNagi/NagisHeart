@@ -6,7 +6,7 @@
   right: 18px;
   padding: 18px 20px 22px;
   background: var(--dialogue-box-bg);
-  border: 1px solid var(--dialogue-box-border);
+  border: none;
   backdrop-filter: blur(16px) saturate(0.92);
   -webkit-backdrop-filter: blur(16px) saturate(0.92);
   clip-path: var(--clip-cut-md);
@@ -132,6 +132,14 @@
   color: var(--parchment-92);
   text-align: left;
   text-shadow: 0 1px 8px rgba(16, 24, 39, 0.18);
+}
+
+.long-narration-text p {
+  margin: 0 0 1em 0;
+}
+
+.long-narration-text p:last-child {
+  margin-bottom: 0;
 }
 
 .long-narration-pager {

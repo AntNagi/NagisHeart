@@ -661,9 +661,15 @@ export class GameController extends EventTarget {
       if (def) {
         this._stopAuto();
         this._stopSkip();
-        this._progressManager.unlockEnding(`end_${tier}`);
+        const endingId = `end_${tier}`;
+        this._progressManager.unlockEnding(endingId);
         this._saveManager.deleteAutoSave();
-        this._updateState({ phase: GamePhase.Ending, ending: def });
+
+        // Look up ending's scene visual for background image
+        const visual = this._engine.getSceneVisual(endingId);
+        const bgPath = visual?.bg?.replace(/^assets\//, '') || null;
+
+        this._updateState({ phase: GamePhase.Ending, ending: def, bgAssetPath: bgPath });
         return true;
       }
     }
@@ -677,9 +683,15 @@ export class GameController extends EventTarget {
     this._stopSkip();
     this._progressManager.unlockEnding(resolution.endingId);
     this._saveManager.deleteAutoSave();
+
+    // Look up ending's scene visual for background image
+    const visual = this._engine.getSceneVisual(resolution.endingId);
+    const bgPath = visual?.bg?.replace(/^assets\//, '') || null;
+
     this._updateState({
       phase: GamePhase.Ending,
       ending: resolution.definition,
+      bgAssetPath: bgPath,
     });
   }
 

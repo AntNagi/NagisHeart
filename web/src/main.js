@@ -21,6 +21,10 @@ async function init() {
     const controller = new GameController(storyData);
     const audioManager = new AudioManager(controller.getSettingsManager());
 
+    // Apply saved theme on startup (Bug #4 fix)
+    const settings = controller.getSettingsManager().get();
+    app.setAttribute('data-theme', settings.displayTheme.toLowerCase());
+
     controller.addEventListener('scenechange', (e) => {
       const visual = e.detail;
       if (visual.bgm) {

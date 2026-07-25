@@ -85,6 +85,10 @@ export class StoryEngine {
     return this._endings.definitions;
   }
 
+  getSceneVisual(id) {
+    return this._sceneVisuals[id] || null;
+  }
+
   // Resolve the ending_resolver router against current state → 'end_*' node id.
   // Used when the story is fast-forwarded (section-skip) past its final content.
   resolveEndingId(state) {

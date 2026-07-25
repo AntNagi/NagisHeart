@@ -16,7 +16,9 @@ export class SceneBackground {
     newImg.alt = '';
     newImg.style.opacity = '0';
     newImg.src = `../assets/${bgPath}`;
-    newImg.onload = () => {
+
+    // Preload image before showing
+    const showImage = () => {
       newImg.style.transition = `opacity var(--duration-scene) var(--ease-out)`;
       requestAnimationFrame(() => { newImg.style.opacity = '1'; });
       setTimeout(() => {
@@ -24,11 +26,23 @@ export class SceneBackground {
         this._img = newImg;
       }, 900);
     };
+
+    newImg.onload = showImage;
     newImg.onerror = () => {
-      newImg.style.opacity = '1';
-      if (this._img.parentNode === this.el) this.el.removeChild(this._img);
-      this._img = newImg;
+      // On error, still show the image element (might be partially loaded)
+      showImage();
     };
+
+    // Fallback: if image takes too long, show it anyway after 300ms
+    const timeout = setTimeout(() => {
+      if (newImg.style.opacity === '0') {
+        showImage();
+      }
+    }, 300);
+
+    newImg.addEventListener('load', () => clearTimeout(timeout), { once: true });
+    newImg.addEventListener('error', () => clearTimeout(timeout), { once: true });
+
     this.el.appendChild(newImg);
   }
 

@@ -31,36 +31,27 @@ export class NarrationOverlay {
     if (this._mode === 'long' && this._longTexts === texts) return;
     this._mode = 'long';
     this._longTexts = texts;
-    this._longPage = 0;
     this._onTap = onDone;
     this.el.style.display = '';
-    this._renderLongPage();
+    this._renderLongNarration();
   }
 
   handleTap() {
     if (this._mode === 'long') {
-      this._longPage++;
-      if (this._longPage >= this._longTexts.length) {
-        this.hide();
-        if (this._onTap) this._onTap();
-        return true;
-      }
-      this._renderLongPage();
+      this.hide();
+      if (this._onTap) this._onTap();
       return true;
     }
     return false;
   }
 
-  _renderLongPage() {
-    const text = this._longTexts[this._longPage] || '';
-    const page = String(this._longPage + 1).padStart(2, '0');
-    const total = String(this._longTexts.length).padStart(2, '0');
+  _renderLongNarration() {
+    const paragraphs = this._longTexts.map(t => `<p>${t}</p>`).join('');
     this.el.className = 'long-narration';
     this.el.innerHTML = `
       <div class="long-narration-frame cut-medium">
-        <div class="long-narration-text">${text}</div>
+        <div class="long-narration-text">${paragraphs}</div>
       </div>
-      <div class="long-narration-pager">${page} / ${total}</div>
     `;
   }
 

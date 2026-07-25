@@ -122,15 +122,15 @@
 .save-slot-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .save-slot-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 56px;
-  padding: 10px 18px;
+  min-height: 60px;
+  padding: 12px 18px;
   background: linear-gradient(90deg,
     var(--glass-bg-strong) 0%,
     var(--gray-blue-12) 60%,
@@ -143,6 +143,7 @@
     0 calc(100% - var(--cut-sm)), 0 var(--cut-sm)
   );
   pointer-events: auto;
+  transition: background var(--duration-fast);
 }
 
 .save-slot-row.clickable {
@@ -158,23 +159,26 @@
 }
 
 .save-slot-row.disabled {
-  opacity: 0.5;
+  opacity: 0.45;
+  cursor: default;
 }
 
 .save-slot-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .save-slot-title {
-  font-size: var(--fs-choice);
+  font-size: 15px;
   color: var(--text-primary);
+  font-weight: 400;
 }
 
 .save-slot-time {
   font-size: 11px;
   color: var(--text-secondary);
+  letter-spacing: 0.02em;
 }
 
 /* ── Settings (§1 system-level bg + glass panel) ── */
@@ -618,7 +622,7 @@
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 14px;
 }
 
 .gallery-empty {
@@ -631,13 +635,13 @@
 
 .gallery-tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
 .gallery-tab {
   flex: 1;
-  padding: 8px 0;
+  padding: 10px 0;
   background: var(--glass-panel-bg);
   border: 1px solid var(--glass-panel-border);
   color: var(--text-secondary);
@@ -645,12 +649,14 @@
   cursor: pointer;
   clip-path: var(--clip-cut-sm);
   transition: all 0.2s;
+  font-weight: 400;
 }
 
 .gallery-tab.active {
   background: var(--accent-gold);
   color: var(--bg-dark);
   border-color: var(--accent-gold);
+  font-weight: 500;
 }
 
 .gallery-card {
@@ -694,25 +700,31 @@
 
 /* ─ Memory cards (per HTML authority) ─ */
 .memory-card {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   background:
-    linear-gradient(to top, rgba(16, 24, 39, 0.86), rgba(16, 24, 39, 0.14)),
+    linear-gradient(to top, rgba(16, 24, 39, 0.88), rgba(16, 24, 39, 0.12)),
     var(--img, none) center / cover no-repeat;
   clip-path: var(--clip-cut-sm);
   font-size: 14px;
   color: var(--text-primary);
   overflow: hidden;
   position: relative;
+  transition: transform var(--duration-fast);
+}
+
+.memory-card:hover {
+  transform: scale(1.02);
 }
 
 .memory-card span {
   margin-top: 6px;
   color: rgba(247, 249, 252, 0.56);
   font-size: 12px;
+  padding: 0 12px 12px;
 }
 
 .memory-card.locked {
@@ -727,7 +739,15 @@
 /* ─ Ending cards (Android TASK-20260723-002: BG + bottom scrim + tag/title) ─ */
 .ending-card {
   padding: 0;
+  aspect-ratio: 3 / 4;
   background: var(--img, none) center var(--crop-y, 35%) / cover no-repeat;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--duration-fast);
+}
+
+.ending-card:hover {
+  transform: scale(1.02);
 }
 
 .ending-card-scrim {
@@ -735,29 +755,31 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 28%;
-  background: linear-gradient(to bottom, transparent 0%, rgba(16, 24, 39, 0.62) 100%);
+  height: 32%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(16, 24, 39, 0.68) 100%);
   pointer-events: none;
 }
 
 .ending-card-info {
   position: relative;
   z-index: 1;
-  padding: 12px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .ending-card-tag {
   font-size: 10px;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   color: var(--gold-100);
   text-transform: uppercase;
+  font-weight: 500;
 }
 
 .ending-card-title {
   font-size: 14px;
   font-weight: 500;
   color: rgba(247, 249, 252, 0.96);
+  line-height: 1.3;
 }

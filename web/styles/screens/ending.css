@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
   overflow: hidden;
 }
@@ -45,8 +45,8 @@
   flex-direction: column;
   align-items: center;
   max-width: 330px;
-  padding: 0 42px;
-  gap: 18px;
+  padding: 0 42px 34px;
+  gap: 14px;
 }
 
 .authority-ending-tag {

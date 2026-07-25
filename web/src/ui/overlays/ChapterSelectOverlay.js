@@ -23,11 +23,13 @@ export class ChapterSelectOverlay {
     let html = `
       <div class="system-bg"><img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" /></div>
       <div class="system-bg-overlay"></div>
-      <div class="catalog-panel">
-        <div class="catalog-head">
-          <h2 class="page-title">章节目录</h2>
-          <p>选择你想回到的章节。</p>
-        </div>
+      <div class="overlay-header">
+        <button class="overlay-back-btn" data-action="close">←</button>
+        <span class="overlay-title">章节目录</span>
+        <span class="overlay-spacer"></span>
+      </div>
+      <div class="overlay-body">
+        <h2 class="overlay-heading">章节目录</h2>
         <div class="catalog-list">
     `;
 
