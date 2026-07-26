@@ -21,6 +21,33 @@
 
 ## 活跃任务
 
+### TASK-20260726-001
+- 标题：剧情回顾页排版重构（废除金色 speaker chip）
+- 负责人：PP（Android）
+- 状态：open
+- 优先级：P1
+- 来源：Ant 2026-07-26 反馈「连续对话时对白的加强设计效果很差」+「两侧边距太宽、字体太大、间距太宽导致换行严重」。lulu 已出方案并经 Ant 浏览器确认。
+- 决策记录：`DEC-20260726-001`
+- 必读（只读这两处，不要照聊天印象或旧 handoff 实现）：
+  1. `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §24（全部 token；§24.1 写明了为什么改，不要改回去）
+  2. `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` 的 `剧情回顾` view（`.recap-*` 规则 + `screen-story-recap` 示例，示例刻意用了真实对白密度）
+- 改动文件：`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/BacklogScreen.kt`
+- 核心改动：
+  - 废除金色 speaker chip。说话人改为纯文字：`FontFamily.Default` / `12.sp` / `FontWeight.Medium` / `letterSpacing 0.04.em` / `Color(0xFFD7BE86)`；无底色、无边框、无 blur、无 halo。
+  - 容器左右从 `78%` 改为 `padding(horizontal = 38.dp)`（= screenWidth − 76，与对白框正文左边缘对齐）。
+  - 旁白：`FontFamily.Serif` / `15.sp` / `lineHeight 28.2.sp` / `Color(0xEBF4F1EA)`，通栏不缩进。
+  - 对白：`FontFamily.Default` / `15.sp` / `lineHeight 25.2.sp` / `Color(0xF0F7F9FC)`，整块 `padding(horizontal = 15.dp)`（左右对称，一字距）。
+  - 五级间距 `4 / 8 / 12 / 16 / 28`（名字→正文 / 同一人续说 / 旁白→旁白 / 换人 / 旁白↔对白）。**不能用统一的 `spacedBy()`**——每条的上间距取决于前一条的类型和说话人，需要拿 `previousItem` 判定。
+  - 同一说话人连续发言时，第二句起不渲染名字，间距用 `8`。
+- 分页（与 `TASK-20260721-002` 合并处理）：
+  - 交互权威 §29.8 / §30.2 / §31.1：**分页、禁止纵向滚屏**，每页条数不是固定 8 条。
+  - `625b3ea` 加的页内 `verticalScroll` 本节明确取消（feibo review 已标方向保留意见：用被否掉的交互掩盖被禁止的裁切）。
+  - 本次排版改动让每条高度都变了、且依赖前一条，分页必须按**实际排版后的累计高度装箱**，不能用「条数 × 估算行高」。放不下就减少本页条数、增加页数。
+- 禁止：金色 chip；给对白/旁白加底色或边框或 blur；百分比压窄正文；旁白与对白同字体；单侧缩进；把五级间距压平成等距；页内纵向滚屏。
+- 完成定义：Ant 实机验收。截图需覆盖「连续同一说话人」「快速换人」「旁白↔对白切换」三种情况，并证明末行不裁切。截图放 `00_harness/05_reports/TASK-20260726-001/`。
+- 最新更新时间：2026-07-26
+
+
 ### TASK-20260723-002
 - 标题：Android 实现三页 UI authority：大章开始 / 大章结束 / 结局页
 - 负责人：Sai（Android）

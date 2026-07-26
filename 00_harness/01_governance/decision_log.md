@@ -471,6 +471,7 @@ None. Investigation and process decision only; no code or resource deletion auth
   - PM must expand vague scope such as `where relevant` into explicit section-by-section checklist, or require the worker to do so before coding.
   - Missing a referenced authority section is a failed task, even if some code changes are correct.
   - Post-implementation review must include active runtime path proof, duplicate/stale path check, build/install freshness proof, forbidden-scope confirmation, and cleanup status.
+- Numbering note: this section is 24, not 23. MinSpec had no section 23 (highest was 22), yet TASK-20260723-002 tells Sai to implement 大章开始 / 大章结束 / 结局页 per "section 23" - that spec was never written into the authority MinSpec, and its direction (flat dark, no glass card) contradicts the still-standing MinSpec 14.2 clear-card and 18.1 ending-card. Section 23 is left reserved for that missing spec so the board pointer does not land on recap typography. Gap flagged to Ant; not fixed here.
 - Files updated:
   - `00_harness/06_templates/tpl_alignment_code_review_gate.md`
   - `00_harness/07_scheduler/WORKER_LOOP.md`
@@ -514,3 +515,21 @@ None. Investigation and process decision only; no code or resource deletion auth
   - PM is fully bound by rules v2: works only inside the four ledgers; may not create process files (no task sheets, dev replies, review files); v1 PM workflows in 99_archive stay retired.
   - Board reassignments: TASK-20260721-003 (V3_1 audit) -> PM 一一 exec / feibo guide; TASK-20260719-004 (code health) -> PP exec / feibo gate.
 - Files updated: 00_harness/README.md, README_AI.md, 02_planning/task_board.md
+
+# DEC-20260726-001 - Story recap page typography rebuild (drop gold speaker chip)
+
+- Date: 2026-07-26
+- Owner: Ant (decision) / lulu (UI design)
+- Trigger: Ant real-device review — the dialogue/narration distinction added earlier (gold speaker chip) "looks bad when consecutive dialogue appears"; follow-up: side margins too wide, font too large, spacing too loose, causing heavy line wrapping.
+- Decision:
+  - The gold speaker chip is removed from the recap page. It was designed for the bottom dialogue box as a once-per-screen accent; in a scrolling log where dialogue is 60-70% of content it degrades gold into background texture, repeats redundantly for consecutive same-speaker lines, and its 24px lead vs 22px paragraph gap is nearly equidistant so it cannot group. Body text was serif 16sp for both modes, so the entire distinction rested on the label.
+  - New mechanism: font family + density + five-tier spacing + symmetric inset. Zero decoration (no fill, no border, no blur, no halo).
+  - Narration serif 15sp / 1.88 full-bleed; dialogue sans 15sp / 1.68 inset 15 on BOTH sides (one character width) as a quotation block; speaker name plain #D7BE86 12sp/500, collapsed on consecutive same-speaker lines.
+  - Five-tier spacing 4 < 8 < 12 < 16 < 28. Rationale recorded in MinSpec 24.5: spacing compensates line-height, so tight text needs a larger gap to separate turns and airy text needs a smaller one. Narration paragraph gap corrected from 22 to 12.
+  - Container width fix: `.recap-inner` 78% is abolished for left/right 38 (screenWidth - 76). The 78% squeeze made recap narrower (335) than the dialogue box body (354) - the same defect section 17.4 already banned for long narration but which was never applied to recap.
+  - Ant chose symmetric both-side inset over left-only; accepted the resulting dialogue measure of ~21.6 chars/line on the grounds that dialogue lines are short utterances while narration prose was the actual wrapping pain point.
+  - MinSpec section 10 typography is superseded; only its background/overlay rules survive. Developers read section 24 only.
+  - Pagination: MinSpec 24.7 defers to interaction authority 29.8 / 30.2 / 31.1 (dynamic pagination, no vertical scroll, per-page count not fixed at 8). The in-page verticalScroll workaround shipped under TASK-20260721-002 is explicitly cancelled by this section - feibo had already flagged it as using a rejected interaction to mask a banned clipping. Because this rebuild changes per-item height (15sp, split line-heights 1.88/1.68, five-tier gaps) and makes an item's height depend on its predecessor, pagination must bin-pack by measured laid-out height, not by item count times an estimated row height.
+- Files updated: authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html (.recap-* CSS + screen-story-recap markup), authority/ui/XoXo_UI_Final_MinSpec_20260712.md (section 10 superseded, section 24 added), authority/MANIFEST.md (hashes + revision log), 00_harness/02_planning/task_board.md (PP task)
+- Not changed: design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html retains its own recap draft. That draft was explicitly marked 不采用 in the authority merge record and is retired history; syncing it would duplicate authority content and violate iron rule 1.
+- Cleanup status: none. Temporary render copy authority/ui/_tmp_recap_render.html was created for headless screenshot verification and deleted in the same step.

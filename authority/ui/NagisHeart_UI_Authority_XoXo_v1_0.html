@@ -1232,51 +1232,75 @@
       margin: 0;
     }
 
+    /* ── 剧情回顾 ──────────────────────────────────────────────
+       2026-07-26 重构（DEC-20260726-001）。
+       旧版靠金色 speaker chip 区分对白/旁白：chip 是为底部对白框设计的
+       「一屏一个」重音元素，放进滚动长列表后（真实剧情对白占 60~70%）
+       变成每两行一块金砖 —— 金色降级为背景纹理，且 chip 24px / 段间 22px
+       几乎等距，完全无法分组。正文层面两者又同为 serif 16px，区分全押在
+       标签上，chip 一密集视觉层级就整个倒过来。
+       新方案：字形 + 密度 + 五级间距 + 对称内缩，零装饰（无底色/框线/blur）。
+       宽度同时修掉 78% 压窄（与 §17.4 已禁止的长旁白 78%/80% 同病）。 */
     .recap-page {
       position: absolute;
       inset: 0;
       z-index: 3;
-      padding: 88px 0 34px;
+      padding: 84px 38px 34px;   /* 左右 38 = §17.4 的 screenWidth − 76，与对白框正文左边缘对齐 */
       background: rgba(19, 32, 51, 0.58);
+      overflow: hidden;
     }
 
     .recap-inner {
       height: 100%;
-      width: 78%;
-      margin: 0 auto;
+      width: 100%;
       overflow: hidden;
-      color: rgba(244, 241, 234, 0.92);
-      font-family: var(--font-title);
-      font-size: 16px;
-      line-height: 1.92;
       text-shadow: 0 1px 8px rgba(10, 15, 25, 0.18);
     }
 
-    .recap-inner p {
+    /* 旁白 — serif，疏松，通栏 */
+    .recap-narr {
       margin: 0;
+      font-family: var(--font-title);
+      font-size: 15px;
+      line-height: 1.88;
+      color: rgba(244, 241, 234, 0.92);
     }
 
-    .recap-inner p + p {
-      margin-top: 22px;
+    /* 对白 — sans，紧实，两侧各内缩一字距（15px）成对称引文块 */
+    .recap-line {
+      margin: 0;
+      padding-left: 15px;
+      padding-right: 15px;
     }
 
-    .recap-inner .speaker {
-      margin-top: 24px;
-      width: fit-content;
-      padding: 3px 9px 4px;
-      color: #e4ca8f;
-      background: linear-gradient(to right, rgba(16, 24, 39, 0.30), rgba(16, 24, 39, 0.10));
-      border: 1px solid rgba(215, 190, 134, 0.18);
-      backdrop-filter: blur(8px) saturate(0.92);
-      clip-path: var(--cut-sm);
+    /* 说话人 — 纯文字，无底、无框、无 blur、无 halo；同一人续说时省略 */
+    .recap-who {
+      margin: 0 0 4px;
       font-family: var(--font-ui);
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 500;
       letter-spacing: 0.04em;
-      text-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.72),
-        0 0 10px rgba(215, 190, 134, 0.20);
+      color: var(--gold);
     }
+
+    .recap-say {
+      margin: 0;
+      font-family: var(--font-ui);
+      font-size: 15px;
+      line-height: 1.68;
+      color: rgba(247, 249, 252, 0.94);
+    }
+
+    /* 五级间距 —— 大间距只留给模式切换，同一个声音继续时一律收紧。
+       紧行高需要更大间隔断句（对白 1.68 → 换人 16），
+       疏行高需要更小的（旁白 1.88 → 段间 12）：间距补偿行高，密度才对等。 */
+    .recap-line.cont                { margin-top: 8px;  }  /* 同一人续说 */
+    .recap-narr + .recap-narr       { margin-top: 12px; }  /* 旁白之间 */
+    .recap-line + .recap-line       { margin-top: 16px; }  /* 换人 */
+    .recap-line.cont + .recap-line  { margin-top: 16px; }
+    .recap-line + .recap-line.cont  { margin-top: 8px;  }
+    .recap-line + .recap-narr,
+    .recap-narr + .recap-line       { margin-top: 28px; }  /* 旁白 ↔ 对白 */
 
     .skip-chip {
       position: absolute;
@@ -1667,14 +1691,31 @@
             <span class="hud-btn ico-menu"></span>
           </div>
         </div>
+        <!-- 示例刻意用真实密度：连续同一说话人 → 换人 → 旁白/对白来回切换，
+             用来验证五级间距在密集对白下仍然能分组。 -->
         <div class="recap-page">
           <div class="recap-inner">
-            <p>蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
-            <p>数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。</p>
-            <p>你坐在观察席后方。桌上放着 JFA 提供的项目资料、风险评估、后续商业开发草案，以及一份还没有签字的追加投资确认书。</p>
-            <div class="speaker">JFA会长</div>
-            <p>年轻、热血、国家队更新、世界级前锋培养，这些关键词本身就具备极高的商业价值。</p>
-            <p>所以你签了字。这个理由完全成立。至少，你现在必须这样告诉自己。</p>
+            <p class="recap-narr">蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
+            <p class="recap-narr">数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。</p>
+            <div class="recap-line">
+              <p class="recap-who">JFA会长</p>
+              <p class="recap-say">年轻、热血、国家队更新、世界级前锋培养，这些关键词本身就具备极高的商业价值。</p>
+            </div>
+            <div class="recap-line cont">
+              <p class="recap-say">何况这次的赞助结构，对你们家族的品牌曝光是难得的窗口。</p>
+            </div>
+            <div class="recap-line">
+              <p class="recap-who">你</p>
+              <p class="recap-say">我明白。追加投资的部分，我会在这周内给出答复。</p>
+            </div>
+            <p class="recap-narr">所以你签了字。这个理由完全成立。至少，你现在必须这样告诉自己。</p>
+            <div class="recap-line">
+              <p class="recap-who">凪</p>
+              <p class="recap-say">好麻烦。</p>
+            </div>
+            <div class="recap-line cont">
+              <p class="recap-say">为什么我要跑那么多。</p>
+            </div>
           </div>
         </div>
       </section>

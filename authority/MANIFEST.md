@@ -22,8 +22,8 @@
 | 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `389E5B7751C9D6609D7E4D6328990614` | 2026-07-20（§31 实机反馈补丁） |
 | 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `5782433490C59C8C426F5183A95FBF08` | V15 校准版 |
 | 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `EB459592BF396154885D9A2B9CEBCE3C` | V3.1（2026-07-21 Ant 确认为正主） |
-| 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `BE822CF9961A40E53BA9458E6B396F61` | 2026-07-21（相对路径随目录迁移修复：../../assets 等；视觉内容零变更） |
-| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `E4A1FB1C436F1770280B66695ADC118B` | 2026-07-21（§21.2 第 4 行记录修正：BacklogScreen 裁切实机未通过，原"已通过"作废） |
+| 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `EDABFAD4977DD8B211A26D9BEE9C8046` | 2026-07-26（剧情回顾页排版重构：废除金色 speaker chip，改字形+密度+五级间距+对称内缩） |
+| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `3EA11C6630E8D8C6D3B571B0F0C8ABB4` | 2026-07-26（§10 排版作废、新增 §24 剧情回顾页排版重构） |
 | 7 | BG Mapping | `visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | `EC5888748CE5D0ACBC24540C64D37B82` | v1.2（2026-07-20 加 §7 画廊结局 BG 规则） |
 | 附 | 节点匹配表 | `visual_mapping/NagisHeart_SCRIPT_V15_节点匹配表.xlsx` | `526532688BFD7799337C14EE215D7F11` | 2026-07-21（原快照区唯一新版，已救出） |
 | KV-1 | Start 页权威（V23 分层包） | `design/authority/icon_start_tt/start/`（9 文件；长屏适配策略见 `start_long/rethink/`） | 目录校验 | TT V23，Ant 2026-07-21 确认 |
@@ -49,3 +49,4 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 | 2026-07-21 | MinSpec §21.2 | 第 4 行 BacklogScreen"已通过"记录作废（Ant 07-20 实机仍裁切），重修任务 TASK-20260721-002 | DEC-20260721-001 |
 | 2026-07-21 | （哈希口径） | md/html 哈希改为换行无关算法（剥 CR、无 BOM UTF-8 后取 MD5），配合 .gitattributes 换行统一，防跨机器误报；内容零变更 | 本次为记账口径变更 |
 | 2026-07-21 | UI HTML | 修复因迁入 authority/ui/ 而断链的相对引用（../assets→../../assets、authority/→../../design/authority/、../handoff→../../handoff）；视觉内容零变更。发现 `assets/bg/worldstage.jpg`（结局页 bg）仓库缺失，并入 TASK-20260721-004 | 迁移善后，非设计变更 |
+| 2026-07-26 | UI HTML + MinSpec | 剧情回顾页排版重构：废除金色 speaker chip（连续对白下金色降级为背景纹理且无法分组），改为字形+密度+五级间距+对称内缩零装饰方案；`.recap-inner` 78% 压窄改为左右 38（= screenWidth−76，与 §17.4 同口径）。MinSpec §10 排版作废、新增 §24 | DEC-20260726-001 |
