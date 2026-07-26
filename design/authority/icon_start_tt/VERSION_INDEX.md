@@ -13,6 +13,8 @@
 | v21 | `trace/opening_poster_v21_overlay_centered_mist_tap.svg` | Strengthened Tap to start | retained |
 | v22 | `trace/opening_poster_v22_overlay_centered_mist_tap_titlegap.svg` | Fixed Blue Lock / title overlap | static fallback |
 | v23 | `start/layers/start_title_overlay_v23.svg` + `start/layers/start_button_breathing_v23.svg` | Split title and START so START can animate independently | final candidate |
+| v23 + C vignette | native overlay between title and START | Keep original v23 crop/layers; add static C dark vignette so existing mist/cloud is less visible while START remains topmost | current implementation decision |
+| v23 + C vignette + gold preservation | v23 SVG gold ornaments / optional native duplicate lines | Preserve title gold lines + center square and START-side gold lines above darkening/low-alpha effects | required correction |
 
 ## Icon Versions
 

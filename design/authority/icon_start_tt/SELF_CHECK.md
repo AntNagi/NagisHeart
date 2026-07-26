@@ -13,6 +13,8 @@
 - Start layer x/y/w/h and relative values are specified.
 - Click hit area is specified separately from visual START layer.
 - START animation values and duration are specified.
+- 2026-07-25 Start C vignette layer order and alpha values are specified; START remains above the vignette.
+- 2026-07-25 correction: v23 gold ornaments around title and START are required to remain visible after adding the vignette.
 - Android Compose and Web/CSS implementation guidance are included.
 - Android icon density exports and adaptive icon foreground/background files are included.
 - Preview files are marked preview-only and not used as clean source.
