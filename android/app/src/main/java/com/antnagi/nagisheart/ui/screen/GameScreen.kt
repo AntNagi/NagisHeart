@@ -555,7 +555,7 @@ private fun ReplayCompleteOverlay(onBack: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "轻触返回章节目录",
+                text = "轻触返回剧情地图",
                 style = NagiTheme.typography.caption,
                 color = NagiPalette.silverBlue.copy(alpha = 0.5f)
             )
@@ -586,23 +586,8 @@ private fun AuthorityChapterOpeningOverlay(
                 .padding(top = 96.dp, start = 42.dp, end = 42.dp, bottom = 90.dp),
             contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .fillMaxWidth()
-                    .offset(y = (-104).dp)
-                    .height(1.dp)
-                    .background(
-                        Brush.horizontalGradient(
-                            0f to Color.Transparent,
-                            0.5f to NagiTokens.gold.copy(alpha = 0.44f),
-                            1f to Color.Transparent
-                        )
-                    )
-            )
-
             Column(
-                modifier = Modifier.widthIn(max = 330.dp),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(18.dp)
             ) {
@@ -612,6 +597,18 @@ private fun AuthorityChapterOpeningOverlay(
                     letterSpacing = (0.22 * 12).sp,
                     color = NagiTokens.gold.copy(alpha = 0.82f),
                     style = authorityShadowStyle()
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(
+                            Brush.horizontalGradient(
+                                0f to Color.Transparent,
+                                0.5f to NagiTokens.gold.copy(alpha = 0.44f),
+                                1f to Color.Transparent
+                            )
+                        )
                 )
                 Text(
                     text = chapterName,

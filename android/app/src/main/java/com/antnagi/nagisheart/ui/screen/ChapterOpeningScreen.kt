@@ -58,23 +58,8 @@ fun ChapterOpeningScreen(
                     .padding(top = 96.dp, start = 42.dp, end = 42.dp, bottom = 90.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .fillMaxWidth()
-                        .offset(y = (-104).dp)
-                        .height(1.dp)
-                        .background(
-                            Brush.horizontalGradient(
-                                0f to Color.Transparent,
-                                0.5f to NagiTokens.gold.copy(alpha = 0.44f),
-                                1f to Color.Transparent
-                            )
-                        )
-                )
-
                 Column(
-                    modifier = Modifier.widthIn(max = 330.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(18.dp)
                 ) {
@@ -84,6 +69,18 @@ fun ChapterOpeningScreen(
                         letterSpacing = (0.22 * 12).sp,
                         color = NagiTokens.gold.copy(alpha = 0.82f),
                         style = authorityTextShadow()
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(
+                                Brush.horizontalGradient(
+                                    0f to Color.Transparent,
+                                    0.5f to NagiTokens.gold.copy(alpha = 0.44f),
+                                    1f to Color.Transparent
+                                )
+                            )
                     )
                     Text(
                         text = chapterName,

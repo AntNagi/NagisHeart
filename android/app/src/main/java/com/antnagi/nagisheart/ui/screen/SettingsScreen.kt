@@ -153,7 +153,7 @@ private fun SettingsRow(
             )
             .border(1.dp, NagiTokens.borderGlass, NagiShapes.cutSmall)
             .clickable(onClick = onClick)
-            .padding(start = 18.dp, end = 4.dp, top = 10.dp, bottom = 10.dp),
+            .padding(start = 18.dp, end = 18.dp, top = 10.dp, bottom = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

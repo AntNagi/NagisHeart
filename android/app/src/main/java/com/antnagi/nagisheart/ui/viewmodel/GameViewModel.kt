@@ -169,7 +169,20 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         nagiCall = call
         gameState = GameState(variablesData)
         backlog.clear()
-        currentChapterId = nodeToChapter["p1"]?.id ?: ""
+        val firstChapter = nodeToChapter["p1"]
+        currentChapterId = firstChapter?.id ?: ""
+        _uiState.update {
+            it.copy(
+                chapterTransition = firstChapter?.let { chapter ->
+                    ChapterTransitionInfo(
+                        chapterName = chapter.name,
+                        chapterTitle = chapter.title,
+                        timeRange = chapter.timeRange
+                    )
+                },
+                sectionTransition = null
+            )
+        }
         navigateToNode("p1")
     }
 
@@ -272,6 +285,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         val def = engine.getEndingDefinitions()[endingId] ?: return null
         return engine.getNodeBg(def.endingNode)
     }
+
+    fun getNodeBgPath(nodeId: String): String? =
+        if (::engine.isInitialized) engine.getNodeBg(nodeId) else null
 
     fun getSectionState(chapterId: String, sectionIndex: Int, startNode: String): SectionState {
         val isUnlocked = startNode in progressManager.getVisitedNodes()
@@ -715,7 +731,9 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 if (nextId != null) {
                     navigateToNode(nextId)
                 } else {
-                    finishEndingNodeIfNeeded(_uiState.value.currentNodeId)
+                    if (!finishReplayIfNeeded()) {
+                        finishEndingNodeIfNeeded(_uiState.value.currentNodeId)
+                    }
                 }
             }
             currentChoices.size == 1 && currentChoices[0].autoAdvance -> {
@@ -795,18 +813,28 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         if (nextId != null) {
             navigateToNode(nextId)
         } else {
-            finishEndingNodeIfNeeded(currentNodeId)
+            if (!finishReplayIfNeeded()) {
+                finishEndingNodeIfNeeded(currentNodeId)
+            }
         }
     }
 
     // --- Ending ---
 
+    private fun finishReplayIfNeeded(): Boolean {
+        if (!isReplayMode) return false
+        stopAuto()
+        stopSkip()
+        _uiState.update {
+            it.copy(phase = GamePhase.Ending, ending = null, errorMessage = "REPLAY_COMPLETE")
+        }
+        return true
+    }
+
     private fun finishEndingNodeIfNeeded(nodeId: String) {
         val ending = engine.getEndingForNode(nodeId) ?: return
         if (isReplayMode) {
-            _uiState.update {
-                it.copy(phase = GamePhase.Ending, ending = null, errorMessage = "REPLAY_COMPLETE")
-            }
+            finishReplayIfNeeded()
         } else {
             showEnding(ending)
         }

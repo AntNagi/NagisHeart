@@ -18,6 +18,7 @@ object NagiTokens {
     val authorityClearDeep = Color(0xFF0A1220)
     val authorityClearMid = Color(0xFF0E1726)
     val authorityBlueGlow = Color(0xFF1E3A8A)
+    val startVignette = Color(0xFF08080C)
 
     // ── Universal borders (§17.1/17.2) ──
     val borderGlass = Color(0x14FFFFFF)

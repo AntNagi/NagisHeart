@@ -83,7 +83,7 @@ fun StartScreen(
                             horizontalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
                             MinorAction("存档进度", onSave, Modifier.weight(1f))
-                            MinorAction("章节目录", onChapter, Modifier.weight(1f))
+                            MinorAction("剧情地图", onChapter, Modifier.weight(1f))
                             MinorAction("回忆画廊", onGallery, Modifier.weight(1f))
                             MinorAction("系统设置", onSettings, Modifier.weight(1f))
                         }

@@ -3,6 +3,9 @@ package com.antnagi.nagisheart.ui.screen
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -12,7 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
@@ -151,55 +157,26 @@ private fun BacklogItem(
     entry: BacklogEntry,
     isFirst: Boolean
 ) {
-    val goldColor = NagiTokens.speakerGold
-    val textColor = Color(0xFFF6F3EE) // token-exempt
+    if (entry.speaker.isNotBlank()) {
+        RecapDialogueItem(entry = entry, isFirst = isFirst)
+    } else {
+        RecapNarrationItem(entry = entry, isFirst = isFirst)
+    }
+}
+
+@Composable
+private fun RecapNarrationItem(
+    entry: BacklogEntry,
+    isFirst: Boolean
+) {
     val textShadow = Shadow(
         color = Color.Black.copy(alpha = 0.34f),
         offset = Offset(0f, 3f),
         blurRadius = 12f
     )
-    val speakerShadow = Shadow(
-        color = Color.Black.copy(alpha = 0.72f),
-        offset = Offset(0f, 1f),
-        blurRadius = 2f
-    )
-    val speakerHalo = Shadow(
-        color = NagiTokens.goldGlow,
-        offset = Offset(0f, 0f),
-        blurRadius = 10f
-    )
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        if (entry.speaker.isNotEmpty()) {
-            if (!isFirst) {
-                Spacer(modifier = Modifier.height(26.dp))
-            }
-            Box {
-                Text(
-                    text = entry.speaker,
-                    style = TextStyle(
-                        fontFamily = FontFamily.Default,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 13.sp,
-                        letterSpacing = 0.04.sp,
-                        shadow = speakerHalo
-                    ),
-                    color = goldColor
-                )
-                Text(
-                    text = entry.speaker,
-                    style = TextStyle(
-                        fontFamily = FontFamily.Default,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 13.sp,
-                        letterSpacing = 0.04.sp,
-                        shadow = speakerShadow
-                    ),
-                    color = goldColor
-                )
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-        } else if (!isFirst) {
+        if (!isFirst) {
             Spacer(modifier = Modifier.height(22.dp))
         }
 
@@ -209,10 +186,100 @@ private fun BacklogItem(
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
-                lineHeight = 32.sp,
+                lineHeight = (16 * 1.92).sp,
                 shadow = textShadow
             ),
-            color = textColor
+            color = NagiTokens.parchment.copy(alpha = 0.92f)
         )
+    }
+}
+
+@Composable
+private fun RecapDialogueItem(
+    entry: BacklogEntry,
+    isFirst: Boolean
+) {
+    val speakerShadow = Shadow(
+        color = Color.Black.copy(alpha = 0.48f),
+        offset = Offset(0f, 1f),
+        blurRadius = 8f
+    )
+    val dialogueShadow = Shadow(
+        color = Color.Black.copy(alpha = 0.36f),
+        offset = Offset(0f, 1f),
+        blurRadius = 10f
+    )
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        if (!isFirst) {
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .drawBehind {
+                    val lineTop = 12.dp.toPx()
+                    val lineHeight = size.height - (24.dp.toPx())
+                    val lineWidth = 1.dp.toPx()
+                    val glowWidth = 8.dp.toPx()
+
+                    drawRect(
+                        brush = Brush.verticalGradient(
+                            0f to Color.Transparent,
+                            0.5f to NagiTokens.speakerGold.copy(alpha = 0.08f),
+                            1f to Color.Transparent
+                        ),
+                        topLeft = Offset(0f, lineTop),
+                        size = Size(glowWidth, lineHeight)
+                    )
+                    drawRect(
+                        brush = Brush.verticalGradient(
+                            0f to Color.Transparent,
+                            0.5f to NagiTokens.speakerGold.copy(alpha = 0.72f),
+                            1f to Color.Transparent
+                        ),
+                        topLeft = Offset(0f, lineTop),
+                        size = Size(lineWidth, lineHeight)
+                    )
+                }
+                .background(
+                    Brush.horizontalGradient(
+                        0f to NagiTokens.deepBlue.copy(alpha = 0.40f),
+                        0.62f to NagiTokens.deepBlue.copy(alpha = 0.18f),
+                        1f to NagiTokens.deepBlue.copy(alpha = 0.04f)
+                    )
+                )
+                .padding(start = 17.dp, top = 13.dp, end = 15.dp, bottom = 15.dp)
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = entry.speaker,
+                    style = TextStyle(
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 12.sp,
+                        letterSpacing = (12 * 0.08).sp,
+                        shadow = speakerShadow
+                    ),
+                    color = NagiTokens.speakerGold
+                )
+
+                Text(
+                    text = entry.text,
+                    style = TextStyle(
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 15.sp,
+                        lineHeight = (15 * 1.82).sp,
+                        letterSpacing = (15 * 0.01).sp,
+                        shadow = dialogueShadow
+                    ),
+                    color = NagiTokens.snow.copy(alpha = 0.94f)
+                )
+            }
+        }
     }
 }

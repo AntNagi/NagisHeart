@@ -117,7 +117,7 @@ fun NagiNavGraph(
                     onConfirm = {
                         showNewGameConfirm = false
                         gameViewModel.resetAndStartNew()
-                        navController.navigate(Routes.GAME) {
+                        navController.navigate(Routes.CHAPTER_OPENING) {
                             popUpTo(Routes.START) { inclusive = false }
                         }
                     },
@@ -140,7 +140,7 @@ fun NagiNavGraph(
                         showNewGameConfirm = true
                     } else {
                         gameViewModel.resetAndStartNew()
-                        navController.navigate(Routes.GAME) {
+                        navController.navigate(Routes.CHAPTER_OPENING) {
                             popUpTo(Routes.START) { inclusive = false }
                         }
                     }
