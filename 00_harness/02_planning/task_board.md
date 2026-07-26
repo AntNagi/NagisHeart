@@ -205,12 +205,14 @@
 ### TASK-20260721-008
 - 标题：ui-snapshot 工具深流程覆盖 v2
 - 负责人：Wewe（Web）
-- 状态：done
+- 状态：rework
 - 优先级：P2
 - 说明：现有 `tools/ui-snapshot.js` 已覆盖 9 状态；扩展 web 流程脚本覆盖剩余权威页：真人物对白（点到有 speaker 的节点）、选项层（推进到首个选项节点）、章节/小节开始、章节结束、长旁白、跳过弹窗（点 HUD skipSection chip）、结局页与画廊（可加 debug 入口或存档注入，需在回报中说明方式且不得进生产路径）。只改 `tools/ui-snapshot.js`，不改 `web/src` 生产逻辑。
 - 完成定义：`node tools/ui-snapshot.js all` 覆盖 ≥15/18 权威页；报告无损；截图入 `05_reports/ui_baseline/web/`。
 - 完成结果：18/18 权威页全覆盖。方式：puppeteer evaluateOnNewDocument 钩子捕获 GameController 实例至 window.__controller__，通过 controller.onTap() / _navigateToNode() / _updateState() 驱动到目标状态截图；画廊按钮 disabled 通过 evaluate 移除 disabled 属性后注入 DOM；结局/章节转场/小节转场通过 _updateState 直接设置。未改 web/src 任何文件。
-- feibo review（2026-07-21）：工具交付合格（+255 行，注入法不碰生产代码，方向正确），但**覆盖账面修正：实际 17/18**——缺 `line`（Web LINE 层未实现，合理缺口，待 LINE 接入后补）；多出 `section-clear` 一张（权威无此页，§17.6 已移除独立小节结束页）——**Web 存在已被产品移除的 Section Clear 状态，疑似残留**，列入 `TASK-20260721-006` Ant 验收关注项，确认后 Wewe 下轮移除该状态及其入口。任务转 review。
+- **feibo 复跑打回（2026-07-26，转 rework）**：CTO 交接时复跑 `node tools/ui-snapshot.js all`，committed 版本只出 **11/18**，7 项失败：choice / skip-confirm（`.prologue-text` 超时）、section-opening / chapter-opening / chapter-clear（`__controller__` undefined，`_updateState` 读不到）、section-clear（等待超时）、ending（`.ending-screen` 找不到）。说明 controller 注入钩子不稳定（可能受运行顺序/时序影响），一次跑通不等于可复现。另在工作区发现有人改到一半的修复（重构 hook 注入 + 选择器改 `.authority-ending-screen`），跑出来更差（同为 11/18），已 `git stash` 保存备查（stash 描述 "WIP: ui-snapshot hook refactor"），未丢弃。基线图已回滚到上一份好版本（18 张齐全），Ant 下午看报告不受影响。
+- **Wewe 下轮要求**：让覆盖可复现——连跑 3 次结果一致才算过；`__controller__` 改为显式等待就绪（轮询 window.__controller__ 存在再操作，不靠时序巧合）；先 `git stash list` 看那份 WIP 决定捡起或丢弃；顺带确认 web `section-clear` 状态是否为已移除页面的残留。
+- feibo review（2026-07-21 早）：工具交付合格（+255 行，注入法不碰生产代码，方向正确），但**覆盖账面修正：实际 17/18**——缺 `line`（Web LINE 层未实现，合理缺口，待 LINE 接入后补）；多出 `section-clear` 一张（权威无此页，§17.6 已移除独立小节结束页）——**Web 存在已被产品移除的 Section Clear 状态，疑似残留**，列入 `TASK-20260721-006` Ant 验收关注项，确认后 Wewe 下轮移除该状态及其入口。任务转 review。
 - 最新更新时间：2026-07-21
 
 ### TASK-20260721-007

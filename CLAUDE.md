@@ -27,8 +27,9 @@
 
 - 小步提交，类型前缀：`docs`/`data`/`assets`/`android`/`web`/`tools`，一次一类
 - **做完即 push；板上写"完成"的前提是 push 成功**
-- UI 改动必须截图证据入 `00_harness/05_reports/<task-id>/`；文字声明不算完成
-- 验收人只有 Ant（实机/浏览器）；agent QA 已废除
+- 验收人只有 Ant；agent QA 已废除
+- **Android**：不需要 agent 截图，Ant 自己实机验收；worker 说明改了什么即可
+- **Web**：保留截图证据——跑 `node tools/ui-snapshot.js all`，产出对比报告 `00_harness/05_reports/ui_baseline/compare_report.html` 供 Ant 看图验收
 
 ## 角色
 
