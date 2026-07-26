@@ -30,7 +30,32 @@
 
 ## 活跃任务
 
-- 当前无活跃任务。
+### TASK-20260726-001
+- 标题：剧情回顾页排版重构（废除金色 speaker chip）
+- 负责人：PP（Android）
+- 状态：open
+- 优先级：P1
+- 来源：Ant 2026-07-26 反馈「连续对话时对白的加强设计效果很差」+「两侧边距太宽、字体太大、间距太宽导致换行严重」。lulu 已出方案并经 Ant 浏览器确认。
+- 决策记录：`DEC-20260726-001`
+- 必读（只读这两处，不要照聊天印象或旧 handoff 实现）：
+  1. `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §24（全部 token；§24.1 写明了为什么改，不要改回去）
+  2. `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` 的 `剧情回顾` view（`.recap-*` 规则 + `screen-story-recap` 示例，示例刻意用了真实对白密度）
+- 改动文件：`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/BacklogScreen.kt`
+- 核心改动：
+  - 废除金色 speaker chip。说话人改为纯文字：`FontFamily.Default` / `12.sp` / `FontWeight.Medium` / `letterSpacing 0.04.em` / `Color(0xFFD7BE86)`；无底色、无边框、无 blur、无 halo。
+  - 容器左右从 `78%` 改为 `padding(horizontal = 38.dp)`（= screenWidth − 76，与对白框正文左边缘对齐）。
+  - 旁白：`FontFamily.Serif` / `15.sp` / `lineHeight 28.2.sp` / `Color(0xEBF4F1EA)`，通栏不缩进。
+  - 对白：`FontFamily.Default` / `15.sp` / `lineHeight 25.2.sp` / `Color(0xF0F7F9FC)`，整块 `padding(horizontal = 15.dp)`（左右对称，一字距）。
+  - 五级间距 `4 / 8 / 12 / 16 / 28`（名字→正文 / 同一人续说 / 旁白→旁白 / 换人 / 旁白↔对白）。**不能用统一的 `spacedBy()`**——每条的上间距取决于前一条的类型和说话人，需要拿 `previousItem` 判定。
+  - 同一说话人连续发言时，第二句起不渲染名字，间距用 `8`。
+- 分页（与 `TASK-20260721-002` 合并处理）：
+  - 交互权威 §29.8 / §30.2 / §31.1：**分页、禁止纵向滚屏**，每页条数不是固定 8 条。
+  - `625b3ea` 加的页内 `verticalScroll` 本节明确取消（feibo review 已标方向保留意见：用被否掉的交互掩盖被禁止的裁切）。
+  - 本次排版改动让每条高度都变了、且依赖前一条，分页必须按**实际排版后的累计高度装箱**，不能用「条数 × 估算行高」。放不下就减少本页条数、增加页数。
+- 禁止：金色 chip；给对白/旁白加底色或边框或 blur；百分比压窄正文；旁白与对白同字体；单侧缩进；把五级间距压平成等距；页内纵向滚屏。
+- 完成定义：Ant 实机验收。截图需覆盖「连续同一说话人」「快速换人」「旁白↔对白切换」三种情况，并证明末行不裁切。截图放 `00_harness/05_reports/TASK-20260726-001/`。
+- 最新更新时间：2026-07-26
+
 
 ---
 
@@ -388,12 +413,14 @@
 ### TASK-20260721-008
 - 标题：ui-snapshot 工具深流程覆盖 v2
 - 负责人：Wewe（Web）
-- 状态：done
+- 状态：rework
 - 优先级：P2
 - 说明：现有 `tools/ui-snapshot.js` 已覆盖 9 状态；扩展 web 流程脚本覆盖剩余权威页：真人物对白（点到有 speaker 的节点）、选项层（推进到首个选项节点）、章节/小节开始、章节结束、长旁白、跳过弹窗（点 HUD skipSection chip）、结局页与画廊（可加 debug 入口或存档注入，需在回报中说明方式且不得进生产路径）。只改 `tools/ui-snapshot.js`，不改 `web/src` 生产逻辑。
 - 完成定义：`node tools/ui-snapshot.js all` 覆盖 ≥15/18 权威页；报告无损；截图入 `05_reports/ui_baseline/web/`。
 - 完成结果：18/18 权威页全覆盖。方式：puppeteer evaluateOnNewDocument 钩子捕获 GameController 实例至 window.__controller__，通过 controller.onTap() / _navigateToNode() / _updateState() 驱动到目标状态截图；画廊按钮 disabled 通过 evaluate 移除 disabled 属性后注入 DOM；结局/章节转场/小节转场通过 _updateState 直接设置。未改 web/src 任何文件。
-- feibo review（2026-07-21）：工具交付合格（+255 行，注入法不碰生产代码，方向正确），但**覆盖账面修正：实际 17/18**——缺 `line`（Web LINE 层未实现，合理缺口，待 LINE 接入后补）；多出 `section-clear` 一张（权威无此页，§17.6 已移除独立小节结束页）——**Web 存在已被产品移除的 Section Clear 状态，疑似残留**，列入 `TASK-20260721-006` Ant 验收关注项，确认后 Wewe 下轮移除该状态及其入口。任务转 review。
+- **feibo 复跑打回（2026-07-26，转 rework）**：CTO 交接时复跑 `node tools/ui-snapshot.js all`，committed 版本只出 **11/18**，7 项失败：choice / skip-confirm（`.prologue-text` 超时）、section-opening / chapter-opening / chapter-clear（`__controller__` undefined，`_updateState` 读不到）、section-clear（等待超时）、ending（`.ending-screen` 找不到）。说明 controller 注入钩子不稳定（可能受运行顺序/时序影响），一次跑通不等于可复现。另在工作区发现有人改到一半的修复（重构 hook 注入 + 选择器改 `.authority-ending-screen`），跑出来更差（同为 11/18），已 `git stash` 保存备查（stash 描述 "WIP: ui-snapshot hook refactor"），未丢弃。基线图已回滚到上一份好版本（18 张齐全），Ant 下午看报告不受影响。
+- **Wewe 下轮要求**：让覆盖可复现——连跑 3 次结果一致才算过；`__controller__` 改为显式等待就绪（轮询 window.__controller__ 存在再操作，不靠时序巧合）；先 `git stash list` 看那份 WIP 决定捡起或丢弃；顺带确认 web `section-clear` 状态是否为已移除页面的残留。
+- feibo review（2026-07-21 早）：工具交付合格（+255 行，注入法不碰生产代码，方向正确），但**覆盖账面修正：实际 17/18**——缺 `line`（Web LINE 层未实现，合理缺口，待 LINE 接入后补）；多出 `section-clear` 一张（权威无此页，§17.6 已移除独立小节结束页）——**Web 存在已被产品移除的 Section Clear 状态，疑似残留**，列入 `TASK-20260721-006` Ant 验收关注项，确认后 Wewe 下轮移除该状态及其入口。任务转 review。
 - 最新更新时间：2026-07-21
 
 

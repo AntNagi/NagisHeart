@@ -492,6 +492,7 @@ None. Investigation and process decision only; no code or resource deletion auth
   - PM must expand vague scope such as `where relevant` into explicit section-by-section checklist, or require the worker to do so before coding.
   - Missing a referenced authority section is a failed task, even if some code changes are correct.
   - Post-implementation review must include active runtime path proof, duplicate/stale path check, build/install freshness proof, forbidden-scope confirmation, and cleanup status.
+- Numbering note: this section is 24, not 23. MinSpec had no section 23 (highest was 22), yet TASK-20260723-002 tells Sai to implement 大章开始 / 大章结束 / 结局页 per "section 23" - that spec was never written into the authority MinSpec, and its direction (flat dark, no glass card) contradicts the still-standing MinSpec 14.2 clear-card and 18.1 ending-card. Section 23 is left reserved for that missing spec so the board pointer does not land on recap typography. Gap flagged to Ant; not fixed here.
 - Files updated:
   - `00_harness/06_templates/tpl_alignment_code_review_gate.md`
   - `00_harness/07_scheduler/WORKER_LOOP.md`
@@ -646,7 +647,7 @@ None. Investigation and process decision only; no code or resource deletion auth
 - Owner: Ant / Sai / XoXo
 - Trigger: Sai reported Android UI adjustments that Ant requested directly during implementation in `00_harness/05_reports/TASK-20260723-002/android_direct_ui_adjustments_for_xoxo.md`; XoXo needed to sync the accepted implementation tokens back into authority so design and Android do not diverge.
 - Decision:
-  - Add `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 24 as the latest override for LongNarrationLayer, ChoiceLayer, DialogueLayer, Gallery ending card, and Ending page BG source rules.
+  - Add `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 28 as the latest override for LongNarrationLayer, ChoiceLayer, DialogueLayer, Gallery ending card, and Ending page BG source rules.
   - Long narration uses soft radial backing and light full-screen dim, not a solid black cloud.
   - Choice rows use a horizontal fade-to-transparent background from the second half, with weak border and brighter text.
   - Dialogue box uses a top-to-bottom strengthening gradient: transparent at top, stable at bottom.
@@ -714,6 +715,23 @@ None. Investigation and process decision only; no code or resource deletion auth
   - `TASKS.md`
 - Cleanup status: none. This does not authorize story text changes, recap pagination changes, chapter map changes, Gallery changes, Android/Web/BG mapping changes beyond the scoped Android recap dialogue visual implementation, or resource deletion.
 
+# DEC-20260726-001 - Story recap page typography rebuild (drop gold speaker chip)
+
+- Date: 2026-07-26
+- Owner: Ant (decision) / lulu (UI design)
+- Trigger: Ant real-device review — the dialogue/narration distinction added earlier (gold speaker chip) "looks bad when consecutive dialogue appears"; follow-up: side margins too wide, font too large, spacing too loose, causing heavy line wrapping.
+- Decision:
+  - The gold speaker chip is removed from the recap page. It was designed for the bottom dialogue box as a once-per-screen accent; in a scrolling log where dialogue is 60-70% of content it degrades gold into background texture, repeats redundantly for consecutive same-speaker lines, and its 24px lead vs 22px paragraph gap is nearly equidistant so it cannot group. Body text was serif 16sp for both modes, so the entire distinction rested on the label.
+  - New mechanism: font family + density + five-tier spacing + symmetric inset. Zero decoration (no fill, no border, no blur, no halo).
+  - Narration serif 15sp / 1.88 full-bleed; dialogue sans 15sp / 1.68 inset 15 on BOTH sides (one character width) as a quotation block; speaker name plain #D7BE86 12sp/500, collapsed on consecutive same-speaker lines.
+  - Five-tier spacing 4 < 8 < 12 < 16 < 28. Rationale recorded in MinSpec 24.5: spacing compensates line-height, so tight text needs a larger gap to separate turns and airy text needs a smaller one. Narration paragraph gap corrected from 22 to 12.
+  - Container width fix: `.recap-inner` 78% is abolished for left/right 38 (screenWidth - 76). The 78% squeeze made recap narrower (335) than the dialogue box body (354) - the same defect section 17.4 already banned for long narration but which was never applied to recap.
+  - Ant chose symmetric both-side inset over left-only; accepted the resulting dialogue measure of ~21.6 chars/line on the grounds that dialogue lines are short utterances while narration prose was the actual wrapping pain point.
+  - MinSpec section 10 typography is superseded; only its background/overlay rules survive. Developers read section 24 only.
+  - Pagination: MinSpec 24.7 defers to interaction authority 29.8 / 30.2 / 31.1 (dynamic pagination, no vertical scroll, per-page count not fixed at 8). The in-page verticalScroll workaround shipped under TASK-20260721-002 is explicitly cancelled by this section - feibo had already flagged it as using a rejected interaction to mask a banned clipping. Because this rebuild changes per-item height (15sp, split line-heights 1.88/1.68, five-tier gaps) and makes an item's height depend on its predecessor, pagination must bin-pack by measured laid-out height, not by item count times an estimated row height.
+- Files updated: authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html (.recap-* CSS + screen-story-recap markup), authority/ui/XoXo_UI_Final_MinSpec_20260712.md (section 10 superseded, section 24 added), authority/MANIFEST.md (hashes + revision log), 00_harness/02_planning/task_board.md (PP task)
+- Not changed: design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html retains its own recap draft. That draft was explicitly marked 不采用 in the authority merge record and is retired history; syncing it would duplicate authority content and violate iron rule 1.
+- Cleanup status: none. Temporary render copy authority/ui/_tmp_recap_render.html was created for headless screenshot verification and deleted in the same step.
 # DEC-20260726-002 - Start v23 static vignette overlay + START gold rule reinforcement
 
 - Date: 2026-07-26
@@ -738,3 +756,20 @@ None. Investigation and process decision only; no code or resource deletion auth
   - `00_harness/01_governance/decision_log.md`
 - Verification: `check-authority.ps1` still reports `OK Start V23 package (9 files)` (KV packages are validated by file count, not content hash, so no MANIFEST hash change was required). `check-tokens.ps1` passes. Built and installed on emulator-5554 (1080x2424, 9:20.2 — taller than 9:16); vignette covers full screen with no banding. Gold rule pixel coverage went from 2 rows to 4, measured colour (137,114,84).
 - Cleanup status: none. This does not authorize changes to the Start background art, the title SVG artwork, App Icon, Web, story-data, BG mapping, or resource deletion.
+
+# DEC-20260726-003 - Local backlog commit and remote merge reconciliation
+
+- Date: 2026-07-26
+- Owner: PM 一一 (ruling) / Claude(Android) (execution)
+- Trigger: `git pull` was blocked — five files carried uncommitted local work spanning 07-22 to 07-26 while the remote had just changed the same five. Remote committed decisions had stopped at `DEC-20260721-003`, so ten local decision records had never reached Git.
+- Decision (PM ruling): do not stash, do not reset, do not pull first, do not cherry-pick one agent's files. Preserve everything, commit by type, then merge.
+- Numbering conflicts resolved:
+  - `DEC-20260726-001` — remote (recap typography rebuild) keeps the number; the local Start vignette decision moved to `DEC-20260726-002`.
+  - `DEC-20260723-002` — locally taken twice; the `e_lemontea` script replacement keeps `-002`, the chapter opening / clear / ending UI authority patch became `DEC-20260723-006`. References updated in `decision_log.md`, `task_board.md`, `authority/MANIFEST.md`.
+  - MinSpec `## 24.` — taken by both sides with fully overlapping subsections. Remote's "剧情回顾页排版重构" keeps §24 because it is the required reading for the live `TASK-20260726-001`; the local 07-23 "Sai Android direct UI adjustments sync" moved to §28.
+- Merge resolutions:
+  - `decision_log.md` / `task_board.md` / MANIFEST revision log — append-vs-append, both sides kept. Remote's `TASK-20260726-001` was placed in the active-task section, replacing the local "当前无活跃任务" line; the local 近期完成 section was preserved intact.
+  - `NagisHeart_UI_Authority_XoXo_v1_0.html` recap CSS and markup — **remote taken, local dropped**. This is supersession, not loss: `DEC-20260726-001` explicitly abolishes the gold speaker chip introduced by `DEC-20260724-001`, and keeping both would leave two conflicting recap views in one document. `DEC-20260724-001` remains in this log as history.
+  - MANIFEST hash rows 5 and 6 — neither side's hash survives a content merge, so both were recomputed from the merged files.
+- Not committed, pending PM/Ant confirmation: App Icon raster set and `AndroidManifest.xml` icon repoint; deletion of `assets/bg/微信图片_20260710220436_260_2.jpg`; deletion of the old `mipmap-anydpi-v26` XMLs alongside their `_safezone` replacements; the drifted 节点匹配表 xlsx; `output/`, `design/concepts/`, and six `tools/*.py` preview generators.
+- Cleanup status: none.

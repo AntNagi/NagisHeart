@@ -27,9 +27,12 @@
 
 - 小步提交，类型前缀：`docs`/`data`/`assets`/`android`/`web`/`tools`，一次一类
 - **做完即 push；板上写"完成"的前提是 push 成功**
-- UI 改动必须截图证据入 `00_harness/05_reports/<task-id>/`；文字声明不算完成
-- 验收人只有 Ant（实机/浏览器）；agent QA 已废除
+- 验收人只有 Ant；agent QA 已废除
+- **Android**：不需要 agent 截图，Ant 自己实机验收；worker 说明改了什么即可
+- **Web**：保留截图证据——跑 `node tools/ui-snapshot.js all`，产出对比报告 `00_harness/05_reports/ui_baseline/compare_report.html` 供 Ant 看图验收
 
 ## 角色
 
-Ant=Owner/唯一验收 · feibo=CTO（规则/架构/裁决，Fable会话）· PM一一=板面运维/派发 · PP=Android · Wewe=Web · lulu=UI设计 · TT=KV
+Ant=Owner/唯一验收 · feibo=CTO（规则/架构/裁决；由当班的最强模型担任，换模型不换工位名）· PM一一=板面运维/派发 · PP=Android · Wewe=Web · lulu=UI设计 · TT=KV
+
+**角色是固定工位，会话是一次性的**：同一岗位可由不同会话轮流上岗，靠开工四步接班，不靠记忆。
