@@ -81,6 +81,8 @@ Ant 在 Excel 节点匹配表中逐节点确认最终 BG 图片，Antset 列为 
 3. `prologue` 改用 `remeet.jpg`（系统级背景）。
 4. 部分复用图调整：`stay_cozy` 从 `dining` 改为 `bar`；`wc_roster` 从 `dining_room` 改为 `bar`。
 5. 结局相关图调整：`dream_final` → `true_end`；`bad_far` → `goal_faraway`。
+6. 2026-07-22 Ant 指定最终 `end_*` 结局 node BG mapping：`end_true` → `true_end`；`end_good` → `king`；`end_normal` → `ending_true_nagi_soft_gaze`；`end_bad` → `goal_faraway`。开发不得用进入结局前的当前背景替代最终结局 node BG。
+7. 2026-07-23 Ant 口头指定并由 Sai 同步 runtime：`c2` / `c2_s2` → `message_in_holiday`；`e_depart` → `nel_start`。
 
 ---
 
@@ -197,8 +199,9 @@ Ant 在 Excel 节点匹配表中逐节点确认最终 BG 图片，Antset 列为 
 | nodeId | 临代 bg | mood | 替换方向 |
 |---|---|---|---|
 | u20j | `assets/bg/bg_u20j_worldcup_goal_kick.jpg` | competition / triumph | 已转正，保留为 U-20 主高光 |
-| c2 | `assets/bg/lemontea.jpg` | romance | 消息段可改 LINE Mode |
-| e_depart | `assets/bg/living_room.jpg` | loneliness | 送别 / 收行李专图 |
+| c2 | `assets/bg/message_in_holiday.jpg` | romance / message | Ant 2026-07-23 指定；假期消息专图 |
+| c2_s2 | `assets/bg/message_in_holiday.jpg` | romance / message | Ant 2026-07-23 指定；承接假期消息后半段 |
+| e_depart | `assets/bg/nel_start.png` | loneliness / departure | Ant 2026-07-23 指定；NEL 启程专图 |
 | c6a | `assets/bg/goal.jpg` | competition / loss | 与 U-20 / 世界赛高光拆开，保留淘汰低谷感 |
 | side_b_return | `assets/bg/living_room.jpg` | reflection | 白色邀请函特写 |
 | wc_roster | `assets/bg/dining_room.jpg` | reflection | 平板名单 / 吧台文件 |
@@ -230,10 +233,11 @@ Ant 在 Excel 节点匹配表中逐节点确认最终 BG 图片，Antset 列为 
 | 1 | u20j | U-20日本代表战·被日本看见 | 已配 | `assets/bg/vs_u20_japan_kick.jpg` | dark | 人物动作占中下，底部文本需深色遮罩 | 比旧 `goal.jpg` 更明确是大赛高光，可用于”被日本看见”。 |
 | 2 | c3 | 开放日 | 已配 | `assets/bg/openday.jpg` | light | 横图需 9:16 重裁，焦点保留人物 / 宿舍感 | 对应开放日和宿舍探访。 |
 | 2 | e_lemontea | 你的，我的 | 已配 | `assets/bg/lemontea.jpg` | light | 人物右侧，文字区放底部或左下 | 文件名和剧情饮品强匹配。 |
-| 2 | c2 | 假期的消息 | 临时代用 | `assets/bg/lemontea.jpg` | light | LINE 弹层需提高可读性 | 节点前半是假期日常，后半是消息推进；可同图承接。 |
+| 2 | c2 | 假期的消息 | 已配 | `assets/bg/message_in_holiday.jpg` | light | LINE / 消息段需提高可读性 | Ant 2026-07-23 口头指定，Sai 已同步 runtime。 |
+| 2 | c2_s2 | 假期的消息·后半 | 已配 | `assets/bg/message_in_holiday.jpg` | light | 继续沿用消息专图，底部对白区保留 | Ant 2026-07-23 口头指定，承接 c2 后半段。 |
 | 2 | e_invite | 高级公寓的邀请 | 已配 | `assets/bg/apartment.jpg` | light | 人物居中偏上，底部叙事层避开手部饮料 | 高层公寓感强，适合邀请。 |
 | 2 | e_lolly | 棒棒糖·自动刷脸 | 已配 | `assets/bg/lolly.jpg` | light | 脸部上中，底部对话区 | 对应棒棒糖小事件。 |
-| 3 | e_depart | NEL启程·闭关送别 | 临时代用 | `assets/bg/living_room.jpg` | dark / auto | 取客厅远景与楼梯纵深，底部保留送别对白区 | 比 `home_full.jpg` 更完整，也避免继续使用早期泛用全景；仍缺明确行李特写。 |
+| 3 | e_depart | NEL启程·闭关送别 | 已配 | `assets/bg/nel_start.png` | dark / auto | 底部保留送别对白区，顶部 HUD 避开主体焦点 | Ant 2026-07-23 口头指定，Sai 已同步 runtime。 |
 | 3 | c6a | 聚少离多·从高光到淘汰 | 已配 | `assets/bg/falling_down.jpg` | dark | 亮部压暗、饱和度降低，底部对白区加冷遮罩 | 刻意与 `u20j` / `wc_keygoal` 拆开，保留”比赛过后只剩失落”的低谷氛围。 |
 | 3 | e_curry | Nagi做的咖喱饭 | 已配 | `assets/bg/curry.jpg` | light | 厨房和人物居中，底部可读 | 高匹配。 |
 | 3 | e_bday | 被遗忘的生日 | 已配 | `assets/bg/birthday_at_home.jpg` | dark / auto | 蛋糕在中部，避免 UI 遮挡蜡烛 | 高匹配。 |
@@ -281,11 +285,14 @@ Ant 在 Excel 节点匹配表中逐节点确认最终 BG 图片，Antset 列为 
 | Dream | dream_return | 久别重逢 | 已配 | `assets/bg/remeet.jpg` | dark / auto | 人物上中，城市夜景保留 | 重逢感匹配。 |
 | Dream | dream_home | 花园别墅·秘密基地 | 已配 | `assets/bg/new_home.jpg` | light | 花园和人物保留，底部文本 | Ant 指定。 |
 | Dream | dream_final | 世界第一，与你 | 已配 | `assets/bg/true_end.jpg` | light / ending | 人脸近景占右侧，左侧与底部可叠加柔白渐变承载 Ending 标题 | Ant 指定。 |
+| Ending | end_true | TRUE END｜世界第一，与你 | 已配 | `assets/bg/true_end.jpg` | light / ending | 最终 TRUE END 独立剧情与画廊卡使用；不得回退到 dream_final 当前背景 | Ant 2026-07-22 指定。 |
+| Ending | end_good | GOOD END｜那么完美，那么爱他 | 已配 | `assets/bg/king.jpg` | dark / ending | 最终 GOOD END 独立剧情与画廊卡使用；强光/王冠感承接“那么完美”的结局气质 | Ant 2026-07-22 指定。 |
 | Stay | stay_match | 还不是今天 | 已配 | `assets/bg/ending_true_nagi_soft_gaze.jpg` | dark | 取倒地与抬手构图，整体降亮压冷，底部对白区加深 | Ant 指定（图片内容已更换）。 |
 | Stay | stay_intro | 他常回来 | 已配 | `assets/bg/back.jpg` | light | 室内日常 | Ant 指定。 |
 | Stay | stay_cozy | 暗爽·可可白兰地 | 已配 | `assets/bg/bar.png` | dark | 吧台灯光保留 | Ant 指定。 |
 | Stay | stay_daily | 情人节玩偶熊 | 已配 | `assets/bg/valentine.jpg` | light | 熊和气球在中上，底部对话 | 高匹配。 |
 | Stay | stay_final | 关掉的比赛录像 | 已配 | `assets/bg/bg_stay_final_tv_glow_living_room.png` | dark / ending | 电视冷光在中上部，茶几和沙发底部留 Ending UI | 深夜比赛回放和普通结局余温明确。 |
+| Ending | end_normal | NORMAL END｜普通情侣 | 已配 | `assets/bg/ending_true_nagi_soft_gaze.jpg` | dark / ending | 最终 NORMAL END 独立剧情与画廊卡使用；保留安静凝视感，不使用 stay_final 电视背景 | Ant 2026-07-22 指定。 |
 | Bad | bad_elegant | 优雅与世俗 | 临时代用 | `assets/bg/dining_room.jpg` | dark / auto | 长桌与夜景放中上部，底部文本加深 | 比旧 `apartment.jpg` 更像“吃完那顿恢复餐后，关系却更冷”的空间。 |
 | Bad | bad_plan | 他的名字，由我来写 | 已配 | `assets/bg/bg_bad_plan_data_war_room.png` | dark | 数据屏在上半部，会议桌底部留对白安全区 | 深夜数据会议室 / 预案屏幕墙匹配。 |
 | Bad | bad_match | 加冕之夜 | 已配 | `assets/bg/king.jpg` | dark | 取压迫感更强的构图，整体偏冷 | Ant 指定。 |
@@ -293,6 +300,7 @@ Ant 在 Excel 节点匹配表中逐节点确认最终 BG 图片，Antset 列为 
 | Bad | bad_cold | 渐行渐远 | 已配 | `assets/bg/walk-in_closet.png` | dark | 视频通话式构图，底部留白 | Ant 指定。 |
 | Bad | bad_last | 我不是不想赢 | 已配 | `assets/bg/pitch.jpg` | dark | 训练场 | Ant 指定。 |
 | Bad | bad_far | 远处的世界第一 | 已配 | `assets/bg/goal_faraway.jpg` | dark / ending | 奖杯直播在上半部，前景桌面留出孤独距离感 | Ant 指定。 |
+| Ending | end_bad | BAD END｜好麻烦 | 已配 | `assets/bg/goal_faraway.jpg` | dark / ending | 最终 BAD END 独立剧情与画廊卡使用；产品标题显示“好麻烦”，视觉沿用远处世界第一距离感 | Ant 2026-07-22 指定。 |
 
 ---
 
