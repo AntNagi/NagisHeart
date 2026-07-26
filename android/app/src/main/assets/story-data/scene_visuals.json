@@ -220,6 +220,19 @@
     "visualPriority": null,
     "mood": "romance"
   },
+  "e_invite_s2": {
+    "bg": "assets/bg/apartment.jpg",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
+  },
   "e_lolly": {
     "bg": "assets/bg/lolly.jpg",
     "bgm": "bgm/bgm.mp3",
@@ -1077,5 +1090,18 @@
     "uiSafeZone": null,
     "visualPriority": "A",
     "mood": null
+  },
+  "prologue": {
+    "bg": "assets/bg/remeet.jpg",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "reflection"
   }
 }

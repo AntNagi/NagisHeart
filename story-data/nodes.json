@@ -2828,26 +2828,316 @@
       {
         "id": "e_lemontea_d001",
         "speaker": "",
-        "text": "假期开始后的第一个下午，你们去了那家春日限定的柠檬主题饮品店。",
+        "text": "假期开始后的第一个下午，你和Nagi约在一家春日限定的柠檬主题饮品店见面。",
         "display": "bottom"
       },
       {
         "id": "e_lemontea_d002",
         "speaker": "",
-        "text": "你补妆回来，还没走近就看见了——他坐在那里，薄荷绿衬衫，白发，左手举着一只杯子——你的杯子——右手捏着纸巾，正在非常淡定地擦嘴角。",
+        "text": "这是开放日之后，你们第一次单独在蓝色监狱之外见面。",
         "display": "bottom"
       },
       {
         "id": "e_lemontea_d003",
+        "speaker": "",
+        "text": "没有投资人的身份，没有探访流程，也没有任何必须见他的正当理由。只是前一天晚上，你把饮品店的链接发给他，问他要不要出来。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d004",
+        "speaker": "",
+        "text": "Nagi隔了很久才回复。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d005",
         "speaker": "Nagi",
-        "text": "（语气平静，像是在做陈述，又像是在解释，但解释里没有任何要道歉的意思）好喝。"
+        "text": "可以。"
+      },
+      {
+        "id": "e_lemontea_d006",
+        "speaker": "",
+        "text": "只有两个字，你却对着那条消息看了好几遍。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d007",
+        "speaker": "",
+        "text": "你提前二十分钟到了店里，换过三次座位，最后选了靠窗又不太显眼的位置。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d008",
+        "speaker": "",
+        "text": "Nagi踩着约定时间走进来时，身上穿着宽松的薄荷绿衬衫，白发被春风吹得有些乱。他低头在店里找了一圈，视线落到你身上以后，径直走了过来。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d009",
+        "speaker": "Nagi",
+        "text": "{{playerName}}来得好早。"
+      },
+      {
+        "id": "e_lemontea_d010",
+        "speaker": "{{playerName}}",
+        "text": "我不喜欢迟到。"
+      },
+      {
+        "id": "e_lemontea_d011",
+        "speaker": "Nagi",
+        "text": "比昨天开放日还早。"
+      },
+      {
+        "id": "e_lemontea_d012",
+        "speaker": "{{playerName}}",
+        "text": "你在讽刺我？"
+      },
+      {
+        "id": "e_lemontea_d013",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_lemontea_d014",
+        "speaker": "Nagi",
+        "text": "谁让{{playerName}}让我等那么久。"
+      },
+      {
+        "id": "e_lemontea_d015",
+        "speaker": "",
+        "text": "他说得很随意，像只是在陈述一件没有特别意义的事。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d016",
+        "speaker": "",
+        "text": "可你忽然意识到，开放日里那些让你反复回想的瞬间，并不只是被你一个人记住了。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d017",
+        "speaker": "{{playerName}}",
+        "text": "我还以为你会嫌出来见面麻烦。"
+      },
+      {
+        "id": "e_lemontea_d018",
+        "speaker": "Nagi",
+        "text": "是有点。"
+      },
+      {
+        "id": "e_lemontea_d019",
+        "speaker": "{{playerName}}",
+        "text": "那你还来？"
+      },
+      {
+        "id": "e_lemontea_d020",
+        "speaker": "Nagi",
+        "text": "已经答应了。"
+      },
+      {
+        "id": "e_lemontea_d021",
+        "speaker": "",
+        "text": "他在你对面坐下，拿起桌上的菜单看了一眼。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d022",
+        "speaker": "Nagi",
+        "text": "而且，在外面见{{playerName}}，感觉有点不一样。"
+      },
+      {
+        "id": "e_lemontea_d023",
+        "speaker": "{{playerName}}",
+        "text": "哪里不一样？"
+      },
+      {
+        "id": "e_lemontea_d024",
+        "speaker": "Nagi",
+        "text": "不知道。"
+      },
+      {
+        "id": "e_lemontea_d025",
+        "speaker": "Nagi",
+        "text": "就是……"
+      },
+      {
+        "id": "e_lemontea_d026",
+        "speaker": "",
+        "text": "Nagi看了看印满柠檬和花朵的菜单，又扫了一眼周围成双坐着的客人。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d027",
+        "speaker": "Nagi",
+        "text": "很像约会。"
+      },
+      {
+        "id": "e_lemontea_d028",
+        "speaker": "",
+        "text": "你的手指停在菜单边缘。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d029",
+        "speaker": "",
+        "text": "他说得太自然，像是随手从眼前的场景里找到了一个最接近的词，完全没有意识到这句话落在你耳朵里意味着什么。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d030",
+        "speaker": "{{playerName}}",
+        "text": "你知道你说“约会”是什么意思吗？"
+      },
+      {
+        "id": "e_lemontea_d031",
+        "speaker": "Nagi",
+        "text": "现在不是吗？"
+      },
+      {
+        "id": "e_lemontea_d032",
+        "speaker": "{{playerName}}",
+        "text": "……"
+      },
+      {
+        "id": "e_lemontea_d033",
+        "speaker": "{{playerName}}",
+        "text": "也可以这么说。"
+      },
+      {
+        "id": "e_lemontea_d034",
+        "speaker": "",
+        "text": "他点了点头，没有继续追问。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d035",
+        "speaker": "",
+        "text": "仿佛这件事得到了确认，就已经足够了。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d036",
+        "speaker": "",
+        "text": "你低头看向菜单，努力让自己显得和平时一样冷静，耳尖却已经开始发热。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d037",
+        "speaker": "",
+        "text": "你替他点了一杯柠檬茶，自己也点了同款。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d038",
+        "speaker": "",
+        "text": "Nagi对柠檬茶情有独钟，之前在LINE里就提过。两杯饮料送上来以后，他很快喝完了自己的，又看了看你的。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d039",
+        "speaker": "Nagi",
+        "text": "{{playerName}}的看起来比较好喝。"
+      },
+      {
+        "id": "e_lemontea_d040",
+        "speaker": "{{playerName}}",
+        "text": "明明点的一样。"
+      },
+      {
+        "id": "e_lemontea_d041",
+        "speaker": "Nagi",
+        "text": "但是{{playerName}}的还有好多。"
+      },
+      {
+        "id": "e_lemontea_d042",
+        "speaker": "",
+        "text": "你没有把这句话当回事，起身去了洗手间。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d043",
+        "speaker": "",
+        "text": "回来时，还没走近就看见Nagi坐在原位，左手举着一只杯子——你的杯子——右手捏着纸巾，正在非常淡定地擦嘴角。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d044",
+        "speaker": "",
+        "text": "他看见你回来，没有任何被当场抓住的心虚，只是抬了抬手里的杯子。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d045",
+        "speaker": "Nagi",
+        "text": "好喝。"
+      },
+      {
+        "id": "e_lemontea_d046",
+        "speaker": "{{playerName}}",
+        "text": "……"
+      },
+      {
+        "id": "e_lemontea_d047",
+        "speaker": "{{playerName}}",
+        "text": "那是我的。"
+      },
+      {
+        "id": "e_lemontea_d048",
+        "speaker": "Nagi",
+        "text": "我的喝完了。"
+      },
+      {
+        "id": "e_lemontea_d049",
+        "speaker": "{{playerName}}",
+        "text": "所以呢？"
+      },
+      {
+        "id": "e_lemontea_d050",
+        "speaker": "Nagi",
+        "text": "{{playerName}}的还有好多。"
+      },
+      {
+        "id": "e_lemontea_d051",
+        "speaker": "",
+        "text": "他低下头，又若无其事地喝了一口。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d052",
+        "speaker": "",
+        "text": "吸管上还留着你刚才碰过的位置。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d053",
+        "speaker": "",
+        "text": "他看起来完全没有意识到这件事有什么不对，或者意识到了，却觉得根本没有必要在意。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d054",
+        "speaker": "",
+        "text": "你盯着他手里的杯子，忽然想起开放日结束时，自己下意识伸向他、又匆忙收回的那只手。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d055",
+        "speaker": "",
+        "text": "你总是在最后一刻意识到边界。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_d056",
+        "speaker": "",
+        "text": "Nagi却好像从来没有认真划分过，什么是你的，什么是他的。",
+        "display": "bottom"
       }
     ],
     "choices": [
       {
         "id": "e_lemontea_c001",
-        "label": "（伸手）……那是我的。还我。",
-        "internalTag": "无类型",
+        "label": "那是我的，还我",
+        "internalTag": "作",
         "transition": {
           "type": "goto",
           "target": "e_lemontea_s2"
@@ -2855,8 +3145,14 @@
         "responses": [
           {
             "id": "e_lemontea_c001_r001",
+            "speaker": "",
+            "text": "你朝他伸出手。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_c001_r002",
             "speaker": "{{playerName}}",
-            "text": "（你伸出手）那是我的。还我。"
+            "text": "那是我的。还我。"
           }
         ]
       }
@@ -2869,26 +3165,190 @@
       {
         "id": "e_lemontea_s2_d001",
         "speaker": "",
-        "text": "他站起来了。一米九的身高撑开来，把你面前的光遮掉了一半，低头看你，眼神懒懒的。喝完后，他抬手用指背擦了擦嘴角，又把杯子换到另一只手。",
+        "text": "Nagi看了看你的手，没有立刻把杯子递回来。",
         "display": "bottom"
       },
       {
         "id": "e_lemontea_s2_d002",
         "speaker": "",
-        "text": "他把杯子举得高高的，低头看着你。跳起来——他俯下身，就在你跳起来的一瞬间，脸突然离你很近很近，近到你落地后愣在原地，忘了自己在干什么。",
+        "text": "他站起身。一米九的身高完全展开，把你面前的光遮掉了一半。",
         "display": "bottom"
       },
       {
         "id": "e_lemontea_s2_d003",
         "speaker": "",
-        "text": "他就这么俯视你，不远不近，嘴角极其细微地动了一下。你脸上的热度蹿上来，快得没有预兆，心跳快得有点荒唐。",
+        "text": "他低头看着你，眼神仍然懒懒的，却把杯子换到另一只手，举到了你够不到的位置。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d004",
+        "speaker": "{{playerName}}",
+        "text": "Nagi。"
+      },
+      {
+        "id": "e_lemontea_s2_d005",
+        "speaker": "{{playerName}}",
+        "text": "还给我。"
+      },
+      {
+        "id": "e_lemontea_s2_d006",
+        "speaker": "Nagi",
+        "text": "{{playerName}}自己拿。"
+      },
+      {
+        "id": "e_lemontea_s2_d007",
+        "speaker": "",
+        "text": "你踮起脚去够。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d008",
+        "speaker": "",
+        "text": "他的手臂没有继续抬高，却也完全没有主动配合你的意思。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d009",
+        "speaker": "",
+        "text": "他只是看着你几次伸手都差了一点，像是忽然觉得这件事比直接把杯子还给你更有意思。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d010",
+        "speaker": "",
+        "text": "你又向前一步，几乎贴到他身前，仍然差了一点。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d011",
+        "speaker": "",
+        "text": "就在你不甘心地跳起来时，Nagi忽然俯下身。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d012",
+        "speaker": "",
+        "text": "那张脸毫无预兆地靠近。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d013",
+        "speaker": "",
+        "text": "近到你落回地面以后，仍然忘了自己原本是在抢一杯饮料。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d014",
+        "speaker": "",
+        "text": "他的白发从额前垂下来，灰色眼睛安静地看着你。呼吸间还有一点柠檬茶的甜味。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d015",
+        "speaker": "",
+        "text": "Nagi没有立刻退开。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d016",
+        "speaker": "",
+        "text": "他像是直到靠近以后，才发现你的反应和刚才完全不同。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d017",
+        "speaker": "",
+        "text": "你的眼睛突然睁大，热度迅速爬上脸颊。那个在会议室和蓝色监狱里总能维持从容的人，因为他靠近一点就彻底乱了节奏。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d018",
+        "speaker": "Nagi",
+        "text": "{{playerName}}又紧张了。"
+      },
+      {
+        "id": "e_lemontea_s2_d019",
+        "speaker": "",
+        "text": "他说的是“又”。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d020",
+        "speaker": "",
+        "text": "原来第一次见面时，你说过的那句话，他也一直记得。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d021",
+        "speaker": "{{playerName}}",
+        "text": "你是不是故意的？"
+      },
+      {
+        "id": "e_lemontea_s2_d022",
+        "speaker": "",
+        "text": "Nagi想了一下。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d023",
+        "speaker": "Nagi",
+        "text": "不知道。"
+      },
+      {
+        "id": "e_lemontea_s2_d024",
+        "speaker": "{{playerName}}",
+        "text": "不知道是什么意思？"
+      },
+      {
+        "id": "e_lemontea_s2_d025",
+        "speaker": "Nagi",
+        "text": "本来只是觉得，{{playerName}}够不到很有意思。"
+      },
+      {
+        "id": "e_lemontea_s2_d026",
+        "speaker": "",
+        "text": "他仍然没有退开，目光停留在你的脸上。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d027",
+        "speaker": "Nagi",
+        "text": "但是现在更有意思了。"
+      },
+      {
+        "id": "e_lemontea_s2_d028",
+        "speaker": "{{playerName}}",
+        "text": "……"
+      },
+      {
+        "id": "e_lemontea_s2_d029",
+        "speaker": "",
+        "text": "你的心跳忽然比刚才更乱。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d030",
+        "speaker": "",
+        "text": "他没有计划要试探你，也不懂这种距离意味着什么。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d031",
+        "speaker": "",
+        "text": "只是顺着刚刚冒出来的好奇心，想再多看一会儿你的反应。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s2_d032",
+        "speaker": "",
+        "text": "身体和注意力已经向你靠近，他自己却还没有意识到，这究竟算什么。",
         "display": "bottom"
       }
     ],
     "choices": [
       {
         "id": "e_lemontea_s2_c001",
-        "label": "{{nagiCall}}！还我！……（脸红到耳根）",
+        "label": "{{nagiCall}}！你幼不幼稚啊！",
         "internalTag": "作",
         "effects": [
           {
@@ -2902,27 +3362,83 @@
             "val": 2
           }
         ],
+        "transition": {
+          "type": "goto",
+          "target": "e_lemontea_s3"
+        },
         "responses": [
           {
             "id": "e_lemontea_s2_c001_r001",
-            "speaker": "{{playerName}}",
-            "text": "{{nagiCall}}！还我！……你幼不幼稚啊！"
+            "speaker": "",
+            "text": "你脸上的热度一路烧到耳根，只能先提高声音，试图把那一瞬间的慌乱压下去。",
+            "display": "bottom"
           },
           {
             "id": "e_lemontea_s2_c001_r002",
-            "speaker": "Nagi",
-            "text": "（沉默两秒，把柠檬茶递到你面前）给你。"
+            "speaker": "{{playerName}}",
+            "text": "{{nagiCall}}！你幼不幼稚啊！"
           },
           {
             "id": "e_lemontea_s2_c001_r003",
+            "speaker": "",
+            "text": "Nagi沉默了两秒，终于把柠檬茶递到你面前。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r004",
             "speaker": "Nagi",
-            "text": "（别开脸看窗外，耳根藏不住的红。但他的腿在桌子底下，悄悄往你这边靠了一点）"
+            "text": "给你。"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r005",
+            "speaker": "",
+            "text": "你接过杯子，他却没有立刻坐回去。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r006",
+            "speaker": "",
+            "text": "那双灰色眼睛仍然落在你脸上，似乎还没有完全看够。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r007",
+            "speaker": "{{playerName}}",
+            "text": "看什么？"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r008",
+            "speaker": "Nagi",
+            "text": "没什么。"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r009",
+            "speaker": "Nagi",
+            "text": "觉得挺有意思。"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r010",
+            "speaker": "",
+            "text": "他说完先一步别开脸，看向窗外。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r011",
+            "speaker": "",
+            "text": "窗外的光恰好照在他侧脸上，那点藏不住的红从耳根一直漫到耳廓。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c001_r012",
+            "speaker": "",
+            "text": "看来觉得“有意思”的，不只是他一个人。",
+            "display": "bottom"
           }
         ]
       },
       {
         "id": "e_lemontea_s2_c002",
-        "label": "（退后半步，声音不稳）……不要了",
+        "label": "……你再靠近一点试试",
         "internalTag": "心动",
         "effects": [
           {
@@ -2936,26 +3452,87 @@
             "val": 2
           }
         ],
+        "transition": {
+          "type": "goto",
+          "target": "e_lemontea_s3"
+        },
         "responses": [
           {
             "id": "e_lemontea_s2_c002_r001",
-            "speaker": "{{playerName}}",
-            "text": "（你别开眼睛，后退半步，声音有点不稳）……不要了。"
+            "speaker": "",
+            "text": "你没有后退。",
+            "display": "bottom"
           },
           {
             "id": "e_lemontea_s2_c002_r002",
-            "speaker": "Nagi",
-            "text": "（沉默两秒。你低着头，感觉到他动了——他把那杯柠檬茶，递到你面前）给你。"
+            "speaker": "",
+            "text": "心跳明明已经快得不像话，你却抬起眼，迎着他的视线轻声开口。",
+            "display": "bottom"
           },
           {
             "id": "e_lemontea_s2_c002_r003",
-            "speaker": "Nagi",
-            "text": "（你接过来含上吸管。柠檬味，甜的，冰的，还有一点说不清的温度，顺着吸管传过来。"
+            "speaker": "{{playerName}}",
+            "text": "……你再靠近一点试试。"
           },
           {
             "id": "e_lemontea_s2_c002_r004",
+            "speaker": "",
+            "text": "这次停住的人变成了Nagi。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r005",
+            "speaker": "",
+            "text": "他大概根本没想过你会回应。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r006",
+            "speaker": "",
+            "text": "那双总是懒散的眼睛明显睁大了一点。几秒后，他慢慢直起身体，把杯子递回你手里。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r007",
             "speaker": "Nagi",
-            "text": "他重新坐下，手指抵着嘴唇看窗外，腿在桌子底下悄悄往你这边靠了一点）"
+            "text": "给你。"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r008",
+            "speaker": "{{playerName}}",
+            "text": "不继续了？"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r009",
+            "speaker": "Nagi",
+            "text": "……"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r010",
+            "speaker": "Nagi",
+            "text": "{{playerName}}这样很犯规。"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r011",
+            "speaker": "{{playerName}}",
+            "text": "明明是你先开始的。"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r012",
+            "speaker": "Nagi",
+            "text": "所以很麻烦。"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r013",
+            "speaker": "",
+            "text": "他重新坐回位置，手指抵住嘴唇，视线转向窗外。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_lemontea_s2_c002_r014",
+            "speaker": "",
+            "text": "只有耳根的红没有来得及藏好。",
+            "display": "bottom"
           }
         ]
       }
@@ -3062,137 +3639,362 @@
     "dialogue": [
       {
         "id": "c2_s2_d001",
-        "speaker": "{{playerName}}",
-        "text": "{{nagiCall}}。我喜欢你。"
+        "speaker": "",
+        "text": "你盯着那个“可能”，心脏忽然重重跳了一下。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d002",
         "speaker": "",
-        "text": "这条消息发出去后，聊天框安静了几秒。你盯着屏幕，心跳快得不像话。然后，对面显示「正在输入」。",
+        "text": "Nagi很少主动找你，更不会轻易承认自己在想谁。你敏锐地感觉到，有什么东西正在他自己都没有弄明白的时候，悄悄向你靠近。",
         "display": "bottom"
       },
       {
         "id": "c2_s2_d003",
-        "speaker": "Nagi",
-        "text": "……哦。"
+        "speaker": "",
+        "text": "你本来应该再试探一下，或者耐心等他自己想清楚。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d004",
-        "speaker": "{{playerName}}",
-        "text": "不是让你发表已读感想。"
+        "speaker": "",
+        "text": "可那一刻，你根本没有忍住。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d005",
-        "speaker": "Nagi",
-        "text": "那要说什么？"
+        "speaker": "{{playerName}}",
+        "text": "{{nagiCall}}。我喜欢你，Nagi。"
       },
       {
         "id": "c2_s2_d006",
-        "speaker": "{{playerName}}",
-        "text": "和我交往吧。"
+        "speaker": "",
+        "text": "消息发出去的瞬间，你才意识到自己说了什么。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d007",
         "speaker": "",
-        "text": "这一次，对面沉默得更久。你甚至能想象他躺在床上，举着手机，半眯着眼认真读消息的样子。",
+        "text": "刚才还冷静分析着他每一个字的人，忽然变成了一个第一次告白的小姑娘。你捧着手机，心跳快得发疼，连指尖都微微发凉。",
         "display": "bottom"
       },
       {
         "id": "c2_s2_d008",
-        "speaker": "Nagi",
-        "text": "交往，听起来很麻烦。"
+        "speaker": "",
+        "text": "对面很快显示出「正在输入」。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d009",
-        "speaker": "{{playerName}}",
-        "text": "嗯。会很麻烦。"
+        "speaker": "",
+        "text": "亮了一会儿，又消失了。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d010",
-        "speaker": "{{playerName}}",
-        "text": "要见面，要回消息，要被我找，要让我喜欢你，也要喜欢我。"
+        "speaker": "",
+        "text": "你忽然开始害怕。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d011",
-        "speaker": "Nagi",
-        "text": "已经在做了。"
+        "speaker": "",
+        "text": "他也许只是有一点想见你。也许根本没有想过喜欢，更没有想过要和谁交往。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d012",
-        "speaker": "{{playerName}}",
-        "text": "哪个？"
+        "speaker": "",
+        "text": "你甚至已经开始后悔，自己是不是把这一步迈得太快了。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d013",
-        "speaker": "Nagi",
-        "text": "被{{playerName}}找。"
+        "speaker": "{{playerName}}",
+        "text": "和我交往吧。"
       },
       {
         "id": "c2_s2_d014",
-        "speaker": "Nagi",
-        "text": "还有喜欢{{playerName}}。"
+        "speaker": "",
+        "text": "你几乎是凭着冲动又发出一句。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d015",
         "speaker": "",
-        "text": "你看着那一行字，指尖忽然停住。Nagi 的表达还是很短，甚至有点迟钝。可正因为这样，它不像哄人，更像他慢吞吞确认后说出的事实。",
+        "text": "聊天框再次安静下来。",
         "display": "bottom"
       },
       {
         "id": "c2_s2_d016",
-        "speaker": "{{playerName}}",
-        "text": "那就是答应了？"
+        "speaker": "",
+        "text": "Nagi还没有回复。你的理性终于追了上来，却不是让你撤回，而是迅速替这场失控的告白寻找一个他无法拒绝的理由。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d017",
-        "speaker": "Nagi",
-        "text": "嗯。"
+        "speaker": "{{playerName}}",
+        "text": "不会很麻烦的。"
       },
       {
         "id": "c2_s2_d018",
-        "speaker": "Nagi",
-        "text": "是{{playerName}}的话，好像可以。"
+        "speaker": "{{playerName}}",
+        "text": "以后你可以来我的公寓。"
       },
       {
         "id": "c2_s2_d019",
-        "speaker": "",
-        "text": "你捧着手机，忍不住笑出来。笑完以后，才想起另一件事。",
-        "display": "bottom"
+        "speaker": "{{playerName}}",
+        "text": "很大，也很安静。你想睡觉就睡觉，想打游戏就打游戏。"
       },
       {
         "id": "c2_s2_d020",
         "speaker": "{{playerName}}",
-        "text": "那以后你可以来我的公寓。"
+        "text": "家里有一一，会安排餐食、清洁和日常提醒，也可以帮你安排训练。"
       },
       {
         "id": "c2_s2_d021",
         "speaker": "{{playerName}}",
-        "text": "一一会帮你处理设备、餐食、清洁和日常提醒。私厨会按你的训练状态送餐，洗衣和打扫也有固定团队。"
+        "text": "私厨会按照你的训练状态送餐。洗衣和打扫也不用你管。"
       },
       {
         "id": "c2_s2_d022",
-        "speaker": "{{playerName}}",
-        "text": "你不用把生活过得那么麻烦。"
+        "speaker": "",
+        "text": "你一条接一条地发，像是生怕他在你说完之前拒绝。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d023",
-        "speaker": "{{playerName}}",
-        "text": "但是足球不行。足球要你自己去赢。我能做的，是在你需要资源的时候站在你这边。"
+        "speaker": "",
+        "text": "明明是在诱惑他，字句间却几乎藏不住慌乱。你把自己拥有的、能够给他的东西全部摊开，只差直接告诉他——",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d024",
-        "speaker": "Nagi",
-        "text": "听起来，好像全是好事。"
+        "speaker": "",
+        "text": "只要你愿意走过来，我会把最舒服的位置留给你。",
+        "display": "bottom"
       },
       {
         "id": "c2_s2_d025",
-        "speaker": "Nagi",
-        "text": "而且，是{{playerName}}。"
+        "speaker": "{{playerName}}",
+        "text": "足球除外。足球还是要你自己去赢。"
       },
       {
         "id": "c2_s2_d026",
+        "speaker": "{{playerName}}",
+        "text": "但是其他麻烦的事情，我都可以替你处理。"
+      },
+      {
+        "id": "c2_s2_d027",
+        "speaker": "{{playerName}}",
+        "text": "我也会对你很好。"
+      },
+      {
+        "id": "c2_s2_d028",
+        "speaker": "",
+        "text": "最后那句话发出去，你忽然不敢再看屏幕。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d029",
+        "speaker": "",
+        "text": "可下一秒，手机震了一下。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d030",
+        "speaker": "Nagi",
+        "text": "……"
+      },
+      {
+        "id": "c2_s2_d031",
+        "speaker": "Nagi",
+        "text": "一一是什么？"
+      },
+      {
+        "id": "c2_s2_d032",
+        "speaker": "",
+        "text": "你愣了一下。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d033",
+        "speaker": "",
+        "text": "他没有拒绝，也没有回应你的喜欢，最先抓住的却是那个陌生的名字。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d034",
+        "speaker": "{{playerName}}",
+        "text": "我公寓的AI智能中枢。"
+      },
+      {
+        "id": "c2_s2_d035",
+        "speaker": "{{playerName}}",
+        "text": "可以直接和它说话。点餐、开灯、调空调、找东西，都可以叫它。"
+      },
+      {
+        "id": "c2_s2_d036",
+        "speaker": "Nagi",
+        "text": "什么都不用自己弄？"
+      },
+      {
+        "id": "c2_s2_d037",
+        "speaker": "{{playerName}}",
+        "text": "基本不用。"
+      },
+      {
+        "id": "c2_s2_d038",
+        "speaker": "Nagi",
+        "text": "游戏设备也可以？"
+      },
+      {
+        "id": "c2_s2_d039",
+        "speaker": "{{playerName}}",
+        "text": "可以。我可以给你准备一整间游戏房。"
+      },
+      {
+        "id": "c2_s2_d040",
+        "speaker": "Nagi",
+        "text": "沙发舒服吗？"
+      },
+      {
+        "id": "c2_s2_d041",
+        "speaker": "{{playerName}}",
+        "text": "很舒服。"
+      },
+      {
+        "id": "c2_s2_d042",
+        "speaker": "Nagi",
+        "text": "可以直接睡？"
+      },
+      {
+        "id": "c2_s2_d043",
+        "speaker": "{{playerName}}",
+        "text": "可以。"
+      },
+      {
+        "id": "c2_s2_d044",
+        "speaker": "Nagi",
+        "text": "每天都可以去？"
+      },
+      {
+        "id": "c2_s2_d045",
+        "speaker": "",
+        "text": "你看着这句，刚才悬在心口的紧张忽然松开了一点。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d046",
+        "speaker": "",
+        "text": "他认真得像是在确认一份极其重要的入住说明。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d047",
+        "speaker": "{{playerName}}",
+        "text": "交往以后就可以。"
+      },
+      {
+        "id": "c2_s2_d048",
+        "speaker": "",
+        "text": "对面安静了两秒。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d049",
         "speaker": "Nagi",
         "text": "那……好啊。"
+      },
+      {
+        "id": "c2_s2_d050",
+        "speaker": "",
+        "text": "这一次，他答应得快得出乎你的意料。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d051",
+        "speaker": "{{playerName}}",
+        "text": "你答应了？"
+      },
+      {
+        "id": "c2_s2_d052",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "c2_s2_d053",
+        "speaker": "Nagi",
+        "text": "一一听起来很方便。"
+      },
+      {
+        "id": "c2_s2_d054",
+        "speaker": "{{playerName}}",
+        "text": "……"
+      },
+      {
+        "id": "c2_s2_d055",
+        "speaker": "",
+        "text": "你应该生气的。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d056",
+        "speaker": "",
+        "text": "可你盯着屏幕，紧绷了半天的唇角却一点点弯起来。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d057",
+        "speaker": "",
+        "text": "这就是Nagi。简单，诚实，也完全不会为了让你高兴说一句漂亮话。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d058",
+        "speaker": "",
+        "text": "他把公寓和一一摆在最前面，像终于替自己找到了一个足够轻松、足够不麻烦的理由，可以顺理成章地接住你的告白。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d059",
+        "speaker": "Nagi",
+        "text": "而且。"
+      },
+      {
+        "id": "c2_s2_d060",
+        "speaker": "Nagi",
+        "text": "是{{playerName}}的话，好像可以。"
+      },
+      {
+        "id": "c2_s2_d061",
+        "speaker": "",
+        "text": "你指尖停住。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d062",
+        "speaker": "",
+        "text": "他大概并不知道，这句话和前面的公寓、一一根本不是同一种理由。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d063",
+        "speaker": "",
+        "text": "他也还没有发现，假如邀请他的人不是你，那些听起来再舒服的东西，或许根本不会让他这样迅速地点头。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d064",
+        "speaker": "",
+        "text": "你没有拆穿他。",
+        "display": "bottom"
+      },
+      {
+        "id": "c2_s2_d065",
+        "speaker": "",
+        "text": "毕竟你刚才也一样。看起来像是抓住机会、精心设下诱饵，实际上只是因为太喜欢他，才会在察觉到那一点微弱的可能时，慌慌张张地把自己能给的一切都捧到他面前。",
+        "display": "bottom"
       }
     ],
     "choices": [
@@ -3278,53 +4080,423 @@
       {
         "id": "e_invite_d001",
         "speaker": "",
-        "text": "确立关系后的第一次正式约会，你原本只是去图书馆查资料。Nagi嫌回白宝太麻烦，抱着手机跟了过来，坐在你旁边打完游戏，又睡觉。",
+        "text": "确立关系后的第一次正式约会，你原本只是去图书馆查资料。Nagi嫌回白宝太麻烦，抱着手机跟了过来，坐在你旁边打完游戏，又睡了一觉。",
         "display": "bottom"
       },
       {
         "id": "e_invite_d002",
         "speaker": "",
-        "text": "回程时，因为离你公寓很近，你顺势邀他上楼坐坐。",
+        "text": "你们之间似乎没有因为“交往”两个字立刻发生什么变化。他还是懒懒地跟在你身边，你却会在偶尔抬头看见他时，忽然想起手机里那句“那……好啊”，心跳毫无预兆地快上一点。",
         "display": "bottom"
       },
       {
         "id": "e_invite_d003",
         "speaker": "",
-        "text": "推开门时，暖光先涌出来。他进门后，视线第一时间被客厅那面巨大的落地窗勾了过去。夕阳斜铺进来，把远处城市的楼宇、街道都镀上一层金。",
+        "text": "回程时，因为离你公寓很近，你顺势停下脚步。",
         "display": "bottom"
       },
       {
         "id": "e_invite_d004",
-        "speaker": "",
-        "text": "他一手插在格纹开衫口袋里，另一只手还捏着没喝完的冰美式，杯壁凝着薄薄的水珠。",
-        "display": "bottom"
+        "speaker": "{{playerName}}",
+        "text": "要不要去我家？"
       },
       {
         "id": "e_invite_d005",
         "speaker": "",
-        "text": "逆光里白发像在发光，领带因为放松悄悄歪了半寸，侧脸时睫毛在眼下投出一小片毛茸茸的阴影。",
+        "text": "Nagi原本还低头看着手机，听见这句话，抬眼的速度明显比平时快了一点。",
         "display": "bottom"
       },
       {
         "id": "e_invite_d006",
         "speaker": "Nagi",
-        "text": "……哇。"
+        "text": "公寓？"
       },
       {
         "id": "e_invite_d007",
-        "speaker": "",
-        "text": "他难得清晰地发出感叹，不是含混的「嗯」或「哦」，而是拖着尾音的、带着点真切惊讶的声音。",
-        "display": "bottom"
+        "speaker": "{{playerName}}",
+        "text": "嗯。"
       },
       {
         "id": "e_invite_d008",
-        "speaker": "Nagi",
-        "text": "{{playerName}}的公寓，好高级。风景，也很厉害。"
+        "speaker": "{{playerName}}",
+        "text": "不是答应过你吗？很大的公寓、舒服的沙发，还有一一。"
       },
       {
         "id": "e_invite_d009",
+        "speaker": "Nagi",
+        "text": "……"
+      },
+      {
+        "id": "e_invite_d010",
+        "speaker": "Nagi",
+        "text": "要去。"
+      },
+      {
+        "id": "e_invite_d011",
         "speaker": "",
-        "text": "那天之后，你给他录入了临时门禁。理由是：省得他每次站在楼下嫌麻烦。",
+        "text": "他答应得非常果断。快得让你不得不怀疑，自己这个刚刚确认关系的女朋友，在他心里到底有没有那张还没见过的沙发重要。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d012",
+        "speaker": "",
+        "text": "可你一点也没有不高兴。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d013",
+        "speaker": "",
+        "text": "你本来就是这样把他诱进来的。现在他真的上钩了，你只觉得可爱。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d014",
+        "speaker": "",
+        "text": "私人电梯一路升上高层。轿厢里很安静，Nagi靠在一侧，手里还捏着没喝完的冰美式，视线却难得没有落回手机上。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d015",
+        "speaker": "Nagi",
+        "text": "一一真的什么都能做吗？"
+      },
+      {
+        "id": "e_invite_d016",
+        "speaker": "{{playerName}}",
+        "text": "你待会儿可以自己问它。"
+      },
+      {
+        "id": "e_invite_d017",
+        "speaker": "Nagi",
+        "text": "它会回答我？"
+      },
+      {
+        "id": "e_invite_d018",
+        "speaker": "{{playerName}}",
+        "text": "会。"
+      },
+      {
+        "id": "e_invite_d019",
+        "speaker": "Nagi",
+        "text": "哦。"
+      },
+      {
+        "id": "e_invite_d020",
+        "speaker": "",
+        "text": "他应得很淡，眼睛却明显亮了一点。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d021",
+        "speaker": "",
+        "text": "推开门时，暖光先涌出来。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d022",
+        "speaker": "一一",
+        "text": "欢迎回来，{{playerName}}小姐。"
+      },
+      {
+        "id": "e_invite_d023",
+        "speaker": "一一",
+        "text": "检测到未登记访客。是否建立临时访客档案？"
+      },
+      {
+        "id": "e_invite_d024",
+        "speaker": "Nagi",
+        "text": "……"
+      },
+      {
+        "id": "e_invite_d025",
+        "speaker": "",
+        "text": "Nagi刚迈进玄关，脚步就停住了。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d026",
+        "speaker": "",
+        "text": "他抬起头，看了看天花板，又慢慢转向四周，像是在寻找声音究竟从哪里传出来。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d027",
+        "speaker": "{{playerName}}",
+        "text": "建立。他是Nagi。"
+      },
+      {
+        "id": "e_invite_d028",
+        "speaker": "一一",
+        "text": "身份信息已确认。"
+      },
+      {
+        "id": "e_invite_d029",
+        "speaker": "一一",
+        "text": "欢迎来到{{playerName}}小姐的公寓，Nagi少爷。"
+      },
+      {
+        "id": "e_invite_d030",
+        "speaker": "Nagi",
+        "text": "一一？"
+      },
+      {
+        "id": "e_invite_d031",
+        "speaker": "一一",
+        "text": "我在。"
+      },
+      {
+        "id": "e_invite_d032",
+        "speaker": "Nagi",
+        "text": "……"
+      },
+      {
+        "id": "e_invite_d033",
+        "speaker": "Nagi",
+        "text": "在哪里？"
+      },
+      {
+        "id": "e_invite_d034",
+        "speaker": "一一",
+        "text": "我是这套公寓的AI智能中枢，没有固定的交互位置。您可以在公寓内直接呼叫我。"
+      },
+      {
+        "id": "e_invite_d035",
+        "speaker": "",
+        "text": "Nagi安静了两秒。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d036",
+        "speaker": "Nagi",
+        "text": "在空气里？"
+      },
+      {
+        "id": "e_invite_d037",
+        "speaker": "{{playerName}}",
+        "text": "你可以这么理解。"
+      },
+      {
+        "id": "e_invite_d038",
+        "speaker": "Nagi",
+        "text": "好厉害。"
+      },
+      {
+        "id": "e_invite_d039",
+        "speaker": "",
+        "text": "他终于走进玄关，视线仍然在四处游移，像第一次进入一个规则完全不同的游戏地图。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d040",
+        "speaker": "Nagi",
+        "text": "一一。"
+      },
+      {
+        "id": "e_invite_d041",
+        "speaker": "一一",
+        "text": "我在，Nagi少爷。"
+      },
+      {
+        "id": "e_invite_d042",
+        "speaker": "Nagi",
+        "text": "开灯。"
+      },
+      {
+        "id": "e_invite_d043",
+        "speaker": "",
+        "text": "客厅的灯光随即亮起，原本柔和的暖色被调高了一档。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d044",
+        "speaker": "Nagi",
+        "text": "……"
+      },
+      {
+        "id": "e_invite_d045",
+        "speaker": "",
+        "text": "他眨了眨眼。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d046",
+        "speaker": "Nagi",
+        "text": "窗帘呢？"
+      },
+      {
+        "id": "e_invite_d047",
+        "speaker": "一一",
+        "text": "是否打开客厅窗帘？"
+      },
+      {
+        "id": "e_invite_d048",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_invite_d049",
+        "speaker": "",
+        "text": "巨大的窗帘从两侧缓缓退开。夕阳顷刻铺进客厅，把远处城市的楼宇、街道都镀上一层金。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d050",
+        "speaker": "",
+        "text": "Nagi的注意力终于被那面几乎占满整面墙的落地窗勾了过去。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d051",
+        "speaker": "",
+        "text": "他一手插在格纹开衫口袋里，另一只手还捏着冰美式。杯壁凝着薄薄的水珠，逆光里白发像在发光，领带因为放松悄悄歪了半寸，侧脸时睫毛在眼下投出一小片毛茸茸的阴影。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d052",
+        "speaker": "Nagi",
+        "text": "……哇。"
+      },
+      {
+        "id": "e_invite_d053",
+        "speaker": "",
+        "text": "他难得清晰地发出感叹，不是含混的“嗯”或“哦”，而是拖着尾音、带着真切惊讶的声音。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d054",
+        "speaker": "Nagi",
+        "text": "{{playerName}}的公寓，好高级。"
+      },
+      {
+        "id": "e_invite_d055",
+        "speaker": "Nagi",
+        "text": "风景，也很厉害。"
+      },
+      {
+        "id": "e_invite_d056",
+        "speaker": "",
+        "text": "他说完，目光很快又落向客厅那一圈高级的下沉式沙发。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d057",
+        "speaker": "Nagi",
+        "text": "沙发这么大？"
+      },
+      {
+        "id": "e_invite_d058",
+        "speaker": "{{playerName}}",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_invite_d059",
+        "speaker": "",
+        "text": "他走过去坐下，身体刚陷进柔软的靠垫里，肩膀便肉眼可见地松了下来。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d060",
+        "speaker": "Nagi",
+        "text": "……"
+      },
+      {
+        "id": "e_invite_d061",
+        "speaker": "Nagi",
+        "text": "真的很舒服。"
+      },
+      {
+        "id": "e_invite_d062",
+        "speaker": "{{playerName}}",
+        "text": "我没有骗你吧？"
+      },
+      {
+        "id": "e_invite_d063",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_invite_d064",
+        "speaker": "Nagi",
+        "text": "游戏房呢？"
+      },
+      {
+        "id": "e_invite_d065",
+        "speaker": "{{playerName}}",
+        "text": "你还真是一件都没忘。"
+      },
+      {
+        "id": "e_invite_d066",
+        "speaker": "Nagi",
+        "text": "因为很重要。"
+      },
+      {
+        "id": "e_invite_d067",
+        "speaker": "{{playerName}}",
+        "text": "一一，打开游戏房。"
+      },
+      {
+        "id": "e_invite_d068",
+        "speaker": "一一",
+        "text": "好的。"
+      },
+      {
+        "id": "e_invite_d069",
+        "speaker": "",
+        "text": "走廊尽头的感应灯依次亮起，其中一扇门无声地滑开。屏幕、主机和整齐排列的手柄在昏暗的室内逐一亮起待机灯。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d070",
+        "speaker": "",
+        "text": "Nagi从沙发里坐直了一点。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d071",
+        "speaker": "Nagi",
+        "text": "……"
+      },
+      {
+        "id": "e_invite_d072",
+        "speaker": "Nagi",
+        "text": "可以现在玩吗？"
+      },
+      {
+        "id": "e_invite_d073",
+        "speaker": "{{playerName}}",
+        "text": "可以。"
+      },
+      {
+        "id": "e_invite_d074",
+        "speaker": "Nagi",
+        "text": "存档也能同步？"
+      },
+      {
+        "id": "e_invite_d075",
+        "speaker": "一一",
+        "text": "授权登录后，可以同步您的游戏账号与云端存档。"
+      },
+      {
+        "id": "e_invite_d076",
+        "speaker": "Nagi",
+        "text": "一一好方便。"
+      },
+      {
+        "id": "e_invite_d077",
+        "speaker": "",
+        "text": "你站在旁边，看着他一会儿问灯，一会儿问窗帘，又开始研究游戏设备，像是在认真核验你告白时许诺给他的每一项好处。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d078",
+        "speaker": "",
+        "text": "明明很像一场精心设计的诱捕，你心里却没有半点算计成功的冷静。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_d079",
+        "speaker": "",
+        "text": "你只是因为他真的喜欢，而跟着高兴起来。",
         "display": "bottom"
       }
     ],
@@ -3345,6 +4517,10 @@
             "val": 2
           }
         ],
+        "transition": {
+          "type": "goto",
+          "target": "e_invite_s2"
+        },
         "responses": [
           {
             "id": "e_invite_c001_r001",
@@ -3379,6 +4555,10 @@
             "val": 1
           }
         ],
+        "transition": {
+          "type": "goto",
+          "target": "e_invite_s2"
+        },
         "responses": [
           {
             "id": "e_invite_c002_r001",
@@ -3387,45 +4567,74 @@
           },
           {
             "id": "e_invite_c002_r002",
-            "speaker": "{{playerName}}",
-            "text": "承认得这么快？"
+            "speaker": "Nagi",
+            "text": "嗯。"
           },
           {
             "id": "e_invite_c002_r003",
-            "speaker": "Nagi",
-            "text": "沙发看起来很舒服，窗外也很好看。"
+            "speaker": "{{playerName}}",
+            "text": "你还真承认啊。"
           },
           {
             "id": "e_invite_c002_r004",
-            "speaker": "{{playerName}}",
-            "text": "只有沙发和窗外？"
+            "speaker": "Nagi",
+            "text": "沙发很舒服，风景很好看。"
           },
           {
             "id": "e_invite_c002_r005",
             "speaker": "Nagi",
-            "text": "（看向你）还有{{playerName}}。"
+            "text": "一一也很方便。"
           },
           {
             "id": "e_invite_c002_r006",
-            "speaker": "",
-            "text": "他说得太自然，你反而一下接不上话。Nagi却已经低头看向客厅那张宽大的沙发，像是在认真规划以后躺在哪里比较省力。",
-            "display": "bottom"
+            "speaker": "{{playerName}}",
+            "text": "还有呢？"
           },
           {
             "id": "e_invite_c002_r007",
             "speaker": "Nagi",
-            "text": "{{playerName}}在这里的话，就更不想走了。"
+            "text": "还有游戏房。"
+          },
+          {
+            "id": "e_invite_c002_r008",
+            "speaker": "{{playerName}}",
+            "text": "……"
+          },
+          {
+            "id": "e_invite_c002_r009",
+            "speaker": "",
+            "text": "你盯着他，正准备提醒这位刚上任的男朋友，是不是漏掉了什么最重要的东西。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_invite_c002_r010",
+            "speaker": "",
+            "text": "Nagi却抬眼看向你。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_invite_c002_r011",
+            "speaker": "Nagi",
+            "text": "还有{{playerName}}。"
+          },
+          {
+            "id": "e_invite_c002_r012",
+            "speaker": "",
+            "text": "他说得太自然，你反而一下接不上话。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_invite_c002_r013",
+            "speaker": "",
+            "text": "Nagi已经重新靠回沙发里，像是在认真规划以后躺在哪里最省力。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_invite_c002_r014",
+            "speaker": "Nagi",
+            "text": "{{playerName}}也在这里的话，就更好了。"
           }
         ]
-      },
-      {
-        "id": "e_invite_c003",
-        "label": "→",
-        "autoAdvance": true,
-        "transition": {
-          "type": "goto",
-          "target": "e_lolly"
-        }
       }
     ]
   },
@@ -3606,153 +4815,393 @@
       {
         "id": "e_depart_d001",
         "speaker": "",
-        "text": "关系刚刚落定，赛程就先一步把他带回了蓝色监狱。",
+        "text": "U-20日本代表战后的假期结束得很快。",
         "display": "bottom"
       },
       {
         "id": "e_depart_d002",
         "speaker": "",
-        "text": "新英雄大战开幕前，训练基地再次进入长期闭关，门禁、媒体、内部排名和BLTV直播企划，把你们从黏在一起的假期里硬生生拆开。",
+        "text": "蓝色监狱发来新的召集通知，只留下集合时间、地点，以及“长期封闭训练”几个字。",
         "display": "bottom"
       },
       {
         "id": "e_depart_d003",
         "speaker": "",
-        "text": "出发前，Nagi坐在你公寓客厅的地毯上收行李。球鞋只塞了一只，护具丢在沙发边，手机还停在游戏界面。",
+        "text": "没有训练内容，没有结束日期，也没有说明进去以后是否还能正常使用手机。",
         "display": "bottom"
       },
       {
         "id": "e_depart_d004",
         "speaker": "",
-        "text": "他整理得很慢，像只要拖得足够久，门外那辆车就可以不存在。",
+        "text": "通知送达时，Nagi正躺在你公寓的沙发上打游戏。",
         "display": "bottom"
       },
       {
         "id": "e_depart_d005",
-        "speaker": "Nagi",
-        "text": "闭关好麻烦。"
+        "speaker": "",
+        "text": "一一念完最后一行，他的手指停了两秒。屏幕里的角色失去控制，被迎面扑来的怪物直接撞倒。",
+        "display": "bottom"
       },
       {
         "id": "e_depart_d006",
-        "speaker": "{{playerName}}",
-        "text": "足球也麻烦？"
+        "speaker": "Nagi",
+        "text": "……"
       },
       {
         "id": "e_depart_d007",
         "speaker": "Nagi",
-        "text": "但是现在……不踢好像也麻烦。"
+        "text": "又要进去了。"
       },
       {
         "id": "e_depart_d008",
         "speaker": "{{playerName}}",
-        "text": "那就去吧。"
+        "text": "嗯。"
       },
       {
         "id": "e_depart_d009",
-        "speaker": "",
-        "text": "你没有说太多。",
-        "display": "bottom"
+        "speaker": "Nagi",
+        "text": "好麻烦。"
       },
       {
         "id": "e_depart_d010",
         "speaker": "",
-        "text": "BLTV会把他们的进球、报价、排名、采访、失败和成长全部放到镜头下，而Nagi，也会被推到比U-20日本代表战更亮、更吵的位置。",
+        "text": "他说完重新开始游戏，像是这件事只值得占用一句抱怨。",
         "display": "bottom"
       },
       {
         "id": "e_depart_d011",
-        "speaker": "Nagi",
-        "text": "{{playerName}}会看吗？"
+        "speaker": "",
+        "text": "可直到当晚，他都没有像往常一样让一一替他叫车回白宝。",
+        "display": "bottom"
       },
       {
         "id": "e_depart_d012",
-        "speaker": "{{playerName}}",
-        "text": "会。"
+        "speaker": "",
+        "text": "出发那天，玄关没有行李箱。",
+        "display": "bottom"
       },
       {
         "id": "e_depart_d013",
-        "speaker": "Nagi",
-        "text": "全部？"
+        "speaker": "",
+        "text": "蓝色监狱会准备训练服、球鞋和全部生活用品。他要带走的只有一个书包，随意靠在鞋柜旁边，里面装着手机、充电器。",
+        "display": "bottom"
       },
       {
         "id": "e_depart_d014",
-        "speaker": "{{playerName}}",
-        "text": "全部。"
+        "speaker": "",
+        "text": "东西少得像他只是临时出去一趟。",
+        "display": "bottom"
       },
       {
         "id": "e_depart_d015",
-        "speaker": "Nagi",
-        "text": "那我去了。"
+        "speaker": "",
+        "text": "可你们都不知道，这一趟究竟要多久。",
+        "display": "bottom"
       },
       {
         "id": "e_depart_d016",
-        "speaker": "Nagi",
-        "text": "回来会很麻烦吗？"
+        "speaker": "",
+        "text": "距离司机抵达还有十分钟，Nagi仍然躺在沙发最舒服的位置上，掌机举在眼前，一点也没有准备出门的意思。",
+        "display": "bottom"
       },
       {
         "id": "e_depart_d017",
-        "speaker": "{{playerName}}",
-        "text": "你回来就行。"
+        "speaker": "一一",
+        "text": "Nagi少爷，您的车辆预计十分钟后抵达。"
       },
       {
         "id": "e_depart_d018",
         "speaker": "Nagi",
-        "text": "{{playerName}}说话有时候很方便。"
+        "text": "嗯。"
       },
       {
         "id": "e_depart_d019",
-        "speaker": "{{playerName}}",
-        "text": "这是夸我？"
+        "speaker": "",
+        "text": "五分钟后。",
+        "display": "bottom"
       },
       {
         "id": "e_depart_d020",
-        "speaker": "Nagi",
-        "text": "大概。"
+        "speaker": "一一",
+        "text": "Nagi少爷，您的车辆预计五分钟后抵达。"
       },
       {
         "id": "e_depart_d021",
-        "speaker": "",
-        "text": "车快到楼下时，一一提醒行程时间。Nagi背起包，走到玄关，又回头看你。",
-        "display": "bottom"
+        "speaker": "Nagi",
+        "text": "知道了。"
       },
       {
         "id": "e_depart_d022",
-        "speaker": "Nagi",
-        "text": "{{playerName}}，我会踢的。"
+        "speaker": "{{playerName}}",
+        "text": "你知道了，倒是起来啊。"
       },
       {
         "id": "e_depart_d023",
-        "speaker": "",
-        "text": "他说得很轻，只是像在告诉你，他会去完成那件已经变得“不踢也很麻烦”的事情。",
-        "display": "bottom"
+        "speaker": "Nagi",
+        "text": "书包就在门口，起来也没有别的事要做。"
       },
       {
         "id": "e_depart_d024",
+        "speaker": "",
+        "text": "他说得理所当然，目光却已经很久没有真正落在游戏画面上。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d025",
+        "speaker": "",
+        "text": "屏幕里的角色停在原地。背景音乐重复了一遍又一遍，他始终没有继续操作。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d026",
+        "speaker": "",
+        "text": "他停了一会儿，终于按灭屏幕，把掌机随手放到身边。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d027",
+        "speaker": "Nagi",
+        "text": "不知道这次要进去多久。"
+      },
+      {
+        "id": "e_depart_d028",
         "speaker": "{{playerName}}",
-        "text": "我会看着你。"
+        "text": "通知上没写。"
+      },
+      {
+        "id": "e_depart_d029",
+        "speaker": "Nagi",
+        "text": "手机也可能会被收走。"
+      },
+      {
+        "id": "e_depart_d030",
+        "speaker": "{{playerName}}",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_depart_d031",
+        "speaker": "Nagi",
+        "text": "……"
+      },
+      {
+        "id": "e_depart_d032",
+        "speaker": "Nagi",
+        "text": "好麻烦。"
+      },
+      {
+        "id": "e_depart_d033",
+        "speaker": "",
+        "text": "同样一句话，这一次落得比刚才更轻。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d034",
+        "speaker": "",
+        "text": "他之前也是封闭训练，也被收走过手机。那时外面的世界对他来说没有什么区别，能不能联系谁，更不值得单独拿出来考虑。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d035",
+        "speaker": "",
+        "text": "可现在不一样了。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d036",
+        "speaker": "",
+        "text": "他刚刚习惯你的公寓，习惯一一随时回应他，习惯训练结束以后还有一个柔软、安静、不需要证明任何事的地方。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d037",
+        "speaker": "",
+        "text": "也刚刚习惯你总在这里。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d038",
+        "speaker": "",
+        "text": "这些东西纠缠在一起，被他简单地归进了同一个结论。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_d039",
+        "speaker": "",
+        "text": "离开很麻烦。",
+        "display": "bottom"
       }
     ],
     "choices": [
       {
         "id": "e_depart_c001",
-        "label": "→",
-        "autoAdvance": true,
-        "effects": [
-          {
-            "var": "bond",
-            "op": "add",
-            "val": 1
-          },
-          {
-            "var": "narrativeDistance",
-            "op": "add",
-            "val": 1
-          }
-        ],
+        "label": "回来以后，第一个来见我",
+        "internalTag": "心动",
         "transition": {
           "type": "goto",
-          "target": "c6a"
-        }
+          "target": "e_depart_s2"
+        },
+        "responses": [
+          {
+            "id": "e_depart_c001_r001",
+            "speaker": "{{playerName}}",
+            "text": "回来以后，第一个来见我。"
+          },
+          {
+            "id": "e_depart_c001_r002",
+            "speaker": "",
+            "text": "你没有问他会不会想你，也没有要求任何听起来浪漫的保证。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c001_r003",
+            "speaker": "",
+            "text": "只是趁他还没有离开，先替自己占住了他回来后的第一个位置。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c001_r004",
+            "speaker": "Nagi",
+            "text": "嗯。"
+          },
+          {
+            "id": "e_depart_c001_r005",
+            "speaker": "Nagi",
+            "text": "但是如果很晚呢？"
+          },
+          {
+            "id": "e_depart_c001_r006",
+            "speaker": "{{playerName}}",
+            "text": "很晚也来。"
+          },
+          {
+            "id": "e_depart_c001_r007",
+            "speaker": "Nagi",
+            "text": "{{playerName}}不会在睡觉？"
+          },
+          {
+            "id": "e_depart_c001_r008",
+            "speaker": "{{playerName}}",
+            "text": "你回来，我就醒了。"
+          },
+          {
+            "id": "e_depart_c001_r009",
+            "speaker": "",
+            "text": "Nagi看了你几秒。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c001_r010",
+            "speaker": "Nagi",
+            "text": "哦。"
+          },
+          {
+            "id": "e_depart_c001_r011",
+            "speaker": "Nagi",
+            "text": "那回来就来这里。"
+          }
+        ]
+      },
+      {
+        "id": "e_depart_c002",
+        "label": "去吧，看看这次足球还会给你什么",
+        "internalTag": "理性",
+        "transition": {
+          "type": "goto",
+          "target": "e_depart_s2"
+        },
+        "responses": [
+          {
+            "id": "e_depart_c002_r001",
+            "speaker": "{{playerName}}",
+            "text": "去吧。"
+          },
+          {
+            "id": "e_depart_c002_r002",
+            "speaker": "{{playerName}}",
+            "text": "看看这次足球还会给你什么。"
+          },
+          {
+            "id": "e_depart_c002_r003",
+            "speaker": "",
+            "text": "你说得很平静。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c002_r004",
+            "speaker": "",
+            "text": "不是因为不舍得，而是因为太清楚自己爱上的究竟是什么。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c002_r005",
+            "speaker": "",
+            "text": "你当然喜欢他懒洋洋地躺在这里，喜欢他把生活里所有麻烦都丢给你和一一。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c002_r006",
+            "speaker": "",
+            "text": "可你更想看见的，始终是那个在球落到脚下时，眼睛会突然亮起来的Nagi。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c002_r007",
+            "speaker": "Nagi",
+            "text": "不知道会有什么。"
+          },
+          {
+            "id": "e_depart_c002_r008",
+            "speaker": "{{playerName}}",
+            "text": "所以才要去。"
+          },
+          {
+            "id": "e_depart_c002_r009",
+            "speaker": "Nagi",
+            "text": "如果很无聊呢？"
+          },
+          {
+            "id": "e_depart_c002_r010",
+            "speaker": "{{playerName}}",
+            "text": "那就想办法让它变得有趣。"
+          },
+          {
+            "id": "e_depart_c002_r011",
+            "speaker": "Nagi",
+            "text": "又要自己想，好麻烦。"
+          },
+          {
+            "id": "e_depart_c002_r012",
+            "speaker": "{{playerName}}",
+            "text": "可你明明很有天赋。"
+          },
+          {
+            "id": "e_depart_c002_r013",
+            "speaker": "",
+            "text": "Nagi没有反驳。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c002_r014",
+            "speaker": "",
+            "text": "他低下眼，像是也对那个尚未揭开的下一阶段，生出了一点隐约的兴趣。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_c002_r015",
+            "speaker": "Nagi",
+            "text": "那{{playerName}}要等我回来。"
+          },
+          {
+            "id": "e_depart_c002_r016",
+            "speaker": "{{playerName}}",
+            "text": "嗯。"
+          },
+          {
+            "id": "e_depart_c002_r017",
+            "speaker": "{{playerName}}",
+            "text": "等你回来告诉我，有没有变得更有趣。"
+          }
+        ]
       }
     ]
   },
@@ -11121,6 +12570,48 @@
     "sceneTitle": "她站在光里",
     "dialogue": [
       {
+        "id": "e_agency_launch_intro001",
+        "speaker": "",
+        "text": "Nagi进入欧洲联赛以后，围绕他的事情开始以远超预期的速度增加。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_agency_launch_intro002",
+        "speaker": "",
+        "text": "采访、品牌邀约、肖像授权、商业合作、国际媒体沟通。每一方都想尽快从这个突然被世界看见的天才身上，得到一个明确、易懂，也更容易被出售的形象。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_agency_launch_intro003",
+        "speaker": "",
+        "text": "过去，这些事务暂时由你调动家族团队和外部机构分别处理。可Nagi的职业生涯正在迅速向前，零散的资源已经无法承担接下来的一切。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_agency_launch_intro004",
+        "speaker": "",
+        "text": "于是你决定成立一家独立经纪公司。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_agency_launch_intro005",
+        "speaker": "",
+        "text": "它不替Nagi决定怎样踢球，也不介入俱乐部的竞技安排。它只负责站在球场之外，替他管理那些他不擅长、也不愿意花时间处理的事情——商业合作、公众形象、肖像权、媒体关系，以及未来通向世界的资源。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_agency_launch_intro006",
+        "speaker": "",
+        "text": "更准确地说，这是一家公司。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_agency_launch_intro007",
+        "speaker": "",
+        "text": "也是你专门为Nagi搭建的一条路。",
+        "display": "bottom"
+      },
+      {
         "id": "e_agency_launch_d001",
         "speaker": "",
         "text": "发布会安排在东京。",
@@ -16052,6 +17543,805 @@
         "transition": {
           "type": "ending",
           "tier": "bad"
+        }
+      }
+    ]
+  },
+  "e_invite_s2": {
+    "mode": "vn",
+    "sceneTitle": "高级公寓的邀请",
+    "dialogue": [
+      {
+        "id": "e_invite_s2_d001",
+        "speaker": "",
+        "text": "临走之前，一一再次出声。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_s2_d002",
+        "speaker": "一一",
+        "text": "是否为Nagi少爷保留临时访客档案，并录入门禁通行权限？"
+      },
+      {
+        "id": "e_invite_s2_d003",
+        "speaker": "",
+        "text": "你还没来得及询问他的意见，Nagi已经从手机上抬起头。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_s2_d004",
+        "speaker": "Nagi",
+        "text": "要。"
+      },
+      {
+        "id": "e_invite_s2_d005",
+        "speaker": "{{playerName}}",
+        "text": "答应得这么快？"
+      },
+      {
+        "id": "e_invite_s2_d006",
+        "speaker": "Nagi",
+        "text": "不然每次都要在楼下等{{playerName}}。"
+      },
+      {
+        "id": "e_invite_s2_d007",
+        "speaker": "Nagi",
+        "text": "很麻烦。"
+      },
+      {
+        "id": "e_invite_s2_d008",
+        "speaker": "",
+        "text": "他说得理所当然。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_s2_d009",
+        "speaker": "",
+        "text": "于是那天之后，你给他录入了临时门禁。理由是：省得他每次站在楼下嫌麻烦。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_invite_s2_d010",
+        "speaker": "",
+        "text": "至于这份“临时”权限究竟会用多久，你和一一都没有问。",
+        "display": "bottom"
+      }
+    ],
+    "choices": [
+      {
+        "id": "e_invite_s2_c001",
+        "label": "→",
+        "autoAdvance": true,
+        "transition": {
+          "type": "goto",
+          "target": "e_lolly"
+        }
+      }
+    ]
+  },
+  "e_depart_s2": {
+    "mode": "vn",
+    "sceneTitle": "NEL启程·闭关送别",
+    "dialogue": [
+      {
+        "id": "e_depart_s2_d001",
+        "speaker": "",
+        "text": "Nagi重新靠回沙发里，没有继续游戏。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d002",
+        "speaker": "",
+        "text": "下午的阳光停在落地窗上，游戏房的设备维持着待机状态。公寓里很安静，安静得像时间也在陪他拖延。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d003",
+        "speaker": "Nagi",
+        "text": "门禁还会在吧。"
+      },
+      {
+        "id": "e_depart_s2_d004",
+        "speaker": "{{playerName}}",
+        "text": "会。"
+      },
+      {
+        "id": "e_depart_s2_d005",
+        "speaker": "Nagi",
+        "text": "游戏存档呢？"
+      },
+      {
+        "id": "e_depart_s2_d006",
+        "speaker": "{{playerName}}",
+        "text": "不会动。"
+      },
+      {
+        "id": "e_depart_s2_d007",
+        "speaker": "Nagi",
+        "text": "一一会记得我？"
+      },
+      {
+        "id": "e_depart_s2_d008",
+        "speaker": "一一",
+        "text": "Nagi少爷的个人档案、设备权限、饮食偏好及日常记录均会保留。"
+      },
+      {
+        "id": "e_depart_s2_d009",
+        "speaker": "Nagi",
+        "text": "拖鞋呢？"
+      },
+      {
+        "id": "e_depart_s2_d010",
+        "speaker": "{{playerName}}",
+        "text": "谁会趁你不在扔掉你的拖鞋？"
+      },
+      {
+        "id": "e_depart_s2_d011",
+        "speaker": "Nagi",
+        "text": "一一。"
+      },
+      {
+        "id": "e_depart_s2_d012",
+        "speaker": "Nagi",
+        "text": "一一很喜欢整理东西。"
+      },
+      {
+        "id": "e_depart_s2_d013",
+        "speaker": "{{playerName}}",
+        "text": "你的东西不会让它丢的，我会让它写进记忆库的。"
+      },
+      {
+        "id": "e_depart_s2_d014",
+        "speaker": "Nagi",
+        "text": "哦。"
+      },
+      {
+        "id": "e_depart_s2_d015",
+        "speaker": "",
+        "text": "他逐项确认着门禁、存档、一一和拖鞋，像是在检查自己离开以后，这个地方会不会恢复成他从未来过的样子。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d016",
+        "speaker": "",
+        "text": "你看得出来，却没有催他把真正想问的那件事说出口。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d017",
+        "speaker": "",
+        "text": "过了一会儿，他自己转过脸。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d018",
+        "speaker": "Nagi",
+        "text": "{{playerName}}呢？"
+      },
+      {
+        "id": "e_depart_s2_d019",
+        "speaker": "{{playerName}}",
+        "text": "我怎么了？"
+      },
+      {
+        "id": "e_depart_s2_d020",
+        "speaker": "Nagi",
+        "text": "我回来的时候，{{playerName}}也会在？"
+      },
+      {
+        "id": "e_depart_s2_d021",
+        "speaker": "",
+        "text": "你的心口骤然软下去。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d022",
+        "speaker": "",
+        "text": "他问得很自然，仿佛这和门禁、存档一样，也只是一项离开前需要确认的条件。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d023",
+        "speaker": "",
+        "text": "可那些东西都不会自己离开。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d024",
+        "speaker": "",
+        "text": "只有你，需要亲口给他一个答案。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d025",
+        "speaker": "{{playerName}}",
+        "text": "会。"
+      },
+      {
+        "id": "e_depart_s2_d026",
+        "speaker": "{{playerName}}",
+        "text": "你回来，我就在。"
+      },
+      {
+        "id": "e_depart_s2_d027",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_depart_s2_d028",
+        "speaker": "Nagi",
+        "text": "那就好。"
+      },
+      {
+        "id": "e_depart_s2_d029",
+        "speaker": "一一",
+        "text": "车辆已抵达地下停车场。"
+      },
+      {
+        "id": "e_depart_s2_d030",
+        "speaker": "",
+        "text": "Nagi终于从沙发上坐起来。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d031",
+        "speaker": "",
+        "text": "他穿上鞋，把书包单肩背好。动作和平时去学校没有什么区别，轻得让这场分别显得更加不真实。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d032",
+        "speaker": "",
+        "text": "你站在玄关替他把被肩带压歪的衣领整理好。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d033",
+        "speaker": "",
+        "text": "手指刚要收回，Nagi忽然低下头，把下巴轻轻压在你的肩上。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d034",
+        "speaker": "",
+        "text": "没有预告，也没有解释。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d035",
+        "speaker": "",
+        "text": "他只是把身体的重量交给你，像平时困了以后随意靠过来一样。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d036",
+        "speaker": "{{playerName}}",
+        "text": "Nagi？"
+      },
+      {
+        "id": "e_depart_s2_d037",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_depart_s2_d038",
+        "speaker": "{{playerName}}",
+        "text": "司机已经到了。"
+      },
+      {
+        "id": "e_depart_s2_d039",
+        "speaker": "Nagi",
+        "text": "再待一下。"
+      },
+      {
+        "id": "e_depart_s2_d040",
+        "speaker": "",
+        "text": "他的声音落在你耳边，仍然懒懒的，听不出多么明显的不舍。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s2_d041",
+        "speaker": "",
+        "text": "可这个从来嫌停留麻烦的人，现在却在想办法让最后几秒变得更长。",
+        "display": "bottom"
+      }
+    ],
+    "choices": [
+      {
+        "id": "e_depart_s2_c001",
+        "label": "主动抱住他",
+        "internalTag": "心动",
+        "effects": [
+          {
+            "var": "bond",
+            "op": "add",
+            "val": 2
+          }
+        ],
+        "transition": {
+          "type": "goto",
+          "target": "e_depart_s3"
+        },
+        "responses": [
+          {
+            "id": "e_depart_s2_c001_r001",
+            "speaker": "",
+            "text": "你伸手环住他的腰，没有催促，也没有再维持那点若无其事的从容。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_s2_c001_r002",
+            "speaker": "{{playerName}}",
+            "text": "那就再待一下。"
+          },
+          {
+            "id": "e_depart_s2_c001_r003",
+            "speaker": "",
+            "text": "Nagi安静地靠着你。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_s2_c001_r004",
+            "speaker": "",
+            "text": "门外有一个完全未知的新阶段在等他，门内则是他刚刚开始熟悉的生活。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_s2_c001_r005",
+            "speaker": "",
+            "text": "至少这一刻，你们谁也没有先松手。",
+            "display": "bottom"
+          }
+        ]
+      },
+      {
+        "id": "e_depart_s2_c002",
+        "label": "替他整理好书包肩带",
+        "internalTag": "克制",
+        "effects": [
+          {
+            "var": "understanding",
+            "op": "add",
+            "val": 1
+          }
+        ],
+        "transition": {
+          "type": "goto",
+          "target": "e_depart_s3"
+        },
+        "responses": [
+          {
+            "id": "e_depart_s2_c002_r001",
+            "speaker": "",
+            "text": "你没有抱住他，只是抬手把他肩上扭转的书包带整理平整。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_s2_c002_r002",
+            "speaker": "{{playerName}}",
+            "text": "好了。"
+          },
+          {
+            "id": "e_depart_s2_c002_r003",
+            "speaker": "",
+            "text": "Nagi仍然没有立刻直起身体。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_s2_c002_r004",
+            "speaker": "Nagi",
+            "text": "{{playerName}}恢复得好快。"
+          },
+          {
+            "id": "e_depart_s2_c002_r005",
+            "speaker": "{{playerName}}",
+            "text": "我又不是小孩子。"
+          },
+          {
+            "id": "e_depart_s2_c002_r006",
+            "speaker": "",
+            "text": "你嘴上说得干脆，手指却在他的肩带上多停留了一秒。",
+            "display": "bottom"
+          },
+          {
+            "id": "e_depart_s2_c002_r007",
+            "speaker": "",
+            "text": "Nagi像是感觉到了，没有继续拆穿你。",
+            "display": "bottom"
+          }
+        ]
+      }
+    ]
+  },
+  "e_depart_s3": {
+    "mode": "vn",
+    "sceneTitle": "NEL启程·闭关送别",
+    "dialogue": [
+      {
+        "id": "e_depart_s3_d001",
+        "speaker": "",
+        "text": "一一第二次提醒车辆正在等待，Nagi才慢慢直起身体。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d002",
+        "speaker": "Nagi",
+        "text": "走了。"
+      },
+      {
+        "id": "e_depart_s3_d003",
+        "speaker": "{{playerName}}",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_depart_s3_d004",
+        "speaker": "",
+        "text": "他走进电梯。门即将合拢时，又伸手挡了一下。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d005",
+        "speaker": "Nagi",
+        "text": "{{playerName}}。"
+      },
+      {
+        "id": "e_depart_s3_d006",
+        "speaker": "{{playerName}}",
+        "text": "怎么了？"
+      },
+      {
+        "id": "e_depart_s3_d007",
+        "speaker": "Nagi",
+        "text": "帮我把小剪照顾好哦。"
+      },
+      {
+        "id": "e_depart_s3_d008",
+        "speaker": "{{playerName}}",
+        "text": "嗯，一一会照顾它的。如果我有时间，我也会。"
+      },
+      {
+        "id": "e_depart_s3_d009",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_depart_s3_d010",
+        "speaker": "",
+        "text": "他的手从门边收回。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d011",
+        "speaker": "",
+        "text": "电梯门终于合上。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d012",
+        "speaker": "",
+        "text": "公寓重新安静下来。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d013",
+        "speaker": "",
+        "text": "玄关少了一双外出的鞋，沙发上也不再有人占据最舒服的位置。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d014",
+        "speaker": "",
+        "text": "明明只是恢复到他来之前的样子，你却第一次觉得这里空得过分。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d015",
+        "speaker": "一一",
+        "text": "是否恢复单人居住模式？"
+      },
+      {
+        "id": "e_depart_s3_d016",
+        "speaker": "",
+        "text": "你看向玄关那双留给他的拖鞋。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d017",
+        "speaker": "{{playerName}}",
+        "text": "不用。"
+      },
+      {
+        "id": "e_depart_s3_d018",
+        "speaker": "一一",
+        "text": "是否保留Nagi少爷的设备权限与生活偏好？"
+      },
+      {
+        "id": "e_depart_s3_d019",
+        "speaker": "{{playerName}}",
+        "text": "全部保留。"
+      },
+      {
+        "id": "e_depart_s3_d020",
+        "speaker": "",
+        "text": "游戏房里，他的账号仍然停留在登录状态。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d021",
+        "speaker": "",
+        "text": "你没有退出，也没有关闭那盏为他设置的待机灯。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d022",
+        "speaker": "",
+        "text": "他只是暂时离开。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_depart_s3_d023",
+        "speaker": "",
+        "text": "而这个公寓，从他开始确认自己回来时还会拥有什么的那一刻起，就已经不再只是你的家。",
+        "display": "bottom"
+      }
+    ],
+    "choices": [
+      {
+        "id": "e_depart_s3_c001",
+        "label": "→",
+        "autoAdvance": true,
+        "transition": {
+          "type": "goto",
+          "target": "c6a"
+        }
+      }
+    ]
+  },
+  "e_lemontea_s3": {
+    "mode": "vn",
+    "sceneTitle": "你的，我的",
+    "dialogue": [
+      {
+        "id": "e_lemontea_s3_d001",
+        "speaker": "",
+        "text": "你坐回对面，低头看着重新回到自己手里的柠檬茶。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d002",
+        "speaker": "",
+        "text": "吸管还是原来的那一根。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d003",
+        "speaker": "",
+        "text": "你迟疑了一瞬，最终还是低头喝了一口。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d004",
+        "speaker": "",
+        "text": "柠檬茶是甜的，也是冰的。可不知道是不是因为刚才离得太近，还有一点说不清的温度，顺着吸管一起传了过来。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d005",
+        "speaker": "",
+        "text": "Nagi的视线从窗外慢慢移回来，落在你唇边的吸管上。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d006",
+        "speaker": "",
+        "text": "你抬起眼，他又若无其事地看向桌面。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d007",
+        "speaker": "{{playerName}}",
+        "text": "你在看什么？"
+      },
+      {
+        "id": "e_lemontea_s3_d008",
+        "speaker": "Nagi",
+        "text": "{{playerName}}还是喝了。"
+      },
+      {
+        "id": "e_lemontea_s3_d009",
+        "speaker": "{{playerName}}",
+        "text": "这是我的饮料。"
+      },
+      {
+        "id": "e_lemontea_s3_d010",
+        "speaker": "Nagi",
+        "text": "我也喝过了。"
+      },
+      {
+        "id": "e_lemontea_s3_d011",
+        "speaker": "Nagi",
+        "text": "现在分不清了。"
+      },
+      {
+        "id": "e_lemontea_s3_d012",
+        "speaker": "",
+        "text": "他说得理所当然。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d013",
+        "speaker": "",
+        "text": "可你忽然觉得，他说的不只是桌上的两杯饮料。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d014",
+        "speaker": "",
+        "text": "你们原本隔着投资人和选手、屏幕和赛场、蓝色监狱内外的边界。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d015",
+        "speaker": "",
+        "text": "开放日时，你第一次真正走进了他的生活。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d016",
+        "speaker": "",
+        "text": "而今天，他也第一次出现在你的日常里。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d017",
+        "speaker": "",
+        "text": "现在，他喝了你的饮料，用一种简单而无自觉的方式，把原本清楚的“你的”和“我的”搅在了一起。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d018",
+        "speaker": "",
+        "text": "离开饮品店时，Nagi跟在你身边，脚步比平时慢了一点。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d019",
+        "speaker": "{{playerName}}",
+        "text": "今天很麻烦吗？"
+      },
+      {
+        "id": "e_lemontea_s3_d020",
+        "speaker": "Nagi",
+        "text": "出门有点麻烦。"
+      },
+      {
+        "id": "e_lemontea_s3_d021",
+        "speaker": "{{playerName}}",
+        "text": "我就知道。"
+      },
+      {
+        "id": "e_lemontea_s3_d022",
+        "speaker": "Nagi",
+        "text": "但是没有很无聊。"
+      },
+      {
+        "id": "e_lemontea_s3_d023",
+        "speaker": "",
+        "text": "这已经是很高的评价。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d024",
+        "speaker": "",
+        "text": "你忍住笑，继续往前走。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d025",
+        "speaker": "Nagi",
+        "text": "那家店是限定？"
+      },
+      {
+        "id": "e_lemontea_s3_d026",
+        "speaker": "{{playerName}}",
+        "text": "嗯，下周就结束了。"
+      },
+      {
+        "id": "e_lemontea_s3_d027",
+        "speaker": "Nagi",
+        "text": "哦。"
+      },
+      {
+        "id": "e_lemontea_s3_d028",
+        "speaker": "{{playerName}}",
+        "text": "怎么，柠檬茶还没喝够？"
+      },
+      {
+        "id": "e_lemontea_s3_d029",
+        "speaker": "Nagi",
+        "text": "{{playerName}}的那杯还可以。"
+      },
+      {
+        "id": "e_lemontea_s3_d030",
+        "speaker": "{{playerName}}",
+        "text": "那下次我再约你。"
+      },
+      {
+        "id": "e_lemontea_s3_d031",
+        "speaker": "",
+        "text": "Nagi没有立刻回答。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d032",
+        "speaker": "",
+        "text": "他低头看着路面，像是认真权衡了一下再次出门究竟有多麻烦。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d033",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "e_lemontea_s3_d034",
+        "speaker": "{{playerName}}",
+        "text": "答应得这么勉强？"
+      },
+      {
+        "id": "e_lemontea_s3_d035",
+        "speaker": "Nagi",
+        "text": "不是。"
+      },
+      {
+        "id": "e_lemontea_s3_d036",
+        "speaker": "Nagi",
+        "text": "就是觉得……"
+      },
+      {
+        "id": "e_lemontea_s3_d037",
+        "speaker": "",
+        "text": "他停顿了一下，最后还是没有找到更准确的说法。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d038",
+        "speaker": "Nagi",
+        "text": "可以。"
+      },
+      {
+        "id": "e_lemontea_s3_d039",
+        "speaker": "",
+        "text": "他没有主动约定下一次，也没有说自己开始期待见你。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d040",
+        "speaker": "",
+        "text": "只是默认了你还会继续靠近，而他也不会拒绝。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d041",
+        "speaker": "",
+        "text": "此时的Nagi大概还分不清，他觉得不错的究竟是柠檬茶，还是和你待在一起的那个下午。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_lemontea_s3_d042",
+        "speaker": "",
+        "text": "直到几天后，先觉得生活里少了什么的人，变成了他自己。",
+        "display": "bottom"
+      }
+    ],
+    "choices": [
+      {
+        "id": "e_lemontea_s3_c001",
+        "label": "→",
+        "autoAdvance": true,
+        "transition": {
+          "type": "goto",
+          "target": "c2"
         }
       }
     ]
