@@ -1,7 +1,7 @@
 # NagisHeart 权威文档清单（MANIFEST）
 
 > 本目录是全仓库唯一的权威文档存放地。雷打不动。
-> 最后修订：2026-07-21（feibo 建立）
+> 最后修订：2026-07-25（剧情地图 authority）
 
 ---
 
@@ -19,12 +19,12 @@
 | # | 权威 | 文件 | MD5 | 最近修订 |
 |---|---|---|---|---|
 | 1 | 产品 PRD | `product/NagisHeart_PRD_v2_0.md` | `65925D2616BB63A15745EEC807315E2A` | 2026-07-20 |
-| 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `389E5B7751C9D6609D7E4D6328990614` | 2026-07-20（§31 实机反馈补丁） |
-| 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `5782433490C59C8C426F5183A95FBF08` | V15 校准版 |
+| 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `5ED95C74ED2DD960DFC0F8F5D39F2C2C` | 2026-07-25（§32：旧章节目录退役，入口直达地图总览） |
+| 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `50B033E7520CC670D7B4DDA7879B6597` | 2026-07-23（e_agency_launch 开头补独立经纪公司长旁白） |
 | 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `EB459592BF396154885D9A2B9CEBCE3C` | V3.1（2026-07-21 Ant 确认为正主） |
-| 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `BE822CF9961A40E53BA9458E6B396F61` | 2026-07-21（相对路径随目录迁移修复：../../assets 等；视觉内容零变更） |
-| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `E4A1FB1C436F1770280B66695ADC118B` | 2026-07-21（§21.2 第 4 行记录修正：BacklogScreen 裁切实机未通过，原"已通过"作废） |
-| 7 | BG Mapping | `visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | `EC5888748CE5D0ACBC24540C64D37B82` | v1.2（2026-07-20 加 §7 画廊结局 BG 规则） |
+| 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `F1A93BF851A0EC78F6AB6D7DB5100490` | 2026-07-25（旧章节目录页退役，仅保留地图总览 + 八章子页） |
+| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `2C541ACAA9D65EE4134163DF61A01EBA` | 2026-07-25（§27：旧章节目录退役，入口直达地图总览） |
+| 7 | BG Mapping | `visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | `9E5235DF786217B31A5E5D358C2A83B3` | 2026-07-23（同步 c2/c2_s2/e_depart 口头指定 BG） |
 | 附 | 节点匹配表 | `visual_mapping/NagisHeart_SCRIPT_V15_节点匹配表.xlsx` | `526532688BFD7799337C14EE215D7F11` | 2026-07-21（原快照区唯一新版，已救出） |
 | KV-1 | Start 页权威（V23 分层包） | `design/authority/icon_start_tt/start/`（9 文件；长屏适配策略见 `start_long/rethink/`） | 目录校验 | TT V23，Ant 2026-07-21 确认 |
 | KV-2 | App Icon 权威（V4 safe-zone） | `design/authority/icon_start_tt/icon/android_launcher_rework_v4_safezone/`（20 文件） | 目录校验 | lulu V4 safezone，Ant 2026-07-21 确认 |
@@ -49,3 +49,16 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 | 2026-07-21 | MinSpec §21.2 | 第 4 行 BacklogScreen"已通过"记录作废（Ant 07-20 实机仍裁切），重修任务 TASK-20260721-002 | DEC-20260721-001 |
 | 2026-07-21 | （哈希口径） | md/html 哈希改为换行无关算法（剥 CR、无 BOM UTF-8 后取 MD5），配合 .gitattributes 换行统一，防跨机器误报；内容零变更 | 本次为记账口径变更 |
 | 2026-07-21 | UI HTML | 修复因迁入 authority/ui/ 而断链的相对引用（../assets→../../assets、authority/→../../design/authority/、../handoff→../../handoff）；视觉内容零变更。发现 `assets/bg/worldstage.jpg`（结局页 bg）仓库缺失，并入 TASK-20260721-004 | 迁移善后，非设计变更 |
+| 2026-07-22 | BG Mapping | 补最终 `end_*` 结局 node BG：TRUE=`true_end`、GOOD=`king`、NORMAL=`ending_true_nagi_soft_gaze`、BAD=`goal_faraway` | DEC-20260722-001 |
+| 2026-07-22 | Script V15 | 替换 `c2 | 假期的消息` 为 Ant 新稿；runtime 拆分同步到 `story-data/nodes.json` 的 `c2/c2_s2` | DEC-20260722-002 |
+| 2026-07-22 | Script V15 | 替换 `e_invite | 高级公寓的邀请` 为 Ant 新稿；runtime 新增 `e_invite_s2` 承载选项后的共通门禁段 | DEC-20260722-003 |
+| 2026-07-23 | Script V15 | 替换 `e_depart | NEL启程·闭关送别` 为 Ant 新稿；runtime 新增 `e_depart_s2/e_depart_s3` 承载两轮选择后的共通送别段 | DEC-20260723-001 |
+| 2026-07-23 | Script V15 | 替换 `e_lemontea | 你的，我的` 为 Ant 新稿；runtime 新增 `e_lemontea_s3` 承载第二轮选择后的共通尾声 | DEC-20260723-002 |
+| 2026-07-23 | UI HTML + MinSpec §23 | Ant 确认大章开始纯暗底分割页、大章结束弱化分割页、TRUE END 结局页带 `true_end.jpg` 且无 ending-card / 无毛玻璃 / 无边框；开发任务转 Sai | DEC-20260723-006 |
+| 2026-07-23 | UI MinSpec §24 + BG Mapping | 同步 Sai Android direct UI adjustments：长旁白软径向托底、选项右半透明渐变、dialogue 上透下稳、画廊结局卡底部 28% 托底与裁剪、Ending BG 按 `end_*` node；`c2/c2_s2/e_depart` BG 指定同步 | DEC-20260723-003 |
+| 2026-07-23 | UI HTML | 可视设计稿同步 DEC-20260723-003：dialogue 上透下稳、choice 右半透明渐变、gallery ending card 底部托底与 tag/title 层级、Ending preview 注释 BG 来源 | DEC-20260723-003 |
+| 2026-07-23 | Script V15 | `e_agency_launch | 她站在光里` 开头、`发布会安排在东京` 前补 Ant 指定长旁白；runtime 同步插入 `e_agency_launch_intro001-007` | DEC-20260723-004 |
+| 2026-07-23 | UI HTML + MinSpec §25 | 回忆画廊改为四结局错落竖图展墙：两列同规格竖卡、一屏完整、无滚动条、GOOD 标题一行；Android 实现任务转 Sai | DEC-20260723-005 |
+| 2026-07-24 | UI MinSpec §26 | 剧情回顾对白 excerpt 与旁白区分：对白改 UI sans、轻托底、左侧金线、speaker 来源标记；Android 实现任务转 Sai | DEC-20260724-001 |
+| 2026-07-25 | UI HTML + MinSpec §27 + Interaction §32 | 嵌入剧情地图总览与八章 v7 视觉参考；锁定两层地图、64 小节独立节点、点亮 / 无剧透、滚动与 replay；预览图禁止进入 runtime，正式配图必须读取 `startNode → scene_visuals.bg` 并逐图对准 Nagi 脸部 | DEC-20260725-001 |
+| 2026-07-25 | UI HTML + MinSpec §27 + Interaction §32 | 旧章节目录独立页面退役；删除 HTML 入口、页面结构与 preset，原系统入口直接进入八章地图总览 | DEC-20260725-002 |

@@ -2,29 +2,163 @@
 
 > 用途：当前唯一正式任务源（含优先级，不再有单独 priorities 文件）。
 > 原则：只有写进本文件、明确负责人和状态的事项，才算正式可执行任务。新任务追加在最上方。协作规则 v2 见 `00_harness/README.md`。
-> 2026-07-21 大扫除：历史任务全量归档至 `task_board_archive_20260715_20260721.md`，本板只保留活跃任务 + 关闭台账。
+> 2026-07-21 大扫除：历史任务全量归档至 `task_board_archive_20260715_20260721.md`，本板只保留活跃任务 + 近期完成 + 关闭台账。
 > QA 口径（2026-07-21 起）：agent QA 停用，**Ant 本人实机/浏览器测试是唯一验收关口**；开发交付物应尽量是截图/对比图而非文字清单。
 
 ---
 
 ## 当前优先级
 
-1. `TASK-20260723-002` Android 三个 authority 页面实现：大章开始 / 大章结束 / 结局页 - Sai
-2. `TASK-20260722-001` Android 剧情路由 + 结局画廊 BG 链路 P0 审计/修复 - PP（先 Phase A 证据表，PM/Ant 确认后 Phase B）
-3. ✅ 截图对比验收工具已上线（07-21）：`node tools/ui-snapshot.js all` 一键生成权威 18 页期望图 + Web 18 状态实现图 + 并排报告 `00_harness/05_reports/ui_baseline/compare_report.html`。`TASK-20260721-006` 的验收直接看该报告（TASK-20260721-008 完成后覆盖 18/18）
-4. `TASK-20260721-006` Web 90 项对齐验收 - Ant
-5. `TASK-20260719-016` locked 标题隐私修复 - PP
-6. `TASK-20260719-004` 代码健康专项 - PP 执行 / feibo 把关；`TASK-20260721-003` V3_1 审计 - PM 一一 执行 / feibo 指导
-7. 小项：002 回顾末行裁切（PP）、004 补 BG（lulu/TT）、005 开放日复验（Ant）——由 PM 一一 跟催
+1. 当前无活跃开发/验收任务。
+2. 2026-07-26 Ant 已验收并关闭本板此前所有活跃项；后续发现问题或想继续打磨，按优化/bugfix 新开任务。
+
+---
+
+## 编号冲突 / 整理说明（2026-07-26 PM 一一）
+
+- 本板曾出现历史编号复用：`TASK-20260723-002` 同时被旧剧情替换记录和 Android 三页 UI 任务使用。自本次整理后，旧 `e_lemontea` 剧情替换记录保留在“近期完成”；后续不得单独引用冲突旧号，必须同时写标题。
+- `TASK-20260723-003` 保留为 `e_agency_launch` 补长旁白的完成记录，不再作为 Android 任务号引用。
+- 后续派工必须先检查本板，不得复用已有编号；如果旧报告里引用冲突编号，必须同时写任务标题确认指向。
+
+---
+
+## 待确认问题
+
+- 当前无待确认项。2026-07-26 Ant 已确认此前待确认项全部按当前版本关闭；后续调整新开任务。
 
 ---
 
 ## 活跃任务
 
+- 当前无活跃任务。
+
+---
+
+## 近期完成（已从活跃区移出，保留查账）
+
+### TASK-20260725-001
+- 标题：Android 原生实现两层剧情地图（八章总览 + 64 小节独立节点）
+- 负责人：Sai（Android）
+- 状态：done
+- 优先级：P0
+- 来源：Ant 2026-07-25 确认剧情地图 v7 排版，并要求 XoXo 更新权威设计后交开发；决策记录 `DEC-20260725-001`。
+- 目标：把现有章节目录升级为“八章收起总览 → 单章展开子页”的原生剧情地图。总览体现八章；章内 64 个小节全部独立成节点（`5 / 5 / 7 / 4 / 11 / 7 / 6 / 19`），允许适度纵向滚动，已玩过点亮、没玩过不亮；点击已玩过小节进入安全剧情回看。
+- 必读：
+  1. `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §27。
+  2. `authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §32。
+  3. `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` 的“地图总览 / 地图 01～08”九个视觉参考页。
+  4. `story-data/chapters.json` 与 `story-data/scene_visuals.json`。
+  5. Android active path：先确认 `ChapterScreen.kt`、`SystemPageBackground.kt`、`NagiIconButton.kt`、当前进度 / 已读记录 / replay manager 的实际引用链；若存在重复旧组件，先确认 active path。
+- 最高优先级禁令：
+  - `design/concepts/story_map_xoxo_v1/*.png`、同目录 SVG 和 generator 只用于人工看设计，**禁止**复制进 APK 的 `res/` / `assets/`，禁止在 runtime 加载，禁止从中裁缩略图。
+  - 不得硬编码预览图里出现的示例章节图片。
+  - 不得使用全局统一 `centerCrop`；每张重点节点 BG 必须独立检查人物焦点。
+- 正式图源实现：
+  1. 遍历 `chapters.json` 当前章 `sections[]`；
+  2. 以 `section.startNode` 查询 `scene_visuals.json[startNode].bg`；
+  3. 加载该 BG 的现有正式资源；
+  4. 按 BG key 或等价稳定键维护独立 focus / alignment / scale 参数。
+  5. 画面有 Nagi 时必须露出并对准脸部，标题和渐变不能遮挡主要表情；真实 BG 是环境 / 道具且没有 Nagi 时必须保留真实 BG，不得替换成 Nagi 个人图或章节封面。
+  6. 若 mapping 缺失或资源无效，使用安全占位并在报告列出节点；本任务不授权修改 BG mapping / `story-data`。
+- UI 实现要求：
+  - 旧章节目录页退役；原系统入口直接进入八章总览，不得保留旧列表页或形成第三层导航。
+  - 外层八章收起；进入章节使用约 `240–320ms` 拉近 / 放大过渡。
+  - 沿用主系统固定背景和当前章节目录同款有背景返回按钮；不显示“剧情地图”大标题。
+  - 每个小节独立节点，不能合并；普通节点轻量，初见、关系确立、淘汰、世界杯等关键剧情使用配图节点。
+  - 保留 v7 折线路径、留白与文艺感；禁止方块网格、后台流程图、直线时间轴；不得为塞进一屏压缩，章内可纵向滚动。
+  - 第八章必须保持三路线并列，禁止强行串成单路线。
+  - 玩过的亮，没玩过的不亮；不显示状态文案、锁、check、百分比或状态 chip。
+  - 未解锁重点节点不放图；标题按原可见字数显示等量 `?`；不得泄露未来剧情。
+  - 五边形若保留只能作为低权重装饰，不能表示状态。
+- 交互与状态：
+  - 已完成节点点击后从该 `startNode` 进入 replay；不得覆盖默认进度、路线变量或手动存档。
+  - 回看退出后恢复原章节与原滚动位置。
+  - 未进入 / 不可进入节点不响应正文进入。
+  - 长章节使用惰性布局或等价方案，重点 BG 进入可视区附近再加载，避免一次解码全部原图。
+- 验收证据：提交到 `00_harness/05_reports/TASK-20260725-001/`：
+  1. 八章总览截图；
+  2. 一个普通章、第五章长页、第八章三路线页截图；
+  3. 已读 / 未读相邻节点对比；
+  4. 至少四张含 Nagi 的真实 BG 节点裁切截图，能看到脸部焦点；
+  5. 至少一个无 Nagi 的真实环境 / 道具 BG 节点；
+  6. 拉近进章、滚动、进回看、返回恢复位置的录屏或连续截图；
+  7. 报告列出使用的 `startNode → bg → focus 参数`，并附证明 APK / runtime 未引用 `design/concepts/story_map_xoxo_v1/` 的搜索结果。
+- 校验：运行 `node tools/validate.js`、`powershell -ExecutionPolicy Bypass -File tools/check-tokens.ps1`；有 Android 构建环境时运行项目现行 assemble / test。任何校验失败必须如实记录，不得写“通过”。
+- 不在范围：不改剧情正文、节点顺序、路线逻辑、BG mapping / `story-data`、Web、TT Start、App Icon、回忆画廊、结局页，不删除旧资源。
+- 完成定义：Android 原生地图实现 + 全部证据提交；Ant 实机确认后才能从 review 转 done。
+- Sai 执行记录（2026-07-25）：已完成 Android 原生两层剧情地图首版实现，报告见 `00_harness/05_reports/TASK-20260725-001/android_story_map_report.md`。`ChapterScreen.kt` 已由旧章节目录列表改为八章总览 + 单章小节节点地图：总览显示 8 章，章内按 `chapters.json.sections[]` 独立渲染小节；第八章按 `scope` 保持 `dream / stay / bad` 三路线并列；已读/当前节点高亮，未读节点压暗且标题等长 `?`，不显示状态文案、锁、check、百分比或 chip；点击已完成/跳过完成节点走 `onReplaySection(startNode, chapterId, sectionIndex)` 安全回看，进行中节点走 `onJumpToNode(startNode)`。图源链路新增 `GameViewModel.getNodeBgPath(nodeId)`，直接查询 `StoryEngine.getNodeBg()` / `scene_visuals.json[startNode].bg`，未复制或 runtime 引用 `design/concepts/story_map_xoxo_v1/`。Start 页入口文案已从“章节目录”改为“剧情地图”。校验：`node tools/validate.js` 通过（0 errors / 1 existing hardcoded-Ant warning），`tools/check-tokens.ps1` 通过，`rg design/concepts/story_map_xoxo_v1 android/app/src/main` 无匹配。阻塞：本机无 `android/gradlew` 且系统 `gradle` 不存在，无法生成 Android 构建结果与任务要求截图/录屏；需 Ant / Android Studio 环境实机补截图后最终验收。
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
+
+### TASK-20260724-001
+- 标题：Android 实现剧情回顾对白块视觉区分
+- 负责人：Sai（Android）
+- 状态：done
+- 优先级：P0
+- 来源：Ant 2026-07-24 浏览器反馈：剧情回顾里对白需要和旁白区分；XoXo 已将具体 token 写入 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 26。
+- 目标：只改剧情回顾 / Backlog recap 中的对白 excerpt 视觉样式；不改剧情正文、不改回顾分页逻辑、不改章节地图、不改回忆画廊、不改 BG mapping / Web / TT Start / App Icon / 资源删除。
+- 必读：
+  1. `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 26。
+  2. `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` 中 `.recap-dialogue` / `.recap-inner .speaker` / `.recap-dialogue p`。
+  3. Android active path：优先核对剧情回顾 / Backlog recap 实际渲染文件；如果存在新旧重复组件，先确认 active path，不得盲改 stale 组件。
+- 实现要求：
+  - 旁白维持 recap 原样：title serif、16sp、line-height 1.92、`rgba(244,241,234,0.92)`。
+  - 对白 excerpt 使用轻托底块：left-to-right deepBlue 渐变 0.40 → 0.18@62% → 0.04，外加 20%/50% 金色 0.07 径向光。
+  - 对白块 padding：top 13dp / right 15dp / bottom 15dp / left 17dp；margin-top 24dp。
+  - 左侧金线：1dp，top/bottom inset 12dp，金色中心 alpha 0.72，8dp 弱 glow。
+  - speaker label：UI sans 12sp SemiBold，letter-spacing 0.08em，color `#E4CA8F`，无背景/无边框/不可点击 chip。
+  - dialogue text：UI sans 15sp，line-height 1.82，letter-spacing 0.01em，color `rgba(247,249,252,0.94)`。
+- 禁止样式：
+  - 不让对白正文继续使用旁白 serif 字体；
+  - 不做聊天气泡；
+  - 不做普通 DialogueLayer 大对话框；
+  - 不做厚玻璃卡片、圆角按钮、action cell；
+  - 不在玩家可见 UI 中出现 PM/dev/internal/source/candidate 文案。
+- 验收证据：Sai 完成后提交至少 1 张 Android 剧情回顾截图到 `00_harness/05_reports/TASK-20260724-001/`，截图必须同时包含旁白段和 `JFA会长` 对白段，以确认字体、托底、左侧金线差异。
+- 完成定义：Sai 提交 Android 改动 + 截图证据；Ant 实机/截图确认后转 done。
+- 决策记录：`DEC-20260724-001`
+- Sai 执行记录（2026-07-24）：已完成 Android 剧情回顾对白块视觉区分实现，报告见 `00_harness/05_reports/TASK-20260724-001/android_recap_dialogue_block_report.md`。`BacklogScreen.kt` 按 `entry.speaker.isNotBlank()` 区分旁白与对白 excerpt：旁白保持 serif `16sp`、line-height `1.92`；对白改为 UI sans `15sp`、line-height `1.82`，包入 left-to-right deepBlue 渐变托底 `0.40 → 0.18@62% → 0.04`，padding `13/15/15/17dp`，左侧 `1dp` 金线 alpha `0.72` + `8dp` 弱 glow；speaker 为 UI sans `12sp` SemiBold、letter-spacing `0.08em`、`speakerGold #E4CA8F`。`node tools/validate.js` 与 `tools/check-tokens.ps1` 通过。阻塞：本机无 Android Gradle/Wrapper，无法产出要求截图；需 Ant / 有构建环境机器补一张同时包含旁白和 `JFA会长` 对白段的回顾截图后确认。
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
+
+### TASK-20260723-004
+- 标题：Android 实现回忆画廊四结局错落竖图展墙
+- 负责人：Sai（Android）
+- 状态：done
+- 优先级：P0
+- 来源：Ant 2026-07-23 浏览器确认；XoXo 已将回忆画廊 redesign 写入 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 25，并同步可视 HTML `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` 的 `screen-gallery`。
+- 目标：只改 Android 回忆画廊 UI 呈现；不改剧情正文、不改 BG mapping、不改 Web、不改 TT Start / App Icon、不删除资源。
+- 必读：
+  1. `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 25。
+  2. `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` 中 `screen-gallery`。
+  3. Android active path：优先核对 `android/app/src/main/java/com/antnagi/nagisheart/ui/screen/GalleryScreen.kt` 及其实际使用的 card/token 组件。
+- 实现要求：
+  - 回忆画廊只展示四个结局：TRUE / GOOD / NORMAL / BAD；不要混入普通 CG 网格或半屏缩略图列表。
+  - 使用两列等宽、四张竖图、轻微错落的 gallery wall；整体不出现滚动条，四张卡必须在一屏内完整可见。
+  - 卡片保持竖图原比例观感，Android 目标比例 `9 / 13.2`；四张卡同一规格，不要做 TRUE 大主卡。
+  - 卡片使用 cutSmall 斜切角 + 底部文字压暗层；标题在卡底，不遮挡人物关键脸部。
+  - GOOD END 中文标题 `那么完美，那么爱他` 必须一行显示，使用小一档字号。
+  - 结局图源按当前 ending node：TRUE=`true_end.jpg`，GOOD=`king.jpg`，NORMAL=`ending_true_nagi_soft_gaze.jpg`，BAD=`goal_faraway.jpg`。
+  - 推荐裁切：TRUE center 34%，GOOD center 30%，NORMAL center 18%，BAD center 64%；如 Android 图片容器裁切算法不同，以“人物脸/主体不被标题挡住”为验收目标。
+- 禁止样式：
+  - 不做普通 2x2 横缩略图；
+  - 不做占半屏的小卡列表；
+  - 不给画廊内容加滚动条；
+  - 不把 TRUE 做成独立 featured 大卡；
+  - 不把 PM/dev/internal/candidate 文案放进可视 UI。
+- 验收证据：Sai 完成后提交至少 1 张 Android 截图到 `00_harness/05_reports/TASK-20260723-004/`，截图必须能看到四张结局竖图完整呈现、无滚动条、GOOD 标题一行。
+- 完成定义：Sai 提交 Android 改动 + 截图证据；Ant 浏览器/实机确认后转 done。
+- 决策记录：`DEC-20260723-005`
+- Sai 执行记录（2026-07-23）：已完成 Android 回忆画廊四结局错落竖图展墙实现，报告见 `00_harness/05_reports/TASK-20260723-004/android_gallery_ending_wall_report.md`。`GalleryScreen.kt` 已移除旧 `LazyVerticalGrid` 横卡列表，改为固定两列竖向 ending wall：左列 TRUE/NORMAL，右列 GOOD/BAD 并下移 14dp；卡片比例 `9 / 13.2`，同屏四张、无滚动容器；GOOD 长标题降为 13sp 并保持单行；四结局 crop 分别按 TRUE 34%、GOOD 30%、NORMAL 18%、BAD 64% 换算为 `BiasAlignment`。`node tools/validate.js` 与 `tools/check-tokens.ps1` 通过。阻塞：本机无 Android Gradle/Wrapper，无法产出 Android 截图；需 Ant / 有构建环境机器补一张回忆画廊实机/模拟器截图后确认。
+- Sai 执行记录（2026-07-24）：按 Ant follow-up 调整 Android 回忆画廊竖图饱满度，报告见 `00_harness/05_reports/TASK-20260723-004/android_gallery_ending_wall_followup_20260724.md`。`GalleryScreen.kt` 卡片比例从 `9 / 13.2` 改为 `9 / 16`；soft-screen top `66dp → 58dp`、bottom `28dp → 20dp`；面板内 padding 收紧为 `12dp`；标题到 grid 间距 `12dp → 8dp`；同列卡片间距 `10dp → 8dp`。`node tools/validate.js` 与 `tools/check-tokens.ps1` 通过。
+- Sai 执行记录（2026-07-24）：按 Ant follow-up 将回忆画廊结局详情页同步为剧情到达结局页方向，报告见 `00_harness/05_reports/TASK-20260723-004/android_gallery_ending_detail_followup_20260724.md`。`GalleryScreen.kt` 的 `EndingDetailOverlay()` 改为 full-screen authority ending layout：使用当前结局 `bgPath` 全屏背景，不固定 TRUE END 示例图；叠加结局页同款 vertical scrim、center radial deepBlue、authorityVoid overlay；END tag `18sp` gold、短金线 `178dp × 1dp`、标题 serif `33sp`、描述 serif `16sp` line-height `1.92`、底部动作改为 `返回画廊`。`node tools/validate.js` 与 `tools/check-tokens.ps1` 通过。
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
+
 ### TASK-20260723-002
 - 标题：Android 实现三页 UI authority：大章开始 / 大章结束 / 结局页
 - 负责人：Sai（Android）
-- 状态：review
+- 状态：done
 - 优先级：P0
 - 来源：Ant 2026-07-23 浏览器确认；XoXo 已将数值写入 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 23，并同步可视 HTML `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html`。
 - 目标：只实现三页视觉与动作层级，不改剧情正文、不改 BG mapping、不改 Web、不改 TT Start / App Icon、不删除资源。
@@ -45,44 +179,15 @@
   - 可视 UI 出现 PM/dev/internal/candidate 文案。
 - 验收证据：完成后把 3 张 Android 截图放入 `00_harness/05_reports/TASK-20260723-002/`：大章开始、大章结束、结局页。每张截图需能看出关键差异；若本机无法截图，必须写明阻塞原因和已完成代码路径。
 - 完成定义：Sai 提交 Android 改动 + 三张截图；Ant 实机/截图确认通过后转 done。
-- 决策记录：`DEC-20260723-002`
+- 决策记录：`DEC-20260723-006`
 - Sai 执行记录（2026-07-23）：已完成 Android active path 改造，报告见 `00_harness/05_reports/TASK-20260723-002/android_three_authority_pages_report.md`。`GameScreen.kt` 当前 `GamePhase.ChapterTransition / ChapterEnding / Ending` 已切到 authority 三页组件；`ChapterOpeningScreen.kt` 独立路由版本同步改为纯暗底；`NagiTokens.kt` 新增 authority 暗底 token，未在 UI 层新增硬编码色。Ant 纠正后，结局页未固定使用 TRUE 示例图，正常使用当前 `end_*` node 的 `bgAssetPath`，`true_end.jpg` 仅作异常兜底。校验：`node tools/validate.js` 通过；`tools/check-tokens.ps1` 通过。阻塞：本机无 `android/gradlew.bat`、无 `gradle-wrapper.jar`、无系统 Gradle，无法产出 Android 截图；需 Ant / 有构建环境机器补三张实机/模拟器截图后确认。
-- 最新更新时间：2026-07-23
-
-### TASK-20260722-002
-- 标题：替换 `c2 | 假期的消息` 剧情并同步 runtime story-data
-- 负责人：PM 一一
-- 状态：done
-- 优先级：P0
-- 说明：Ant 提供新版 c2 剧情，已替换 `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` 对应段落，并按现有 runtime 结构拆入 `story-data/nodes.json`：`c2` 保留开场消息与首个选择，`c2_s2` 承载扩展告白/公寓/一一确认段落与最终两项选择。现有 `flow.default.c2_s2 → e_invite` 未改，因此最终选择回复结束后继续进入“高级公寓的邀请”。
-- 决策记录：`DEC-20260722-002`
-- 校验：`node tools/validate.js` 通过，0 errors / 1 existing hardcoded-Ant warning。
-- 最新更新时间：2026-07-22
-
-### TASK-20260722-003
-- 标题：替换 `e_invite | 高级公寓的邀请` 剧情并同步 runtime story-data
-- 负责人：PM 一一
-- 状态：done
-- 优先级：P0
-- 说明：Ant 提供新版 e_invite 剧情，已替换 `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` 对应段落。runtime 按交互结构拆入 `story-data/nodes.json`：`e_invite` 承载公寓初访至两项玩家选择；新增 `e_invite_s2` 承载两项选择后的共通“临时访客档案/门禁权限”段落，并通过 autoAdvance 跳转 `e_lolly`。两项玩家选择均显式 target `e_invite_s2`，避免选完直接跳过共通剧情。
-- 决策记录：`DEC-20260722-003`
-- 校验：`node tools/validate.js` 通过，0 errors / 1 existing hardcoded-Ant warning。
-- 最新更新时间：2026-07-22
-
-### TASK-20260723-001
-- 标题：替换 `e_depart | NEL启程·闭关送别` 剧情并同步 runtime story-data
-- 负责人：PM 一一
-- 状态：done
-- 优先级：P0
-- 说明：Ant 提供新版 e_depart 剧情，已替换 `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` 对应段落。runtime 按两轮选择结构拆入 `story-data/nodes.json`：`e_depart` 承载 NEL 通知、出发等待与第一轮选择；`e_depart_s2` 承载门禁/存档/一一/拖鞋确认、玄关靠肩与第二轮选择；`e_depart_s3` 承载电梯送别和公寓 aftermath，并 autoAdvance 跳转 `c6a`。第一轮两项选择均 target `e_depart_s2`，第二轮两项选择均 target `e_depart_s3`。
-- 决策记录：`DEC-20260723-001`
-- 校验：`node tools/validate.js` 通过，0 errors / 1 existing hardcoded-Ant warning。
-- 最新更新时间：2026-07-23
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
 
 ### TASK-20260722-001
 - 标题：Android 剧情路由 + 结局画廊 BG 链路 P0 审计/修复
 - 负责人：PP（Android / story-data runtime）
-- 状态：ready
+- 状态：done
 - 优先级：P0
 - 背景：Ant 反馈两类主流程问题：① 第六部"开放日/采访后剧情乱"，实测疑似"采访之后直接进读书之秋"，需全面检查路由设计；② 回忆画廊除 TRUE END 外其他结局 BG 不对，疑似未按结局 node 指定 BG。
 - Phase 0（先补权威，不让开发猜）：已完成。Ant 指定并已写入 `authority/visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md`：`end_true → assets/bg/true_end.jpg`；`end_good → assets/bg/king.jpg`；`end_normal → assets/bg/ending_true_nagi_soft_gaze.jpg`；`end_bad → assets/bg/goal_faraway.jpg`。已记录 `DEC-20260722-001` 并更新 `authority/MANIFEST.md` 哈希。校验：BG Mapping 本身 OK；全量 check 暂因节点匹配表 xlsx 被外部程序占用未跑完。
@@ -117,43 +222,47 @@
   7. **证据截图**：每个结局都要有两段证据：A）`end_*` 独立剧情正文正在播放的截图；B）该 node 播完后的 EndingOverlay 截图；另加 Gallery 四卡 BG 截图。缺任何一类不能转 review。
 - 禁止范围：不改 UI 风格、不改 TT/Icon/Start、不改 Web、不删除资源、不做大规模重构；`authority/` 若需改，必须先 PM/Ant 确认并同步 MANIFEST。
 - 完成定义：Phase A 表格经 PM/Ant 确认；Phase B 后四结局画廊 BG 与 endingNode BG 一致，路由表无未解释跳转，Ant 实机/截图验收通过。
-- 最新更新时间：2026-07-22
+- 最新更新时间：2026-07-26
 - Sai 执行记录（2026-07-22）：已完成 Android 代码/运行数据修复，报告见 `00_harness/05_reports/TASK-20260722-001/android_ending_chain_fix_report.md`。关键改动：`StoryEngine.resolve()` 先返回 `end_*` node；`GameViewModel` 在 `end_*` 播放完且无下一跳、或 `end_*` 自身 auto ending choice 后触发 EndingOverlay；`showEnding()` / Gallery 以 endingNode BG 为准并忽略旧 `ending_bg_*` 缓存；根 `story-data/scene_visuals.json` 与 Android assets 副本已同步四个最终 BG。`node tools/validate.js` 通过。阻塞：本机无 `gradlew.bat` / `gradle-wrapper.jar` / 系统 Gradle，未能产出 Android 截图；截图补齐前不要转 done。
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
 
 ### TASK-20260721-006
 - 标题：Web 90 项 authority 对齐浏览器验收
 - 负责人：Ant（验收）
-- 状态：ready
+- 状态：done
 - 优先级：P1
 - 说明：07-21 已提交的 90 项 Web UI 对齐（commit `e728137`，明细见 `web/SYNC_LOG_20260721_WEB_UI_AUTHORITY.md`）需 Ant 桌面 + 移动视口过一遍。通过则 Web 线收口；不符项拍图回报，feibo/Wewe 修。
-- 最新更新时间：2026-07-21
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
 
 ### TASK-20260719-016
 - 标题：Android 章节目录 locked 标题隐私修复
 - 负责人：PP（Android）
-- 状态：review
+- 状态：done
 - 优先级：P1
 - 说明：locked 条目须显示中性文案（如"？？？"或"未解锁章节"），不暴露未来真实标题；unlocked/current/completed 不变。**feibo 07-21 代码核验：仍未修**——`ChapterScreen.kt:205` locked 行仍渲染 `item.sectionTitle` 真实标题（仅压 alpha 0.52）。本条目即完整任务说明，无需读旧任务单。
 - 完成定义：locked 显示中性文案；unlocked/current/completed 仍显示真实标题；截图两种状态给 Ant。
 - 完成：`2238b5a` locked 行标题→"？？？"、副标题→"未解锁章节"；alpha 0.52 + 状态文字"未解锁"不变。待 Ant 实机截图验收。
 - feibo review（2026-07-21）：静态通过。两行条件渲染，范围干净。注：locked 条目章节名一并遮蔽属从严处理，可接受；若 Ant 希望当前大章内 locked 小节保留大章名，实机反馈后一行改回。
-- 最新更新时间：2026-07-21
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
 
 ### TASK-20260721-002
 - 标题：剧情回顾最后一行裁切重修
 - 负责人：PP（Android）
-- 状态：review
+- 状态：done
 - 优先级：P2
 - 说明：Ant 07-20 实机复验最后一行仍显示不全；MinSpec §21.2 第 4 行原"已通过"记录已作废（07-21 修正）。根因方向：`BacklogScreen.kt` 固定 `ENTRIES_PER_PAGE = 8`，与 §17.4"固定 8 条导致裁切"禁止项冲突；改为按可用高度动态分页或保证末行完整。
 - 完成定义：小屏/大屏实机截图证明末行完整。
 - 完成：`625b3ea` 保留 ENTRIES_PER_PAGE=8 分页不变，给页内 Column 加 verticalScroll，内容超出时可滚动查看末行。待 Ant 实机验收。
 - feibo review（2026-07-21）：**方向保留意见**。页内 verticalScroll 与 Ant 07-17 交互权威"剧情回顾不要滚屏、改为翻页"冲突——等于用被否掉的交互掩盖被禁止的裁切。裁决交 Ant 今晚实机：(a) 正常浏览经常触发滚动 → 打回，改按可用高度动态分页（页容量=实际放得下的条数，无页内滚动）；(b) 8 条几乎总放得下、滚动仅极端长文本兜底 → 可接受，但须在交互权威补一行 fallback 口径并走 MANIFEST 流程。
-- 最新更新时间：2026-07-21
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
 
 ### TASK-20260719-004
 - 标题：Android/Web release-readiness 代码健康专项（token 归一 + 死代码 + 结构）
 - 负责人：PP（执行）/ feibo（把关）
-- 状态：in_progress
+- 状态：done
 - 优先级：P1
 - 说明：原 0719 只读审计任务，按 feibo 07-21 诊断重定scope：① token 归一——Android UI 层约 200 处硬编码 `Color(0x…)`（GameScreen 57 处）、Web 123 处硬编码 rgba 收进 token 层，加静态检查防回潮；② 死代码清除——`SectionClearScreen.kt`、`Routes.SECTION_CLEAR`、`advanceAfterSectionClear()`（0719-011/013 确认的 cleanup candidates）；③ GameScreen(34KB)/GameViewModel(30KB) 职责拆分评估。
 - 进度：
@@ -174,33 +283,107 @@
   - B. Web：同理，散落 rgba 收进 `tokens.css` 变量，规则同上。
   - C. 防回潮：新增 `tools/check-tokens.ps1`（grep `ui/` 非 theme 的 `Color(0x` 与 css 非 tokens 的 `rgba(`，非零即 fail），并写进协作规则会话启动可选项。
   - ③ GameScreen/GameViewModel 拆分：PP 只出评估（现职责清单、建议拆分边界、风险，几行写在本条目下），**不动手拆**，feibo 看完评估再裁决。
-- 最新更新时间：2026-07-21
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
 
 ### TASK-20260721-003
 - 标题：V3_1 ↔ story-data 全量差异审计
 - 负责人：PM 一一（执行）/ feibo（指导）
-- 状态：queued
+- 状态：done
 - 优先级：P1
 - 说明：剧情逻辑 coreDesign（V3.1）与运行数据逐项比对，输出差异裁决表交 Ant。已实锤一处：GOOD END 标题 V3_1"那么完美，那么爱你" vs 运行数据"那么完美，那么爱他"。
-- 最新更新时间：2026-07-21
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
 
 ### TASK-20260721-004
 - 标题：补齐 2 张缺失 BG
 - 负责人：lulu / TT（视觉）
-- 状态：pending
+- 状态：done
 - 优先级：P2
 - 说明：`assets/bg/goal.jpg`（c6a 节点）、`assets/bg/bg_scarf_flower_delivery.jpg`（e_scarf 节点）引用缺失（validate.js WARN）；另 UI 权威板结局页引用的 `assets/bg/worldstage.jpg` 也缺失（07-21 截图基线发现）。补图或改映射。
-- 最新更新时间：2026-07-21
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
 
 ### TASK-20260721-005
 - 标题：开放日"剧情和选项乱掉"实机复验
 - 负责人：Sai（Android 运行层排查）+ Ant（实机复验）
-- 状态：review
+- 状态：done
 - 优先级：P1
 - 说明：2026-07-22 PM 复查 story 源头：权威剧本 `u20j → c3 → e_lemontea → c2 → e_invite → e_lolly` 与 `story-data` 当前链路 `u20j → c3 → c3_s2 → e_lemontea → e_lemontea_s2 → c2` 语义一致；`chapters.json` 第二部第一节 startNode=`c3`，第二节 startNode=`e_lemontea`；`scene_visuals.json` 中 `c3 → openday.jpg`、`e_lemontea → lemontea.jpg`。暂未发现 story-data 路由把开放日接错到读书之秋。若实机仍复现“开放日剧情/选项乱”，优先查 Android 运行层：存档恢复位置、choice responses → pendingNextId、section transition、autoAdvance/箭头过滤、backlog/responseQueue 状态污染。注意：`GameViewModel.presentChoices()` 中箭头过滤字面量疑似乱码 `鈫?`，虽有 `autoAdvance` 保护，但必须列入实现风险检查。
 - 验收证据：Sai 必须从 clean new story 或明确清空 autosave 的状态，截图证明 `u20j → c3 → c3_s2 → e_lemontea → e_lemontea_s2 → c2` 每个节点的 sceneTitle / 当前 nodeId / 背景 / 首末两句文本；不能只口头说校验器通过。
 - Sai 执行记录（2026-07-23）：已按 PM 一一口径完成 Android 运行层静态排查，报告见 `00_harness/05_reports/TASK-20260721-005/android_open_day_runtime_audit.md`。runtime 数据表确认 `u20j → c3 → c3_s2 → e_lemontea → e_lemontea_s2 → c2`，`c3/c3_s2` BG 均为 `openday.jpg`，`c3` 四个选择均 target `c3_s2`，`c3_s2` 后进 `e_lemontea`，`e_lemontea_s2` 后按 flow 进 `c2`；未改开放日剧情/顺序/story-data。最小代码修正：`GameViewModel.presentChoices()` 改为统一调用 `StoryEngine.getPlayerVisibleChoices()`，避免 ViewModel 重复维护箭头/autoAdvance 过滤。`node tools/validate.js` 通过。阻塞：本机无 Android Gradle/Wrapper，无法产出实机截图；需 Ant 从清空 autosave / clean new story 补拍六节点截图后最终判定。
+- 最新更新时间：2026-07-26
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
+
+### TASK-20260721-007
+- 标题：MinSpec 效果的 Compose 翻译规范
+- 负责人：lulu（UI）/ feibo（把关）
+- 状态：done
+- 优先级：P2
+- 说明：MinSpec 中 CSS 专属效果（backdrop blur、clip-path 切角、mask 渐隐、radial 高光等）在 Compose 无直接等价物，历史上开发各自"近似"导致反复打回。lulu 逐项定死 Android 替代方案（写进 MinSpec §17 fallback 列或新增小节），此后开发无裁量权。
+- 完成定义：每个不可直译效果都有唯一指定的 Compose 实现口径；按权威修改流程更新 MANIFEST 哈希。
+- 最新更新时间：2026-07-26
+
+
+
+---
+- Ant 验收收口（2026-07-26）：Ant 已确认当前版本验收通过；后续再改按优化/bugfix 新开任务，不回写本任务。
+
+
+### TASK-20260723-003
+- 标题：`e_agency_launch | 她站在光里` 开头补独立经纪公司长旁白
+- 负责人：PM 一一
+- 状态：done
+- 优先级：P0
+- 说明：Ant 指定在原章开头、`发布会安排在东京` 之前补一段长旁白，交代 Nagi 进入欧洲联赛后商业/媒体事务激增，以及 Ant 成立独立经纪公司的动机和边界。已同步 `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` 与运行时 `story-data/nodes.json`，runtime 以 `e_agency_launch_intro001-007` 插入到原 `e_agency_launch_d001` 前。
+- 决策记录：`DEC-20260723-004`
+- 校验：`node tools/validate.js` 通过，0 errors / 1 existing hardcoded-Ant warning。
 - 最新更新时间：2026-07-23
+
+
+### TASK-20260722-002
+- 标题：替换 `c2 | 假期的消息` 剧情并同步 runtime story-data
+- 负责人：PM 一一
+- 状态：done
+- 优先级：P0
+- 说明：Ant 提供新版 c2 剧情，已替换 `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` 对应段落，并按现有 runtime 结构拆入 `story-data/nodes.json`：`c2` 保留开场消息与首个选择，`c2_s2` 承载扩展告白/公寓/一一确认段落与最终两项选择。现有 `flow.default.c2_s2 → e_invite` 未改，因此最终选择回复结束后继续进入“高级公寓的邀请”。
+- 决策记录：`DEC-20260722-002`
+- 校验：`node tools/validate.js` 通过，0 errors / 1 existing hardcoded-Ant warning。
+- 最新更新时间：2026-07-22
+
+
+### TASK-20260722-003
+- 标题：替换 `e_invite | 高级公寓的邀请` 剧情并同步 runtime story-data
+- 负责人：PM 一一
+- 状态：done
+- 优先级：P0
+- 说明：Ant 提供新版 e_invite 剧情，已替换 `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` 对应段落。runtime 按交互结构拆入 `story-data/nodes.json`：`e_invite` 承载公寓初访至两项玩家选择；新增 `e_invite_s2` 承载两项选择后的共通“临时访客档案/门禁权限”段落，并通过 autoAdvance 跳转 `e_lolly`。两项玩家选择均显式 target `e_invite_s2`，避免选完直接跳过共通剧情。
+- 决策记录：`DEC-20260722-003`
+- 校验：`node tools/validate.js` 通过，0 errors / 1 existing hardcoded-Ant warning。
+- 最新更新时间：2026-07-22
+
+
+### TASK-20260723-001
+- 标题：替换 `e_depart | NEL启程·闭关送别` 剧情并同步 runtime story-data
+- 负责人：PM 一一
+- 状态：done
+- 优先级：P0
+- 说明：Ant 提供新版 e_depart 剧情，已替换 `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` 对应段落。runtime 按两轮选择结构拆入 `story-data/nodes.json`：`e_depart` 承载 NEL 通知、出发等待与第一轮选择；`e_depart_s2` 承载门禁/存档/一一/拖鞋确认、玄关靠肩与第二轮选择；`e_depart_s3` 承载电梯送别和公寓 aftermath，并 autoAdvance 跳转 `c6a`。第一轮两项选择均 target `e_depart_s2`，第二轮两项选择均 target `e_depart_s3`。
+- 决策记录：`DEC-20260723-001`
+- 校验：`node tools/validate.js` 通过，0 errors / 1 existing hardcoded-Ant warning。
+- 最新更新时间：2026-07-23
+
+### TASK-20260723-002（旧冲突编号 / 剧情替换记录，不再作为派工编号引用）
+- 标题：替换 `e_lemontea | 你的，我的` 剧情并同步 runtime story-data
+- 负责人：PM 一一
+- 状态：done
+- 优先级：P0
+- 说明：Ant 提供新版 e_lemontea 剧情，已替换 `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` 对应段落。runtime 拆入 `story-data/nodes.json`：`e_lemontea` 承载饮品店见面、喝你的柠檬茶与第一轮选择；`e_lemontea_s2` 承载举杯逗你、靠近与第二轮选择；`e_lemontea_s3` 承载共用吸管后的尾声并 autoAdvance 跳转 `c2`。
+- 决策记录：`DEC-20260723-002`
+- 校验：`node tools/validate.js` 通过，0 errors / 1 existing hardcoded-Ant warning。
+- 编号说明：本记录历史上误用了 `TASK-20260723-002`，与当前活跃 Android 三页 UI 任务冲突。后续引用本剧情替换记录时必须同时写标题，不得仅写任务号。
+- 最新更新时间：2026-07-23
+
 
 ### TASK-20260721-008
 - 标题：ui-snapshot 工具深流程覆盖 v2
@@ -213,14 +396,6 @@
 - feibo review（2026-07-21）：工具交付合格（+255 行，注入法不碰生产代码，方向正确），但**覆盖账面修正：实际 17/18**——缺 `line`（Web LINE 层未实现，合理缺口，待 LINE 接入后补）；多出 `section-clear` 一张（权威无此页，§17.6 已移除独立小节结束页）——**Web 存在已被产品移除的 Section Clear 状态，疑似残留**，列入 `TASK-20260721-006` Ant 验收关注项，确认后 Wewe 下轮移除该状态及其入口。任务转 review。
 - 最新更新时间：2026-07-21
 
-### TASK-20260721-007
-- 标题：MinSpec 效果的 Compose 翻译规范
-- 负责人：lulu（UI）/ feibo（把关）
-- 状态：pending
-- 优先级：P2
-- 说明：MinSpec 中 CSS 专属效果（backdrop blur、clip-path 切角、mask 渐隐、radial 高光等）在 Compose 无直接等价物，历史上开发各自"近似"导致反复打回。lulu 逐项定死 Android 替代方案（写进 MinSpec §17 fallback 列或新增小节），此后开发无裁量权。
-- 完成定义：每个不可直译效果都有唯一指定的 Compose 实现口径；按权威修改流程更新 MANIFEST 哈希。
-- 最新更新时间：2026-07-21
 
 ### TASK-20260721-001
 - 标题：权威文档收拢隔离（authority/ 建立）+ 周末场外协作补账
@@ -231,6 +406,8 @@
 - 最新更新时间：2026-07-21
 
 ---
+
+
 
 ## 关闭台账（2026-07-21 大扫除）
 

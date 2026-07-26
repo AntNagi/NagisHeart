@@ -222,7 +222,15 @@
     .phone[data-view="home"] .screen-home,
     .phone[data-view="prologue"] .screen-prologue,
     .phone[data-view="name"] .screen-name,
-    .phone[data-view="chapter-catalog"] .screen-chapter-catalog,
+    .phone[data-view="story-map-overview"] .screen-story-map-overview,
+    .phone[data-view="story-map-01"] .screen-story-map-01,
+    .phone[data-view="story-map-02"] .screen-story-map-02,
+    .phone[data-view="story-map-03"] .screen-story-map-03,
+    .phone[data-view="story-map-04"] .screen-story-map-04,
+    .phone[data-view="story-map-05"] .screen-story-map-05,
+    .phone[data-view="story-map-06"] .screen-story-map-06,
+    .phone[data-view="story-map-07"] .screen-story-map-07,
+    .phone[data-view="story-map-08"] .screen-story-map-08,
     .phone[data-view="chapter-opening"] .screen-chapter-opening,
     .phone[data-view="section-opening"] .screen-section-opening,
     .phone[data-view="chapter-clear"] .screen-chapter-clear,
@@ -239,6 +247,30 @@
       opacity: 1;
       pointer-events: auto;
       transform: translateY(0);
+    }
+
+    /* DEC-20260725-001: story-map PNGs are visual-reference sheets only.
+       Runtime implementation must rebuild the UI and load real section BG data. */
+    .authority-image-screen {
+      z-index: 3;
+      background: #101a2a;
+    }
+
+    .authority-image-scroll {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(225, 205, 163, 0.42) rgba(5, 10, 18, 0.2);
+    }
+
+    .authority-image-scroll img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     .screen.system::before,
@@ -661,6 +693,90 @@
       bottom: 96px;
     }
 
+    .chapter-opening-field {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      padding: 96px 42px 90px;
+      text-align: center;
+      color: rgba(247, 249, 252, 0.94);
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.64);
+    }
+
+    .chapter-opening-field::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse at center, rgba(16, 24, 39, 0.18), transparent 46%),
+        linear-gradient(to bottom, rgba(9, 14, 24, 0.22), rgba(9, 14, 24, 0.02) 35%, rgba(9, 14, 24, 0.48));
+    }
+
+    .chapter-opening-field::after {
+      content: "";
+      position: absolute;
+      left: 42px;
+      right: 42px;
+      top: 50%;
+      z-index: -1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(215, 190, 134, 0.44), transparent);
+      transform: translateY(-104px);
+      opacity: 0.9;
+    }
+
+    .prelude-stack {
+      display: grid;
+      justify-items: center;
+      gap: 18px;
+    }
+
+    .prelude-eyebrow {
+      color: rgba(215, 190, 134, 0.82);
+      font-family: var(--font-ui);
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .prelude-number {
+      color: rgba(247, 249, 252, 0.72);
+      font-family: var(--font-title);
+      font-size: 18px;
+      letter-spacing: 0.18em;
+    }
+
+    .prelude-title {
+      margin: 2px 0 0;
+      font-family: var(--font-title);
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.34;
+      letter-spacing: 0.02em;
+    }
+
+    .prelude-copy {
+      max-width: 310px;
+      margin: 8px 0 0;
+      color: rgba(244, 241, 234, 0.78);
+      font-family: var(--font-title);
+      font-size: 16px;
+      line-height: 1.92;
+    }
+
+    .prelude-tap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 58px;
+      color: rgba(247, 249, 252, 0.56);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
     .kicker {
       width: fit-content;
       position: relative;
@@ -721,6 +837,128 @@
       text-shadow: 0 2px 20px rgba(0, 0, 0, 0.54);
     }
 
+    .screen-chapter-clear::before {
+      background:
+        radial-gradient(ellipse at 50% 32%, rgba(215, 190, 134, 0.07), transparent 42%),
+        radial-gradient(ellipse at 50% 78%, rgba(61, 90, 128, 0.10), transparent 48%),
+        linear-gradient(160deg, #05080f 0%, #0a1220 42%, #0e1726 72%, #05070c 100%);
+    }
+
+    .screen-chapter-clear::after {
+      display: none;
+    }
+
+    .screen-chapter-clear .chapter-opening-field::after {
+      display: none;
+    }
+
+    .screen-chapter-clear .prelude-eyebrow {
+      position: relative;
+      color: rgba(215, 190, 134, 0.54);
+      font-size: 10px;
+      margin-bottom: 12px;
+    }
+
+    .screen-chapter-clear .prelude-eyebrow::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 25px;
+      width: 188px;
+      height: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, transparent, rgba(215, 190, 134, 0.28), transparent);
+    }
+
+    .screen-chapter-clear .prelude-number {
+      color: rgba(247, 249, 252, 0.46);
+      font-size: 14px;
+    }
+
+    .screen-chapter-clear .prelude-title {
+      color: rgba(247, 249, 252, 0.62);
+      font-size: 21px;
+      line-height: 1.42;
+    }
+
+    .screen-chapter-clear .prelude-copy {
+      color: rgba(244, 241, 234, 0.54);
+      font-size: 14px;
+    }
+
+    .screen-chapter-clear .prelude-tap {
+      left: 0;
+      right: 0;
+      bottom: 72px;
+      padding: 0;
+      color: rgba(247, 249, 252, 0.76);
+      background: none;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+    }
+
+    .screen-chapter-clear .prelude-home {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 42px;
+      color: rgba(247, 249, 252, 0.38);
+      font-size: 11px;
+      letter-spacing: 0.10em;
+    }
+
+    .screen-chapter-clear .clear-card {
+      left: 42px;
+      right: 42px;
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-42%);
+      padding: 28px 24px 24px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at center top, rgba(215, 190, 134, 0.08), transparent 46%),
+        linear-gradient(to bottom, rgba(16, 24, 39, 0.10), rgba(16, 24, 39, 0.30));
+      border: 0;
+      backdrop-filter: blur(10px) saturate(0.92);
+      box-shadow:
+        0 24px 62px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .screen-chapter-clear .clear-label {
+      color: rgba(215, 190, 134, 0.70);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+    }
+
+    .screen-chapter-clear .clear-card h3 {
+      margin: 12px 0 16px;
+      color: rgba(247, 249, 252, 0.76);
+      font-size: 22px;
+      line-height: 1.34;
+      text-shadow:
+        0 2px 14px rgba(0, 0, 0, 0.44),
+        0 0 28px rgba(215, 190, 134, 0.08);
+    }
+
+    .screen-chapter-clear .clear-card p {
+      max-width: 320px;
+      margin: 0 auto;
+      color: rgba(244, 241, 234, 0.70);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .screen-chapter-clear .clear-actions {
+      margin-top: 30px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
     .clear-label {
       color: var(--gold);
       font-size: 11px;
@@ -764,7 +1002,7 @@
       bottom: 34px;
       z-index: 4;
       padding: 18px 20px 22px;
-      background: linear-gradient(to bottom, rgba(16, 24, 39, 0.54), rgba(16, 24, 39, 0.70));
+      background: linear-gradient(to bottom, rgba(16, 24, 39, 0.18) 0%, rgba(16, 24, 39, 0.52) 46%, rgba(16, 24, 39, 0.70) 100%);
       border: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(16px);
       clip-path: var(--cut-md);
@@ -816,7 +1054,8 @@
 
     .choice-row {
       padding: 14px 16px;
-      background: rgba(16, 24, 39, 0.48);
+      background: linear-gradient(to right, rgba(16, 24, 39, 0.48) 0%, rgba(16, 24, 39, 0.44) 50%, rgba(16, 24, 39, 0) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
       clip-path: var(--cut-sm);
       display: grid;
@@ -824,7 +1063,7 @@
     }
 
     .choice-row.current {
-      background: rgba(191, 160, 138, 0.18);
+      background: linear-gradient(to right, rgba(191, 160, 138, 0.22) 0%, rgba(16, 24, 39, 0.42) 50%, rgba(16, 24, 39, 0) 100%);
     }
 
     .choice-tag {
@@ -834,7 +1073,7 @@
     }
 
     .choice-copy {
-      color: rgba(247, 249, 252, 0.92);
+      color: rgba(247, 249, 252, 0.98);
       font-size: 15px;
       line-height: 1.8;
     }
@@ -1051,10 +1290,257 @@
       font-weight: 500;
     }
 
+    .catalog-panel.map-mode {
+      left: 10px;
+      right: 10px;
+      top: 72px;
+      bottom: 20px;
+      padding: 12px;
+      gap: 10px;
+      background: linear-gradient(to bottom, rgba(10, 17, 30, 0.54), rgba(10, 17, 30, 0.68));
+      backdrop-filter: blur(10px) saturate(0.9);
+    }
+
+    .catalog-panel.map-mode .catalog-head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 10px;
+      padding: 2px 4px 0;
+    }
+
+    .catalog-panel.map-mode .page-title {
+      font-size: 31px;
+      line-height: 1.08;
+    }
+
+    .catalog-panel.map-mode .catalog-head p {
+      grid-column: 1 / -1;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      color: rgba(244, 241, 234, 0.60);
+    }
+
+    .map-hint {
+      color: rgba(215, 190, 134, 0.70);
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .route-map-viewport {
+      position: relative;
+      min-height: 0;
+      overflow: auto;
+      overscroll-behavior: contain;
+      cursor: grab;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(215, 190, 134, 0.35) rgba(255, 255, 255, 0.05);
+      clip-path: var(--cut-sm);
+      background:
+        radial-gradient(ellipse at 50% 20%, rgba(215, 190, 134, 0.06), transparent 34%),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.012));
+      border: 1px solid rgba(255, 255, 255, 0.055);
+    }
+
+    .route-map-viewport:active {
+      cursor: grabbing;
+    }
+
+    .route-map-canvas {
+      position: relative;
+      width: 980px;
+      height: 1720px;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+
+    .route-lines {
+      position: absolute;
+      inset: 0;
+      width: 980px;
+      height: 1720px;
+      pointer-events: none;
+    }
+
+    .route-lines path {
+      fill: none;
+      stroke: rgba(215, 190, 134, 0.34);
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .route-lines path.branch {
+      stroke: rgba(139, 180, 255, 0.34);
+      stroke-dasharray: 6 5;
+    }
+
+    .route-lines path.endline {
+      stroke: rgba(215, 190, 134, 0.50);
+    }
+
+    .map-node {
+      position: absolute;
+      width: 170px;
+      min-height: 64px;
+      padding: 11px 12px;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+      color: rgba(247, 249, 252, 0.92);
+      background:
+        linear-gradient(135deg, rgba(16, 24, 39, 0.78), rgba(16, 24, 39, 0.42)),
+        radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.06), transparent 58%);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      clip-path: var(--cut-sm);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.20);
+      font-family: var(--font-ui);
+    }
+
+    .map-node strong {
+      font-size: 14px;
+      font-weight: 560;
+      line-height: 1.25;
+    }
+
+    .map-node small {
+      color: rgba(244, 241, 234, 0.58);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .map-node.part {
+      border-color: rgba(215, 190, 134, 0.20);
+    }
+
+    .map-node.current {
+      border-color: rgba(215, 190, 134, 0.52);
+      background:
+        linear-gradient(135deg, rgba(215, 190, 134, 0.22), rgba(16, 24, 39, 0.56)),
+        radial-gradient(ellipse at 30% 18%, rgba(247, 249, 252, 0.10), transparent 56%);
+    }
+
+    .map-node.router {
+      width: 142px;
+      min-height: 72px;
+      text-align: center;
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      padding: 18px 18px;
+      border-color: rgba(139, 180, 255, 0.26);
+      background: linear-gradient(135deg, rgba(21, 42, 72, 0.78), rgba(16, 24, 39, 0.46));
+    }
+
+    .map-node.route-dream {
+      border-color: rgba(215, 190, 134, 0.42);
+    }
+
+    .map-node.route-stay {
+      border-color: rgba(244, 241, 234, 0.24);
+    }
+
+    .map-node.route-bad {
+      border-color: rgba(139, 180, 255, 0.30);
+    }
+
+    .map-node.ending {
+      min-height: 76px;
+      background:
+        linear-gradient(to bottom, rgba(5, 8, 15, 0.18), rgba(5, 8, 15, 0.72)),
+        var(--ending-bg, linear-gradient(135deg, #132033, #0b1422)) center / cover no-repeat;
+      border-color: rgba(215, 190, 134, 0.34);
+    }
+
+    .map-node.ending strong {
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      font-size: 12px;
+    }
+
+    .map-node.ending small {
+      color: rgba(247, 249, 252, 0.88);
+      font-family: var(--font-title);
+      font-size: 15px;
+    }
+
+    .map-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0 4px 1px;
+      color: rgba(244, 241, 234, 0.58);
+      font-family: var(--font-ui);
+      font-size: 10px;
+    }
+
+    .map-legend span::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 5px;
+      vertical-align: -1px;
+      background: rgba(215, 190, 134, 0.62);
+      clip-path: var(--cut-xs);
+    }
+
+    .map-legend span:nth-child(2)::before {
+      background: rgba(139, 180, 255, 0.62);
+    }
+
+    .map-legend span:nth-child(3)::before {
+      background: rgba(247, 249, 252, 0.48);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
+    }
+
+    .screen-gallery .soft-screen {
+      top: 58px;
+      bottom: 20px;
+      padding: 13px 16px 16px;
+      background:
+        radial-gradient(ellipse at 50% 18%, rgba(247, 249, 252, 0.08), transparent 42%),
+        linear-gradient(to bottom, rgba(16, 24, 39, 0.18), rgba(16, 24, 39, 0.30) 44%, rgba(16, 24, 39, 0.50));
+      backdrop-filter: none;
+      overflow: hidden;
+    }
+
+    .gallery-hero {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 9px;
+    }
+
+    .gallery-hero h2 {
+      margin: 0;
+      color: rgba(247, 249, 252, 0.94);
+      font-family: var(--font-title);
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .gallery-hero small {
+      color: rgba(244, 241, 234, 0.66);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    .screen-gallery .gallery-grid {
+      height: calc(100% - 53px);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 12px;
+      align-items: start;
     }
 
     .memory-card {
@@ -1068,6 +1554,78 @@
         var(--img, none) center / cover no-repeat;
       clip-path: var(--cut-sm);
       font-size: 14px;
+    }
+
+    .memory-card.ending-memory {
+      min-height: 128px;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      justify-content: flex-end;
+      overflow: hidden;
+      background:
+        linear-gradient(to bottom, transparent 0%, transparent 72%, rgba(16, 24, 39, 0.62) 100%),
+        var(--img, none) var(--crop, center) / cover no-repeat;
+    }
+
+    .screen-gallery .memory-card.ending-memory {
+      aspect-ratio: 9 / 16;
+      min-height: 0;
+      padding: 13px;
+      background:
+        linear-gradient(to bottom, rgba(5, 8, 15, 0.02) 0%, rgba(5, 8, 15, 0.04) 46%, rgba(5, 8, 15, 0.72) 100%),
+        var(--img, none) var(--crop, center) / cover no-repeat;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+    }
+
+    .memory-card.ending-memory .ending-tag {
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .memory-card.ending-memory .ending-title {
+      margin-top: 4px;
+      color: var(--snow);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .screen-gallery .memory-card.ending-memory .ending-tag {
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+    }
+
+    .screen-gallery .memory-card.ending-memory .ending-title {
+      font-family: var(--font-title);
+      font-size: 16px;
+      line-height: 1.32;
+      white-space: nowrap;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.62);
+    }
+
+    .screen-gallery .memory-card.ending-memory .ending-title.long {
+      font-size: 13px;
+      letter-spacing: -0.02em;
+    }
+
+    .screen-gallery .memory-card:nth-child(1) {
+      grid-column: 1;
+      margin-top: 0;
+    }
+
+    .screen-gallery .memory-card:nth-child(2) {
+      grid-column: 2;
+      margin-top: 14px;
+    }
+
+    .screen-gallery .memory-card:nth-child(3) {
+      grid-column: 1;
+      margin-top: 0;
+    }
+
+    .screen-gallery .memory-card:nth-child(4) {
+      grid-column: 2;
+      margin-top: 14px;
     }
 
     .memory-card span {
@@ -1087,30 +1645,30 @@
       inset: 0;
       z-index: 2;
       background: linear-gradient(to bottom,
-        rgba(9, 14, 24, 0.10) 0%,
-        rgba(9, 14, 24, 0.28) 35%,
-        rgba(9, 14, 24, 0.62) 65%,
-        rgba(9, 14, 24, 0.82) 100%);
+        rgba(9, 14, 24, 0.34) 0%,
+        rgba(9, 14, 24, 0.52) 42%,
+        rgba(9, 14, 24, 0.72) 100%);
       pointer-events: none;
     }
 
     .ending-card {
       position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 34px;
+      left: 34px;
+      right: 34px;
+      top: 50%;
+      transform: translateY(-46%);
       z-index: 4;
-      padding: 26px 24px 22px;
+      padding: 30px 24px 24px;
+      text-align: center;
       background:
         radial-gradient(ellipse at 70% 0%, rgba(215, 190, 134, 0.18), transparent 42%),
         radial-gradient(ellipse at 30% 100%, rgba(215, 190, 134, 0.06), transparent 50%),
-        linear-gradient(to bottom, rgba(16, 24, 39, 0.56), rgba(16, 24, 39, 0.80));
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      backdrop-filter: blur(20px) saturate(0.92);
+        linear-gradient(to bottom, rgba(16, 24, 39, 0.34), rgba(16, 24, 39, 0.54));
+      border: 0;
+      backdrop-filter: none;
       clip-path: var(--cut-md);
       box-shadow:
-        0 22px 54px rgba(0, 0, 0, 0.40),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        0 24px 62px rgba(0, 0, 0, 0.30);
     }
 
     .ending-label {
@@ -1171,7 +1729,7 @@
     }
 
     .ending-actions {
-      margin-top: 22px;
+      margin-top: 24px;
       display: grid;
       grid-template-columns: 1fr;
       gap: 10px;
@@ -1179,19 +1737,88 @@
     }
 
     .ending-action {
-      min-height: 38px;
+      min-height: auto;
       display: grid;
       place-items: center;
       color: rgba(244, 241, 234, 0.86);
-      background: rgba(255, 255, 255, 0.055);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      clip-path: var(--cut-sm);
+      background: none;
+      border: 0;
+      clip-path: none;
     }
 
     .ending-action.primary {
-      color: var(--snow);
-      background: linear-gradient(to right, rgba(215, 190, 134, 0.20), rgba(255, 255, 255, 0.07));
-      border-color: rgba(215, 190, 134, 0.26);
+      color: rgba(247, 249, 252, 0.82);
+      background: none;
+      border: 0;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-shadow:
+        0 2px 14px rgba(0, 0, 0, 0.52),
+        0 0 18px rgba(215, 190, 134, 0.12);
+    }
+
+    .screen-ending .chapter-opening-field::before {
+      background:
+        radial-gradient(ellipse at center, rgba(16, 24, 39, 0.12), transparent 48%),
+        linear-gradient(to bottom, rgba(5, 8, 15, 0.36), rgba(5, 8, 15, 0.22) 38%, rgba(5, 8, 15, 0.64));
+    }
+
+    .screen-ending .chapter-opening-field::after {
+      display: none;
+    }
+
+    .screen-ending .prelude-eyebrow {
+      position: relative;
+      color: rgba(215, 190, 134, 0.82);
+      font-family: var(--font-ui);
+      font-size: 18px;
+      letter-spacing: 0.16em;
+      font-weight: 500;
+      margin-top: 18px;
+      text-shadow:
+        0 2px 18px rgba(0, 0, 0, 0.54),
+        0 0 30px rgba(215, 190, 134, 0.18);
+    }
+
+    .screen-ending .prelude-eyebrow::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 34px;
+      width: 178px;
+      height: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, transparent, rgba(215, 190, 134, 0.48), transparent);
+      opacity: 0.78;
+    }
+
+    .screen-ending .prelude-number {
+      color: rgba(247, 249, 252, 0.58);
+      font-family: var(--font-ui);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    .screen-ending .prelude-title {
+      font-size: 33px;
+    }
+
+    .screen-ending .prelude-copy {
+      max-width: 330px;
+      color: rgba(247, 249, 252, 0.82);
+    }
+
+    .screen-ending .ending-unlock {
+      margin-top: 4px;
+      color: rgba(244, 241, 234, 0.56);
+    }
+
+    .screen-ending .ending-actions {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 58px;
+      margin: 0;
     }
 
     .narration-stage {
@@ -1260,22 +1887,55 @@
       margin-top: 22px;
     }
 
-    .recap-inner .speaker {
+    .recap-dialogue {
+      position: relative;
       margin-top: 24px;
+      padding: 13px 15px 15px 17px;
+      background:
+        linear-gradient(to right, rgba(16, 24, 39, 0.40), rgba(16, 24, 39, 0.18) 62%, rgba(16, 24, 39, 0.04)),
+        radial-gradient(ellipse at 20% 50%, rgba(215, 190, 134, 0.07), transparent 58%);
+      border-left: 1px solid rgba(215, 190, 134, 0.48);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .recap-dialogue::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 12px;
+      bottom: 12px;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(215, 190, 134, 0.72), transparent);
+      filter: drop-shadow(0 0 8px rgba(215, 190, 134, 0.18));
+    }
+
+    .recap-inner .speaker {
+      margin-bottom: 10px;
       width: fit-content;
-      padding: 3px 9px 4px;
+      padding: 0;
       color: #e4ca8f;
-      background: linear-gradient(to right, rgba(16, 24, 39, 0.30), rgba(16, 24, 39, 0.10));
-      border: 1px solid rgba(215, 190, 134, 0.18);
-      backdrop-filter: blur(8px) saturate(0.92);
-      clip-path: var(--cut-sm);
+      background: transparent;
+      border: 0;
+      backdrop-filter: none;
+      clip-path: none;
       font-family: var(--font-ui);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
       text-shadow:
         0 1px 2px rgba(0, 0, 0, 0.72),
         0 0 10px rgba(215, 190, 134, 0.20);
+    }
+
+    .recap-dialogue p {
+      font-family: var(--font-ui);
+      font-size: 15px;
+      line-height: 1.82;
+      letter-spacing: 0.01em;
+      color: rgba(247, 249, 252, 0.94);
+      text-shadow:
+        0 1px 4px rgba(0, 0, 0, 0.38),
+        0 0 16px rgba(16, 24, 39, 0.18);
     }
 
     .skip-chip {
@@ -1393,7 +2053,7 @@
 
     <div class="block">
       <div class="block-title">来源范围</div>
-      <small><strong>采用：</strong>v2.0 母版；Missing Pages 的主页、开场白、名字设置、大章开始、小节开始、跳过确认；本次 `TASK-20260717-011` 采纳并修订 Missing Pages 的大章结束方向；本次 `TASK-20260717-016` 补齐章节目录；本次 `TASK-20260719-001` 与 `TASK-20260719-008` 补齐全局可读性、结局页与文案 hygiene；Lulu 的长旁白、剧情回顾。</small>
+      <small><strong>采用：</strong>v2.0 母版；Missing Pages 的主页、开场白、名字设置、大章开始、小节开始、跳过确认；本次 `TASK-20260717-011` 采纳并修订 Missing Pages 的大章结束方向；本次 `TASK-20260719-001` 与 `TASK-20260719-008` 补齐全局可读性、结局页与文案 hygiene；Lulu 的长旁白、剧情回顾；`DEC-20260725-001` 增补剧情地图总览与八章 v7 视觉参考，`DEC-20260725-002` 退役旧章节目录页。</small>
       <small><strong>不采用：</strong>Missing Pages 的长旁白、剧情回顾不进入 final authority。</small>
     </div>
 
@@ -1404,7 +2064,15 @@
         <button data-view="home">主页</button>
         <button data-view="prologue">开场白</button>
         <button data-view="name">名字设置</button>
-        <button data-view="chapter-catalog">章节目录</button>
+        <button data-view="story-map-overview">地图总览</button>
+        <button data-view="story-map-01">地图 01</button>
+        <button data-view="story-map-02">地图 02</button>
+        <button data-view="story-map-03">地图 03</button>
+        <button data-view="story-map-04">地图 04</button>
+        <button data-view="story-map-05">地图 05</button>
+        <button data-view="story-map-06">地图 06</button>
+        <button data-view="story-map-07">地图 07</button>
+        <button data-view="story-map-08">地图 08</button>
         <button data-view="chapter-opening">大章开始</button>
         <button data-view="section-opening">小节开始</button>
         <button data-view="chapter-clear">大章结束</button>
@@ -1421,7 +2089,7 @@
       </div>
     </div>
 
-    <small>浏览方式：左侧切换页面。手机画面只保留真实玩家可见文案。</small>
+    <small>浏览方式：左侧切换页面；地图子页在手机画面内纵向滚动。手机画面只保留真实玩家可见文案。</small>
   </aside>
 
   <main class="phone-wrap">
@@ -1482,61 +2150,72 @@
         </div>
       </section>
 
-      <!-- Source: TASK-20260717-016 / chapter catalog authority -->
-      <section class="screen system screen-chapter-catalog">
-        <div class="catalog-panel">
-          <div class="catalog-head">
-            <h2 class="page-title">章节目录</h2>
-            <p>选择你想回到的章节。</p>
-          </div>
-          <div class="catalog-list">
-            <div class="catalog-row current">
-              <div class="catalog-mark">01</div>
-              <div class="catalog-copy">
-                <strong>第一部 · 原作前置篇</strong>
-                <small>第一节 · 作战室·初遇</small>
-              </div>
-              <div class="catalog-state">进行中</div>
-            </div>
-            <div class="catalog-row">
-              <div class="catalog-mark">02</div>
-              <div class="catalog-copy">
-                <strong>第二部 · 投资的私心</strong>
-                <small>已完成 2 / 3 小节</small>
-              </div>
-              <div class="catalog-state">已解锁</div>
-            </div>
-            <div class="catalog-row">
-              <div class="catalog-mark">03</div>
-              <div class="catalog-copy">
-                <strong>第三部 · 很长很长的章节标题会在这里省略</strong>
-                <small>下一段故事</small>
-              </div>
-              <div class="catalog-state">未开始</div>
-            </div>
-            <div class="catalog-row locked">
-              <div class="catalog-mark">锁</div>
-              <div class="catalog-copy">
-                <strong>未解锁章节</strong>
-                <small>完成前置章节后开放</small>
-              </div>
-              <div class="catalog-state">Locked</div>
-            </div>
-          </div>
-          <div class="catalog-actions"><span>返回主页</span><strong>继续当前章节</strong></div>
+      <!-- Source: DEC-20260725-001 / visual-reference only; forbidden as runtime assets -->
+      <section class="screen system authority-image-screen screen-story-map-overview">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Overview_v4.png" alt="剧情地图八章收起总览视觉参考" />
         </div>
       </section>
 
-      <!-- Source: Missing Pages / chapter opening -->
+      <section class="screen system authority-image-screen screen-story-map-01">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_01_FirstMeet_v7.png" alt="第一章剧情地图视觉参考" />
+        </div>
+      </section>
+
+      <section class="screen system authority-image-screen screen-story-map-02">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_02_Relationship_v7.png" alt="第二章剧情地图视觉参考" />
+        </div>
+      </section>
+
+      <section class="screen system authority-image-screen screen-story-map-03">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_03_Elimination_v7.png" alt="第三章剧情地图视觉参考" />
+        </div>
+      </section>
+
+      <section class="screen system authority-image-screen screen-story-map-04">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_04_WorldCup_v7.png" alt="第四章剧情地图视觉参考" />
+        </div>
+      </section>
+
+      <section class="screen system authority-image-screen screen-story-map-05">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_05_Homecoming_v7.png" alt="第五章剧情地图视觉参考" />
+        </div>
+      </section>
+
+      <section class="screen system authority-image-screen screen-story-map-06">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_06_Manchester_v7.png" alt="第六章剧情地图视觉参考" />
+        </div>
+      </section>
+
+      <section class="screen system authority-image-screen screen-story-map-07">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_07_Holiday_v7.png" alt="第七章剧情地图视觉参考" />
+        </div>
+      </section>
+
+      <section class="screen system authority-image-screen screen-story-map-08">
+        <div class="authority-image-scroll">
+          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_08_WorldCenter_v7.png" alt="第八章三路线剧情地图视觉参考" />
+        </div>
+      </section>
+
+      <!-- Source: revised dark chapter opening draft -->
       <section class="screen story screen-chapter-opening">
         <div class="content">
-          <div class="chapter-poster">
-            <div class="kicker">Chapter Opening</div>
-            <div class="poster-copy">
-              <small>第一部 · 原作前置篇</small>
-              <h3>他还没看见你，<br />你已经看见了他</h3>
+          <div class="chapter-opening-field">
+            <div class="prelude-stack">
+              <div class="prelude-eyebrow">Chapter 01</div>
+              <div class="prelude-number">第一部 · 原作前置篇</div>
+              <h3 class="prelude-title">在他成为世界第一之前</h3>
+              <p class="prelude-copy">你先看见的，是那个还没有回头、也还没有决定要发光的人。</p>
             </div>
-            <div class="poster-lines">轻触继续，进入本章内容。</div>
+            <div class="prelude-tap">轻触继续</div>
           </div>
         </div>
       </section>
@@ -1558,11 +2237,15 @@
       <!-- Source: TASK-20260717-011 / Chapter Clear authority -->
       <section class="screen story screen-chapter-clear">
         <div class="content">
-          <div class="clear-card">
-            <div class="clear-label">CHAPTER CLEAR</div>
-            <h3>第一部 · 原作前置篇</h3>
-            <p>本章完成。你可以返回目录整理进度，或继续进入下一章内容。</p>
-            <div class="clear-actions"><span>返回目录</span><strong>进入第二部</strong></div>
+          <div class="chapter-opening-field">
+            <div class="prelude-stack">
+              <div class="prelude-eyebrow">Chapter Clear</div>
+              <div class="prelude-number">第一部 已完成</div>
+              <h3 class="prelude-title">原作前置篇</h3>
+              <p class="prelude-copy">你整理好这一章的余温，下一段故事已经在门后等着。</p>
+            </div>
+            <div class="prelude-tap">进入下一章</div>
+            <div class="prelude-home">返回主页</div>
           </div>
         </div>
       </section>
@@ -1672,8 +2355,10 @@
             <p>蓝色监狱的作战室没有窗。四周的屏幕亮得冷。球场、走廊、训练室、休息区，被切割成一块块安静的画面。</p>
             <p>数据不断刷新，像一台没有感情的机器正在吞下这些少年，再筛出它想要的东西。</p>
             <p>你坐在观察席后方。桌上放着 JFA 提供的项目资料、风险评估、后续商业开发草案，以及一份还没有签字的追加投资确认书。</p>
-            <div class="speaker">JFA会长</div>
-            <p>年轻、热血、国家队更新、世界级前锋培养，这些关键词本身就具备极高的商业价值。</p>
+            <div class="recap-dialogue">
+              <div class="speaker">JFA会长</div>
+              <p>年轻、热血、国家队更新、世界级前锋培养，这些关键词本身就具备极高的商业价值。</p>
+            </div>
             <p>所以你签了字。这个理由完全成立。至少，你现在必须这样告诉自己。</p>
           </div>
         </div>
@@ -1694,12 +2379,27 @@
       <!-- Source: Mother / gallery -->
       <section class="screen system screen-gallery">
         <div class="soft-screen">
-          <h2 class="page-title">回忆画廊</h2>
+          <div class="gallery-hero">
+            <h2>回忆画廊</h2>
+            <small>已解锁 4 / 4</small>
+          </div>
           <div class="gallery-grid">
-            <div class="memory-card" style="--img:url('../../assets/bg/hug.jpg')">CG 01 <span>已解锁</span></div>
-            <div class="memory-card" style="--img:url('../../assets/bg/scarf.jpg')">CG 02 <span>已解锁</span></div>
-            <div class="memory-card locked">??? <span>未解锁</span></div>
-            <div class="memory-card locked">END <span>未解锁</span></div>
+            <div class="memory-card ending-memory" style="--img:url('../../assets/bg/true_end.jpg'); --crop:center 34%">
+              <div class="ending-tag">TRUE END</div>
+              <div class="ending-title">世界第一，与他</div>
+            </div>
+            <div class="memory-card ending-memory" style="--img:url('../../assets/bg/king.jpg'); --crop:center 30%">
+              <div class="ending-tag">GOOD END</div>
+              <div class="ending-title long">那么完美，那么爱他</div>
+            </div>
+            <div class="memory-card ending-memory" style="--img:url('../../assets/bg/ending_true_nagi_soft_gaze.jpg'); --crop:center 18%">
+              <div class="ending-tag">NORMAL END</div>
+              <div class="ending-title">普通情侣</div>
+            </div>
+            <div class="memory-card ending-memory" style="--img:url('../../assets/bg/goal_faraway.jpg'); --crop:center 64%">
+              <div class="ending-tag">BAD END</div>
+              <div class="ending-title">好麻烦</div>
+            </div>
           </div>
         </div>
       </section>
@@ -1718,16 +2418,19 @@
         </div>
       </section>
 
-      <!-- Source: TASK-20260719-008 / ending page authority revision -->
+      <!-- Source: TASK-20260719-008 + DEC-20260723-003 / ending page authority revision; preview uses TRUE END bg, runtime must use current end_* bg -->
       <section class="screen story screen-ending">
-        <div class="ending-card">
-          <div class="ending-label">TRUE END</div>
-          <h2>世界第一，与他</h2>
-          <div class="ending-subtitle">Ending unlocked</div>
-          <p>你看见他的光，也承认那束光不是你制造的。于是他回头时，看见的也不是归处，而是同样站在光里的你。</p>
-          <div class="ending-unlock">已解锁：TRUE END / 回忆画廊新增 1 项</div>
-          <div class="ending-actions">
-            <div class="ending-action primary">返回主页</div>
+        <div class="content">
+          <div class="chapter-opening-field">
+            <div class="prelude-stack">
+              <div class="prelude-eyebrow">TRUE END</div>
+              <h3 class="prelude-title">世界第一，与他</h3>
+              <p class="prelude-copy">你看见他的光，也承认那束光不是你制造的。于是他回头时，看见的也不是归处，而是同样站在光里的你。</p>
+              <div class="ending-unlock">已解锁：TRUE END / 回忆画廊新增 1 项</div>
+            </div>
+            <div class="ending-actions">
+              <div class="ending-action primary">返回主页</div>
+            </div>
           </div>
         </div>
       </section>
@@ -1764,10 +2467,18 @@
       home: { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
       prologue: { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
       name: { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
-      "chapter-catalog": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
-      "chapter-opening": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      "story-map-overview": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "story-map-01": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "story-map-02": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "story-map-03": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "story-map-04": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "story-map-05": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "story-map-06": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "story-map-07": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "story-map-08": { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
+      "chapter-opening": { bg: "linear-gradient(160deg, #05080f 0%, #0b1422 42%, #101827 72%, #05070c 100%)", pos: "center", theme: "dark" },
       "section-opening": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
-      "chapter-clear": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
+      "chapter-clear": { bg: "linear-gradient(160deg, #05080f 0%, #0a1220 42%, #0e1726 72%, #05070c 100%)", pos: "center", theme: "dark" },
       dialogue: { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
       choice: { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" },
       line: { bg: "url('../../assets/bg/bedroom.jpg')", pos: "center", theme: "dark" },
@@ -1776,7 +2487,7 @@
       save: { bg: "url('../../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
       gallery: { bg: "url('../../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
       settings: { bg: "url('../../assets/bg/morning.jpg')", pos: "center", theme: "dark" },
-      ending: { bg: "url('../../assets/bg/worldstage.jpg')", pos: "center", theme: "dark" },
+      ending: { bg: "url('../../assets/bg/true_end.jpg')", pos: "center", theme: "dark" },
       "skip-confirm": { bg: "url('../../assets/bg/bg_bluelock_meeting_contract_room.png')", pos: "center", theme: "dark" }
     };
 
@@ -1793,6 +2504,40 @@
 
     views.forEach((button) => {
       button.addEventListener("click", () => applyView(button.dataset.view));
+    });
+
+    document.querySelectorAll(".route-map-viewport").forEach((viewport) => {
+      let dragging = false;
+      let startX = 0;
+      let startY = 0;
+      let scrollLeft = 0;
+      let scrollTop = 0;
+
+      viewport.addEventListener("pointerdown", (event) => {
+        dragging = true;
+        viewport.setPointerCapture(event.pointerId);
+        startX = event.clientX;
+        startY = event.clientY;
+        scrollLeft = viewport.scrollLeft;
+        scrollTop = viewport.scrollTop;
+      });
+
+      viewport.addEventListener("pointermove", (event) => {
+        if (!dragging) return;
+        viewport.scrollLeft = scrollLeft - (event.clientX - startX);
+        viewport.scrollTop = scrollTop - (event.clientY - startY);
+      });
+
+      viewport.addEventListener("pointerup", () => {
+        dragging = false;
+      });
+
+      viewport.addEventListener("pointercancel", () => {
+        dragging = false;
+      });
+
+      viewport.scrollLeft = 285;
+      viewport.scrollTop = 0;
     });
 
     applyView(phone.dataset.view);

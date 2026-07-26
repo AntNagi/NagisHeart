@@ -5,6 +5,27 @@
 
 ---
 
+### DEC-20260725-002
+- 时间：2026-07-25
+- 项目：NagisHeart
+- 来源：Ant大小姐现场指令“章节目录页去掉”
+- 决策内容：旧章节目录页正式退役，不再作为独立玩家页面或 UI authority 入口。原“章节目录”入口直接进入八章收起的剧情地图总览；章内节点浏览由剧情地图子页承担。权威 HTML 删除旧章节目录按钮、页面结构和页面 preset，开发不得在剧情地图之外继续保留一层旧目录。
+- 生效范围：UI authority HTML、UI MinSpec §27、Interaction §32、`TASK-20260725-001`。
+- 不变项：剧情地图总览与八章 v7 参考、真实 BG 数据链路、逐图 Nagi 人脸焦点、已玩过点亮 / 未玩过不亮等 `DEC-20260725-001` 规则全部保持。
+
+---
+
+### DEC-20260725-001
+- 时间：2026-07-25
+- 项目：NagisHeart
+- 来源：Ant大小姐确认剧情地图 v7 排版，并明确要求停止继续调图
+- 决策内容：剧情地图总览图与八章子页 v7 仅作为 UI 构图、层级、密度和滚动节奏的视觉参考，嵌入 UI authority HTML 供设计与验收查看；这些预览 PNG 不是游戏资源，开发不得复制进 Android `res/`、`assets/` 或在运行时直接加载。正式实现必须以 `story-data/chapters.json` 的 `sections[].startNode` 读取 `story-data/scene_visuals.json[startNode].bg`，逐章、逐重点节点使用真实章节背景图；每张图独立确定裁切与焦点，画面中存在 Nagi 时必须露出并对准 Nagi 的脸，不得用统一居中裁切。真实 BG 若为环境或道具且没有 Nagi，则保留真实 BG，不得擅自换成章节封面或其他人物图。
+- 生效范围：`authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html`、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md`、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md`、Android 剧情地图实现任务 `TASK-20260725-001`。
+- 固定设计口径：外层为八章收起总览；进入章节时拉近放大；每个小节必须是独立节点，不得合并；玩过的内容点亮、没玩过的不亮且不显示状态词；未解锁重点节点不放图，标题按字数显示等量问号；章节子页允许适度纵向滚动，禁止为塞进一屏而压缩，禁止改回方块列表或直线时间轴；第八章保持三路线并列结构。
+- 不在本次范围：不修改剧情文本、节点顺序、BG mapping 或 `story-data`；不继续重画、调色、换图或裁切本批预览 PNG。
+
+---
+
 ### DEC-20260718-006
 - 时间：2026-07-18
 - 项目：NagisHeart
@@ -514,3 +535,206 @@ None. Investigation and process decision only; no code or resource deletion auth
   - PM is fully bound by rules v2: works only inside the four ledgers; may not create process files (no task sheets, dev replies, review files); v1 PM workflows in 99_archive stay retired.
   - Board reassignments: TASK-20260721-003 (V3_1 audit) -> PM 一一 exec / feibo guide; TASK-20260719-004 (code health) -> PP exec / feibo gate.
 - Files updated: 00_harness/README.md, README_AI.md, 02_planning/task_board.md
+
+# DEC-20260722-001 - Final ending node BG mapping
+
+- Date: 2026-07-22
+- Owner: Ant / PM 一一
+- Trigger: Ant found that Gallery ending backgrounds except TRUE END were wrong, and that the authority BG mapping did not explicitly list the final `end_*` nodes.
+- Decision:
+  - Add explicit final ending node BG mappings to `authority/visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md`.
+  - `end_true` uses `assets/bg/true_end.jpg`.
+  - `end_good` uses `assets/bg/king.jpg`.
+  - `end_normal` uses `assets/bg/ending_true_nagi_soft_gaze.jpg`.
+  - `end_bad` uses `assets/bg/goal_faraway.jpg`.
+  - Runtime and Android Gallery must use final ending node BG as source of truth. They must not substitute the scene background that happened to be active before the ending node.
+- Files updated:
+  - `authority/visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md`
+  - `authority/MANIFEST.md`
+- Cleanup status: none.
+
+# DEC-20260722-002 - Replace c2 holiday message script and runtime story split
+
+- Date: 2026-07-22
+- Owner: Ant / PM 一一
+- Trigger: Ant supplied a rewritten `c2 | 假期的消息` scene and requested it replace the prior c2 story, then be split into runtime story-data so it takes effect in app builds.
+- Decision:
+  - Replace the `### --- c2 | 假期的消息 ---` section in `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` with Ant's new version.
+  - Keep existing runtime split shape: `c2` contains the opening holiday-message setup and first choice; `c2_s2` contains the expanded confession / apartment / 一一 negotiation sequence and the two final choices.
+  - Preserve existing route semantics: first c2 choice targets `c2_s2`; after final c2_s2 choice responses, existing `flow.default.c2_s2 → e_invite` continues the story.
+  - Do not change BG mapping, chapter starts, variables, or surrounding nodes in this update.
+- Files updated:
+  - `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`
+  - `story-data/nodes.json`
+  - `authority/MANIFEST.md`
+- Validation: `node tools/validate.js` passed with 0 errors / 1 existing hardcoded-Ant warning.
+- Cleanup status: none.
+
+# DEC-20260722-003 - Replace e_invite apartment invitation script and runtime split
+
+- Date: 2026-07-22
+- Owner: Ant / PM 一一
+- Trigger: Ant supplied a rewritten `e_invite | 高级公寓的邀请` scene and requested it replace the prior version.
+- Decision:
+  - Replace the `### --- e_invite | 高级公寓的邀请 ---` section in `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` with Ant's new version.
+  - Runtime split: keep `e_invite` as the main apartment visit node through the two player choices; add `e_invite_s2` for the common post-choice visitor-access / temporary-door-permission sequence, then auto-advance to `e_lolly`.
+  - Both `e_invite` player choices target `e_invite_s2`; `e_invite_s2` auto-advance targets `e_lolly`.
+  - Do not change BG mapping, chapter starts, variables, or unrelated nodes in this update.
+- Files updated:
+  - `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`
+  - `story-data/nodes.json`
+  - `authority/MANIFEST.md`
+- Validation: `node tools/validate.js` passed with 0 errors / 1 existing hardcoded-Ant warning.
+- Cleanup status: none.
+
+# DEC-20260723-001 - Replace e_depart NEL departure script and runtime split
+
+- Date: 2026-07-23
+- Owner: Ant / PM 一一
+- Trigger: Ant supplied a rewritten `e_depart | NEL启程·闭关送别` scene and requested it replace the prior version.
+- Decision:
+  - Replace the `### --- e_depart | NEL启程·闭关送别 ---` section in `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` with Ant's new version.
+  - Runtime split: `e_depart` contains the NEL notice / departure waiting sequence and first two choices; `e_depart_s2` contains the common apartment-preservation section,玄关靠肩 section, and second two choices; `e_depart_s3` contains the elevator farewell / apartment aftermath section and auto-advances to `c6a`.
+  - Both first-round choices target `e_depart_s2`; both second-round choices target `e_depart_s3`; `e_depart_s3` auto-advance targets `c6a`.
+  - Do not change BG mapping, chapter starts, variables, or unrelated nodes in this update.
+- Files updated:
+  - `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`
+  - `story-data/nodes.json`
+  - `authority/MANIFEST.md`
+- Validation: `node tools/validate.js` passed with 0 errors / 1 existing hardcoded-Ant warning.
+- Cleanup status: none.
+
+# DEC-20260723-002 - Replace e_lemontea lemon tea date script and runtime split
+
+- Date: 2026-07-23
+- Owner: Ant / PM 一一
+- Trigger: Ant supplied a rewritten `e_lemontea | 你的，我的` scene and requested it replace the prior version.
+- Decision:
+  - Replace the `### --- e_lemontea | 你的，我的 ---` section in `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` with Ant's new version.
+  - Runtime split: `e_lemontea` contains the date setup, first drink-stealing conflict, and first choice; `e_lemontea_s2` contains the height/near-distance teasing sequence and second two choices; `e_lemontea_s3` contains the shared-straw / boundary-blurring aftermath and auto-advances to `c2`.
+  - First choice targets `e_lemontea_s2`; both second-round choices target `e_lemontea_s3`; `e_lemontea_s3` auto-advance targets `c2`.
+  - Do not change BG mapping, chapter starts, variables, or unrelated nodes in this update.
+- Files updated:
+  - `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`
+  - `story-data/nodes.json`
+  - `authority/MANIFEST.md`
+- Validation: `node tools/validate.js` passed with 0 errors / 1 existing hardcoded-Ant warning.
+- Cleanup status: none.
+
+# DEC-20260723-006 - Chapter opening / chapter clear / ending UI authority patch
+
+- Date: 2026-07-23
+- Owner: Ant / XoXo
+- Trigger: Ant reviewed the local authority HTML in browser and confirmed the final direction for three UI pages: 大章开始, 大章结束, and 结局页.
+- Decision:
+  - 大章开始 uses a pure dark full-screen poetic divider page, no story BG, no card, no border, no frosted glass.
+  - 大章结束 uses the same full-screen divider language but weaker: no BG image, no clear-card, `Chapter Clear` with a short underline, primary action `进入下一章` as no-background text, and weak secondary `返回主页`.
+  - 结局页 uses the 大章开始-style full-screen poetic layout with `assets/bg/true_end.jpg`; no ending-card, no frosted glass, no border; `TRUE END` is 18sp UI sans with underline; `Ending unlocked` is removed; only visible action remains `返回主页` as no-background text.
+  - These rules are written into `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 23 and override old section 14.1 / 14.2 / 18.1 / 18.5 only for these three pages.
+  - Android implementation task is assigned to Sai as `TASK-20260723-002`.
+- Files updated:
+  - `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html`
+  - `authority/ui/XoXo_UI_Final_MinSpec_20260712.md`
+  - `authority/MANIFEST.md`
+  - `00_harness/02_planning/task_board.md`
+  - `TASKS.md`
+- Cleanup status: none. No Android/Web/story-data/BG mapping/resource deletion authorized by this decision.
+
+# DEC-20260723-003 - Sai Android direct UI adjustments synced back to XoXo authority
+
+- Date: 2026-07-23
+- Owner: Ant / Sai / XoXo
+- Trigger: Sai reported Android UI adjustments that Ant requested directly during implementation in `00_harness/05_reports/TASK-20260723-002/android_direct_ui_adjustments_for_xoxo.md`; XoXo needed to sync the accepted implementation tokens back into authority so design and Android do not diverge.
+- Decision:
+  - Add `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 24 as the latest override for LongNarrationLayer, ChoiceLayer, DialogueLayer, Gallery ending card, and Ending page BG source rules.
+  - Long narration uses soft radial backing and light full-screen dim, not a solid black cloud.
+  - Choice rows use a horizontal fade-to-transparent background from the second half, with weak border and brighter text.
+  - Dialogue box uses a top-to-bottom strengthening gradient: transparent at top, stable at bottom.
+  - Gallery ending cards use bottom-only 28% gradient backing, ending tag above title, and ending-specific crop bias values.
+  - Ending page layout remains section 23, but background source is the current `end_*` node BG; `true_end.jpg` is TRUE END preview/fallback, not a fixed BG for every ending page.
+  - Sync Ant 2026-07-23 BG choices into visual mapping: `c2` / `c2_s2` use `assets/bg/message_in_holiday.jpg`; `e_depart` uses `assets/bg/nel_start.png`.
+- Files updated:
+  - `authority/ui/XoXo_UI_Final_MinSpec_20260712.md`
+  - `authority/visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md`
+  - `authority/MANIFEST.md`
+- Cleanup status: none. This decision documents existing accepted implementation/design alignment; it does not authorize resource deletion or new Android/Web/story edits.
+
+# DEC-20260723-004 - Add agency setup long narration before e_agency_launch press conference
+
+- Date: 2026-07-23
+- Owner: Ant / PM 一一
+- Trigger: Ant requested one long-narration addition at the start of `e_agency_launch | 她站在光里`, specifically before `发布会安排在东京`.
+- Decision:
+  - Insert Ant's supplied long narration about Nagi entering the European league, the rapid growth of interviews/brand/portrait/commercial/media work, and Ant deciding to establish an independent agency for Nagi.
+  - Place the new text before the existing first line `发布会安排在东京`.
+  - Do not change route, BG mapping, choices, variables, or adjacent story nodes.
+  - Runtime story-data inserts the same content as `e_agency_launch_intro001` through `e_agency_launch_intro007` before existing `e_agency_launch_d001`.
+- Files updated:
+  - `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`
+  - `story-data/nodes.json`
+  - `authority/MANIFEST.md`
+- Validation: `node tools/validate.js` passed with 0 errors / 1 existing hardcoded-Ant warning.
+- Cleanup status: none.
+
+# DEC-20260723-005 - Gallery four-ending staggered vertical wall authority
+
+- Date: 2026-07-23
+- Owner: Ant / XoXo / Sai
+- Trigger: Ant reviewed the current Gallery page and rejected the ordinary half-screen thumbnail-list feeling; all ending images are vertical and fixed by ending chapter, so the Gallery should read as a four-ending memory wall.
+- Decision:
+  - Redesign Gallery as a four-ending staggered vertical-image wall, not a generic CG grid.
+  - Gallery displays only TRUE / GOOD / NORMAL / BAD endings in this scope; do not mix ordinary CG or achievement modules into this screen.
+  - Use two equal columns, four same-spec vertical cards, light stagger, no scrollbar, and no TRUE featured/main card.
+  - Cards use ending node BGs: TRUE=`assets/bg/true_end.jpg`, GOOD=`assets/bg/king.jpg`, NORMAL=`assets/bg/ending_true_nagi_soft_gaze.jpg`, BAD=`assets/bg/goal_faraway.jpg`.
+  - GOOD title `那么完美，那么爱他` must remain one line with a smaller title token.
+  - Android implementation is assigned to Sai as `TASK-20260723-004`.
+- Files updated:
+  - `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html`
+  - `authority/ui/XoXo_UI_Final_MinSpec_20260712.md`
+  - `authority/MANIFEST.md`
+  - `00_harness/02_planning/task_board.md`
+  - `TASKS.md`
+- Cleanup status: none. This does not authorize Android/Web/story-data/BG mapping changes except the Android Gallery UI implementation task, and does not authorize resource deletion.
+
+# DEC-20260724-001 - Story recap dialogue excerpt visual distinction
+
+- Date: 2026-07-24
+- Owner: Ant / XoXo / Sai
+- Trigger: Ant reviewed the story recap page and pointed out that dialogue excerpts should visually differ from narration, matching the VN rule that dialogue and narration use different typography.
+- Decision:
+  - Add `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` section 26 for story recap dialogue excerpt tokens.
+  - Narration in story recap remains title serif, 16sp, line-height 1.92.
+  - Dialogue excerpt uses UI sans, 15sp, line-height 1.82, with a light deep-blue horizontal backing, subtle gold radial accent, and a thin left gold line.
+  - Speaker label is a source marker only: UI sans 12sp SemiBold, gold, no chip/background/border/click affordance.
+  - Android implementation is assigned to Sai as `TASK-20260724-001`.
+- Files updated:
+  - `authority/ui/XoXo_UI_Final_MinSpec_20260712.md`
+  - `authority/MANIFEST.md`
+  - `00_harness/02_planning/task_board.md`
+  - `TASKS.md`
+- Cleanup status: none. This does not authorize story text changes, recap pagination changes, chapter map changes, Gallery changes, Android/Web/BG mapping changes beyond the scoped Android recap dialogue visual implementation, or resource deletion.
+
+# DEC-20260726-002 - Start v23 static vignette overlay + START gold rule reinforcement
+
+- Date: 2026-07-26
+- Owner: Ant / XoXo / TT / Claude(Android)
+- Trigger: Ant asked for the Start v23 vignette overlay (XoXo C-spec) after Sai could not make it adapt across screen sizes. During verification the V23 START gold rules measured 1.29:1 contrast against the vignette-darkened backdrop and read as missing; TT ruled on new gold rule parameters.
+- Decision:
+  - Add a static vignette overlay to Start v23 in `SplashScreen.kt`. C-spec values implemented as given: colour `#08080C`, radial centre 50%/39%, inner 31%, outer 72%, max alpha 0.56, sides 0.30, top 0.12, bottom 0.71.
+  - Screen-size handling: the vignette is drawn at `fillMaxSize` so devices taller than 9:16 get no un-dimmed bands, while the radial centre is anchored to the 9:16 UI safe layer and the radius is derived from the real pixel distance to the farthest corner. The single safe layer was split into two identically-positioned boxes so the vignette can sit between the title and START layers.
+  - Layer order is bg -> vignette -> title -> START. The verbal brief placed the vignette above the title; Ant directed that the title render above the vignette so the wordmark keeps full brightness. This is **not** a deviation: TT's `TT_Icon_Start_Authority_Spec_v1_0.md` gold ornament preservation rule explicitly sanctions it — "if the vignette layer dims the title ornament too much, either place the full title layer above the vignette or redraw/duplicate only the gold ornament lines above the vignette". The first option was taken.
+  - Title layer lifted by 7% of safe-layer height (`titleLift = 0.07f`), independent of START, which keeps its v23 position and breathing animation.
+  - TT ruling on the START gold rules: `#a0784c` -> `#b18a58`, `stroke-width` 2 -> 3, length 80px -> 112px per side, opacity 0.72 -> 0.82. Inner edges held at x=468 / x=612 so the gap around START and symmetry about x=540 are unchanged.
+  - The same gold rule change is applied to the unused `start_button_breathing_v23.svg` so the two V23 button variants do not diverge.
+  - **Follow-up (Ant, same session)**: applying TT's heavier parameters to START alone broke the V23 gold system, which was uniformly `#b18a58` / 2px / 0.72 across the title rules, the title centre square, and the START rules. Ant flagged the mismatch. Resolution is to raise the whole system rather than let START stand alone: the two title rules and the 16x16 centre square in `start_title_overlay_v23.svg` also move to 3px / 0.82. Colour and geometry are unchanged; only weight and opacity move. Lengths intentionally still differ per element (title rules 126px, START rules 112px) because they frame elements of different widths.
+- Files updated:
+  - `android/app/src/main/java/com/antnagi/nagisheart/ui/screen/SplashScreen.kt`
+  - `android/app/src/main/java/com/antnagi/nagisheart/ui/theme/NagiTokens.kt` (new `startVignette` token; no hardcoded colour in `ui/`)
+  - `design/authority/icon_start_tt/start/layers/start_button_static_v23.svg`
+  - `design/authority/icon_start_tt/start/layers/start_button_breathing_v23.svg`
+  - `design/authority/icon_start_tt/start/layers/start_title_overlay_v23.svg`
+  - `android/app/src/main/assets/start/start_button_static_v23.svg`
+  - `android/app/src/main/assets/start/start_title_overlay_v23.svg`
+  - `00_harness/01_governance/decision_log.md`
+- Verification: `check-authority.ps1` still reports `OK Start V23 package (9 files)` (KV packages are validated by file count, not content hash, so no MANIFEST hash change was required). `check-tokens.ps1` passes. Built and installed on emulator-5554 (1080x2424, 9:20.2 — taller than 9:16); vignette covers full screen with no banding. Gold rule pixel coverage went from 2 rows to 4, measured colour (137,114,84).
+- Cleanup status: none. This does not authorize changes to the Start background art, the title SVG artwork, App Icon, Web, story-data, BG mapping, or resource deletion.

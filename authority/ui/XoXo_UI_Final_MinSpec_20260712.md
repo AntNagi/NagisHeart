@@ -1176,6 +1176,142 @@ Blocked rule：如果 PP 发现 Home 普通继续态与 ending-complete 后新�
 
 ---
 
+## 23. 2026-07-23 Ant confirmed visual patch：大章开始 / 大章结束 / 结局页
+
+来源：Ant 2026-07-22 至 2026-07-23 浏览器内确认；XoXo 本地 authority HTML 迭代。  
+状态：confirmed UI authority for implementation。  
+覆盖范围：本节覆盖旧 section 14.1 中“大章开始必须使用背景托底”的口径、旧 section 14.2 中“大章结束 clear-card / story BG”的口径，以及旧 section 18.1 / 18.5 中“结局页 ending-card / 有背景主按钮”的口径。小节开始、HUD、Dialog、Backlog、Gallery、Settings 等不受本节影响。
+
+### 23.1 共同页面语言
+
+大章开始、大章结束、结局页都使用“整屏诗性分割页”语言，不使用弹窗式卡片。
+
+1080 x 1920 / Android dp 等比基准：
+
+- content field：全屏 absolute/inset 0，`display: grid; place-items: center`。
+- safe padding：top `96dp`，left/right `42dp`，bottom `90dp`。
+- text align：center。
+- base text color：`rgba(247,249,252,0.94)`。
+- text shadow：`0 4dp 24dp rgba(0,0,0,0.64)`。
+- stack gap：`18dp`。
+- 禁止：厚弹窗、毛玻璃卡片、外描边卡、系统圆角矩形按钮、把说明文案做成可点击 action cell。
+
+### 23.2 大章开始页 / Chapter Opening
+
+设计意图：大章开始必须和小节开始拉开差异；使用无剧情 BG 的暗底整屏分割页，形成“进入新一部”的停顿。
+
+背景：
+
+- preset background：`linear-gradient(160deg, #05080f 0%, #0b1422 42%, #101827 72%, #05070c 100%)`。
+- overlay inside field：
+  - `radial-gradient(ellipse at center, rgba(16,24,39,0.18), transparent 46%)`
+  - `linear-gradient(to bottom, rgba(9,14,24,0.22), rgba(9,14,24,0.02) 35%, rgba(9,14,24,0.48))`
+- divider line：
+  - left/right `42dp`
+  - top `50%`
+  - transform `translateY(-104dp)`
+  - height `1dp`
+  - background `linear-gradient(to right, transparent, rgba(215,190,134,0.44), transparent)`
+  - opacity `0.90`
+
+文字 token：
+
+| Element | Text example | Font | Size | Color / alpha | Other |
+|---|---|---|---|---|---|
+| eyebrow | `Chapter 01` | UI sans | 12sp | `rgba(215,190,134,0.82)` | letter-spacing `0.22em`, uppercase |
+| number / part | `第一部 · 原作前置篇` | title serif | 18sp | `rgba(247,249,252,0.72)` | letter-spacing `0.18em` |
+| title | `在他成为世界第一之前` | title serif | 34sp | inherited snow | weight 400, line-height `1.34`, letter-spacing `0.02em` |
+| copy | short poetic line | title serif | 16sp | `rgba(244,241,234,0.78)` | max-width `310dp`, line-height `1.92`, margin-top `8dp` |
+| tap | `轻触继续` | UI sans | 13sp | `rgba(247,249,252,0.56)` | bottom `58dp`, letter-spacing `0.08em` |
+
+实现口径：
+
+- 大章开始不使用当前 story BG。
+- 大章开始不使用 glass card、button、border。
+- `轻触继续` 是继续阅读动作，不是返回主页。
+
+### 23.3 大章结束页 / Chapter Clear
+
+设计意图：大章结束与大章开始同属整屏分割页，但文字层级必须更弱，避免与下一页的新大章开始抢主标题。它不是结局页，也不是普通小节结束。
+
+背景：
+
+- preset background：`linear-gradient(160deg, #05080f 0%, #0a1220 42%, #0e1726 72%, #05070c 100%)`。
+- overlay：
+  - `radial-gradient(ellipse at 50% 32%, rgba(215,190,134,0.07), transparent 42%)`
+  - `radial-gradient(ellipse at 50% 78%, rgba(61,90,128,0.10), transparent 48%)`
+  - same dark gradient as preset。
+- 不使用 story BG，不使用 clear-card，不使用背景托底卡。
+- 关闭 inherited divider；只使用 `Chapter Clear` 下方短线。
+
+文字 token：
+
+| Element | Text example | Font | Size | Color / alpha | Other |
+|---|---|---|---|---|---|
+| eyebrow | `Chapter Clear` | UI sans | 10sp | `rgba(215,190,134,0.54)` | uppercase, margin-bottom `12dp`, relative |
+| eyebrow line | under `Chapter Clear` | n/a | 1dp high | `rgba(215,190,134,0.28)` | width `188dp`, top `25dp`, centered |
+| number | `第一部 已完成` | title serif | 14sp | `rgba(247,249,252,0.46)` | inherits spacing |
+| title | `原作前置篇` | title serif | 21sp | `rgba(247,249,252,0.62)` | line-height `1.42` |
+| copy | one short closing line | title serif | 14sp | `rgba(244,241,234,0.54)` | keep quiet, no long paragraph |
+| primary action | `进入下一章` | UI sans | 14sp | `rgba(247,249,252,0.76)` | bottom `72dp`, no background/border/shadow/blur, letter-spacing `0.12em` |
+| secondary action | `返回主页` | UI sans | 11sp | `rgba(247,249,252,0.38)` | bottom `42dp`, letter-spacing `0.10em`, lower emphasis |
+
+实现口径：
+
+- `进入下一章` 是主动作，必须无背景。
+- `返回主页` 是底部弱化小字，可点击但不能像主按钮。
+- 两个动作不能做成 glass bar、Button、ChipButton 或 action cell。
+- 若当前大章是最后一章且后续进入结局，则产品/路由可决定主动作文案，但视觉层级仍按本节：主动作无背景，返回主页弱化。
+
+### 23.4 结局页 / Ending
+
+设计意图：结局页使用“大章开始”的整屏诗性排版，但必须带最终结局背景图。TRUE END 不是弹窗结算卡；它是 terminal ending page 的仪式性落幕。
+
+背景：
+
+- TRUE END preset background：`url('../../assets/bg/true_end.jpg')`，position `center`。
+- dark overlay：`linear-gradient(to bottom, rgba(9,14,24,0.34) 0%, rgba(9,14,24,0.52) 42%, rgba(9,14,24,0.72) 100%)`。
+- field overlay：
+  - `radial-gradient(ellipse at center, rgba(16,24,39,0.12), transparent 48%)`
+  - `linear-gradient(to bottom, rgba(5,8,15,0.36), rgba(5,8,15,0.22) 38%, rgba(5,8,15,0.64))`
+- 不使用 ending-card。
+- 禁止毛玻璃：`backdrop-filter: none`。
+- 禁止边框线 / 卡片描边 / 实心黑卡。
+
+文字 token：
+
+| Element | Text example | Font | Size | Color / alpha | Other |
+|---|---|---|---|---|---|
+| ending tag | `TRUE END` | UI sans | 18sp | `rgba(215,190,134,0.82)` | weight 500, letter-spacing `0.16em`, margin-top `18dp` |
+| tag underline | under `TRUE END` | n/a | 1dp high | `rgba(215,190,134,0.48)` | width `178dp`, top `34dp`, opacity `0.78` |
+| subtitle | none | n/a | n/a | n/a | `Ending unlocked` 不显示 |
+| title | `世界第一，与他` | title serif | 33sp | inherited snow | weight 400, line-height from base title |
+| copy | ending description | title serif | 16sp | `rgba(247,249,252,0.82)` | max-width `330dp`, line-height `1.92` |
+| status | `已解锁：TRUE END / 回忆画廊新增 1 项` | UI sans | 11sp | `rgba(244,241,234,0.56)` | static inline note, margin-top `4dp`; gold dot allowed |
+| primary action | `返回主页` | UI sans | 14sp | `rgba(247,249,252,0.82)` | bottom `58dp`, no background/border/shape, letter-spacing `0.12em` |
+
+Action / status rule：
+
+- 结局页仍只有一个可见动作：`返回主页`。
+- `返回主页` 是无背景文字主按钮，不得做成填充按钮、glass bar、ChipButton 或 action cell。
+- `已解锁...` 只是静态状态反馈，不得可点击，不得共享主动作高度/边框/填充/hover rhythm。
+- `Ending unlocked` 不再作为 visible mock 文案出现。
+
+### 23.5 给 Sai 的 implementation alignment checklist
+
+| Authority section | 目标效果 | Android 目标组件 | 关键 token | Ant 验收截图点 |
+|---|---|---|---|---|
+| 23.2 | 大章开始是纯暗底整屏分割页，不再像小节开始 | `ChapterOpeningScreen` / `GameScreen` chapter opening overlay | dark gradient bg；center field；divider y=-104；title 34sp；tap bottom 58 | 大章开始无剧情 BG、无卡、无边框；和小节开始明显不同 |
+| 23.3 | 大章结束弱化版整屏分割页 | chapter ending overlay / route after last section | no story BG；Chapter Clear 10sp；line under label；主动作 `进入下一章` 无背景；`返回主页` 11sp 弱化 | 一眼看到主动作是进入下一章；返回主页只是弱小出口；没有背景卡 |
+| 23.4 | TRUE END 是带 true_end 图的整屏落幕页 | ending overlay / terminal ending screen | bg `assets/bg/true_end.jpg`；no ending-card；no blur；TRUE END 18sp sans；line under TRUE END；return home no bg | 背景图清楚；无毛玻璃/无边框；无 `Ending unlocked`；只有 `返回主页` 一个动作 |
+
+Blocked rule：
+
+- 如果当前 Android 架构只能显示旧 `EndingOverlay` 卡片，Sai 必须先回报需要重构 overlay 结构；不得用旧卡片套新背景图冒充完成。
+- 如果 chapter opening / chapter ending / ending 共用了同一组件导致无法分别控制背景、动作文案或字号，Sai 必须拆出可配置 token，不得牺牲三页差异。
+
+---
+
 ## 19. 选项层规范（ChoiceLayer）
 
 来源：2026-07-20 lulu 全量核对补齐。按 HTML authority `.choice-list` / `.choice-row` / `.choice-copy` 对齐。
@@ -1286,6 +1422,419 @@ Blocked rule：如果 PP 发现 Home 普通继续态与 ending-complete 后新�
 
 ---
 
+## 24. 2026-07-23 Android direct UI adjustments sync（Sai → XoXo）
+
+来源：Ant 2026-07-23 现场口头确认，Sai Android 先行实现记录 `00_harness/05_reports/TASK-20260723-002/android_direct_ui_adjustments_for_xoxo.md`。  
+状态：confirmed UI authority sync。  
+覆盖范围：本节覆盖旧 §9 / §17.1 / §17.4 / §19 / §21 中与 LongNarrationLayer、ChoiceLayer、DialogueLayer、Gallery ending card、Ending page BG 相关的旧 token。未提及组件不受影响。
+
+### 24.1 长旁白层 LongNarrationLayer
+
+设计意图：去掉“一团乌云”式实心黑块，保留可读性，但托底必须更软、更像空气感暗化。
+
+Android / 1080x1920 等比 token：
+
+- 整屏轻遮罩：vertical gradient
+  - `0%`: deepBlue alpha `0.06`
+  - `44%`: deepBlue alpha `0.12`
+  - `100%`: deepBlue alpha `0.24`
+- 文本背后柔和径向托底：
+  - 区域 padding：left/right `18dp`，top `148dp`，bottom `152dp`
+  - radial gradient:
+    - `0%`: deepBlue alpha `0.44`
+    - `58%`: deepBlue alpha `0.32`
+    - `100%`: transparent
+  - center：容器中心
+  - radius：`max(width * 0.64, height * 0.62)`
+- 正文区域：
+  - 外层 padding：left/right `18dp`，top `88dp`，bottom `126dp`
+  - text box：`heightIn(min = 280dp, max = 760dp)`
+  - text padding：left/right `20dp`
+  - paragraph gap：`24dp`
+  - font：Serif
+  - font-size：`16sp`
+  - line-height：`30sp`
+  - color：parchment alpha `0.92`
+  - shadow：deepBlue alpha `0.18`，offset `(0, 1)`，blur `8`
+- bottom hint：
+  - page indicator / `轻触继续` bottom `120dp`
+  - indicator color：parchment alpha `0.78`
+  - last page `轻触继续` alpha `0.44`
+
+禁止：实心黑色矩形块、整页毛玻璃、比底部 dialogue 正文更窄的文本宽度。
+
+### 24.2 选项层 ChoiceLayer
+
+设计意图：选项文字更亮；选项框不是整条硬块，而是从后半段渐变透明；保留弱边框以接上 HUD / VN 玻璃语言。
+
+- choice list：
+  - content alignment：center
+  - container padding：left/right `18dp`
+  - item gap：`10dp`
+- choice row：
+  - shape：`cutSmall`
+  - background：horizontal gradient
+    - `0%`: deepBlue alpha `0.48`
+    - `50%`: deepBlue alpha `0.44`
+    - `100%`: deepBlue alpha `0`
+  - border：`1dp borderGlass`
+  - padding：left/right `16dp`，top/bottom `14dp`
+  - content alignment：`CenterStart`
+- left marker：
+  - size：`9dp`
+  - shape：pentagon
+  - color：roseGold alpha `0.76`
+- choice text：
+  - typography：`choiceText`
+  - color：snow alpha `0.98`
+
+禁止：整条实心硬块、无边框导致与 HUD 断开、文字过暗、右半段不透明。
+
+### 24.3 普通 dialogue / narration 框 DialogueLayer
+
+设计意图：dialogue 框也要有渐变透明感，方向为从上往下：上方更透，底部更稳。
+
+- dialogue box background：vertical gradient
+  - `0%`: deepBlue alpha `0.18`
+  - `46%`: deepBlue alpha `0.52`
+  - `100%`: deepBlue alpha `0.70`
+- border：`1dp borderGlass`
+- shape：`cutMedium`
+- shadow：
+  - color：black alpha `0.26`
+  - blur：`40dp`
+  - shadow path top offset：`18dp`
+  - shadow path bottom extra：`8dp`
+- position：left/right `18dp`，bottom `34dp`
+- padding：start/end `20dp`，top `18dp`，bottom `22dp`
+- speaker chip：
+  - shape：`cutSmall`
+  - background horizontal gradient：deepBlue alpha `0.30` → deepBlue alpha `0.10`
+  - border：`1dp goldPlayer`
+  - padding：start/end `9dp`，top `3dp`，bottom `4dp`
+  - font-size：`13sp`
+  - font-weight：SemiBold
+  - color：speakerGold
+- dialogue text：
+  - font-size：`17sp`
+  - line-height：`17 * 1.9`
+  - color：textSnow94
+  - shadow：textShadowColor，offset `(0, 2)`，blur `14`
+
+### 24.4 回忆画廊结局卡 Gallery ending card
+
+设计意图：解决结局卡文字压在图片上不清楚；托底只在底部，不让整张图变灰。
+
+- card：
+  - shape：`cutSmall`
+  - background：`colors.glassBgSoft`
+  - height：`heightIn(min = 128dp)`
+- image：
+  - `ContentScale.Crop`
+  - modifier：`matchParentSize()`
+- bottom readability backing：
+  - align：`BottomCenter`
+  - width：`fillMaxWidth()`
+  - height：`fillMaxHeight(0.28f)`
+  - background vertical gradient：
+    - `0%`: transparent
+    - `100%`: deepBlue alpha `0.62`
+- text container：
+  - padding：`12dp`
+  - row gap：`4dp`
+- text hierarchy：
+  1. ending tag, e.g. `TRUE END` / `GOOD END` / `NORMAL END`
+     - typography：`micro`
+     - color：gold
+  2. ending title, e.g. `普通情侣`
+     - typography：`speakerName`
+     - color：snowWhite
+
+Gallery ending card crop rule：
+
+| Ending | Alignment |
+|---|---|
+| NORMAL | `BiasAlignment(0f, -0.58f)` |
+| TRUE | `BiasAlignment(0f, -0.16f)` |
+| Other endings | `BiasAlignment(0f, 0.35f)` |
+
+说明：Compose `BiasAlignment` Y 轴为 `-1` 到 `1`；NORMAL 取更偏上的图像内容，以露出 Nagi 眼睛 / 脸部重点；TRUE 稍微往上，避免底部托底挡脸。
+
+### 24.5 结局页 BG 规则纠偏
+
+§23.4 中 `assets/bg/true_end.jpg` 是 TRUE END 的 authority preview / 示例图，不代表所有 ending page 固定使用 TRUE END 图。
+
+正式规则：
+
+- Ending page 使用 §23 的整屏诗性 layout。
+- 背景使用当前 `end_*` node 的 `bgAssetPath`。
+- `true_end.jpg` 仅作为异常兜底，避免空背景。
+
+结局 BG 目标映射：
+
+| Ending | BG |
+|---|---|
+| TRUE | `assets/bg/true_end.jpg` |
+| GOOD | `assets/bg/king.jpg` |
+| NORMAL | `assets/bg/ending_true_nagi_soft_gaze.jpg` |
+| BAD | `assets/bg/goal_faraway.jpg` |
+
+禁止：四个结局页全部固定用 TRUE END 图；用进入结局前的 scene BG 代替 `end_*` node BG；旧 ending-card / 毛玻璃卡回潮。
+
+### 24.6 给 Sai / 后续 Android 的实现口径
+
+1. 本节是 Android 现场确认后的 authority sync；后续实现与复查以本节为准。
+2. 若本节与 §9 / §17 / §19 / §21 的旧值冲突，以 §24 为准。
+3. 若本节与 §23 的结局 layout 冲突，以 §23 定布局，以 §24.5 定背景来源。
+4. 完成截图应覆盖：长旁白、选项、dialogue、Gallery ending card、TRUE/GOOD/NORMAL/BAD ending page 至少一张能证明 BG 不是固定 TRUE。
+
+---
+
+## 25. 2026-07-23 Gallery ending wall confirmed redesign
+
+来源：Ant 2026-07-23 浏览器确认；XoXo HTML visual iteration。  
+状态：confirmed UI authority for Android implementation。  
+覆盖范围：本节覆盖 §24.4 中“2x2 / 普通 ending card”的临时画廊卡规则。回忆画廊当前只展示四个结局；不混普通 CG 缩略图。
+
+### 25.1 页面目标
+
+回忆画廊不是普通缩略图列表，而是四个结局的“错落竖图展墙”。所有结局图本身为竖图，必须保留竖向观看感；不得硬裁成横卡。
+
+设计目标：
+
+- 四个结局同屏可见，不出现滚动条。
+- 使用两列错落竖卡，像实体画廊挂画。
+- 卡片略短于原 9:16，以保证一屏完整显示，但仍保持竖图比例。
+- 文字只在卡片底部轻压，不遮挡图像主体。
+- `GOOD END` 长标题可单独缩小，必须一行显示。
+
+### 25.2 Gallery shell
+
+基准为 authority HTML `screen-gallery`：
+
+- `soft-screen` position：
+  - top `66dp`
+  - bottom `28dp`
+  - padding top `16dp`
+  - padding left/right `16dp`
+  - padding bottom `20dp`
+- background：
+  - `radial-gradient(ellipse at 50% 18%, rgba(247,249,252,0.08), transparent 42%)`
+  - `linear-gradient(to bottom, rgba(16,24,39,0.18), rgba(16,24,39,0.30) 44%, rgba(16,24,39,0.50))`
+- backdrop blur：none。
+- overflow：hidden；不得显示滚动条。
+
+Header：
+
+- layout：horizontal, title left, progress right, baseline/end aligned。
+- title：`回忆画廊`
+  - font：title serif
+  - size `34sp`
+  - weight 400
+  - color `rgba(247,249,252,0.94)`
+  - line-height `1.2`
+- progress：`已解锁 4 / 4`
+  - size `14sp`
+  - letter-spacing `0.08em`
+  - color `rgba(244,241,234,0.66)`
+- header margin bottom `12dp`。
+
+### 25.3 Ending wall layout
+
+- container height：`calc(100% - 62dp)` / Android 按剩余高度。
+- columns：2 equal columns。
+- gap：horizontal `12dp`，vertical `10dp`。
+- align items：start。
+- no scroll。
+
+Card ratio：
+
+- card aspect ratio：`9 / 13.2`。
+- shape：`cut-sm`。
+- padding：`13dp`。
+- box shadow：`0 16dp 34dp rgba(0,0,0,0.22)`。
+- background：
+  - `linear-gradient(to bottom, rgba(5,8,15,0.02) 0%, rgba(5,8,15,0.04) 46%, rgba(5,8,15,0.72) 100%)`
+  - ending image, cover, ending-specific crop.
+
+Stagger:
+
+| Card | Column | Offset |
+|---|---:|---:|
+| TRUE | 1 | `0dp` |
+| GOOD | 2 | `14dp` down |
+| NORMAL | 1 | `0dp` |
+| BAD | 2 | `14dp` down |
+
+### 25.4 Ending-specific images and crops
+
+| Ending | Image | Crop / position | Title |
+|---|---|---|---|
+| TRUE | `assets/bg/true_end.jpg` | `center 34%` | `世界第一，与他` |
+| GOOD | `assets/bg/king.jpg` | `center 30%` | `那么完美，那么爱他` |
+| NORMAL | `assets/bg/ending_true_nagi_soft_gaze.jpg` | `center 18%` | `普通情侣` |
+| BAD | `assets/bg/goal_faraway.jpg` | `center 64%` | `好麻烦` |
+
+说明：这些 crop 是 HTML preview 百分比口径；Android 可用 `BiasAlignment` 等价换算，但必须保留每张图不同焦点，不得统一 center crop。
+
+### 25.5 Text overlay
+
+Ending tag：
+
+- font：UI sans
+- size `10sp`
+- color：gold `#D7BE86`
+- letter-spacing `0.14em`
+- uppercase
+- text-shadow：`0 1dp 8dp rgba(0,0,0,0.55)`
+
+Ending title：
+
+- font：title serif
+- default size `16sp`
+- line-height `1.32`
+- color：snow `#F7F9FC`
+- white-space：nowrap / single line
+- text-shadow：`0 2dp 12dp rgba(0,0,0,0.62)`
+
+Long title override：
+
+- Applies to GOOD title `那么完美，那么爱他`。
+- size `13sp`
+- letter-spacing `-0.02em`
+- must remain one line.
+
+### 25.6 禁止样式
+
+- 不做 2x2 方形缩略图墙。
+- 不做横向卡片。
+- 不做主推 TRUE + 三张缩略入口。
+- 不出现滚动条。
+- 不把普通 CG 混入当前四结局画廊。
+- 不让标题被裁切、遮挡或换行导致信息层级散掉。
+
+### 25.7 给 Sai 的实现口径
+
+Android `GalleryScreen.kt` 实现本节时：
+
+1. 当前画廊首版只按四个 ending 展示，不混 CG。
+2. 使用两列竖向错落 wall；四张同屏可见。
+3. 图片来源按 §24.5 / BG Mapping 的 `end_*` node BG。
+4. 完成后提供一张 Android 回忆画廊截图给 Ant，必须能看到四个结局完整卡片、无滚动条、GOOD 标题一行。
+
+---
+
+## 26. 2026-07-24 Story recap dialogue block token
+
+来源：Ant 2026-07-24 浏览器确认方向：剧情回顾中，对话必须和旁白有明确视觉区分；沿用游戏正文语义，旁白与对白字体不同。  
+状态：confirmed UI token for Android implementation。  
+覆盖范围：仅覆盖剧情回顾 / Backlog recap 页面中“speaker + dialogue excerpt”块。普通 DialogueLayer、LongNarrationLayer、章节地图、回忆画廊不受本节影响。
+
+### 26.1 页面语义
+
+剧情回顾中的对白不是普通旁白，也不是聊天气泡。它是“回顾文本里摘出的角色发言”。
+
+因此：
+
+- 旁白正文继续使用 recap 原有叙述字体：`title serif`。
+- 对白正文使用游戏对话字体：`UI sans`。
+- 对白块要有轻微托底和角色名来源标记，但不能变成厚卡片、系统按钮、聊天气泡或普通 DialogueLayer。
+
+### 26.2 Recap page base token（保持既有）
+
+- page overlay：`rgba(19,32,51,0.58)`。
+- recap content width：`78%`。
+- recap text：
+  - font：`title serif`
+  - size：`16sp`
+  - line-height：`1.92`
+  - color：`rgba(244,241,234,0.92)`
+  - text-shadow：`0 1dp 8dp rgba(10,15,25,0.18)`
+- paragraph gap：`22dp`。
+
+### 26.3 Dialogue excerpt block
+
+HTML authority class reference：`.recap-dialogue`。
+
+Container：
+
+- position：relative。
+- margin-top：`24dp`。
+- padding：top `13dp`，right `15dp`，bottom `15dp`，left `17dp`。
+- background layers：
+  1. horizontal gradient:
+     - left：`rgba(16,24,39,0.40)`
+     - `62%`：`rgba(16,24,39,0.18)`
+     - right：`rgba(16,24,39,0.04)`
+  2. radial accent:
+     - `ellipse at 20% 50%`
+     - center：`rgba(215,190,134,0.07)`
+     - fade to transparent at `58%`
+- left border：`1dp solid rgba(215,190,134,0.48)`。
+- shadow：`0 12dp 30dp rgba(0,0,0,0.12)`。
+- shape：no full card shape required; keep flat text-block feeling. If Android component needs clipping, use subtle `cutSmall` only for overflow safety, not a visible button/card silhouette.
+
+Left glow line：
+
+- width：`1dp`。
+- left：`0dp`。
+- top/bottom inset：`12dp`。
+- background：vertical gradient `transparent → rgba(215,190,134,0.72) → transparent`。
+- halo：`drop-shadow(0 0 8dp rgba(215,190,134,0.18))` or Compose equivalent glow shadow.
+
+### 26.4 Speaker label inside recap dialogue
+
+Example：`JFA会长`。
+
+- margin-bottom：`10dp`。
+- font：`UI sans`。
+- size：`12sp`。
+- weight：`600` / SemiBold。
+- letter-spacing：`0.08em`。
+- color：`#E4CA8F`。
+- background：none。
+- border：none。
+- blur：none。
+- clip：none。
+- text-shadow：
+  - `0 1dp 2dp rgba(0,0,0,0.72)`
+  - `0 0 10dp rgba(215,190,134,0.20)`
+
+Speaker label is a source marker, not a chip/button.
+
+### 26.5 Dialogue text inside recap dialogue
+
+- font：`UI sans`。
+- size：`15sp`。
+- line-height：`1.82`。
+- letter-spacing：`0.01em`。
+- color：`rgba(247,249,252,0.94)`。
+- text-shadow：
+  - `0 1dp 4dp rgba(0,0,0,0.38)`
+  - `0 0 16dp rgba(16,24,39,0.18)`
+
+### 26.6 禁止样式
+
+- 不使用旁白同款 serif 字体渲染对白正文。
+- 不做聊天气泡。
+- 不做普通 DialogueLayer 大对话框。
+- 不做厚玻璃卡片、圆角矩形按钮、action cell。
+- 不把 speaker label 做成可点击 chip。
+- 不在玩家可见 UI 中出现 PM/dev/internal/source/candidate 文案。
+
+### 26.7 给 Sai 的实现口径
+
+Android 目标：剧情回顾 / Backlog recap 中，当一段回顾内容属于角色对白时，使用本节 `recap dialogue excerpt block`。
+
+建议实现：
+
+1. 在 recap item model / render path 中区分 narration 与 dialogue excerpt；如果当前数据暂时没有结构字段，可先按 speaker 非空的 recap excerpt 走 dialogue style，但不要改 story 正文。
+2. narration 保持 §26.2。
+3. dialogue excerpt 使用 §26.3 - §26.5。
+4. 完成后提交一张剧情回顾截图，截图必须同时包含旁白段和 `JFA会长` 对白段，用来确认字体和托底差异。
+
+---
+
 ## 21. 2026-07-20 全量核对结果与待修复清单
 
 来源：lulu 2026-07-20 全量核对 Android 实现 vs HTML authority `NagisHeart_UI_Authority_XoXo_v1_0.html`。
@@ -1345,3 +1894,87 @@ Blocked rule：如果 PP 发现 Home 普通继续态与 ending-complete 后新�
 2. **P1 — 组件级重做**（#14 #17 #18 #19 #20）：ChoiceLayer 布局错误 + LineChatLayer 缺容器/错形状/错字号
 3. **P1 — 暗层系统**（#1 #2 #3）：SystemPageBackground / PrologueScreen / NameSetupScreen 暗层从平面改为多层渐变
 4. **P2 — Token 微调**（#4~13 #15 #16 #21 #25~28）：颜色/字号/间距/渐变方向等数值修正
+
+---
+
+## 27. 2026-07-25 剧情地图 UI authority
+
+> Status: current authority.
+> Source: Ant 大小姐确认剧情地图 v7 排版；决策记录 `DEC-20260725-001`。
+> 可视入口：`NagisHeart_UI_Authority_XoXo_v1_0.html` 左侧的“地图总览 / 地图 01～08”。
+
+### 27.1 视觉参考与资产边界
+
+以下文件用于确认构图、节点层级、路线节奏与滚动密度：
+
+- 总览：`design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Overview_v4.png`
+- 第一至八章：`design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_01_FirstMeet_v7.png` 至 `NagisHeart_StoryMap_Page_08_WorldCenter_v7.png`
+
+这些 PNG 及同目录 SVG / generator **仅为设计参考，不是运行时资源**。开发禁止：
+
+- 把它们复制到 Android `res/`、`assets/` 或 Web runtime；
+- 在正式页面中直接加载整张预览图；
+- 从预览图裁出节点缩略图；
+- 把预览图中的示例配图硬编码为正式章节 BG。
+
+正式页面必须以原生 UI 组件重建节点、路径、标题、装饰和滚动，并从剧情运行数据读取内容。
+
+### 27.2 整体层级
+
+- 旧“章节目录”独立页面退役；原入口直接进入八章收起总览，不得在地图之前再保留一层列表目录。
+- 外层是八章收起总览，不是 65 个节点同时平铺。
+- 总览仅显示八个章节地标和章节间的叙事关系；点击可进入的章节后，以拉近 / 放大的过渡进入该章子页。
+- 不显示“剧情地图”页面大标题；沿用主系统固定背景、顶部安全区和原章节目录已确认的有背景返回按钮样式。
+- 地图属于文艺叙事界面，不得退化为方块卡片网格、后台流程图或笔直时间轴。
+- 已玩过内容点亮；未玩过内容压暗。界面不显示“已完成 / 进行中 / 未解锁”等状态词。
+- 外层已点亮章节的人物图使用对应章节的 Nagi 个人图；未解锁章节不放人物图，只保留无剧透占位构图。
+
+### 27.3 章节子页结构
+
+- 每一个小节必须独立成为一个节点，禁止合并、折叠或只选代表节点。
+- 八章小节数分别为 `5 / 5 / 7 / 4 / 11 / 7 / 6 / 19`，合计 64；加序章共 65 个剧情节点。
+- 普通小节使用轻量文字节点；关键剧情节点才使用配图节点。关键剧情包括但不限于初见、关系确立、淘汰、世界杯等真正改变关系或主线阶段的事件。
+- 章节页允许适度纵向滚动，保持 v7 的折线路径、留白和呼吸感；不得为了塞进一屏而压扁章节图、缩小节点或改变整体设计。
+- 第八章保持三条路线并列展开，不得强行串成一条顺序路线。
+- 顶部标题与返回按钮必须沿用主系统 / 当前章节目录的样式和位置，不得新增另一套标题栏。
+- 五边形只能作为低权重装饰纹样，不得承载状态含义。
+
+### 27.4 已读、未读与无剧透呈现
+
+- 已进入 / 已读小节点亮：连接线、文字和关键图可使用 authority gold / snowWhite 的正常亮度。
+- 未进入小节不点亮：连接线、文字和占位降低亮度，不加显式锁定标签。
+- 未解锁重点节点禁止显示图片。
+- 未解锁标题按原标题的可见字数显示等量问号；例如四字标题显示 `????`。不得泄露标题、人物、场景或结局信息。
+- 不显示 check、锁、进度百分比、状态 chip 或状态文案。
+
+### 27.5 正式 BG 数据契约
+
+重点配图节点的正式图源必须按以下链路读取：
+
+1. 从 `story-data/chapters.json` 读取当前章节的 `sections[]`；
+2. 取每个小节的 `startNode`；
+3. 读取 `story-data/scene_visuals.json[startNode].bg`；
+4. 使用该 BG 对应的现有正式资源。
+
+不得按预览 PNG 猜图，也不得建立与上述链路相冲突的第二份章节配图表。本次 UI authority 不授权修改 BG mapping 或 `story-data`；如果 `startNode` 缺少有效 BG，开发应报告阻塞节点，不得擅自替换。
+
+### 27.6 Nagi 人脸焦点与裁切
+
+- 每张重点节点图必须独立检查和设置焦点，不允许全局统一 `centerCrop`。
+- 画面中存在 Nagi 时，裁切必须露出并对准 Nagi 的脸，且标题、渐变和装饰不得遮挡眼睛、鼻口或主要表情。
+- 可以采用按 BG key 维护的 focus map、alignment / offset / content scale 参数；参数应属于 UI 呈现配置，不复制预览图。
+- 若正式 BG 本身是环境、道具或没有 Nagi 的叙事镜头，应忠实使用该 BG，不得为了“必须有人脸”换成章节封面、Nagi 个人图或别章素材。
+- 多设备比例下至少检查目标 Android 长屏和常见 9:16；人物脸不能在任一验收尺寸完全出框。
+
+### 27.7 开发验收
+
+开发交付至少包含：
+
+- 八章收起总览；
+- 一个普通章节子页、第五章长页、第八章三路线页；
+- 已读 / 未读相邻节点对比；
+- 至少四张含 Nagi 的真实 BG 裁切截图，证明脸部焦点逐张有效；
+- 一个正式 BG 无 Nagi 的环境 / 道具节点，证明没有擅自换图；
+- 章节页滚动及返回后位置恢复的录屏或连续截图。
+
+验收时如 APK / runtime 中发现引用 `design/concepts/story_map_xoxo_v1/` 下的预览图，直接判定不通过。
