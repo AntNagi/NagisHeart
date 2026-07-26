@@ -32,4 +32,6 @@
 
 ## 角色
 
-Ant=Owner/唯一验收 · feibo=CTO（规则/架构/裁决，Fable会话）· PM一一=板面运维/派发 · PP=Android · Wewe=Web · lulu=UI设计 · TT=KV
+Ant=Owner/唯一验收 · feibo=CTO（规则/架构/裁决；由当班的最强模型担任，换模型不换工位名）· PM一一=板面运维/派发 · PP=Android · Wewe=Web · lulu=UI设计 · TT=KV
+
+**角色是固定工位，会话是一次性的**：同一岗位可由不同会话轮流上岗，靠开工四步接班，不靠记忆。
