@@ -32,14 +32,15 @@
 ### TASK-20260726-002
 - 标题：Web 系统级页面暗层不足导致元素不可见
 - 负责人：Wewe（Web）
-- 状态：preflight
+- 状态：review
 - 优先级：P0
 - 现象（Ant 反馈）：系统级页面几乎没有压暗，白色返回按钮与次要文字糊在亮色背景上看不见；主页"继续/读取存档进度"不可读。
 - 范围：`web/styles/` 暗层相关实现，覆盖全部系统级页面；一并核对 splash 类与 story 类是否同样滞后。**不碰 Android、story-data、资源文件。**
 - 落地依据：**`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1（暗层系统）**。数值一律以该节原文为准。
 - 【线索，不得据此直接改，必须回权威取值】feibo【已验证】：`web/styles/tokens.css` 中系统级暗层 token 停留在 §1 修订前的旧口径且缺少其中一层；成因是 90 项对齐（`e728137`）做在 §1 修订之前。
 - 完成定义：§1 全部要求落地 + 浏览器复现证明"返回按钮在亮背景上清晰可见"；先做 pre-flight
-- 最新更新时间：2026-07-26
+- 已改，待验：【已验证】`web/styles/tokens.css`、`web/styles/screens/start.css`、`web/styles/screens/prologue.css` 已按 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 落地系统级三层暗层；复现：旧版 `http://localhost:3001/web/` computed background 为旧两层且无径向暗角，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，主页与存档页返回层 computed background 均为白色高光 + 径向暗角 + 垂直暗层三层，存档页返回按钮在该暗层上可见。
+- 最新更新时间：2026-07-27
 
 ### TASK-20260726-001
 - 标题：Android 剧情回顾页排版重构 + 分页装箱
@@ -60,7 +61,7 @@
 ### TASK-20260726-003
 - 标题：Web 主页「存档进度」入口点击无反应
 - 负责人：Wewe（Web）
-- 状态：preflight
+- 状态：review
 - 优先级：P1
 - 现象（Ant 反馈，feibo【已验证】可复现）：全新进入、无任何存档时，主页点"存档进度"毫无反应。
 - 范围：`web/src/` 主页入口与存档页可达性。**不碰 Android、story-data、资源文件。**
@@ -69,6 +70,7 @@
 - pre-flight 问题清单：
   - 【已验证｜缺失】`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §13 仅规定存档类型、列表信息和页内操作，§23.3 仅规定存档页空状态文案；两节均未规定“无任何存档时主页「存档进度」入口应禁用，还是应保持可点击并进入空状态页”。当前 `web/src/ui/screens/StartScreen.js` 在无自动存档时禁用该入口，但 authority 不足以裁定目标行为。请 PM/Ant 明确入口状态后再实现。
 - PM 裁决已入权威：`DEC-20260727-001`；见 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3。worker 需重跑 pre-flight。
+- 已改，待验：【已验证】`web/src/ui/screens/StartScreen.js` 移除主页“存档进度”入口对 auto-save 的禁用与无响应分支，`web/src/ui/overlays/SaveLoadOverlay.js` 在无手动存档时进入存档页空状态且不渲染空白槽；依据 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3；复现：旧版 `http://localhost:3001/web/` 无存档时按钮 `disabled=true`、点击后 `overlay=false`，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，按钮 `disabled=false`、点击后 `overlay=true`、显示“还没有手动存档。你可以在剧情中随时保存。”且 `.save-slot-row` 数量为 0。
 - 最新更新时间：2026-07-27
 
 ### TASK-20260721-008
