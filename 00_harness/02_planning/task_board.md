@@ -8,7 +8,7 @@
 
 ## 当前优先级
 
-1. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能用嘴测、PM 三查缺一查
+1. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
 2. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
 3. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
 4. `TASK-20260726-003` Web 存档入口不可点
@@ -131,7 +131,7 @@
 
 ## 状态说明
 
-`ready` 可执行 · `preflight` 已派发，worker 正在对照权威、尚未动手 · `blocked` pre-flight 报了权威问题，等 lulu/TT 补或 feibo 裁决 · `in_progress` 裁决通过，正在改 · `review` 已回报，等 PM 三查 / Ant 抽查 · `done` Ant 验收通过 · `rework` 被打回
+`ready` 可执行 · `preflight` 已派发，worker 正在对照权威、尚未动手 · `blocked` pre-flight 报了权威问题，等 lulu/TT 补或 feibo 裁决 · `in_progress` 裁决通过，正在改 · `review` 已回报，Web 等 PM 初查 / QA 取证 / PM 汇总 / Ant 抽查，Android 等 PM 初查 / Ant 实机验收 · `done` Ant 验收通过 · `rework` 被打回
 
 ## 任务模板（严格照写，规则见 `00_harness/roles/ROLE_PM.md`）
 
