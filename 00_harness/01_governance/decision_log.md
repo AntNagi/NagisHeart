@@ -794,3 +794,15 @@ None. Investigation and process decision only; no code or resource deletion auth
   - Self-certification forbidden; workers may only report "已改，待验"; writing pass verdicts into authority or the board is prohibited.
   - Ask instead of guessing when requirements are unclear.
 - Files updated: CLAUDE.md (v2.1)
+
+# DEC-20260726-004 - Evidence-grade labelling applies to every role including the CTO
+
+- Date: 2026-07-26
+- Owner: Ant (finding) / feibo (rule)
+- Trigger: Ant observed that feibo itself jumped to conclusions repeatedly during the same session in which it was imposing evidence discipline on workers. Verified instances by feibo:
+  1. Asserted Ant was viewing a stale/cached build as the root cause of "fixes with no visible effect" - no evidence gathered before asserting.
+  2. Cited the 2026-07-19 Android stale-APK case as established fact; it was a developer's hypothesis recorded in an archived report, and had since been disproven.
+  3. Offered "the foundations were only completed today" as a systemic explanation for two weeks of short delivery, contradicting facts Ant held (authority files existed, were maintained, and were pointed to).
+- Judgement: a rule set that binds workers but not the CTO is structurally unsound - and a persuasive wrong conclusion from the CTO is more dangerous than a worker's, because it is more likely to be believed and acted on.
+- Decision: every statement of judgement, by any role including feibo and PM, must carry an evidence grade - 【已验证】 with the command / file line / live check that produced it, or 【推断】 with how it would be verified. Quoting someone else's guess or a historical report never upgrades it to fact.
+- Files updated: CLAUDE.md (交付纪律 section)
