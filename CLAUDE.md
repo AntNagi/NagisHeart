@@ -50,9 +50,11 @@
 - 小步提交，类型前缀：`docs`/`data`/`assets`/`android`/`web`/`tools`，一次一类
 - **做完即 push；板上写"完成"的前提是 push 成功**（板上写完成、代码没推 = 事故）
 - **验收人只有 Ant。agent QA 的「判定权」已废除，但 QA 作为「取证仪器」保留**——QA 只产出可复现的事实，不下 pass/reject、不做视觉裁判
-- **验收链路**：worker 回报 → PM 查条数/push → **QA 跑脚本 + 人工复现，产出事实** → PM 汇总 → Ant 抽查
+- **验收链路分端**：
+  - **Web**：worker 回报 → PM 查条数/push → **QA 跑脚本 + 人工复现，产出事实** → PM 汇总 → Ant 抽查
+  - **Android**（已进后期，**不设 QA**）：worker 回报 → PM 查条数/push → **直接 Ant 实机验收**
 - **工具坏 ≠ 业务任务失败**：体检脚本不可用时，另开工具 rework 任务，业务任务凭 worker 复现 + QA 人工复现照常流转，不得因此卡住
-- **Android**：不需要 agent 截图，Ant 自己实机验收；worker 逐条说明改了什么即可
+- **Android**：不需要 agent 截图、不经 QA，Ant 自己实机验收；worker 逐条说明改了什么即可
 - **Web**：必须自己在浏览器里复现并证明现象消失（`node web/serve.js`，左下角版本水印确认版本），逐条附证据
 
 ## 角色

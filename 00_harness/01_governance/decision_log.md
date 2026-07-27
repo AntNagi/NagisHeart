@@ -858,3 +858,10 @@ None. Investigation and process decision only; no code or resource deletion auth
   - TASK-20260726-002 and -003: the earlier "health check failed -> not forwarding" verdicts are void; both continue down the corrected chain.
   - TASK-20260726-004 (the health script) is feibo's defect to own: it has no global timeout, no launch/evaluate timeouts, and silently reuses an occupied port. Rework requirements added to the entry; hanging is forbidden.
 - Files: CLAUDE.md, TASKS.md, 00_harness/README.md, roles/ROLE_PM.md, roles/ROLE_QA.md, 02_planning/task_board.md
+
+# DEC-20260727-003 - QA applies to Web only; Android goes straight to Ant
+
+- Date: 2026-07-27
+- Owner: Ant
+- Decision: the QA evidence step introduced in DEC-20260727-002 applies to Web only. Android is late-stage and has no QA agent - after PM checks item count and push, Android tasks go straight to Ant for on-device acceptance, with no QA step and no waiting on the health script. QA must not pick up or test Android tasks.
+- Files: CLAUDE.md, 00_harness/README.md, roles/ROLE_PM.md, roles/ROLE_QA.md, 02_planning/task_board.md (TASK-20260726-001)
