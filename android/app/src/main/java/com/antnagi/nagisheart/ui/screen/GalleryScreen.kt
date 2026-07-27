@@ -366,21 +366,31 @@ private fun EndingDetailOverlay(
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             Box(contentAlignment = Alignment.TopCenter) {
-                Text(
-                    text = item.definition.tag,
-                    modifier = Modifier.padding(top = 18.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = (0.16 * 18).sp,
-                    color = NagiTokens.gold.copy(alpha = 0.82f),
-                    style = galleryEndingAuthorityShadowStyle()
-                )
                 Box(
+                    modifier = Modifier.padding(top = 18.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = item.definition.tag,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = (0.16 * 18).sp,
+                        color = NagiTokens.gold.copy(alpha = 0.18f),
+                        style = galleryEndingGoldGlowStyle()
+                    )
+                    Text(
+                        text = item.definition.tag,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = (0.16 * 18).sp,
+                        color = NagiTokens.gold.copy(alpha = 0.82f),
+                        style = galleryEndingAuthorityShadowStyle()
+                    )
+                }
+                GalleryEndingTagUnderline(
                     modifier = Modifier
-                        .padding(top = 54.dp)
+                        .padding(top = 52.dp)
                         .width(178.dp)
-                        .height(1.dp)
-                        .background(NagiTokens.gold.copy(alpha = 0.48f))
                 )
             }
             Text(
@@ -444,4 +454,47 @@ private fun galleryEndingAuthorityShadowStyle(): TextStyle {
             blurRadius = 14f
         )
     )
+}
+
+private fun galleryEndingGoldGlowStyle(): TextStyle {
+    return TextStyle(
+        shadow = Shadow(
+            color = NagiTokens.gold.copy(alpha = 0.18f),
+            offset = Offset.Zero,
+            blurRadius = 30f
+        )
+    )
+}
+
+@Composable
+private fun GalleryEndingTagUnderline(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.height(5.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .background(
+                    Brush.horizontalGradient(
+                        0f to Color.Transparent,
+                        0.5f to NagiTokens.gold.copy(alpha = 0.10f),
+                        1f to Color.Transparent
+                    )
+                )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    Brush.horizontalGradient(
+                        0f to Color.Transparent,
+                        0.5f to NagiTokens.gold.copy(alpha = 0.48f),
+                        1f to Color.Transparent
+                    )
+                )
+        )
+    }
 }

@@ -174,6 +174,7 @@ fun GameScreen(
                         SectionOpeningOverlay(
                             sectionTitle = info.sectionTitle,
                             chapterName = info.chapterName,
+                            sectionIndex = info.sectionIndex,
                             bgAssetPath = state.bgAssetPath,
                             onTap = { viewModel.onTap() }
                         )
@@ -811,21 +812,31 @@ private fun AuthorityEndingOverlay(
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             Box(contentAlignment = Alignment.TopCenter) {
-                Text(
-                    text = ending.tag,
-                    modifier = Modifier.padding(top = 18.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    letterSpacing = (0.16 * 18).sp,
-                    color = NagiTokens.gold.copy(alpha = 0.82f),
-                    style = authorityShadowStyle()
-                )
                 Box(
+                    modifier = Modifier.padding(top = 18.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = ending.tag,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = (0.16 * 18).sp,
+                        color = NagiTokens.gold.copy(alpha = 0.18f),
+                        style = endingGoldGlowStyle()
+                    )
+                    Text(
+                        text = ending.tag,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = (0.16 * 18).sp,
+                        color = NagiTokens.gold.copy(alpha = 0.82f),
+                        style = authorityShadowStyle()
+                    )
+                }
+                EndingTagUnderline(
                     modifier = Modifier
-                        .padding(top = 54.dp)
+                        .padding(top = 52.dp)
                         .width(178.dp)
-                        .height(1.dp)
-                        .background(NagiTokens.gold.copy(alpha = 0.48f))
                 )
             }
             Text(
@@ -965,6 +976,48 @@ private fun authorityShadowStyle() = LocalTextStyle.current.copy(
     )
 )
 
+@Composable
+private fun endingGoldGlowStyle() = LocalTextStyle.current.copy(
+    shadow = Shadow(
+        color = NagiTokens.gold.copy(alpha = 0.18f),
+        offset = Offset.Zero,
+        blurRadius = 30f
+    )
+)
+
+@Composable
+private fun EndingTagUnderline(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.height(5.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .background(
+                    Brush.horizontalGradient(
+                        0f to Color.Transparent,
+                        0.5f to NagiTokens.gold.copy(alpha = 0.10f),
+                        1f to Color.Transparent
+                    )
+                )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    Brush.horizontalGradient(
+                        0f to Color.Transparent,
+                        0.5f to NagiTokens.gold.copy(alpha = 0.48f),
+                        1f to Color.Transparent
+                    )
+                )
+        )
+    }
+}
+
 private fun chapterEyebrow(chapterName: String): String {
     val number = when {
         chapterName.contains("一") -> "01"
@@ -1052,11 +1105,6 @@ private fun GlassBacking(
                     center = Offset(size.width / 2, size.height / 2)
                 )
             }
-            .border(
-                width = 1.dp,
-                color = NagiTokens.borderGlass,
-                shape = NagiShapes.cutMedium
-            )
             .padding(start = 24.dp, end = 24.dp, top = 22.dp, bottom = 20.dp),
         content = content
     )
@@ -1165,6 +1213,7 @@ private fun ChapterOpeningOverlay(
 private fun SectionOpeningOverlay(
     sectionTitle: String,
     chapterName: String,
+    sectionIndex: Int,
     bgAssetPath: String?,
     onTap: () -> Unit
 ) {
@@ -1192,10 +1241,11 @@ private fun SectionOpeningOverlay(
             KickerLabel("Section Opening")
             Spacer(modifier = Modifier.height(14.dp))
             Text(
-                text = chapterName,
+                text = "$chapterName · 第 ${sectionIndex + 1} 节",
                 fontFamily = FontFamily.Serif,
                 fontSize = 14.sp,
-                color = goldColor
+                color = goldColor,
+                maxLines = 1
             )
             Spacer(modifier = Modifier.height(14.dp))
             Text(

@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonElement
 
 enum class GamePhase {
     Loading, Dialogue, Choice, Response, Ending, Error, ChapterTransition, ChapterEnding, SectionTransition
@@ -28,7 +29,8 @@ data class ChapterTransitionInfo(
 
 data class SectionTransitionInfo(
     val chapterName: String,
-    val sectionTitle: String
+    val sectionTitle: String,
+    val sectionIndex: Int
 )
 
 data class DebugInfo(
@@ -101,10 +103,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private var chapters: List<Chapter> = emptyList()
     private var nodeToChapter: Map<String, Chapter> = emptyMap()
     private var nodeToSectionIndex: Map<String, Int> = emptyMap()
+    private var nodeToSection: Map<String, ChapterSection> = emptyMap()
     private var pendingNodeAfterTransition: NodeResolution.Found? = null
     private var pendingNextChapter: Chapter? = null
     private var isReplayMode: Boolean = false
     private var replayBoundaryNodes: Set<String> = emptySet()
+    private var replaySavedVariables: Map<String, JsonElement>? = null
 
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
@@ -141,18 +145,22 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             chapters = repo.loadChapters()
             val mapping = mutableMapOf<String, Chapter>()
             val sectionMapping = mutableMapOf<String, Int>()
+            val sectionByNode = mutableMapOf<String, ChapterSection>()
             for (chapter in chapters) {
                 for ((idx, section) in chapter.sections.withIndex()) {
                     mapping[section.startNode] = chapter
                     sectionMapping[section.startNode] = idx
+                    sectionByNode[section.startNode] = section
                     section.altStartNode?.let {
                         mapping[it] = chapter
                         sectionMapping[it] = idx
+                        sectionByNode[it] = section
                     }
                 }
             }
             nodeToChapter = mapping
             nodeToSectionIndex = sectionMapping
+            nodeToSection = sectionByNode
 
             _dataLoaded.value = true
         } catch (e: Exception) {
@@ -297,7 +305,11 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun startReplay(startNodeId: String, chapterId: String, sectionIndex: Int) {
         if (!::engine.isInitialized) return
+        if (isReplayMode) {
+            restoreReplayVariables()
+        }
         val chapter = chapters.find { it.id == chapterId } ?: return
+        val section = chapter.sections.getOrNull(sectionIndex)
         val nextBoundaryNodes = mutableSetOf<String>()
         val nextIdx = sectionIndex + 1
         if (nextIdx < chapter.sections.size) {
@@ -316,11 +328,14 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         if (!::gameState.isInitialized) {
             gameState = GameState(variablesData)
         }
+        replaySavedVariables = gameState.toSerializable()
+        applySectionRouteContext(section)
         backlog.clear()
         navigateToNode(startNodeId)
     }
 
     fun stopReplay() {
+        restoreReplayVariables()
         isReplayMode = false
         replayBoundaryNodes = emptySet()
     }
@@ -441,12 +456,28 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         if (!::gameState.isInitialized) {
             gameState = GameState(variablesData)
         }
+        applySectionRouteContext(nodeToSection[startNodeId])
         backlog.clear()
         stopAuto()
         stopSkip()
         nodeToChapter[startNodeId]?.let { currentChapterId = it.id }
         currentSectionIndex = -1
         navigateToNode(startNodeId)
+    }
+
+    private fun applySectionRouteContext(section: ChapterSection?) {
+        when (section?.scope) {
+            "M" -> gameState.set("mj", "M")
+            "J" -> gameState.set("mj", "J")
+        }
+    }
+
+    private fun restoreReplayVariables() {
+        val saved = replaySavedVariables ?: return
+        if (::gameState.isInitialized) {
+            gameState.restoreFrom(saved)
+        }
+        replaySavedVariables = null
     }
 
     fun onTap() {
@@ -596,7 +627,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                                 bgAssetPath = pendingBgPath ?: it.bgAssetPath,
                                 sectionTransition = SectionTransitionInfo(
                                     chapterName = chapter.name,
-                                    sectionTitle = sectionTitle
+                                    sectionTitle = sectionTitle,
+                                    sectionIndex = newSectionIndex
                                 )
                             )
                         }
