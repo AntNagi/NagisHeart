@@ -2534,108 +2534,92 @@
         "id": "c3_d008",
         "speaker": "Nagi",
         "text": "{{playerName}}，你来啦。"
+      },
+      {
+        "id": "c3_d009",
+        "speaker": "",
+        "text": "明明只是趴在床上回头，明明表情也没什么起伏，可你就是觉得——太可爱了。脸好看，头发好看……一不小心就看入神了。",
+        "display": "bottom"
+      },
+      {
+        "id": "c3_d010",
+        "speaker": "{{playerName}}",
+        "text": "嗯……Nagi，我来了。"
+      },
+      {
+        "id": "c3_d011",
+        "speaker": "Nagi",
+        "text": "{{playerName}}，你来得好慢。"
+      },
+      {
+        "id": "c3_d012",
+        "speaker": "",
+        "text": "他甚至没有起身，只是往旁边挪了挪，把单人床留下一些空位，拍了拍，示意你过来坐。",
+        "display": "bottom"
+      },
+      {
+        "id": "c3_d013",
+        "speaker": "Nagi",
+        "text": "{{playerName}}你过来坐。"
+      },
+      {
+        "id": "c3_d014",
+        "speaker": "",
+        "text": "你脸一下热起来，站在原地没动。",
+        "display": "bottom"
+      },
+      {
+        "id": "c3_d015",
+        "speaker": "{{playerName}}",
+        "text": "那是你的床诶……不好吧。"
+      },
+      {
+        "id": "c3_d016",
+        "speaker": "Nagi",
+        "text": "怎么不好了，{{playerName}}又不是别人。"
+      },
+      {
+        "id": "c3_d017",
+        "speaker": "",
+        "text": "他说得理所当然。你脸上的热度更明显了。他看着你，像是这才慢半拍意识到刚才那句话有哪里不对，耳尖也很轻地红了一点。",
+        "display": "bottom"
+      },
+      {
+        "id": "c3_d018",
+        "speaker": "Nagi",
+        "text": "……哦。那我带你参观一下吧。"
+      },
+      {
+        "id": "c3_d019",
+        "speaker": "{{playerName}}",
+        "text": "好啊。"
+      },
+      {
+        "id": "c3_d020",
+        "speaker": "",
+        "text": "他收起手机，慢吞吞下床，外套也没好好穿，袖口松松垮垮地挂在手腕上。你跟在他身后，第一次真正走进他每天待着的地方。",
+        "display": "bottom"
+      },
+      {
+        "id": "c3_d021",
+        "speaker": "",
+        "text": "Nagi带你来到更衣室。写着他名字的那个格子间里，衣服袜子堆成一座小山，水瓶和喝剩的果冻混着毛巾，甚至有两只袜子挂在衣架上。",
+        "display": "bottom"
+      },
+      {
+        "id": "c3_d022",
+        "speaker": "{{playerName}}",
+        "text": "{{nagiCall}}，这是你的更衣间吗？"
+      },
+      {
+        "id": "c3_d023",
+        "speaker": "Nagi",
+        "text": "（面无表情）是啊，怎么了？"
       }
     ],
     "choices": [
       {
         "id": "c3_c001",
-        "label": "（被他歪头看过来的样子击中，愣在原地）",
-        "internalTag": "无类型",
-        "transition": {
-          "type": "goto",
-          "target": "c3_s2"
-        },
-        "responses": [
-          {
-            "id": "c3_c001_r001",
-            "speaker": "",
-            "text": "明明只是趴在床上回头，明明表情也没什么起伏，可你就是觉得——太可爱了。脸好看，头发好看……一不小心就看入神了。",
-            "display": "bottom"
-          },
-          {
-            "id": "c3_c001_r002",
-            "speaker": "{{playerName}}",
-            "text": "嗯……Nagi，我来了。"
-          },
-          {
-            "id": "c3_c001_r003",
-            "speaker": "Nagi",
-            "text": "{{playerName}}，你来得好慢。"
-          },
-          {
-            "id": "c3_c001_r004",
-            "speaker": "",
-            "text": "他甚至没有起身，只是往旁边挪了挪，把单人床留下一些空位，拍了拍，示意你过来坐。",
-            "display": "bottom"
-          },
-          {
-            "id": "c3_c001_r005",
-            "speaker": "Nagi",
-            "text": "{{playerName}}你过来坐。"
-          }
-        ]
-      },
-      {
-        "id": "c3_c002",
-        "label": "（脸一下热起来，站在原地没动）",
-        "internalTag": "无类型",
-        "transition": {
-          "type": "goto",
-          "target": "c3_s2"
-        },
-        "responses": [
-          {
-            "id": "c3_c002_r001",
-            "speaker": "{{playerName}}",
-            "text": "那是你的床诶……不好吧。"
-          },
-          {
-            "id": "c3_c002_r002",
-            "speaker": "Nagi",
-            "text": "怎么不好了，{{playerName}}又不是别人。"
-          },
-          {
-            "id": "c3_c002_r003",
-            "speaker": "",
-            "text": "他说得理所当然。你脸上的热度更明显了。他看着你，像是这才慢半拍意识到刚才那句话有哪里不对，耳尖也很轻地红了一点。",
-            "display": "bottom"
-          },
-          {
-            "id": "c3_c002_r004",
-            "speaker": "Nagi",
-            "text": "……哦。那我带你参观一下吧。"
-          },
-          {
-            "id": "c3_c002_r005",
-            "speaker": "{{playerName}}",
-            "text": "好啊。"
-          },
-          {
-            "id": "c3_c002_r006",
-            "speaker": "",
-            "text": "他收起手机，慢吞吞下床，外套也没好好穿，袖口松松垮垮地挂在手腕上。你跟在他身后，第一次真正走进他每天待着的地方。",
-            "display": "bottom"
-          },
-          {
-            "id": "c3_c002_r007",
-            "speaker": "",
-            "text": "Nagi带你来到更衣室。写着他名字的那个格子间里，衣服袜子堆成一座小山，水瓶和喝剩的果冻混着毛巾，甚至有两只袜子挂在衣架上。",
-            "display": "bottom"
-          },
-          {
-            "id": "c3_c002_r008",
-            "speaker": "{{playerName}}",
-            "text": "{{nagiCall}}，这是你的更衣间吗？"
-          },
-          {
-            "id": "c3_c002_r009",
-            "speaker": "Nagi",
-            "text": "（面无表情）是啊，怎么了？"
-          }
-        ]
-      },
-      {
-        "id": "c3_c003",
         "label": "你这么邋遢，会没有女生喜欢的！",
         "internalTag": "作",
         "effects": [
@@ -2689,8 +2673,8 @@
         ]
       },
       {
-        "id": "c3_c004",
-        "label": "（无奈帮他整理）真拿你没办法……",
+        "id": "c3_c002",
+        "label": "真拿你没办法……我帮你整理一下",
         "internalTag": "心动",
         "effects": [
           {
@@ -2783,43 +2767,37 @@
         "id": "c3_s2_d008",
         "speaker": "{{playerName}}",
         "text": "嗯，走吧。"
+      },
+      {
+        "id": "c3_s2_d009",
+        "speaker": "",
+        "text": "你下意识想去拉他的手，又突然收回来。",
+        "display": "bottom"
+      },
+      {
+        "id": "c3_s2_d010",
+        "speaker": "",
+        "text": "他的手已经很自然地抬了一点，像是准备接住你。可你忽然收回手，他便低头看了看自己空着的手，又看向你，眼神里带着一点迟钝的疑惑。",
+        "display": "bottom"
+      },
+      {
+        "id": "c3_s2_d011",
+        "speaker": "Nagi",
+        "text": "……？"
+      },
+      {
+        "id": "c3_s2_d012",
+        "speaker": "{{playerName}}",
+        "text": "没、没什么。走吧。"
+      },
+      {
+        "id": "c3_s2_d013",
+        "speaker": "",
+        "text": "离开蓝色监狱后，你的司机把Nagi送回白宝高中，然后自己回了公寓。假期开启了。",
+        "display": "bottom"
       }
     ],
-    "choices": [
-      {
-        "id": "c3_s2_c001",
-        "label": "（下意识想去拉他的手，又突然收回来）",
-        "internalTag": "无类型",
-        "transition": {
-          "type": "goto",
-          "target": "e_lemontea"
-        },
-        "responses": [
-          {
-            "id": "c3_s2_c001_r001",
-            "speaker": "",
-            "text": "他的手已经很自然地抬了一点，像是准备接住你。可你忽然收回手，他便低头看了看自己空着的手，又看向你，眼神里带着一点迟钝的疑惑。",
-            "display": "bottom"
-          },
-          {
-            "id": "c3_s2_c001_r002",
-            "speaker": "Nagi",
-            "text": "……？"
-          },
-          {
-            "id": "c3_s2_c001_r003",
-            "speaker": "{{playerName}}",
-            "text": "没、没什么。走吧。"
-          },
-          {
-            "id": "c3_s2_c001_r004",
-            "speaker": "",
-            "text": "离开蓝色监狱后，你的司机把Nagi送回白宝高中，然后自己回了公寓。假期开启了。",
-            "display": "bottom"
-          }
-        ]
-      }
-    ]
+    "choices": []
   },
   "e_lemontea": {
     "mode": "vn",

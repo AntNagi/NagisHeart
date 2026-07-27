@@ -5,6 +5,26 @@
 
 ---
 
+### DEC-20260727-001
+- 时间：2026-07-27
+- 项目：NagisHeart
+- 来源：Ant 实机截图反馈：`c3 | 开放日` 显示 4 个选项，其中多项为括号动作/心理描写，并非玩家真实选择。
+- 决策内容：`c3 | 开放日` 中线性演出动作不得作为玩家选项。将“被他歪头看过来击中”“脸一下热起来”“下意识想拉手又收回”三处从选项改回旁白/演出；仅保留更衣室处两项真实玩家选择：“你这么邋遢，会没有女生喜欢的！”与“真拿你没办法……我帮你整理一下”。
+- 生效范围：`authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`、`story-data/nodes.json`、`android/app/src/main/assets/story-data/nodes.json`。
+- 验证要求：`c3` runtime 只允许 2 个 choices；`c3_s2` 不允许再有伪选项，并通过 `flow.default.c3_s2 -> e_lemontea` 继续。
+---
+
+### DEC-20260726-004
+- 时间：2026-07-26
+- 项目：NagisHeart
+- 来源：Ant 实机复现 / PP 根因报告：剧情地图直达 `e_agency_launch | 她站在光里` 后卡死。
+- 决策内容：剧情地图将 64 个小节 startNode 暴露为可直达入口后，原先只依赖路线变量的 `flow.byRoute` 不足以保证空变量直达可继续。数据侧仅补第七部 M 线 default 兜底：`e_agency_launch → e_scarf`、`e_scarf → e_sick_fragile`、`e_sick_fragile → route_love_hidden`。这是因为 `route_mj_hidden` 的 fallback 本来就是 M，补 default 不新增剧情设定。
+- 明确不做：不为 J 线专属节点 `e_dressup` / `e_softrice` 补 M default；不为 `p8_route` 指定 dream/stay/bad 默认路线。J 线和第八部路线入口由 Android 剧情地图 / replay 在跳入时按章节 `scope` 或玩家选择补上下文，避免污染主线存档或替玩家做终局选择。
+- 生效范围：`story-data/flow.json`、`android/app/src/main/assets/story-data/flow.json`；Android 后续地图入口上下文修复任务 `TASK-20260726-002`。
+- 验证要求：`node tools/validate.js` 必须通过；Android 侧需另测 `e_agency_launch`、`e_scarf`、`e_sick_fragile`、`e_dressup`、`e_softrice`、`p8_route` 六个地图入口。
+
+---
+
 ### DEC-20260725-002
 - 时间：2026-07-25
 - 项目：NagisHeart

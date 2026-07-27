@@ -46,6 +46,9 @@
     "e_drive": "route_mj_hidden",
 
     "route_mj_hidden": "e_agency_launch",
+    "e_agency_launch": "e_scarf",
+    "e_scarf": "e_sick_fragile",
+    "e_sick_fragile": "route_love_hidden",
 
     "route_love_hidden": "p8_route",
 

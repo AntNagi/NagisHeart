@@ -20,7 +20,7 @@
 |---|---|---|---|---|
 | 1 | 产品 PRD | `product/NagisHeart_PRD_v2_0.md` | `65925D2616BB63A15745EEC807315E2A` | 2026-07-20 |
 | 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `5ED95C74ED2DD960DFC0F8F5D39F2C2C` | 2026-07-25（§32：旧章节目录退役，入口直达地图总览） |
-| 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `50B033E7520CC670D7B4DDA7879B6597` | 2026-07-23（e_agency_launch 开头补独立经纪公司长旁白） |
+| 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `10CCFBABDE0C637C0B2A8F762B7B2079` | 2026-07-27（修正 c3 开放日伪选项） |
 | 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `EB459592BF396154885D9A2B9CEBCE3C` | V3.1（2026-07-21 Ant 确认为正主） |
 | 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `CF4D1CE61974F8054E2843CF6B469B4F` | 2026-07-26（合并：§27 地图总览+八章子页 / 剧情回顾页排版重构） |
 | 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `56FE83A546B1F227FD31371BCA1373DA` | 2026-07-26（合并：§27 剧情地图 + §24 剧情回顾重构；原 §24 Sai sync 改号 §28） |
@@ -45,6 +45,7 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 
 | 日期 | 文件 | 说明 | 决策记录 |
 |---|---|---|---|
+| 2026-07-27 | Script V15 | 修正 `c3 | 开放日` 伪选项：将宿舍回头、床边脸红、离开前想牵手三处线性演出从选项改回旁白；runtime 仅保留更衣室两项真实选择 | DEC-20260727-001 |
 | 2026-07-21 | （目录建立） | 七份权威 + 2 KV 包收拢隔离，快照区 08_authority_current 同日退役 | 本次重组由 Ant 直接批准 |
 | 2026-07-21 | MinSpec §21.2 | 第 4 行 BacklogScreen"已通过"记录作废（Ant 07-20 实机仍裁切），重修任务 TASK-20260721-002 | DEC-20260721-001 |
 | 2026-07-21 | （哈希口径） | md/html 哈希改为换行无关算法（剥 CR、无 BOM UTF-8 后取 MD5），配合 .gitattributes 换行统一，防跨机器误报；内容零变更 | 本次为记账口径变更 |

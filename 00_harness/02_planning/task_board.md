@@ -30,6 +30,41 @@
 
 ## 活跃任务
 
+### TASK-20260726-002
+- 标题：Android 剧情地图直达路线节点卡死修复（M/J/path 上下文）
+- 负责人：Sai（Android，接替 PP）
+- 状态：done
+- 优先级：P0
+- 来源：Ant 实机复现 `e_agency_launch | 她站在光里` 从剧情地图进入后卡死；PP 根因报告确认 6 个 startNode 出口只存在于 `flow.byRoute`，地图直达绕过了 `route_mj_hidden` / `p8_route` 路线变量。
+- 决策记录：`DEC-20260726-004`
+- PM 已完成的数据侧修复：
+  - `story-data/flow.json` 与 `android/app/src/main/assets/story-data/flow.json` 已补 M 线 default 兜底：
+    - `e_agency_launch → e_scarf`
+    - `e_scarf → e_sick_fragile`
+    - `e_sick_fragile → route_love_hidden`
+  - 不补 J 线 default，不补 `p8_route` default。
+- Android 实现要求：
+  1. 找到剧情地图点击 `chapters.json.sections[].startNode` 的 active path。
+  2. 进入剧情地图 / replay 的 startNode 前读取该 section 的 `scope`。
+  3. scope=`M` 时，在 replay-local / map-local 上下文设置 `mj = "M"`；scope=`J` 时设置 `mj = "J"`；不得污染玩家主线真实存档。
+  4. 对 common 节点不随意设 `mj`，但 `e_agency_launch` 可依赖 PM 已补的 M default。
+  5. `p8_route` 是终局路线选择节点，不得默认 dream/stay/bad。地图 / replay 进入后必须显示选择并允许玩家点选继续；安全回看时选择结果不得写回真实主线存档。
+  6. 检查同类非 startNode `e_drunk_s2`，确认内部回看不会卡死。
+- 验收节点：必须逐个验证从剧情地图 / replay 入口进入后可继续：
+  - `e_agency_launch`
+  - `e_scarf`
+  - `e_sick_fragile`
+  - `e_dressup`
+  - `e_softrice`
+  - `p8_route`
+- 可选增强：给 `tools/validate.js` 增加 startNode 空上下文 / scope 上下文出口检查；若实现，作为同任务小补丁报告。
+- 禁止范围：不改剧情正文、不改 BG mapping、不改 UI 风格、不替玩家指定第八部 dream/stay/bad 默认路线、不把 replay 变量写入真实主线存档。
+- 执行交接：2026-07-26 PP 下线，本任务由 Sai 接手；PM 已完成数据侧 M 线 default 兜底，Sai 只处理 Android 地图 / replay 上下文。
+- 完成定义：Sai 提交 Android 修复与六节点证据；Ant 实机确认后转 done。
+- Sai 执行记录（2026-07-27）：已完成 Android 地图 / replay scope 上下文修复。`GameViewModel.kt` 新增 startNode→section 反查；`startReplay()` 进入前保存主线变量快照并按 section.scope 注入 `mj=M/J`，`stopReplay()` 恢复快照，避免安全回看选择污染主线内存态；`jumpToChapter()` 对 in-progress 地图直达按 section.scope 补 `mj=M/J`，common 不设；`p8_route` 不注入 `path`，继续显示 3 个玩家选项。验证报告见 `00_harness/05_reports/TASK-20260726-002/android_story_map_route_context_report.md`。校验：`node tools/validate.js` 通过（0 errors / 1 existing hardcoded-Ant warning），`tools/check-tokens.ps1` 通过，`git diff --check` 通过；本机无 `android/gradlew` 且系统无 `gradle`，未能本地编译。`check-authority.ps1` 仍因既有 authority hash drift 失败，非本 Android patch 引入。
+- Ant 验收收口（2026-07-27）：实机验收通过，任务关闭为 done。
+- 最新更新时间：2026-07-27
+
 ### TASK-20260726-001
 - 标题：剧情回顾页排版重构（废除金色 speaker chip）
 - 负责人：PP（Android）
@@ -60,6 +95,21 @@
 ---
 
 ## 近期完成（已从活跃区移出，保留查账）
+
+### TASK-20260727-001
+- 标题：修正开放日 c3 伪选项并同步 runtime story-data
+- 负责人：PM 一一
+- 状态：done
+- 优先级：P0
+- 来源：Ant 2026-07-27 实机截图反馈：`开放日` 页面把括号动作/心理描写显示成 4 个玩家选项。
+- 决策记录：`DEC-20260727-001`
+- 完成内容：
+  - `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`：将 `c3 | 开放日` 中三处线性演出从 `选项` 改回旁白/演出；真实选择只保留两项。
+  - `story-data/nodes.json`：`c3` runtime 只保留 2 个 choices；`c3_s2` 不再包含伪选项。
+  - `android/app/src/main/assets/story-data/nodes.json`：同步 runtime 副本，确保 Android 构建不继续打包旧开放日数据。
+  - `authority/MANIFEST.md`：同步 Script V15 hash 与修订日志。
+- 验证口径：进入 `开放日` 更衣室选择点时，只应显示两项真实选择：`你这么邋遢，会没有女生喜欢的！`、`真拿你没办法……我帮你整理一下`；后续离开前想牵手为线性演出，不再弹选项。
+- 最新更新时间：2026-07-27
 
 ### TASK-20260725-001
 - 标题：Android 原生实现两层剧情地图（八章总览 + 64 小节独立节点）
