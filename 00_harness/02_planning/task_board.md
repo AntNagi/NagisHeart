@@ -60,7 +60,7 @@
 ### TASK-20260726-003
 - 标题：Web 主页「存档进度」入口点击无反应
 - 负责人：Wewe（Web）
-- 状态：blocked
+- 状态：preflight
 - 优先级：P1
 - 现象（Ant 反馈，feibo【已验证】可复现）：全新进入、无任何存档时，主页点"存档进度"毫无反应。
 - 范围：`web/src/` 主页入口与存档页可达性。**不碰 Android、story-data、资源文件。**
@@ -68,6 +68,7 @@
 - 完成定义：按权威落地 + 自行复现证明现象消失；先做 pre-flight
 - pre-flight 问题清单：
   - 【已验证｜缺失】`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §13 仅规定存档类型、列表信息和页内操作，§23.3 仅规定存档页空状态文案；两节均未规定“无任何存档时主页「存档进度」入口应禁用，还是应保持可点击并进入空状态页”。当前 `web/src/ui/screens/StartScreen.js` 在无自动存档时禁用该入口，但 authority 不足以裁定目标行为。请 PM/Ant 明确入口状态后再实现。
+- PM 裁决已入权威：`DEC-20260727-001`；见 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3。worker 需重跑 pre-flight。
 - 最新更新时间：2026-07-27
 
 ### TASK-20260721-008

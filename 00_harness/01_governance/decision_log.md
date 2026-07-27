@@ -5,6 +5,17 @@
 
 ---
 
+### DEC-20260727-001
+- 时间：2026-07-27
+- 项目：NagisHeart
+- 来源：Ant大小姐现场裁决 / PM 一一补权威
+- 决策内容：主页「存档进度」是手动存档管理入口，必须保持可见且可点击。没有任何手动存档时，点击该入口进入存档页空状态，不禁用、不无响应、不依赖自动存档是否存在。「继续故事」仍只读取默认退出进度；默认进度与手动存档继续保持两套语义。
+- 生效范围：`authority/product/NagisHeart_PRD_v2_0.md`、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md`、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md`、`TASK-20260726-003`。
+- 覆盖旧规则：覆盖任何把主页「存档进度」入口绑定到自动存档存在性、或在无手动存档时禁用该入口的实现口径。
+- 执行要求：PM 同步 PRD、Interaction、UI MinSpec 与 MANIFEST；Web worker 回到 pre-flight，按 authority 重新核对后再实现，不得继续按旧代码状态猜测。
+
+---
+
 ### DEC-20260725-002
 - 时间：2026-07-25
 - 项目：NagisHeart
