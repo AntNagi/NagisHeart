@@ -5,6 +5,29 @@
 
 ---
 
+### DEC-20260727-006
+- 时间：2026-07-27
+- 项目：NagisHeart
+- 来源：Ant 实机截图（剧情地图总览 / 第四部 / 第八部）+ lulu 对照 v7 权威参考图逐页复核；PP 提出五个阻塞问题（坐标来源、side 规则、断行信息、PAGE_H 语义、副标题文案源）。
+- 背景：`DEC-20260725-001` 确立剧情地图 UI authority（MinSpec §27.1–§27.7），但只给了文字描述与参考图，**未给任何数值 token**。Android 首版实现因此整体走形：普通节点全部卡片化、折线路径完全缺失、第八部把 `common` 做成第四列并把 `chapters.json` 原始 scope 值显示给玩家、路线标签自造（`远处` 实为 B7 小节标题）、总览页退化为竖排列表、已解锁标题被省略号截断。定性为**设计侧 token 缺失为主因之一**，非单方面实现问题。
+- 决策内容：MinSpec §27 新增 §27.8–§27.16，数值全部取自 v7 权威同源生成脚本 `design/concepts/story_map_xoxo_v1/generate_story_map_chapter_pages_v7.py` 与 `generate_story_map_two_pages_v4.py`，不做二次设计：
+  - §27.8 页面骨架：1080 基准与 `dp = px ÷ 3` 换算、背景三层（与 §1 系统级页面一致）、返回键（固定顶部安全区）、子页页头、页脚翻章条。明确 `PAGE_H` 为该章内容总高，翻章条是**随内容滚动的页脚**而非吸底栏。
+  - §27.9 节点 token：文字节点（**无卡片底**，点 + 序号 + 标题）、配图节点、第八章分支节点三套。
+  - §27.10 连接路径 token：主/弱两种线，仅用正交折线；明确路径不可省略。
+  - §27.11 第八章布局：三列坐标、共同起点居中于三线之上、三条路线权威中文标签、D/S/B 序号前缀；禁止 `common` 做第四列、禁止 scope 原始值上屏、禁止自造路线名。
+  - §27.12 总览页 token：单屏不滚动、地标错落分布、未解锁暗板 + 五边形水印；禁止英文 `Chapter N` eyebrow 与节数圆点。
+  - §27.13 未解锁呈现数值；已解锁标题必须完整显示，不得省略号截断。
+  - §27.14 坐标来源授权：授权从九份 SVG（八章 v7 + 总览 v4）转写坐标、路径顶点、`side`、配图尺寸，转写数字不违反 §27.1（§27.1 禁的是文件本身进 runtime）。
+  - §27.15 标题断行表：8 条。经核对不存在可机械推导的规则（`我不是不想这样赢` 无标点、`夏窗·签约桌上的好麻烦` 词中断且保留 `·`），故由表权威指定。
+  - §27.16 章节标题与副标题文案表：地图页页头用独立短标题 + 一句副标题，**不取自 `chapters.json` 的 `name` / `title`**。
+- 焦点（裁切对齐）口径：v7 生成脚本 20 个配图节点中 19 个为默认 `xMidYMid`，与 §27.6「禁止全局 centerCrop」冲突。Ant 裁决：**焦点由开发逐图调校**，设计侧不另出 focus map，**不重新切图、不新增任何图片资源**，仅调 alignment / offset / contentScale 显示参数，图源仍按 §27.5 从 `scene_visuals` 读取；设计侧在验收环节逐图复核。该项不阻塞开工。
+- 明确不做：不改 `story-data`（断行表与文案表属 UI 呈现配置，写在布局常量 / string 资源，不回写 `chapters.json`）；不改 BG mapping；不把 `design/concepts/story_map_xoxo_v1/` 下任何 PNG / SVG 复制进 `res/` `assets/` 或运行时加载。
+- 生效范围：`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §27.8–§27.16、Android 剧情地图实现任务 `pp_task_story_map_align_v7_20260726.md`。
+- 补账（同 commit 一并登记，非本次设计改动）：`visual_mapping/NagisHeart_SCRIPT_V15_节点匹配表.xlsx` 自 2026-07-23 01:03 起为未提交的本地改动（Ant 的 Antset 列编辑），MANIFEST 未同步，导致 check-authority 长期 FAILED。该内容已于 BG Mapping v1.5 消化并登记，此次仅补哈希与提交，不改文件内容。
+- 验证要求：`powershell -ExecutionPolicy Bypass -File tools/check-authority.ps1` 必须全绿后 PP 方可开工。注意脚本对 `.md` 使用**换行无关哈希**（剥 CR + UTF-8 无 BOM），与 `Get-FileHash` 的原始字节 MD5 不同，MANIFEST 必须登记脚本口径的值。
+
+---
+
 ### DEC-20260727-005
 - 时间：2026-07-27
 - 项目：NagisHeart

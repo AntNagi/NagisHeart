@@ -23,9 +23,9 @@
 | 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `10CCFBABDE0C637C0B2A8F762B7B2079` | 2026-07-27（修正 c3 开放日伪选项） |
 | 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `EB459592BF396154885D9A2B9CEBCE3C` | V3.1（2026-07-21 Ant 确认为正主） |
 | 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `CF4D1CE61974F8054E2843CF6B469B4F` | 2026-07-26（合并：§27 地图总览+八章子页 / 剧情回顾页排版重构） |
-| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `899C19E00E4BB1D1C87CE40C5D6CDEC0` | 2026-07-27（§5 / §22.3：主页存档进度入口与存档空状态；§14.1：小节开始页托底与 meta 行） |
+| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `4B154338C0EC970428A117DB3145E08C` | 2026-07-27（§27.8–§27.16：剧情地图数值 token 补齐——页面骨架 / 节点 / 路径 / 第八章布局 / 总览页 / 未解锁呈现 / SVG 坐标转写授权 / 标题断行表 / 章节文案表；另 §5 / §22.3 存档进度入口与空状态、§14.1 小节开始页托底与 meta 行） |
 | 7 | BG Mapping | `visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | `9E5235DF786217B31A5E5D358C2A83B3` | 2026-07-23（同步 c2/c2_s2/e_depart 口头指定 BG） |
-| 附 | 节点匹配表 | `visual_mapping/NagisHeart_SCRIPT_V15_节点匹配表.xlsx` | `526532688BFD7799337C14EE215D7F11` | 2026-07-21（原快照区唯一新版，已救出） |
+| 附 | 节点匹配表 | `visual_mapping/NagisHeart_SCRIPT_V15_节点匹配表.xlsx` | `6BD0ED9239E3092593DEFB1106828B66` | 2026-07-23（Ant 的 Antset 列编辑；内容已由 BG Mapping v1.5 消化，本次仅补账登记哈希，见 DEC-20260727-006） |
 | KV-1 | Start 页权威（V23 分层包） | `design/authority/icon_start_tt/start/`（9 文件；长屏适配策略见 `start_long/rethink/`） | 目录校验 | TT V23，Ant 2026-07-21 确认 |
 | KV-2 | App Icon 权威（V4 safe-zone） | `design/authority/icon_start_tt/icon/android_launcher_rework_v4_safezone/`（20 文件） | 目录校验 | lulu V4 safezone，Ant 2026-07-21 确认 |
 
@@ -45,6 +45,8 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 
 | 日期 | 文件 | 说明 | 决策记录 |
 |---|---|---|---|
+| 2026-07-27 | UI MinSpec §27.8–§27.16 | 剧情地图数值 token 补齐：页面骨架 / 节点（普通节点无卡片底）/ 正交折线路径 / 第八章三路线布局与权威标签 / 总览页 / 未解锁呈现 / 九份 SVG 坐标转写授权 / 标题断行表 8 条 / 章节短标题与副标题表 8 章。焦点由开发逐图调校，不另出 focus map、不重新切图 | DEC-20260727-006 |
+| 2026-07-27 | 节点匹配表 xlsx | 补账：Ant 的 Antset 列编辑自 07-23 未登记，check-authority 长期 FAILED；本次仅同步哈希与提交，不改内容 | DEC-20260727-006 |
 | 2026-07-27 | UI MinSpec §14.1 | 合并保留小节开始页最新收口：§14.1 仅适用于 Section Opening，废止托底描边，新增章节名 + 小节序号 meta 行；大章开始/结束继续按 §23 分割页口径 | DEC-20260717-013 |
 | 2026-07-27 | Script V15 | 修正 `c3 | 开放日` 伪选项：将宿舍回头、床边脸红、离开前想牵手三处线性演出从选项改回旁白；runtime 仅保留更衣室两项真实选择 | DEC-20260727-004 |
 | 2026-07-27 | story-data/flow.json | 剧情地图直达第七部 M 线 startNode 时补 default 兜底：`e_agency_launch → e_scarf`、`e_scarf → e_sick_fragile`、`e_sick_fragile → route_love_hidden`；J 线与第八部路线仍由 Android 地图/replay 注入上下文 | DEC-20260727-005 |
