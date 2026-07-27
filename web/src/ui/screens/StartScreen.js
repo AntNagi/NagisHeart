@@ -60,7 +60,6 @@ export class StartScreen {
       } else if (action === 'settings') {
         this._openSettings();
       } else if (action === 'saves') {
-        if (this._savesBtn?.disabled) return;
         this._openSaveLoad();
       }
     });
@@ -69,12 +68,9 @@ export class StartScreen {
 
     // Show continue button when auto-save exists
     this._continueRow = this.el.querySelector('[data-action="continue"]');
-    this._savesBtn = this.el.querySelector('[data-action="saves"]');
     ctx.controller.hasAutoSave().then(has => {
       if (has) {
         this._continueRow.style.display = '';
-      } else {
-        if (this._savesBtn) this._savesBtn.disabled = true;
       }
     });
 
@@ -138,7 +134,7 @@ export class StartScreen {
     this._activeOverlay = new SaveLoadOverlay(this.el, {
       controller: this._ctx.controller,
       onClose: () => this._closeOverlay(),
-      onLoad: () => {
+      onLoaded: () => {
         this._closeOverlay();
         this._ctx.router.navigate('game');
       },

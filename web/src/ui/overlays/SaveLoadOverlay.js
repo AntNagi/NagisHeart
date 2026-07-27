@@ -19,6 +19,8 @@ export class SaveLoadOverlay {
   async _render() {
     const isSave = this._mode === 'save';
     const slots = await this._controller.getSaveSlots();
+    const manualSlots = slots.slice(1);
+    const isManualEmpty = manualSlots.every(slot => !slot);
 
     let html = `
       <div class="system-bg"><img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" /></div>
@@ -30,24 +32,34 @@ export class SaveLoadOverlay {
       </div>
       <div class="overlay-body">
         <h2 class="overlay-heading">${isSave ? '选择存档位' : '选择进度'}</h2>
-        <div class="save-slot-list">
     `;
 
-    for (let i = 1; i <= 10; i++) {
-      const slot = slots[i];
-      const isEmpty = !slot;
-      const clickable = isSave || !isEmpty;
+    if (!isSave && isManualEmpty) {
       html += `
-        <div class="save-slot-row ${clickable ? 'clickable' : 'disabled'}" data-slot="${i}">
-          <div class="save-slot-info">
-            <div class="save-slot-title">${isEmpty ? `存档位 ${i}` : (slot.sceneTitle || `存档位 ${i}`)}</div>
-            <div class="save-slot-time">${isEmpty ? '空白' : this._formatTime(slot.timestamp)}</div>
-          </div>
+        <div class="backlog-empty">
+          <p>还没有手动存档。</p>
+          <p>你可以在剧情中随时保存。</p>
         </div>
       `;
+    } else {
+      html += '<div class="save-slot-list">';
+      for (let i = 1; i <= 10; i++) {
+        const slot = slots[i];
+        const isEmpty = !slot;
+        const clickable = isSave || !isEmpty;
+        html += `
+          <div class="save-slot-row ${clickable ? 'clickable' : 'disabled'}" data-slot="${i}">
+            <div class="save-slot-info">
+              <div class="save-slot-title">${isEmpty ? `存档位 ${i}` : (slot.sceneTitle || `存档位 ${i}`)}</div>
+              <div class="save-slot-time">${isEmpty ? '空白' : this._formatTime(slot.timestamp)}</div>
+            </div>
+          </div>
+        `;
+      }
+      html += '</div>';
     }
 
-    html += '</div></div>';
+    html += '</div>';
     this.el.innerHTML = html;
 
     this.el.addEventListener('click', (e) => {
