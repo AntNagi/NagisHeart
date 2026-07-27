@@ -14,7 +14,7 @@
 
 ---
 
-## 权威清单（7 份文档 + 2 个 KV 资产包）
+## 权威清单（7 份文档 + 2 个 KV 资产包 + 1 个 UI reference 包）
 
 | # | 权威 | 文件 | MD5 | 最近修订 |
 |---|---|---|---|---|
@@ -28,8 +28,9 @@
 | 附 | 节点匹配表 | `visual_mapping/NagisHeart_SCRIPT_V15_节点匹配表.xlsx` | `6BD0ED9239E3092593DEFB1106828B66` | 2026-07-23（Ant 的 Antset 列编辑；内容已由 BG Mapping v1.5 消化，本次仅补账登记哈希，见 DEC-20260727-006） |
 | KV-1 | Start 页权威（V23 分层包） | `design/authority/icon_start_tt/start/`（9 文件；长屏适配策略见 `start_long/rethink/`） | 目录校验 | TT V23，Ant 2026-07-21 确认 |
 | KV-2 | App Icon 权威（V4 safe-zone） | `design/authority/icon_start_tt/icon/android_launcher_rework_v4_safezone/`（20 文件） | 目录校验 | lulu V4 safezone，Ant 2026-07-21 确认 |
+| REF-1 | 剧情地图 §27 authority reference（non-runtime） | `design/concepts/story_map_xoxo_v1/`（9 PNG + 9 SVG + 2 generator + 8 covers；逐文件 MD5 见目录 README） | 清单校验 | 总览 v4 + 八章 v7；DEC-20260725-001 / DEC-20260727-006 |
 
-KV 资产包因体积和既有引用（web favicon、harness 任务单）保留在 `design/authority/` 原位，该路径视同本目录的延伸，同样受铁律约束。
+KV 资产包因体积和既有引用（web favicon、harness 任务单）保留在 `design/authority/` 原位，该路径视同本目录的延伸，同样受铁律约束。REF-1 因 UI HTML、MinSpec §27、Interaction §32 与任务单已有稳定引用而保持原路径；它只供 authority 展示、人工对照、坐标转写和验收，禁止复制或加载到 Android/Web runtime、APK `res/` / `assets/`，禁止从预览图裁取运行时资源。
 
 ---
 
@@ -45,6 +46,7 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 
 | 日期 | 文件 | 说明 | 决策记录 |
 |---|---|---|---|
+| 2026-07-28 | 剧情地图 §27 authority reference | 正式登记 `design/concepts/story_map_xoxo_v1/`：只纳入总览 v4、八章 v7 的 PNG/SVG、两份同源 generator 与必要 covers；历史过程稿不进入 reference 提交；补逐文件 MD5 与禁止 runtime 引用说明 | DEC-20260725-001 / DEC-20260727-006 |
 | 2026-07-27 | UI MinSpec §27.8–§27.16 | 剧情地图数值 token 补齐：页面骨架 / 节点（普通节点无卡片底）/ 正交折线路径 / 第八章三路线布局与权威标签 / 总览页 / 未解锁呈现 / 九份 SVG 坐标转写授权 / 标题断行表 8 条 / 章节短标题与副标题表 8 章。焦点由开发逐图调校，不另出 focus map、不重新切图 | DEC-20260727-006 |
 | 2026-07-27 | 节点匹配表 xlsx | 补账：Ant 的 Antset 列编辑自 07-23 未登记，check-authority 长期 FAILED；本次仅同步哈希与提交，不改内容 | DEC-20260727-006 |
 | 2026-07-27 | UI MinSpec §14.1 | 合并保留小节开始页最新收口：§14.1 仅适用于 Section Opening，废止托底描边，新增章节名 + 小节序号 meta 行；大章开始/结束继续按 §23 分割页口径 | DEC-20260717-013 |
