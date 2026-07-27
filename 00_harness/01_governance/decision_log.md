@@ -820,3 +820,16 @@ None. Investigation and process decision only; no code or resource deletion auth
 - Why this differs from the retired v1 alignment gate, which had similar intent and failed: v1 asked "did you read it - yes/no", which is self-certified and costs nothing to answer yes. v2 demands substantive output (the gap list), which is checkable against the cited sections and falsified later if a gap surfaces mid-implementation.
 - feibo self-violation corrected in the same commit: TASK-20260726-002 had MinSpec section 1 dark-layer values copied into the task entry, breaching the existing red line against duplicating authority content. Values stripped; entry now cites the section only. TASK-20260726-003 similarly reduced to symptom + scope + interaction section references.
 - Files updated: CLAUDE.md, 02_planning/task_board.md
+
+# DEC-20260726-006 - Role playbooks, entry-file consolidation, board template, main loop
+
+- Date: 2026-07-26
+- Owner: feibo (CTO), per Ant's directive to stop discussing and land the mechanism
+- Decision:
+  - Entry files consolidated. CLAUDE.md is the single source for the contract; AGENTS.md is the Codex shim kept in sync in the same commit; README_AI.md is retired to a signpost because keeping two rule texts guarantees drift; PROJECT_STRUCTURE.md stays as the file map; 00_harness/README.md is reduced to a ledger index plus the main loop and no longer restates rules.
+  - Role playbooks added under 00_harness/roles/: ROLE_DEV, ROLE_QA, ROLE_PM, ROLE_DESIGN. Session startup step 2 now requires reading your own playbook.
+  - Task board template rewritten: entries carry 现象 / 范围 / 落地依据(section reference) / 完成定义 only. Numeric values, implementation logic and dispatcher interpretation are banned from entries; positioning hints must be labelled as hints that cannot be applied without going back to authority.
+  - Board states extended with `preflight` (dispatched, worker checking authority, not yet coding) and `blocked` (pre-flight raised an authority gap, waiting on design or adjudication).
+  - Main loop fixed: QA script sweep + scoped repro -> PM atomises into per-symptom entries -> worker takes 3-5, pre-flight, stop for adjudication -> per-item fix, repro, report, push -> PM mechanical triple-check (item count / push / health script) -> Ant spot-checks 1-2.
+  - Division of labour principle behind the loop: breadth belongs to scripts (machines do not tire), judgement belongs to small batches. Never give an agent breadth and judgement in the same task - that combination has failed every time it was tried.
+- Files: CLAUDE.md, AGENTS.md, README_AI.md, 00_harness/README.md, 00_harness/roles/*, 02_planning/task_board.md

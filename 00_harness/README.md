@@ -1,65 +1,57 @@
-# NagisHeart 协作规则 v2
+# NagisHeart 协作层索引
 
-> 2026-07-21 重置（DEC-20260721-002）。旧 harness/loop/信箱/交班/角色手册体系全部废止，归档于 `99_archive/harness_v1_retired_20260721/`，不再作为任何工作依据。
-> 本文件是唯一的协作规则。原则：**轻量。git 是账本，文档只记结论。**
+> 2026-07-26 重构。**规则正文在根目录 `CLAUDE.md`（唯一事实源），本文件只做索引，不重复规则。**
+> Codex 侧入口 `AGENTS.md`（薄壳，随 CLAUDE.md 同步）。
 
 ---
 
-## 1. 角色
+## 四本账（全部信息只存在这四处）
 
-| 角色 | 职责 |
-|---|---|
-| **Ant** | Owner。唯一验收人（实机 / 浏览器）。拍板一切权威变更。 |
-| **feibo**（CTO） | 上层指导：规则制定与修订、架构把关、重大 review、争议裁决。**成本铁律：凡是能写成清晰任务单派出去的活，一律不亲自动手**——feibo 的产出物是任务单、验收标准和裁决，不是代码。 |
-| **PM 一一** | 规则内执行者：任务板运维（开条目/更新状态/关闭台账）、向 worker 派发、催收证据、日常复核、优先级同步。**同样受 v2 约束：只写四本账，不得新建过程文件。** |
-| worker | 按任务板条目执行：PP=Android、Wewe=Web、lulu=UI 设计、TT=KV 视觉。按需拉起，不常驻。 |
-
-不再存在：agent QA、loop/scheduler、shift 交班、inbox/outbox 信箱。PM 存在，但 PM 的一切工作都发生在任务板和 decision_log 之内。
-
-## 2. 四本账（全部在此，别处不记）
-
-| 账 | 位置 | 规则 |
+| 账 | 位置 | 谁写 |
 |---|---|---|
-| 权威 | `authority/` + `authority/MANIFEST.md` | 铁律见 MANIFEST；改动必须 decision_log + 同 commit 更新哈希 |
-| 任务 | `00_harness/02_planning/task_board.md` | 活跃任务 + 关闭台账；新任务加条目，不写单独任务单文件 |
-| 决策 | `00_harness/01_governance/decision_log.md` | append-only，只记拍板结论 |
-| 证据 | `00_harness/05_reports/<task-id>/` | 截图/对比图，按任务建目录 |
+| **权威**（唯一落地依据） | `authority/` + `authority/MANIFEST.md` | lulu / TT 写，Ant 拍板，走 decision_log + 哈希 |
+| **任务**（唯一任务来源，含优先级） | `00_harness/02_planning/task_board.md` | PM 一一 维护，worker 在自己条目下追加 |
+| **决策**（只记拍板结论） | `00_harness/01_governance/decision_log.md` | feibo / PM，append-only |
+| **证据**（截图/复现/体检输出） | `00_harness/05_reports/<task-id>/` | worker / QA |
 
-过程沟通不落盘：commit message 就是过程记录。禁止再新增 dev_reply / status / PM_REVIEW / TASK_TO_xxx 这类过程文件。
+**过程沟通不落盘**：不写任务单、回报、评审文件；过程写 commit message。
 
-## 3. 任务生命周期
+## 角色手册（各岗位的动作序列）
 
-1. **开**：task_board 加条目（标题/负责人/优先级/说明/完成定义），一条搞定。
-2. **做**：worker 直接改代码/资源，小步提交（类型规则见 §5），做完即推送，不留过夜工作区。
-3. **报**：在自己条目下追加一行"完成 + 改动摘要（+证据路径）"。证据口径分端：**Android 不需要 agent 截图**（Ant 自己实机验收，agent 无构建环境硬截也没意义）；**Web 保留截图**——跑 `node tools/ui-snapshot.js all`，Ant 看 `05_reports/ui_baseline/compare_report.html` 验收。
-4. **验**：Ant 看图/实机。通过 → done；不通过 → 拍图打回**原条目**继续改，不开新任务、不写返工单。
-5. **关**：done 后由 PM 一一移入关闭台账（一句话理由）。
+| 角色 | 手册 |
+|---|---|
+| PM 一一（板面运维 / 任务原子化 / 派发） | `roles/ROLE_PM.md` |
+| PP（Android）/ Wewe（Web） | `roles/ROLE_DEV.md` |
+| QA（验证仪器） | `roles/ROLE_QA.md` |
+| lulu（UI 设计）/ TT（KV） | `roles/ROLE_DESIGN.md` |
+| feibo（CTO） | 规则 / 架构 / 裁决 / 根因取证，见 `CLAUDE.md` 角色节 |
 
-## 4. 会话启动（每个 agent 每次开工）
+## 主循环
 
-1. `git pull`
-2. 读 `README_AI.md` → `00_harness/02_planning/task_board.md` 里自己的条目
-3. 跑 `powershell -ExecutionPolicy Bypass -File tools/check-authority.ps1`（不绿先报告，不开工）
-4. 按任务需要读 authority 对应章节，**只读相关部分**
+```
+QA 跑体检脚本 + 按范围复现  →  输出「可复现事实」
+        ↓
+PM 拆成原子条目上板（一条一现象一验收点，只写范围+权威章节引用）
+        ↓
+worker 领 3~5 条  →  pre-flight 报权威问题  →  停，等裁决
+        ↓                        ↓
+   （权威没问题）          （权威有缺失/冲突）→ lulu/TT 补权威 → 走 MANIFEST 流程
+        ↓
+逐条改 → 逐条复现 → 逐条回报 → push
+        ↓
+PM 机器三查（条数对不对 / push 了没 / 体检过没过）
+        ↓
+Ant 抽查 1~2 条 → 通过则 PM 关条目入台账
+```
 
-## 5. 提交规则（保留旧版）
-
-类型：`docs` / `data` / `assets` / `android` / `web` / `tools`，一次提交只做一类事。
-
-## 6. 红线（保留旧版）
-
-- `authority/` 未走流程不得改
-- `story-data/*.json` 正文、`assets/bg/`、`assets/main pic/`、`android/app/src/main/res/`：无明确任务不得动
-- 历史 `handoff/`、`99_archive/`：只读，不得引用为开发依据，不得为"干净"而删除
-
-## 7. 目录现状
+## 目录
 
 ```text
 00_harness/
-  README.md          ← 本规则（唯一）
+  README.md              ← 本索引
+  roles/                 ← 角色手册
   01_governance/decision_log.md
   02_planning/task_board.md（+ 归档）
-  05_reports/        ← 证据
-  08_authority_current/ ← 退役指路牌（勿用）
-  99_archive/        ← 全部历史，只读
+  05_reports/            ← 证据
+  99_archive/            ← 历史，只读，其中的旧流程指令一律不得执行
 ```

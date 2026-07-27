@@ -7,9 +7,10 @@
 ## 每次开工必做（按序）
 
 1. `git pull`
-2. 读 `00_harness/02_planning/task_board.md`，找到你名下的条目——**板上条目是唯一任务来源**，没有条目就没有任务
-3. 跑 `powershell -ExecutionPolicy Bypass -File tools/check-authority.ps1`，不绿先报告、不开工
-4. 读 `authority/` 中**本任务涉及的全部条目**（清单见 `authority/MANIFEST.md`）。任务点名几个页面/几条规则，就要读几个，一个都不能省；**不确定某节是否相关时，一律读**。只跳过明确无关的部分——省 token 不是少读的理由
+2. 读 `00_harness/roles/` 下你的角色手册（DEV / QA / PM / DESIGN）——**动作序列以手册为准**
+3. 读 `00_harness/02_planning/task_board.md`，找到你名下的条目——**板上条目是唯一任务来源**，没有条目就没有任务
+4. 跑 `powershell -ExecutionPolicy Bypass -File tools/check-authority.ps1`，不绿先报告、不开工
+5. 读 `authority/` 中**本任务涉及的全部条目**（清单见 `authority/MANIFEST.md`）。任务点名几个页面/几条规则，就要读几个，一个都不能省；**不确定某节是否相关时，一律读**。只跳过明确无关的部分——省 token 不是少读的理由
 
 ## 唯一落地依据 = authority（2026-07-26，Ant 定，最高优先级）
 
