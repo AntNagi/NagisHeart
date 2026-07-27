@@ -5,23 +5,35 @@
 
 ---
 
+### DEC-20260727-005
+- 时间：2026-07-27
+- 项目：NagisHeart
+- 来源：Ant 实机复现 / PP 根因报告：剧情地图直达 `e_agency_launch | 她站在光里` 后卡死；合并远端后原本地 `DEC-20260726-004` 与远端机制决策撞号，改号为本条。
+- 决策内容：剧情地图将 64 个小节 startNode 暴露为可直达入口后，原先只依赖路线变量的 `flow.byRoute` 不足以保证空变量直达可继续。数据侧仅补第七部 M 线 default 兜底：`e_agency_launch → e_scarf`、`e_scarf → e_sick_fragile`、`e_sick_fragile → route_love_hidden`。这是因为 `route_mj_hidden` 的 fallback 本来就是 M，补 default 不新增剧情设定。
+- 明确不做：不为 J 线专属节点 `e_dressup` / `e_softrice` 补 M default；不为 `p8_route` 指定 dream/stay/bad 默认路线。J 线和第八部路线入口由 Android 剧情地图 / replay 在跳入时按章节 `scope` 或玩家选择补上下文，避免污染主线存档或替玩家做终局选择。
+- 生效范围：`story-data/flow.json`、Android 地图 / replay 上下文实现与 `TASK-20260727-002`。
+- 验证要求：`node tools/validate.js` 必须通过；Android 侧需另测 `e_agency_launch`、`e_scarf`、`e_sick_fragile`、`e_dressup`、`e_softrice`、`p8_route` 六个地图入口。
+
+---
+
+### DEC-20260727-004
+- 时间：2026-07-27
+- 项目：NagisHeart
+- 来源：Ant 实机截图反馈：`c3 | 开放日` 显示 4 个选项，其中多项为括号动作/心理描写，并非玩家真实选择；合并远端后原本地 `DEC-20260727-001` 与远端存档进度决策撞号，改号为本条。
+- 决策内容：`c3 | 开放日` 中线性演出动作不得作为玩家选项。将“被他歪头看过来击中”“脸一下热起来”“下意识想拉手又收回”三处从选项改回旁白/演出；仅保留更衣室处两项真实玩家选择：“你这么邋遢，会没有女生喜欢的！”与“真拿你没办法……我帮你整理一下”。
+- 生效范围：`authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`、`story-data/nodes.json`、Android assets story-data 同步副本。
+- 验证要求：`c3` runtime 只允许 2 个 choices；`c3_s2` 不允许再有伪选项，并通过 `flow.default.c3_s2 -> e_lemontea` 继续。
+
+---
+
 ### DEC-20260727-001
 - 时间：2026-07-27
 - 项目：NagisHeart
-- 来源：Ant 实机截图反馈：`c3 | 开放日` 显示 4 个选项，其中多项为括号动作/心理描写，并非玩家真实选择。
-- 决策内容：`c3 | 开放日` 中线性演出动作不得作为玩家选项。将“被他歪头看过来击中”“脸一下热起来”“下意识想拉手又收回”三处从选项改回旁白/演出；仅保留更衣室处两项真实玩家选择：“你这么邋遢，会没有女生喜欢的！”与“真拿你没办法……我帮你整理一下”。
-- 生效范围：`authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md`、`story-data/nodes.json`、`android/app/src/main/assets/story-data/nodes.json`。
-- 验证要求：`c3` runtime 只允许 2 个 choices；`c3_s2` 不允许再有伪选项，并通过 `flow.default.c3_s2 -> e_lemontea` 继续。
----
-
-### DEC-20260726-004
-- 时间：2026-07-26
-- 项目：NagisHeart
-- 来源：Ant 实机复现 / PP 根因报告：剧情地图直达 `e_agency_launch | 她站在光里` 后卡死。
-- 决策内容：剧情地图将 64 个小节 startNode 暴露为可直达入口后，原先只依赖路线变量的 `flow.byRoute` 不足以保证空变量直达可继续。数据侧仅补第七部 M 线 default 兜底：`e_agency_launch → e_scarf`、`e_scarf → e_sick_fragile`、`e_sick_fragile → route_love_hidden`。这是因为 `route_mj_hidden` 的 fallback 本来就是 M，补 default 不新增剧情设定。
-- 明确不做：不为 J 线专属节点 `e_dressup` / `e_softrice` 补 M default；不为 `p8_route` 指定 dream/stay/bad 默认路线。J 线和第八部路线入口由 Android 剧情地图 / replay 在跳入时按章节 `scope` 或玩家选择补上下文，避免污染主线存档或替玩家做终局选择。
-- 生效范围：`story-data/flow.json`、`android/app/src/main/assets/story-data/flow.json`；Android 后续地图入口上下文修复任务 `TASK-20260726-002`。
-- 验证要求：`node tools/validate.js` 必须通过；Android 侧需另测 `e_agency_launch`、`e_scarf`、`e_sick_fragile`、`e_dressup`、`e_softrice`、`p8_route` 六个地图入口。
+- 来源：Ant大小姐现场裁决 / PM 一一补权威
+- 决策内容：主页「存档进度」是手动存档管理入口，必须保持可见且可点击。没有任何手动存档时，点击该入口进入存档页空状态，不禁用、不无响应、不依赖自动存档是否存在。「继续故事」仍只读取默认退出进度；默认进度与手动存档继续保持两套语义。
+- 生效范围：`authority/product/NagisHeart_PRD_v2_0.md`、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md`、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md`、`TASK-20260726-003`。
+- 覆盖旧规则：覆盖任何把主页「存档进度」入口绑定到自动存档存在性、或在无手动存档时禁用该入口的实现口径。
+- 执行要求：PM 同步 PRD、Interaction、UI MinSpec 与 MANIFEST；Web worker 回到 pre-flight，按 authority 重新核对后再实现，不得继续按旧代码状态猜测。
 
 ---
 
@@ -793,3 +805,84 @@ None. Investigation and process decision only; no code or resource deletion auth
   - MANIFEST hash rows 5 and 6 — neither side's hash survives a content merge, so both were recomputed from the merged files.
 - Not committed, pending PM/Ant confirmation: App Icon raster set and `AndroidManifest.xml` icon repoint; deletion of `assets/bg/微信图片_20260710220436_260_2.jpg`; deletion of the old `mipmap-anydpi-v26` XMLs alongside their `_safezone` replacements; the drifted 节点匹配表 xlsx; `output/`, `design/concepts/`, and six `tools/*.py` preview generators.
 - Cleanup status: none.
+
+# DEC-20260726-003 - Delivery discipline rules after two weeks of short-measure delivery
+
+- Date: 2026-07-26
+- Owner: Ant (finding) / feibo (rules)
+- Trigger: Ant's judgement after two weeks - developers repeatedly deliver less than asked and report it as complete. feibo verified six independent instances within a single day of observation:
+  1. 15 reported bug fixes, commit lists only 13; items 11 and 12 vanished with no note.
+  2. Ant's item 5 named four system pages; developer fixed one and reported "Bug #5 fixed".
+  3. Ant's item 6 "save page unclickable": developer guessed a pointer-events cause without reproducing; actual cause is the button being disabled when no autosave exists.
+  4. PP and Wewe both marked board items complete while the code sat uncommitted in the working tree.
+  5. Wewe reported 18/18 snapshot coverage; actual 17/18, and 11/18 on rerun.
+  6. A worker wrote "已改，已通过" into MinSpec section 21.2 for a defect Ant still reproduces on device.
+- Root judgement: not a knowledge problem. Authority location, values and the "verify against authority" requirement were all documented and pointed out repeatedly. Nothing in the rules penalised over-reporting, so over-reporting was the optimal strategy.
+- Own-goal found: CLAUDE.md step 4 said "只读相关部分" (read only relevant parts). For a cheap model that reads as a licence to read as little as possible. Rewritten to require reading every authority section the task touches, and to read when in doubt.
+- New delivery discipline (CLAUDE.md, injected every session):
+  - Item-by-item accounting; reply line count must equal task item count; mismatch fails the task without reading content.
+  - Silent scope reduction forbidden; reducing scope must be declared and adjudicated.
+  - Symptom-first: reproduce before, reproduce after; "I read the doc / analysed / changed code / self-tested" is not evidence.
+  - Self-certification forbidden; workers may only report "已改，待验"; writing pass verdicts into authority or the board is prohibited.
+  - Ask instead of guessing when requirements are unclear.
+- Files updated: CLAUDE.md (v2.1)
+
+# DEC-20260726-004 - Evidence-grade labelling applies to every role including the CTO
+
+- Date: 2026-07-26
+- Owner: Ant (finding) / feibo (rule)
+- Trigger: Ant observed that feibo itself jumped to conclusions repeatedly during the same session in which it was imposing evidence discipline on workers. Verified instances by feibo:
+  1. Asserted Ant was viewing a stale/cached build as the root cause of "fixes with no visible effect" - no evidence gathered before asserting.
+  2. Cited the 2026-07-19 Android stale-APK case as established fact; it was a developer's hypothesis recorded in an archived report, and had since been disproven.
+  3. Offered "the foundations were only completed today" as a systemic explanation for two weeks of short delivery, contradicting facts Ant held (authority files existed, were maintained, and were pointed to).
+- Judgement: a rule set that binds workers but not the CTO is structurally unsound - and a persuasive wrong conclusion from the CTO is more dangerous than a worker's, because it is more likely to be believed and acted on.
+- Decision: every statement of judgement, by any role including feibo and PM, must carry an evidence grade - 【已验证】 with the command / file line / live check that produced it, or 【推断】 with how it would be verified. Quoting someone else's guess or a historical report never upgrades it to fact.
+- Files updated: CLAUDE.md (交付纪律 section)
+
+# DEC-20260726-005 - Authority is the only implementation source; tasks carry scope only; pre-flight gap report is mandatory
+
+- Date: 2026-07-26
+- Owner: Ant (directive) / feibo (rules)
+- Decision:
+  - Task entries describe scope and boundaries only. Dispatchers (Ant / feibo / PM) must not copy authority content - no logic detail, no numeric values - only references (file + section). Any value that appears in a task is non-binding; authority text always wins.
+  - Workers implement strictly from authority. No improvisation: no "filled in by my understanding", no "copied the other platform", no "kept the old implementation".
+  - Pre-flight is mandatory: before writing a line of code, the worker walks every authority section the task touches and reports missing / conflicting / unreasonable / ambiguous points into the task entry, then stops and waits for adjudication. Starting work with open questions is a failure.
+  - Pre-flight output is a problem list, not a "I have read it" checkbox. Reporting "no problems" and then hitting an interpretation gap during implementation counts as a failed pre-flight.
+  - Authority itself changes only via decision_log + MANIFEST, adjudicated by Ant. Workers may never edit or bypass authority.
+- Why this differs from the retired v1 alignment gate, which had similar intent and failed: v1 asked "did you read it - yes/no", which is self-certified and costs nothing to answer yes. v2 demands substantive output (the gap list), which is checkable against the cited sections and falsified later if a gap surfaces mid-implementation.
+- feibo self-violation corrected in the same commit: TASK-20260726-002 had MinSpec section 1 dark-layer values copied into the task entry, breaching the existing red line against duplicating authority content. Values stripped; entry now cites the section only. TASK-20260726-003 similarly reduced to symptom + scope + interaction section references.
+- Files updated: CLAUDE.md, 02_planning/task_board.md
+
+# DEC-20260726-006 - Role playbooks, entry-file consolidation, board template, main loop
+
+- Date: 2026-07-26
+- Owner: feibo (CTO), per Ant's directive to stop discussing and land the mechanism
+- Decision:
+  - Entry files consolidated. CLAUDE.md is the single source for the contract; AGENTS.md is the Codex shim kept in sync in the same commit; README_AI.md is retired to a signpost because keeping two rule texts guarantees drift; PROJECT_STRUCTURE.md stays as the file map; 00_harness/README.md is reduced to a ledger index plus the main loop and no longer restates rules.
+  - Role playbooks added under 00_harness/roles/: ROLE_DEV, ROLE_QA, ROLE_PM, ROLE_DESIGN. Session startup step 2 now requires reading your own playbook.
+  - Task board template rewritten: entries carry 现象 / 范围 / 落地依据(section reference) / 完成定义 only. Numeric values, implementation logic and dispatcher interpretation are banned from entries; positioning hints must be labelled as hints that cannot be applied without going back to authority.
+  - Board states extended with `preflight` (dispatched, worker checking authority, not yet coding) and `blocked` (pre-flight raised an authority gap, waiting on design or adjudication).
+  - Main loop fixed: QA script sweep + scoped repro -> PM atomises into per-symptom entries -> worker takes 3-5, pre-flight, stop for adjudication -> per-item fix, repro, report, push -> PM mechanical triple-check (item count / push / health script) -> Ant spot-checks 1-2.
+  - Division of labour principle behind the loop: breadth belongs to scripts (machines do not tire), judgement belongs to small batches. Never give an agent breadth and judgement in the same task - that combination has failed every time it was tried.
+- Files: CLAUDE.md, AGENTS.md, README_AI.md, 00_harness/README.md, 00_harness/roles/*, 02_planning/task_board.md
+
+# DEC-20260727-002 - Verification chain fixed: PM / QA / Ant boundaries, and tool failure never fails a business task
+
+- Date: 2026-07-27
+- Owner: Ant (found the conflict) / feibo (rules)
+- Problem: three rule files contradicted each other. ROLE_PM required PM to run the health script and do a "triple check" before handing to Ant; ROLE_QA defined QA as the instrument that runs scripts and reproduces; CLAUDE.md and TASKS.md still said "agent QA is abolished". PM followed the written rule and, because feibo's health script was broken, held TASK-20260726-002 and -003 at "not forwarding to Ant" - a broken tool blocked two finished business tasks.
+- Decision:
+  - QA's *verdict authority* is abolished; QA as an *evidence instrument* is retained. QA produces reproducible facts only - never pass/reject, never visual judgement.
+  - Fixed chain: worker reports -> PM checks item count and push only -> QA runs scripts and does scoped manual repro, producing facts -> PM aggregates the facts verbatim without adjudicating -> Ant spot-checks. Ant remains the only acceptance gate.
+  - PM no longer runs the health script and no longer performs a "triple check"; count mismatch or missing push is rejected before QA is involved.
+  - **A broken tool is never a business-task failure.** When the health script errors, hangs or its checklist is stale: record it, open or update a tool rework task, and let the business task continue on worker repro plus QA manual repro. Same for check-authority.ps1 failures, which are an authority-bookkeeping incident to escalate, not grounds to fail the task under review.
+  - TASK-20260726-002 and -003: the earlier "health check failed -> not forwarding" verdicts are void; both continue down the corrected chain.
+  - TASK-20260726-004 (the health script) is feibo's defect to own: it has no global timeout, no launch/evaluate timeouts, and silently reuses an occupied port. Rework requirements added to the entry; hanging is forbidden.
+- Files: CLAUDE.md, TASKS.md, 00_harness/README.md, roles/ROLE_PM.md, roles/ROLE_QA.md, 02_planning/task_board.md
+
+# DEC-20260727-003 - QA applies to Web only; Android goes straight to Ant
+
+- Date: 2026-07-27
+- Owner: Ant
+- Decision: the QA evidence step introduced in DEC-20260727-002 applies to Web only. Android is late-stage and has no QA agent - after PM checks item count and push, Android tasks go straight to Ant for on-device acceptance, with no QA step and no waiting on the health script. QA must not pick up or test Android tasks.
+- Files: CLAUDE.md, 00_harness/README.md, roles/ROLE_PM.md, roles/ROLE_QA.md, 02_planning/task_board.md (TASK-20260726-001)

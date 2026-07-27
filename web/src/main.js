@@ -8,9 +8,12 @@ import { PrologueScreen } from './ui/screens/PrologueScreen.js';
 import { NameSetupScreen } from './ui/screens/NameSetupScreen.js';
 import { GameScreen } from './ui/screens/GameScreen.js';
 import { EndingScreen } from './ui/screens/EndingScreen.js';
+import { mountVersionBadge } from './ui/VersionBadge.js';
 
 async function init() {
   const app = document.getElementById('app');
+
+  mountVersionBadge();
 
   app.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-secondary);font-size:14px;">Loading...</div>';
 

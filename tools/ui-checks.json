@@ -1,0 +1,98 @@
+{
+  "_doc": "UI 体检断言清单（Web）。每条断言 = 一个可判定的事实 + 它的权威出处。规则：任何期望值都必须能在 authority 原文里找到；不许在这里发明数值。改动本文件必须同步更新下方 authorityHashes，否则体检脚本会警告清单可能过期。",
+  "_usage": "node tools/ui-check.js  （只跑 Web；退出码 0=全过，1=有不通过）",
+
+  "authorityHashes": {
+    "_doc": "同步时的权威哈希。与 authority/MANIFEST.md 不一致时脚本报警——说明权威改了而清单没跟。",
+    "ui/XoXo_UI_Final_MinSpec_20260712.md": "56FE83A546B1F227FD31371BCA1373DA",
+    "interaction/NagisHeart_Interaction_Design_v1_0.md": "5ED95C74ED2DD960DFC0F8F5D39F2C2C"
+  },
+
+  "states": [
+    {
+      "id": "home",
+      "desc": "主页",
+      "steps": [{ "goto": "/web/" }, { "click": ".start-hit" }, { "waitFor": ".home-actions" }]
+    },
+    {
+      "id": "settings",
+      "desc": "系统设置页",
+      "steps": [{ "goto": "/web/" }, { "click": ".start-hit" }, { "waitFor": ".home-actions" }, { "click": "[data-action=\"settings\"]" }, { "waitFor": ".overlay" }]
+    },
+    {
+      "id": "saves",
+      "desc": "存档进度页",
+      "steps": [{ "goto": "/web/" }, { "click": ".start-hit" }, { "waitFor": ".home-actions" }, { "click": "[data-action=\"saves\"]" }, { "waitFor": ".overlay", "timeout": 3000 }]
+    },
+    {
+      "id": "gallery",
+      "desc": "回忆画廊页",
+      "steps": [{ "goto": "/web/" }, { "click": ".start-hit" }, { "waitFor": ".home-actions" }, { "click": "[data-action=\"gallery\"]" }, { "waitFor": ".overlay", "timeout": 3000 }]
+    }
+  ],
+
+  "checks": [
+    {
+      "id": "S1-dim-layer-1",
+      "authority": "MinSpec §1 暗层规则 · 系统级页面第一层（垂直渐变）",
+      "states": ["home", "settings", "saves", "gallery"],
+      "selector": ".system-bg-overlay",
+      "assert": "styleContainsAll",
+      "property": "backgroundImage",
+      "expect": ["rgba(19, 32, 51, 0.52)", "rgba(19, 32, 51, 0.34) 42%", "rgba(19, 32, 51, 0.78)"]
+    },
+    {
+      "id": "S1-dim-layer-2-vignette",
+      "authority": "MinSpec §1 暗层规则 · 系统级页面第二层（径向暗角）",
+      "states": ["home", "settings", "saves", "gallery"],
+      "selector": ".system-bg-overlay",
+      "assert": "styleContainsAll",
+      "property": "backgroundImage",
+      "expect": ["radial-gradient", "50% 38%", "rgba(19, 32, 51, 0.38) 62%", "rgba(19, 32, 51, 0.72) 100%"]
+    },
+    {
+      "id": "S1-dim-layer-3-highlight",
+      "authority": "MinSpec §1 暗层规则 · 系统级页面第三层（白色呼吸高光）",
+      "states": ["home", "settings", "saves", "gallery"],
+      "selector": ".system-bg-overlay",
+      "assert": "styleContainsAll",
+      "property": "backgroundImage",
+      "expect": ["rgba(255, 255, 255, 0.04)", "rgba(255, 255, 255, 0.02)"]
+    },
+    {
+      "id": "SYS-back-button-exists",
+      "authority": "MinSpec §1 系统级页面统一规范（存档/章节目录/回忆画廊/系统设置同族）",
+      "states": ["settings", "saves", "gallery"],
+      "selector": ".overlay-back-btn",
+      "assert": "exists"
+    },
+    {
+      "id": "SYS-back-button-clickable",
+      "authority": "Interaction §21 弹窗与系统提示 / §2 全局页面结构（返回可用）",
+      "states": ["settings", "saves", "gallery"],
+      "selector": ".overlay-back-btn",
+      "assert": "clickable"
+    },
+    {
+      "id": "SYS-back-button-visible",
+      "authority": "MinSpec §1（元素须在系统页背景上可辨认）",
+      "states": ["settings", "saves", "gallery"],
+      "selector": ".overlay-back-btn",
+      "assert": "visible"
+    },
+    {
+      "id": "HOME-saves-entry-reachable",
+      "authority": "Interaction §13 存档页交互 / §23 空状态设计（无存档时应进入并显示空状态，而非禁用入口）",
+      "states": ["home"],
+      "selector": "[data-action=\"saves\"]",
+      "assert": "notDisabled"
+    },
+    {
+      "id": "SYS-no-horizontal-overflow",
+      "authority": "Interaction §24 移动端适配原则",
+      "states": ["home", "settings", "saves", "gallery"],
+      "selector": "body",
+      "assert": "noHorizontalOverflow"
+    }
+  ]
+}

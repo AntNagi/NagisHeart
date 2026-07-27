@@ -1,7 +1,7 @@
 # NagisHeart 权威文档清单（MANIFEST）
 
 > 本目录是全仓库唯一的权威文档存放地。雷打不动。
-> 最后修订：2026-07-25（剧情地图 authority）
+> 最后修订：2026-07-27（存档进度无手动存档空状态；c3 开放日伪选项）
 
 ---
 
@@ -18,12 +18,12 @@
 
 | # | 权威 | 文件 | MD5 | 最近修订 |
 |---|---|---|---|---|
-| 1 | 产品 PRD | `product/NagisHeart_PRD_v2_0.md` | `65925D2616BB63A15745EEC807315E2A` | 2026-07-20 |
-| 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `5ED95C74ED2DD960DFC0F8F5D39F2C2C` | 2026-07-25（§32：旧章节目录退役，入口直达地图总览） |
+| 1 | 产品 PRD | `product/NagisHeart_PRD_v2_0.md` | `18FB495781E060C9EDBA8FA5DB1DD332` | 2026-07-27（§7 / §20.1 / §20.2：继续故事术语、存档进度无手动存档时进入空状态） |
+| 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `9CD72B1FE138C857898F432D954017DE` | 2026-07-27（§2.3 / §3 / §23.3 / §29.2：继续故事术语、存档进度入口空状态行为） |
 | 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `10CCFBABDE0C637C0B2A8F762B7B2079` | 2026-07-27（修正 c3 开放日伪选项） |
 | 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `EB459592BF396154885D9A2B9CEBCE3C` | V3.1（2026-07-21 Ant 确认为正主） |
 | 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `CF4D1CE61974F8054E2843CF6B469B4F` | 2026-07-26（合并：§27 地图总览+八章子页 / 剧情回顾页排版重构） |
-| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `56FE83A546B1F227FD31371BCA1373DA` | 2026-07-26（合并：§27 剧情地图 + §24 剧情回顾重构；原 §24 Sai sync 改号 §28） |
+| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `899C19E00E4BB1D1C87CE40C5D6CDEC0` | 2026-07-27（§5 / §22.3：主页存档进度入口与存档空状态；§14.1：小节开始页托底与 meta 行） |
 | 7 | BG Mapping | `visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | `9E5235DF786217B31A5E5D358C2A83B3` | 2026-07-23（同步 c2/c2_s2/e_depart 口头指定 BG） |
 | 附 | 节点匹配表 | `visual_mapping/NagisHeart_SCRIPT_V15_节点匹配表.xlsx` | `526532688BFD7799337C14EE215D7F11` | 2026-07-21（原快照区唯一新版，已救出） |
 | KV-1 | Start 页权威（V23 分层包） | `design/authority/icon_start_tt/start/`（9 文件；长屏适配策略见 `start_long/rethink/`） | 目录校验 | TT V23，Ant 2026-07-21 确认 |
@@ -45,7 +45,9 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 
 | 日期 | 文件 | 说明 | 决策记录 |
 |---|---|---|---|
-| 2026-07-27 | Script V15 | 修正 `c3 | 开放日` 伪选项：将宿舍回头、床边脸红、离开前想牵手三处线性演出从选项改回旁白；runtime 仅保留更衣室两项真实选择 | DEC-20260727-001 |
+| 2026-07-27 | UI MinSpec §14.1 | 合并保留小节开始页最新收口：§14.1 仅适用于 Section Opening，废止托底描边，新增章节名 + 小节序号 meta 行；大章开始/结束继续按 §23 分割页口径 | DEC-20260717-013 |
+| 2026-07-27 | Script V15 | 修正 `c3 | 开放日` 伪选项：将宿舍回头、床边脸红、离开前想牵手三处线性演出从选项改回旁白；runtime 仅保留更衣室两项真实选择 | DEC-20260727-004 |
+| 2026-07-27 | story-data/flow.json | 剧情地图直达第七部 M 线 startNode 时补 default 兜底：`e_agency_launch → e_scarf`、`e_scarf → e_sick_fragile`、`e_sick_fragile → route_love_hidden`；J 线与第八部路线仍由 Android 地图/replay 注入上下文 | DEC-20260727-005 |
 | 2026-07-21 | （目录建立） | 七份权威 + 2 KV 包收拢隔离，快照区 08_authority_current 同日退役 | 本次重组由 Ant 直接批准 |
 | 2026-07-21 | MinSpec §21.2 | 第 4 行 BacklogScreen"已通过"记录作废（Ant 07-20 实机仍裁切），重修任务 TASK-20260721-002 | DEC-20260721-001 |
 | 2026-07-21 | （哈希口径） | md/html 哈希改为换行无关算法（剥 CR、无 BOM UTF-8 后取 MD5），配合 .gitattributes 换行统一，防跨机器误报；内容零变更 | 本次为记账口径变更 |
@@ -65,3 +67,4 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 | 2026-07-25 | UI HTML + MinSpec §27 + Interaction §32 | 旧章节目录独立页面退役；删除 HTML 入口、页面结构与 preset，原系统入口直接进入八章地图总览 | DEC-20260725-002 |
 | 2026-07-26 | UI HTML + MinSpec | 剧情回顾页排版重构：废除金色 speaker chip（连续对白下金色降级为背景纹理且无法分组），改为字形+密度+五级间距+对称内缩零装饰方案；`.recap-inner` 78% 压窄改为左右 38（= screenWidth−76，与 §17.4 同口径）。MinSpec §10 排版作废、新增 §24 | DEC-20260726-001 |
 | 2026-07-26 | UI MinSpec 编号 | 合并远端时发现 `## 24.` 被双方占用：远端新增「剧情回顾页排版重构」与本地 07-23「Sai Android direct UI adjustments sync」撞号且子节 24.1~24.6 全重叠。远端 §24 为 PP 活跃任务 `TASK-20260726-001` 必读项，保留原号；本地历史段改号为 §28，`decision_log` DEC-20260723-003 与本表 07-23 行引用同步更新 | DEC-20260726-002 |
+| 2026-07-27 | PRD + Interaction + MinSpec | 明确主页「存档进度」是手动存档管理入口：无手动存档时仍可点击并进入存档页空状态；不禁用、不无响应、不依赖自动存档；同步清理前文「继续游戏 / 最近自动存档」旧口径，统一为「继续故事 / 默认退出进度」；设计规范补充主页入口状态与存档空状态交付口径 | DEC-20260727-001 |
