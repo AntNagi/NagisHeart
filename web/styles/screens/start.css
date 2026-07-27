@@ -18,12 +18,13 @@
   object-fit: cover;
 }
 
-/* System-level dual overlay per §1 */
+/* System-level overlay per §1 */
 .start-screen-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   background:
+    var(--overlay-system-3),
     var(--overlay-system-2),
     var(--overlay-system-1);
 }
