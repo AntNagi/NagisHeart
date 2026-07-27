@@ -806,3 +806,17 @@ None. Investigation and process decision only; no code or resource deletion auth
 - Judgement: a rule set that binds workers but not the CTO is structurally unsound - and a persuasive wrong conclusion from the CTO is more dangerous than a worker's, because it is more likely to be believed and acted on.
 - Decision: every statement of judgement, by any role including feibo and PM, must carry an evidence grade - 【已验证】 with the command / file line / live check that produced it, or 【推断】 with how it would be verified. Quoting someone else's guess or a historical report never upgrades it to fact.
 - Files updated: CLAUDE.md (交付纪律 section)
+
+# DEC-20260726-005 - Authority is the only implementation source; tasks carry scope only; pre-flight gap report is mandatory
+
+- Date: 2026-07-26
+- Owner: Ant (directive) / feibo (rules)
+- Decision:
+  - Task entries describe scope and boundaries only. Dispatchers (Ant / feibo / PM) must not copy authority content - no logic detail, no numeric values - only references (file + section). Any value that appears in a task is non-binding; authority text always wins.
+  - Workers implement strictly from authority. No improvisation: no "filled in by my understanding", no "copied the other platform", no "kept the old implementation".
+  - Pre-flight is mandatory: before writing a line of code, the worker walks every authority section the task touches and reports missing / conflicting / unreasonable / ambiguous points into the task entry, then stops and waits for adjudication. Starting work with open questions is a failure.
+  - Pre-flight output is a problem list, not a "I have read it" checkbox. Reporting "no problems" and then hitting an interpretation gap during implementation counts as a failed pre-flight.
+  - Authority itself changes only via decision_log + MANIFEST, adjudicated by Ant. Workers may never edit or bypass authority.
+- Why this differs from the retired v1 alignment gate, which had similar intent and failed: v1 asked "did you read it - yes/no", which is self-certified and costs nothing to answer yes. v2 demands substantive output (the gap list), which is checkable against the cited sections and falsified later if a gap surfaces mid-implementation.
+- feibo self-violation corrected in the same commit: TASK-20260726-002 had MinSpec section 1 dark-layer values copied into the task entry, breaching the existing red line against duplicating authority content. Values stripped; entry now cites the section only. TASK-20260726-003 similarly reduced to symptom + scope + interaction section references.
+- Files updated: CLAUDE.md, 02_planning/task_board.md
