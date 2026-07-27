@@ -844,3 +844,17 @@ None. Investigation and process decision only; no code or resource deletion auth
   - Main loop fixed: QA script sweep + scoped repro -> PM atomises into per-symptom entries -> worker takes 3-5, pre-flight, stop for adjudication -> per-item fix, repro, report, push -> PM mechanical triple-check (item count / push / health script) -> Ant spot-checks 1-2.
   - Division of labour principle behind the loop: breadth belongs to scripts (machines do not tire), judgement belongs to small batches. Never give an agent breadth and judgement in the same task - that combination has failed every time it was tried.
 - Files: CLAUDE.md, AGENTS.md, README_AI.md, 00_harness/README.md, 00_harness/roles/*, 02_planning/task_board.md
+
+# DEC-20260727-002 - Verification chain fixed: PM / QA / Ant boundaries, and tool failure never fails a business task
+
+- Date: 2026-07-27
+- Owner: Ant (found the conflict) / feibo (rules)
+- Problem: three rule files contradicted each other. ROLE_PM required PM to run the health script and do a "triple check" before handing to Ant; ROLE_QA defined QA as the instrument that runs scripts and reproduces; CLAUDE.md and TASKS.md still said "agent QA is abolished". PM followed the written rule and, because feibo's health script was broken, held TASK-20260726-002 and -003 at "not forwarding to Ant" - a broken tool blocked two finished business tasks.
+- Decision:
+  - QA's *verdict authority* is abolished; QA as an *evidence instrument* is retained. QA produces reproducible facts only - never pass/reject, never visual judgement.
+  - Fixed chain: worker reports -> PM checks item count and push only -> QA runs scripts and does scoped manual repro, producing facts -> PM aggregates the facts verbatim without adjudicating -> Ant spot-checks. Ant remains the only acceptance gate.
+  - PM no longer runs the health script and no longer performs a "triple check"; count mismatch or missing push is rejected before QA is involved.
+  - **A broken tool is never a business-task failure.** When the health script errors, hangs or its checklist is stale: record it, open or update a tool rework task, and let the business task continue on worker repro plus QA manual repro. Same for check-authority.ps1 failures, which are an authority-bookkeeping incident to escalate, not grounds to fail the task under review.
+  - TASK-20260726-002 and -003: the earlier "health check failed -> not forwarding" verdicts are void; both continue down the corrected chain.
+  - TASK-20260726-004 (the health script) is feibo's defect to own: it has no global timeout, no launch/evaluate timeouts, and silently reuses an occupied port. Rework requirements added to the entry; hanging is forbidden.
+- Files: CLAUDE.md, TASKS.md, 00_harness/README.md, roles/ROLE_PM.md, roles/ROLE_QA.md, 02_planning/task_board.md

@@ -28,6 +28,9 @@
 - 落地依据：断言项来自 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` 与 `authority/interaction/NagisHeart_Interaction_Design_v1_0.md`；**脚本内不得硬编码期望值，必须从权威取或由 feibo 提供的清单驱动**
 - 完成定义：脚本可跑、输出逐条通过/不通过清单；交付规则改为"体检不过不得报完成"
 - PM 试用未通过：【已验证】执行 `node tools/ui-check.js` 时先报 `tools/ui-checks.json` authorityHashes 落后于 `authority/MANIFEST.md`，随后超过 3 分钟未退出；PM 终止卡住的 `node tools\ui-check.js` 进程。脚本未产出逐条通过/不通过清单，不能作为 Web 三查依据。
+- feibo 认领（2026-07-27）：**工具是我交的，缺陷归我**。哈希落后已在 `e6a3255` 修过，PM 试用时应已同步——需确认其工作区是否为最新；卡死是真缺陷，脚本没有任何超时兜底：`startServer` 端口被占时可能与既有 server 混淆、`puppeteer.launch` 与 `page.evaluate` 均无 timeout、驱动失败时最长可累积数十秒等待。
+- rework 要求（新增）：① **全局超时**（如 120s）到点必须打印已得结果并非零退出，**绝不允许挂死**；② 端口被占用时明确报错退出，不静默复用；③ `puppeteer.launch` / 每次 `evaluate` 加超时；④ 启动即打印"正在启动浏览器…"等进度，避免看起来像卡住；⑤ 清单哈希落后时**默认继续跑并在结尾复述警告**（过期清单仍有参考价值），不因此阻断
+- **本工具不可用期间，业务任务不得因此判失败或滞留**——见 `DEC-20260727-002`
 - 最新更新时间：2026-07-27
 
 ### TASK-20260726-002
@@ -41,7 +44,8 @@
 - 【线索，不得据此直接改，必须回权威取值】feibo【已验证】：`web/styles/tokens.css` 中系统级暗层 token 停留在 §1 修订前的旧口径且缺少其中一层；成因是 90 项对齐（`e728137`）做在 §1 修订之前。
 - 完成定义：§1 全部要求落地 + 浏览器复现证明"返回按钮在亮背景上清晰可见"；先做 pre-flight
 - 已改，待验：【已验证】`web/styles/tokens.css`、`web/styles/screens/start.css`、`web/styles/screens/prologue.css` 已按 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 落地系统级三层暗层；复现：旧版 `http://localhost:3001/web/` computed background 为旧两层且无径向暗角，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，主页与存档页返回层 computed background 均为白色高光 + 径向暗角 + 垂直暗层三层，存档页返回按钮在该暗层上可见。
-- PM 三查：条数 2/2 ✅ | push ✅ | 体检 ❌（`node tools/ui-check.js` 清单过期且卡住，见 TASK-20260726-004）→ 暂不转 Ant 抽查
+- PM 初查：条数 2/2 ✅ | push ✅ → 转 QA 取证
+- feibo 更正（2026-07-27）：原"体检 ❌ → 暂不转 Ant"作废。**工具坏不等于业务任务失败**（规则原写错，已改，见 `DEC-20260727-002`）。体检脚本问题归 `TASK-20260726-004`，本条按新链路继续：QA 取证（脚本不可用则人工复现）→ PM 汇总 → Ant 抽查。
 - 最新更新时间：2026-07-27
 
 ### TASK-20260726-001
@@ -73,7 +77,8 @@
   - 【已验证｜缺失】`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §13 仅规定存档类型、列表信息和页内操作，§23.3 仅规定存档页空状态文案；两节均未规定“无任何存档时主页「存档进度」入口应禁用，还是应保持可点击并进入空状态页”。当前 `web/src/ui/screens/StartScreen.js` 在无自动存档时禁用该入口，但 authority 不足以裁定目标行为。请 PM/Ant 明确入口状态后再实现。
 - PM 裁决已入权威：`DEC-20260727-001`；见 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3。worker 需重跑 pre-flight。
 - 已改，待验：【已验证】`web/src/ui/screens/StartScreen.js` 移除主页“存档进度”入口对 auto-save 的禁用与无响应分支，`web/src/ui/overlays/SaveLoadOverlay.js` 在无手动存档时进入存档页空状态且不渲染空白槽；依据 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3；复现：旧版 `http://localhost:3001/web/` 无存档时按钮 `disabled=true`、点击后 `overlay=false`，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，按钮 `disabled=false`、点击后 `overlay=true`、显示“还没有手动存档。你可以在剧情中随时保存。”且 `.save-slot-row` 数量为 0。
-- PM 三查：条数 2/2 ✅ | push ✅ | 体检 ❌（`node tools/ui-check.js` 清单过期且卡住，见 TASK-20260726-004）→ 暂不转 Ant 抽查
+- PM 初查：条数 2/2 ✅ | push ✅ → 转 QA 取证
+- feibo 更正（2026-07-27）：原"体检 ❌ → 暂不转 Ant"作废。**工具坏不等于业务任务失败**（规则原写错，已改，见 `DEC-20260727-002`）。体检脚本问题归 `TASK-20260726-004`，本条按新链路继续：QA 取证（脚本不可用则人工复现）→ PM 汇总 → Ant 抽查。
 - 最新更新时间：2026-07-27
 
 ### TASK-20260721-008
