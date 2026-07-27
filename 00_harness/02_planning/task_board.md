@@ -21,13 +21,14 @@
 ### TASK-20260726-004
 - 标题：UI 体检脚本（机械对账，取代截图对比）
 - 负责人：feibo（设计断言清单）/ Wewe（实现）
-- 状态：review
+- 状态：rework
 - 优先级：P1
 - 现象：现有验收全靠人眼，机械可判的项（数值、元素存在性、可点性）反复漏到 Ant 手上才被发现。
 - 范围：`tools/`（新增脚本）；**不碰 web/src、android/、authority/**
 - 落地依据：断言项来自 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` 与 `authority/interaction/NagisHeart_Interaction_Design_v1_0.md`；**脚本内不得硬编码期望值，必须从权威取或由 feibo 提供的清单驱动**
 - 完成定义：脚本可跑、输出逐条通过/不通过清单；交付规则改为"体检不过不得报完成"
-- 最新更新时间：2026-07-26
+- PM 试用未通过：【已验证】执行 `node tools/ui-check.js` 时先报 `tools/ui-checks.json` authorityHashes 落后于 `authority/MANIFEST.md`，随后超过 3 分钟未退出；PM 终止卡住的 `node tools\ui-check.js` 进程。脚本未产出逐条通过/不通过清单，不能作为 Web 三查依据。
+- 最新更新时间：2026-07-27
 
 ### TASK-20260726-002
 - 标题：Web 系统级页面暗层不足导致元素不可见
@@ -40,6 +41,7 @@
 - 【线索，不得据此直接改，必须回权威取值】feibo【已验证】：`web/styles/tokens.css` 中系统级暗层 token 停留在 §1 修订前的旧口径且缺少其中一层；成因是 90 项对齐（`e728137`）做在 §1 修订之前。
 - 完成定义：§1 全部要求落地 + 浏览器复现证明"返回按钮在亮背景上清晰可见"；先做 pre-flight
 - 已改，待验：【已验证】`web/styles/tokens.css`、`web/styles/screens/start.css`、`web/styles/screens/prologue.css` 已按 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 落地系统级三层暗层；复现：旧版 `http://localhost:3001/web/` computed background 为旧两层且无径向暗角，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，主页与存档页返回层 computed background 均为白色高光 + 径向暗角 + 垂直暗层三层，存档页返回按钮在该暗层上可见。
+- PM 三查：条数 2/2 ✅ | push ✅ | 体检 ❌（`node tools/ui-check.js` 清单过期且卡住，见 TASK-20260726-004）→ 暂不转 Ant 抽查
 - 最新更新时间：2026-07-27
 
 ### TASK-20260726-001
@@ -71,6 +73,7 @@
   - 【已验证｜缺失】`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §13 仅规定存档类型、列表信息和页内操作，§23.3 仅规定存档页空状态文案；两节均未规定“无任何存档时主页「存档进度」入口应禁用，还是应保持可点击并进入空状态页”。当前 `web/src/ui/screens/StartScreen.js` 在无自动存档时禁用该入口，但 authority 不足以裁定目标行为。请 PM/Ant 明确入口状态后再实现。
 - PM 裁决已入权威：`DEC-20260727-001`；见 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3。worker 需重跑 pre-flight。
 - 已改，待验：【已验证】`web/src/ui/screens/StartScreen.js` 移除主页“存档进度”入口对 auto-save 的禁用与无响应分支，`web/src/ui/overlays/SaveLoadOverlay.js` 在无手动存档时进入存档页空状态且不渲染空白槽；依据 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3；复现：旧版 `http://localhost:3001/web/` 无存档时按钮 `disabled=true`、点击后 `overlay=false`，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，按钮 `disabled=false`、点击后 `overlay=true`、显示“还没有手动存档。你可以在剧情中随时保存。”且 `.save-slot-row` 数量为 0。
+- PM 三查：条数 2/2 ✅ | push ✅ | 体检 ❌（`node tools/ui-check.js` 清单过期且卡住，见 TASK-20260726-004）→ 暂不转 Ant 抽查
 - 最新更新时间：2026-07-27
 
 ### TASK-20260721-008
