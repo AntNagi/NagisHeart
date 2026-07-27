@@ -2,6 +2,8 @@
 
 双端（Android Compose / Web JS）视觉小说。多agent协作，规则全文见 `00_harness/README.md`。
 
+> **维护规则**：本文件是契约单一事实源。**任何改动必须同 commit 同步更新 `AGENTS.md` 的兜底清单**（Codex 侧入口）——两份不一致时以本文件为准。Qwen 等模型经 Claude Code 接入，读本文件，无需额外副本。
+
 ## 每次开工必做（按序）
 
 1. `git pull`
