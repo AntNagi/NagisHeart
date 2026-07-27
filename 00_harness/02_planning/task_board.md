@@ -21,7 +21,7 @@
 ### TASK-20260726-004
 - 标题：UI 体检脚本（机械对账，取代截图对比）
 - 负责人：feibo（设计断言清单）/ Wewe（实现）
-- 状态：pending
+- 状态：review
 - 优先级：P1
 - 现象：现有验收全靠人眼，机械可判的项（数值、元素存在性、可点性）反复漏到 Ant 手上才被发现。
 - 范围：`tools/`（新增脚本）；**不碰 web/src、android/、authority/**
@@ -32,7 +32,7 @@
 ### TASK-20260726-002
 - 标题：Web 系统级页面暗层不足导致元素不可见
 - 负责人：Wewe（Web）
-- 状态：ready
+- 状态：preflight
 - 优先级：P0
 - 现象（Ant 反馈）：系统级页面几乎没有压暗，白色返回按钮与次要文字糊在亮色背景上看不见；主页"继续/读取存档进度"不可读。
 - 范围：`web/styles/` 暗层相关实现，覆盖全部系统级页面；一并核对 splash 类与 story 类是否同样滞后。**不碰 Android、story-data、资源文件。**
@@ -44,7 +44,7 @@
 ### TASK-20260726-001
 - 标题：Android 剧情回顾页排版重构 + 分页装箱
 - 负责人：PP（Android）
-- 状态：ready
+- 状态：preflight
 - 优先级：P1
 - 现象（Ant 2026-07-26 反馈）：连续对话时对白的加强设计效果很差；两侧边距太宽、字体太大、间距太宽导致换行严重。另：末行仍被裁切（原 `TASK-20260721-002` 并入本条，同源）。
 - 范围：`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/BacklogScreen.kt`。**不碰剧情正文、章节地图、回忆画廊、BG mapping、Web、TT Start、App Icon，不做资源删除。**
@@ -60,7 +60,7 @@
 ### TASK-20260726-003
 - 标题：Web 主页「存档进度」入口点击无反应
 - 负责人：Wewe（Web）
-- 状态：ready
+- 状态：preflight
 - 优先级：P1
 - 现象（Ant 反馈，feibo【已验证】可复现）：全新进入、无任何存档时，主页点"存档进度"毫无反应。
 - 范围：`web/src/` 主页入口与存档页可达性。**不碰 Android、story-data、资源文件。**
