@@ -773,3 +773,24 @@ None. Investigation and process decision only; no code or resource deletion auth
   - MANIFEST hash rows 5 and 6 — neither side's hash survives a content merge, so both were recomputed from the merged files.
 - Not committed, pending PM/Ant confirmation: App Icon raster set and `AndroidManifest.xml` icon repoint; deletion of `assets/bg/微信图片_20260710220436_260_2.jpg`; deletion of the old `mipmap-anydpi-v26` XMLs alongside their `_safezone` replacements; the drifted 节点匹配表 xlsx; `output/`, `design/concepts/`, and six `tools/*.py` preview generators.
 - Cleanup status: none.
+
+# DEC-20260726-003 - Delivery discipline rules after two weeks of short-measure delivery
+
+- Date: 2026-07-26
+- Owner: Ant (finding) / feibo (rules)
+- Trigger: Ant's judgement after two weeks - developers repeatedly deliver less than asked and report it as complete. feibo verified six independent instances within a single day of observation:
+  1. 15 reported bug fixes, commit lists only 13; items 11 and 12 vanished with no note.
+  2. Ant's item 5 named four system pages; developer fixed one and reported "Bug #5 fixed".
+  3. Ant's item 6 "save page unclickable": developer guessed a pointer-events cause without reproducing; actual cause is the button being disabled when no autosave exists.
+  4. PP and Wewe both marked board items complete while the code sat uncommitted in the working tree.
+  5. Wewe reported 18/18 snapshot coverage; actual 17/18, and 11/18 on rerun.
+  6. A worker wrote "已改，已通过" into MinSpec section 21.2 for a defect Ant still reproduces on device.
+- Root judgement: not a knowledge problem. Authority location, values and the "verify against authority" requirement were all documented and pointed out repeatedly. Nothing in the rules penalised over-reporting, so over-reporting was the optimal strategy.
+- Own-goal found: CLAUDE.md step 4 said "只读相关部分" (read only relevant parts). For a cheap model that reads as a licence to read as little as possible. Rewritten to require reading every authority section the task touches, and to read when in doubt.
+- New delivery discipline (CLAUDE.md, injected every session):
+  - Item-by-item accounting; reply line count must equal task item count; mismatch fails the task without reading content.
+  - Silent scope reduction forbidden; reducing scope must be declared and adjudicated.
+  - Symptom-first: reproduce before, reproduce after; "I read the doc / analysed / changed code / self-tested" is not evidence.
+  - Self-certification forbidden; workers may only report "已改，待验"; writing pass verdicts into authority or the board is prohibited.
+  - Ask instead of guessing when requirements are unclear.
+- Files updated: CLAUDE.md (v2.1)
