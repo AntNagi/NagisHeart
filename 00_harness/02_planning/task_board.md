@@ -8,15 +8,40 @@
 
 ## 当前优先级
 
-1. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
-2. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
-3. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
-4. `TASK-20260726-003` Web 存档入口不可点
-5. `TASK-20260721-008` ui-snapshot 可复现性返工
+1. `TASK-20260727-003` Android 剧情地图对齐 v7 —— blocked，等 §27 authority 补账完成后 PP 开工
+2. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
+3. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
+4. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
+5. `TASK-20260726-003` Web 存档入口不可点
+6. `TASK-20260721-008` ui-snapshot 可复现性返工
 
 ---
 
 ## 活跃任务
+
+### TASK-20260727-003
+- 标题：Android 剧情地图对齐 v7（首版实机整体走形修正）
+- 负责人：PP（Android）
+- 状态：blocked
+- 优先级：P0
+- 现象（Ant 实机 + lulu 对照）：剧情地图已能进入，但总览页、第四部、第八部与 v7 authority 走形严重；普通节点退化为卡片网格，连接路径缺失，第八部路线分列与文案不对，总览页不是单屏错落地图，长标题/页脚/子页页头均未按权威呈现。
+- 范围：`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/ChapterScreen.kt` + 可新增一份 Android 布局常量表（如 `StoryMapLayout.kt`）。**不碰 story-data、BG mapping、Web、TT Start、App Icon、资源删除；不把 `design/concepts/story_map_xoxo_v1/` 下 PNG/SVG 复制进 runtime；P2-1 背景暗层归 vignette 任务，不在本条重复。**
+- 落地依据：**`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §27.1–§27.16**；参考图只作人工对照：`design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Overview_v4.png` 与 `NagisHeart_StoryMap_Page_01..08_v7.png`，不得 runtime 加载。
+- 目标范围：
+  1. P0-1 普通小节节点去掉卡片底，只保留点/序号/标题的原生 UI；
+  2. P0-2 补完整正交连接路径；
+  3. P0-3 第八部 common 不作为第四列，01 是三线共同起点；
+  4. P0-4 第八部路线标签用 `DREAM / STAY / BAD` authority 文案，不泄漏 raw scope；
+  5. P0-5 总览页改为单屏错落八章地标与叙事关系，不是竖排列表；
+  6. P1-1 已解锁长标题不得省略号截断；
+  7. P1-2 页脚翻章条按权威重做；
+  8. P1-3 子页页头补齐。
+- 当前阻塞：
+  1. `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` 本地有 §27 新 token，但 `authority/MANIFEST.md` 哈希未同步，`tools/check-authority.ps1` 当前 FAILED；
+  2. lulu 需完成 decision_log + MANIFEST 哈希 + 提交三步后，本条才能从 `blocked` 转 `preflight`；
+  3. PP 可先把 5 个 pre-flight 问题与 lulu 答复补写在本条下，但在 authority check 通过前不得编码。
+- 完成定义：先做 pre-flight；实现后由 PP 提供模拟器/实机截图证据：总览单屏、第四部整页、第八部整页、长标题完整显示、已读/未读相邻节点、至少 4 张含 Nagi 的 BG 焦点截图、1 张无 Nagi 环境/道具节点截图、页脚翻章条、滚动并返回后位置恢复。Android 后期不设 QA：PM 初查后转 Ant 实机验收。
+- 最新更新时间：2026-07-27
 
 ### TASK-20260726-004
 - 标题：UI 体检脚本（机械对账，取代截图对比）
