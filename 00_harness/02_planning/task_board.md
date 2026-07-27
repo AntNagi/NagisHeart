@@ -9,12 +9,11 @@
 ## 当前优先级
 
 1. `TASK-20260727-003` Android 剧情地图对齐 v7 —— PP 开工
-2. `TASK-20260727-004` 本地未提交杂项归属审计 —— Sai 只读，不阻塞 PP
-3. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
-4. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
-5. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
-6. `TASK-20260726-003` Web 存档入口不可点
-7. `TASK-20260721-008` ui-snapshot 可复现性返工
+2. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
+3. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
+4. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
+5. `TASK-20260726-003` Web 存档入口不可点
+6. `TASK-20260721-008` ui-snapshot 可复现性返工
 
 ---
 
@@ -46,13 +45,14 @@
 ### TASK-20260727-004
 - 标题：本地未提交杂项归属审计
 - 负责人：Sai（Android / 仓库整理，只读审计）
-- 状态：ready
+- 状态：done
 - 优先级：P1
 - 现象：当前工作区仍有未提交杂项，包括 Android icon / manifest / mipmap 资源、删除旧 bg、`design/concepts/`、`output/`、render scripts 等；来源与归属不清，继续堆开发会增加 pull/push 冲突和误提交风险。
 - 范围：只读检查 `git status` 当前列出的未提交/未跟踪项；可使用 `rg`、`git diff --stat`、`git diff --name-status`、资源引用搜索。**不修改、不删除、不移动、不提交、不 push；不碰 PP 正在做的 `ChapterScreen.kt` / `StoryMapLayout.kt`；不进入剧情地图 v7 实现。**
 - 落地依据：`CLAUDE.md` / `AGENTS.md` 的交付落账与 scope-only 规则；`00_harness/roles/ROLE_DEV.md` 的 pre-flight / 禁止越权规则；`authority/MANIFEST.md` 的 authority 文件补账规则。
 - 完成定义：输出一份归属审计表到 PM_AGENT_OUTBOX，格式为 `路径 | 类型 | 疑似来源任务/owner | 当前是否被引用 | 建议：提交/回滚/归档/删除/继续保留 | 需要谁确认`；仅给建议，不执行处理。
-- 最新更新时间：2026-07-27
+- PM 接收（2026-07-28）：Sai 已输出 `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_sai_untracked_local_changes_audit_20260727.md`；TT 已确认 App Icon final authority 为 V4 safezone；剧情地图 v7 reference 已归档；Start/Promo output 与 render scripts 冻结不混主线；旧 bg 删除继续冻结待 BG/story-data owner 确认。
+- 最新更新时间：2026-07-28
 
 ### TASK-20260726-004
 - 标题：UI 体检脚本（机械对账，取代截图对比）
