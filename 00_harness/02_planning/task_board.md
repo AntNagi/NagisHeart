@@ -99,6 +99,7 @@
   3. 已改：【已验证】在 `http://127.0.0.1:3000/web/` 分别以 393×852、430×932 复现；两尺寸均显示返回箭头与“存档进度”标题，430×932 点击返回后回到主页，console error/warn 为 `[]`。
 - 不适用：未新建派工消息指定的 `PM_AGENT_OUTBOX/dev_reply_wendy_web_save_back_visibility_rework_20260728.md`，因为 `CLAUDE.md` / `ROLE_DEV.md` 禁止新建 dev_reply；结论依现行契约写回本条。
 - DeDe rework 复测（2026-07-28）：393x852 与 430x932 精确视口均通过；存档空状态顶部返回箭头可直接辨识；返回按钮 `36x36`、visible/enabled，点击后均成功返回主页；console error/warn=0。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_save_back_visibility_rerun_20260728.md`；证据：`00_harness/05_reports/validation/web_qa_dede_save_back_visibility_rerun_20260728/`。结论：QA 通过，待 PM 汇总 / Ant 抽查。
+- Ant 追加反馈（2026-07-28）：`Nagi's Heart` 标题层属于 Start/Splash 页，不属于 Home/主页；同时 Start/Splash 页需适配暗角层。PM 已修：Home 移除 `start_title_overlay_v23.svg` 标题层；Splash 在底图与 title/START 图层之间新增系统暗角层，title/START 保持在暗角层上方。
 - 最新更新时间：2026-07-28
 
 ### TASK-20260726-001

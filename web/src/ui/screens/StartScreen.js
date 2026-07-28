@@ -16,9 +16,6 @@ export class StartScreen {
         <img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
       </div>
       <div class="start-screen-overlay"></div>
-      <div class="start-screen-title-layer">
-        <img src="../design/authority/icon_start_tt/start/layers/start_title_overlay_v23.svg" alt="" />
-      </div>
       <div class="home-actions">
         <div class="home-main">
           <div class="home-main-row" data-action="continue" style="display:none">

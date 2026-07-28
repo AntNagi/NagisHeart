@@ -20,6 +20,26 @@
   object-fit: cover;
 }
 
+.start-poster-bg {
+  z-index: 0;
+}
+
+.start-poster-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    var(--overlay-system-3),
+    var(--overlay-system-2),
+    var(--overlay-system-1);
+}
+
+.start-poster-title,
+.start-poster-button {
+  z-index: 2;
+}
+
 .start-breathing {
   animation: startBreath 1.8s ease-in-out infinite;
 }
@@ -43,5 +63,5 @@
   height: 10.94%;
   opacity: 0;
   cursor: pointer;
-  z-index: 2;
+  z-index: 3;
 }
