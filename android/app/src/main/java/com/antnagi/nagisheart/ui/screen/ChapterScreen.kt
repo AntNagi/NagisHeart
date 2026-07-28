@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -195,36 +196,66 @@ private fun StoryMapOverview(
     nodeBgPath: (String) -> String?,
     onOpenChapter: (Chapter) -> Unit
 ) {
-    LazyColumn(
-        state = listState,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 66.dp, start = 24.dp, end = 24.dp, bottom = 28.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
-    ) {
-        itemsIndexed(chapters) { index, chapter ->
-            val playedSections = chapter.sections.count { it.startNode in unlockedNodes }
-            val isOpen = playedSections > 0
-            val firstPlayableBg = chapter.sections
-                .firstOrNull { it.startNode in unlockedNodes }
-                ?.let { nodeBgPath(it.startNode) }
-            val align = storyMapNodeAlignment(index)
-            Box(modifier = Modifier.fillMaxWidth()) {
-                ChapterLandmark(
-                    index = index,
-                    chapter = chapter,
-                    playedSections = playedSections,
-                    isOpen = isOpen,
-                    bgPath = firstPlayableBg,
-                    modifier = Modifier
-                        .align(align)
-                        .width(248.dp),
-                    onClick = { if (isOpen) onOpenChapter(chapter) }
-                )
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 150.dp, start = 24.dp, end = 24.dp, bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            itemsIndexed(chapters) { index, chapter ->
+                val playedSections = chapter.sections.count { it.startNode in unlockedNodes }
+                val isOpen = playedSections > 0
+                val firstPlayableBg = chapter.sections
+                    .firstOrNull { it.startNode in unlockedNodes }
+                    ?.let { nodeBgPath(it.startNode) }
+                val align = storyMapNodeAlignment(index)
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    ChapterLandmark(
+                        index = index,
+                        chapter = chapter,
+                        playedSections = playedSections,
+                        isOpen = isOpen,
+                        bgPath = firstPlayableBg,
+                        modifier = Modifier
+                            .align(align)
+                            .width(248.dp),
+                        onClick = { if (isOpen) onOpenChapter(chapter) }
+                    )
+                }
+                if (index < chapters.lastIndex) {
+                    Spacer(modifier = Modifier.height(28.dp))
+                }
             }
-            if (index < chapters.lastIndex) {
-                Spacer(modifier = Modifier.height(28.dp))
-            }
+        }
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(start = 40.dp, top = 44.dp, end = 32.dp)
+        ) {
+            Text(
+                text = "CHAPTER 总览",
+                color = NagiTokens.gold,
+                fontSize = 11.sp,
+                lineHeight = 15.sp,
+                letterSpacing = 2.4.sp
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = "他的世界，正在展开",
+                color = Color(0xFFF4EEDF),
+                fontFamily = FontFamily.Serif,
+                fontSize = 28.sp,
+                lineHeight = 34.sp
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "走过的故事会亮起来。点击亮起的章节，靠近那段记忆。",
+                color = Color(0xFF9AA8BA),
+                fontSize = 11.sp,
+                lineHeight = 16.sp
+            )
         }
     }
 }
@@ -239,58 +270,61 @@ private fun StoryMapChapterDetail(
     onNodeClick: (ChapterSection, Int, SectionState) -> Unit,
     onSwitchChapter: (Chapter) -> Unit
 ) {
-    LazyColumn(
-        state = listState,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 58.dp, start = 18.dp, end = 18.dp, bottom = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        item {
-            ChapterIdentity(chapter = chapter)
-            Spacer(modifier = Modifier.height(12.dp))
-        }
-
-        if (chapter.sections.any { !it.scope.isNullOrBlank() } && chapter.sections.size >= 12) {
-            item {
-                RouteForkSection(
-                    chapter = chapter,
-                    sectionStates = sectionStates,
-                    nodeBgPath = nodeBgPath,
-                    onNodeClick = onNodeClick
-                )
-            }
-        } else {
-            itemsIndexed(chapter.sections) { index, section ->
-                val state = sectionStates["${chapter.id}:$index"] ?: SectionState.LOCKED
-                val isImportant = isImportantSection(chapter, section, index)
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    SectionNode(
-                        section = section,
-                        index = index,
-                        state = state,
-                        isImportant = isImportant,
-                        bgPath = nodeBgPath(section.startNode),
-                        modifier = Modifier
-                            .align(storyMapNodeAlignment(index))
-                            .width(if (isImportant) 246.dp else 202.dp),
-                        onClick = { onNodeClick(section, index, state) }
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 150.dp, start = 18.dp, end = 18.dp, bottom = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            if (chapter.sections.any { !it.scope.isNullOrBlank() } && chapter.sections.size >= 12) {
+                item {
+                    RouteForkSection(
+                        chapter = chapter,
+                        sectionStates = sectionStates,
+                        nodeBgPath = nodeBgPath,
+                        onNodeClick = onNodeClick
                     )
                 }
-                if (index < chapter.sections.lastIndex) {
-                    Spacer(modifier = Modifier.height(if (isImportant) 34.dp else 22.dp))
+            } else {
+                itemsIndexed(chapter.sections) { index, section ->
+                    val state = sectionStates["${chapter.id}:$index"] ?: SectionState.LOCKED
+                    val isImportant = isImportantSection(chapter, section, index)
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        SectionNode(
+                            section = section,
+                            index = index,
+                            state = state,
+                            isImportant = isImportant,
+                            bgPath = nodeBgPath(section.startNode),
+                            modifier = Modifier
+                                .align(storyMapNodeAlignment(index))
+                                .width(if (isImportant) 246.dp else 202.dp),
+                            onClick = { onNodeClick(section, index, state) }
+                        )
+                    }
+                    if (index < chapter.sections.lastIndex) {
+                        Spacer(modifier = Modifier.height(if (isImportant) 34.dp else 22.dp))
+                    }
                 }
             }
-        }
 
-        item {
-            Spacer(modifier = Modifier.height(10.dp))
-            AdjacentChapterNav(
-                current = chapter,
-                chapters = chapters,
-                onSwitchChapter = onSwitchChapter
-            )
+            item {
+                Spacer(modifier = Modifier.height(10.dp))
+                AdjacentChapterNav(
+                    current = chapter,
+                    chapters = chapters,
+                    onSwitchChapter = onSwitchChapter
+                )
+            }
         }
+        ChapterIdentity(
+            chapter = chapter,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(start = 40.dp, top = 44.dp, end = 32.dp)
+        )
     }
 }
 
@@ -301,9 +335,8 @@ private fun ChapterIdentity(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 18.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = chapter.name,
@@ -321,20 +354,10 @@ private fun ChapterIdentity(
             fontSize = 28.sp,
             lineHeight = 34.sp,
             color = NagiTokens.textSnow94,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        chapter.timeRange?.takeIf { it.isNotBlank() }?.let {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = it,
-                fontSize = 12.sp,
-                color = NagiTokens.parchment.copy(alpha = 0.60f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
     }
 }
 
