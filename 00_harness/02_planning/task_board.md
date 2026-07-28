@@ -80,8 +80,8 @@
 
 ### TASK-20260726-002
 - 标题：Web 系统级页面暗层不足导致元素不可见
-- 负责人：Wewe（Web）
-- 状态：review
+- 负责人：Wendy（Web，接 Wewe 本轮 rework）
+- 状态：rework
 - 优先级：P0
 - 现象（Ant 反馈）：系统级页面几乎没有压暗，白色返回按钮与次要文字糊在亮色背景上看不见；主页"继续/读取存档进度"不可读。
 - 范围：`web/styles/` 暗层相关实现，覆盖全部系统级页面；一并核对 splash 类与 story 类是否同样滞后。**不碰 Android、story-data、资源文件。**
@@ -91,7 +91,9 @@
 - 已改，待验：【已验证】`web/styles/tokens.css`、`web/styles/screens/start.css`、`web/styles/screens/prologue.css` 已按 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 落地系统级三层暗层；复现：旧版 `http://localhost:3001/web/` computed background 为旧两层且无径向暗角，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，主页与存档页返回层 computed background 均为白色高光 + 径向暗角 + 垂直暗层三层，存档页返回按钮在该暗层上可见。
 - PM 初查：条数 2/2 ✅ | push ✅ → 转 QA 取证
 - feibo 更正（2026-07-27）：原"体检 ❌ → 暂不转 Ant"作废。**工具坏不等于业务任务失败**（规则原写错，已改，见 `DEC-20260727-002`）。体检脚本问题归 `TASK-20260726-004`，本条按新链路继续：QA 取证（脚本不可用则人工复现）→ PM 汇总 → Ant 抽查。
-- 最新更新时间：2026-07-27
+- DeDe QA（2026-07-28）：主页系统级三层暗层、主页操作文字、存档空状态文字均已验证；但 `save_empty_393x852.png` / `save_empty_430x932.png` 中存档页顶部返回箭头在亮背景上几乎不可辨认。结论：业务主体通过，返回入口可见性需小修后再转 Ant 抽查。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_002_003_evidence_20260728.md`。
+- rework 要求（2026-07-28）：只修 Web 存档/系统页返回按钮可见性；保持 §1 三层暗层与空状态结构，不改存档逻辑、不碰 Android/story-data/资源；修后交 Wendy 回报并转 DeDe 复测该点。
+- 最新更新时间：2026-07-28
 
 ### TASK-20260726-001
 - 标题：Android 剧情回顾页排版重构 + 分页装箱
@@ -125,7 +127,8 @@
 - 已改，待验：【已验证】`web/src/ui/screens/StartScreen.js` 移除主页“存档进度”入口对 auto-save 的禁用与无响应分支，`web/src/ui/overlays/SaveLoadOverlay.js` 在无手动存档时进入存档页空状态且不渲染空白槽；依据 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3；复现：旧版 `http://localhost:3001/web/` 无存档时按钮 `disabled=true`、点击后 `overlay=false`，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，按钮 `disabled=false`、点击后 `overlay=true`、显示“还没有手动存档。你可以在剧情中随时保存。”且 `.save-slot-row` 数量为 0。
 - PM 初查：条数 2/2 ✅ | push ✅ → 转 QA 取证
 - feibo 更正（2026-07-27）：原"体检 ❌ → 暂不转 Ant"作废。**工具坏不等于业务任务失败**（规则原写错，已改，见 `DEC-20260727-002`）。体检脚本问题归 `TASK-20260726-004`，本条按新链路继续：QA 取证（脚本不可用则人工复现）→ PM 汇总 → Ant 抽查。
-- 最新更新时间：2026-07-27
+- DeDe QA（2026-07-28）：无存档 origin 下“存档进度”按钮 count=1、disabled=false；点击进入空状态；空状态两行文案正确；`.save-slot-row`=0；393x852 与 430x932 精确尺寸均通过；console error/warn=[]。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_002_003_evidence_20260728.md`。结论：QA 通过，待 PM 汇总 / Ant 抽查。
+- 最新更新时间：2026-07-28
 
 ### TASK-20260721-008
 - 标题：ui-snapshot 工具覆盖不可复现
