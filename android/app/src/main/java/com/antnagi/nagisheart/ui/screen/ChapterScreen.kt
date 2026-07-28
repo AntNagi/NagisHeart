@@ -135,10 +135,8 @@ fun ChapterScreen(
                     } else {
                         ChapterPage(
                             chapterId = current,
-                            chapterIds = chapters.map { it.id },
                             unlocked = unlocked,
                             viewModel = viewModel,
-                            onSwitchChapter = { openChapter = it },
                             onEnter = { node, chapterId, index, replay ->
                                 if (replay) onReplaySection(node, chapterId, index) else onJumpToNode(node)
                             }
@@ -258,10 +256,7 @@ private fun BoxScope.OverviewPage(
                     )
                 }
 
-                // header + bottom hint — §27.12
-                plainText(measurer, "CHAPTER 总览", 72f * s, 227f * s, 18f * s, MapGold, letterSpacing = 4f)
-                plainText(measurer, "他的世界，正在展开", 72f * s, 283f * s, 43f * s, NodeTitleColor, serif = true, weight = FontWeight.W500)
-                plainText(measurer, "走过的故事会亮起来。点击亮起的章节，靠近那段记忆。", 74f * s, 321f * s, 19f * s, SubtitleColor)
+                // Bottom hint belongs to the map content and moves with it.
                 plainText(measurer, "点击章节，图片将拉近并展开全部小节", 72f * s, 1788f * s, 15f * s, HintColor, letterSpacing = 3f)
                 }
             }
@@ -310,7 +305,16 @@ private fun BoxScope.OverviewPage(
                 }
             }
             }
+
         }
+
+            // The overview heading is a fixed viewport element. Only landmarks
+            // and their route are draggable.
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                plainText(measurer, "CHAPTER 总览", 72f * baseScale, 227f * baseScale, 18f * baseScale, MapGold, letterSpacing = 4f)
+                plainText(measurer, "他的世界，正在展开", 72f * baseScale, 283f * baseScale, 43f * baseScale, NodeTitleColor, serif = true, weight = FontWeight.W500)
+                plainText(measurer, "走过的故事会亮起来。点击亮起的章节，靠近那段记忆。", 74f * baseScale, 321f * baseScale, 19f * baseScale, SubtitleColor)
+            }
     }
 }
 
@@ -322,15 +326,13 @@ private fun BoxScope.OverviewPage(
 @Composable
 private fun BoxScope.ChapterPage(
     chapterId: String,
-    chapterIds: List<String>,
     unlocked: Set<String>,
     viewModel: GameViewModel,
-    onSwitchChapter: (String) -> Unit,
     onEnter: (String, String, Int, Boolean) -> Unit
 ) {
     val map = StoryMapLayout.forChapter(chapterId) ?: return
-    val chIndex = chapterIds.indexOf(chapterId)
-    val copy = CHAPTER_COPY.getOrNull(chIndex) ?: return
+    val chapterIndex = chapterId.removePrefix("part").toIntOrNull()?.minus(1) ?: return
+    val copy = CHAPTER_COPY.getOrNull(chapterIndex) ?: return
     val measurer = rememberTextMeasurer()
     // A chapter is a large two-dimensional route map.  Keep its authored
     // geometry together while the viewport pans; do not reduce it to a
@@ -441,31 +443,6 @@ private fun BoxScope.ChapterPage(
                         Offset(72f * s, 350f * s), Offset(1008f * s, 350f * s), 1f * s
                     )
 
-                    // ---- footer chapter nav (§27.8) — a footer, not a sticky bar
-                    val navTop = map.canvasH - 212f
-                    drawPath(
-                        cutRect(58f * s, navTop * s, 964f * s, 150f * s, 23f * s),
-                        color = FooterPanel.copy(alpha = 0.88f)
-                    )
-                    drawPath(
-                        cutRect(58f * s, navTop * s, 964f * s, 150f * s, 23f * s),
-                        color = MapGold.copy(alpha = 0.24f), style = Stroke(1.5f * s)
-                    )
-                    if (chIndex > 0) drawArrow(90f * s, (navTop + 75f) * s, s, left = true)
-                    if (chIndex < chapterIds.lastIndex) drawArrow(990f * s, (navTop + 75f) * s, s, left = false)
-                    centeredText(measurer, "第 ${chIndex + 1} 章", 540f * s, (navTop + 55f) * s, 18f * s, MapGold, letterSpacing = 4f)
-                    centeredText(measurer, copy.title, 540f * s, (navTop + 102f) * s, 29f * s, FooterName, serif = true)
-                    centeredText(
-                        measurer, "%02d / 08".format(chIndex + 1), 540f * s, (navTop + 132f) * s,
-                        16f * s, FooterCount, letterSpacing = 3f
-                    )
-                    // progress bar
-                    val barY = (map.canvasH - 42f) * s
-                    drawLine(Color.White.copy(alpha = 0.12f), Offset(410f * s, barY), Offset(670f * s, barY), 3f * s)
-                    drawLine(
-                        MapGold, Offset(410f * s, barY),
-                        Offset((410f + 260f * (chIndex + 1) / 8f) * s, barY), 3f * s
-                    )
                 }
 
                 // ---- text-node hit targets
@@ -487,19 +464,6 @@ private fun BoxScope.ChapterPage(
                                 onEnter(nd.startNode!!, chapterId, idx, true)
                             }
                     )
-                }
-
-                // ---- footer nav hit targets
-                val navTop = map.canvasH - 212f
-                if (chIndex > 0) {
-                    NavHit(density, 58f * s, navTop * s, 200f * s, 150f * s) {
-                        onSwitchChapter(chapterIds[chIndex - 1])
-                    }
-                }
-                if (chIndex < chapterIds.lastIndex) {
-                    NavHit(density, 822f * s, navTop * s, 200f * s, 150f * s) {
-                        onSwitchChapter(chapterIds[chIndex + 1])
-                    }
                 }
             }
         }
