@@ -15,15 +15,12 @@ import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
@@ -38,6 +35,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
@@ -77,12 +75,11 @@ private val LockedText = Color(0xFF8390A2)        // token-exempt: §27.13
 private val LockedOutline = Color(0xFF66758A)     // token-exempt: §27.13 / §27.12
 private val LockedPanel = Color(0xFF081422)       // token-exempt: §27.12 watermark fill
 private val SubtitleColor = Color(0xFF9AA8BA)     // token-exempt: §27.8 sub-header
-private val FooterName = Color(0xFFF1E7D3)        // token-exempt: §27.8 footer
-private val FooterCount = Color(0xFF8E9BAE)       // token-exempt: §27.8 footer
-private val FooterPanel = Color(0xFF091522)       // token-exempt: §27.8 footer panel
 private val HintColor = Color(0xFF8D99A9)         // token-exempt: §27.12 bottom hint
 
 private const val LOCKED_ALPHA = 0.58f            // §27.13
+private const val MAP_LABEL_SCALE = 1.28f
+private const val FIXED_HEADER_H = 360f
 
 /** §27.16 — map-page chapter copy. Deliberately NOT chapters.json name/title. */
 private data class ChapterCopy(val kicker: String, val title: String, val subtitle: String)
@@ -229,6 +226,7 @@ private fun BoxScope.OverviewPage(
 
                 StoryMapLayout.overviewLandmarks.forEachIndexed { i, lm ->
                     val isLit = lit[i] == true
+                    val textS = s * MAP_LABEL_SCALE
                     val stroke = if (isLit) MapGold.copy(alpha = 0.92f) else LockedOutline.copy(alpha = 0.38f)
                     val card = cutRect(lm.x * s, lm.y * s, lm.w * s, lm.h * s, 28f * s)
                     if (!isLit) {
@@ -246,12 +244,12 @@ private fun BoxScope.OverviewPage(
                     val title = if (isLit) copy.title else "？".repeat(copy.title.length)
                     anchoredOutlined(
                         measurer, sub, lm.x * s + 22f * s, lm.y * s + lm.h * s - 52f * s,
-                        16f * s, if (isLit) MapGold else LockedText, s, 1f, end = false,
+                        16f * textS, if (isLit) MapGold else LockedText, textS, 1f, end = false,
                         letterSpacing = 3f, outline = 5f, outlineAlpha = 0.8f
                     )
                     anchoredOutlined(
                         measurer, title, lm.x * s + 22f * s, lm.y * s + lm.h * s - 18f * s,
-                        30f * s, ImageTitleColor, s, 1f, end = false,
+                        30f * textS, ImageTitleColor, textS, 1f, end = false,
                         serif = true, weight = FontWeight.Bold, outline = 7f, outlineAlpha = 0.88f
                     )
                 }
@@ -315,6 +313,7 @@ private fun BoxScope.OverviewPage(
                 plainText(measurer, "他的世界，正在展开", 72f * baseScale, 283f * baseScale, 43f * baseScale, NodeTitleColor, serif = true, weight = FontWeight.W500)
                 plainText(measurer, "走过的故事会亮起来。点击亮起的章节，靠近那段记忆。", 74f * baseScale, 321f * baseScale, 19f * baseScale, SubtitleColor)
             }
+            FixedHeaderGestureShield(density = density, baseScale = baseScale)
     }
 }
 
@@ -434,15 +433,6 @@ private fun BoxScope.ChapterPage(
                         else drawImageNodeChrome(measurer, nd, s, isLit)
                     }
 
-                    // ---- header (§27.8)
-                    plainText(measurer, copy.kicker, 72f * s, 227f * s, 18f * s, MapGold, letterSpacing = 4f)
-                    plainText(measurer, copy.title, 72f * s, 283f * s, 43f * s, NodeTitleColor, serif = true, weight = FontWeight.W500)
-                    plainText(measurer, copy.subtitle, 74f * s, 321f * s, 18f * s, SubtitleColor)
-                    drawLine(
-                        Color.White.copy(alpha = 0.08f),
-                        Offset(72f * s, 350f * s), Offset(1008f * s, 350f * s), 1f * s
-                    )
-
                 }
 
                 // ---- text-node hit targets
@@ -467,7 +457,38 @@ private fun BoxScope.ChapterPage(
                 }
             }
         }
+
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            plainText(measurer, copy.kicker, 72f * baseScale, 227f * baseScale, 18f * baseScale, MapGold, letterSpacing = 4f)
+            plainText(measurer, copy.title, 72f * baseScale, 283f * baseScale, 43f * baseScale, NodeTitleColor, serif = true, weight = FontWeight.W500)
+            plainText(measurer, copy.subtitle, 74f * baseScale, 321f * baseScale, 18f * baseScale, SubtitleColor)
+            drawLine(
+                Color.White.copy(alpha = 0.08f),
+                Offset(72f * baseScale, 350f * baseScale), Offset(1008f * baseScale, 350f * baseScale), 1f * baseScale
+            )
+        }
+        FixedHeaderGestureShield(density = density, baseScale = baseScale)
     }
+}
+
+@Composable
+private fun FixedHeaderGestureShield(
+    density: androidx.compose.ui.unit.Density,
+    baseScale: Float
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(with(density) { (FIXED_HEADER_H * baseScale).toDp() })
+            .pointerInput(Unit) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent()
+                        event.changes.forEach { it.consume() }
+                    }
+                }
+            }
+    )
 }
 
 @Composable
@@ -539,6 +560,7 @@ private fun DrawScope.drawTextNode(measurer: TextMeasurer, nd: MapNode, s: Float
     val branch = nd.r <= 12f
     val alpha = if (isLit) 1f else LOCKED_ALPHA
     val ringStroke = if (branch) 1.7f else 2.2f
+    val textS = s * MAP_LABEL_SCALE
 
     drawCircle(NodeRingFill.copy(alpha = alpha), nd.r * s, Offset(nd.cx * s, nd.cy * s))
     drawCircle(
@@ -561,16 +583,16 @@ private fun DrawScope.drawTextNode(measurer: TextMeasurer, nd: MapNode, s: Float
 
     when (nd.side) {
         NodeSide.CENTER -> {
-            centeredText(measurer, nd.label, tx, (nd.cy + idxDy) * s, (if (branch) 11f else 13f) * s, idxColor, alpha, letterSpacing = if (branch) 1.5f else 2f)
+            centeredText(measurer, nd.label, tx, (nd.cy + idxDy) * s, (if (branch) 11f else 13f) * textS, idxColor, alpha, letterSpacing = if (branch) 1.5f else 2f)
             lines.forEachIndexed { i, ln ->
-                centeredOutlined(measurer, ln, tx, (nd.cy + ttlDy + i * lineGap) * s, (if (branch) 18f else 22f) * s, titleColor, s, alpha)
+                centeredOutlined(measurer, ln, tx, (nd.cy + ttlDy + i * lineGap) * s, (if (branch) 18f else 22f) * textS, titleColor, textS, alpha)
             }
         }
         else -> {
             val end = nd.side == NodeSide.LEFT
-            anchoredText(measurer, nd.label, tx, (nd.cy + idxDy) * s, 13f * s, idxColor, alpha, end, letterSpacing = 2f)
+            anchoredText(measurer, nd.label, tx, (nd.cy + idxDy) * s, 13f * textS, idxColor, alpha, end, letterSpacing = 2f)
             lines.forEachIndexed { i, ln ->
-                anchoredOutlined(measurer, ln, tx, (nd.cy + ttlDy + i * lineGap) * s, 22f * s, titleColor, s, alpha, end)
+                anchoredOutlined(measurer, ln, tx, (nd.cy + ttlDy + i * lineGap) * s, 22f * textS, titleColor, textS, alpha, end)
             }
         }
     }
@@ -581,6 +603,7 @@ private fun DrawScope.drawImageNodeChrome(measurer: TextMeasurer, nd: MapNode, s
     val branch = nd.w <= 320f
     val cut = if (branch) 15f else 24f
     val alpha = if (isLit) 1f else LOCKED_ALPHA
+    val textS = s * MAP_LABEL_SCALE
     drawPath(
         cutRect(nd.x * s, nd.y * s, nd.w * s, nd.h * s, cut * s),
         color = (if (isLit) MapGold else LockedOutline).copy(alpha = if (isLit) (if (branch) 0.72f else 0.88f) else 0.38f),
@@ -593,14 +616,14 @@ private fun DrawScope.drawImageNodeChrome(measurer: TextMeasurer, nd: MapNode, s
     val label = if (isLit) nd.label else nd.label.substringBefore(" ·")
 
     if (branch) {
-        anchoredText(measurer, label, (nd.x + 12f) * s, (nd.y + 20f) * s, 11f * s, if (isLit) MapGold else LockedText, alpha, false, letterSpacing = 1.5f)
+        anchoredText(measurer, label, (nd.x + 12f) * s, (nd.y + 20f) * s, 11f * textS, if (isLit) MapGold else LockedText, alpha, false, letterSpacing = 1.5f)
         lines.forEachIndexed { i, ln ->
-            centeredOutlined(measurer, ln, (nd.x + nd.w / 2) * s, (nd.y + nd.h - 14f + i * 20f) * s, 18f * s, if (isLit) ImageTitleColor else LockedText, s, alpha)
+            centeredOutlined(measurer, ln, (nd.x + nd.w / 2) * s, (nd.y + nd.h - 14f + i * 20f) * s, 18f * textS, if (isLit) ImageTitleColor else LockedText, textS, alpha)
         }
     } else {
-        anchoredOutlined(measurer, label, (nd.x + 22f) * s, (nd.y + nd.h - 51f) * s, 14f * s, if (isLit) MapGold else LockedText, s, alpha, false, letterSpacing = 3f, outline = 5f, outlineAlpha = 0.82f)
+        anchoredOutlined(measurer, label, (nd.x + 22f) * s, (nd.y + nd.h - 51f) * s, 14f * textS, if (isLit) MapGold else LockedText, textS, alpha, false, letterSpacing = 3f, outline = 5f, outlineAlpha = 0.82f)
         lines.forEachIndexed { i, ln ->
-            anchoredOutlined(measurer, ln, (nd.x + 22f) * s, (nd.y + nd.h - 17f + i * 27f) * s, 28f * s, if (isLit) ImageTitleColor else LockedText, s, alpha, false, serif = true, weight = FontWeight.Bold, outline = 7f, outlineAlpha = 0.88f)
+            anchoredOutlined(measurer, ln, (nd.x + 22f) * s, (nd.y + nd.h - 17f + i * 27f) * s, 28f * textS, if (isLit) ImageTitleColor else LockedText, textS, alpha, false, serif = true, weight = FontWeight.Bold, outline = 7f, outlineAlpha = 0.88f)
         }
     }
 }
