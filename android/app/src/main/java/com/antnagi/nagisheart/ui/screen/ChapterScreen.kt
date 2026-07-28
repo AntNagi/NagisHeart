@@ -8,65 +8,96 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
-import com.antnagi.nagisheart.data.Chapter
-import com.antnagi.nagisheart.data.ChapterSection
-import com.antnagi.nagisheart.data.SectionState
+import coil.compose.AsyncImage
 import com.antnagi.nagisheart.ui.component.SystemPageBackground
 import com.antnagi.nagisheart.ui.icon.NagiIcon
 import com.antnagi.nagisheart.ui.icon.NagiIconButton
-import com.antnagi.nagisheart.ui.theme.NagiShapes
-import com.antnagi.nagisheart.ui.theme.NagiTheme
-import com.antnagi.nagisheart.ui.theme.NagiTokens
-import com.antnagi.nagisheart.ui.theme.NagiUiTheme
+import com.antnagi.nagisheart.ui.screen.StoryMapLayout.MapNode
+import com.antnagi.nagisheart.ui.screen.StoryMapLayout.NodeKind
+import com.antnagi.nagisheart.ui.screen.StoryMapLayout.NodeSide
+import com.antnagi.nagisheart.ui.theme.*
 import com.antnagi.nagisheart.ui.viewmodel.GameViewModel
+import kotlin.math.roundToInt
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MinSpec §27 story map. All geometry is authored on a 1080-wide canvas
+// (StoryMapLayout, transcribed from the v7 / v4 SVGs per §27.14) and scaled by
+// `s = screenWidth / 1080` at draw time.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// §27.9.1 text node
+private val NodeRingFill = Color(0xFF091522)      // token-exempt: §27.9.1 ring fill
+private val MapGold = NagiTokens.gold             // §27 gold = #D7BE86
+private val NodeTitleColor = Color(0xFFF4EEDF)    // token-exempt: §27.9.1 title
+private val TextOutline = Color(0xFF07111E)       // token-exempt: §27.9.x text outline
+private val ImageTitleColor = Color(0xFFFFF8E9)   // token-exempt: §27.9.2 / §27.12
+private val SoftRoute = Color(0xFFDCE4ED)         // token-exempt: §27.10 weak route
+private val LockedText = Color(0xFF8390A2)        // token-exempt: §27.13
+private val LockedOutline = Color(0xFF66758A)     // token-exempt: §27.13 / §27.12
+private val LockedPanel = Color(0xFF081422)       // token-exempt: §27.12 watermark fill
+private val SubtitleColor = Color(0xFF9AA8BA)     // token-exempt: §27.8 sub-header
+private val FooterName = Color(0xFFF1E7D3)        // token-exempt: §27.8 footer
+private val FooterCount = Color(0xFF8E9BAE)       // token-exempt: §27.8 footer
+private val FooterPanel = Color(0xFF091522)       // token-exempt: §27.8 footer panel
+private val HintColor = Color(0xFF8D99A9)         // token-exempt: §27.12 bottom hint
+
+private const val LOCKED_ALPHA = 0.58f            // §27.13
+
+/** §27.16 — map-page chapter copy. Deliberately NOT chapters.json name/title. */
+private data class ChapterCopy(val kicker: String, val title: String, val subtitle: String)
+
+private val CHAPTER_COPY = listOf(
+    ChapterCopy("CHAPTER 01", "初见", "从作战室到 U-20，日本第一次看见他的名字。"),
+    ChapterCopy("CHAPTER 02", "关系确立", "开放日之后，彼此的生活第一次真正重叠。"),
+    ChapterCopy("CHAPTER 03", "淘汰与重返", "刚确认彼此，就被赛程、失败与沉默推向远处。"),
+    ChapterCopy("CHAPTER 04", "世界杯", "从追加名单到生死局，他重新站回世界的视线中央。"),
+    ChapterCopy("CHAPTER 05", "归来与同居", "日常越靠越近，盛夏也把下一次远行带到门前。"),
+    ChapterCopy("CHAPTER 06", "曼城", "陌生城市、语言与赛场，让两个人学会新的靠近方式。"),
+    ChapterCopy("CHAPTER 07", "假日与心意", "聚光灯之外，那些没说出口的心意在冬日里发热。"),
+    ChapterCopy("CHAPTER 08", "世界中心", "同一个春天，通向三种不同的未来。")
+)
+
+/** §27.13 — locked titles show one full-width question mark per visible glyph. */
+private fun maskTitle(lines: List<String>): List<String> =
+    lines.map { line -> "？".repeat(line.count { it.isLetterOrDigit() || it.code > 0x2FFF }) }
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -76,692 +107,582 @@ fun ChapterScreen(
     onJumpToNode: (String) -> Unit,
     onReplaySection: (startNode: String, chapterId: String, sectionIndex: Int) -> Unit = { _, _, _ -> }
 ) {
-    val chapters = remember {
-        viewModel.getChapters().filter { chapter ->
-            chapter.id != "prologue" && chapter.sections.isNotEmpty()
-        }
-    }
-    val unlockedNodes = remember { viewModel.getUnlockedNodes() }
-    val sectionStates = remember(chapters, unlockedNodes) {
-        chapters.flatMap { chapter ->
-            chapter.sections.mapIndexed { index, section ->
-                "${chapter.id}:$index" to viewModel.getSectionState(chapter.id, index, section.startNode)
-            }
-        }.toMap()
-    }
-    var selectedChapterId by rememberSaveable { mutableStateOf<String?>(null) }
-    val overviewScrollState = remember { LazyListState() }
-    val chapterScrollPositions = remember { mutableStateMapOf<String, Pair<Int, Int>>() }
-    val selectedChapter = chapters.firstOrNull { it.id == selectedChapterId }
+    val chapters = remember { viewModel.getChapters().filter { it.id != "prologue" } }
+    val unlocked = remember { viewModel.getUnlockedNodes() }
+    var openChapter by rememberSaveable { mutableStateOf<String?>(null) }
 
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
-        SystemPageBackground {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .statusBarsPadding()
-                    .navigationBarsPadding()
-            ) {
-                AnimatedContent(
-                    targetState = selectedChapterId,
-                    transitionSpec = {
-                        (
-                            fadeIn(animationSpec = tween(280)) +
-                                scaleIn(animationSpec = tween(280), initialScale = 0.96f)
-                            ) togetherWith (
-                            fadeOut(animationSpec = tween(220)) +
-                                scaleOut(animationSpec = tween(220), targetScale = 1.04f)
-                            )
-                    },
-                    label = "story-map-zoom",
-                    modifier = Modifier.fillMaxSize()
-                ) { chapterId ->
-                    val chapter = chapters.firstOrNull { it.id == chapterId }
-                    if (chapter == null) {
-                        StoryMapOverview(
-                            chapters = chapters,
-                            unlockedNodes = unlockedNodes,
-                            listState = overviewScrollState,
-                            nodeBgPath = viewModel::getNodeBgPath,
-                            onOpenChapter = { selectedChapterId = it.id }
+        SystemPageBackground {                       // §27.8 — same three dim layers as §1
+            AnimatedContent(
+                targetState = openChapter,
+                transitionSpec = {
+                    (fadeIn(tween(280)) + scaleIn(tween(280), initialScale = 0.96f)) togetherWith
+                        (fadeOut(tween(220)) + scaleOut(tween(220), targetScale = 1.04f))
+                },
+                label = "story-map-zoom"
+            ) { current ->
+                Box(modifier = Modifier.fillMaxSize()) {
+                    if (current == null) {
+                        OverviewPage(
+                            chapterIds = chapters.map { it.id },
+                            unlocked = unlocked,
+                            viewModel = viewModel,
+                            onOpen = { openChapter = it }
                         )
                     } else {
-                        val saved = chapterScrollPositions[chapter.id] ?: (0 to 0)
-                        val chapterListState = remember(chapter.id) {
-                            LazyListState(saved.first, saved.second)
-                        }
-                        DisposableEffect(chapter.id) {
-                            onDispose {
-                                chapterScrollPositions[chapter.id] =
-                                    chapterListState.firstVisibleItemIndex to chapterListState.firstVisibleItemScrollOffset
-                            }
-                        }
-                        StoryMapChapterDetail(
-                            chapter = chapter,
-                            chapters = chapters,
-                            sectionStates = sectionStates,
-                            listState = chapterListState,
-                            nodeBgPath = viewModel::getNodeBgPath,
-                            onNodeClick = { section, index, state ->
-                                when (state) {
-                                    SectionState.COMPLETED,
-                                    SectionState.SKIPPED_COMPLETED ->
-                                        onReplaySection(section.startNode, chapter.id, index)
-                                    SectionState.IN_PROGRESS ->
-                                        onJumpToNode(section.startNode)
-                                    SectionState.LOCKED -> Unit
-                                }
-                            },
-                            onSwitchChapter = { target ->
-                                chapterScrollPositions[chapter.id] =
-                                    chapterListState.firstVisibleItemIndex to chapterListState.firstVisibleItemScrollOffset
-                                selectedChapterId = target.id
+                        ChapterPage(
+                            chapterId = current,
+                            chapterIds = chapters.map { it.id },
+                            unlocked = unlocked,
+                            viewModel = viewModel,
+                            onSwitchChapter = { openChapter = it },
+                            onEnter = { node, chapterId, index, replay ->
+                                if (replay) onReplaySection(node, chapterId, index) else onJumpToNode(node)
                             }
                         )
                     }
                 }
+            }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(44.dp)
-                        .padding(horizontal = 17.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val currentSelectedChapter by rememberUpdatedState(selectedChapter)
-                    NagiIconButton(
-                        icon = NagiIcon.Back,
-                        onClick = {
-                            if (currentSelectedChapter != null) {
-                                selectedChapterId = null
-                            } else {
-                                onBack()
-                            }
+            // §27.2 — reuse the existing system back button; no new title bar.
+            Box(modifier = Modifier.statusBarsPadding().padding(start = 15.dp, top = 15.dp)) {
+                NagiIconButton(
+                    icon = NagiIcon.Back,
+                    onClick = { if (openChapter != null) openChapter = null else onBack() }
+                )
+            }
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Overview — §27.12
+// ─────────────────────────────────────────────────────────────────────────────
+
+@OptIn(ExperimentalTextApi::class)
+@Composable
+private fun BoxScope.OverviewPage(
+    chapterIds: List<String>,
+    unlocked: Set<String>,
+    viewModel: GameViewModel,
+    onOpen: (String) -> Unit
+) {
+    val measurer = rememberTextMeasurer()
+
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val density = LocalDensity.current
+        val wPx = with(density) { maxWidth.toPx() }
+        val hPx = with(density) { maxHeight.toPx() }
+        // §27.12 single screen, never scrolls — fit the whole 1080x1920 canvas.
+        val s = minOf(wPx / StoryMapLayout.OVERVIEW_W, hPx / StoryMapLayout.OVERVIEW_H)
+        val offX = (wPx - StoryMapLayout.OVERVIEW_W * s) / 2f
+        val offY = (hPx - StoryMapLayout.OVERVIEW_H * s) / 2f
+
+        val lit = chapterIds.mapIndexed { i, id ->
+            i to StoryMapLayout.forChapter(id)?.nodes.orEmpty()
+                .any { it.startNode != null && it.startNode in unlocked }
+        }.toMap()
+
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            translate(offX, offY) {
+                val litCount = lit.count { it.value }
+
+                // trail — §27.14: v4 authors this as cubic curves, not orthogonal segments
+                fun trail(from: Int, to: Int, color: Color, alpha: Float, width: Float) {
+                    val p = Path()
+                    StoryMapLayout.overviewTrail.forEachIndexed { i, c ->
+                        if (i in from until to) {
+                            if (i == from) p.moveTo(c[0] * s, c[1] * s)
+                            p.cubicTo(c[2] * s, c[3] * s, c[4] * s, c[5] * s, c[6] * s, c[7] * s)
                         }
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Spacer(modifier = Modifier.width(36.dp))
+                    }
+                    drawPath(p, color = color.copy(alpha = alpha), style = Stroke(width * s))
                 }
+                trail(0, StoryMapLayout.overviewTrail.size, SoftRoute, 0.17f, 2f)
+                if (litCount > 1) trail(0, (litCount - 1).coerceAtMost(StoryMapLayout.overviewTrail.size), MapGold, 0.88f, 3f)
+
+                StoryMapLayout.overviewLandmarks.forEachIndexed { i, lm ->
+                    val isLit = lit[i] == true
+                    val stroke = if (isLit) MapGold.copy(alpha = 0.92f) else LockedOutline.copy(alpha = 0.38f)
+                    val card = cutRect(lm.x * s, lm.y * s, lm.w * s, lm.h * s, 28f * s)
+                    if (!isLit) {
+                        drawPath(card, color = LockedPanel.copy(alpha = 0.72f))
+                        // §27.12 pentagon watermark, r=16 — no character art when locked
+                        drawPath(
+                            pentagon(lm.cx * s, lm.cy * s, 16f * s),
+                            color = LockedPanel, style = Stroke(2f * s)
+                        )
+                    }
+                    drawPath(card, color = stroke, style = Stroke(2.5f * s))
+
+                    val copy = CHAPTER_COPY.getOrNull(i) ?: return@forEachIndexed
+                    val sub = "第${listOf("一","二","三","四","五","六","七","八")[i]}部"
+                    val title = if (isLit) copy.title else "？".repeat(copy.title.length)
+                    anchoredOutlined(
+                        measurer, sub, lm.x * s + 22f * s, lm.y * s + lm.h * s - 52f * s,
+                        16f * s, if (isLit) MapGold else LockedText, s, 1f, end = false,
+                        letterSpacing = 3f, outline = 5f, outlineAlpha = 0.8f
+                    )
+                    anchoredOutlined(
+                        measurer, title, lm.x * s + 22f * s, lm.y * s + lm.h * s - 18f * s,
+                        30f * s, ImageTitleColor, s, 1f, end = false,
+                        serif = true, weight = FontWeight.Bold, outline = 7f, outlineAlpha = 0.88f
+                    )
+                }
+
+                // header + bottom hint — §27.12
+                plainText(measurer, "CHAPTER 总览", 72f * s, 227f * s, 18f * s, MapGold, letterSpacing = 4f)
+                plainText(measurer, "他的世界，正在展开", 72f * s, 283f * s, 43f * s, NodeTitleColor, serif = true, weight = FontWeight.W500)
+                plainText(measurer, "走过的故事会亮起来。点击亮起的章节，靠近那段记忆。", 74f * s, 321f * s, 19f * s, SubtitleColor)
+                plainText(measurer, "点击章节，图片将拉近并展开全部小节", 72f * s, 1788f * s, 15f * s, HintColor, letterSpacing = 3f)
             }
         }
-    }
-}
 
-@Composable
-private fun StoryMapOverview(
-    chapters: List<Chapter>,
-    unlockedNodes: Set<String>,
-    listState: LazyListState,
-    nodeBgPath: (String) -> String?,
-    onOpenChapter: (Chapter) -> Unit
-) {
-    LazyColumn(
-        state = listState,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 66.dp, start = 24.dp, end = 24.dp, bottom = 28.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
-    ) {
-        itemsIndexed(chapters) { index, chapter ->
-            val playedSections = chapter.sections.count { it.startNode in unlockedNodes }
-            val isOpen = playedSections > 0
-            val firstPlayableBg = chapter.sections
-                .firstOrNull { it.startNode in unlockedNodes }
-                ?.let { nodeBgPath(it.startNode) }
-            val align = storyMapNodeAlignment(index)
-            Box(modifier = Modifier.fillMaxWidth()) {
-                ChapterLandmark(
-                    index = index,
-                    chapter = chapter,
-                    playedSections = playedSections,
-                    isOpen = isOpen,
-                    bgPath = firstPlayableBg,
-                    modifier = Modifier
-                        .align(align)
-                        .width(248.dp),
-                    onClick = { if (isOpen) onOpenChapter(chapter) }
-                )
-            }
-            if (index < chapters.lastIndex) {
-                Spacer(modifier = Modifier.height(28.dp))
-            }
-        }
-    }
-}
-
-@Composable
-private fun StoryMapChapterDetail(
-    chapter: Chapter,
-    chapters: List<Chapter>,
-    sectionStates: Map<String, SectionState>,
-    listState: LazyListState,
-    nodeBgPath: (String) -> String?,
-    onNodeClick: (ChapterSection, Int, SectionState) -> Unit,
-    onSwitchChapter: (Chapter) -> Unit
-) {
-    LazyColumn(
-        state = listState,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 58.dp, start = 18.dp, end = 18.dp, bottom = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        item {
-            ChapterIdentity(chapter = chapter)
-            Spacer(modifier = Modifier.height(12.dp))
-        }
-
-        if (chapter.sections.any { !it.scope.isNullOrBlank() } && chapter.sections.size >= 12) {
-            item {
-                RouteForkSection(
-                    chapter = chapter,
-                    sectionStates = sectionStates,
-                    nodeBgPath = nodeBgPath,
-                    onNodeClick = onNodeClick
-                )
-            }
-        } else {
-            itemsIndexed(chapter.sections) { index, section ->
-                val state = sectionStates["${chapter.id}:$index"] ?: SectionState.LOCKED
-                val isImportant = isImportantSection(chapter, section, index)
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    SectionNode(
-                        section = section,
-                        index = index,
-                        state = state,
-                        isImportant = isImportant,
-                        bgPath = nodeBgPath(section.startNode),
+        // hit targets + character art for lit chapters
+        StoryMapLayout.overviewLandmarks.forEachIndexed { i, lm ->
+            val id = chapterIds.getOrNull(i) ?: return@forEachIndexed
+            val isLit = lit[i] == true
+            val bg = if (isLit) {
+                StoryMapLayout.forChapter(id)?.nodes?.firstOrNull { it.startNode != null }
+                    ?.startNode?.let { viewModel.getNodeBgPath(it) }
+            } else null
+            Box(
+                modifier = Modifier
+                    .offset {
+                        IntOffset((offX + lm.x * s).roundToInt(), (offY + lm.y * s).roundToInt())
+                    }
+                    .size(with(density) { (lm.w * s).toDp() }, with(density) { (lm.h * s).toDp() })
+                    .clip(CutCornerShape(with(density) { (28f * s).toDp() }))
+                    .then(
+                        if (isLit) Modifier.clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) { onOpen(id) } else Modifier
+                    )
+            ) {
+                if (bg != null) {
+                    AsyncImage(
+                        model = "file:///android_asset/$bg",
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        alignment = focusFor(bg),
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    Box(
                         modifier = Modifier
-                            .align(storyMapNodeAlignment(index))
-                            .width(if (isImportant) 246.dp else 202.dp),
-                        onClick = { onNodeClick(section, index, state) }
-                    )
-                }
-                if (index < chapter.sections.lastIndex) {
-                    Spacer(modifier = Modifier.height(if (isImportant) 34.dp else 22.dp))
-                }
-            }
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(10.dp))
-            AdjacentChapterNav(
-                current = chapter,
-                chapters = chapters,
-                onSwitchChapter = onSwitchChapter
-            )
-        }
-    }
-}
-
-@Composable
-private fun ChapterIdentity(
-    chapter: Chapter,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 18.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = chapter.name,
-            fontFamily = FontFamily.Serif,
-            fontSize = 14.sp,
-            letterSpacing = 2.4.sp,
-            color = NagiTokens.speakerGold.copy(alpha = 0.86f),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = chapter.title,
-            fontFamily = FontFamily.Serif,
-            fontSize = 28.sp,
-            lineHeight = 34.sp,
-            color = NagiTokens.textSnow94,
-            textAlign = TextAlign.Center,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        chapter.timeRange?.takeIf { it.isNotBlank() }?.let {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = it,
-                fontSize = 12.sp,
-                color = NagiTokens.parchment.copy(alpha = 0.60f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-@Composable
-private fun ChapterLandmark(
-    index: Int,
-    chapter: Chapter,
-    playedSections: Int,
-    isOpen: Boolean,
-    bgPath: String?,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    val alpha = if (isOpen) 1f else 0.38f
-    Column(
-        modifier = modifier
-            .alpha(alpha)
-            .clip(NagiShapes.cutMedium)
-            .background(
-                Brush.horizontalGradient(
-                    listOf(
-                        NagiTokens.deepBlue.copy(alpha = if (isOpen) 0.54f else 0.28f),
-                        NagiTokens.deepBlue.copy(alpha = if (isOpen) 0.18f else 0.08f),
-                        NagiTokens.white4.copy(alpha = 0f)
-                    )
-                )
-            )
-            .border(
-                1.dp,
-                if (isOpen) NagiTokens.borderGoldSubtle else NagiTokens.borderGlass10,
-                NagiShapes.cutMedium
-            )
-            .then(
-                if (isOpen) Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = onClick
-                ) else Modifier
-            )
-            .padding(12.dp)
-    ) {
-        if (isOpen && bgPath != null) {
-            StoryMapImage(
-                bgPath = bgPath,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(92.dp)
-                    .clip(NagiShapes.cutSmall)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-        }
-        Text(
-            text = "Chapter ${index + 1}",
-            fontSize = 11.sp,
-            letterSpacing = 1.8.sp,
-            color = NagiTokens.speakerGold.copy(alpha = 0.82f)
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = if (isOpen) chapter.name else questionMarks(chapter.name),
-            fontFamily = FontFamily.Serif,
-            fontSize = 18.sp,
-            color = NagiTokens.textSnow94,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-        Text(
-            text = if (isOpen) chapter.title else questionMarks(chapter.title),
-            fontFamily = FontFamily.Serif,
-            fontSize = 13.sp,
-            lineHeight = 18.sp,
-            color = NagiTokens.parchment.copy(alpha = 0.72f),
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            repeat(chapter.sections.size) { dot ->
-                Box(
-                    modifier = Modifier
-                        .size(if (dot < playedSections) 5.dp else 4.dp)
-                        .clip(CircleShape)
-                        .background(
-                            if (dot < playedSections) {
-                                NagiTokens.speakerGold.copy(alpha = 0.82f)
-                            } else {
-                                NagiTokens.white9.copy(alpha = 0.42f)
-                            }
-                        )
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-            }
-        }
-    }
-}
-
-@Composable
-private fun SectionNode(
-    section: ChapterSection,
-    index: Int,
-    state: SectionState,
-    isImportant: Boolean,
-    bgPath: String?,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    val isOpen = state != SectionState.LOCKED
-    val isCurrent = state == SectionState.IN_PROGRESS
-    val title = if (isOpen) section.title else questionMarks(section.title)
-    val shouldShowImage = isOpen && isImportant && bgPath != null
-
-    Column(
-        modifier = modifier
-            .alpha(if (isOpen) 1f else 0.36f)
-            .defaultMinSize(minHeight = if (isImportant) 102.dp else 58.dp)
-            .clip(NagiShapes.cutSmall)
-            .background(
-                Brush.horizontalGradient(
-                    listOf(
-                        NagiTokens.deepBlue.copy(alpha = if (isCurrent) 0.66f else 0.42f),
-                        NagiTokens.deepBlue.copy(alpha = if (isCurrent) 0.26f else 0.14f),
-                        NagiTokens.white4.copy(alpha = 0f)
-                    )
-                )
-            )
-            .border(
-                1.dp,
-                when {
-                    isCurrent -> NagiTokens.borderGoldAccent
-                    isOpen -> NagiTokens.borderGlass12
-                    else -> NagiTokens.borderGlass10
-                },
-                NagiShapes.cutSmall
-            )
-            .then(
-                if (isOpen) Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = onClick
-                ) else Modifier
-            )
-            .padding(10.dp)
-    ) {
-        if (shouldShowImage) {
-            StoryMapImage(
-                bgPath = bgPath,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1.92f)
-                    .clip(NagiShapes.cutSmall)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-        Text(
-            text = "${index + 1}".padStart(2, '0'),
-            fontSize = 10.sp,
-            letterSpacing = 1.2.sp,
-            color = NagiTokens.speakerGold.copy(alpha = if (isOpen) 0.78f else 0.52f)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = title,
-            fontFamily = FontFamily.Serif,
-            fontSize = if (isImportant) 17.sp else 15.sp,
-            lineHeight = if (isImportant) 22.sp else 20.sp,
-            color = NagiTokens.textSnow94,
-            maxLines = if (isImportant) 2 else 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-
-@Composable
-private fun RouteForkSection(
-    chapter: Chapter,
-    sectionStates: Map<String, SectionState>,
-    nodeBgPath: (String) -> String?,
-    onNodeClick: (ChapterSection, Int, SectionState) -> Unit
-) {
-    val commonSections = chapter.sections.withIndex().filter { it.value.scope.isNullOrBlank() }
-    val routeSections = chapter.sections.withIndex()
-        .filter { !it.value.scope.isNullOrBlank() }
-        .groupBy { it.value.scope.orEmpty() }
-    Column {
-        commonSections.forEachIndexed { commonIndex, indexed ->
-            val index = indexed.index
-            val section = indexed.value
-            val state = sectionStates["${chapter.id}:$index"] ?: SectionState.LOCKED
-            Box(modifier = Modifier.fillMaxWidth()) {
-                SectionNode(
-                    section = section,
-                    index = index,
-                    state = state,
-                    isImportant = isImportantSection(chapter, section, index),
-                    bgPath = nodeBgPath(section.startNode),
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .width(246.dp),
-                    onClick = { onNodeClick(section, index, state) }
-                )
-            }
-            if (commonIndex < commonSections.lastIndex) {
-                Spacer(modifier = Modifier.height(26.dp))
-            }
-        }
-
-        Spacer(modifier = Modifier.height(18.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            storyRouteOrder(routeSections.keys.toList()).forEach { scope ->
-                val route = routeSections[scope].orEmpty()
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = routeLabel(scope),
-                        fontSize = 11.sp,
-                        letterSpacing = 1.0.sp,
-                        color = NagiTokens.speakerGold.copy(alpha = 0.76f),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    route.forEachIndexed { routeIndex, indexed ->
-                        val index = indexed.index
-                        val section = indexed.value
-                        val state = sectionStates["${chapter.id}:$index"] ?: SectionState.LOCKED
-                        SectionNode(
-                            section = section,
-                            index = index,
-                            state = state,
-                            isImportant = routeIndex == 0 || isImportantSection(chapter, section, index),
-                            bgPath = nodeBgPath(section.startNode),
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = { onNodeClick(section, index, state) }
-                        )
-                        if (routeIndex < route.lastIndex) {
-                            Box(
-                                modifier = Modifier
-                                    .height(20.dp)
-                                    .fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .width(1.dp)
-                                        .fillMaxHeight()
-                                        .background(NagiTokens.borderGoldSubtle)
+                            .fillMaxSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    0f to TextOutline.copy(alpha = 0.02f),
+                                    0.55f to TextOutline.copy(alpha = 0.14f),
+                                    1f to TextOutline.copy(alpha = 0.94f)
                                 )
-                            }
-                        }
-                    }
+                            )
+                    )
                 }
             }
         }
     }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Chapter sub-page — §27.8 / §27.9 / §27.10 / §27.11
+// ─────────────────────────────────────────────────────────────────────────────
+
+@OptIn(ExperimentalTextApi::class)
 @Composable
-private fun StoryMapImage(
-    bgPath: String,
-    modifier: Modifier = Modifier
+private fun BoxScope.ChapterPage(
+    chapterId: String,
+    chapterIds: List<String>,
+    unlocked: Set<String>,
+    viewModel: GameViewModel,
+    onSwitchChapter: (String) -> Unit,
+    onEnter: (String, String, Int, Boolean) -> Unit
 ) {
-    Box(modifier = modifier) {
-        Image(
-            painter = rememberAsyncImagePainter("file:///android_asset/$bgPath"),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop,
-            alignment = storyMapImageAlignment(bgPath)
-        )
+    val map = StoryMapLayout.forChapter(chapterId) ?: return
+    val chIndex = chapterIds.indexOf(chapterId)
+    val copy = CHAPTER_COPY.getOrNull(chIndex) ?: return
+    val measurer = rememberTextMeasurer()
+    val scroll = rememberScrollState()
+    // §27.2 — 240–320ms zoom-in when entering a chapter
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val density = LocalDensity.current
+        val wPx = with(density) { maxWidth.toPx() }
+        val s = wPx / StoryMapLayout.CANVAS_W
+        val pageH = map.canvasH * s
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        listOf(
-                            NagiTokens.white4.copy(alpha = 0f),
-                            NagiTokens.authorityVoid.copy(alpha = 0.24f)
-                        )
+                .verticalScroll(scroll)          // §27.3 — chapter pages may scroll
+        ) {
+            Box(modifier = Modifier.fillMaxWidth().height(with(density) { pageH.toDp() })) {
+
+                // ---- image nodes first, so routes and text sit above the art
+                map.nodes.filter { it.kind == NodeKind.IMAGE }.forEach { nd ->
+                    val isLit = nd.startNode != null && nd.startNode in unlocked
+                    val bg = if (isLit) nd.startNode?.let { viewModel.getNodeBgPath(it) } else null
+                    val cut = if (nd.w <= 320f) 15f else 24f
+                    Box(
+                        modifier = Modifier
+                            .offset { IntOffset((nd.x * s).roundToInt(), (nd.y * s).roundToInt()) }
+                            .size(with(density) { (nd.w * s).toDp() }, with(density) { (nd.h * s).toDp() })
+                            .clip(CutCornerShape(with(density) { (cut * s).toDp() }))
+                            .then(if (!isLit) Modifier.background(LockedPanel.copy(alpha = 0.82f)) else Modifier)
+                            .then(
+                                if (isLit) Modifier.clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null
+                                ) {
+                                    val idx = map.nodes.indexOf(nd)
+                                    onEnter(nd.startNode, chapterId, idx, true)
+                                } else Modifier
+                            )
+                    ) {
+                        if (bg != null) {
+                            AsyncImage(
+                                model = "file:///android_asset/$bg",
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                alignment = focusFor(bg),     // §27.6 / §27.14 — per-image focus
+                                modifier = Modifier.fillMaxSize()
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(
+                                        Brush.verticalGradient(
+                                            0f to TextOutline.copy(alpha = 0.02f),
+                                            0.55f to TextOutline.copy(alpha = 0.14f),
+                                            1f to TextOutline.copy(alpha = 0.94f)
+                                        )
+                                    )
+                            )
+                        }
+                    }
+                }
+
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    // ---- routes (§27.10) — orthogonal polylines through node centres
+                    map.softRoutes.forEach { drawPolyline(it, s, SoftRoute, 0.18f, 1.4f) }
+                    map.routes.forEach { drawPolyline(it, s, MapGold, 0.76f, 2.6f) }
+
+                    // ---- chapter-8 column labels (§27.11)
+                    map.columnLabels.forEach { (x, text) ->
+                        centeredText(measurer, text, x * s, 810f * s, 16f * s, MapGold, letterSpacing = 4f)
+                    }
+
+                    // ---- nodes
+                    map.nodes.forEach { nd ->
+                        val isLit = nd.startNode != null && nd.startNode in unlocked
+                        if (nd.kind == NodeKind.TEXT) drawTextNode(measurer, nd, s, isLit)
+                        else drawImageNodeChrome(measurer, nd, s, isLit)
+                    }
+
+                    // ---- header (§27.8)
+                    plainText(measurer, copy.kicker, 72f * s, 227f * s, 18f * s, MapGold, letterSpacing = 4f)
+                    plainText(measurer, copy.title, 72f * s, 283f * s, 43f * s, NodeTitleColor, serif = true, weight = FontWeight.W500)
+                    plainText(measurer, copy.subtitle, 74f * s, 321f * s, 18f * s, SubtitleColor)
+                    drawLine(
+                        Color.White.copy(alpha = 0.08f),
+                        Offset(72f * s, 350f * s), Offset(1008f * s, 350f * s), 1f * s
                     )
-                )
-        )
+
+                    // ---- footer chapter nav (§27.8) — a footer, not a sticky bar
+                    val navTop = map.canvasH - 212f
+                    drawPath(
+                        cutRect(58f * s, navTop * s, 964f * s, 150f * s, 23f * s),
+                        color = FooterPanel.copy(alpha = 0.88f)
+                    )
+                    drawPath(
+                        cutRect(58f * s, navTop * s, 964f * s, 150f * s, 23f * s),
+                        color = MapGold.copy(alpha = 0.24f), style = Stroke(1.5f * s)
+                    )
+                    if (chIndex > 0) drawArrow(90f * s, (navTop + 75f) * s, s, left = true)
+                    if (chIndex < chapterIds.lastIndex) drawArrow(990f * s, (navTop + 75f) * s, s, left = false)
+                    centeredText(measurer, "第 ${chIndex + 1} 章", 540f * s, (navTop + 55f) * s, 18f * s, MapGold, letterSpacing = 4f)
+                    centeredText(measurer, copy.title, 540f * s, (navTop + 102f) * s, 29f * s, FooterName, serif = true)
+                    centeredText(
+                        measurer, "%02d / 08".format(chIndex + 1), 540f * s, (navTop + 132f) * s,
+                        16f * s, FooterCount, letterSpacing = 3f
+                    )
+                    // progress bar
+                    val barY = (map.canvasH - 42f) * s
+                    drawLine(Color.White.copy(alpha = 0.12f), Offset(410f * s, barY), Offset(670f * s, barY), 3f * s)
+                    drawLine(
+                        MapGold, Offset(410f * s, barY),
+                        Offset((410f + 260f * (chIndex + 1) / 8f) * s, barY), 3f * s
+                    )
+                }
+
+                // ---- text-node hit targets
+                map.nodes.filter { it.kind == NodeKind.TEXT && it.startNode != null }.forEach { nd ->
+                    val isLit = nd.startNode in unlocked
+                    if (!isLit) return@forEach
+                    val half = 60f * s
+                    Box(
+                        modifier = Modifier
+                            .offset {
+                                IntOffset((nd.cx * s - half).roundToInt(), (nd.cy * s - half).roundToInt())
+                            }
+                            .size(with(density) { (half * 2).toDp() })
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) {
+                                val idx = map.nodes.indexOf(nd)
+                                onEnter(nd.startNode!!, chapterId, idx, true)
+                            }
+                    )
+                }
+
+                // ---- footer nav hit targets
+                val navTop = map.canvasH - 212f
+                if (chIndex > 0) {
+                    NavHit(density, 58f * s, navTop * s, 200f * s, 150f * s) {
+                        onSwitchChapter(chapterIds[chIndex - 1])
+                    }
+                }
+                if (chIndex < chapterIds.lastIndex) {
+                    NavHit(density, 822f * s, navTop * s, 200f * s, 150f * s) {
+                        onSwitchChapter(chapterIds[chIndex + 1])
+                    }
+                }
+            }
+        }
     }
 }
 
 @Composable
-private fun AdjacentChapterNav(
-    current: Chapter,
-    chapters: List<Chapter>,
-    onSwitchChapter: (Chapter) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val currentIndex = chapters.indexOfFirst { it.id == current.id }
-    val previous = chapters.getOrNull(currentIndex - 1)
-    val next = chapters.getOrNull(currentIndex + 1)
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        ChapterSwitch(
-            label = previous?.let { "上一章 · ${it.name}" } ?: "上一章 · ???",
-            enabled = previous != null,
-            modifier = Modifier.weight(1f),
-            onClick = { previous?.let(onSwitchChapter) }
-        )
-        ChapterSwitch(
-            label = next?.let { "下一章 · ${it.name}" } ?: "下一章 · ???",
-            enabled = next != null,
-            modifier = Modifier.weight(1f),
-            onClick = { next?.let(onSwitchChapter) }
-        )
-    }
-}
-
-@Composable
-private fun ChapterSwitch(
-    label: String,
-    enabled: Boolean,
-    modifier: Modifier = Modifier,
+private fun NavHit(
+    density: androidx.compose.ui.unit.Density,
+    x: Float, y: Float, w: Float, h: Float,
     onClick: () -> Unit
 ) {
     Box(
-        modifier = modifier
-            .alpha(if (enabled) 0.86f else 0.32f)
-            .clip(NagiShapes.cutSmall)
-            .background(NagiTokens.deepBlue.copy(alpha = 0.22f))
-            .border(1.dp, NagiTokens.borderGlass10, NagiShapes.cutSmall)
-            .then(
-                if (enabled) Modifier.clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    onClick = onClick
-                ) else Modifier
+        modifier = Modifier
+            .offset { IntOffset(x.roundToInt(), y.roundToInt()) }
+            .size(with(density) { w.toDp() }, with(density) { h.toDp() })
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
             )
-            .padding(horizontal = 10.dp, vertical = 12.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = label,
-            fontSize = 12.sp,
-            color = NagiTokens.parchment.copy(alpha = 0.74f),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
+    )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Draw helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+private fun DrawScope.drawPolyline(
+    pts: List<Pair<Float, Float>>, s: Float, color: Color, alpha: Float, width: Float
+) {
+    if (pts.size < 2) return
+    val p = Path()
+    p.moveTo(pts[0].first * s, pts[0].second * s)
+    pts.drop(1).forEach { p.lineTo(it.first * s, it.second * s) }
+    drawPath(
+        p, color = color.copy(alpha = alpha),
+        style = Stroke(width * s, cap = StrokeCap.Round, join = StrokeJoin.Round)
+    )
+}
+
+/** Cut-corner rectangle, matching the SVG card outline (all four corners). */
+private fun cutRect(x: Float, y: Float, w: Float, h: Float, cut: Float): Path = Path().apply {
+    moveTo(x + cut, y)
+    lineTo(x + w - cut, y); lineTo(x + w, y + cut)
+    lineTo(x + w, y + h - cut); lineTo(x + w - cut, y + h)
+    lineTo(x + cut, y + h); lineTo(x, y + h - cut)
+    lineTo(x, y + cut); close()
+}
+
+private fun pentagon(cx: Float, cy: Float, r: Float): Path = Path().apply {
+    for (i in 0 until 5) {
+        val a = (-90f + i * 72f) * (Math.PI / 180f).toFloat()
+        val px = cx + r * kotlin.math.cos(a)
+        val py = cy + r * kotlin.math.sin(a)
+        if (i == 0) moveTo(px, py) else lineTo(px, py)
+    }
+    close()
+}
+
+private fun DrawScope.drawArrow(x: Float, y: Float, s: Float, left: Boolean) {
+    val w = 18f * s
+    val h = 30f * s
+    val p = Path().apply {
+        if (left) { moveTo(x + w, y - h / 2); lineTo(x, y); lineTo(x + w, y + h / 2) }
+        else { moveTo(x - w, y - h / 2); lineTo(x, y); lineTo(x - w, y + h / 2) }
+    }
+    drawPath(p, MapGold.copy(alpha = 0.62f), style = Stroke(2.5f * s, cap = StrokeCap.Round, join = StrokeJoin.Round))
+}
+
+@OptIn(ExperimentalTextApi::class)
+private fun DrawScope.drawTextNode(measurer: TextMeasurer, nd: MapNode, s: Float, isLit: Boolean) {
+    val branch = nd.r <= 12f
+    val alpha = if (isLit) 1f else LOCKED_ALPHA
+    val ringStroke = if (branch) 1.7f else 2.2f
+
+    drawCircle(NodeRingFill.copy(alpha = alpha), nd.r * s, Offset(nd.cx * s, nd.cy * s))
+    drawCircle(
+        (if (isLit) MapGold else LockedOutline).copy(alpha = alpha),
+        nd.r * s, Offset(nd.cx * s, nd.cy * s), style = Stroke(ringStroke * s)
+    )
+    drawCircle(
+        (if (isLit) MapGold else LockedOutline).copy(alpha = alpha),
+        (if (branch) 3.5f else 4.5f) * s, Offset(nd.cx * s, nd.cy * s)
+    )
+
+    val idxDy = if (branch) -23f else -8f
+    val ttlDy = if (branch) 34f else 22f
+    val lineGap = if (branch) 20f else 27f
+    val dx = when (nd.side) { NodeSide.RIGHT -> 35f; NodeSide.LEFT -> -35f; NodeSide.CENTER -> 0f }
+    val tx = (nd.cx + dx) * s
+    val titleColor = if (isLit) NodeTitleColor else LockedText
+    val idxColor = if (isLit) MapGold else LockedText
+    val lines = if (isLit) nd.titleLines else maskTitle(nd.titleLines)
+
+    when (nd.side) {
+        NodeSide.CENTER -> {
+            centeredText(measurer, nd.label, tx, (nd.cy + idxDy) * s, (if (branch) 11f else 13f) * s, idxColor, alpha, letterSpacing = if (branch) 1.5f else 2f)
+            lines.forEachIndexed { i, ln ->
+                centeredOutlined(measurer, ln, tx, (nd.cy + ttlDy + i * lineGap) * s, (if (branch) 18f else 22f) * s, titleColor, s, alpha)
+            }
+        }
+        else -> {
+            val end = nd.side == NodeSide.LEFT
+            anchoredText(measurer, nd.label, tx, (nd.cy + idxDy) * s, 13f * s, idxColor, alpha, end, letterSpacing = 2f)
+            lines.forEachIndexed { i, ln ->
+                anchoredOutlined(measurer, ln, tx, (nd.cy + ttlDy + i * lineGap) * s, 22f * s, titleColor, s, alpha, end)
+            }
+        }
     }
 }
 
-private fun storyMapNodeAlignment(index: Int): Alignment =
-    when (index % 3) {
-        0 -> Alignment.Center
-        1 -> Alignment.CenterStart
-        else -> Alignment.CenterEnd
+@OptIn(ExperimentalTextApi::class)
+private fun DrawScope.drawImageNodeChrome(measurer: TextMeasurer, nd: MapNode, s: Float, isLit: Boolean) {
+    val branch = nd.w <= 320f
+    val cut = if (branch) 15f else 24f
+    val alpha = if (isLit) 1f else LOCKED_ALPHA
+    drawPath(
+        cutRect(nd.x * s, nd.y * s, nd.w * s, nd.h * s, cut * s),
+        color = (if (isLit) MapGold else LockedOutline).copy(alpha = if (isLit) (if (branch) 0.72f else 0.88f) else 0.38f),
+        style = Stroke((if (branch) 1.5f else 2.2f) * s)
+    )
+    if (!isLit) {
+        drawPath(pentagon(nd.x * s + nd.w * s / 2, nd.y * s + nd.h * s / 2, 16f * s), LockedPanel, style = Stroke(2f * s))
     }
+    val lines = if (isLit) nd.titleLines else maskTitle(nd.titleLines)
+    val label = if (isLit) nd.label else nd.label.substringBefore(" ·")
 
-private fun isImportantSection(chapter: Chapter, section: ChapterSection, index: Int): Boolean {
-    if (index == 0 || index == chapter.sections.lastIndex) return true
-    val title = section.title
-    val key = section.startNode
-    return title.contains("初见") ||
-        title.contains("关系") ||
-        title.contains("淘汰") ||
-        title.contains("世界杯") ||
-        title.contains("世界第一") ||
-        title.contains("高级公寓") ||
-        title.contains("最终") ||
-        title.contains("结局") ||
-        key.contains("final") ||
-        key.contains("end_") ||
-        key.contains("world") ||
-        key.contains("drive") ||
-        key.contains("halloween")
-}
-
-private fun storyMapImageAlignment(bgPath: String): Alignment {
-    val key = bgPath.lowercase()
-    return when {
-        key.contains("first_meet") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.96f)
-        key.contains("easygoing") -> BiasAlignment(horizontalBias = 0f, verticalBias = -1.00f)
-        key.contains("nel_start") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.92f)
-        key.contains("falling_down") -> BiasAlignment(horizontalBias = 0f, verticalBias = -1.00f)
-        key.contains("lolly") -> BiasAlignment(horizontalBias = -0.06f, verticalBias = -0.82f)
-        key.contains("birthday_at_home") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.70f)
-        key.contains("hug") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.76f)
-        key.contains("bedroom") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
-        key.contains("pillow") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.78f)
-        key.contains("wakeup") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.78f)
-        key.contains("drive") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
-        key.contains("scarf") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
-        key.contains("dressup") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.76f)
-        key.contains("softrice") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
-        key.contains("remeet") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.76f)
-        key.contains("back.") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
-        key.contains("valentine") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
-        key.contains("bad_impact") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.68f)
-        key.contains("nagi_with_cat") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
-        key.contains("nagi_at_home_2") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.70f)
-        key.contains("nagi_at_home_3") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.68f)
-        key.contains("daily_city_room_icecream") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.84f)
-        key.contains("home_soft_nagi") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.82f)
-        key.contains("goal_faraway") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.10f)
-        key.contains("soft_gaze") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.90f)
-        key.contains("true_end") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.84f)
-        key.contains("king") -> BiasAlignment(horizontalBias = -0.08f, verticalBias = -0.86f)
-        key.contains("nagi") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.78f)
-        key.contains("face") || key.contains("portrait") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.82f)
-        else -> Alignment.Center
+    if (branch) {
+        anchoredText(measurer, label, (nd.x + 12f) * s, (nd.y + 20f) * s, 11f * s, if (isLit) MapGold else LockedText, alpha, false, letterSpacing = 1.5f)
+        lines.forEachIndexed { i, ln ->
+            centeredOutlined(measurer, ln, (nd.x + nd.w / 2) * s, (nd.y + nd.h - 14f + i * 20f) * s, 18f * s, if (isLit) ImageTitleColor else LockedText, s, alpha)
+        }
+    } else {
+        anchoredOutlined(measurer, label, (nd.x + 22f) * s, (nd.y + nd.h - 51f) * s, 14f * s, if (isLit) MapGold else LockedText, s, alpha, false, letterSpacing = 3f, outline = 5f, outlineAlpha = 0.82f)
+        lines.forEachIndexed { i, ln ->
+            anchoredOutlined(measurer, ln, (nd.x + 22f) * s, (nd.y + nd.h - 17f + i * 27f) * s, 28f * s, if (isLit) ImageTitleColor else LockedText, s, alpha, false, serif = true, weight = FontWeight.Bold, outline = 7f, outlineAlpha = 0.88f)
+        }
     }
 }
 
-private fun storyRouteOrder(scopes: List<String>): List<String> {
-    val ordered = listOf("dream", "stay", "bad")
-    return ordered.filter { it in scopes } + scopes.filterNot { it in ordered }.sorted()
+// --- text primitives -----------------------------------------------------
+
+@OptIn(ExperimentalTextApi::class)
+private fun styleOf(
+    size: Float, color: Color, alpha: Float, serif: Boolean, weight: FontWeight, letterSpacing: Float
+) = TextStyle(
+    color = color.copy(alpha = color.alpha * alpha),
+    fontSize = size.sp,
+    fontFamily = if (serif) FontFamily.Serif else FontFamily.Default,
+    fontWeight = weight,
+    letterSpacing = letterSpacing.sp
+)
+
+@OptIn(ExperimentalTextApi::class)
+private fun DrawScope.measure(
+    m: TextMeasurer, text: String, size: Float, color: Color, alpha: Float,
+    serif: Boolean, weight: FontWeight, ls: Float
+): TextLayoutResult = m.measure(text, styleOf(size, color, alpha, serif, weight, ls))
+
+@OptIn(ExperimentalTextApi::class)
+private fun DrawScope.plainText(
+    m: TextMeasurer, text: String, x: Float, baselineY: Float, size: Float, color: Color,
+    serif: Boolean = false, weight: FontWeight = FontWeight.Normal, letterSpacing: Float = 0f
+) {
+    val r = measure(m, text, size, color, 1f, serif, weight, letterSpacing)
+    drawText(r, topLeft = Offset(x, baselineY - r.size.height * 0.78f))
 }
 
-private fun routeLabel(scope: String): String =
-    when (scope) {
-        "dream" -> "梦线"
-        "stay" -> "留下"
-        "bad" -> "远处"
-        else -> scope.ifBlank { "分支" }
-    }
+@OptIn(ExperimentalTextApi::class)
+private fun DrawScope.centeredText(
+    m: TextMeasurer, text: String, cx: Float, baselineY: Float, size: Float, color: Color,
+    alpha: Float = 1f, serif: Boolean = false, letterSpacing: Float = 0f
+) {
+    val r = measure(m, text, size, color, alpha, serif, FontWeight.Normal, letterSpacing)
+    drawText(r, topLeft = Offset(cx - r.size.width / 2f, baselineY - r.size.height * 0.78f))
+}
 
-private fun questionMarks(text: String): String =
-    "?".repeat(text.length.coerceAtLeast(1))
+@OptIn(ExperimentalTextApi::class)
+private fun DrawScope.anchoredText(
+    m: TextMeasurer, text: String, x: Float, baselineY: Float, size: Float, color: Color,
+    alpha: Float, end: Boolean, letterSpacing: Float = 0f
+) {
+    val r = measure(m, text, size, color, alpha, false, FontWeight.Normal, letterSpacing)
+    drawText(r, topLeft = Offset(if (end) x - r.size.width else x, baselineY - r.size.height * 0.78f))
+}
+
+/**
+ * §27.9.1 — the title outline is what keeps node text readable on top of the
+ * background art; it explicitly replaces the old card backing.
+ */
+@OptIn(ExperimentalTextApi::class)
+private fun DrawScope.anchoredOutlined(
+    m: TextMeasurer, text: String, x: Float, baselineY: Float, size: Float, color: Color,
+    s: Float, alpha: Float, end: Boolean, serif: Boolean = false,
+    weight: FontWeight = FontWeight.W500, letterSpacing: Float = 0f,
+    outline: Float = 5f, outlineAlpha: Float = 0.8f
+) {
+    val fill = measure(m, text, size, color, alpha, serif, weight, letterSpacing)
+    val left = if (end) x - fill.size.width else x
+    val top = baselineY - fill.size.height * 0.78f
+    val ring = m.measure(
+        text,
+        styleOf(size, TextOutline.copy(alpha = outlineAlpha * alpha), 1f, serif, weight, letterSpacing)
+            .copy(drawStyle = Stroke(outline * s * 0.5f))
+    )
+    drawText(ring, topLeft = Offset(left, top))
+    drawText(fill, topLeft = Offset(left, top))
+}
+
+@OptIn(ExperimentalTextApi::class)
+private fun DrawScope.centeredOutlined(
+    m: TextMeasurer, text: String, cx: Float, baselineY: Float, size: Float, color: Color,
+    s: Float, alpha: Float
+) {
+    val fill = measure(m, text, size, color, alpha, false, FontWeight.W500, 0f)
+    val left = cx - fill.size.width / 2f
+    val top = baselineY - fill.size.height * 0.78f
+    val ring = m.measure(
+        text,
+        styleOf(size, TextOutline.copy(alpha = 0.8f * alpha), 1f, false, FontWeight.W500, 0f)
+            .copy(drawStyle = Stroke(5f * s * 0.5f))
+    )
+    drawText(ring, topLeft = Offset(left, top))
+    drawText(fill, topLeft = Offset(left, top))
+}
+
+/**
+ * §27.6 / §27.14 — focus is tuned per background here, not transcribed from the
+ * SVG (the v7 generator left 19 of 20 image nodes on plain centre-crop).
+ */
+private fun focusFor(bgKey: String): Alignment = when {
+    bgKey.contains("bad_impact") -> Alignment.TopCenter
+    bgKey.contains("nagi_at_home") -> Alignment.TopCenter
+    bgKey.contains("kick") || bgKey.contains("goal") -> Alignment.TopCenter
+    bgKey.contains("true_end") || bgKey.contains("soft_gaze") -> Alignment.TopCenter
+    bgKey.contains("pillow") || bgKey.contains("wakeup") -> Alignment.Center
+    else -> Alignment.TopCenter
+}
