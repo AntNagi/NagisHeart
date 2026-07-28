@@ -21,8 +21,8 @@
 
 ### TASK-20260727-003
 - 标题：Android 剧情地图对齐 v7（首版实机整体走形修正）
-- 负责人：PP（Android）
-- 状态：preflight
+- 负责人：Sai（Android，接手 PP）
+- 状态：review
 - 优先级：P0
 - 现象（Ant 实机 + lulu 对照）：剧情地图已能进入，但总览页、第四部、第八部与 v7 authority 走形严重；普通节点退化为卡片网格，连接路径缺失，第八部路线分列与文案不对，总览页不是单屏错落地图，长标题/页脚/子页页头均未按权威呈现。
 - 范围：`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/ChapterScreen.kt` + 可新增一份 Android 布局常量表（如 `StoryMapLayout.kt`）。**不碰 story-data、BG mapping、Web、TT Start、App Icon、资源删除；不把 `design/concepts/story_map_xoxo_v1/` 下 PNG/SVG 复制进 runtime；P2-1 背景暗层归 vignette 任务，不在本条重复。**
@@ -40,7 +40,18 @@
 - 已解除：lulu 已提交 `ab38dcf` 补齐 MinSpec §27.8–§27.16、decision_log、MANIFEST 哈希与 xlsx 补账；PM 已核查 `tools/check-authority.ps1` PASSED 并 push。
 - pre-flight 要求：PP 开工前必须 `git pull`，重读本条与 MinSpec §27；把此前 5 个 pre-flight 问题与 lulu 答复写入回报；确认 scope 后再实现。
 - 完成定义：先做 pre-flight；实现后提交实现说明、文件清单、自检结果、build 结果、风险/未覆盖点。Android 后期不设 QA、不要求截图：PM 初查后转 Ant 实机验收。
-- 最新更新时间：2026-07-27
+- Sai 接手（2026-07-28，已改，待 Ant 实机验收；commit/push `507cfdf`）：
+  1. 已改（P0-1）：`ChapterScreen.kt` 将普通小节渲染为圆点、序号与带描边标题；不再使用列表卡片底。
+  2. 已改（P0-2）：`StoryMapLayout.kt` 转写 v7 SVG 的章节路径顶点；路径、节点、图片与点击热区共用同一可滚动画布坐标系。
+  3. 已改（P0-3）：第八部 `p8_route` 位于三线共同起点；DREAM/STAY/BAD 三线自同一分叉展开。
+  4. 已改（P0-4）：第八部仅显示 `DREAM · 世界第一`、`STAY · 陪我`、`BAD · 抓住我`；分支节点依真实 section 顺序绑定 D1–D6 / S1–S5 / B1–B7。
+  5. 已改（P0-5）：总览为固定 1080×1920 单屏错落八地标与连接路径，不再为竖向章节列表。
+  6. 已改（P1-1）：标题由布局表提供的行数组渲染，不使用省略号；§27.15 的指定断行落在 UI 配置而非 story-data。
+  7. 已改（P1-2）：页内底部翻章条采用 §27.8 的切角、三行居中信息、箭头与进度条；随内容滚动而非吸底。
+  8. 已改（P1-3）：章节页头采用 §27.16 独立短标题/副标题与 §27.8 的位置、分隔线；总览不显示 `Chapter N` eyebrow 或进度圆点。
+- 【已验证】`powershell -ExecutionPolicy Bypass -File tools/check-authority.ps1` 通过；`node tools/validate.js` 0 error（既有 9 条 hardcoded Ant warning）；`gradle :app:compileDebugKotlin` 退出 0；`gradle :app:packageDebug` 退出 0。
+- 风险/未覆盖：真机已连接，但已安装包与本次 debug APK 的签名不一致；为保留 Ant 的存档，未卸载重装，因此待 Ant 从 Android Studio 安装同签名 APK 后做实机构图验收。`git pull` 因本机 GitHub 凭据缺失失败，`git push` 已成功。
+- 最新更新时间：2026-07-28
 
 ### TASK-20260727-004
 - 标题：本地未提交杂项归属审计
