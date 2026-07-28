@@ -12,9 +12,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -48,12 +52,16 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -68,6 +76,7 @@ import com.antnagi.nagisheart.ui.theme.NagiTheme
 import com.antnagi.nagisheart.ui.theme.NagiTokens
 import com.antnagi.nagisheart.ui.theme.NagiUiTheme
 import com.antnagi.nagisheart.ui.viewmodel.GameViewModel
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -539,10 +548,23 @@ private fun RouteForkSection(
     nodeBgPath: (String) -> String?,
     onNodeClick: (ChapterSection, Int, SectionState) -> Unit
 ) {
-    val commonSections = chapter.sections.withIndex().filter { it.value.scope.isNullOrBlank() }
+    val commonSections = chapter.sections.withIndex()
+        .filter { it.value.scope.isNullOrBlank() || it.value.scope == "common" }
     val routeSections = chapter.sections.withIndex()
-        .filter { !it.value.scope.isNullOrBlank() }
+        .filter { !it.value.scope.isNullOrBlank() && it.value.scope != "common" }
         .groupBy { it.value.scope.orEmpty() }
+    if (chapter.id == "part8") {
+        RouteForkDraggableMap(
+            chapter = chapter,
+            commonSections = commonSections,
+            routeSections = routeSections,
+            sectionStates = sectionStates,
+            nodeBgPath = nodeBgPath,
+            onNodeClick = onNodeClick
+        )
+        return
+    }
+
     Column {
         commonSections.forEachIndexed { commonIndex, indexed ->
             val index = indexed.index
@@ -619,6 +641,142 @@ private fun RouteForkSection(
             }
         }
     }
+}
+
+@Composable
+private fun RouteForkDraggableMap(
+    chapter: Chapter,
+    commonSections: List<IndexedValue<ChapterSection>>,
+    routeSections: Map<String, List<IndexedValue<ChapterSection>>>,
+    sectionStates: Map<String, SectionState>,
+    nodeBgPath: (String) -> String?,
+    onNodeClick: (ChapterSection, Int, SectionState) -> Unit
+) {
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(560.dp)
+            .clipToBounds()
+    ) {
+        val density = LocalDensity.current
+        val viewportW = with(density) { maxWidth.toPx() }
+        val viewportH = with(density) { maxHeight.toPx() }
+        val contentW = with(density) { 960.dp.toPx() }
+        val contentH = with(density) { 1540.dp.toPx() }
+        var pan by remember { mutableStateOf(Offset(-180f, 0f)) }
+
+        fun clamp(value: Offset): Offset {
+            return Offset(
+                value.x.coerceIn((viewportW - contentW).coerceAtMost(0f), 0f),
+                value.y.coerceIn((viewportH - contentH).coerceAtMost(0f), 0f)
+            )
+        }
+
+        val transformState = rememberTransformableState { _, panChange, _ ->
+            pan = clamp(pan + panChange)
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .transformable(transformState)
+        ) {
+            Box(
+                modifier = Modifier
+                    .offset { IntOffset(pan.x.roundToInt(), pan.y.roundToInt()) }
+                    .size(960.dp, 1540.dp)
+            ) {
+                commonSections.firstOrNull()?.let { indexed ->
+                    RouteMapNode(
+                        chapter = chapter,
+                        indexed = indexed,
+                        sectionStates = sectionStates,
+                        nodeBgPath = nodeBgPath,
+                        isImportant = true,
+                        modifier = Modifier
+                            .offset(x = 610.dp, y = 30.dp)
+                            .width(250.dp),
+                        onNodeClick = onNodeClick
+                    )
+                }
+
+                val routeOrder = storyRouteOrder(routeSections.keys.toList())
+                routeOrder.forEachIndexed { routeIndex, scope ->
+                    val route = routeSections[scope].orEmpty()
+                    val x = when (scope) {
+                        "dream" -> 56.dp
+                        "stay" -> 360.dp
+                        "bad" -> 660.dp
+                        else -> (56 + routeIndex * 300).dp
+                    }
+                    val yStart = when (scope) {
+                        "dream" -> 170.dp
+                        "stay" -> 260.dp
+                        "bad" -> 350.dp
+                        else -> 220.dp
+                    }
+                    RouteMapLabel(
+                        text = routeLabel(scope),
+                        modifier = Modifier.offset(x = x, y = yStart - 34.dp)
+                    )
+                    route.forEachIndexed { idx, indexed ->
+                        val y = yStart + (idx * 172).dp
+                        RouteMapNode(
+                            chapter = chapter,
+                            indexed = indexed,
+                            sectionStates = sectionStates,
+                            nodeBgPath = nodeBgPath,
+                            isImportant = idx == 0 || isImportantSection(chapter, indexed.value, indexed.index),
+                            modifier = Modifier
+                                .offset(x = x, y = y)
+                                .width(if (idx == 0) 250.dp else 218.dp),
+                            onNodeClick = onNodeClick
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RouteMapLabel(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        fontSize = 13.sp,
+        letterSpacing = 1.8.sp,
+        color = NagiTokens.speakerGold.copy(alpha = 0.78f),
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+private fun RouteMapNode(
+    chapter: Chapter,
+    indexed: IndexedValue<ChapterSection>,
+    sectionStates: Map<String, SectionState>,
+    nodeBgPath: (String) -> String?,
+    isImportant: Boolean,
+    modifier: Modifier = Modifier,
+    onNodeClick: (ChapterSection, Int, SectionState) -> Unit
+) {
+    val index = indexed.index
+    val section = indexed.value
+    val state = sectionStates["${chapter.id}:$index"] ?: SectionState.LOCKED
+    SectionNode(
+        section = section,
+        index = index,
+        state = state,
+        isImportant = isImportant,
+        bgPath = nodeBgPath(section.startNode),
+        modifier = modifier,
+        onClick = { onNodeClick(section, index, state) }
+    )
 }
 
 @Composable
