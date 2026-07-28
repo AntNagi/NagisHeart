@@ -11,6 +11,8 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -173,18 +176,43 @@ private fun BoxScope.OverviewPage(
         val density = LocalDensity.current
         val wPx = with(density) { maxWidth.toPx() }
         val hPx = with(density) { maxHeight.toPx() }
-        // §27.12 single screen, never scrolls — fit the whole 1080x1920 canvas.
-        val s = minOf(wPx / StoryMapLayout.OVERVIEW_W, hPx / StoryMapLayout.OVERVIEW_H)
-        val offX = (wPx - StoryMapLayout.OVERVIEW_W * s) / 2f
-        val offY = (hPx - StoryMapLayout.OVERVIEW_H * s) / 2f
+        // Ant direction (2026-07-28): the overview is a large map viewport,
+        // not a poster fitted into one screen. It starts enlarged and supports
+        // panning/pinch zoom; the system back button remains outside this layer.
+        val baseScale = wPx / StoryMapLayout.OVERVIEW_W
+        var zoom by remember { mutableFloatStateOf(1.28f) }
+        var pan by remember { mutableStateOf(Offset.Zero) }
+        val s = baseScale * zoom
+        val contentW = StoryMapLayout.OVERVIEW_W * s
+        val contentH = StoryMapLayout.OVERVIEW_H * s
+        fun clampPan(value: Offset, scale: Float = s): Offset {
+            val scaledW = StoryMapLayout.OVERVIEW_W * scale
+            val scaledH = StoryMapLayout.OVERVIEW_H * scale
+            return Offset(
+                value.x.coerceIn((wPx - scaledW).coerceAtMost(0f), 0f),
+                value.y.coerceIn((hPx - scaledH).coerceAtMost(0f), 0f)
+            )
+        }
+        val transformState = rememberTransformableState { zoomChange, panChange, _ ->
+            val nextZoom = (zoom * zoomChange).coerceIn(1.28f, 2.2f)
+            val nextScale = baseScale * nextZoom
+            zoom = nextZoom
+            pan = clampPan(pan + panChange, nextScale)
+        }
 
         val lit = chapterIds.mapIndexed { i, id ->
             i to StoryMapLayout.forChapter(id)?.nodes.orEmpty()
                 .any { it.startNode != null && it.startNode in unlocked }
         }.toMap()
 
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            translate(offX, offY) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clipToBounds()
+                .transformable(transformState)
+        ) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                translate(pan.x, pan.y) {
                 val litCount = lit.count { it.value }
 
                 // trail — §27.14: v4 authors this as cubic curves, not orthogonal segments
@@ -235,11 +263,11 @@ private fun BoxScope.OverviewPage(
                 plainText(measurer, "他的世界，正在展开", 72f * s, 283f * s, 43f * s, NodeTitleColor, serif = true, weight = FontWeight.W500)
                 plainText(measurer, "走过的故事会亮起来。点击亮起的章节，靠近那段记忆。", 74f * s, 321f * s, 19f * s, SubtitleColor)
                 plainText(measurer, "点击章节，图片将拉近并展开全部小节", 72f * s, 1788f * s, 15f * s, HintColor, letterSpacing = 3f)
+                }
             }
-        }
 
-        // hit targets + character art for lit chapters
-        StoryMapLayout.overviewLandmarks.forEachIndexed { i, lm ->
+            // Hit targets follow the same zoomed / panned canvas as the art.
+            StoryMapLayout.overviewLandmarks.forEachIndexed { i, lm ->
             val id = chapterIds.getOrNull(i) ?: return@forEachIndexed
             val isLit = lit[i] == true
             val bg = if (isLit) {
@@ -249,7 +277,7 @@ private fun BoxScope.OverviewPage(
             Box(
                 modifier = Modifier
                     .offset {
-                        IntOffset((offX + lm.x * s).roundToInt(), (offY + lm.y * s).roundToInt())
+                        IntOffset((pan.x + lm.x * s).roundToInt(), (pan.y + lm.y * s).roundToInt())
                     }
                     .size(with(density) { (lm.w * s).toDp() }, with(density) { (lm.h * s).toDp() })
                     .clip(CutCornerShape(with(density) { (28f * s).toDp() }))
@@ -281,6 +309,7 @@ private fun BoxScope.OverviewPage(
                     )
                 }
             }
+            }
         }
     }
 }
@@ -303,20 +332,44 @@ private fun BoxScope.ChapterPage(
     val chIndex = chapterIds.indexOf(chapterId)
     val copy = CHAPTER_COPY.getOrNull(chIndex) ?: return
     val measurer = rememberTextMeasurer()
-    val scroll = rememberScrollState()
-    // §27.2 — 240–320ms zoom-in when entering a chapter
+    // A chapter is a large two-dimensional route map.  Keep its authored
+    // geometry together while the viewport pans; do not reduce it to a
+    // vertical Scroll container.
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val density = LocalDensity.current
         val wPx = with(density) { maxWidth.toPx() }
-        val s = wPx / StoryMapLayout.CANVAS_W
+        val hPx = with(density) { maxHeight.toPx() }
+        val baseScale = wPx / StoryMapLayout.CANVAS_W
+        var zoom by remember { mutableFloatStateOf(1.28f) }
+        var pan by remember { mutableStateOf(Offset.Zero) }
+        val s = baseScale * zoom
         val pageH = map.canvasH * s
+        val pageW = StoryMapLayout.CANVAS_W * s
+        fun clampPan(value: Offset, scale: Float = s): Offset {
+            val scaledW = StoryMapLayout.CANVAS_W * scale
+            val scaledH = map.canvasH * scale
+            return Offset(
+                value.x.coerceIn((wPx - scaledW).coerceAtMost(0f), 0f),
+                value.y.coerceIn((hPx - scaledH).coerceAtMost(0f), 0f)
+            )
+        }
+        val transformState = rememberTransformableState { zoomChange, panChange, _ ->
+            val nextZoom = (zoom * zoomChange).coerceIn(1.28f, 2.2f)
+            zoom = nextZoom
+            pan = clampPan(pan + panChange, baseScale * nextZoom)
+        }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scroll)          // §27.3 — chapter pages may scroll
+                .clipToBounds()
+                .transformable(transformState)
         ) {
-            Box(modifier = Modifier.fillMaxWidth().height(with(density) { pageH.toDp() })) {
+            Box(
+                modifier = Modifier
+                    .offset { IntOffset(pan.x.roundToInt(), pan.y.roundToInt()) }
+                    .size(with(density) { pageW.toDp() }, with(density) { pageH.toDp() })
+            ) {
 
                 // ---- image nodes first, so routes and text sit above the art
                 map.nodes.filter { it.kind == NodeKind.IMAGE }.forEach { nd ->
