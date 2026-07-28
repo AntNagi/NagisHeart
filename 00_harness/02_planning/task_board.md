@@ -98,6 +98,7 @@
   2. 已改：【已验证】返回入口按 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 / §7 使用 36×36 轻玻璃、细描边、雪白箭头与双层阴影；未改存档逻辑、空状态结构或三层暗层 token。
   3. 已改：【已验证】在 `http://127.0.0.1:3000/web/` 分别以 393×852、430×932 复现；两尺寸均显示返回箭头与“存档进度”标题，430×932 点击返回后回到主页，console error/warn 为 `[]`。
 - 不适用：未新建派工消息指定的 `PM_AGENT_OUTBOX/dev_reply_wendy_web_save_back_visibility_rework_20260728.md`，因为 `CLAUDE.md` / `ROLE_DEV.md` 禁止新建 dev_reply；结论依现行契约写回本条。
+- DeDe rework 复测（2026-07-28）：393x852 与 430x932 精确视口均通过；存档空状态顶部返回箭头可直接辨识；返回按钮 `36x36`、visible/enabled，点击后均成功返回主页；console error/warn=0。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_save_back_visibility_rerun_20260728.md`；证据：`00_harness/05_reports/validation/web_qa_dede_save_back_visibility_rerun_20260728/`。结论：QA 通过，待 PM 汇总 / Ant 抽查。
 - 最新更新时间：2026-07-28
 
 ### TASK-20260726-001
