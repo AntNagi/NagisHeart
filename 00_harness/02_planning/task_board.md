@@ -93,6 +93,11 @@
 - feibo 更正（2026-07-27）：原"体检 ❌ → 暂不转 Ant"作废。**工具坏不等于业务任务失败**（规则原写错，已改，见 `DEC-20260727-002`）。体检脚本问题归 `TASK-20260726-004`，本条按新链路继续：QA 取证（脚本不可用则人工复现）→ PM 汇总 → Ant 抽查。
 - DeDe QA（2026-07-28）：主页系统级三层暗层、主页操作文字、存档空状态文字均已验证；但 `save_empty_393x852.png` / `save_empty_430x932.png` 中存档页顶部返回箭头在亮背景上几乎不可辨认。结论：业务主体通过，返回入口可见性需小修后再转 Ant 抽查。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_002_003_evidence_20260728.md`。
 - rework 要求（2026-07-28）：只修 Web 存档/系统页返回按钮可见性；保持 §1 三层暗层与空状态结构，不改存档逻辑、不碰 Android/story-data/资源；修后交 Wendy 回报并转 DeDe 复测该点。
+- Wendy 返回入口 rework（2026-07-28，已改，待验）：
+  1. 已改：【已验证】`web/styles/overlays.css` 将系统页 header 提升到背景层之上，返回箭头在存档页亮背景上清晰可见；浏览器实测按钮中心无遮挡。
+  2. 已改：【已验证】返回入口按 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 / §7 使用 36×36 轻玻璃、细描边、雪白箭头与双层阴影；未改存档逻辑、空状态结构或三层暗层 token。
+  3. 已改：【已验证】在 `http://127.0.0.1:3000/web/` 分别以 393×852、430×932 复现；两尺寸均显示返回箭头与“存档进度”标题，430×932 点击返回后回到主页，console error/warn 为 `[]`。
+- 不适用：未新建派工消息指定的 `PM_AGENT_OUTBOX/dev_reply_wendy_web_save_back_visibility_rework_20260728.md`，因为 `CLAUDE.md` / `ROLE_DEV.md` 禁止新建 dev_reply；结论依现行契约写回本条。
 - 最新更新时间：2026-07-28
 
 ### TASK-20260726-001
