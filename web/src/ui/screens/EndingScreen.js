@@ -1,18 +1,25 @@
+import { repoAssetUrl } from '../../utils/assetPath.js';
+
 export class EndingScreen {
   constructor(container, ctx) {
     this._ctx = ctx;
-    const ending = ctx.ending;
-    const bgAssetPath = ctx.bgAssetPath; // e.g. 'bg/true_end.jpg' (assets/ stripped)
-    // Build image src: always prepend ../assets/ to match SceneBackground convention
-    const bgSrc = bgAssetPath ? `../assets/${bgAssetPath}` : this._getDefaultBg(ending);
-
     this.el = document.createElement('div');
     this.el.className = 'screen authority-ending-screen screen-enter';
 
-    const tag = ending?.tag || 'ENDING';
-    const title = ending?.title || '回看已完成';
-    const desc = ending?.description || '';
-    const unlockText = ending?.unlockText || '';
+    const ending = ctx.ending;
+    if (!ending) {
+      console.error('[EndingScreen] missing ending payload; returning to catalog.');
+      container.appendChild(this.el);
+      requestAnimationFrame(() => ctx.router.navigate('start', { openCatalog: true }));
+      return;
+    }
+    const bgAssetPath = ctx.bgAssetPath; // e.g. 'bg/true_end.jpg' (assets/ stripped)
+    const bgSrc = bgAssetPath ? repoAssetUrl(`assets/${bgAssetPath}`) : this._getDefaultBg(ending);
+
+    const tag = ending.tag;
+    const title = ending.title;
+    const desc = ending.description || '';
+    const unlockText = ending.unlockText || '';
 
     this.el.innerHTML = `
       <div class="authority-ending-bg-img"><img src="${bgSrc}" alt="" /></div>
@@ -43,12 +50,12 @@ export class EndingScreen {
   _getDefaultBg(ending) {
     const mood = (ending?.mood || 'normal').toLowerCase();
     const map = {
-      true: '../assets/bg/true_end.jpg',
-      good: '../assets/bg/king.jpg',
-      normal: '../assets/bg/ending_true_nagi_soft_gaze.jpg',
-      bad: '../assets/bg/goal_faraway.jpg',
+      true: repoAssetUrl('assets/bg/true_end.jpg'),
+      good: repoAssetUrl('assets/bg/king.jpg'),
+      normal: repoAssetUrl('assets/bg/ending_true_nagi_soft_gaze.jpg'),
+      bad: repoAssetUrl('assets/bg/goal_faraway.jpg'),
     };
-    return map[mood] || '../assets/bg/true_end.jpg';
+    return map[mood] || repoAssetUrl('assets/bg/true_end.jpg');
   }
 
   destroy() { this.el.remove(); }

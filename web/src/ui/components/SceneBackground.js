@@ -1,3 +1,5 @@
+import { repoAssetUrl } from '../../utils/assetPath.js';
+
 export class SceneBackground {
   constructor(container) {
     this.el = document.createElement('div');
@@ -15,7 +17,7 @@ export class SceneBackground {
     const newImg = document.createElement('img');
     newImg.alt = '';
     newImg.style.opacity = '0';
-    newImg.src = `../assets/${bgPath}`;
+    newImg.src = repoAssetUrl(`assets/${bgPath}`);
 
     // Preload image before showing
     const showImage = () => {
@@ -29,13 +31,13 @@ export class SceneBackground {
 
     newImg.onload = showImage;
     newImg.onerror = () => {
-      // On error, still show the image element (might be partially loaded)
-      showImage();
+      console.error('[SceneBackground] failed to load bg:', bgPath, newImg.src);
     };
 
     // Fallback: if image takes too long, show it anyway after 300ms
     const timeout = setTimeout(() => {
       if (newImg.style.opacity === '0') {
+        console.warn('[SceneBackground] bg load timeout:', bgPath, newImg.src);
         showImage();
       }
     }, 300);

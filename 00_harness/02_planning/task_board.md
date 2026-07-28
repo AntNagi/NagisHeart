@@ -148,6 +148,18 @@
 - DeDe QA（2026-07-28）：无存档 origin 下“存档进度”按钮 count=1、disabled=false；点击进入空状态；空状态两行文案正确；`.save-slot-row`=0；393x852 与 430x932 精确尺寸均通过；console error/warn=[]。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_002_003_evidence_20260728.md`。结论：QA 通过，待 PM 汇总 / Ant 抽查。
 - 最新更新时间：2026-07-28
 
+### TASK-20260728-001
+- 标题：Web 回看完成误用结局页 + 剧情 BG 黑屏
+- 负责人：PM 一一（Web hotfix）
+- 状态：review
+- 优先级：P0
+- 现象：Ant 真机反馈“剧情回看结束页什么玩意？有这个设计吗？还有剧情也不加载 bg”；截图显示 Web 回看完成被渲染成 `ENDING / 回看已完成` 伪结局页，普通剧情页背景近乎黑屏。
+- 范围：`web/src/controller/GameController.js`、`web/src/ui/screens/GameScreen.js`、`web/src/ui/screens/StartScreen.js`、`web/src/ui/screens/EndingScreen.js`、`web/src/ui/components/SceneBackground.js`、`web/src/utils/assetPath.js`；**不碰 Android / story-data / BG mapping / authority / assets**
+- 落地依据：无“剧情回看完成页”authority，因此禁止复用结局页；剧情页必须按 `scene_visuals.json` 的 BG 显示。
+- 完成定义：回看边界不再进入 EndingScreen；剧情/结局 BG 使用仓库根路径解析；语法检查通过；待 Ant 真机刷新验证。
+- PM hotfix：新增 `ReplayComplete` 状态，回看到边界后返回 Home 并自动打开章节目录；新增 `repoAssetUrl()`，剧情与结局背景不再手拼 `../assets/...`；`node --check` 通过。
+- 最新更新时间：2026-07-28
+
 ### TASK-20260721-008
 - 标题：ui-snapshot 工具覆盖不可复现
 - 负责人：Wewe（Web）

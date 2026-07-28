@@ -72,6 +72,10 @@ export class StartScreen {
     });
 
     container.appendChild(this.el);
+
+    if (ctx.openCatalog) {
+      requestAnimationFrame(() => this._openCatalog());
+    }
   }
 
   _closeOverlay() {
