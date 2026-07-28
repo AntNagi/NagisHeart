@@ -9,11 +9,12 @@
 ## 当前优先级
 
 1. `TASK-20260727-003` Android 剧情地图对齐 v7 —— PP 开工
-2. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
-3. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
-4. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
-5. `TASK-20260726-003` Web 存档入口不可点
-6. `TASK-20260721-008` ui-snapshot 可复现性返工
+2. `TASK-20260727-004` 本地未提交杂项归属审计 —— Sai 只读，不阻塞 PP
+3. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
+4. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
+5. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
+6. `TASK-20260726-003` Web 存档入口不可点
+7. `TASK-20260721-008` ui-snapshot 可复现性返工
 
 ---
 
@@ -21,8 +22,8 @@
 
 ### TASK-20260727-003
 - 标题：Android 剧情地图对齐 v7（首版实机整体走形修正）
-- 负责人：Sai（Android，接手 PP）
-- 状态：review
+- 负责人：PP（Android）
+- 状态：preflight
 - 优先级：P0
 - 现象（Ant 实机 + lulu 对照）：剧情地图已能进入，但总览页、第四部、第八部与 v7 authority 走形严重；普通节点退化为卡片网格，连接路径缺失，第八部路线分列与文案不对，总览页不是单屏错落地图，长标题/页脚/子页页头均未按权威呈现。
 - 范围：`android/app/src/main/java/com/antnagi/nagisheart/ui/screen/ChapterScreen.kt` + 可新增一份 Android 布局常量表（如 `StoryMapLayout.kt`）。**不碰 story-data、BG mapping、Web、TT Start、App Icon、资源删除；不把 `design/concepts/story_map_xoxo_v1/` 下 PNG/SVG 复制进 runtime；P2-1 背景暗层归 vignette 任务，不在本条重复。**
@@ -40,30 +41,18 @@
 - 已解除：lulu 已提交 `ab38dcf` 补齐 MinSpec §27.8–§27.16、decision_log、MANIFEST 哈希与 xlsx 补账；PM 已核查 `tools/check-authority.ps1` PASSED 并 push。
 - pre-flight 要求：PP 开工前必须 `git pull`，重读本条与 MinSpec §27；把此前 5 个 pre-flight 问题与 lulu 答复写入回报；确认 scope 后再实现。
 - 完成定义：先做 pre-flight；实现后提交实现说明、文件清单、自检结果、build 结果、风险/未覆盖点。Android 后期不设 QA、不要求截图：PM 初查后转 Ant 实机验收。
-- Sai 接手（2026-07-28，已改，待 Ant 实机验收；commit/push `507cfdf`）：
-  1. 已改（P0-1）：`ChapterScreen.kt` 将普通小节渲染为圆点、序号与带描边标题；不再使用列表卡片底。
-  2. 已改（P0-2）：`StoryMapLayout.kt` 转写 v7 SVG 的章节路径顶点；路径、节点、图片与点击热区共用同一可滚动画布坐标系。
-  3. 已改（P0-3）：第八部 `p8_route` 位于三线共同起点；DREAM/STAY/BAD 三线自同一分叉展开。
-  4. 已改（P0-4）：第八部仅显示 `DREAM · 世界第一`、`STAY · 陪我`、`BAD · 抓住我`；分支节点依真实 section 顺序绑定 D1–D6 / S1–S5 / B1–B7。
-  5. 已改（P0-5）：总览为固定 1080×1920 单屏错落八地标与连接路径，不再为竖向章节列表。
-  6. 已改（P1-1）：标题由布局表提供的行数组渲染，不使用省略号；§27.15 的指定断行落在 UI 配置而非 story-data。
-  7. 已改（P1-2）：页内底部翻章条采用 §27.8 的切角、三行居中信息、箭头与进度条；随内容滚动而非吸底。
-  8. 已改（P1-3）：章节页头采用 §27.16 独立短标题/副标题与 §27.8 的位置、分隔线；总览不显示 `Chapter N` eyebrow 或进度圆点。
-- 【已验证】`powershell -ExecutionPolicy Bypass -File tools/check-authority.ps1` 通过；`node tools/validate.js` 0 error（既有 9 条 hardcoded Ant warning）；`gradle :app:compileDebugKotlin` 退出 0；`gradle :app:packageDebug` 退出 0。
-- 风险/未覆盖：真机已连接，但已安装包与本次 debug APK 的签名不一致；为保留 Ant 的存档，未卸载重装，因此待 Ant 从 Android Studio 安装同签名 APK 后做实机构图验收。`git pull` 因本机 GitHub 凭据缺失失败，`git push` 已成功。
-- 最新更新时间：2026-07-28
+- 最新更新时间：2026-07-27
 
 ### TASK-20260727-004
 - 标题：本地未提交杂项归属审计
 - 负责人：Sai（Android / 仓库整理，只读审计）
-- 状态：done
+- 状态：ready
 - 优先级：P1
 - 现象：当前工作区仍有未提交杂项，包括 Android icon / manifest / mipmap 资源、删除旧 bg、`design/concepts/`、`output/`、render scripts 等；来源与归属不清，继续堆开发会增加 pull/push 冲突和误提交风险。
 - 范围：只读检查 `git status` 当前列出的未提交/未跟踪项；可使用 `rg`、`git diff --stat`、`git diff --name-status`、资源引用搜索。**不修改、不删除、不移动、不提交、不 push；不碰 PP 正在做的 `ChapterScreen.kt` / `StoryMapLayout.kt`；不进入剧情地图 v7 实现。**
 - 落地依据：`CLAUDE.md` / `AGENTS.md` 的交付落账与 scope-only 规则；`00_harness/roles/ROLE_DEV.md` 的 pre-flight / 禁止越权规则；`authority/MANIFEST.md` 的 authority 文件补账规则。
 - 完成定义：输出一份归属审计表到 PM_AGENT_OUTBOX，格式为 `路径 | 类型 | 疑似来源任务/owner | 当前是否被引用 | 建议：提交/回滚/归档/删除/继续保留 | 需要谁确认`；仅给建议，不执行处理。
-- PM 接收（2026-07-28）：Sai 已输出 `00_harness/04_execution/pm/PM_AGENT_OUTBOX/dev_reply_sai_untracked_local_changes_audit_20260727.md`；TT 已确认 App Icon final authority 为 V4 safezone；剧情地图 v7 reference 已归档；Start/Promo output 与 render scripts 冻结不混主线；旧 bg 删除继续冻结待 BG/story-data owner 确认。
-- 最新更新时间：2026-07-28
+- 最新更新时间：2026-07-27
 
 ### TASK-20260726-004
 - 标题：UI 体检脚本（机械对账，取代截图对比）
@@ -78,21 +67,12 @@
 - feibo 认领（2026-07-27）：**工具是我交的，缺陷归我**。哈希落后已在 `e6a3255` 修过，PM 试用时应已同步——需确认其工作区是否为最新；卡死是真缺陷，脚本没有任何超时兜底：`startServer` 端口被占时可能与既有 server 混淆、`puppeteer.launch` 与 `page.evaluate` 均无 timeout、驱动失败时最长可累积数十秒等待。
 - rework 要求（新增）：① **全局超时**（如 120s）到点必须打印已得结果并非零退出，**绝不允许挂死**；② 端口被占用时明确报错退出，不静默复用；③ `puppeteer.launch` / 每次 `evaluate` 加超时；④ 启动即打印"正在启动浏览器…"等进度，避免看起来像卡住；⑤ 清单哈希落后时**默认继续跑并在结尾复述警告**（过期清单仍有参考价值），不因此阻断
 - **本工具不可用期间，业务任务不得因此判失败或滞留**——见 `DEC-20260727-002`
-- Wendy 回报（2026-07-28，已改，待验）：
-  1. 已改：【已验证】`tools/ui-check.js` 增加 120s 全局超时；超时会补齐未测清单、打印已得结果、终止子进程并以 1 退出；`node --check tools/ui-check.js` 退出 0。
-  2. 已改：【已验证】启动前探测 3000 端口；本机实跑遇占用时 0.05s 内明确打印“端口 3000 已被占用”并以 1 退出，没有静默复用。
-  3. 已改：【已验证】`puppeteer.launch` 设 20s 超时并加 Promise 超时兜底；两处 evaluate 均设 8s 超时，浏览器关闭另有 5s 兜底；`rg -n "page\.evaluate|\.evaluate\(" tools/ui-check.js` 已核对无遗漏。
-  4. 已改：【已验证】启动即输出端口检查进度，进入浏览器和各页面时继续输出阶段进度；本机实跑已看到“正在检查本地端口…”。
-  5. 已改：【已验证】authority hash 落后只告警、不直接阻断，并在结尾复述；本机实跑从开头警告继续进入端口检查，结尾再次列出两项 stale hash。
-  6. 已改：【已验证】正常、驱动失败、端口占用、浏览器不可用及全局超时路径统一输出逐条清单；本机端口占用实跑输出 26 个按页面展开的未测项和逐项原因，非零退出。
-- 不适用：未新建派工消息指定的 `PM_AGENT_OUTBOX/dev_reply_wendy_ui_check_rework_20260728.md`，因为 `CLAUDE.md` 红线与 `ROLE_DEV.md` 明确禁止新建 dev_reply/过程文件，结论依现行契约写回本条。
-- 环境限制：【已验证】`git pull` 因 `SEC_E_NO_CREDENTIALS` 失败；当前机器未安装 Puppeteer，且端口 3000 被未知 Node 进程占用，未越权终止他人进程，因此本轮没有取得真实浏览器断言结果。
-- 最新更新时间：2026-07-28
+- 最新更新时间：2026-07-27
 
 ### TASK-20260726-002
 - 标题：Web 系统级页面暗层不足导致元素不可见
-- 负责人：Wendy（Web，接 Wewe 本轮 rework）
-- 状态：rework
+- 负责人：Wewe（Web）
+- 状态：review
 - 优先级：P0
 - 现象（Ant 反馈）：系统级页面几乎没有压暗，白色返回按钮与次要文字糊在亮色背景上看不见；主页"继续/读取存档进度"不可读。
 - 范围：`web/styles/` 暗层相关实现，覆盖全部系统级页面；一并核对 splash 类与 story 类是否同样滞后。**不碰 Android、story-data、资源文件。**
@@ -102,16 +82,7 @@
 - 已改，待验：【已验证】`web/styles/tokens.css`、`web/styles/screens/start.css`、`web/styles/screens/prologue.css` 已按 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 落地系统级三层暗层；复现：旧版 `http://localhost:3001/web/` computed background 为旧两层且无径向暗角，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，主页与存档页返回层 computed background 均为白色高光 + 径向暗角 + 垂直暗层三层，存档页返回按钮在该暗层上可见。
 - PM 初查：条数 2/2 ✅ | push ✅ → 转 QA 取证
 - feibo 更正（2026-07-27）：原"体检 ❌ → 暂不转 Ant"作废。**工具坏不等于业务任务失败**（规则原写错，已改，见 `DEC-20260727-002`）。体检脚本问题归 `TASK-20260726-004`，本条按新链路继续：QA 取证（脚本不可用则人工复现）→ PM 汇总 → Ant 抽查。
-- DeDe QA（2026-07-28）：主页系统级三层暗层、主页操作文字、存档空状态文字均已验证；但 `save_empty_393x852.png` / `save_empty_430x932.png` 中存档页顶部返回箭头在亮背景上几乎不可辨认。结论：业务主体通过，返回入口可见性需小修后再转 Ant 抽查。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_002_003_evidence_20260728.md`。
-- rework 要求（2026-07-28）：只修 Web 存档/系统页返回按钮可见性；保持 §1 三层暗层与空状态结构，不改存档逻辑、不碰 Android/story-data/资源；修后交 Wendy 回报并转 DeDe 复测该点。
-- Wendy 返回入口 rework（2026-07-28，已改，待验）：
-  1. 已改：【已验证】`web/styles/overlays.css` 将系统页 header 提升到背景层之上，返回箭头在存档页亮背景上清晰可见；浏览器实测按钮中心无遮挡。
-  2. 已改：【已验证】返回入口按 `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 / §7 使用 36×36 轻玻璃、细描边、雪白箭头与双层阴影；未改存档逻辑、空状态结构或三层暗层 token。
-  3. 已改：【已验证】在 `http://127.0.0.1:3000/web/` 分别以 393×852、430×932 复现；两尺寸均显示返回箭头与“存档进度”标题，430×932 点击返回后回到主页，console error/warn 为 `[]`。
-- 不适用：未新建派工消息指定的 `PM_AGENT_OUTBOX/dev_reply_wendy_web_save_back_visibility_rework_20260728.md`，因为 `CLAUDE.md` / `ROLE_DEV.md` 禁止新建 dev_reply；结论依现行契约写回本条。
-- DeDe rework 复测（2026-07-28）：393x852 与 430x932 精确视口均通过；存档空状态顶部返回箭头可直接辨识；返回按钮 `36x36`、visible/enabled，点击后均成功返回主页；console error/warn=0。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_save_back_visibility_rerun_20260728.md`；证据：`00_harness/05_reports/validation/web_qa_dede_save_back_visibility_rerun_20260728/`。结论：QA 通过，待 PM 汇总 / Ant 抽查。
-- Ant 追加反馈（2026-07-28）：`Nagi's Heart` 标题层属于 Start/Splash 页，不属于 Home/主页；同时 Start/Splash 页需适配暗角层。PM 已修：Home 移除 `start_title_overlay_v23.svg` 标题层；Splash 在底图与 title/START 图层之间新增系统暗角层，title/START 保持在暗角层上方。
-- 最新更新时间：2026-07-28
+- 最新更新时间：2026-07-27
 
 ### TASK-20260726-001
 - 标题：Android 剧情回顾页排版重构 + 分页装箱
@@ -145,20 +116,7 @@
 - 已改，待验：【已验证】`web/src/ui/screens/StartScreen.js` 移除主页“存档进度”入口对 auto-save 的禁用与无响应分支，`web/src/ui/overlays/SaveLoadOverlay.js` 在无手动存档时进入存档页空状态且不渲染空白槽；依据 `authority/product/NagisHeart_PRD_v2_0.md` §20.1 / §20.2、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §23.3 / §29.2、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §5 / §22.3；复现：旧版 `http://localhost:3001/web/` 无存档时按钮 `disabled=true`、点击后 `overlay=false`，改后 `http://localhost:3000/web/` 左下角水印 `#f4822e5 · 07-27 15:43 +未提交`，按钮 `disabled=false`、点击后 `overlay=true`、显示“还没有手动存档。你可以在剧情中随时保存。”且 `.save-slot-row` 数量为 0。
 - PM 初查：条数 2/2 ✅ | push ✅ → 转 QA 取证
 - feibo 更正（2026-07-27）：原"体检 ❌ → 暂不转 Ant"作废。**工具坏不等于业务任务失败**（规则原写错，已改，见 `DEC-20260727-002`）。体检脚本问题归 `TASK-20260726-004`，本条按新链路继续：QA 取证（脚本不可用则人工复现）→ PM 汇总 → Ant 抽查。
-- DeDe QA（2026-07-28）：无存档 origin 下“存档进度”按钮 count=1、disabled=false；点击进入空状态；空状态两行文案正确；`.save-slot-row`=0；393x852 与 430x932 精确尺寸均通过；console error/warn=[]。报告：`00_harness/04_execution/pm/PM_AGENT_OUTBOX/qa_reply_dede_web_002_003_evidence_20260728.md`。结论：QA 通过，待 PM 汇总 / Ant 抽查。
-- 最新更新时间：2026-07-28
-
-### TASK-20260728-001
-- 标题：Web 回看完成误用结局页 + 剧情 BG 黑屏
-- 负责人：PM 一一（Web hotfix）
-- 状态：review
-- 优先级：P0
-- 现象：Ant 真机反馈“剧情回看结束页什么玩意？有这个设计吗？还有剧情也不加载 bg”；截图显示 Web 回看完成被渲染成 `ENDING / 回看已完成` 伪结局页，普通剧情页背景近乎黑屏。
-- 范围：`web/src/controller/GameController.js`、`web/src/ui/screens/GameScreen.js`、`web/src/ui/screens/StartScreen.js`、`web/src/ui/screens/EndingScreen.js`、`web/src/ui/components/SceneBackground.js`、`web/src/utils/assetPath.js`；**不碰 Android / story-data / BG mapping / authority / assets**
-- 落地依据：无“剧情回看完成页”authority，因此禁止复用结局页；剧情页必须按 `scene_visuals.json` 的 BG 显示。
-- 完成定义：回看边界不再进入 EndingScreen；剧情/结局 BG 使用仓库根路径解析；语法检查通过；待 Ant 真机刷新验证。
-- PM hotfix：新增 `ReplayComplete` 状态，回看到边界后返回 Home 并自动打开章节目录；新增 `repoAssetUrl()`，剧情与结局背景不再手拼 `../assets/...`；`node --check` 通过。
-- 最新更新时间：2026-07-28
+- 最新更新时间：2026-07-27
 
 ### TASK-20260721-008
 - 标题：ui-snapshot 工具覆盖不可复现

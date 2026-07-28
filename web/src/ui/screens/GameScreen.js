@@ -299,10 +299,6 @@ export class GameScreen {
         this._ctx.router.navigate('ending', { ending: state.ending, bgAssetPath: state.bgAssetPath });
         break;
 
-      case GamePhase.ReplayComplete:
-        this._ctx.router.navigate('start', { openCatalog: true });
-        break;
-
       case GamePhase.Error:
         console.error('Game error:', state.errorMessage);
         break;

@@ -16,7 +16,6 @@ export const GamePhase = {
   ChapterEnding: 'ChapterEnding',
   SectionTransition: 'SectionTransition',
   SectionEnding: 'SectionEnding',
-  ReplayComplete: 'ReplayComplete',
 };
 
 export class GameController extends EventTarget {
@@ -385,10 +384,8 @@ export class GameController extends EventTarget {
 
   _navigateToNode(targetId) {
     if (this._isReplayMode && this._replayBoundaryNodes.has(targetId)) {
-      this._isReplayMode = false;
-      this._replayBoundaryNodes.clear();
       this._updateState({
-        phase: GamePhase.ReplayComplete,
+        phase: GamePhase.Ending,
         ending: null,
         errorMessage: 'REPLAY_COMPLETE',
       });
@@ -402,9 +399,7 @@ export class GameController extends EventTarget {
         break;
       case 'endingReached':
         if (this._isReplayMode) {
-          this._isReplayMode = false;
-          this._replayBoundaryNodes.clear();
-          this._updateState({ phase: GamePhase.ReplayComplete, ending: null, errorMessage: 'REPLAY_COMPLETE' });
+          this._updateState({ phase: GamePhase.Ending, ending: null, errorMessage: 'REPLAY_COMPLETE' });
         } else {
           this._showEnding(resolution);
         }

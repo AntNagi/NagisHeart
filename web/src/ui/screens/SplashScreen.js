@@ -5,10 +5,9 @@ export class SplashScreen {
     this.el.className = 'screen splash-screen screen-enter';
     this.el.innerHTML = `
       <div class="start-poster">
-        <img class="start-poster-layer start-poster-bg" src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
-        <div class="start-poster-vignette"></div>
-        <img class="start-poster-layer start-poster-title" src="../design/authority/icon_start_tt/start/layers/start_title_overlay_v23.svg" alt="" />
-        <img class="start-poster-layer start-breathing start-poster-button" src="../design/authority/icon_start_tt/start/layers/start_button_static_v23.svg" alt="" />
+        <img class="start-poster-layer" src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" />
+        <img class="start-poster-layer" src="../design/authority/icon_start_tt/start/layers/start_title_overlay_v23.svg" alt="" />
+        <img class="start-poster-layer start-breathing" src="../design/authority/icon_start_tt/start/layers/start_button_static_v23.svg" alt="" />
         <button class="start-hit" aria-label="Start"></button>
       </div>
     `;
