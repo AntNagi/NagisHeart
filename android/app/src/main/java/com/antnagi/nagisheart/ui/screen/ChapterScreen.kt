@@ -590,15 +590,22 @@ private fun DrawScope.drawImageNodeChrome(measurer: TextMeasurer, nd: MapNode, s
 
 // --- text primitives -----------------------------------------------------
 
+/**
+ * Story-map typography is specified in the 1080px design canvas.  Canvas
+ * coordinates are already scaled to device pixels, so using raw `sp` here
+ * applies the screen density a second time and makes every label enormous.
+ */
+private fun DrawScope.canvasPxToSp(px: Float) = (px / (density * fontScale)).sp
+
 @OptIn(ExperimentalTextApi::class)
-private fun styleOf(
+private fun DrawScope.styleOf(
     size: Float, color: Color, alpha: Float, serif: Boolean, weight: FontWeight, letterSpacing: Float
 ) = TextStyle(
     color = color.copy(alpha = color.alpha * alpha),
-    fontSize = size.sp,
+    fontSize = canvasPxToSp(size),
     fontFamily = if (serif) FontFamily.Serif else FontFamily.Default,
     fontWeight = weight,
-    letterSpacing = letterSpacing.sp
+    letterSpacing = canvasPxToSp(letterSpacing)
 )
 
 @OptIn(ExperimentalTextApi::class)
