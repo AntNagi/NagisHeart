@@ -1856,7 +1856,7 @@ private fun StoryMapImage(
     bgPath: String,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier) {
+    Box(modifier = modifier.clipToBounds()) {
         Image(
             painter = rememberAsyncImagePainter("file:///android_asset/$bgPath"),
             contentDescription = null,
@@ -2068,16 +2068,16 @@ private fun isImportantSection(chapter: Chapter, section: ChapterSection, index:
 private fun storyMapImageAlignment(bgPath: String): Alignment {
     val key = bgPath.lowercase()
     return when {
-        key.contains("first_meet") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.50f)
-        key.contains("vs_u20_japan_kick") -> BiasAlignment(horizontalBias = 0.12f, verticalBias = -0.98f)
-        key.contains("lemontea") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.60f)
+        key.contains("first_meet") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.18f)
+        key.contains("vs_u20_japan_kick") -> BiasAlignment(horizontalBias = 0.12f, verticalBias = -0.96f)
+        key.contains("lemontea") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.86f)
         key.contains("apartment") -> BiasAlignment(horizontalBias = 0f, verticalBias = -1.00f)
         key.contains("easygoing") -> BiasAlignment(horizontalBias = 0f, verticalBias = -1.00f)
         key.contains("nel_start") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.92f)
         key.contains("falling_down") -> BiasAlignment(horizontalBias = 0f, verticalBias = -1.00f)
         key.contains("lolly") -> BiasAlignment(horizontalBias = -0.06f, verticalBias = -0.82f)
         key.contains("birthday_at_home") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.70f)
-        key.contains("hug") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.62f)
+        key.contains("hug") -> BiasAlignment(horizontalBias = -0.34f, verticalBias = -0.18f)
         key.contains("bedroom") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
         key.contains("pillow") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.78f)
         key.contains("wakeup") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.78f)
@@ -2088,7 +2088,7 @@ private fun storyMapImageAlignment(bgPath: String): Alignment {
         key.contains("remeet") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.76f)
         key.contains("back.") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
         key.contains("valentine") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
-        key.contains("bad_impact") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.68f)
+        key.contains("bad_impact") -> BiasAlignment(horizontalBias = 0f, verticalBias = -1.00f)
         key.contains("nagi_with_cat") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.72f)
         key.contains("nagi_at_home_2") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.70f)
         key.contains("nagi_at_home_3") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.68f)
@@ -2097,7 +2097,7 @@ private fun storyMapImageAlignment(bgPath: String): Alignment {
         key.contains("goal_faraway") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.10f)
         key.contains("soft_gaze") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.90f)
         key.contains("pitch") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.84f)
-        key.contains("true_end") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.08f)
+        key.contains("true_end") -> BiasAlignment(horizontalBias = 0f, verticalBias = 0.58f)
         key.contains("king") -> BiasAlignment(horizontalBias = -0.08f, verticalBias = -0.86f)
         key.contains("nagi") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.78f)
         key.contains("face") || key.contains("portrait") -> BiasAlignment(horizontalBias = 0f, verticalBias = -0.82f)
