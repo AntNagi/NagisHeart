@@ -15,6 +15,7 @@
   padding: 14px 16px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   background: linear-gradient(to right,
     rgba(16, 24, 39, 0.48) 0%,
@@ -25,7 +26,7 @@
   font-size: var(--fs-choice);
   line-height: var(--lh-choice);
   color: var(--gold-100);
-  text-align: left;
+  text-align: center;
   transition: background var(--duration-fast), transform var(--duration-fast);
   cursor: pointer;
 }
