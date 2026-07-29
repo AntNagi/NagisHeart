@@ -11,7 +11,7 @@ internal data class StoryChapterPresentation(
 internal val storyChapterPresentations = mapOf(
     "part1" to StoryChapterPresentation(
         "CHAPTER 01", "第一部", "初见",
-        "从作战室到 U-20，日本第一次看见他的名字。", "p1"
+        "从作战室到 U-20，日本第一次看见他的名字。", "c1a"
     ),
     "part2" to StoryChapterPresentation(
         "CHAPTER 02", "第二部", "关系确立",
