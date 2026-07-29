@@ -123,18 +123,20 @@ export class GameController extends EventTarget {
     this._backlog = [];
     const resolution = this._engine.resolve(startNode, this._gameState);
     if (resolution.type === 'found') {
+      const bgPath = resolution.visual?.bg?.replace(/^assets\//, '') || null;
       this._pendingNodeAfterTransition = resolution;
       this._updateState({
         phase: GamePhase.SectionTransition,
         currentNodeId: '',
         sceneTitle: '',
-        bgAssetPath: null,
+        bgAssetPath: bgPath,
         speaker: '',
         text: '',
         choices: [],
         sectionTransition: {
           chapterName: chapter?.name || '',
           sectionTitle: chapter?.sections[sectionIndex]?.title || '',
+          sectionLabel: this._sectionLabel(sectionIndex),
         },
       });
     } else {
@@ -269,13 +271,15 @@ export class GameController extends EventTarget {
       }
       case GamePhase.SectionEnding: {
         if (this._pendingSectionOpening) {
-          const { chapterName, sectionTitle, newSectionIndex, found } = this._pendingSectionOpening;
+          const { chapterName, sectionTitle, sectionLabel, newSectionIndex, found } = this._pendingSectionOpening;
+          const bgPath = found?.visual?.bg?.replace(/^assets\//, '') || null;
           this._pendingSectionOpening = null;
           this._currentSectionIndex = newSectionIndex;
           this._pendingNodeAfterTransition = found;
           this._updateState({
             phase: GamePhase.SectionTransition,
-            sectionTransition: { chapterName, sectionTitle },
+            bgAssetPath: bgPath,
+            sectionTransition: { chapterName, sectionTitle, sectionLabel },
           });
         } else {
           const pending = this._pendingNodeAfterTransition;
@@ -436,6 +440,14 @@ export class GameController extends EventTarget {
     this._enterNode(pending);
   }
 
+  _sectionLabel(sectionIndex) {
+    const numerals = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+    const n = sectionIndex + 1;
+    if (n <= 10) return `第${numerals[n - 1]}节`;
+    if (n < 20) return `第十${numerals[n - 11]}节`;
+    return `第${n}节`;
+  }
+
   _showPendingSectionOpening(pending) {
     if (!pending) return false;
     const found = typeof pending === 'string' ? this._engine.resolve(pending, this._gameState) : pending;
@@ -447,15 +459,18 @@ export class GameController extends EventTarget {
 
     const section = chapter.sections[sectionIndex];
     if (!section?.title) return false;
+    const bgPath = found.visual?.bg?.replace(/^assets\//, '') || null;
 
     this._pendingNodeAfterTransition = found;
     this._currentChapterId = chapter.id;
     this._currentSectionIndex = sectionIndex;
     this._updateState({
       phase: GamePhase.SectionTransition,
+      bgAssetPath: bgPath,
       sectionTransition: {
         chapterName: chapter.name,
         sectionTitle: section.title,
+        sectionLabel: this._sectionLabel(sectionIndex),
       },
     });
     return true;
@@ -534,6 +549,7 @@ export class GameController extends EventTarget {
             this._pendingSectionOpening = {
               chapterName: chapter.name,
               sectionTitle: newSection?.title || '',
+              sectionLabel: this._sectionLabel(newSectionIndex),
               newSectionIndex,
               found,
             };

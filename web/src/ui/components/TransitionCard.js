@@ -57,19 +57,21 @@ export class TransitionCard {
     });
   }
 
-  showSectionOpening({ chapterName, sectionTitle }) {
+  showSectionOpening({ sectionLabel, sectionTitle }) {
     this.el.style.display = '';
-    this.el.className = 'authority-chapter-opening';
+    this.el.className = 'authority-section-opening';
     this.el.innerHTML = `
-      <div class="authority-opening-bg"></div>
-      <div class="authority-opening-content">
-        <div class="authority-opening-eyebrow">Section</div>
-        <div class="authority-opening-divider"></div>
-        <div class="authority-opening-name">${chapterName}</div>
-        <div class="authority-opening-title">${sectionTitle}</div>
-        <div class="authority-opening-desc">轻触继续，进入本节内容。</div>
+      <div class="authority-section-shade"></div>
+      <div class="authority-section-panel">
+        <div class="authority-section-label">
+          <span></span>
+          <b>Section Opening</b>
+        </div>
+        <div class="authority-section-index">${sectionLabel || '第一节'}</div>
+        <div class="authority-section-title">${sectionTitle}</div>
+        <div class="authority-section-desc">轻触继续，进入本节内容。</div>
+        <div class="authority-section-line"></div>
       </div>
-      <div class="authority-opening-tap">轻触继续</div>
     `;
     this.el.style.cursor = 'pointer';
   }
