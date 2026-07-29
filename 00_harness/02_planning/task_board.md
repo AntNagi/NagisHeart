@@ -59,6 +59,7 @@
   8. 已改：八章子页统一使用 `CHAPTER NN`、短标题与权威副标题，返回按钮继续使用主系统固定 `NagiIconButton`。
 - 2026-07-29 额外已改：第八章移除运行时横向拖动 / 缩放入口，改为顶部一次三叉门牌，下面 DREAM → STAY → BAD 三个满宽纵向分区；每个分区标题后保留净空，关键图与其他章节同尺寸。
 - 2026-07-29 构建证据：【已验证】Gradle 8.13 + Android Studio JBR 执行 `:app:compileDebugKotlin` 成功，随后 `:app:assembleDebug` 成功；APK 为 `android/app/build/outputs/apk/debug/app-debug.apk`。当前无可用 ADB 设备，实机视觉由 Ant 验收。
+- 2026-07-29 提交状态：本地提交 `2fd3997`（`android: align story map with approved glass layout`）已生成；`git push` 因 Windows Schannel 无可用 GitHub 凭证失败，代码仍在当前本地 main，待凭证恢复后推送。
 - 最新更新时间：2026-07-29
 
 ### TASK-20260727-004
