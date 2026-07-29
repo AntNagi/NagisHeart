@@ -81,10 +81,10 @@
   --glass-panel-blur: blur(16px) saturate(0.92);
 
   /* ── Dialog tokens ── */
-  --dialog-card-bg: linear-gradient(to bottom, rgba(27, 36, 54, 0.56), rgba(20, 31, 49, 0.52));
+  --dialog-card-bg: linear-gradient(to bottom, rgba(27, 36, 54, 0.92), rgba(20, 31, 49, 0.96));
   --dialog-border: rgba(255, 255, 255, 0.08);
   --dialog-scrim: rgba(9, 14, 24, 0.40);
-  --dialog-shadow: 0 18px 42px rgba(0, 0, 0, 0.36);
+  --dialog-shadow: 0 18px 42px rgba(0, 0, 0, 0.46);
   --dialog-inner-highlight: linear-gradient(to bottom, rgba(247, 249, 252, 0.05), transparent 36%);
 
   /* ── Dialogue box tokens (Android TASK-20260723-002: 3-stop top→bottom) ── */

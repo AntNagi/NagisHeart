@@ -621,8 +621,6 @@
   max-width: 364px;
   min-height: 140px;
   background: var(--dialog-card-bg);
-  backdrop-filter: blur(16px) saturate(0.92);
-  -webkit-backdrop-filter: blur(16px) saturate(0.92);
   border: 1px solid var(--dialog-border);
   clip-path: var(--clip-cut-md);
   padding: 22px 22px 18px;
