@@ -4186,7 +4186,7 @@
       {
         "id": "e_invite_d022",
         "speaker": "一一",
-        "text": "欢迎回来，{{playerName}}小姐。"
+        "text": "欢迎回来，{{playerName}}大小姐。"
       },
       {
         "id": "e_invite_d023",
@@ -4223,7 +4223,7 @@
       {
         "id": "e_invite_d029",
         "speaker": "一一",
-        "text": "欢迎来到{{playerName}}小姐的公寓，Nagi少爷。"
+        "text": "欢迎来到{{playerName}}大小姐的公寓，Nagi少爷。"
       },
       {
         "id": "e_invite_d030",
