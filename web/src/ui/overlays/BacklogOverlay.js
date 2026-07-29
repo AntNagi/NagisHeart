@@ -69,6 +69,11 @@ export class BacklogOverlay {
     this.el.innerHTML = html;
   }
 
+  resetToFirstPage() {
+    this._currentPage = 0;
+    this._render();
+  }
+
   _bindEvents() {
     this.el.addEventListener('click', (e) => {
       e.stopPropagation();

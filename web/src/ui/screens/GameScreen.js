@@ -179,6 +179,7 @@ export class GameScreen {
       controller: this._controller,
       onClose: () => this._closeOverlay(),
     });
+    this._activeOverlay.resetToFirstPage();
   }
 
   _openChapterSelect() {

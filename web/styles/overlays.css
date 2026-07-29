@@ -79,6 +79,15 @@
   visibility: hidden;
 }
 
+.backlog-overlay .overlay-title {
+  visibility: visible;
+}
+
+.backlog-overlay .overlay-back-btn {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 .overlay-spacer {
   width: 36px;
 }
@@ -329,8 +338,6 @@
 /* ── Backlog (paged, no scroll) ── */
 .backlog-overlay {
   background: transparent;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .recap-page {
