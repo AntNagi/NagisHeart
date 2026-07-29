@@ -16,21 +16,56 @@
 
 .overlay-header {
   display: flex;
-  align-items: center;
-  height: 44px;
-  padding: 0 var(--space-md);
+  align-items: flex-start;
+  height: 52px;
+  padding: 14px 17px 0;
   flex-shrink: 0;
 }
 
 .overlay-back-btn {
-  font-size: 18px;
-  color: var(--text-secondary);
+  position: relative;
   width: 36px;
   height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(ellipse at center, rgba(247, 249, 252, 0.08), transparent 66%),
+    linear-gradient(to bottom, rgba(15, 24, 39, 0.34), rgba(15, 24, 39, 0.22));
+  backdrop-filter: blur(12px) saturate(0.92);
+  -webkit-backdrop-filter: blur(12px) saturate(0.92);
+  clip-path: var(--clip-cut-sm);
+  color: rgba(247, 249, 252, 0.94);
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.42));
+  font-size: 0;
   pointer-events: auto;
+  cursor: pointer;
+  transition: opacity var(--duration-fast);
+}
+
+.overlay-back-btn::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: currentColor;
+  -webkit-mask: url("../../assets/ui/svg/ic_back.svg") center / contain no-repeat;
+  mask: url("../../assets/ui/svg/ic_back.svg") center / contain no-repeat;
+  opacity: 0.96;
+  filter:
+    drop-shadow(0 1px 2px rgba(0, 0, 0, 0.64))
+    drop-shadow(0 0 8px rgba(247, 249, 252, 0.20));
+}
+
+.overlay-back-btn:hover {
+  opacity: 0.9;
+}
+
+.overlay-back-btn:focus-visible {
+  outline: 1px solid rgba(215, 190, 134, 0.72);
+  outline-offset: 2px;
 }
 
 .overlay-title {

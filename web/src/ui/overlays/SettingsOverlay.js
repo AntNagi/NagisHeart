@@ -32,7 +32,7 @@ export class SettingsOverlay {
       <div class="system-bg"><img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" /></div>
       <div class="system-bg-overlay"></div>
       <div class="overlay-header">
-        <button class="overlay-back-btn" data-action="close">←</button>
+        <button class="overlay-back-btn" data-action="close" aria-label="返回">←</button>
         <span class="overlay-title">系统设置</span>
         <span class="overlay-spacer"></span>
       </div>
