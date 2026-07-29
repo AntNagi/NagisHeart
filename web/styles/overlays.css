@@ -600,186 +600,119 @@
   text-align: right;
 }
 
-/* ── Gallery overlay (system-level bg + glass panel) ── */
+/* ── Gallery overlay: four-ending staggered wall ── */
 .gallery-overlay {
   background: transparent;
 }
 
-.gallery-panel {
+.gallery-overlay .overlay-header {
+  height: 52px;
+  position: relative;
+  z-index: 2;
+}
+
+.gallery-overlay .overlay-body {
   position: relative;
   z-index: 1;
   flex: 1;
-  margin: 0 18px 34px;
-  padding: 18px;
-  background: var(--glass-panel-bg);
-  border: 1px solid var(--glass-panel-border);
-  backdrop-filter: var(--glass-panel-blur);
-  -webkit-backdrop-filter: var(--glass-panel-blur);
-  clip-path: var(--clip-cut-md);
-  overflow-y: auto;
+  min-height: 0;
+  margin: 14px 16px 28px;
+  padding: 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(247, 249, 252, 0.08), transparent 42%),
+    linear-gradient(to bottom, rgba(16, 24, 39, 0.18), rgba(16, 24, 39, 0.30) 44%, rgba(16, 24, 39, 0.50));
+}
+
+.gallery-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.gallery-hero h2 {
+  margin: 0;
+  color: rgba(247, 249, 252, 0.94);
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.gallery-hero small {
+  flex-shrink: 0;
+  padding-bottom: 3px;
+  color: rgba(244, 241, 234, 0.66);
+  font-size: 14px;
+  letter-spacing: 0.08em;
 }
 
 .gallery-grid {
+  height: calc(100% - 53px);
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+  align-items: start;
+  align-content: start;
+  overflow: hidden;
 }
 
-.gallery-empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 14px;
-  padding-top: 60px;
-}
-
-.gallery-tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.gallery-tab {
-  flex: 1;
-  padding: 10px 0;
-  background: var(--glass-panel-bg);
-  border: 1px solid var(--glass-panel-border);
-  color: var(--text-secondary);
-  font-size: 13px;
-  cursor: pointer;
-  clip-path: var(--clip-cut-sm);
-  transition: all 0.2s;
-  font-weight: 400;
-}
-
-.gallery-tab.active {
-  background: var(--accent-gold);
-  color: var(--bg-dark);
-  border-color: var(--accent-gold);
-  font-weight: 500;
-}
-
-.gallery-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 12px;
-  min-height: 120px;
-  border: 1px solid var(--glass-panel-border);
-  clip-path: var(--clip-cut-sm);
-  text-align: center;
-  gap: 6px;
-}
-
-.gallery-card-unlocked {
-  background: var(--glass-panel-bg);
-}
-
-.gallery-card-locked {
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0.6;
-}
-
-.gallery-card-emoji {
-  font-size: 28px;
-}
-
-.gallery-card-tag {
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-}
-
-.gallery-card-title {
-  font-size: 13px;
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-/* ─ Memory cards (per HTML authority) ─ */
-.memory-card {
-  aspect-ratio: 3 / 4;
-  padding: 0;
+.gallery-overlay .memory-card.ending-memory {
+  aspect-ratio: 9 / 13.2;
+  min-height: 0;
+  padding: 13px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
   background:
-    linear-gradient(to top, rgba(16, 24, 39, 0.88), rgba(16, 24, 39, 0.12)),
-    var(--img, none) center / cover no-repeat;
+    linear-gradient(to bottom, rgba(5, 8, 15, 0.02) 0%, rgba(5, 8, 15, 0.04) 46%, rgba(5, 8, 15, 0.72) 100%),
+    var(--img, none) var(--crop, center) / cover no-repeat;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
   clip-path: var(--clip-cut-sm);
-  font-size: 14px;
-  color: var(--text-primary);
-  overflow: hidden;
-  position: relative;
-  transition: transform var(--duration-fast);
 }
 
-.memory-card:hover {
-  transform: scale(1.02);
-}
-
-.memory-card span {
-  margin-top: 6px;
-  color: rgba(247, 249, 252, 0.56);
-  font-size: 12px;
-  padding: 0 12px 12px;
-}
-
-.memory-card.locked {
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(247, 249, 252, 0.56);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-/* ─ Ending cards (Android TASK-20260723-002: BG + bottom scrim + tag/title) ─ */
-.ending-card {
-  padding: 0;
-  aspect-ratio: 3 / 4;
-  background: var(--img, none) center var(--crop-y, 35%) / cover no-repeat;
-  position: relative;
-  overflow: hidden;
-  transition: transform var(--duration-fast);
-}
-
-.ending-card:hover {
-  transform: scale(1.02);
-}
-
-.ending-card-scrim {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 32%;
-  background: linear-gradient(to bottom, transparent 0%, rgba(16, 24, 39, 0.68) 100%);
-  pointer-events: none;
-}
-
-.ending-card-info {
-  position: relative;
-  z-index: 1;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.ending-card-tag {
-  font-size: 10px;
-  letter-spacing: 1.2px;
+.gallery-overlay .ending-tag {
   color: var(--gold-100);
+  font-size: 10px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 500;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
 
-.ending-card-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(247, 249, 252, 0.96);
-  line-height: 1.3;
+.gallery-overlay .ending-title {
+  margin-top: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.32;
+  white-space: nowrap;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.62);
+}
+
+.gallery-overlay .ending-title.long {
+  font-size: 13px;
+  letter-spacing: -0.02em;
+}
+
+.gallery-overlay .memory-card:nth-child(even) {
+  margin-top: 14px;
+}
+
+.gallery-overlay .memory-card.locked {
+  background:
+    linear-gradient(to bottom, rgba(5, 8, 15, 0.10), rgba(5, 8, 15, 0.74)),
+    rgba(255, 255, 255, 0.04);
+  color: rgba(247, 249, 252, 0.56);
+}
+
+.gallery-overlay .memory-card.locked .ending-tag {
+  color: rgba(215, 190, 134, 0.52);
+}
+
+.gallery-overlay .memory-card.locked .ending-title {
+  color: rgba(247, 249, 252, 0.56);
 }

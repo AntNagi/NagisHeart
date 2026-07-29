@@ -1,27 +1,35 @@
-// Memory items: CG and END mixed in single grid per HTML authority
-// Ending cards use BG image + bottom scrim + tag/title per Android TASK-20260723-002
-const MEMORY_ITEMS = [
-  // CG items (placeholder - actual CG tracking not implemented)
-  { type: 'cg', id: 'cg_01', label: 'CG 01', img: null },
-  { type: 'cg', id: 'cg_02', label: 'CG 02', img: null },
-  // END items — with BG and crop rule per ending mood
-  { type: 'end', id: 'end_true', label: 'TRUE END', mood: 'true',
-    img: 'assets/bg/true_end.jpg', cropY: '35%' },
-  { type: 'end', id: 'end_good', label: 'GOOD END', mood: 'good',
-    img: 'assets/bg/king.jpg', cropY: '35%' },
-  { type: 'end', id: 'end_normal', label: 'NORMAL END', mood: 'normal',
-    img: 'assets/bg/ending_true_nagi_soft_gaze.jpg', cropY: '21%' },
-  { type: 'end', id: 'end_bad', label: 'BAD END', mood: 'bad',
-    img: 'assets/bg/goal_faraway.jpg', cropY: '35%' },
+// Latest UI authority: the gallery is a four-ending wall, without regular CG cards.
+const ENDING_ITEMS = [
+  {
+    id: 'end_true',
+    tag: 'TRUE END',
+    title: '世界第一，与他',
+    img: '../../assets/bg/true_end.jpg',
+    crop: 'center 34%',
+  },
+  {
+    id: 'end_good',
+    tag: 'GOOD END',
+    title: '那么完美，那么爱他',
+    img: '../../assets/bg/king.jpg',
+    crop: 'center 30%',
+    longTitle: true,
+  },
+  {
+    id: 'end_normal',
+    tag: 'NORMAL END',
+    title: '普通情侣',
+    img: '../../assets/bg/ending_true_nagi_soft_gaze.jpg',
+    crop: 'center 18%',
+  },
+  {
+    id: 'end_bad',
+    tag: 'BAD END',
+    title: '好麻烦',
+    img: '../../assets/bg/goal_faraway.jpg',
+    crop: 'center 64%',
+  },
 ];
-
-// Ending definitions for tag + title display
-const ENDING_DEFS = {
-  end_true:   { tag: 'TRUE END',   title: '世界第一，与你' },
-  end_good:   { tag: 'GOOD END',   title: '那么完美，那么爱他' },
-  end_normal: { tag: 'NORMAL END', title: '普通情侣' },
-  end_bad:    { tag: 'BAD END',    title: '好麻烦' },
-};
 
 export class GalleryOverlay {
   constructor(container, { controller, onClose }) {
@@ -37,35 +45,18 @@ export class GalleryOverlay {
 
   _render() {
     const unlockedEndings = this._controller.getUnlockedEndings();
+    const unlockedCount = ENDING_ITEMS.filter(item => unlockedEndings.has(item.id)).length;
 
-    const cardsHtml = MEMORY_ITEMS.map(item => {
-      const isUnlocked = item.type === 'end' ? unlockedEndings.has(item.id) : false;
-      
-      if (item.type === 'end' && isUnlocked) {
-        const def = ENDING_DEFS[item.id] || { tag: item.label, title: '' };
-        return `
-          <div class="memory-card ending-card" style="--img:url('${item.img}');--crop-y:${item.cropY || '35%'}">
-            <div class="ending-card-scrim"></div>
-            <div class="ending-card-info">
-              <span class="ending-card-tag">${def.tag}</span>
-              <span class="ending-card-title">${def.title}</span>
-            </div>
-          </div>
-        `;
-      }
-      if (item.type === 'end' && !isUnlocked) {
-        return `
-          <div class="memory-card locked">
-            ???
-            <span>未解锁</span>
-          </div>
-        `;
-      }
-      // CG card (placeholder)
+    const cardsHtml = ENDING_ITEMS.map(item => {
+      const isUnlocked = unlockedEndings.has(item.id);
+      const cardStyle = isUnlocked
+        ? ` style="--img:url('${item.img}');--crop:${item.crop}"`
+        : '';
+
       return `
-        <div class="memory-card cg-card locked">
-          ???
-          <span>未解锁</span>
+        <div class="memory-card ending-memory${isUnlocked ? '' : ' locked'}"${cardStyle}>
+          <div class="ending-tag">${isUnlocked ? item.tag : '???'}</div>
+          <div class="ending-title${item.longTitle ? ' long' : ''}">${isUnlocked ? item.title : '未解锁'}</div>
         </div>
       `;
     }).join('');
@@ -74,12 +65,15 @@ export class GalleryOverlay {
       <div class="system-bg"><img src="../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png" alt="" /></div>
       <div class="system-bg-overlay"></div>
       <div class="overlay-header">
-        <button class="overlay-back-btn" data-action="close">←</button>
-        <span class="overlay-title">回忆画廊</span>
+        <button class="overlay-back-btn" data-action="close" aria-label="返回">←</button>
+        <span class="overlay-title" aria-hidden="true"></span>
         <span class="overlay-spacer"></span>
       </div>
       <div class="overlay-body">
-        <h2 class="overlay-heading">回忆画廊</h2>
+        <div class="gallery-hero">
+          <h2>回忆画廊</h2>
+          <small>已解锁 ${unlockedCount} / ${ENDING_ITEMS.length}</small>
+        </div>
         <div class="gallery-grid">
           ${cardsHtml}
         </div>
