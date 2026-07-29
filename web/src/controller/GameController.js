@@ -134,7 +134,27 @@ export class GameController extends EventTarget {
     this._backlog = [];
     const ch = this._nodeToChapter.get('p1');
     this._currentChapterId = ch ? ch.id : '';
-    this._navigateToNode('p1');
+    this._currentSectionIndex = 0;
+    this._isReplayMode = false;
+    this._replayBoundaryNodes.clear();
+    this._pendingNodeAfterTransition = 'p1';
+    this._pendingNextChapter = null;
+    this._pendingSectionOpening = null;
+    this._updateState({
+      phase: GamePhase.ChapterTransition,
+      currentNodeId: '',
+      sceneTitle: '',
+      bgAssetPath: null,
+      speaker: '',
+      text: '',
+      choices: [],
+      chapterTransition: {
+        chapterName: ch?.name || '第一部',
+        chapterTitle: ch?.title || '',
+        timeRange: ch?.timeRange || null,
+      },
+      sectionTransition: null,
+    });
   }
 
   async continueGame() {
