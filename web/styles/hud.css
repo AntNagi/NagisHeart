@@ -72,6 +72,7 @@
 
 /* Title chip */
 .hud-scene-title {
+  position: relative;
   font-size: 13px;
   font-weight: 500;
   font-family: var(--font-sans);
@@ -87,6 +88,17 @@
   white-space: nowrap;
   text-align: left;
   text-shadow: 0 2px 14px var(--black-48);
+}
+
+.hud-scene-title::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 6px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(226, 196, 133, 0.72), rgba(226, 196, 133, 0.24) 56%, transparent 100%);
+  pointer-events: none;
 }
 
 /* Icon buttons */
