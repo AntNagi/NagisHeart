@@ -1747,6 +1747,7 @@ private fun StoryGlassChapterCard(
     onClick: () -> Unit
 ) {
     val presentation = storyChapterPresentations[chapter.id]
+    val overviewSubtitle = "${chapter.name}｜${chapter.title}"
     Box(
         modifier = modifier
             .height(284.dp)
@@ -1807,7 +1808,7 @@ private fun StoryGlassChapterCard(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = if (isOpen) presentation?.number ?: chapter.name else questionMarks(chapter.name),
+                text = if (isOpen) chapter.name else questionMarks(chapter.name),
                 fontFamily = FontFamily.Serif,
                 fontSize = 22.sp,
                 lineHeight = 25.sp,
@@ -1817,8 +1818,7 @@ private fun StoryGlassChapterCard(
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = if (isOpen) presentation?.subtitle.orEmpty()
-                else questionMarks(presentation?.subtitle.orEmpty()),
+                text = if (isOpen) overviewSubtitle else questionMarks(overviewSubtitle),
                 fontFamily = FontFamily.Serif,
                 fontSize = 11.sp,
                 lineHeight = 17.sp,
