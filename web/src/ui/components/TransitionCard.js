@@ -76,34 +76,6 @@ export class TransitionCard {
     this.el.style.cursor = 'pointer';
   }
 
-  showSectionEnding({ chapterName, sectionTitle, nextLabel, onCatalog, onNext }) {
-    this.el.style.display = '';
-    this.el.className = 'authority-chapter-ending';
-    this.el.innerHTML = `
-      <div class="authority-ending-bg"></div>
-      <div class="authority-ending-content">
-        <div class="authority-clear-label">Section Clear</div>
-        <div class="authority-clear-divider"></div>
-        <div class="authority-clear-name">${chapterName}</div>
-        <div class="authority-clear-title">${sectionTitle}</div>
-        <div class="authority-clear-desc">本节完成。下一段故事已经在门后等着。</div>
-      </div>
-      <div class="authority-ending-actions">
-        <div class="authority-ending-continue" data-action="next">${nextLabel || '进入下一节'}</div>
-        <div class="authority-ending-home" data-action="catalog">返回主页</div>
-      </div>
-    `;
-
-    this.el.querySelector('[data-action="catalog"]')?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (onCatalog) onCatalog();
-    });
-    this.el.querySelector('[data-action="next"]')?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (onNext) onNext();
-    });
-  }
-
   hide() {
     this.el.style.display = 'none';
     this.el.innerHTML = '';

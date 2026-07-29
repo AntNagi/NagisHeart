@@ -15,7 +15,6 @@ export const GamePhase = {
   ChapterTransition: 'ChapterTransition',
   ChapterEnding: 'ChapterEnding',
   SectionTransition: 'SectionTransition',
-  SectionEnding: 'SectionEnding',
 };
 
 export class GameController extends EventTarget {
@@ -50,7 +49,6 @@ export class GameController extends EventTarget {
     this._currentSectionIndex = 0;
     this._pendingNodeAfterTransition = null;
     this._pendingNextChapter = null;
-    this._pendingSectionOpening = null;
     this._isReplayMode = false;
     this._replayBoundaryNodes = new Set();
 
@@ -160,7 +158,6 @@ export class GameController extends EventTarget {
     const resolution = this._engine.resolve('p1', this._gameState);
     this._pendingNodeAfterTransition = resolution.type === 'found' ? resolution : 'p1';
     this._pendingNextChapter = null;
-    this._pendingSectionOpening = null;
     this._updateState({
       phase: GamePhase.ChapterTransition,
       currentNodeId: '',
@@ -269,25 +266,6 @@ export class GameController extends EventTarget {
         this._enterPendingNode(pending);
         break;
       }
-      case GamePhase.SectionEnding: {
-        if (this._pendingSectionOpening) {
-          const { chapterName, sectionTitle, sectionLabel, newSectionIndex, found } = this._pendingSectionOpening;
-          const bgPath = found?.visual?.bg?.replace(/^assets\//, '') || null;
-          this._pendingSectionOpening = null;
-          this._currentSectionIndex = newSectionIndex;
-          this._pendingNodeAfterTransition = found;
-          this._updateState({
-            phase: GamePhase.SectionTransition,
-            bgAssetPath: bgPath,
-            sectionTransition: { chapterName, sectionTitle, sectionLabel },
-          });
-        } else {
-          const pending = this._pendingNodeAfterTransition;
-          this._pendingNodeAfterTransition = null;
-          this._enterPendingNode(pending);
-        }
-        break;
-      }
     }
   }
 
@@ -357,7 +335,6 @@ export class GameController extends EventTarget {
     }
     if (nextSectionIndex < chapter.sections.length) {
       const nextStartNode = chapter.sections[nextSectionIndex].startNode;
-      this._currentSectionIndex = nextSectionIndex;
       this._backlog = [];
       this._navigateToNode(nextStartNode);
     } else {
@@ -546,18 +523,16 @@ export class GameController extends EventTarget {
           const oldSection = chapter?.sections[this._currentSectionIndex];
           const newSection = chapter?.sections[newSectionIndex];
           if (oldSection?.title) {
-            this._pendingSectionOpening = {
+            const bgPath = found?.visual?.bg?.replace(/^assets\//, '') || null;
+            this._currentSectionIndex = newSectionIndex;
+            this._pendingNodeAfterTransition = found;
+            this._updateState({
+              phase: GamePhase.SectionTransition,
+              bgAssetPath: bgPath,
+              sectionTransition: {
               chapterName: chapter.name,
               sectionTitle: newSection?.title || '',
               sectionLabel: this._sectionLabel(newSectionIndex),
-              newSectionIndex,
-              found,
-            };
-            this._updateState({
-              phase: GamePhase.SectionEnding,
-              sectionTransition: {
-                chapterName: chapter.name,
-                sectionTitle: oldSection.title,
               },
             });
             return;
