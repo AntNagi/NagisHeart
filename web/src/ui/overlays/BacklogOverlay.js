@@ -4,7 +4,7 @@ export class BacklogOverlay {
     this._entries = controller.getBacklog();
     this._pageSize = 9;
     this._totalPages = Math.max(1, Math.ceil(this._entries.length / this._pageSize));
-    this._currentPage = this._totalPages - 1;
+    this._currentPage = 0;
 
     this.el = document.createElement('div');
     this.el.className = 'overlay backlog-overlay';
