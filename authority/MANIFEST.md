@@ -1,7 +1,7 @@
 # NagisHeart 权威文档清单（MANIFEST）
 
 > 本目录是全仓库唯一的权威文档存放地。雷打不动。
-> 最后修订：2026-07-27（存档进度无手动存档空状态；c3 开放日伪选项）
+> 最后修订：2026-07-29（剧情地图原生记忆地图 redesign）
 
 ---
 
@@ -19,11 +19,11 @@
 | # | 权威 | 文件 | MD5 | 最近修订 |
 |---|---|---|---|---|
 | 1 | 产品 PRD | `product/NagisHeart_PRD_v2_0.md` | `18FB495781E060C9EDBA8FA5DB1DD332` | 2026-07-27（§7 / §20.1 / §20.2：继续故事术语、存档进度无手动存档时进入空状态） |
-| 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `9CD72B1FE138C857898F432D954017DE` | 2026-07-27（§2.3 / §3 / §23.3 / §29.2：继续故事术语、存档进度入口空状态行为） |
+| 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `8AD0A0E8FC6B4AB783412E1F84D4EAF1` | 2026-07-29（§32.2：第八章顶部三叉 + 三路线纵向满宽分区，取消横向拖动） |
 | 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `10CCFBABDE0C637C0B2A8F762B7B2079` | 2026-07-27（修正 c3 开放日伪选项） |
 | 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `EB459592BF396154885D9A2B9CEBCE3C` | V3.1（2026-07-21 Ant 确认为正主） |
-| 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `CF4D1CE61974F8054E2843CF6B469B4F` | 2026-07-26（合并：§27 地图总览+八章子页 / 剧情回顾页排版重构） |
-| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `4B154338C0EC970428A117DB3145E08C` | 2026-07-27（§27.8–§27.16：剧情地图数值 token 补齐——页面骨架 / 节点 / 路径 / 第八章布局 / 总览页 / 未解锁呈现 / SVG 坐标转写授权 / 标题断行表 / 章节文案表；另 §5 / §22.3 存档进度入口与空状态、§14.1 小节开始页托底与 meta 行） |
+| 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `124F7AFB4430F68CF1806A4603C57868` | 2026-07-29（地图 08 路线标题与首节点重叠修正） |
+| 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `E05961403DFF333DD6E0E700879E5BAE` | 2026-07-29（§27.17：Ant 确认并恢复 Android 落地） |
 | 7 | BG Mapping | `visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | `9E5235DF786217B31A5E5D358C2A83B3` | 2026-07-23（同步 c2/c2_s2/e_depart 口头指定 BG） |
 | 附 | 节点匹配表 | `visual_mapping/NagisHeart_SCRIPT_V15_节点匹配表.xlsx` | `6BD0ED9239E3092593DEFB1106828B66` | 2026-07-23（Ant 的 Antset 列编辑；内容已由 BG Mapping v1.5 消化，本次仅补账登记哈希，见 DEC-20260727-006） |
 | KV-1 | Start 页权威（V23 分层包） | `design/authority/icon_start_tt/start/`（9 文件；长屏适配策略见 `start_long/rethink/`） | 目录校验 | TT V23，Ant 2026-07-21 确认 |
@@ -70,3 +70,9 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 | 2026-07-26 | UI HTML + MinSpec | 剧情回顾页排版重构：废除金色 speaker chip（连续对白下金色降级为背景纹理且无法分组），改为字形+密度+五级间距+对称内缩零装饰方案；`.recap-inner` 78% 压窄改为左右 38（= screenWidth−76，与 §17.4 同口径）。MinSpec §10 排版作废、新增 §24 | DEC-20260726-001 |
 | 2026-07-26 | UI MinSpec 编号 | 合并远端时发现 `## 24.` 被双方占用：远端新增「剧情回顾页排版重构」与本地 07-23「Sai Android direct UI adjustments sync」撞号且子节 24.1~24.6 全重叠。远端 §24 为 PP 活跃任务 `TASK-20260726-001` 必读项，保留原号；本地历史段改号为 §28，`decision_log` DEC-20260723-003 与本表 07-23 行引用同步更新 | DEC-20260726-002 |
 | 2026-07-27 | PRD + Interaction + MinSpec | 明确主页「存档进度」是手动存档管理入口：无手动存档时仍可点击并进入存档页空状态；不禁用、不无响应、不依赖自动存档；同步清理前文「继续游戏 / 最近自动存档」旧口径，统一为「继续故事 / 默认退出进度」；设计规范补充主页入口状态与存档空状态交付口径 | DEC-20260727-001 |
+| 2026-07-29 | UI HTML + MinSpec §27.17 | 移除九页整张 PNG 嵌入，改为原生 HTML/CSS“记忆岛 + 光点节点 + 不规则记忆画幅”；v7 退回历史布局参考，Android 旧 v7 像素对齐暂停等待 Ant 视觉确认 | DEC-20260729-001 |
+| 2026-07-29 | UI HTML + MinSpec §27.17 | 圆形记忆岛尝试作废；按 Android 截图改为上下滚动、左右错落的切角半透玻璃章节块，并补卡片外侧 gutter 正交连接线、小菱形接口及金色/蓝灰亮暗状态 | DEC-20260729-002 |
+| 2026-07-29 | UI HTML + MinSpec §27.17.1 | 外侧 gutter、菱形接口和斜线作废；按 Ant 红线标记改为“底边垂直下降 → 水平折一次 → 垂直接入下一卡顶边”的三段简单折线 | DEC-20260729-003 |
+| 2026-07-29 | UI HTML + MinSpec §27.17.2 | 八章内页统一切角玻璃与简单折线；第八章取消屏内三列和横向拖动，改为顶部三叉门牌 + 三路线纵向满宽分区 | DEC-20260729-004 |
+| 2026-07-29 | UI HTML + MinSpec §27.17.2 | 第八章路线分区首节点下移并增加标题净空，修复路线标题与首张关键图重叠 | DEC-20260729-005 |
+| 2026-07-29 | UI MinSpec §27.17 + Interaction §32.2 | Ant 确认设计并恢复 Android 落地；第八章交互同步为顶部三叉门牌 + 三路线纵向满宽分区，禁止横向拖动与缩放 | DEC-20260729-006 |

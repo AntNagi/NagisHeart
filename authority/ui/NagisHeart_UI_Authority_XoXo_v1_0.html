@@ -273,6 +273,914 @@
       height: auto;
     }
 
+    /* 2026-07-29 story map — native memory-landscape redesign.
+       Deliberately avoids screenshot-in-phone, card grids and product-flowchart styling. */
+    .story-native-root {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      overflow: hidden;
+      color: #f4eedf;
+      background:
+        radial-gradient(ellipse at 77% 20%, rgba(122, 157, 188, 0.14), transparent 36%),
+        radial-gradient(ellipse at 18% 66%, rgba(215, 190, 134, 0.09), transparent 34%),
+        linear-gradient(180deg, rgba(8, 17, 29, 0.22), rgba(8, 17, 29, 0.56));
+      isolation: isolate;
+    }
+
+    .story-native-root::before,
+    .story-native-root::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .story-native-root::before {
+      width: 280px;
+      height: 280px;
+      right: -155px;
+      top: 210px;
+      border: 1px solid rgba(215, 190, 134, 0.09);
+      box-shadow:
+        0 0 0 34px rgba(215, 190, 134, 0.025),
+        0 0 0 72px rgba(215, 190, 134, 0.018);
+    }
+
+    .story-native-root::after {
+      width: 190px;
+      height: 190px;
+      left: -110px;
+      bottom: 80px;
+      border: 1px solid rgba(212, 225, 238, 0.08);
+      box-shadow: 0 0 80px rgba(129, 165, 199, 0.07);
+    }
+
+    .story-native-back {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 20;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 13px 13px 13px 4px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.08), transparent 42%),
+        rgba(9, 20, 34, 0.56);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.22), inset 0 0 22px rgba(132,164,194,0.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .story-native-back::before {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      left: 16px;
+      top: 14px;
+      border-left: 1.8px solid rgba(247,249,252,0.94);
+      border-bottom: 1.8px solid rgba(247,249,252,0.94);
+      transform: rotate(45deg);
+    }
+
+    .story-native-back::after {
+      content: "";
+      position: absolute;
+      width: 13px;
+      height: 1.5px;
+      left: 16px;
+      top: 20px;
+      background: rgba(247,249,252,0.94);
+    }
+
+    .story-native-overview {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .story-native-hero {
+      position: absolute;
+      top: 76px;
+      left: 28px;
+      right: 28px;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .story-native-kicker {
+      font: 600 10px/1.2 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.27em;
+      color: rgba(215,190,134,0.92);
+      text-transform: uppercase;
+    }
+
+    .story-native-hero h2 {
+      margin: 8px 0 7px;
+      font: 500 27px/1.15 "Noto Serif SC", "Songti SC", serif;
+      letter-spacing: 0.04em;
+      color: #f4eedf;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.45);
+    }
+
+    .story-native-hero p {
+      width: 82%;
+      margin: 0;
+      font: 400 11px/1.7 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.04em;
+      color: rgba(205,216,229,0.66);
+    }
+
+    .story-native-overview-map {
+      position: absolute;
+      inset: 168px 0 50px;
+      z-index: 3;
+    }
+
+    .story-native-overview-lines,
+    .story-native-chapter-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .story-native-overview-lines path,
+    .story-native-chapter-lines polyline,
+    .story-native-chapter-lines path,
+    .story-native-route-lines path {
+      fill: none;
+      stroke: rgba(215,190,134,0.7);
+      stroke-width: 0.48;
+      vector-effect: non-scaling-stroke;
+      filter: drop-shadow(0 0 4px rgba(215,190,134,0.2));
+    }
+
+    .story-native-overview-lines path.locked,
+    .story-native-chapter-lines polyline.locked,
+    .story-native-chapter-lines path.locked {
+      stroke: rgba(194,211,227,0.16);
+      filter: none;
+    }
+
+    .story-native-chapter-lines path {
+      stroke: rgba(215,190,134,0.66);
+      stroke-width: 1.3;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      filter: drop-shadow(0 0 3px rgba(215,190,134,0.12));
+    }
+
+    .story-native-chapter-lines path.locked {
+      stroke: rgba(154,168,186,0.24);
+      stroke-width: 1.05;
+    }
+
+    .story-native-landmark {
+      position: absolute;
+      width: 108px;
+      height: 90px;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: none;
+      transform: translate(-50%, -50%);
+      text-align: left;
+      cursor: default;
+    }
+
+    .story-native-landmark .memory-orbit {
+      position: absolute;
+      inset: -7px 6px 8px -4px;
+      border: 1px solid rgba(215,190,134,0.27);
+      border-radius: 53% 47% 58% 42% / 46% 57% 43% 54%;
+      transform: rotate(-7deg);
+      box-shadow: 0 0 20px rgba(215,190,134,0.07);
+    }
+
+    .story-native-landmark .memory-image {
+      position: absolute;
+      inset: 0 13px 18px 0;
+      overflow: hidden;
+      border: 1px solid rgba(215,190,134,0.58);
+      border-radius: 47% 53% 41% 59% / 58% 42% 58% 42%;
+      background-position: var(--focus, center);
+      background-size: cover;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.28), inset 0 -24px 30px rgba(7,17,29,0.56);
+      filter: saturate(0.78) contrast(1.04);
+    }
+
+    .story-native-landmark .memory-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, transparent 44%, rgba(6,15,26,0.76)),
+        radial-gradient(circle at 34% 28%, rgba(255,255,255,0.12), transparent 34%);
+    }
+
+    .story-native-landmark .memory-label {
+      position: absolute;
+      left: 2px;
+      bottom: 0;
+      z-index: 3;
+      white-space: nowrap;
+      text-shadow: 0 2px 8px #07111d, 0 0 5px #07111d;
+    }
+
+    .story-native-landmark .memory-label small {
+      display: block;
+      margin-bottom: 1px;
+      font: 600 8px/1.1 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.16em;
+      color: rgba(215,190,134,0.78);
+    }
+
+    .story-native-landmark .memory-label strong {
+      display: block;
+      font: 600 16px/1.1 "Noto Serif SC", "Songti SC", serif;
+      letter-spacing: 0.05em;
+      color: #fff7e8;
+    }
+
+    .story-native-landmark.locked {
+      opacity: 0.48;
+    }
+
+    .story-native-landmark.locked .memory-orbit {
+      border-color: rgba(181,199,216,0.18);
+      box-shadow: none;
+    }
+
+    .story-native-landmark.locked .memory-image {
+      background:
+        radial-gradient(circle at 45% 40%, rgba(137,161,184,0.12), transparent 34%),
+        rgba(7,17,29,0.74) !important;
+      border-color: rgba(162,181,200,0.2);
+      filter: none;
+    }
+
+    .story-native-landmark.locked .memory-image::before {
+      content: "◇";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font: 300 22px/1 serif;
+      color: rgba(190,207,224,0.35);
+    }
+
+    .story-native-overview-note {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 19px;
+      z-index: 6;
+      text-align: center;
+      font: 400 9px/1.4 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.1em;
+      color: rgba(205,216,229,0.45);
+    }
+
+    .story-native-chapter {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+    }
+
+    .story-native-chapter::-webkit-scrollbar {
+      display: none;
+    }
+
+    .story-native-chapter-head {
+      position: relative;
+      z-index: 5;
+      padding: 78px 28px 26px;
+    }
+
+    .story-native-chapter-head h2 {
+      margin: 8px 0 6px;
+      font: 550 28px/1.18 "Noto Serif SC", "Songti SC", serif;
+      letter-spacing: 0.04em;
+      color: #f5eddd;
+    }
+
+    .story-native-chapter-head p {
+      width: 94%;
+      margin: 0;
+      font: 400 11px/1.65 Inter, "Noto Sans SC", sans-serif;
+      color: rgba(198,211,225,0.62);
+    }
+
+    .story-native-chapter-head::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 1px;
+      margin-top: 22px;
+      background: linear-gradient(90deg, rgba(215,190,134,0.42), rgba(255,255,255,0.05) 48%, transparent);
+    }
+
+    .story-native-map-canvas {
+      position: relative;
+      width: 100%;
+      min-height: var(--map-height);
+      z-index: 3;
+    }
+
+    .story-native-node {
+      position: absolute;
+      z-index: 4;
+      transform: translate(-50%, -50%);
+      color: #f4eedf;
+    }
+
+    .story-native-node.text {
+      width: 176px;
+      min-height: 62px;
+    }
+
+    .story-native-node.text .node-seed {
+      position: absolute;
+      left: 50%;
+      top: 28px;
+      width: 16px;
+      height: 16px;
+      border-radius: 52% 48% 58% 42%;
+      transform: translate(-50%, -50%) rotate(18deg);
+      border: 1px solid rgba(215,190,134,0.78);
+      background: rgba(7,17,29,0.92);
+      box-shadow: 0 0 0 4px rgba(215,190,134,0.04), 0 0 12px rgba(215,190,134,0.18);
+    }
+
+    .story-native-node.text .node-seed::after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      left: 5px;
+      top: 5px;
+      border-radius: 50%;
+      background: #d7be86;
+    }
+
+    .story-native-node.text .node-copy {
+      position: absolute;
+      top: 7px;
+      width: 112px;
+      text-shadow: 0 2px 8px #07111d, 0 0 5px #07111d;
+    }
+
+    .story-native-node.text.left .node-copy {
+      right: 104px;
+      text-align: right;
+    }
+
+    .story-native-node.text.right .node-copy {
+      left: 104px;
+      text-align: left;
+    }
+
+    .story-native-node .node-index {
+      display: block;
+      margin-bottom: 4px;
+      font: 600 8px/1 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.18em;
+      color: rgba(215,190,134,0.82);
+    }
+
+    .story-native-node .node-title {
+      display: block;
+      font: 550 13px/1.38 "Noto Serif SC", "Songti SC", serif;
+      letter-spacing: 0.03em;
+      color: #f6efdf;
+    }
+
+    .story-native-node.image {
+      width: 218px;
+      height: 158px;
+      overflow: visible;
+    }
+
+    .story-native-node.image::before {
+      content: "";
+      position: absolute;
+      inset: -7px 7px 20px -5px;
+      z-index: -1;
+      border: 1px solid rgba(215,190,134,0.24);
+      border-radius: 54% 46% 58% 42% / 47% 57% 43% 53%;
+      transform: rotate(-4deg);
+      box-shadow: 0 0 22px rgba(215,190,134,0.07);
+    }
+
+    .story-native-node.image .node-memory {
+      position: absolute;
+      inset: 0 11px 25px 0;
+      overflow: hidden;
+      border: 1px solid rgba(215,190,134,0.62);
+      border-radius: 48% 52% 43% 57% / 58% 43% 57% 42%;
+      background-position: var(--focus, center 28%);
+      background-size: cover;
+      box-shadow: 0 18px 38px rgba(0,0,0,0.28), inset 0 -54px 45px rgba(5,14,25,0.72);
+      filter: saturate(0.82) contrast(1.03);
+    }
+
+    .story-native-node.image:nth-of-type(even) .node-memory {
+      border-radius: 55% 45% 58% 42% / 44% 57% 43% 56%;
+    }
+
+    .story-native-node.image:nth-of-type(even)::before {
+      border-radius: 45% 55% 42% 58% / 56% 44% 57% 43%;
+      transform: rotate(5deg);
+    }
+
+    .story-native-node.image .node-memory::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, transparent 35%, rgba(5,14,25,0.12) 53%, rgba(5,14,25,0.94)),
+        radial-gradient(circle at 32% 20%, rgba(255,255,255,0.1), transparent 34%);
+    }
+
+    .story-native-node.image .node-copy {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 1px;
+      z-index: 3;
+      text-shadow: 0 2px 8px #07111d, 0 0 4px #07111d;
+    }
+
+    .story-native-node.image .node-title {
+      font-size: 16px;
+      line-height: 1.25;
+      color: #fff8e9;
+    }
+
+    .story-native-node.locked {
+      opacity: 0.48;
+    }
+
+    .story-native-node.locked.image .node-memory {
+      background:
+        radial-gradient(circle at 44% 38%, rgba(131,154,177,0.12), transparent 29%),
+        rgba(7,17,29,0.8) !important;
+      border-color: rgba(177,197,216,0.22);
+      filter: none;
+    }
+
+    .story-native-node.locked.image .node-memory::before {
+      content: "◇";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font: 300 25px/1 serif;
+      color: rgba(190,207,224,0.25);
+    }
+
+    .story-native-node.locked .node-seed {
+      border-color: rgba(175,195,214,0.28);
+      box-shadow: none;
+    }
+
+    .story-native-node.locked .node-seed::after {
+      background: rgba(175,195,214,0.35);
+    }
+
+    .story-native-chapter-foot {
+      position: relative;
+      z-index: 5;
+      margin: 18px 28px 42px;
+      padding: 17px 22px 15px;
+      border-top: 1px solid rgba(215,190,134,0.2);
+      border-bottom: 1px solid rgba(215,190,134,0.08);
+      text-align: center;
+      background: linear-gradient(90deg, transparent, rgba(8,18,31,0.42) 24%, rgba(8,18,31,0.42) 76%, transparent);
+    }
+
+    .story-native-chapter-foot small {
+      display: block;
+      font: 600 8px/1 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.22em;
+      color: rgba(215,190,134,0.62);
+    }
+
+    .story-native-chapter-foot strong {
+      display: block;
+      margin-top: 5px;
+      font: 500 16px/1.2 "Noto Serif SC", "Songti SC", serif;
+      color: rgba(245,237,221,0.92);
+    }
+
+    .story-native-chapter-foot::before,
+    .story-native-chapter-foot::after {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(215,190,134,0.58);
+      font-size: 15px;
+    }
+
+    .story-native-chapter-foot::before { content: "‹"; left: 2px; }
+    .story-native-chapter-foot::after { content: "›"; right: 2px; }
+
+    .story-native-routes {
+      position: relative;
+      z-index: 3;
+      height: var(--routes-height, 4200px);
+      margin-top: -4px;
+    }
+
+    .story-native-route-hub {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 292px;
+    }
+
+    .story-native-route-lines,
+    .story-native-route-section-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .story-native-route-lines path,
+    .story-native-route-section-lines path {
+      fill: none;
+      stroke: rgba(215,190,134,0.58);
+      stroke-width: 1.2;
+      vector-effect: non-scaling-stroke;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      filter: drop-shadow(0 0 3px rgba(215,190,134,0.1));
+    }
+
+    .story-native-route-gate {
+      position: absolute;
+      top: 238px;
+      width: 30%;
+      padding: 7px 2px 8px;
+      border-top: 1px solid rgba(215,190,134,0.28);
+      border-bottom: 1px solid rgba(215,190,134,0.1);
+      background: rgba(10,21,35,0.42);
+      text-align: center;
+      font: 600 8px/1.3 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.12em;
+      color: rgba(215,190,134,0.74);
+    }
+
+    .story-native-route-gate:nth-of-type(1) { left: 2%; }
+    .story-native-route-gate:nth-of-type(2) { left: 35%; }
+    .story-native-route-gate:nth-of-type(3) { left: 68%; }
+
+    .story-native-route-section {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-top: 1px solid rgba(215,190,134,0.16);
+      background:
+        linear-gradient(180deg, rgba(11,23,38,0.34), transparent 104px),
+        linear-gradient(90deg, transparent, rgba(215,190,134,0.025) 50%, transparent);
+    }
+
+    .story-native-route-section::before {
+      content: "";
+      position: absolute;
+      left: 28px;
+      top: -1px;
+      width: 58px;
+      border-top: 2px solid rgba(215,190,134,0.6);
+    }
+
+    .story-native-route-section-head {
+      position: absolute;
+      left: 28px;
+      top: 22px;
+      z-index: 4;
+    }
+
+    .story-native-route-section-head small {
+      display: block;
+      font: 600 8px/1 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.2em;
+      color: rgba(215,190,134,0.74);
+    }
+
+    .story-native-route-section-head strong {
+      display: block;
+      margin-top: 6px;
+      font: 550 19px/1.2 "Noto Serif SC", "Songti SC", serif;
+      letter-spacing: 0.04em;
+      color: rgba(246,239,223,0.94);
+    }
+
+    .story-native-route-section .story-native-node.image {
+      width: 224px;
+      height: 158px;
+    }
+
+    .story-native-route-section-lines path.locked {
+      stroke: rgba(154,168,186,0.24);
+      stroke-width: 1.05;
+      filter: none;
+    }
+
+    /* 2026-07-29 Android-reference layout:
+       staggered cut-glass chapters + edge-routed narrative trace. */
+    .story-glass-overview {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-width: none;
+      overscroll-behavior: contain;
+    }
+
+    .story-glass-overview::-webkit-scrollbar {
+      display: none;
+    }
+
+    .story-glass-canvas {
+      position: relative;
+      width: 100%;
+      height: 2920px;
+      padding-top: 1px;
+    }
+
+    .story-glass-canvas::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(7,17,29,0.05), transparent 7%, transparent 91%, rgba(7,17,29,0.58)),
+        radial-gradient(ellipse at 84% 22%, rgba(215,190,134,0.045), transparent 30%),
+        radial-gradient(ellipse at 12% 60%, rgba(132,164,194,0.075), transparent 34%);
+    }
+
+    .story-glass-lines {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .story-glass-lines path {
+      fill: none;
+      stroke: rgba(215,190,134,0.7);
+      stroke-width: 1.3;
+      vector-effect: non-scaling-stroke;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      filter: drop-shadow(0 0 3px rgba(215,190,134,0.14));
+    }
+
+    .story-glass-lines path.dim {
+      stroke: rgba(154,168,186,0.26);
+      stroke-width: 1.05;
+      filter: none;
+    }
+
+    .story-glass-card {
+      position: absolute;
+      z-index: 3;
+      width: 74%;
+      height: 284px;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.075), transparent 29%),
+        linear-gradient(180deg, rgba(15,27,44,0.6), rgba(11,22,38,0.44));
+      clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,0.2));
+      text-align: left;
+      cursor: default;
+    }
+
+    .story-glass-card::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      z-index: 0;
+      clip-path: inherit;
+      background:
+        linear-gradient(90deg, rgba(215,190,134,0.12), transparent 22%, transparent 78%, rgba(215,190,134,0.08)),
+        rgba(9,20,34,0.18);
+      pointer-events: none;
+    }
+
+    .story-glass-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      clip-path: inherit;
+      box-shadow: inset 0 0 0 1px rgba(215,190,134,0.26);
+      pointer-events: none;
+    }
+
+    .story-glass-card .glass-cover {
+      position: absolute;
+      z-index: 1;
+      left: 14px;
+      right: 14px;
+      top: 14px;
+      height: 132px;
+      overflow: hidden;
+      clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+      background-position: var(--focus, center 22%);
+      background-size: cover;
+      box-shadow: inset 0 -42px 38px rgba(5,14,25,0.48);
+      filter: saturate(0.78) contrast(1.02);
+    }
+
+    .story-glass-card .glass-cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 42%, rgba(7,17,29,0.46)),
+        linear-gradient(90deg, rgba(7,17,29,0.18), transparent 17%, transparent 83%, rgba(7,17,29,0.2));
+    }
+
+    .story-glass-card .glass-copy {
+      position: absolute;
+      z-index: 2;
+      left: 18px;
+      right: 18px;
+      top: 162px;
+    }
+
+    .story-glass-card .glass-copy small {
+      display: block;
+      margin-bottom: 8px;
+      font: 600 10px/1.1 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.19em;
+      color: rgba(215,190,134,0.86);
+    }
+
+    .story-glass-card .glass-copy strong {
+      display: block;
+      margin-bottom: 5px;
+      font: 500 22px/1.14 "Noto Serif SC", "Songti SC", serif;
+      letter-spacing: 0.04em;
+      color: rgba(247,243,234,0.94);
+      text-shadow: 0 2px 11px rgba(0,0,0,0.38);
+    }
+
+    .story-glass-card .glass-copy p {
+      margin: 0;
+      max-width: 96%;
+      font: 400 11px/1.58 "Noto Serif SC", "Songti SC", serif;
+      letter-spacing: 0.035em;
+      color: rgba(218,225,233,0.66);
+    }
+
+    .story-glass-progress {
+      position: absolute;
+      z-index: 3;
+      left: 18px;
+      bottom: 14px;
+      display: flex;
+      gap: 7px;
+    }
+
+    .story-glass-progress i {
+      width: 6px;
+      height: 6px;
+      display: block;
+      transform: rotate(45deg);
+      background: rgba(215,190,134,0.82);
+      box-shadow: 0 0 5px rgba(215,190,134,0.16);
+    }
+
+    .story-glass-card.locked {
+      opacity: 0.5;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.035), transparent 30%),
+        rgba(9,20,34,0.54);
+    }
+
+    .story-glass-card.locked::after {
+      box-shadow: inset 0 0 0 1px rgba(154,168,186,0.18);
+    }
+
+    .story-glass-card.locked .glass-cover {
+      background:
+        linear-gradient(145deg, rgba(112,137,161,0.08), transparent 42%),
+        rgba(7,17,29,0.76) !important;
+      filter: none;
+    }
+
+    .story-glass-card.locked .glass-cover::before {
+      content: "◇";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font: 300 24px/1 serif;
+      color: rgba(175,195,214,0.28);
+    }
+
+    .story-glass-card.locked .glass-copy small {
+      color: rgba(154,168,186,0.55);
+    }
+
+    .story-glass-card.locked .story-glass-progress i {
+      background: rgba(154,168,186,0.28);
+      box-shadow: none;
+    }
+
+    .story-glass-endnote {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 34px;
+      z-index: 3;
+      text-align: center;
+      font: 400 9px/1.4 Inter, "Noto Sans SC", sans-serif;
+      letter-spacing: 0.13em;
+      color: rgba(205,216,229,0.4);
+    }
+
+    /* Inner key images use the same angular frosted-glass grammar. */
+    .story-native-node.image {
+      width: 224px;
+      height: 150px;
+      padding: 0;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.07), transparent 28%),
+        rgba(9,20,34,0.46);
+      clip-path: polygon(13px 0, calc(100% - 13px) 0, 100% 13px, 100% calc(100% - 13px), calc(100% - 13px) 100%, 13px 100%, 0 calc(100% - 13px), 0 13px);
+      filter: drop-shadow(0 15px 28px rgba(0,0,0,0.24));
+    }
+
+    .story-native-node.image::before {
+      inset: 0;
+      z-index: 4;
+      border: 0;
+      border-radius: 0;
+      transform: none;
+      box-shadow: inset 0 0 0 1px rgba(215,190,134,0.3);
+      clip-path: inherit;
+    }
+
+    .story-native-node.image:nth-of-type(even)::before {
+      border-radius: 0;
+      transform: none;
+    }
+
+    .story-native-node.image .node-memory,
+    .story-native-node.image:nth-of-type(even) .node-memory {
+      inset: 10px 10px 39px;
+      border: 0;
+      border-radius: 0;
+      clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+      box-shadow: inset 0 -36px 32px rgba(5,14,25,0.58);
+    }
+
+    .story-native-node.image .node-copy {
+      left: 14px;
+      right: 14px;
+      bottom: 9px;
+    }
+
+    .story-native-route-node.image::before {
+      display: none;
+    }
+
+    .story-native-route-node.image .route-memory {
+      border-radius: 0;
+      clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px);
+    }
+
+    @media (max-width: 520px) {
+      .story-native-landmark {
+        width: 102px;
+        height: 86px;
+      }
+    }
+
     .screen.system::before,
     .screen.story::before,
     .screen.splash::before {
@@ -2044,7 +2952,7 @@
 
     <div class="block">
       <div class="block-title">来源范围</div>
-      <small><strong>采用：</strong>v2.0 母版；Missing Pages 的主页、开场白、名字设置、大章开始、小节开始、跳过确认；本次 `TASK-20260717-011` 采纳并修订 Missing Pages 的大章结束方向；本次 `TASK-20260719-001` 与 `TASK-20260719-008` 补齐全局可读性、结局页与文案 hygiene；Lulu 的长旁白、剧情回顾；`DEC-20260725-001` 增补剧情地图总览与八章 v7 视觉参考，`DEC-20260725-002` 退役旧章节目录页。</small>
+      <small><strong>采用：</strong>v2.0 母版；Missing Pages 的主页、开场白、名字设置、大章开始、小节开始、跳过确认；本次 `TASK-20260717-011` 采纳并修订 Missing Pages 的大章结束方向；本次 `TASK-20260719-001` 与 `TASK-20260719-008` 补齐全局可读性、结局页与文案 hygiene；Lulu 的长旁白、剧情回顾；`DEC-20260725-002` 退役旧章节目录页；`DEC-20260729-002` 按 Android 参考版重做切角玻璃地图与外侧正交连接线，v7 PNG/SVG 退回历史布局参考。</small>
       <small><strong>不采用：</strong>Missing Pages 的长旁白、剧情回顾不进入 final authority。</small>
     </div>
 
@@ -2141,59 +3049,42 @@
         </div>
       </section>
 
-      <!-- Source: DEC-20260725-001 / visual-reference only; forbidden as runtime assets -->
-      <section class="screen system authority-image-screen screen-story-map-overview">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Overview_v4.png" alt="剧情地图八章收起总览视觉参考" />
-        </div>
+      <!-- Source: 2026-07-29 native story-map redesign.
+           The restored v7 PNG/SVG package remains a layout archive only; these pages are real HTML/CSS UI. -->
+      <section class="screen system screen-story-map-overview">
+        <div class="story-native-root" data-story-native="overview"></div>
       </section>
 
-      <section class="screen system authority-image-screen screen-story-map-01">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_01_FirstMeet_v7.png" alt="第一章剧情地图视觉参考" />
-        </div>
+      <section class="screen system screen-story-map-01">
+        <div class="story-native-root" data-story-native="part1"></div>
       </section>
 
-      <section class="screen system authority-image-screen screen-story-map-02">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_02_Relationship_v7.png" alt="第二章剧情地图视觉参考" />
-        </div>
+      <section class="screen system screen-story-map-02">
+        <div class="story-native-root" data-story-native="part2"></div>
       </section>
 
-      <section class="screen system authority-image-screen screen-story-map-03">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_03_Elimination_v7.png" alt="第三章剧情地图视觉参考" />
-        </div>
+      <section class="screen system screen-story-map-03">
+        <div class="story-native-root" data-story-native="part3"></div>
       </section>
 
-      <section class="screen system authority-image-screen screen-story-map-04">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_04_WorldCup_v7.png" alt="第四章剧情地图视觉参考" />
-        </div>
+      <section class="screen system screen-story-map-04">
+        <div class="story-native-root" data-story-native="part4"></div>
       </section>
 
-      <section class="screen system authority-image-screen screen-story-map-05">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_05_Homecoming_v7.png" alt="第五章剧情地图视觉参考" />
-        </div>
+      <section class="screen system screen-story-map-05">
+        <div class="story-native-root" data-story-native="part5"></div>
       </section>
 
-      <section class="screen system authority-image-screen screen-story-map-06">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_06_Manchester_v7.png" alt="第六章剧情地图视觉参考" />
-        </div>
+      <section class="screen system screen-story-map-06">
+        <div class="story-native-root" data-story-native="part6"></div>
       </section>
 
-      <section class="screen system authority-image-screen screen-story-map-07">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_07_Holiday_v7.png" alt="第七章剧情地图视觉参考" />
-        </div>
+      <section class="screen system screen-story-map-07">
+        <div class="story-native-root" data-story-native="part7"></div>
       </section>
 
-      <section class="screen system authority-image-screen screen-story-map-08">
-        <div class="authority-image-scroll">
-          <img src="../../design/concepts/story_map_xoxo_v1/NagisHeart_StoryMap_Page_08_WorldCenter_v7.png" alt="第八章三路线剧情地图视觉参考" />
-        </div>
+      <section class="screen system screen-story-map-08">
+        <div class="story-native-root" data-story-native="part8"></div>
       </section>
 
       <!-- Source: revised dark chapter opening draft -->
@@ -2468,6 +3359,361 @@
   <script>
     const phone = document.getElementById("phone");
     const views = [...document.querySelectorAll("button[data-view]")];
+
+    const storyMapMeta = [
+      { id:"part1", kicker:"CHAPTER 01", number:"第一部", title:"初见", sub:"从作战室到 U-20，日本第一次看见他的名字。", cover:"assets/bg/first_meet.png", focus:"center 22%" },
+      { id:"part2", kicker:"CHAPTER 02", number:"第二部", title:"关系确立", sub:"开放日之后，彼此的生活第一次真正重叠。", cover:"assets/bg/openday.jpg", focus:"center 24%" },
+      { id:"part3", kicker:"CHAPTER 03", number:"第三部", title:"淘汰与重返", sub:"刚确认彼此，就被赛程、失败与沉默推向远处。", cover:"assets/bg/falling_down.jpg", focus:"center 18%" },
+      { id:"part4", kicker:"CHAPTER 04", number:"第四部", title:"世界杯", sub:"从追加名单到生死局，他重新站回世界的视线中央。", cover:"assets/bg/bg_u20j_worldcup_goal_kick.jpg", focus:"center 22%" },
+      { id:"part5", kicker:"CHAPTER 05", number:"第五部", title:"归来与同居", sub:"日常越靠越近，盛夏也把下一次远行带到门前。", cover:"assets/bg/nagi_with_cat.jpg", focus:"center 16%" },
+      { id:"part6", kicker:"CHAPTER 06", number:"第六部", title:"曼城", sub:"陌生城市、语言与赛场，让两个人学会新的靠近方式。", cover:"assets/bg/bg_manchester_bedroom_city_night.jpg", focus:"center 20%" },
+      { id:"part7", kicker:"CHAPTER 07", number:"第七部", title:"假日与心意", sub:"聚光灯之外，那些没说出口的心意在冬日里发热。", cover:"assets/bg/scarf.jpg", focus:"center 20%" },
+      { id:"part8", kicker:"CHAPTER 08", number:"第八部", title:"世界中心", sub:"同一个春天，通向三种不同的未来。", cover:"assets/bg/true_end.jpg", focus:"center 18%" }
+    ];
+
+    const storyMapParts = {
+      part1: [
+        ["作战室·初遇","p1","assets/bg/bluelock_monitor_room.jpg",1,"center 28%"],
+        ["投资的私心","p2","assets/bg/bg_bluelock_meeting_contract_room.png",0,"center"],
+        ["会议室初见","c1a","assets/bg/first_meet.png",1,"center 20%"],
+        ["不麻烦的人","c1b","assets/bg/easygoing _person.jpg",0,"center 24%"],
+        ["U-20日本代表战·被日本看见","u20j","assets/bg/vs_u20_japan_kick.jpg",1,"center 18%"]
+      ],
+      part2: [
+        ["开放日","c3","assets/bg/openday.jpg",1,"center 22%"],
+        ["你的，我的","e_lemontea","assets/bg/lemontea.jpg",1,"center 18%"],
+        ["假期的消息","c2","assets/bg/message_in_holiday.jpg",0,"center"],
+        ["高级公寓的邀请","e_invite","assets/bg/apartment.jpg",1,"center 24%"],
+        ["棒棒糖·自动刷脸","e_lolly","assets/bg/lolly.jpg",0,"center 20%"]
+      ],
+      part3: [
+        ["NEL启程·闭关送别","e_depart","assets/bg/nel_start.png",1,"center 20%"],
+        ["聚少离多·从高光到淘汰","c6a","assets/bg/falling_down.jpg",1,"center 16%"],
+        ["Nagi做的咖喱饭","e_curry","assets/bg/curry.jpg",0,"center"],
+        ["被遗忘的生日","e_bday","assets/bg/birthday_at_home.jpg",0,"center 24%"],
+        ["拥抱","e_hug","assets/bg/hug.jpg",1,"center 18%"],
+        ["亲密","e_intimate","assets/bg/bedroom.jpg",0,"center"],
+        ["Side-B·重返蓝色监狱","side_b_return","assets/bg/living_room.jpg",1,"center 22%"]
+      ],
+      part4: [
+        ["世界杯追加名单","wc_roster","assets/bg/bar.png",1,"center 28%"],
+        ["淘汰赛前训练·花环","wc_interval","assets/bg/summer.jpg",0,"center"],
+        ["生死局·世界看见他","wc_keygoal","assets/bg/bg_u20j_worldcup_goal_kick.jpg",1,"center 16%"],
+        ["豪门来信","wc_offer","assets/bg/bg_nagi_daily_city_room_icecream.jpg",1,"center 20%"]
+      ],
+      part5: [
+        ["归来·沙发上的拥抱","w_home","assets/bg/living_room.jpg",1,"center 22%"],
+        ["同居·这里太舒服了","mt3","assets/bg/pillow.jpg",0,"center"],
+        ["同居·靠近 / 客气的距离","e_intimate_cohabit","assets/bg/nagi_with_cat.jpg",1,"center 16%"],
+        ["甜蜜同居·深夜等你","e_cozy","assets/bg/live_together_some_days.jpg",0,"center 22%"],
+        ["深夜·酸奶与泡面哲学","w_noodle","assets/bg/nagi_at_home_3.jpg",0,"center 18%"],
+        ["游戏冷战·ADC走脸事件","w_game","assets/bg/gaming_room.png",1,"center 20%"],
+        ["微醺之夜","e_tipsy","assets/bg/bar.png",0,"center"],
+        ["早安赖床","e_morning","assets/bg/wakeup.jpg",1,"center 16%"],
+        ["七夕·蓝色玫瑰与夏夜","c4","",0,"center"],
+        ["夏日祭·浴衣与烟火","e_festival","assets/bg/summer_festival.jpg",1,"center 18%"],
+        ["夏窗·签约桌上的好麻烦","transfer_contract","assets/bg/bg_bluelock_meeting_contract_room.png",1,"center"]
+      ],
+      part6: [
+        ["曼城·新的房间","club_arrival","assets/bg/bg_manchester_living_piano.jpg",1,"center 22%"],
+        ["一个人的曼城","club_alone","assets/bg/bg_manchester_bedroom_city_night.jpg",0,"center 20%"],
+        ["耳机能翻译，球不会等我","club_training","assets/bg/pitch.jpg",1,"center 18%"],
+        ["它翻译得很对，但不像我","club_media","assets/bg/bg_club_media_press_room.png",0,"center"],
+        ["读书之秋","e_autumn","assets/bg/autumn.jpg",0,"center 20%"],
+        ["万圣夜·专属恶魔","e_halloween","assets/bg/Halloween.jpg",1,"center 18%"],
+        ["飙车实录","e_drive","assets/bg/drive.jpg",1,"center 18%"]
+      ],
+      part7: [
+        ["她站在光里","e_agency_launch","assets/bg/bg_agency_launch_stage.png",1,"center 24%"],
+        ["送围巾","e_scarf","assets/bg/scarf.jpg",1,"center 18%"],
+        ["还是感冒了","e_sick_fragile","assets/bg/nagi_at_home_2.jpg",0,"center 18%"],
+        ["任人打扮","e_dressup","assets/bg/dressup.jpg",0,"center 18%"],
+        ["软饭王哲学","e_softrice","assets/bg/softrice.jpg",1,"center 22%"],
+        ["借着醉意","e_drunk","assets/bg/bar.png",1,"center 18%"]
+      ],
+      part8: [
+        ["假期结束·春季名单","p8_route","assets/bg/bg_manchester_bedroom_city_night.jpg",1,"center 20%"],
+        ["没有你的世界","dream_exist","assets/bg/bg_manchester_bedroom_city_night.jpg",0,"center 20%","dream"],
+        ["他的名字","dream_match","assets/bg/bg_bad_impact_kick_cutin.jpg",1,"center 18%","dream"],
+        ["看台上的庆祝","dream_celebrate","assets/bg/star.jpg",0,"center","dream"],
+        ["久别重逢","dream_return","assets/bg/remeet.jpg",1,"center 16%","dream"],
+        ["花园别墅·秘密基地","dream_home","assets/bg/new_home.jpg",0,"center","dream"],
+        ["世界第一，与你","dream_final","assets/bg/true_end.jpg",1,"center 18%","dream"],
+        ["还不是今天","stay_match","assets/bg/ending_true_nagi_soft_gaze.jpg",1,"center 18%","stay"],
+        ["他常回来","stay_intro","assets/bg/back.jpg",0,"center","stay"],
+        ["暗爽·可可白兰地","stay_cozy","assets/bg/bar.png",0,"center","stay"],
+        ["情人节玩偶熊","stay_daily","assets/bg/valentine.jpg",1,"center 18%","stay"],
+        ["关掉的比赛录像","stay_final","assets/bg/bg_stay_final_tv_glow_living_room.png",1,"center","stay"],
+        ["优雅与世俗","bad_elegant","assets/bg/dining_room.jpg",0,"center","bad"],
+        ["他的名字，由我来写","bad_plan","assets/bg/bg_bad_plan_data_war_room.png",1,"center","bad"],
+        ["加冕之夜","bad_match","assets/bg/king.jpg",1,"center 16%","bad"],
+        ["全世界都看见你","bad_afterglow","assets/bg/bg_bad_afterglow_media_wall.png",0,"center","bad"],
+        ["渐行渐远","bad_cold","assets/bg/walk-in_closet.png",0,"center","bad"],
+        ["我不是不想这样赢","bad_last","assets/bg/pitch.jpg",1,"center 20%","bad"],
+        ["远处的世界第一","bad_far","assets/bg/goal_faraway.jpg",1,"center 18%","bad"]
+      ]
+    };
+
+    const storyPlayedCounts = { part1:5, part2:5, part3:5, part4:3, part5:8, part6:5, part7:4 };
+    const storyOverviewPositions = [
+      [20,10],[65,16],[78,33],[43,42],[18,58],[58,65],[79,80],[39,91]
+    ];
+
+    function storyAsset(path) {
+      if (!path) return "";
+      return `../../${path}`;
+    }
+
+    function storyQuestions(title) {
+      const visible = [...title.replace(/[\s·，。、“”‘’：:；;（）()\/\-]/g, "")].length;
+      return "?".repeat(Math.max(2, visible));
+    }
+
+    function renderStoryOverview(root) {
+      const tops = [92,442,792,1142,1492,1842,2192,2542];
+      const lefts = [18,7,23,10,20,6,24,12];
+      const cardHeight = 284;
+      const cardWidth = 74;
+      const lines = [];
+
+      for (let index = 0; index < storyMapMeta.length - 1; index += 1) {
+        const foldLeft = index % 2 === 0;
+        const fromX = lefts[index] + cardWidth * (foldLeft ? 0.62 : 0.5);
+        const toX = lefts[index + 1] + cardWidth * (foldLeft ? 0.28 : 0.64);
+        const fromY = tops[index] + cardHeight;
+        const toY = tops[index + 1];
+        const foldY = Math.round((fromY + toY) / 2);
+        const dim = index >= 2;
+        const d = `M${fromX} ${fromY} V${foldY} H${toX} V${toY}`;
+        lines.push(`<path${dim ? ' class="dim"' : ""} d="${d}"></path>`);
+      }
+
+      root.innerHTML = `
+        <div class="story-glass-overview">
+          <button class="story-native-back" aria-label="返回"></button>
+          <div class="story-glass-canvas">
+            <svg class="story-glass-lines" viewBox="0 0 100 2920" preserveAspectRatio="none" aria-hidden="true">
+              ${lines.join("")}
+            </svg>
+            <div class="story-glass-endnote">向下浏览 · 走过的章节会亮起来</div>
+          </div>
+        </div>`;
+
+      const map = root.querySelector(".story-glass-canvas");
+      storyMapMeta.forEach((meta, index) => {
+        const unlocked = index < 3;
+        const card = document.createElement("button");
+        card.className = `story-glass-card${unlocked ? "" : " locked"}`;
+        card.style.left = `${lefts[index]}%`;
+        card.style.top = `${tops[index]}px`;
+        card.dataset.target = `story-map-0${index + 1}`;
+        const progress = storyMapParts[meta.id]
+          .map(() => "<i></i>")
+          .join("");
+        card.innerHTML = `
+          <span class="glass-cover" style="${unlocked ? `background-image:url('${storyAsset(meta.cover)}');--focus:${meta.focus};` : ""}"></span>
+          <span class="glass-copy">
+            <small>Chapter ${index + 1}</small>
+            <strong>${unlocked ? meta.number : storyQuestions(meta.number)}</strong>
+            <p>${unlocked ? meta.sub : storyQuestions(meta.sub)}</p>
+          </span>
+          <span class="story-glass-progress">${progress}</span>`;
+        if (unlocked) card.addEventListener("click", () => applyView(card.dataset.target));
+        map.appendChild(card);
+      });
+    }
+
+    function storyPolyline(nodes, height) {
+      const points = [];
+      nodes.forEach((node, index) => {
+        const [x,y] = node;
+        if (!index) {
+          points.push(`${x},${y}`);
+          return;
+        }
+        const [px,py] = nodes[index - 1];
+        const mid = Math.round((py + y) / 2);
+        points.push(`${px},${mid}`, `${x},${mid}`, `${x},${y}`);
+      });
+      return points.join(" ");
+    }
+
+    function renderStoryChapter(root, id) {
+      const meta = storyMapMeta.find((item) => item.id === id);
+      const sections = storyMapParts[id];
+      if (id === "part8") {
+        renderStoryRoutes(root, meta, sections);
+        return;
+      }
+
+      const played = storyPlayedCounts[id] ?? sections.length;
+      const height = Math.max(720, sections.length * 190 + 48);
+      const xPattern = [50,26,69,34,73,27,61,35,72,28,58];
+      const positions = sections.map((section,index) => {
+        const key = Boolean(section[3]);
+        const base = xPattern[index % xPattern.length];
+        const x = key ? (index % 2 ? 65 : 36) : base;
+        return [x, 100 + index * 190];
+      });
+      const chapterLines = sections.slice(0, -1).map((section,index) => {
+        const currentKey = Boolean(section[3]);
+        const nextKey = Boolean(sections[index + 1][3]);
+        const [fromX,fromCenterY] = positions[index];
+        const [toX,toCenterY] = positions[index + 1];
+        const fromY = fromCenterY + (currentKey ? 75 : 31);
+        const toY = toCenterY - (nextKey ? 75 : 31);
+        const foldY = Math.round((fromY + toY) / 2);
+        const dim = index + 1 >= played;
+        return `<path${dim ? ' class="locked"' : ""} d="M${fromX} ${fromY} V${foldY} H${toX} V${toY}"></path>`;
+      }).join("");
+
+      root.innerHTML = `
+        <button class="story-native-back" aria-label="返回"></button>
+        <div class="story-native-chapter">
+          <header class="story-native-chapter-head">
+            <div class="story-native-kicker">${meta.kicker}</div>
+            <h2>${meta.title}</h2>
+            <p>${meta.sub}</p>
+          </header>
+          <div class="story-native-map-canvas" style="--map-height:${height}px">
+            <svg class="story-native-chapter-lines" viewBox="0 0 100 ${height}" preserveAspectRatio="none" aria-hidden="true">
+              ${chapterLines}
+            </svg>
+          </div>
+          <footer class="story-native-chapter-foot"><small>${meta.kicker}</small><strong>${meta.title} · ${String(Number(id.replace("part",""))).padStart(2,"0")} / 08</strong></footer>
+        </div>`;
+
+      const canvas = root.querySelector(".story-native-map-canvas");
+      sections.forEach((section,index) => {
+        const [title,node,bg,key,focus] = section;
+        const unlocked = index < played;
+        const [x,y] = positions[index];
+        const el = document.createElement("div");
+        const side = x > 50 ? "left" : "right";
+        el.className = `story-native-node ${key ? "image" : "text"} ${side}${unlocked ? "" : " locked"}`;
+        el.style.left = `${x}%`;
+        el.style.top = `${y}px`;
+        const shownTitle = unlocked ? title : storyQuestions(title);
+        if (key) {
+          const imageStyle = unlocked && bg ? `background-image:url('${storyAsset(bg)}');--focus:${focus || "center"};` : "";
+          el.innerHTML = `<span class="node-memory" style="${imageStyle}"></span><span class="node-copy"><small class="node-index">${String(index+1).padStart(2,"0")}</small><strong class="node-title">${shownTitle}</strong></span>`;
+        } else {
+          el.innerHTML = `<span class="node-seed"></span><span class="node-copy"><small class="node-index">${String(index+1).padStart(2,"0")}</small><strong class="node-title">${shownTitle}</strong></span>`;
+        }
+        canvas.appendChild(el);
+      });
+    }
+
+    function renderStoryRoutes(root, meta, sections) {
+      const common = sections[0];
+      const routes = {
+        dream: sections.filter((item) => item[5] === "dream"),
+        stay: sections.filter((item) => item[5] === "stay"),
+        bad: sections.filter((item) => item[5] === "bad")
+      };
+      const routeLabels = ["DREAM · 世界第一","STAY · 陪我","BAD · 抓住我"];
+      const routeKeys = ["dream","stay","bad"];
+      const played = { dream:6, stay:2, bad:1 };
+      const sectionGap = 34;
+      const sectionTops = {};
+      const sectionHeights = {};
+      let cursor = 312;
+      routeKeys.forEach((routeKey) => {
+        const sectionHeight = 192 + routes[routeKey].length * 190;
+        sectionTops[routeKey] = cursor;
+        sectionHeights[routeKey] = sectionHeight;
+        cursor += sectionHeight + sectionGap;
+      });
+      const totalHeight = cursor + 10;
+
+      root.innerHTML = `
+        <button class="story-native-back" aria-label="返回"></button>
+        <div class="story-native-chapter">
+          <header class="story-native-chapter-head">
+            <div class="story-native-kicker">${meta.kicker}</div>
+            <h2>${meta.title}</h2>
+            <p>${meta.sub}</p>
+          </header>
+          <div class="story-native-routes" style="--routes-height:${totalHeight}px">
+            <div class="story-native-route-hub">
+              <svg class="story-native-route-lines" viewBox="0 0 100 292" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M50 174 V214 H17 V238 M50 214 V238 M50 214 H83 V238"></path>
+              </svg>
+              <div class="story-native-route-gate">${routeLabels[0]}</div>
+              <div class="story-native-route-gate">${routeLabels[1]}</div>
+              <div class="story-native-route-gate">${routeLabels[2]}</div>
+            </div>
+          </div>
+          <footer class="story-native-chapter-foot"><small>${meta.kicker}</small><strong>${meta.title} · 08 / 08</strong></footer>
+        </div>`;
+
+      const routesRoot = root.querySelector(".story-native-routes");
+      const commonNode = document.createElement("div");
+      commonNode.className = "story-native-node image";
+      commonNode.style.left = "50%";
+      commonNode.style.top = "92px";
+      commonNode.innerHTML = `<span class="node-memory" style="background-image:url('${storyAsset(common[2])}');--focus:${common[4]};"></span><span class="node-copy"><small class="node-index">01 · 共同线</small><strong class="node-title">${common[0]}</strong></span>`;
+      routesRoot.appendChild(commonNode);
+
+      routeKeys.forEach((routeKey,routeIndex) => {
+        const routeSection = document.createElement("section");
+        const sectionHeight = sectionHeights[routeKey];
+        const positions = routes[routeKey].map((section,index) => {
+          const key = Boolean(section[3]);
+          return [index % 2 ? 68 : 34, 200 + index * 190, key];
+        });
+        const routeLines = positions.map((position,index) => {
+          const [toX,toCenterY,toKey] = position;
+          if (!index) {
+            const toY = toCenterY - (toKey ? 75 : 31);
+            return `<path d="M50 82 V112 H${toX} V${toY}"></path>`;
+          }
+          const [fromX,fromCenterY,fromKey] = positions[index - 1];
+          const fromY = fromCenterY + (fromKey ? 75 : 31);
+          const toY = toCenterY - (toKey ? 75 : 31);
+          const foldY = Math.round((fromY + toY) / 2);
+          const dim = index >= played[routeKey];
+          return `<path${dim ? ' class="locked"' : ""} d="M${fromX} ${fromY} V${foldY} H${toX} V${toY}"></path>`;
+        }).join("");
+        routeSection.className = `story-native-route-section route-${routeKey}`;
+        routeSection.style.top = `${sectionTops[routeKey]}px`;
+        routeSection.style.height = `${sectionHeight}px`;
+        routeSection.innerHTML = `
+          <div class="story-native-route-section-head">
+            <small>ROUTE ${String(routeIndex + 1).padStart(2,"0")}</small>
+            <strong>${routeLabels[routeIndex]}</strong>
+          </div>
+          <svg class="story-native-route-section-lines" viewBox="0 0 100 ${sectionHeight}" preserveAspectRatio="none" aria-hidden="true">${routeLines}</svg>`;
+        routesRoot.appendChild(routeSection);
+
+        routes[routeKey].forEach((section,index) => {
+          const unlocked = index < played[routeKey];
+          const key = Boolean(section[3]);
+          const node = document.createElement("div");
+          const [x,y] = positions[index];
+          const side = x > 50 ? "left" : "right";
+          node.className = `story-native-node ${key ? "image" : "text"} ${side}${unlocked ? "" : " locked"}`;
+          node.style.left = `${x}%`;
+          node.style.top = `${y}px`;
+          const prefix = routeKey === "dream" ? "D" : routeKey === "stay" ? "S" : "B";
+          const title = unlocked ? section[0] : storyQuestions(section[0]);
+          if (key) {
+            const imageStyle = unlocked ? `background-image:url('${storyAsset(section[2])}');--focus:${section[4] || "center"};` : "";
+            node.innerHTML = `<span class="node-memory" style="${imageStyle}"></span><span class="node-copy"><small class="node-index">${prefix}${index+1}</small><strong class="node-title">${title}</strong></span>`;
+          } else {
+            node.innerHTML = `<span class="node-seed"></span><span class="node-copy"><small class="node-index">${prefix}${index+1}</small><strong class="node-title">${title}</strong></span>`;
+          }
+          routeSection.appendChild(node);
+        });
+      });
+    }
+
+    document.querySelectorAll("[data-story-native]").forEach((root) => {
+      const id = root.dataset.storyNative;
+      if (id === "overview") renderStoryOverview(root);
+      else renderStoryChapter(root, id);
+    });
+
     const presets = {
       start: { bg: "url('../../design/authority/icon_start_tt/start/base/start_clean_remeet_1080x1920.png')", pos: "center", theme: "dark" },
       home: { bg: "url('../../handoff/yiyi_final_visual_slices_20260711/start_flow/splash_layers/splash_bg_remeet_clean_1080x1920.png')", pos: "center", theme: "dark" },
@@ -2510,6 +3756,13 @@
 
     views.forEach((button) => {
       button.addEventListener("click", () => applyView(button.dataset.view));
+    });
+
+    document.querySelectorAll(".story-native-back").forEach((button) => {
+      button.addEventListener("click", () => {
+        const current = phone.dataset.view;
+        applyView(current === "story-map-overview" ? "home" : "story-map-overview");
+      });
     });
 
     document.querySelectorAll(".route-map-viewport").forEach((viewport) => {
