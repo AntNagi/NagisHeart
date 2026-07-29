@@ -17,6 +17,12 @@ export const GamePhase = {
   SectionTransition: 'SectionTransition',
 };
 
+const DEFAULT_NAGI_CALL = 'Nagi';
+
+function normalizeNagiCall(call) {
+  return !call || call === 'Nagi少爷' ? DEFAULT_NAGI_CALL : call;
+}
+
 export class GameController extends EventTarget {
   constructor(storyData) {
     super();
@@ -32,7 +38,7 @@ export class GameController extends EventTarget {
 
     this._gameState = null;
     this._playerName = '';
-    this._nagiCall = 'Nagi少爷';
+    this._nagiCall = DEFAULT_NAGI_CALL;
 
     this._currentNode = null;
     this._currentDialogue = [];
@@ -144,9 +150,9 @@ export class GameController extends EventTarget {
 
   // ── Lifecycle ──
 
-  startNewGame(name, call = 'Nagi少爷') {
+  startNewGame(name, call = DEFAULT_NAGI_CALL) {
     this._playerName = name || 'Ant';
-    this._nagiCall = call;
+    this._nagiCall = normalizeNagiCall(call);
     this._templateResolver = new TemplateResolver(this._playerName, this._nagiCall);
     this._gameState = new GameState(this._variablesData);
     this._backlog = [];
@@ -179,7 +185,7 @@ export class GameController extends EventTarget {
     const slot = await this._saveManager.loadAutoSave();
     if (!slot) return false;
     this._playerName = slot.playerName || 'Ant';
-    this._nagiCall = slot.nagiCall || 'Nagi少爷';
+    this._nagiCall = normalizeNagiCall(slot.nagiCall);
     this._templateResolver = new TemplateResolver(this._playerName, this._nagiCall);
     this._gameState = new GameState(this._variablesData);
     this._gameState.restoreFrom(slot.variables);
@@ -193,7 +199,7 @@ export class GameController extends EventTarget {
     const slot = await this._saveManager.load(slotId);
     if (!slot) return false;
     this._playerName = slot.playerName || 'Ant';
-    this._nagiCall = slot.nagiCall || 'Nagi少爷';
+    this._nagiCall = normalizeNagiCall(slot.nagiCall);
     this._templateResolver = new TemplateResolver(this._playerName, this._nagiCall);
     this._gameState = new GameState(this._variablesData);
     this._gameState.restoreFrom(slot.variables);

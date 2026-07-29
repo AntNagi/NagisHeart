@@ -1,5 +1,5 @@
 export class TemplateResolver {
-  constructor(playerName = '', nagiCall = 'Nagi少爷') {
+  constructor(playerName = '', nagiCall = 'Nagi') {
     this.playerName = playerName;
     this.nagiCall = nagiCall;
   }
