@@ -23,11 +23,11 @@ export class StartScreen {
         <div class="home-main">
           <div class="home-main-row" data-action="continue" style="display:none">
             <span class="home-main-label">继续故事</span>
-            <span class="home-main-desc">读取存档进度</span>
+            <span class="home-main-desc">从上次继续</span>
           </div>
           <div class="home-main-row" data-action="new">
             <span class="home-main-label">新的故事</span>
-            <span class="home-main-desc">开始新的运行</span>
+            <span class="home-main-desc">重新开始</span>
           </div>
         </div>
         <div class="home-divider"></div>
