@@ -93,12 +93,17 @@ export class StartScreen {
           dismiss: '取消',
           confirm: '确认开始',
           onDismiss: () => {},
-          onConfirm: () => { this._ctx.router.navigate('prologue'); },
+          onConfirm: () => { this._startNewGame(); },
         });
       } else {
-        this._ctx.router.navigate('prologue');
+        this._startNewGame();
       }
     });
+  }
+
+  _startNewGame() {
+    this._ctx.controller.startNewGame();
+    this._ctx.router.navigate('game');
   }
 
   _openCatalog() {
