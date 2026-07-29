@@ -315,7 +315,7 @@
       {
         "id": "p1_d057",
         "speaker": "{{playerName}}",
-        "text": "嗯。"
+        "text": "嗯"
       },
       {
         "id": "p1_d058",
@@ -1105,7 +1105,7 @@
       {
         "id": "c1a_d036",
         "speaker": "{{playerName}}",
-        "text": "嗯。"
+        "text": "嗯"
       },
       {
         "id": "c1a_d037",
@@ -1294,7 +1294,7 @@
       {
         "id": "c1b_d004",
         "speaker": "Nagi",
-        "text": "累。"
+        "text": "累"
       },
       {
         "id": "c1b_d005",
@@ -1304,7 +1304,7 @@
       {
         "id": "c1b_d006",
         "speaker": "Nagi",
-        "text": "不知道。"
+        "text": "不知道"
       },
       {
         "id": "c1b_d007",
@@ -1314,7 +1314,7 @@
       {
         "id": "c1b_d008",
         "speaker": "Nagi",
-        "text": "嗯。"
+        "text": "嗯"
       },
       {
         "id": "c1b_d009",
@@ -1336,7 +1336,7 @@
       {
         "id": "c1b_d012",
         "speaker": "Nagi",
-        "text": "嗯。一直说要赢。"
+        "text": "嗯。一直说要赢"
       },
       {
         "id": "c1b_d013",
@@ -1346,7 +1346,7 @@
       {
         "id": "c1b_d014",
         "speaker": "Nagi",
-        "text": "很烦。"
+        "text": "很烦"
       },
       {
         "id": "c1b_d015",
@@ -1356,7 +1356,7 @@
       {
         "id": "c1b_d016",
         "speaker": "Nagi",
-        "text": "他会做我没想到的事。"
+        "text": "他会做我没想到的事"
       },
       {
         "id": "c1b_d017",
@@ -1378,7 +1378,7 @@
       {
         "id": "c1b_d020",
         "speaker": "Nagi",
-        "text": "累。而且玲王一直在说要赢。"
+        "text": "累。而且玲王一直在说要赢"
       },
       {
         "id": "c1b_d021",
@@ -1388,17 +1388,17 @@
       {
         "id": "c1b_d022",
         "speaker": "Nagi",
-        "text": "想。"
+        "text": "想"
       },
       {
         "id": "c1b_d023",
         "speaker": "{{playerName}}",
-        "text": "那不就行了。"
+        "text": "那不就行了"
       },
       {
         "id": "c1b_d024",
         "speaker": "Nagi",
-        "text": "但是很麻烦。"
+        "text": "但是很麻烦"
       },
       {
         "id": "c1b_d025",
@@ -1599,7 +1599,7 @@
       {
         "id": "c1b_s2_d004",
         "speaker": "Nagi",
-        "text": "玲王管了。"
+        "text": "玲王管了"
       },
       {
         "id": "c1b_s2_d005",
@@ -1609,7 +1609,7 @@
       {
         "id": "c1b_s2_d006",
         "speaker": "Nagi",
-        "text": "腿很酸。"
+        "text": "腿很酸"
       },
       {
         "id": "c1b_s2_d007",
@@ -1619,12 +1619,12 @@
       {
         "id": "c1b_s2_d008",
         "speaker": "Nagi",
-        "text": "有一点。"
+        "text": "有一点"
       },
       {
         "id": "c1b_s2_d009",
         "speaker": "Nagi",
-        "text": "但不想承认。"
+        "text": "但不想承认"
       },
       {
         "id": "c1b_s2_d010",
@@ -1653,7 +1653,7 @@
       {
         "id": "c1b_s2_d014",
         "speaker": "{{playerName}}",
-        "text": "今天也辛苦了。"
+        "text": "今天也辛苦了"
       },
       {
         "id": "c1b_s2_d015",
@@ -1664,7 +1664,7 @@
       {
         "id": "c1b_s2_d016",
         "speaker": "Nagi",
-        "text": "嗯。"
+        "text": "嗯"
       },
       {
         "id": "c1b_s2_d017",
@@ -1699,7 +1699,7 @@
       {
         "id": "c1b_s2_d022",
         "speaker": "Nagi",
-        "text": "我选洁了。"
+        "text": "我选洁了"
       },
       {
         "id": "c1b_s2_d023",
@@ -1733,7 +1733,7 @@
       {
         "id": "c1b_s2_d028",
         "speaker": "Nagi",
-        "text": "生气了。"
+        "text": "生气了"
       },
       {
         "id": "c1b_s2_d029",
@@ -1743,7 +1743,7 @@
       {
         "id": "c1b_s2_d030",
         "speaker": "Nagi",
-        "text": "嗯。"
+        "text": "嗯"
       },
       {
         "id": "c1b_s2_d031",
@@ -2005,7 +2005,7 @@
       {
         "id": "c1b_s3_d007",
         "speaker": "Nagi",
-        "text": "输了。"
+        "text": "输了"
       },
       {
         "id": "c1b_s3_d008",
@@ -2021,7 +2021,7 @@
       {
         "id": "c1b_s3_d010",
         "speaker": "Nagi",
-        "text": "没有。我和洁输了，洁被抢走了。"
+        "text": "没有。我和洁输了，洁被抢走了"
       },
       {
         "id": "c1b_s3_d011",
@@ -2061,12 +2061,12 @@
       {
         "id": "c1b_s3_d017",
         "speaker": "Nagi",
-        "text": "很烦。"
+        "text": "很烦"
       },
       {
         "id": "c1b_s3_d018",
         "speaker": "Nagi",
-        "text": "洁被选走的时候，我很不爽。"
+        "text": "洁被选走的时候，我很不爽"
       },
       {
         "id": "c1b_s3_d019",
@@ -2843,7 +2843,7 @@
       {
         "id": "e_lemontea_d005",
         "speaker": "Nagi",
-        "text": "可以。"
+        "text": "可以"
       },
       {
         "id": "e_lemontea_d006",
@@ -3570,12 +3570,12 @@
       {
         "id": "c2_d007",
         "speaker": "Nagi",
-        "text": "三天没见{{playerName}}。"
+        "text": "三天没见{{playerName}}"
       },
       {
         "id": "c2_d008",
         "speaker": "Nagi",
-        "text": "有点麻烦。"
+        "text": "有点麻烦"
       }
     ],
     "choices": [
@@ -3655,7 +3655,7 @@
       {
         "id": "c2_s2_d005",
         "speaker": "{{playerName}}",
-        "text": "{{nagiCall}}。我喜欢你，Nagi。"
+        "text": "{{nagiCall}}。我喜欢你，Nagi"
       },
       {
         "id": "c2_s2_d006",
@@ -3702,7 +3702,7 @@
       {
         "id": "c2_s2_d013",
         "speaker": "{{playerName}}",
-        "text": "和我交往吧。"
+        "text": "和我交往吧"
       },
       {
         "id": "c2_s2_d014",
@@ -3725,27 +3725,27 @@
       {
         "id": "c2_s2_d017",
         "speaker": "{{playerName}}",
-        "text": "不会很麻烦的。"
+        "text": "不会很麻烦的"
       },
       {
         "id": "c2_s2_d018",
         "speaker": "{{playerName}}",
-        "text": "以后你可以来我的公寓。"
+        "text": "以后你可以来我的公寓"
       },
       {
         "id": "c2_s2_d019",
         "speaker": "{{playerName}}",
-        "text": "很大，也很安静。你想睡觉就睡觉，想打游戏就打游戏。"
+        "text": "很大，也很安静。你想睡觉就睡觉，想打游戏就打游戏"
       },
       {
         "id": "c2_s2_d020",
         "speaker": "{{playerName}}",
-        "text": "家里有一一，会安排餐食、清洁和日常提醒，也可以帮你安排训练。"
+        "text": "家里有一一，会安排餐食、清洁和日常提醒，也可以帮你安排训练"
       },
       {
         "id": "c2_s2_d021",
         "speaker": "{{playerName}}",
-        "text": "私厨会按照你的训练状态送餐。洗衣和打扫也不用你管。"
+        "text": "私厨会按照你的训练状态送餐。洗衣和打扫也不用你管"
       },
       {
         "id": "c2_s2_d022",
@@ -3768,17 +3768,17 @@
       {
         "id": "c2_s2_d025",
         "speaker": "{{playerName}}",
-        "text": "足球除外。足球还是要你自己去赢。"
+        "text": "足球除外。足球还是要你自己去赢"
       },
       {
         "id": "c2_s2_d026",
         "speaker": "{{playerName}}",
-        "text": "但是其他麻烦的事情，我都可以替你处理。"
+        "text": "但是其他麻烦的事情，我都可以替你处理"
       },
       {
         "id": "c2_s2_d027",
         "speaker": "{{playerName}}",
-        "text": "我也会对你很好。"
+        "text": "我也会对你很好"
       },
       {
         "id": "c2_s2_d028",
@@ -3817,12 +3817,12 @@
       {
         "id": "c2_s2_d034",
         "speaker": "{{playerName}}",
-        "text": "我公寓的AI智能中枢。"
+        "text": "我公寓的AI智能中枢"
       },
       {
         "id": "c2_s2_d035",
         "speaker": "{{playerName}}",
-        "text": "可以直接和它说话。点餐、开灯、调空调、找东西，都可以叫它。"
+        "text": "可以直接和它说话。点餐、开灯、调空调、找东西，都可以叫它"
       },
       {
         "id": "c2_s2_d036",
@@ -3832,7 +3832,7 @@
       {
         "id": "c2_s2_d037",
         "speaker": "{{playerName}}",
-        "text": "基本不用。"
+        "text": "基本不用"
       },
       {
         "id": "c2_s2_d038",
@@ -3842,7 +3842,7 @@
       {
         "id": "c2_s2_d039",
         "speaker": "{{playerName}}",
-        "text": "可以。我可以给你准备一整间游戏房。"
+        "text": "可以。我可以给你准备一整间游戏房"
       },
       {
         "id": "c2_s2_d040",
@@ -3852,7 +3852,7 @@
       {
         "id": "c2_s2_d041",
         "speaker": "{{playerName}}",
-        "text": "很舒服。"
+        "text": "很舒服"
       },
       {
         "id": "c2_s2_d042",
@@ -3862,7 +3862,7 @@
       {
         "id": "c2_s2_d043",
         "speaker": "{{playerName}}",
-        "text": "可以。"
+        "text": "可以"
       },
       {
         "id": "c2_s2_d044",
@@ -3884,7 +3884,7 @@
       {
         "id": "c2_s2_d047",
         "speaker": "{{playerName}}",
-        "text": "交往以后就可以。"
+        "text": "交往以后就可以"
       },
       {
         "id": "c2_s2_d048",
@@ -3895,7 +3895,7 @@
       {
         "id": "c2_s2_d049",
         "speaker": "Nagi",
-        "text": "那……好啊。"
+        "text": "那……好啊"
       },
       {
         "id": "c2_s2_d050",
@@ -3911,12 +3911,12 @@
       {
         "id": "c2_s2_d052",
         "speaker": "Nagi",
-        "text": "嗯。"
+        "text": "嗯"
       },
       {
         "id": "c2_s2_d053",
         "speaker": "Nagi",
-        "text": "一一听起来很方便。"
+        "text": "一一听起来很方便"
       },
       {
         "id": "c2_s2_d054",
@@ -3950,12 +3950,12 @@
       {
         "id": "c2_s2_d059",
         "speaker": "Nagi",
-        "text": "而且。"
+        "text": "而且"
       },
       {
         "id": "c2_s2_d060",
         "speaker": "Nagi",
-        "text": "是{{playerName}}的话，好像可以。"
+        "text": "是{{playerName}}的话，好像可以"
       },
       {
         "id": "c2_s2_d061",
