@@ -567,7 +567,7 @@ export class GameController extends EventTarget {
       currentNodeId: nodeId,
       sceneTitle: node.sceneTitle || '',
       bgAssetPath: bgPath,
-      uiTheme: visual?.uiTheme || 'Dark',
+      uiTheme: 'Dark',
       mood: visual?.mood || null,
       mode: node.mode || 'vn',
       speaker: '',
@@ -579,7 +579,7 @@ export class GameController extends EventTarget {
 
     if (visual?.bg || visual?.bgm) {
       this.dispatchEvent(new CustomEvent('scenechange', {
-        detail: { bg: bgPath, uiTheme: visual?.uiTheme || 'Dark', mood: visual?.mood, bgm: visual?.bgm || null },
+        detail: { bg: bgPath, uiTheme: 'Dark', mood: visual?.mood, bgm: visual?.bgm || null },
       }));
     }
 

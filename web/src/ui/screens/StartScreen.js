@@ -122,8 +122,8 @@ export class StartScreen {
     this._activeOverlay = new SettingsOverlay(this.el, {
       settingsManager: this._ctx.controller.getSettingsManager(),
       onClose: () => this._closeOverlay(),
-      onThemeChange: (theme) => {
-        document.getElementById('app').setAttribute('data-theme', theme.toLowerCase());
+      onThemeChange: () => {
+        document.getElementById('app').setAttribute('data-theme', 'dark');
       },
     });
   }

@@ -195,8 +195,8 @@ export class GameScreen {
     this._activeOverlay = new SettingsOverlay(this.el, {
       settingsManager: this._controller.getSettingsManager(),
       onClose: () => this._closeOverlay(),
-      onThemeChange: (theme) => {
-        document.getElementById('app').setAttribute('data-theme', theme.toLowerCase());
+      onThemeChange: () => {
+        document.getElementById('app').setAttribute('data-theme', 'dark');
       },
     });
   }
@@ -211,9 +211,7 @@ export class GameScreen {
   }
 
   _render(state) {
-    // Theme
-    document.getElementById('app').setAttribute('data-theme',
-      (state.uiTheme || 'Dark').toLowerCase());
+    document.getElementById('app').setAttribute('data-theme', 'dark');
 
     // Background
     if (state.bgAssetPath) {

@@ -9,7 +9,6 @@ const TEXT_SPEEDS = [
 
 const DISPLAY_THEMES = [
   { id: 'Dark', label: '深色' },
-  { id: 'Light', label: '浅色' },
 ];
 
 const FONT_SIZES = [
@@ -36,6 +35,7 @@ export class SettingsManager {
 
   update(partial) {
     Object.assign(this._settings, partial);
+    this._settings.displayTheme = 'Dark';
     this._save();
     this._notify();
   }
@@ -78,7 +78,7 @@ export class SettingsManager {
   _load() {
     try {
       const raw = JSON.parse(localStorage.getItem(KEY));
-      if (raw) return { ...this._defaults(), ...raw };
+      if (raw) return { ...this._defaults(), ...raw, displayTheme: 'Dark' };
     } catch {}
     return this._defaults();
   }
