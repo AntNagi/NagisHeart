@@ -121,7 +121,25 @@ export class GameController extends EventTarget {
     this._gameState = new GameState(this._variablesData);
     this._templateResolver = new TemplateResolver(this._playerName, this._nagiCall);
     this._backlog = [];
-    this._navigateToNode(startNode);
+    const resolution = this._engine.resolve(startNode, this._gameState);
+    if (resolution.type === 'found') {
+      this._pendingNodeAfterTransition = resolution;
+      this._updateState({
+        phase: GamePhase.SectionTransition,
+        currentNodeId: '',
+        sceneTitle: '',
+        bgAssetPath: null,
+        speaker: '',
+        text: '',
+        choices: [],
+        sectionTransition: {
+          chapterName: chapter?.name || '',
+          sectionTitle: chapter?.sections[sectionIndex]?.title || '',
+        },
+      });
+    } else {
+      this._navigateToNode(startNode);
+    }
   }
 
   // ── Lifecycle ──
@@ -137,7 +155,8 @@ export class GameController extends EventTarget {
     this._currentSectionIndex = 0;
     this._isReplayMode = false;
     this._replayBoundaryNodes.clear();
-    this._pendingNodeAfterTransition = 'p1';
+    const resolution = this._engine.resolve('p1', this._gameState);
+    this._pendingNodeAfterTransition = resolution.type === 'found' ? resolution : 'p1';
     this._pendingNextChapter = null;
     this._pendingSectionOpening = null;
     this._updateState({
@@ -231,15 +250,21 @@ export class GameController extends EventTarget {
         } else {
           const pending = this._pendingNodeAfterTransition;
           this._pendingNodeAfterTransition = null;
-          if (pending) this._enterNode(pending);
+          this._enterPendingNode(pending);
         }
         break;
       }
-      case GamePhase.ChapterTransition:
+      case GamePhase.ChapterTransition: {
+        const pending = this._pendingNodeAfterTransition;
+        if (this._showPendingSectionOpening(pending)) break;
+        this._pendingNodeAfterTransition = null;
+        this._enterPendingNode(pending);
+        break;
+      }
       case GamePhase.SectionTransition: {
         const pending = this._pendingNodeAfterTransition;
         this._pendingNodeAfterTransition = null;
-        if (pending) this._enterNode(pending);
+        this._enterPendingNode(pending);
         break;
       }
       case GamePhase.SectionEnding: {
@@ -255,7 +280,7 @@ export class GameController extends EventTarget {
         } else {
           const pending = this._pendingNodeAfterTransition;
           this._pendingNodeAfterTransition = null;
-          if (pending) this._enterNode(pending);
+          this._enterPendingNode(pending);
         }
         break;
       }
@@ -401,6 +426,40 @@ export class GameController extends EventTarget {
   }
 
   // ── Navigation ──
+
+  _enterPendingNode(pending) {
+    if (!pending) return;
+    if (typeof pending === 'string') {
+      this._navigateToNode(pending);
+      return;
+    }
+    this._enterNode(pending);
+  }
+
+  _showPendingSectionOpening(pending) {
+    if (!pending) return false;
+    const found = typeof pending === 'string' ? this._engine.resolve(pending, this._gameState) : pending;
+    if (!found || found.type !== 'found') return false;
+
+    const chapter = this._nodeToChapter.get(found.nodeId);
+    const sectionIndex = this._nodeToSectionIndex.get(found.nodeId);
+    if (!chapter || sectionIndex === undefined) return false;
+
+    const section = chapter.sections[sectionIndex];
+    if (!section?.title) return false;
+
+    this._pendingNodeAfterTransition = found;
+    this._currentChapterId = chapter.id;
+    this._currentSectionIndex = sectionIndex;
+    this._updateState({
+      phase: GamePhase.SectionTransition,
+      sectionTransition: {
+        chapterName: chapter.name,
+        sectionTitle: section.title,
+      },
+    });
+    return true;
+  }
 
   _navigateToNode(targetId) {
     if (this._isReplayMode && this._replayBoundaryNodes.has(targetId)) {
