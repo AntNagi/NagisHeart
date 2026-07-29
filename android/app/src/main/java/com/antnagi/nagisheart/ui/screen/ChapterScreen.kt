@@ -1429,6 +1429,7 @@ private fun StoryPartEightMap(
         }
 
         StoryPartEightBranchHub()
+        Spacer(modifier = Modifier.height(26.dp))
 
         listOf("dream", "stay", "bad").forEachIndexed { routeOrdinal, scope ->
             val route = routes[scope].orEmpty()
@@ -1474,7 +1475,7 @@ private fun StoryPartEightBranchHub() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(126.dp)
+            .height(132.dp)
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val centerX = size.width / 2f
