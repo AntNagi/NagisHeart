@@ -1,4 +1,4 @@
-/* ── Dialogue Box (§8) — glass card at bottom ── */
+/* ── Dialogue Box (§8) — dark HUD card at bottom, no frosted glass ── */
 .dialogue-box {
   position: absolute;
   bottom: 34px;
@@ -7,8 +7,6 @@
   padding: 18px 20px 22px;
   background: var(--dialogue-box-bg);
   border: none;
-  backdrop-filter: blur(16px) saturate(0.92);
-  -webkit-backdrop-filter: blur(16px) saturate(0.92);
   clip-path: var(--clip-cut-md);
   box-shadow: var(--dialogue-box-shadow);
   display: flex;
@@ -27,8 +25,6 @@
   padding: 3px 9px 4px;
   background: linear-gradient(to right, var(--deep-30), var(--deep-10));
   border: 1px solid var(--gold-18);
-  backdrop-filter: blur(8px) saturate(0.92);
-  -webkit-backdrop-filter: blur(8px) saturate(0.92);
   clip-path: var(--clip-cut-sm);
   text-shadow: 0 1px 2px var(--black-72), 0 0 10px var(--gold-20);
   margin-bottom: var(--space-xs);
