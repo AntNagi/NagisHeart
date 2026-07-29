@@ -57,7 +57,7 @@ export class TransitionCard {
     });
   }
 
-  showSectionOpening({ sectionLabel, sectionTitle }) {
+  showSectionOpening({ chapterName, sectionLabel, sectionTitle }) {
     this.el.style.display = '';
     this.el.className = 'authority-section-opening';
     this.el.innerHTML = `
@@ -67,7 +67,7 @@ export class TransitionCard {
           <span></span>
           <b>Section Opening</b>
         </div>
-        <div class="authority-section-index">${sectionLabel || '第一节'}</div>
+        <div class="authority-section-index">${chapterName ? `${chapterName} ` : ''}${sectionLabel || '第一节'}</div>
         <div class="authority-section-title">${sectionTitle}</div>
         <div class="authority-section-desc">轻触继续，进入本节内容。</div>
         <div class="authority-section-line"></div>
