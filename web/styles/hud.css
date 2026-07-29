@@ -10,7 +10,7 @@
   justify-content: space-between;
   padding-left: 17px;
   padding-right: 17px;
-  height: 44px;
+  height: 50px;
   z-index: 10;
   pointer-events: auto;
 }
@@ -21,10 +21,10 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 104px;
+  height: 112px;
   z-index: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(5, 8, 15, 0.40), rgba(5, 8, 15, 0.18) 52%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(5, 8, 15, 0.46), rgba(5, 8, 15, 0.20) 52%, transparent 100%);
 }
 
 /* Glass HUD icon button — §15.1 / §17.2 */
@@ -34,10 +34,12 @@
   backdrop-filter: blur(12px) saturate(0.92);
   -webkit-backdrop-filter: blur(12px) saturate(0.92);
   background:
-    radial-gradient(ellipse at center, rgba(247, 249, 252, 0.10), transparent 66%),
-    linear-gradient(to bottom, rgba(15, 24, 39, 0.58), rgba(15, 24, 39, 0.42));
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+    radial-gradient(ellipse at center, rgba(247, 249, 252, 0.10), transparent 70%),
+    linear-gradient(to bottom, rgba(14, 23, 38, 0.40), rgba(14, 23, 38, 0.24));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 22px rgba(0, 0, 0, 0.30);
   clip-path: var(--clip-cut-sm);
 }
 
@@ -49,22 +51,27 @@
   -webkit-backdrop-filter: blur(12px) saturate(0.92);
   background:
     linear-gradient(to bottom, transparent 0 46%, rgba(247, 249, 252, 0.14) 47% 53%, transparent 54%),
-    linear-gradient(to right, rgba(15, 24, 39, 0.62), rgba(15, 24, 39, 0.34) 78%, rgba(15, 24, 39, 0.12));
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    linear-gradient(to right, rgba(14, 23, 38, 0.56), rgba(14, 23, 38, 0.34) 76%, rgba(14, 23, 38, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 22px rgba(0, 0, 0, 0.26);
   clip-path: var(--clip-cut-sm);
 }
 
 .hud-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .hud-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  flex: 0 0 auto;
 }
 
 /* Title chip */
@@ -73,25 +80,27 @@
   font-weight: 500;
   font-family: var(--font-sans);
   color: var(--parchment-88);
-  padding: 7px 14px 7px 18px;
+  padding: 7px 18px;
   height: 34px;
   line-height: 20px;
   letter-spacing: 0.02em;
-  max-width: 210px;
+  width: clamp(156px, 46vw, 230px);
+  max-width: calc(100vw - 196px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: center;
   text-shadow: 0 2px 14px var(--black-48);
 }
 
 /* Icon buttons */
 .hud-btn {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(247, 249, 252, 0.98);
+  color: rgba(247, 249, 252, 0.92);
   filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.56));
   transition: opacity var(--duration-fast);
   cursor: pointer;
@@ -100,8 +109,8 @@
 }
 
 .hud-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.78)) drop-shadow(0 0 8px rgba(247, 249, 252, 0.28));
 }
 
@@ -117,7 +126,7 @@
 .hud-action-chip {
   position: absolute;
   right: 17px;
-  top: calc(44px + env(safe-area-inset-top, 14px) + 14px);
+  top: calc(50px + env(safe-area-inset-top, 14px) + 8px);
   height: 34px;
   padding: 0 14px;
   font-size: 12px;
