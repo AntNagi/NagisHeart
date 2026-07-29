@@ -941,7 +941,156 @@
         "speaker": "",
         "text": "他不知道为什么来，但好像也没有那么想走了。",
         "display": "bottom"
+      }
+    ],
+    "choices": [
+      {
+        "id": "c1a_c001",
+        "label": "确认他的感觉",
+        "effects": [
+          {
+            "var": "bond",
+            "op": "add",
+            "val": 1
+          },
+          {
+            "var": "understanding",
+            "op": "add",
+            "val": 3
+          }
+        ],
+        "responses": [
+          {
+            "id": "c1a_c001_r001",
+            "speaker": "{{playerName}}",
+            "text": "那我说对了吗？那一瞬间，你是不是喜欢上踢足球了？"
+          },
+          {
+            "id": "c1a_c001_r002",
+            "speaker": "Nagi",
+            "text": "不知道。但那时候，确实有点想再试一次。"
+          },
+          {
+            "id": "c1a_c001_r003",
+            "speaker": "{{playerName}}",
+            "text": "这样就够了！"
+          },
+          {
+            "id": "c1a_c001_r004",
+            "speaker": "Nagi",
+            "text": "{{playerName}}好像比我还开心。"
+          },
+          {
+            "id": "c1a_c001_r005",
+            "speaker": "{{playerName}}",
+            "text": "有吗？"
+          },
+          {
+            "id": "c1a_c001_r006",
+            "speaker": "Nagi",
+            "text": "有。"
+          }
+        ]
       },
+      {
+        "id": "c1a_c002",
+        "label": "真心夸他",
+        "effects": [
+          {
+            "var": "bond",
+            "op": "add",
+            "val": 2
+          },
+          {
+            "var": "understanding",
+            "op": "add",
+            "val": 2
+          }
+        ],
+        "responses": [
+          {
+            "id": "c1a_c002_r001",
+            "speaker": "{{playerName}}",
+            "text": "我只是觉得你真的很厉害。不是因为别人都知道的那种厉害，是你明明还没意识到，自己就已经很厉害了。"
+          },
+          {
+            "id": "c1a_c002_r002",
+            "speaker": "Nagi",
+            "text": "……听起来好怪。"
+          },
+          {
+            "id": "c1a_c002_r003",
+            "speaker": "{{playerName}}",
+            "text": "嗯。我也觉得我说得很怪。"
+          },
+          {
+            "id": "c1a_c002_r004",
+            "speaker": "Nagi",
+            "text": "但是好像确实是那样。"
+          }
+        ]
+      },
+      {
+        "id": "c1a_c003",
+        "label": "反被看见",
+        "effects": [
+          {
+            "var": "bond",
+            "op": "add",
+            "val": 2
+          },
+          {
+            "var": "understanding",
+            "op": "add",
+            "val": 1
+          }
+        ],
+        "responses": [
+          {
+            "id": "c1a_c003_r001",
+            "speaker": "{{playerName}}",
+            "text": "你不要一直看我。"
+          },
+          {
+            "id": "c1a_c003_r002",
+            "speaker": "Nagi",
+            "text": "为什么？"
+          },
+          {
+            "id": "c1a_c003_r003",
+            "speaker": "{{playerName}}",
+            "text": "因为我会紧张。"
+          },
+          {
+            "id": "c1a_c003_r004",
+            "speaker": "",
+            "text": "说完你才意识到，这句话比刚才所有话都更不像投资人。Nagi 眨了眨眼，像发现了新的东西。",
+            "display": "bottom"
+          },
+          {
+            "id": "c1a_c003_r005",
+            "speaker": "Nagi",
+            "text": "你也会紧张？"
+          },
+          {
+            "id": "c1a_c003_r006",
+            "speaker": "{{playerName}}",
+            "text": "不经常就是了。"
+          },
+          {
+            "id": "c1a_c003_r007",
+            "speaker": "Nagi",
+            "text": "哦。原来投资人也会这样。"
+          }
+        ]
+      }
+    ]
+  },
+  "c1a_after_choice": {
+    "id": "c1a_after_choice",
+    "sceneTitle": "会议室初见",
+    "mode": "vn",
+    "dialogue": [
       {
         "id": "c1a_d034",
         "speaker": "",
@@ -1118,153 +1267,6 @@
         "speaker": "",
         "text": "很奇怪，很麻烦，可是一点都不无聊，甚至有点开心。",
         "display": "bottom"
-      }
-    ],
-    "choices": [
-      {
-        "id": "c1a_c001",
-        "label": "确认他的感觉",
-        "effects": [
-          {
-            "var": "bond",
-            "op": "add",
-            "val": 1
-          },
-          {
-            "var": "understanding",
-            "op": "add",
-            "val": 3
-          }
-        ],
-        "responses": [
-          {
-            "id": "c1a_c001_r001",
-            "speaker": "{{playerName}}",
-            "text": "那我说对了吗？那一瞬间，你是不是喜欢上踢足球了？"
-          },
-          {
-            "id": "c1a_c001_r002",
-            "speaker": "Nagi",
-            "text": "不知道。但那时候，确实有点想再试一次。"
-          },
-          {
-            "id": "c1a_c001_r003",
-            "speaker": "{{playerName}}",
-            "text": "这样就够了！"
-          },
-          {
-            "id": "c1a_c001_r004",
-            "speaker": "Nagi",
-            "text": "{{playerName}}好像比我还开心。"
-          },
-          {
-            "id": "c1a_c001_r005",
-            "speaker": "{{playerName}}",
-            "text": "有吗？"
-          },
-          {
-            "id": "c1a_c001_r006",
-            "speaker": "Nagi",
-            "text": "有。"
-          }
-        ]
-      },
-      {
-        "id": "c1a_c002",
-        "label": "真心夸他",
-        "effects": [
-          {
-            "var": "bond",
-            "op": "add",
-            "val": 2
-          },
-          {
-            "var": "understanding",
-            "op": "add",
-            "val": 2
-          }
-        ],
-        "responses": [
-          {
-            "id": "c1a_c002_r001",
-            "speaker": "{{playerName}}",
-            "text": "我只是觉得你真的很厉害。不是因为别人都知道的那种厉害，是你明明还没意识到，自己就已经很厉害了。"
-          },
-          {
-            "id": "c1a_c002_r002",
-            "speaker": "Nagi",
-            "text": "……听起来好怪。"
-          },
-          {
-            "id": "c1a_c002_r003",
-            "speaker": "{{playerName}}",
-            "text": "嗯。我也觉得我说得很怪。"
-          },
-          {
-            "id": "c1a_c002_r004",
-            "speaker": "Nagi",
-            "text": "但是好像确实是那样。"
-          }
-        ]
-      },
-      {
-        "id": "c1a_c003",
-        "label": "反被看见",
-        "effects": [
-          {
-            "var": "bond",
-            "op": "add",
-            "val": 2
-          },
-          {
-            "var": "understanding",
-            "op": "add",
-            "val": 1
-          }
-        ],
-        "responses": [
-          {
-            "id": "c1a_c003_r001",
-            "speaker": "{{playerName}}",
-            "text": "你不要一直看我。"
-          },
-          {
-            "id": "c1a_c003_r002",
-            "speaker": "Nagi",
-            "text": "为什么？"
-          },
-          {
-            "id": "c1a_c003_r003",
-            "speaker": "{{playerName}}",
-            "text": "因为我会紧张。"
-          },
-          {
-            "id": "c1a_c003_r004",
-            "speaker": "",
-            "text": "说完你才意识到，这句话比刚才所有话都更不像投资人。Nagi 眨了眨眼，像发现了新的东西。",
-            "display": "bottom"
-          },
-          {
-            "id": "c1a_c003_r005",
-            "speaker": "Nagi",
-            "text": "你也会紧张？"
-          },
-          {
-            "id": "c1a_c003_r006",
-            "speaker": "{{playerName}}",
-            "text": "不经常就是了。"
-          },
-          {
-            "id": "c1a_c003_r007",
-            "speaker": "Nagi",
-            "text": "哦。原来投资人也会这样。"
-          }
-        ]
-      },
-      {
-        "id": "c1a_c004",
-        "label": "→",
-        "autoAdvance": true
       }
     ]
   },
