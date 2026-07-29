@@ -1747,7 +1747,7 @@ private fun StoryGlassChapterCard(
     onClick: () -> Unit
 ) {
     val presentation = storyChapterPresentations[chapter.id]
-    val overviewSubtitle = "${chapter.name}｜${chapter.title}"
+    val overviewSubtitle = chapter.title
     Box(
         modifier = modifier
             .height(284.dp)
