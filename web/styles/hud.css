@@ -15,25 +15,43 @@
   pointer-events: auto;
 }
 
+.hud::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 104px;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(5, 8, 15, 0.40), rgba(5, 8, 15, 0.18) 52%, transparent 100%);
+}
+
 /* Glass HUD icon button — §15.1 / §17.2 */
 .hud-glass-icon {
+  position: relative;
+  z-index: 1;
   backdrop-filter: blur(12px) saturate(0.92);
   -webkit-backdrop-filter: blur(12px) saturate(0.92);
   background:
-    radial-gradient(ellipse at center, var(--snow-08), transparent 66%),
-    linear-gradient(to bottom, var(--hud-blue-34), var(--hud-blue-22));
-  border: 1px solid var(--white-12);
+    radial-gradient(ellipse at center, rgba(247, 249, 252, 0.10), transparent 66%),
+    linear-gradient(to bottom, rgba(15, 24, 39, 0.58), rgba(15, 24, 39, 0.42));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
   clip-path: var(--clip-cut-sm);
 }
 
 /* Glass HUD title chip — §7 / §15.1 / §17.2: to right gradient + center line */
 .hud-glass-title {
+  position: relative;
+  z-index: 1;
   backdrop-filter: blur(12px) saturate(0.92);
   -webkit-backdrop-filter: blur(12px) saturate(0.92);
   background:
-    linear-gradient(to bottom, transparent 0 46%, var(--hud-soft) 47% 53%, transparent 54%),
-    linear-gradient(to right, var(--hud-blue-30), var(--hud-blue-12) 78%);
-  border: 1px solid var(--white-12);
+    linear-gradient(to bottom, transparent 0 46%, rgba(247, 249, 252, 0.14) 47% 53%, transparent 54%),
+    linear-gradient(to right, rgba(15, 24, 39, 0.62), rgba(15, 24, 39, 0.34) 78%, rgba(15, 24, 39, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
   clip-path: var(--clip-cut-sm);
 }
 
@@ -73,8 +91,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--snow-94);
-  filter: drop-shadow(0 3px 12px var(--black-42));
+  color: rgba(247, 249, 252, 0.98);
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.56));
   transition: opacity var(--duration-fast);
   cursor: pointer;
   border: none;
@@ -84,7 +102,7 @@
 .hud-btn svg {
   width: 18px;
   height: 18px;
-  filter: drop-shadow(0 1px 2px var(--black-64)) drop-shadow(0 0 8px var(--snow-20));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.78)) drop-shadow(0 0 8px rgba(247, 249, 252, 0.28));
 }
 
 .hud-btn:hover {
@@ -107,8 +125,8 @@
   font-family: var(--font-sans);
   letter-spacing: 0.02em;
   color: var(--parchment-90);
-  text-shadow: 0 2px 14px var(--black-48);
-  filter: drop-shadow(0 3px 12px var(--black-42));
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.62);
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.52));
   line-height: 34px;
   white-space: nowrap;
   pointer-events: auto;
