@@ -23,7 +23,7 @@ export class BacklogOverlay {
 
     let html = `
       <div class="overlay-header">
-        <button class="overlay-back-btn" data-action="close">←</button>
+        <button class="overlay-back-btn" data-action="close" aria-label="返回">←</button>
         <span class="overlay-title">剧情回顾</span>
         <span class="overlay-spacer"></span>
       </div>
