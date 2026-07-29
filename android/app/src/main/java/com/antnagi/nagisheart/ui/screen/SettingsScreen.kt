@@ -51,13 +51,6 @@ fun SettingsScreen(
                 ) {
                     NagiIconButton(icon = NagiIcon.Back, onClick = onBack)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        text = "系统设置",
-                        fontFamily = FontFamily.Serif,
-                        fontSize = 14.sp,
-                        color = NagiTheme.colors.textPrimary
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.width(36.dp))
                 }
 

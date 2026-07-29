@@ -40,6 +40,8 @@ fun ChapterOpeningScreen(
     bgAssetPath: String? = null,
     onContinue: () -> Unit
 ) {
+    val displaySubtitle = "轻触继续，进入本章内容。"
+
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
         Box(
             modifier = Modifier
@@ -99,17 +101,15 @@ fun ChapterOpeningScreen(
                         color = NagiTokens.textSnow94,
                         style = authorityTextShadow()
                     )
-                    if (!chapterSubtitle.isNullOrBlank()) {
-                        Text(
-                            text = chapterSubtitle,
-                            modifier = Modifier.widthIn(max = 310.dp),
-                            fontFamily = FontFamily.Serif,
-                            fontSize = 16.sp,
-                            lineHeight = (16 * 1.92).sp,
-                            color = NagiTokens.parchment.copy(alpha = 0.78f),
-                            style = authorityTextShadow()
-                        )
-                    }
+                    Text(
+                        text = displaySubtitle,
+                        modifier = Modifier.widthIn(max = 310.dp),
+                        fontFamily = FontFamily.Serif,
+                        fontSize = 16.sp,
+                        lineHeight = (16 * 1.92).sp,
+                        color = NagiTokens.parchment.copy(alpha = 0.78f),
+                        style = authorityTextShadow()
+                    )
                 }
             }
 

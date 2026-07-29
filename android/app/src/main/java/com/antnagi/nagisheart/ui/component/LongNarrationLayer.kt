@@ -44,7 +44,7 @@ fun LongNarrationLayer(
     modifier: Modifier = Modifier
 ) {
     val pages = remember(paragraphs) { paginateParagraphs(paragraphs) }
-    var currentPage by remember { mutableStateOf(0) }
+    var currentPage by remember(paragraphs) { mutableStateOf(0) }
     val totalPages = pages.size
 
     Box(
@@ -181,19 +181,44 @@ private fun paginateParagraphs(paragraphs: List<String>): List<List<String>> {
     val pages = mutableListOf<List<String>>()
     var currentPageTexts = mutableListOf<String>()
     var currentCharCount = 0
-    val targetCharsPerPage = 180
+    // The readable panel ends above the bottom continuation affordance.  At 16sp
+    // with 30sp leading, 180 CJK characters can exceed that safe height on phones.
+    val targetCharsPerPage = 104
 
-    for (para in paragraphs) {
-        if (currentCharCount + para.length > targetCharsPerPage && currentPageTexts.isNotEmpty()) {
-            pages.add(currentPageTexts.toList())
-            currentPageTexts = mutableListOf()
-            currentCharCount = 0
+    for (paragraph in paragraphs) {
+        val chunks = splitNarrationParagraph(paragraph, targetCharsPerPage)
+        for (chunk in chunks) {
+            if (currentCharCount + chunk.length > targetCharsPerPage && currentPageTexts.isNotEmpty()) {
+                pages.add(currentPageTexts.toList())
+                currentPageTexts = mutableListOf()
+                currentCharCount = 0
+            }
+            currentPageTexts.add(chunk)
+            currentCharCount += chunk.length
         }
-        currentPageTexts.add(para)
-        currentCharCount += para.length
     }
     if (currentPageTexts.isNotEmpty()) {
         pages.add(currentPageTexts)
     }
     return pages
+}
+
+/** Keeps an unusually long narration paragraph from bypassing the page-height budget. */
+private fun splitNarrationParagraph(text: String, maxChars: Int): List<String> {
+    if (text.length <= maxChars) return listOf(text)
+
+    val chunks = mutableListOf<String>()
+    var remaining = text.trim()
+    while (remaining.length > maxChars) {
+        val searchEnd = maxChars.coerceAtMost(remaining.lastIndex)
+        val breakAt = remaining.substring(0, searchEnd + 1)
+            .indexOfLast { it in "。！？；，、.!?;," }
+            .takeIf { it >= maxChars / 2 }
+            ?.plus(1)
+            ?: maxChars
+        chunks.add(remaining.substring(0, breakAt).trim())
+        remaining = remaining.substring(breakAt).trim()
+    }
+    if (remaining.isNotEmpty()) chunks.add(remaining)
+    return chunks
 }

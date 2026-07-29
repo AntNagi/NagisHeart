@@ -64,6 +64,19 @@
     "visualPriority": "A",
     "mood": "reflection"
   },
+  "c1a_after_choice": {
+    "bg": "assets/bg/first_meet.png",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "reflection"
+  },
   "c1b": {
     "bg": "assets/bg/easygoing _person.jpg",
     "bgm": "bgm/bgm.mp3",
