@@ -2,7 +2,7 @@ export class BacklogOverlay {
   constructor(container, { controller, onClose }) {
     this._onClose = onClose;
     this._entries = controller.getBacklog();
-    this._pageSize = 8;
+    this._pageSize = 9;
     this._totalPages = Math.max(1, Math.ceil(this._entries.length / this._pageSize));
     this._currentPage = this._totalPages - 1;
 
@@ -27,31 +27,40 @@ export class BacklogOverlay {
         <span class="overlay-title">剧情回顾</span>
         <span class="overlay-spacer"></span>
       </div>
-      <div class="backlog-body">
+      <div class="recap-page">
+        <div class="recap-inner">
     `;
 
     if (this._entries.length === 0) {
       html += '<div class="backlog-empty">暂无记录</div>';
     } else {
-      for (let i = 0; i < pageEntries.length; i++) {
-        const e = pageEntries[i];
-        const isFirst = i === 0;
+      let prevKind = '';
+      let prevSpeaker = '';
+
+      for (const e of pageEntries) {
         if (e.isChoice) {
-          html += `<div class="backlog-entry backlog-choice"><div class="backlog-text">${e.text}</div></div>`;
+          html += `<p class="recap-narr recap-choice">${e.text}</p>`;
+          prevKind = 'narr';
+          prevSpeaker = '';
+          continue;
+        }
+
+        if (e.speaker) {
+          const isContinuation = prevKind === 'dialogue' && prevSpeaker === e.speaker;
+          html += `<div class="recap-line${isContinuation ? ' cont' : ''}">`;
+          if (!isContinuation) html += `<p class="recap-who">${e.speaker}</p>`;
+          html += `<p class="recap-say">${e.text}</p></div>`;
+          prevKind = 'dialogue';
+          prevSpeaker = e.speaker;
         } else {
-          html += '<div class="backlog-entry">';
-          if (e.speaker) {
-            html += `${!isFirst ? '<div class="backlog-gap"></div>' : ''}
-              <div class="backlog-speaker">${e.speaker}</div>`;
-          } else if (!isFirst) {
-            html += '<div class="backlog-gap-sm"></div>';
-          }
-          html += `<div class="backlog-text">${e.text}</div></div>`;
+          html += `<p class="recap-narr">${e.text}</p>`;
+          prevKind = 'narr';
+          prevSpeaker = '';
         }
       }
     }
 
-    html += '</div>';
+    html += '</div></div>';
 
     if (this._totalPages > 1) {
       html += `<div class="backlog-pager">${this._currentPage + 1} / ${this._totalPages}</div>`;
@@ -80,11 +89,9 @@ export class BacklogOverlay {
         if (this._touchDeltaX < 0 && this._currentPage < this._totalPages - 1) {
           this._currentPage++;
           this._render();
-          this._bindEvents();
         } else if (this._touchDeltaX > 0 && this._currentPage > 0) {
           this._currentPage--;
           this._render();
-          this._bindEvents();
         }
       }
       this._touchDeltaX = 0;
