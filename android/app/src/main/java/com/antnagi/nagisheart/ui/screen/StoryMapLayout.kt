@@ -31,11 +31,11 @@ internal val storyChapterPresentations = mapOf(
     ),
     "part6" to StoryChapterPresentation(
         "CHAPTER 06", "第六部", "曼城",
-        "陌生城市、语言与赛场，让两个人学会新的靠近方式。", "club_arrival"
+        "陌生城市、语言与赛场，让两个人学会新的靠近方式。", "club_training"
     ),
     "part7" to StoryChapterPresentation(
         "CHAPTER 07", "第七部", "假日与心意",
-        "聚光灯之外，那些没说出口的心意在冬日里发热。", "e_scarf"
+        "聚光灯之外，那些没说出口的心意在冬日里发热。", "e_softrice"
     ),
     "part8" to StoryChapterPresentation(
         "CHAPTER 08", "第八部", "世界中心",
