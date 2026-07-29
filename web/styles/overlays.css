@@ -76,6 +76,7 @@
   font-family: var(--font-serif);
   font-size: 14px;
   color: var(--text-secondary);
+  visibility: hidden;
 }
 
 .overlay-spacer {
