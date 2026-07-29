@@ -19,10 +19,6 @@ export const GamePhase = {
 
 const DEFAULT_NAGI_CALL = 'Nagi';
 
-function normalizeNagiCall(call) {
-  return !call || call === 'Nagi少爷' ? DEFAULT_NAGI_CALL : call;
-}
-
 export class GameController extends EventTarget {
   constructor(storyData) {
     super();
@@ -123,7 +119,7 @@ export class GameController extends EventTarget {
     this._currentChapterId = chapterId;
     this._currentSectionIndex = sectionIndex;
     this._gameState = new GameState(this._variablesData);
-    this._templateResolver = new TemplateResolver(this._playerName, this._nagiCall);
+    this._templateResolver = new TemplateResolver(this._playerName);
     this._backlog = [];
     const resolution = this._engine.resolve(startNode, this._gameState);
     if (resolution.type === 'found') {
@@ -150,10 +146,10 @@ export class GameController extends EventTarget {
 
   // ── Lifecycle ──
 
-  startNewGame(name, call = DEFAULT_NAGI_CALL) {
+  startNewGame(name) {
     this._playerName = name || 'Ant';
-    this._nagiCall = normalizeNagiCall(call);
-    this._templateResolver = new TemplateResolver(this._playerName, this._nagiCall);
+    this._nagiCall = DEFAULT_NAGI_CALL;
+    this._templateResolver = new TemplateResolver(this._playerName);
     this._gameState = new GameState(this._variablesData);
     this._backlog = [];
     const ch = this._nodeToChapter.get('p1');
@@ -185,8 +181,8 @@ export class GameController extends EventTarget {
     const slot = await this._saveManager.loadAutoSave();
     if (!slot) return false;
     this._playerName = slot.playerName || 'Ant';
-    this._nagiCall = normalizeNagiCall(slot.nagiCall);
-    this._templateResolver = new TemplateResolver(this._playerName, this._nagiCall);
+    this._nagiCall = DEFAULT_NAGI_CALL;
+    this._templateResolver = new TemplateResolver(this._playerName);
     this._gameState = new GameState(this._variablesData);
     this._gameState.restoreFrom(slot.variables);
     const ch = this._nodeToChapter.get(slot.nodeId);
@@ -199,8 +195,8 @@ export class GameController extends EventTarget {
     const slot = await this._saveManager.load(slotId);
     if (!slot) return false;
     this._playerName = slot.playerName || 'Ant';
-    this._nagiCall = normalizeNagiCall(slot.nagiCall);
-    this._templateResolver = new TemplateResolver(this._playerName, this._nagiCall);
+    this._nagiCall = DEFAULT_NAGI_CALL;
+    this._templateResolver = new TemplateResolver(this._playerName);
     this._gameState = new GameState(this._variablesData);
     this._gameState.restoreFrom(slot.variables);
     const ch = this._nodeToChapter.get(slot.nodeId);
