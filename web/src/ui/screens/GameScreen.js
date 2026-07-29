@@ -142,7 +142,7 @@ export class GameScreen {
     const sectionTitle = this._controller.getCurrentSectionTitle() || '本节';
     NagiDialog.show(this.el, {
       title: '跳过本节',
-      body: `确定跳过「${sectionTitle}」？<br />跳过后将进入下一小节开始；如果已在最后一小节，则进入大章结束或结局流程。`,
+      body: `确定跳过「${sectionTitle}」？<br />跳过后将直接进入后续内容。`,
       dismiss: '取消',
       confirm: '确定跳过',
       onDismiss: () => {},
