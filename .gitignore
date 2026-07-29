@@ -23,3 +23,7 @@ node_modules/
 
 # Node
 node_modules/
+
+# 生成物 / 临时产物（体积大，不入库）
+output/
+backups/
