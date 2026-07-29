@@ -31,10 +31,15 @@
 }
 
 .dialogue-text {
+  font-family: var(--font-sans);
   font-size: var(--fs-dialogue);
   line-height: var(--lh-dialogue);
   color: var(--snow-94);
   text-shadow: 0 1px 3px var(--text-shadow-color);
+}
+
+.dialogue-box.narration .dialogue-text {
+  font-family: var(--font-serif);
 }
 
 .dialogue-continue {

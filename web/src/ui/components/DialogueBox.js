@@ -41,6 +41,8 @@ export class DialogueBox {
     this.show();
     this._speakerEl.textContent = speaker || '';
     this._speakerEl.style.display = speaker ? '' : 'none';
+    this.el.classList.toggle('narration', !speaker);
+    this.el.classList.toggle('dialogue', !!speaker);
     if (text !== this._currentText) {
       this._currentText = text;
       this._fullText = text;
