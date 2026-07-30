@@ -334,6 +334,22 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         navigateToNode(startNodeId)
     }
 
+    fun startEndingReplay(endingId: String) {
+        val epilogueNodeId = when (endingId.removePrefix("end_")) {
+            "true" -> "ep_true"
+            "good" -> "ep_good"
+            "normal" -> "ep_normal"
+            "bad" -> "ep_bad"
+            else -> return
+        }
+        val chapter = chapters.find { chapter ->
+            chapter.sections.any { it.startNode == epilogueNodeId }
+        } ?: return
+        val sectionIndex = chapter.sections.indexOfFirst { it.startNode == epilogueNodeId }
+        if (sectionIndex < 0) return
+        startReplay(epilogueNodeId, chapter.id, sectionIndex)
+    }
+
     fun stopReplay() {
         restoreReplayVariables()
         isReplayMode = false

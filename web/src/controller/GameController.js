@@ -144,6 +144,32 @@ export class GameController extends EventTarget {
     }
   }
 
+  replayEnding(endingId) {
+    const epilogueByEnding = {
+      end_true: 'ep_true',
+      true: 'ep_true',
+      end_good: 'ep_good',
+      good: 'ep_good',
+      end_normal: 'ep_normal',
+      normal: 'ep_normal',
+      end_bad: 'ep_bad',
+      bad: 'ep_bad',
+    };
+    const startNode = epilogueByEnding[endingId];
+    if (!startNode) return false;
+
+    const chapter = this._chapters.find(ch =>
+      ch.sections?.some(section => section.startNode === startNode)
+    );
+    if (!chapter) return false;
+
+    const sectionIndex = chapter.sections.findIndex(section => section.startNode === startNode);
+    if (sectionIndex < 0) return false;
+
+    this.replayFromSection(startNode, chapter.id, sectionIndex);
+    return true;
+  }
+
   // ── Lifecycle ──
 
   startNewGame(name) {
@@ -733,6 +759,10 @@ export class GameController extends EventTarget {
       if (def) {
         this._stopAuto();
         this._stopSkip();
+        if (this._isReplayMode) {
+          this._updateState({ phase: GamePhase.Ending, ending: null, errorMessage: 'REPLAY_COMPLETE' });
+          return true;
+        }
         const endingId = `end_${tier}`;
         this._progressManager.unlockEnding(endingId);
         this._saveManager.deleteAutoSave();
@@ -753,6 +783,10 @@ export class GameController extends EventTarget {
   _showEnding(resolution) {
     this._stopAuto();
     this._stopSkip();
+    if (this._isReplayMode) {
+      this._updateState({ phase: GamePhase.Ending, ending: null, errorMessage: 'REPLAY_COMPLETE' });
+      return;
+    }
     this._progressManager.unlockEnding(resolution.endingId);
     this._saveManager.deleteAutoSave();
 

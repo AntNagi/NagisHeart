@@ -132,6 +132,12 @@ export class StartScreen {
     this._activeOverlay = new GalleryOverlay(this.el, {
       controller: this._ctx.controller,
       onClose: () => this._closeOverlay(),
+      onReplayEnding: (endingId) => {
+        this._closeOverlay();
+        if (this._ctx.controller.replayEnding(endingId)) {
+          this._ctx.router.navigate('game');
+        }
+      },
     });
   }
 

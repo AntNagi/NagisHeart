@@ -63,7 +63,8 @@ private data class GalleryItem(
 @Composable
 fun GalleryScreen(
     viewModel: GameViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onReplayEnding: (String) -> Unit = {}
 ) {
     val definitions = remember { viewModel.getEndingDefinitions() }
     val unlockedEndings = viewModel.getUnlockedEndings()
@@ -109,7 +110,11 @@ fun GalleryScreen(
             selectedItem?.let { item ->
                 EndingDetailOverlay(
                     item = item,
-                    onDismiss = { selectedItem = null }
+                    onDismiss = { selectedItem = null },
+                    onReplayEnding = {
+                        selectedItem = null
+                        onReplayEnding(item.endingId)
+                    }
                 )
             }
         }
@@ -308,7 +313,8 @@ private fun EndingWallCard(
 @Composable
 private fun EndingDetailOverlay(
     item: GalleryItem,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onReplayEnding: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -436,11 +442,24 @@ private fun EndingDetailOverlay(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
-                .padding(bottom = 58.dp)
+                .padding(bottom = 98.dp)
                 .clickable(onClick = onDismiss),
             fontSize = 14.sp,
             letterSpacing = (0.12 * 14).sp,
             color = NagiTokens.snow.copy(alpha = 0.82f),
+            style = galleryEndingAuthorityShadowStyle()
+        )
+
+        Text(
+            text = "回看终章",
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 58.dp)
+                .clickable(onClick = onReplayEnding),
+            fontSize = 16.sp,
+            letterSpacing = (0.10 * 16).sp,
+            color = NagiTokens.snow.copy(alpha = 0.94f),
             style = galleryEndingAuthorityShadowStyle()
         )
     }

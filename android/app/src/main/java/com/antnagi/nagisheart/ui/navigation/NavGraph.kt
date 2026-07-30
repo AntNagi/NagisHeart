@@ -242,7 +242,13 @@ fun NagiNavGraph(
         composable(Routes.GALLERY) {
             GalleryScreen(
                 viewModel = gameViewModel,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                onReplayEnding = { endingId ->
+                    gameViewModel.startEndingReplay(endingId)
+                    navController.navigate(Routes.GAME) {
+                        popUpTo(Routes.START) { inclusive = false }
+                    }
+                }
             )
         }
     }

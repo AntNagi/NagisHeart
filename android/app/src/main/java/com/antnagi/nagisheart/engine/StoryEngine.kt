@@ -130,7 +130,9 @@ class StoryEngine(
     fun processChoiceTransition(choice: Choice): String? {
         return when (choice.transition?.type) {
             "goto" -> choice.transition.target
-            "ending" -> choice.transition.target ?: "ending_resolver"
+            "ending" -> choice.transition.target
+                ?: choice.transition.tier?.let { "end_$it" }
+                ?: "ending_resolver"
             else -> null
         }
     }
