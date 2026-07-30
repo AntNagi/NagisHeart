@@ -18336,5 +18336,1280 @@
         }
       }
     ]
+  },
+  "ep_true": {
+    "mode": "vn",
+    "sceneTitle": "世界第一，与你",
+    "dialogue": [
+      {
+        "id": "ep_true_d001",
+        "speaker": "",
+        "text": "决赛结束后，整个球场都在喊Nagi的名字。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d002",
+        "speaker": "",
+        "text": "灯光、镜头、旗帜、解说声，还有无数从世界各地传来的消息，像潮水一样涌向他。那一刻，所有人都在确认同一件事——",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d003",
+        "speaker": "",
+        "text": "Nagi Seishiro，站到了世界中心。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d004",
+        "speaker": "",
+        "text": "你站在球员通道尽头，没有立刻走过去。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d005",
+        "speaker": "",
+        "text": "不是因为不能。以你现在的身份，只要你想，所有工作人员都会替你让出一条路。媒体也会很乐意拍下你站到他身边的画面，把它写成另一个“天才背后的女人”的故事。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d006",
+        "speaker": "",
+        "text": "可你没有。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d007",
+        "speaker": "",
+        "text": "你只是站在那里，看着他被队友推向领奖台，看着他低头接过奖牌，看着他在灯光下露出一点很淡、很困、却确实满足的表情。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d008",
+        "speaker": "",
+        "text": "你忽然想起很多年前，蓝色监狱那间会议室里，他抬起眼看向你的样子。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d009",
+        "speaker": "",
+        "text": "那时你看见的是一个还没有被世界看见的人。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d010",
+        "speaker": "",
+        "text": "后来你给他资源，给他归处，给他能偷懒的沙发、能随口呼叫的一一、能让他不用处理麻烦的生活。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d011",
+        "speaker": "",
+        "text": "可你没有替他踢过任何一脚球。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d012",
+        "speaker": "",
+        "text": "也没有替他决定，应该怎样成为世界第一。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d013",
+        "speaker": "",
+        "text": "这一切终于走到这里时，你比任何人都清楚——那束光不是你制造的。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d014",
+        "speaker": "",
+        "text": "你只是没有在他发光的时候，把自己站成他的阴影。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d015",
+        "speaker": "",
+        "text": "颁奖结束后，Nagi穿过人群朝你走来。记者们还在叫他的名字，队友在身后起哄，闪光灯一路追着他。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d016",
+        "speaker": "",
+        "text": "他却像只是在训练结束后回到你身边一样，停在你面前。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d017",
+        "speaker": "Nagi",
+        "text": "{{playerName}}。"
+      },
+      {
+        "id": "ep_true_d018",
+        "speaker": "{{playerName}}",
+        "text": "嗯。"
+      },
+      {
+        "id": "ep_true_d019",
+        "speaker": "Nagi",
+        "text": "看见了吗？"
+      },
+      {
+        "id": "ep_true_d020",
+        "speaker": "{{playerName}}",
+        "text": "看见了。"
+      },
+      {
+        "id": "ep_true_d021",
+        "speaker": "Nagi",
+        "text": "我赢了。"
+      },
+      {
+        "id": "ep_true_d022",
+        "speaker": "",
+        "text": "他说得很平静，像是在报告一件终于完成的日常任务。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d023",
+        "speaker": "",
+        "text": "可你看见他眼底那点很轻的亮光。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d024",
+        "speaker": "",
+        "text": "不是为了媒体，不是为了奖杯，也不是为了任何可以被出售的故事。那是他自己终于觉得“有意思”的光。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d025",
+        "speaker": "{{playerName}}",
+        "text": "恭喜你，世界第一。"
+      },
+      {
+        "id": "ep_true_d026",
+        "speaker": "",
+        "text": "Nagi看着你，慢慢眨了一下眼。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d027",
+        "speaker": "Nagi",
+        "text": "{{playerName}}也别输。"
+      },
+      {
+        "id": "ep_true_d028",
+        "speaker": "",
+        "text": "你怔了一下，随即笑了。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d029",
+        "speaker": "",
+        "text": "他没有说“谢谢你”，也没有说“都是因为你”。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d030",
+        "speaker": "",
+        "text": "这才是最好的答案。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d031",
+        "speaker": "",
+        "text": "因为在他眼里，你不是站在他身后替他鼓掌的人。你也有你自己的战场，你自己的名字，你自己的胜负。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d032",
+        "speaker": "{{playerName}}",
+        "text": "知道了。"
+      },
+      {
+        "id": "ep_true_d033",
+        "speaker": "{{playerName}}",
+        "text": "我也会赢。"
+      },
+      {
+        "id": "ep_true_d034",
+        "speaker": "",
+        "text": "Nagi伸出手，轻轻碰了一下你的指尖。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d035",
+        "speaker": "",
+        "text": "不是牵住，也不是拉你走进镜头里。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d036",
+        "speaker": "",
+        "text": "只是确认你在那里。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d037",
+        "speaker": "",
+        "text": "世界还在喊他的名字。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d038",
+        "speaker": "",
+        "text": "而他回头时，看见的不只是经纪人、资源、系统或归处。",
+        "display": "long"
+      },
+      {
+        "id": "ep_true_d039",
+        "speaker": "",
+        "text": "是同样站在光里的你。",
+        "display": "long"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ep_true_c001",
+        "label": "→",
+        "autoAdvance": true,
+        "transition": {
+          "type": "ending",
+          "tier": "true"
+        }
+      }
+    ],
+    "mapMeta": {
+      "routeScope": "dream",
+      "spoilerLevel": 3
+    }
+  },
+  "ep_good": {
+    "mode": "vn",
+    "sceneTitle": "那么完美，那么爱他",
+    "dialogue": [
+      {
+        "id": "ep_good_d001",
+        "speaker": "",
+        "text": "春季决赛之后，Nagi的名字被越来越多人记住。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d002",
+        "speaker": "",
+        "text": "采访、转会传闻、品牌合作、国际媒体邀约，像提前约好了一样，接连涌进你的日程表。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d003",
+        "speaker": "",
+        "text": "你处理得很好。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d004",
+        "speaker": "",
+        "text": "你总是处理得很好。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d005",
+        "speaker": "",
+        "text": "你替他挡掉太吵的采访，筛掉不合适的合作，替他安排训练之外的生活，也替他把那些复杂到他一看就会说“麻烦”的东西全部拆成简单选项。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d006",
+        "speaker": "",
+        "text": "Nagi只需要踢球。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d007",
+        "speaker": "",
+        "text": "只需要偶尔回头，看见你还在那里。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d008",
+        "speaker": "",
+        "text": "很多人说你们很适合。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d009",
+        "speaker": "",
+        "text": "一个过分懒散、过分天才，一个过分冷静、过分能掌控。你替他补全了世界需要的那一面，他替你留下了一个可以不用那么用力的地方。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d010",
+        "speaker": "",
+        "text": "这听起来几乎完美。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d011",
+        "speaker": "",
+        "text": "甚至连你自己也常常这么觉得。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d012",
+        "speaker": "",
+        "text": "那天晚上，庆功宴结束得很晚。你们回到公寓时，城市已经安静下来。一一调低灯光，把客厅温度设到最舒服的范围。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d013",
+        "speaker": "",
+        "text": "Nagi换了衣服，直接倒进沙发里。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d014",
+        "speaker": "Nagi",
+        "text": "好累。"
+      },
+      {
+        "id": "ep_good_d015",
+        "speaker": "{{playerName}}",
+        "text": "今天表现很好。"
+      },
+      {
+        "id": "ep_good_d016",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "ep_good_d017",
+        "speaker": "",
+        "text": "他闭着眼，应得很轻。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d018",
+        "speaker": "",
+        "text": "你坐在旁边，打开平板确认第二天的行程。品牌方的确认邮件，媒体采访的最终名单，经纪团队发来的合同批注，全都整齐排列在屏幕上。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d019",
+        "speaker": "",
+        "text": "你一项一项处理，像是在替他把世界整理成不会伤到他的形状。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d020",
+        "speaker": "",
+        "text": "过了一会儿，Nagi忽然睁开眼。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d021",
+        "speaker": "Nagi",
+        "text": "又在想好多。"
+      },
+      {
+        "id": "ep_good_d022",
+        "speaker": "{{playerName}}",
+        "text": "没有。"
+      },
+      {
+        "id": "ep_good_d023",
+        "speaker": "Nagi",
+        "text": "有。"
+      },
+      {
+        "id": "ep_good_d024",
+        "speaker": "",
+        "text": "你停下手。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d025",
+        "speaker": "",
+        "text": "Nagi没有坐起来，只是侧过脸看你。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d026",
+        "speaker": "Nagi",
+        "text": "{{playerName}}总是在想怎么让我更好。"
+      },
+      {
+        "id": "ep_good_d027",
+        "speaker": "",
+        "text": "你没有立刻回答。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d028",
+        "speaker": "",
+        "text": "这句话听起来像夸奖。可不知道为什么，你忽然听见了里面一点很轻的不安。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d029",
+        "speaker": "Nagi",
+        "text": "但是有时候……"
+      },
+      {
+        "id": "ep_good_d030",
+        "speaker": "Nagi",
+        "text": "{{playerName}}会不见。"
+      },
+      {
+        "id": "ep_good_d031",
+        "speaker": "{{playerName}}",
+        "text": "我一直在。"
+      },
+      {
+        "id": "ep_good_d032",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "ep_good_d033",
+        "speaker": "Nagi",
+        "text": "所以才更奇怪。"
+      },
+      {
+        "id": "ep_good_d034",
+        "speaker": "",
+        "text": "他皱着眉，像是不知道该怎么解释这种感觉。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d035",
+        "speaker": "",
+        "text": "你明明就在这里。你把所有事情都安排得很好，甚至好到他不需要担心任何事。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d036",
+        "speaker": "",
+        "text": "可有些时刻，他看向你时，会觉得你离他很近，又很远。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d037",
+        "speaker": "",
+        "text": "像一盏永远亮着的灯。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d038",
+        "speaker": "",
+        "text": "温柔、可靠、漂亮。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d039",
+        "speaker": "",
+        "text": "但他不知道该怎么让那盏灯也停下来，靠在他身边休息一会儿。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d040",
+        "speaker": "{{playerName}}",
+        "text": "Nagi。"
+      },
+      {
+        "id": "ep_good_d041",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "ep_good_d042",
+        "speaker": "{{playerName}}",
+        "text": "我很爱你。"
+      },
+      {
+        "id": "ep_good_d043",
+        "speaker": "",
+        "text": "这句话说出口时，你自己也怔了一下。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d044",
+        "speaker": "",
+        "text": "你当然爱他。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d045",
+        "speaker": "",
+        "text": "你替他做过那么多事，替他挡过那么多麻烦，替他铺过那么长的路。你几乎把“爱”落实成了一整套可以运行的系统。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d046",
+        "speaker": "",
+        "text": "可你忽然意识到，你已经很久没有只是这样简单地告诉他了。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d047",
+        "speaker": "",
+        "text": "Nagi安静地看了你一会儿。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d048",
+        "speaker": "Nagi",
+        "text": "我知道。"
+      },
+      {
+        "id": "ep_good_d049",
+        "speaker": "",
+        "text": "他伸手，轻轻拉住你的袖口。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d050",
+        "speaker": "Nagi",
+        "text": "但是不要只会照顾我。"
+      },
+      {
+        "id": "ep_good_d051",
+        "speaker": "Nagi",
+        "text": "{{playerName}}也过来睡觉。"
+      },
+      {
+        "id": "ep_good_d052",
+        "speaker": "",
+        "text": "你低头看着他。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d053",
+        "speaker": "",
+        "text": "那一刻，你很想告诉他，你其实也会累，也会害怕，也会偶尔不知道自己到底是在爱他，还是在拼命证明自己有资格站在他身边。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d054",
+        "speaker": "",
+        "text": "可最后，你只是关掉了平板。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d055",
+        "speaker": "{{playerName}}",
+        "text": "好。"
+      },
+      {
+        "id": "ep_good_d056",
+        "speaker": "",
+        "text": "你在他身边坐下。Nagi往旁边让出一点位置，又很快把你拉近。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d057",
+        "speaker": "",
+        "text": "这仍然是很好的结局。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d058",
+        "speaker": "",
+        "text": "世界看见了他，你也完成了最漂亮的陪伴。爱是真的，光也是真的。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d059",
+        "speaker": "",
+        "text": "只是有些话，你们还没有完全说到最深处。",
+        "display": "long"
+      },
+      {
+        "id": "ep_good_d060",
+        "speaker": "",
+        "text": "于是这份完美里，仍有一点轻微的不对称。",
+        "display": "long"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ep_good_c001",
+        "label": "→",
+        "autoAdvance": true,
+        "transition": {
+          "type": "ending",
+          "tier": "good"
+        }
+      }
+    ],
+    "mapMeta": {
+      "routeScope": "dream",
+      "spoilerLevel": 3
+    }
+  },
+  "ep_normal": {
+    "mode": "vn",
+    "sceneTitle": "普通情侣",
+    "dialogue": [
+      {
+        "id": "ep_normal_d001",
+        "speaker": "",
+        "text": "后来，Nagi没有立刻站到世界最远的地方。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d002",
+        "speaker": "",
+        "text": "他仍然在踢球，仍然被很多人期待，也仍然会在某些比赛里踢出让人忽然安静下来的球。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d003",
+        "speaker": "",
+        "text": "只是这一次，他没有那么快被推向所有灯光的中心。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d004",
+        "speaker": "",
+        "text": "你也没有再试图把每一件事都安排到最漂亮、最正确的位置。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d005",
+        "speaker": "",
+        "text": "日子慢慢变得普通。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d006",
+        "speaker": "",
+        "text": "普通到有时候你甚至会忘记，自己曾经多么用力地想要抓住一个“最好的结局”。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d007",
+        "speaker": "",
+        "text": "周末下午，Nagi窝在你公寓的沙发上打游戏。电视里放着一场他没怎么看的比赛回放，一一在厨房确认晚餐菜单。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d008",
+        "speaker": "Nagi",
+        "text": "{{playerName}}。"
+      },
+      {
+        "id": "ep_normal_d009",
+        "speaker": "{{playerName}}",
+        "text": "嗯？"
+      },
+      {
+        "id": "ep_normal_d010",
+        "speaker": "Nagi",
+        "text": "今天吃什么？"
+      },
+      {
+        "id": "ep_normal_d011",
+        "speaker": "{{playerName}}",
+        "text": "你不是刚让一一决定了吗？"
+      },
+      {
+        "id": "ep_normal_d012",
+        "speaker": "Nagi",
+        "text": "忘了。"
+      },
+      {
+        "id": "ep_normal_d013",
+        "speaker": "",
+        "text": "你看了他一眼。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d014",
+        "speaker": "",
+        "text": "他穿着宽松的居家服，头发睡得乱七八糟，脚边还放着没收好的拖鞋。怎么看都不像什么即将被写进传奇故事里的天才。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d015",
+        "speaker": "",
+        "text": "可你忽然很喜欢这个画面。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d016",
+        "speaker": "{{playerName}}",
+        "text": "咖喱。"
+      },
+      {
+        "id": "ep_normal_d017",
+        "speaker": "Nagi",
+        "text": "我做的？"
+      },
+      {
+        "id": "ep_normal_d018",
+        "speaker": "{{playerName}}",
+        "text": "是一一和私厨做的。"
+      },
+      {
+        "id": "ep_normal_d019",
+        "speaker": "Nagi",
+        "text": "哦。"
+      },
+      {
+        "id": "ep_normal_d020",
+        "speaker": "Nagi",
+        "text": "那就好。"
+      },
+      {
+        "id": "ep_normal_d021",
+        "speaker": "",
+        "text": "他松了一口气，又重新低头打游戏。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d022",
+        "speaker": "",
+        "text": "你忍不住笑。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d023",
+        "speaker": "",
+        "text": "你们也会吵架。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d024",
+        "speaker": "",
+        "text": "有时是因为他把游戏手柄丢在沙发缝里，有时是因为你连续三天工作到凌晨，有时只是因为他一句“好麻烦”说得太理所当然，而你刚好不想继续替他收拾。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d025",
+        "speaker": "",
+        "text": "可吵完之后，他会慢吞吞地挪到你旁边。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d026",
+        "speaker": "Nagi",
+        "text": "还生气吗？"
+      },
+      {
+        "id": "ep_normal_d027",
+        "speaker": "{{playerName}}",
+        "text": "生气。"
+      },
+      {
+        "id": "ep_normal_d028",
+        "speaker": "Nagi",
+        "text": "那我要怎么办？"
+      },
+      {
+        "id": "ep_normal_d029",
+        "speaker": "{{playerName}}",
+        "text": "自己想。"
+      },
+      {
+        "id": "ep_normal_d030",
+        "speaker": "Nagi",
+        "text": "好麻烦。"
+      },
+      {
+        "id": "ep_normal_d031",
+        "speaker": "",
+        "text": "他说完，却还是会坐在那里认真想。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d032",
+        "speaker": "",
+        "text": "偶尔想出来的办法很笨，比如给你倒一杯温水，或者把自己最喜欢的位置让给你睡觉。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d033",
+        "speaker": "",
+        "text": "可你知道，他是真的在学。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d034",
+        "speaker": "",
+        "text": "学着把喜欢说得多一点，学着在你沉默时不要立刻逃回游戏里，学着承认生活里有些麻烦不是可以丢给一一解决的。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d035",
+        "speaker": "",
+        "text": "而你也在学。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d036",
+        "speaker": "",
+        "text": "学着不把每一次停留都看成失败，不把每一次普通都看成不够好。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d037",
+        "speaker": "",
+        "text": "世界第一当然很好。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d038",
+        "speaker": "",
+        "text": "可有一天晚上，你下班回家，看见客厅亮着一盏小灯，Nagi趴在沙发上睡着，手机停在游戏暂停界面。一一压低声音提醒你，晚餐还热着。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d039",
+        "speaker": "",
+        "text": "你忽然觉得，这样也很好。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d040",
+        "speaker": "",
+        "text": "不是最远的终点。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d041",
+        "speaker": "",
+        "text": "不是最耀眼的传奇。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d042",
+        "speaker": "",
+        "text": "只是一个懒散、低反应、会把喜欢说得很少的Nagi，把更多日子留给了你。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d043",
+        "speaker": "",
+        "text": "这不是世界第一的神话。",
+        "display": "long"
+      },
+      {
+        "id": "ep_normal_d044",
+        "speaker": "",
+        "text": "这是普通情侣的春天。",
+        "display": "long"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ep_normal_c001",
+        "label": "→",
+        "autoAdvance": true,
+        "transition": {
+          "type": "ending",
+          "tier": "normal"
+        }
+      }
+    ],
+    "mapMeta": {
+      "routeScope": "stay",
+      "spoilerLevel": 3
+    }
+  },
+  "ep_bad": {
+    "mode": "vn",
+    "sceneTitle": "好麻烦",
+    "dialogue": [
+      {
+        "id": "ep_bad_d001",
+        "speaker": "",
+        "text": "后来，Nagi还是赢了。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d002",
+        "speaker": "",
+        "text": "甚至比很多人想象中赢得更快。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d003",
+        "speaker": "",
+        "text": "他的名字出现在更大的屏幕上，商业合作铺满城市，媒体开始用越来越确定的语气讲述他的故事。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d004",
+        "speaker": "",
+        "text": "他们说，他是被你亲手推向世界的天才。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d005",
+        "speaker": "",
+        "text": "他们说，你比任何人都懂得如何打造一个时代的明星。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d006",
+        "speaker": "",
+        "text": "他们说，Nagi Seishiro 的成功，是资源、判断、控制和天赋共同制造出的奇迹。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d007",
+        "speaker": "",
+        "text": "你没有否认。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d008",
+        "speaker": "",
+        "text": "一开始，你只是想让所有人看见他。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d009",
+        "speaker": "",
+        "text": "看见那个懒散的、轻盈的、明明讨厌麻烦却能在球落下时忽然改变整个赛场的人。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d010",
+        "speaker": "",
+        "text": "可后来，事情开始变得太快。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d011",
+        "speaker": "",
+        "text": "采访需要答案，品牌需要形象，媒体需要故事，俱乐部需要稳定可售卖的名字。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d012",
+        "speaker": "",
+        "text": "你替他回答，替他筛选，替他决定哪些光可以照过来，哪些声音应该被挡在外面。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d013",
+        "speaker": "",
+        "text": "你做得太好了。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d014",
+        "speaker": "",
+        "text": "好到所有人都开始默认，这就是Nagi应该成为的样子。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d015",
+        "speaker": "",
+        "text": "也包括你自己。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d016",
+        "speaker": "",
+        "text": "那天晚上，发布会结束后，你在后台走廊里找到他。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d017",
+        "speaker": "",
+        "text": "Nagi坐在长椅上，球鞋没有换，外套拉链拉到一半。工作人员在远处收拾设备，走廊灯光冷得像冬天。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d018",
+        "speaker": "{{playerName}}",
+        "text": "今天表现很好。"
+      },
+      {
+        "id": "ep_bad_d019",
+        "speaker": "",
+        "text": "他没有回答。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d020",
+        "speaker": "",
+        "text": "你以为他只是累了，于是继续翻看手机里的舆情反馈。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d021",
+        "speaker": "{{playerName}}",
+        "text": "明天的采访我已经让他们缩短了。品牌方那边会换一个更轻松的主题，不会问太多私人问题。"
+      },
+      {
+        "id": "ep_bad_d022",
+        "speaker": "Nagi",
+        "text": "{{playerName}}。"
+      },
+      {
+        "id": "ep_bad_d023",
+        "speaker": "",
+        "text": "他的声音很轻。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d024",
+        "speaker": "",
+        "text": "你停下手。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d025",
+        "speaker": "Nagi",
+        "text": "我今天说的话，是不是又不对？"
+      },
+      {
+        "id": "ep_bad_d026",
+        "speaker": "{{playerName}}",
+        "text": "没有。"
+      },
+      {
+        "id": "ep_bad_d027",
+        "speaker": "Nagi",
+        "text": "那为什么他们一直让我照着稿子说？"
+      },
+      {
+        "id": "ep_bad_d028",
+        "speaker": "",
+        "text": "你张了张口。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d029",
+        "speaker": "",
+        "text": "你想告诉他，那只是为了保护他。为了让他不用被误解，不用被恶意剪辑，不用在还没准备好的时候，被世界拆开来看。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d030",
+        "speaker": "",
+        "text": "可Nagi看着你，像是已经听过很多次这个答案。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d031",
+        "speaker": "Nagi",
+        "text": "好麻烦。"
+      },
+      {
+        "id": "ep_bad_d032",
+        "speaker": "",
+        "text": "他说。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d033",
+        "speaker": "Nagi",
+        "text": "足球本来没有这么麻烦。"
+      },
+      {
+        "id": "ep_bad_d034",
+        "speaker": "",
+        "text": "走廊安静下来。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d035",
+        "speaker": "",
+        "text": "你忽然想起最早的时候，他说“好麻烦”总是懒洋洋的，像是在撒娇，像是在把自己交给一个可以偷懒的地方。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d036",
+        "speaker": "",
+        "text": "可现在不是。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d037",
+        "speaker": "",
+        "text": "现在这句话像一扇门，慢慢在你面前关上。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d038",
+        "speaker": "{{playerName}}",
+        "text": "Nagi，我只是想让你走得更远。"
+      },
+      {
+        "id": "ep_bad_d039",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "ep_bad_d040",
+        "speaker": "Nagi",
+        "text": "我知道。"
+      },
+      {
+        "id": "ep_bad_d041",
+        "speaker": "",
+        "text": "他低下头，看着自己鞋面上的草屑。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d042",
+        "speaker": "Nagi",
+        "text": "但是我不想这样赢。"
+      },
+      {
+        "id": "ep_bad_d043",
+        "speaker": "",
+        "text": "你指尖一僵。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d044",
+        "speaker": "Nagi",
+        "text": "{{playerName}}以前不是这样的。"
+      },
+      {
+        "id": "ep_bad_d045",
+        "speaker": "",
+        "text": "他说得很慢，像每个字都让他觉得麻烦，却还是不得不说。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d046",
+        "speaker": "Nagi",
+        "text": "以前{{playerName}}会看我踢球。"
+      },
+      {
+        "id": "ep_bad_d047",
+        "speaker": "Nagi",
+        "text": "现在{{playerName}}总是在看别的东西。"
+      },
+      {
+        "id": "ep_bad_d048",
+        "speaker": "",
+        "text": "你顺着他的目光低头，才发现自己的手机屏幕还亮着。上面是媒体反馈、品牌报告、数据曲线和明天的安排。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d049",
+        "speaker": "",
+        "text": "全部都和他有关。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d050",
+        "speaker": "",
+        "text": "又好像全部都不是他。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d051",
+        "speaker": "{{playerName}}",
+        "text": "我是为了你。"
+      },
+      {
+        "id": "ep_bad_d052",
+        "speaker": "Nagi",
+        "text": "嗯。"
+      },
+      {
+        "id": "ep_bad_d053",
+        "speaker": "Nagi",
+        "text": "所以才更麻烦。"
+      },
+      {
+        "id": "ep_bad_d054",
+        "speaker": "",
+        "text": "他站起身。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d055",
+        "speaker": "",
+        "text": "你下意识想伸手拉住他，可他往后退了一步。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d056",
+        "speaker": "",
+        "text": "那一步很轻。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d057",
+        "speaker": "",
+        "text": "却比任何争吵都更清楚。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d058",
+        "speaker": "Nagi",
+        "text": "我会继续踢球。"
+      },
+      {
+        "id": "ep_bad_d059",
+        "speaker": "Nagi",
+        "text": "但是不要再这样安排我了。"
+      },
+      {
+        "id": "ep_bad_d060",
+        "speaker": "",
+        "text": "你看着他转身离开。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d061",
+        "speaker": "",
+        "text": "远处有人喊他的名字。他停了一下，还是朝那边走去。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d062",
+        "speaker": "",
+        "text": "世界依旧会看见他。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d063",
+        "speaker": "",
+        "text": "他后来也仍然赢了，甚至走向更大的中心。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d064",
+        "speaker": "",
+        "text": "可这一次，那个故事里没有你站在他身边的位置。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d065",
+        "speaker": "",
+        "text": "你曾经想替他珍惜那份轻盈，亲手把所有灯都打开。",
+        "display": "long"
+      },
+      {
+        "id": "ep_bad_d066",
+        "speaker": "",
+        "text": "后来才发现，最亮的灯也会把一个人从你身边照远。",
+        "display": "long"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ep_bad_c001",
+        "label": "→",
+        "autoAdvance": true,
+        "transition": {
+          "type": "ending",
+          "tier": "bad"
+        }
+      }
+    ],
+    "mapMeta": {
+      "routeScope": "bad",
+      "spoilerLevel": 3
+    }
   }
 }

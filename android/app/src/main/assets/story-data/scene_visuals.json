@@ -1116,5 +1116,57 @@
     "uiSafeZone": null,
     "visualPriority": null,
     "mood": "reflection"
+  },
+  "ep_true": {
+    "bg": "assets/bg/true_end.jpg",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "triumph"
+  },
+  "ep_good": {
+    "bg": "assets/bg/king.jpg",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "bittersweet"
+  },
+  "ep_normal": {
+    "bg": "assets/bg/ending_true_nagi_soft_gaze.jpg",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "tender"
+  },
+  "ep_bad": {
+    "bg": "assets/bg/goal_faraway.jpg",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "A",
+    "mood": "loss"
   }
 }

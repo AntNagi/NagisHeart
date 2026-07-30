@@ -37,22 +37,22 @@
     {
       "tier": "bad",
       "condition": "path === 'bad' || badLock === true || distance >= 6 || (control >= 5 && (nagiDiscomfortSeed === true || nagiRebel === true))",
-      "node": "end_bad"
+      "node": "ep_bad"
     },
     {
       "tier": "true",
       "condition": "path === 'dream' && antCompress === false && witnessFlag === true && personalHonor === true && nagiNameIndependent === true && control <= 2 && distance <= 3",
-      "node": "end_true"
+      "node": "ep_true"
     },
     {
       "tier": "good",
       "condition": "path === 'dream' && personalHonor === true && (antCompress === true || nagiCare < 2)",
-      "node": "end_good"
+      "node": "ep_good"
     },
     {
       "tier": "normal",
       "condition": "path === 'stay' || true",
-      "node": "end_normal"
+      "node": "ep_normal"
     }
   ]
 }

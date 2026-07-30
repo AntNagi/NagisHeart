@@ -65,7 +65,11 @@
     "bad_cold": "bad_last",
     "bad_last": "bad_far",
     "bad_far": "ending_resolver",
-    "c1a_after_choice": "c1b"
+    "c1a_after_choice": "c1b",
+    "ep_true": "end_true",
+    "ep_good": "end_good",
+    "ep_normal": "end_normal",
+    "ep_bad": "end_bad"
   },
   "byRoute": {
     "M": {
