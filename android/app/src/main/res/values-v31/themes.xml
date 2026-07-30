@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Android 12+ generates the splash from the launcher icon when nothing is
+      declared, which re-insets an icon that is already inside the adaptive safe
+      zone — the result is a tiny mark on a large white plate. Declare the splash
+      icon explicitly so it is sized once, against the game's dark backdrop
+      instead of the icon's pale plate.
+    -->
+    <style name="Theme.NagisHeart" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="android:windowSplashScreenBackground">@color/splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_icon</item>
+    </style>
+</resources>
