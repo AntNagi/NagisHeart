@@ -1632,6 +1632,9 @@ private fun StoryChapterFooter(
     }
 }
 
+/** §27.8 / §27.12 sub-header grey, shared by the overview and chapter headers. */
+private val OverviewSubtitle = Color(0xFF9AA8BA) // token-exempt: §27 map-only sub-header
+
 @Composable
 private fun StoryOverviewList(
     chapters: List<Chapter>,
@@ -1647,6 +1650,39 @@ private fun StoryOverviewList(
             .fillMaxSize()
             .padding(top = 62.dp, start = 14.dp, end = 14.dp, bottom = 30.dp)
     ) {
+        // §27.12 overview header. Sized to match the chapter sub-page header
+        // (§27 specs both at 18 / 43 / ~18), so the two read as one family.
+        item {
+            Column(modifier = Modifier.fillMaxWidth().padding(bottom = 22.dp)) {
+                Text(
+                    text = "CHAPTER 总览",
+                    fontFamily = FontFamily.Serif,
+                    fontSize = 14.sp,
+                    letterSpacing = 2.4.sp,
+                    color = NagiTokens.speakerGold.copy(alpha = 0.86f),
+                    maxLines = 1
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "他的世界，正在展开",
+                    fontFamily = FontFamily.Serif,
+                    fontSize = 28.sp,
+                    lineHeight = 34.sp,
+                    color = NagiTokens.textSnow94,
+                    maxLines = 1
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = "走过的故事会亮起来。点击亮起的章节，靠近那段记忆。",
+                    fontSize = 11.sp,
+                    lineHeight = 16.sp,
+                    color = OverviewSubtitle,
+                    maxLines = 2,
+                    overflow = TextOverflow.Clip
+                )
+            }
+        }
+
         itemsIndexed(chapters) { index, chapter ->
             val playedSections = chapter.sections.indices.count { sectionIndex ->
                 sectionStates["${chapter.id}:$sectionIndex"] != SectionState.LOCKED
