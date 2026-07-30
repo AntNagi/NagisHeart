@@ -194,6 +194,19 @@
     "visualPriority": null,
     "mood": "romance"
   },
+  "e_lemontea_s3": {
+    "bg": "assets/bg/lemontea.jpg",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": null,
+    "mood": "romance"
+  },
   "c2": {
     "bg": "assets/bg/message_in_holiday.jpg",
     "bgm": "bgm/bgm.mp3",
@@ -273,6 +286,32 @@
     "mood": "romance"
   },
   "e_depart": {
+    "bg": "assets/bg/nel_start.png",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "loneliness"
+  },
+  "e_depart_s2": {
+    "bg": "assets/bg/nel_start.png",
+    "bgm": "bgm/bgm.mp3",
+    "cg": null,
+    "uiTheme": "Dark",
+    "autoSave": false,
+    "focusPoint": null,
+    "cropRule": null,
+    "characterPosition": null,
+    "uiSafeZone": null,
+    "visualPriority": "temp",
+    "mood": "loneliness"
+  },
+  "e_depart_s3": {
     "bg": "assets/bg/nel_start.png",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
