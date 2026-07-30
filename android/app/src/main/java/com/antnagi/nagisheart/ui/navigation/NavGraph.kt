@@ -9,7 +9,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.antnagi.nagisheart.ui.component.NagiDialog
-import com.antnagi.nagisheart.ui.screen.*
+import com.antnagi.nagisheart.ui.screen.BacklogScreen
+import com.antnagi.nagisheart.ui.screen.ChapterOpeningScreen
+import com.antnagi.nagisheart.ui.screen.ChapterScreen
+import com.antnagi.nagisheart.ui.screen.GalleryScreen
+import com.antnagi.nagisheart.ui.screen.GameScreen
+import com.antnagi.nagisheart.ui.screen.NameSetupScreen
+import com.antnagi.nagisheart.ui.screen.PrologueScreen
+import com.antnagi.nagisheart.ui.screen.SaveLoadScreen
+import com.antnagi.nagisheart.ui.screen.SettingsScreen
+import com.antnagi.nagisheart.ui.screen.SplashScreen
+import com.antnagi.nagisheart.ui.screen.StartScreen
 import com.antnagi.nagisheart.ui.viewmodel.GameViewModel
 
 object Routes {
@@ -18,7 +28,7 @@ object Routes {
     const val NAME_SETUP = "nameSetup"
     const val PROLOGUE = "prologue"
     const val CHAPTER_OPENING = "chapterOpening"
-const val GAME = "game"
+    const val GAME = "game"
     const val SAVE_LOAD = "saveLoad/{mode}"
     const val SETTINGS = "settings"
     const val BACKLOG = "backlog"

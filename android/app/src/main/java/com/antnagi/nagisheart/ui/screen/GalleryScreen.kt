@@ -442,7 +442,7 @@ private fun EndingDetailOverlay(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
-                .padding(bottom = 98.dp)
+                .padding(bottom = 58.dp)
                 .clickable(onClick = onDismiss),
             fontSize = 14.sp,
             letterSpacing = (0.12 * 14).sp,
@@ -455,7 +455,7 @@ private fun EndingDetailOverlay(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
-                .padding(bottom = 58.dp)
+                .padding(bottom = 98.dp)
                 .clickable(onClick = onReplayEnding),
             fontSize = 16.sp,
             letterSpacing = (0.10 * 16).sp,
