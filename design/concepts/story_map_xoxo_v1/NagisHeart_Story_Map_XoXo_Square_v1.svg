@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800" width="1800" height="1800">
+<style>
+text { font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+.node-title { font-weight: 650; letter-spacing: 0.5px; }
+.node-sub { font-weight: 400; letter-spacing: 0.2px; }
+</style>
+<defs>
+<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#08111F"/><stop offset="48%" stop-color="#111D31"/><stop offset="100%" stop-color="#070D17"/>
+</linearGradient>
+<radialGradient id="glow-blue" cx="52%" cy="45%" r="52%"><stop offset="0%" stop-color="#3F82C8" stop-opacity="0.19"/><stop offset="100%" stop-color="#3F82C8" stop-opacity="0"/></radialGradient>
+<radialGradient id="glow-gold" cx="50%" cy="9%" r="45%"><stop offset="0%" stop-color="#D7BE86" stop-opacity="0.13"/><stop offset="100%" stop-color="#D7BE86" stop-opacity="0"/></radialGradient>
+<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FFFFFF" stroke-opacity="0.025" stroke-width="1"/></pattern>
+<filter id="soft-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<marker id="arrow-gold" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+<path d="M0,0 L10,4 L0,8 Z" fill="#D7BE86"/>
+</marker>
+<marker id="arrow-blue" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+<path d="M0,0 L10,4 L0,8 Z" fill="#78B7FF"/>
+</marker>
+<marker id="arrow-purple" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+<path d="M0,0 L10,4 L0,8 Z" fill="#A58CFF"/>
+</marker>
+<marker id="arrow-coral" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+<path d="M0,0 L10,4 L0,8 Z" fill="#F18B7C"/>
+</marker>
+</defs>
+<rect width="1800" height="1800" fill="url(#bg)"/>
+<rect width="1800" height="1800" fill="url(#glow-blue)"/>
+<rect width="1800" height="1800" fill="url(#glow-gold)"/>
+<rect width="1800" height="1800" fill="url(#grid)"/>
+<text x="82" y="92" font-size="46" font-weight="700" fill="#F7F1E4">故事地图</text>
+<text x="84" y="128" font-size="18" fill="#93A3BA">回看故事走向、关系分歧，以及它们最终通向的结局</text>
+<text x="1718" y="93" text-anchor="end" font-size="17" fill="#D7BE86">NAGI’S HEART · ROUTE MAP</text>
+<line x1="82" y1="154" x2="1718" y2="154" stroke="#FFFFFF" stroke-opacity="0.12"/>
+<text x="82" y="208" font-size="15" font-weight="600" fill="#75869D" letter-spacing="2">相遇与同行</text>
+<text x="82" y="400" font-size="15" font-weight="600" fill="#75869D" letter-spacing="2">同居距离</text>
+<text x="82" y="852" font-size="15" font-weight="600" fill="#75869D" letter-spacing="2">假期分线</text>
+<text x="82" y="1304" font-size="15" font-weight="600" fill="#75869D" letter-spacing="2">最终选择</text>
+<text x="82" y="1648" font-size="15" font-weight="600" fill="#75869D" letter-spacing="2">结局</text>
+<path d="M 325 292 H 362" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 600 292 H 637" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 875 292 H 912" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 1150 292 H 1187" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 1425 292 H 1462" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 1588 334 V 358 H 900 V 387" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 900 477 C 805 495 660 495 520 530" fill="none" stroke="#78B7FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-blue)"/>
+<path d="M 900 477 C 995 495 1140 495 1280 530" fill="none" stroke="#78B7FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-blue)"/>
+<path d="M 520 616 C 620 655 735 670 900 668" fill="none" stroke="#78B7FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-blue)"/>
+<path d="M 1280 616 C 1180 655 1065 670 900 668" fill="none" stroke="#78B7FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-blue)"/>
+<path d="M 900 758 V 792" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 900 878 V 910" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 900 1000 C 795 1016 655 1024 505 1050" fill="none" stroke="#78B7FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-blue)"/>
+<path d="M 900 1000 C 1005 1016 1145 1024 1295 1050" fill="none" stroke="#78B7FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-blue)"/>
+<path d="M 505 1136 C 615 1175 735 1190 900 1188" fill="none" stroke="#78B7FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-blue)"/>
+<path d="M 1295 1136 C 1185 1175 1065 1190 900 1188" fill="none" stroke="#78B7FF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-blue)"/>
+<path d="M 900 1278 V 1312" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 900 1398 C 760 1410 590 1418 380 1446" fill="none" stroke="#A58CFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-purple)"/>
+<path d="M 900 1398 V 1446" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 900 1398 C 1040 1410 1210 1418 1420 1446" fill="none" stroke="#F18B7C" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-coral)"/>
+<path d="M 380 1538 C 545 1570 700 1574 900 1570" fill="none" stroke="#A58CFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-purple)"/>
+<path d="M 900 1538 V 1570" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 1420 1538 C 1255 1570 1100 1574 900 1570" fill="none" stroke="#F18B7C" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-coral)"/>
+<path d="M 900 1648 C 900 1660 220 1655 220 1682" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 900 1648 C 900 1660 650 1655 650 1682" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 900 1648 C 900 1660 1080 1655 1080 1682" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<path d="M 900 1648 C 900 1660 1510 1655 1510 1682" fill="none" stroke="#D7BE86" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" marker-end="url(#arrow-gold)"/>
+<g class="node node-main" filter="url(#soft-glow)">
+<rect x="100" y="250" width="225" height="84" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="2.4"/>
+<path d="M 118 251 H 307" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<circle cx="120" cy="270" r="6" fill="#D7BE86"/>
+<text x="212.5" y="287.0" text-anchor="middle" class="node-title" font-size="25" fill="#F7F1E4">开场白</text>
+<text x="212.5" y="317.0" text-anchor="middle" class="node-sub" font-size="15" fill="#AAB6C8">作战室</text>
+</g>
+<g class="node node-main">
+<rect x="375" y="250" width="225" height="84" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 393 251 H 582" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="487.5" y="287.0" text-anchor="middle" class="node-title" font-size="25" fill="#F7F1E4">第一部</text>
+<text x="487.5" y="317.0" text-anchor="middle" class="node-sub" font-size="15" fill="#AAB6C8">相遇之前</text>
+</g>
+<g class="node node-main">
+<rect x="650" y="250" width="225" height="84" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 668 251 H 857" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="762.5" y="287.0" text-anchor="middle" class="node-title" font-size="25" fill="#F7F1E4">第二部</text>
+<text x="762.5" y="317.0" text-anchor="middle" class="node-sub" font-size="15" fill="#AAB6C8">开放日</text>
+</g>
+<g class="node node-main">
+<rect x="925" y="250" width="225" height="84" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 943 251 H 1132" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="1037.5" y="287.0" text-anchor="middle" class="node-title" font-size="25" fill="#F7F1E4">第三部</text>
+<text x="1037.5" y="317.0" text-anchor="middle" class="node-sub" font-size="15" fill="#AAB6C8">NEL低谷</text>
+</g>
+<g class="node node-main">
+<rect x="1200" y="250" width="225" height="84" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 1218 251 H 1407" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="1312.5" y="287.0" text-anchor="middle" class="node-title" font-size="25" fill="#F7F1E4">第四部</text>
+<text x="1312.5" y="317.0" text-anchor="middle" class="node-sub" font-size="15" fill="#AAB6C8">世界杯</text>
+</g>
+<g class="node node-main">
+<rect x="1475" y="250" width="225" height="84" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 1493 251 H 1682" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="1587.5" y="287.0" text-anchor="middle" class="node-title" font-size="25" fill="#F7F1E4">第五部</text>
+<text x="1587.5" y="317.0" text-anchor="middle" class="node-sub" font-size="15" fill="#AAB6C8">同居夏天</text>
+</g>
+<g class="node node-router" filter="url(#soft-glow)">
+<rect x="735" y="387" width="330" height="90" rx="18" fill="#10233D" fill-opacity="0.92" stroke="#78B7FF" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 753 388 H 1047" stroke="#A8D0FF" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="900.0" y="427.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">同居距离</text>
+<text x="900.0" y="457.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">靠近，或保持客气</text>
+</g>
+<g class="node node-main">
+<rect x="355" y="530" width="330" height="86" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 373 531 H 667" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="520.0" y="568.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">更靠近</text>
+<text x="520.0" y="598.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">亲密同居</text>
+</g>
+<g class="node node-main">
+<rect x="1115" y="530" width="330" height="86" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 1133 531 H 1427" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="1280.0" y="568.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">保持距离</text>
+<text x="1280.0" y="598.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">客气相处</text>
+</g>
+<g class="node node-main">
+<rect x="730" y="668" width="340" height="90" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 748 669 H 1052" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="900.0" y="708.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">夏天后半</text>
+<text x="900.0" y="738.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">冷战 · 七夕 · 夏窗签约</text>
+</g>
+<g class="node node-main">
+<rect x="735" y="792" width="330" height="86" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 753 793 H 1047" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="900.0" y="830.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">第六部</text>
+<text x="900.0" y="860.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">豪门新星</text>
+</g>
+<g class="node node-router" filter="url(#soft-glow)">
+<rect x="735" y="910" width="330" height="90" rx="18" fill="#10233D" fill-opacity="0.92" stroke="#78B7FF" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 753 911 H 1047" stroke="#A8D0FF" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="900.0" y="950.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">假期分线</text>
+<text x="900.0" y="980.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">不同的靠近方式</text>
+</g>
+<g class="node node-main">
+<rect x="340" y="1050" width="330" height="86" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 358 1051 H 652" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="505.0" y="1088.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">围巾与感冒</text>
+<text x="505.0" y="1118.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">照顾他的脆弱</text>
+</g>
+<g class="node node-main">
+<rect x="1130" y="1050" width="330" height="86" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 1148 1051 H 1442" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="1295.0" y="1088.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">打扮与醉意</text>
+<text x="1295.0" y="1118.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">玩笑里的试探</text>
+</g>
+<g class="node node-router" filter="url(#soft-glow)">
+<rect x="730" y="1188" width="340" height="90" rx="18" fill="#10233D" fill-opacity="0.92" stroke="#78B7FF" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 748 1189 H 1052" stroke="#A8D0FF" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="900.0" y="1228.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">关系温度</text>
+<text x="900.0" y="1258.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">一路选择留下的答案</text>
+</g>
+<g class="node node-main">
+<rect x="735" y="1312" width="330" height="86" rx="18" fill="#111B2A" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 753 1313 H 1047" stroke="#E5D6B3" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="900.0" y="1350.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">第八部</text>
+<text x="900.0" y="1380.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">春季名单 · 他的名字</text>
+</g>
+<g class="node node-dream">
+<rect x="210" y="1446" width="340" height="92" rx="18" fill="#201A3C" fill-opacity="0.92" stroke="#A58CFF" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 228 1447 H 532" stroke="#CFC3FF" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="380.0" y="1487.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">见证他的世界</text>
+<text x="380.0" y="1517.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">梦想路线</text>
+</g>
+<g class="node node-stay">
+<rect x="730" y="1446" width="340" height="92" rx="18" fill="#2A2419" fill-opacity="0.92" stroke="#D7BE86" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 748 1447 H 1052" stroke="#F1DCAC" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="900.0" y="1487.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">留在日常里</text>
+<text x="900.0" y="1517.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">陪伴路线</text>
+</g>
+<g class="node node-spotlight">
+<rect x="1250" y="1446" width="340" height="92" rx="18" fill="#321D26" fill-opacity="0.92" stroke="#F18B7C" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 1268 1447 H 1572" stroke="#FFC1B5" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="1420.0" y="1487.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">推向聚光灯</text>
+<text x="1420.0" y="1517.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">野心路线</text>
+</g>
+<g class="node node-router" filter="url(#soft-glow)">
+<rect x="735" y="1570" width="330" height="78" rx="18" fill="#10233D" fill-opacity="0.92" stroke="#78B7FF" stroke-opacity="0.78" stroke-width="1.6"/>
+<path d="M 753 1571 H 1047" stroke="#A8D0FF" stroke-opacity="0.46" stroke-width="1.2"/>
+<text x="900.0" y="1604.0" text-anchor="middle" class="node-title" font-size="27" fill="#F7F1E4">最终结局</text>
+<text x="900.0" y="1634.0" text-anchor="middle" class="node-sub" font-size="17" fill="#AAB6C8">选择与关系共同判定</text>
+</g>
+<g class="ending-node">
+<rect x="85" y="1682" width="270" height="98" rx="18" fill="#101826" fill-opacity="0.95" stroke="#A58CFF" stroke-width="1.8"/>
+<rect x="85" y="1682" width="270" height="9" rx="5" fill="#A58CFF" opacity="0.92"/>
+<text x="220.0" y="1727" text-anchor="middle" font-size="24" font-weight="700" fill="#A58CFF">TRUE END</text>
+<text x="220.0" y="1759" text-anchor="middle" font-size="19" fill="#F7F1E4">世界第一，与你</text>
+</g>
+<g class="ending-node">
+<rect x="515" y="1682" width="270" height="98" rx="18" fill="#101826" fill-opacity="0.95" stroke="#D7BE86" stroke-width="1.8"/>
+<rect x="515" y="1682" width="270" height="9" rx="5" fill="#D7BE86" opacity="0.92"/>
+<text x="650.0" y="1727" text-anchor="middle" font-size="24" font-weight="700" fill="#D7BE86">GOOD END</text>
+<text x="650.0" y="1759" text-anchor="middle" font-size="19" fill="#F7F1E4">那么完美，那么爱你</text>
+</g>
+<g class="ending-node">
+<rect x="945" y="1682" width="270" height="98" rx="18" fill="#101826" fill-opacity="0.95" stroke="#78B7FF" stroke-width="1.8"/>
+<rect x="945" y="1682" width="270" height="9" rx="5" fill="#78B7FF" opacity="0.92"/>
+<text x="1080.0" y="1727" text-anchor="middle" font-size="24" font-weight="700" fill="#78B7FF">NORMAL END</text>
+<text x="1080.0" y="1759" text-anchor="middle" font-size="19" fill="#F7F1E4">普通情侣</text>
+</g>
+<g class="ending-node">
+<rect x="1375" y="1682" width="270" height="98" rx="18" fill="#101826" fill-opacity="0.95" stroke="#F18B7C" stroke-width="1.8"/>
+<rect x="1375" y="1682" width="270" height="9" rx="5" fill="#F18B7C" opacity="0.92"/>
+<text x="1510.0" y="1727" text-anchor="middle" font-size="24" font-weight="700" fill="#F18B7C">BAD END</text>
+<text x="1510.0" y="1759" text-anchor="middle" font-size="19" fill="#F7F1E4">好麻烦</text>
+</g>
+<g transform="translate(82 1580)">
+<rect x="0" y="0" width="470" height="54" rx="16" fill="#FFFFFF" fill-opacity="0.035" stroke="#FFFFFF" stroke-opacity="0.10"/>
+<line x1="24" y1="27" x2="58" y2="27" stroke="#D7BE86" stroke-width="3"/>
+<circle cx="41" cy="27" r="4" fill="#D7BE86"/>
+<text x="69" y="33" font-size="16" fill="#AAB6C8">主线</text>
+<line x1="134" y1="27" x2="168" y2="27" stroke="#78B7FF" stroke-width="3"/>
+<circle cx="151" cy="27" r="4" fill="#78B7FF"/>
+<text x="179" y="33" font-size="16" fill="#AAB6C8">关系分歧</text>
+<line x1="292" y1="27" x2="326" y2="27" stroke="#A58CFF" stroke-width="3"/>
+<circle cx="309" cy="27" r="4" fill="#A58CFF"/>
+<text x="337" y="33" font-size="16" fill="#AAB6C8">终局路线</text>
+</g>
+</svg>
