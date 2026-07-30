@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -320,7 +321,15 @@ private fun EndingDetailOverlay(
         modifier = Modifier
             .fillMaxSize()
             .background(NagiTokens.authorityVoid)
-            .clickable(onClick = onDismiss)
+            // Swallow taps instead of dismissing: the overlay now has its own
+            // 返回画廊 / 重看结局 actions, and a full-screen dismiss made it far
+            // too easy to leave by accident. Consuming the tap also stops it
+            // reaching the gallery cards behind the overlay.
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = {}
+            )
     ) {
         if (item.bgPath != null) {
             Image(
