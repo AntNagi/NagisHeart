@@ -133,10 +133,16 @@ fun GameScreen(
 
                 GamePhase.Ending -> {
                     if (viewModel.isInReplayMode()) {
-                        ReplayCompleteOverlay(onBack = {
-                            viewModel.stopReplay()
-                            onReplayFinished()
-                        })
+                        // Ending replays are launched from the gallery, section
+                        // replays from the story map — send the player back where
+                        // they came from and say so.
+                        ReplayCompleteOverlay(
+                            destination = if (viewModel.isEndingReplayMode()) "回忆画廊" else "剧情地图",
+                            onBack = {
+                                viewModel.stopReplay()
+                                onReplayFinished()
+                            }
+                        )
                     } else {
                         state.ending?.let { ending ->
                             AuthorityEndingOverlay(
@@ -532,7 +538,7 @@ private fun EndingOverlay(
 }
 
 @Composable
-private fun ReplayCompleteOverlay(onBack: () -> Unit) {
+private fun ReplayCompleteOverlay(destination: String, onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -556,7 +562,7 @@ private fun ReplayCompleteOverlay(onBack: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "轻触返回剧情地图",
+                text = "轻触返回$destination",
                 style = NagiTheme.typography.caption,
                 color = NagiPalette.silverBlue.copy(alpha = 0.5f)
             )

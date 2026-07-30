@@ -255,9 +255,9 @@ fun NagiNavGraph(
                 onBack = { navController.popBackStack() },
                 onReplayEnding = { endingId ->
                     gameViewModel.startEndingReplay(endingId)
-                    navController.navigate(Routes.GAME) {
-                        popUpTo(Routes.START) { inclusive = false }
-                    }
+                    // Keep GALLERY on the stack so 回看结束 pops straight back to it.
+                    // popUpTo(START) used to clear it, which dumped the player on the home screen.
+                    navController.navigate(Routes.GAME)
                 }
             )
         }

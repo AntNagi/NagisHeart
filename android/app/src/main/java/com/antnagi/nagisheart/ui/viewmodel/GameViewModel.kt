@@ -107,6 +107,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private var pendingNodeAfterTransition: NodeResolution.Found? = null
     private var pendingNextChapter: Chapter? = null
     private var isReplayMode: Boolean = false
+    /** Replay entered from the gallery rather than the story map — decides where 回看结束 returns to. */
+    private var isEndingReplay: Boolean = false
     private var replayBoundaryNodes: Set<String> = emptySet()
     private var replaySavedVariables: Map<String, JsonElement>? = null
 
@@ -323,6 +325,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         isReplayMode = true
+        isEndingReplay = false          // startEndingReplay flips this back on after delegating here
         replayBoundaryNodes = nextBoundaryNodes
         playerName = playerName.ifEmpty { "Ant" }
         if (!::gameState.isInitialized) {
@@ -348,15 +351,19 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         val sectionIndex = chapter.sections.indexOfFirst { it.startNode == epilogueNodeId }
         if (sectionIndex < 0) return
         startReplay(epilogueNodeId, chapter.id, sectionIndex)
+        isEndingReplay = true
     }
 
     fun stopReplay() {
         restoreReplayVariables()
         isReplayMode = false
+        isEndingReplay = false
         replayBoundaryNodes = emptySet()
     }
 
     fun isInReplayMode(): Boolean = isReplayMode
+
+    fun isEndingReplayMode(): Boolean = isEndingReplay
 
     fun getEndingDefinitions(): Map<String, EndingDefinition> =
         if (::engine.isInitialized) engine.getEndingDefinitions() else emptyMap()
