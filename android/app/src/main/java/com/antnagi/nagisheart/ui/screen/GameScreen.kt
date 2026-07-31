@@ -170,6 +170,7 @@ fun GameScreen(
                         AuthorityChapterOpeningOverlay(
                             chapterName = info.chapterName,
                             chapterTitle = info.chapterTitle,
+                            isEpilogue = info.isEpilogue,
                             onTap = { viewModel.onTap() }
                         )
                     }
@@ -180,7 +181,7 @@ fun GameScreen(
                         SectionOpeningOverlay(
                             sectionTitle = info.sectionTitle,
                             chapterName = info.chapterName,
-                            sectionIndex = info.sectionIndex,
+                            sectionLabel = info.sectionLabel,
                             bgAssetPath = state.bgAssetPath,
                             onTap = { viewModel.onTap() }
                         )
@@ -574,6 +575,7 @@ private fun ReplayCompleteOverlay(destination: String, onBack: () -> Unit) {
 private fun AuthorityChapterOpeningOverlay(
     chapterName: String,
     chapterTitle: String,
+    isEpilogue: Boolean = false,
     onTap: () -> Unit
 ) {
     Box(
@@ -599,7 +601,7 @@ private fun AuthorityChapterOpeningOverlay(
                 verticalArrangement = Arrangement.spacedBy(18.dp)
             ) {
                 Text(
-                    text = chapterEyebrow(chapterName),
+                    text = if (isEpilogue) "Epilogue" else chapterEyebrow(chapterName),
                     fontSize = 12.sp,
                     letterSpacing = (0.22 * 12).sp,
                     color = NagiTokens.gold.copy(alpha = 0.82f),
@@ -635,7 +637,7 @@ private fun AuthorityChapterOpeningOverlay(
                     style = authorityShadowStyle()
                 )
                 Text(
-                    text = "轻触继续，进入本章内容。",
+                    text = if (isEpilogue) "轻触继续，进入结局篇章。" else "轻触继续，进入本章内容。",
                     modifier = Modifier
                         .widthIn(max = 310.dp)
                         .padding(top = 8.dp),
@@ -1219,7 +1221,7 @@ private fun ChapterOpeningOverlay(
 private fun SectionOpeningOverlay(
     sectionTitle: String,
     chapterName: String,
-    sectionIndex: Int,
+    sectionLabel: String,
     bgAssetPath: String?,
     onTap: () -> Unit
 ) {
@@ -1247,7 +1249,7 @@ private fun SectionOpeningOverlay(
             KickerLabel("Section Opening")
             Spacer(modifier = Modifier.height(14.dp))
             Text(
-                text = "$chapterName · 第 ${sectionIndex + 1} 节",
+                text = "$chapterName · $sectionLabel",
                 fontFamily = FontFamily.Serif,
                 fontSize = 14.sp,
                 color = goldColor,

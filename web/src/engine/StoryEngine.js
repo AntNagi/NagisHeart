@@ -27,6 +27,11 @@ export class StoryEngine {
         const result = this._resolveRouter(router, state);
         state.applyEffects(result.sideEffects);
         currentId = result.targetId;
+      } else if (this._isEndingNode(currentId)) {
+        const key = currentId.replace(/^end_/, '');
+        const def = this._endings.definitions[key];
+        if (!def) return { type: 'notFound', id: currentId, reason: 'Ending definition not found' };
+        return { type: 'endingReached', endingId: currentId, definition: def };
       } else if (this.isNode(currentId)) {
         return {
           type: 'found',
@@ -34,11 +39,6 @@ export class StoryEngine {
           node: this._nodes[currentId],
           visual: this._sceneVisuals[currentId] || null
         };
-      } else if (this._isEndingNode(currentId)) {
-        const key = currentId.replace(/^end_/, '');
-        const def = this._endings.definitions[key];
-        if (!def) return { type: 'notFound', id: currentId, reason: 'Ending definition not found' };
-        return { type: 'endingReached', endingId: currentId, definition: def };
       } else {
         return { type: 'notFound', id: currentId, reason: 'ID is neither a node nor a router' };
       }
@@ -76,7 +76,7 @@ export class StoryEngine {
     if (!choice.transition) return null;
     switch (choice.transition.type) {
       case 'goto':   return choice.transition.target;
-      case 'ending': return choice.transition.target || 'ending_resolver';
+      case 'ending': return choice.transition.target || (choice.transition.tier ? `end_${choice.transition.tier}` : null) || 'ending_resolver';
       default:       return null;
     }
   }

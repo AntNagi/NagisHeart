@@ -12,10 +12,11 @@ export class TransitionCard {
 
   setOnTap(cb) { this._onTap = cb; }
 
-  showChapterOpening({ chapterName, chapterTitle, timeRange }) {
+  showChapterOpening({ chapterName, chapterTitle, timeRange, isEpilogue }) {
     this.el.style.display = '';
     this.el.className = 'authority-chapter-opening';
-    const eyebrow = this._chapterEyebrow(chapterName);
+    const eyebrow = isEpilogue ? 'Epilogue' : this._chapterEyebrow(chapterName);
+    const desc = isEpilogue ? '轻触继续，进入结局篇章。' : '轻触继续，进入本章内容。';
     this.el.innerHTML = `
       <div class="authority-opening-bg"></div>
       <div class="authority-opening-content">
@@ -23,7 +24,7 @@ export class TransitionCard {
         <div class="authority-opening-divider"></div>
         <div class="authority-opening-name">${chapterName}</div>
         <div class="authority-opening-title">${chapterTitle}</div>
-        <div class="authority-opening-desc">轻触继续，进入本章内容。</div>
+        <div class="authority-opening-desc">${desc}</div>
       </div>
       <div class="authority-opening-tap">轻触继续</div>
     `;

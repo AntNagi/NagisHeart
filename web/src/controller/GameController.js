@@ -135,20 +135,39 @@ export class GameController extends EventTarget {
     if (resolution.type === 'found') {
       const bgPath = resolution.visual?.bg?.replace(/^assets\//, '') || null;
       this._pendingNodeAfterTransition = resolution;
-      this._updateState({
-        phase: GamePhase.SectionTransition,
-        currentNodeId: '',
-        sceneTitle: '',
-        bgAssetPath: bgPath,
-        speaker: '',
-        text: '',
-        choices: [],
-        sectionTransition: {
-          chapterName: chapter?.name || '',
-          sectionTitle: chapter?.sections[sectionIndex]?.title || '',
-          sectionLabel: this._sectionLabel(sectionIndex),
-        },
-      });
+      const section = chapter?.sections[sectionIndex];
+      if (startNode.startsWith('ep_')) {
+        const parts = (section?.title || '').split('·');
+        this._updateState({
+          phase: GamePhase.ChapterTransition,
+          currentNodeId: '',
+          sceneTitle: '',
+          bgAssetPath: bgPath,
+          speaker: '',
+          text: '',
+          choices: [],
+          chapterTransition: {
+            chapterName: parts[0]?.trim() || section?.title || '',
+            chapterTitle: parts.slice(1).join('·').trim() || '',
+            isEpilogue: true,
+          },
+        });
+      } else {
+        this._updateState({
+          phase: GamePhase.SectionTransition,
+          currentNodeId: '',
+          sceneTitle: '',
+          bgAssetPath: bgPath,
+          speaker: '',
+          text: '',
+          choices: [],
+          sectionTransition: {
+            chapterName: chapter?.name || '',
+            sectionTitle: section?.title || '',
+            sectionLabel: this._sectionLabel(chapter, sectionIndex),
+          },
+        });
+      }
     } else {
       this._navigateToNode(startNode);
     }
@@ -293,7 +312,8 @@ export class GameController extends EventTarget {
       }
       case GamePhase.ChapterTransition: {
         const pending = this._pendingNodeAfterTransition;
-        if (this._showPendingSectionOpening(pending)) break;
+        const wasEpilogue = this._state?.chapterTransition?.isEpilogue;
+        if (!wasEpilogue && this._showPendingSectionOpening(pending)) break;
         this._pendingNodeAfterTransition = null;
         this._enterPendingNode(pending);
         break;
@@ -436,12 +456,21 @@ export class GameController extends EventTarget {
         return;
       }
     }
-    this._updateState({ phase: GamePhase.Error, errorMessage: 'ENDING_RESOLVE_FAILED' });
+    this._updateState({ phase: GamePhase.Ending, ending: null });
   }
 
   getCurrentSectionTitle() {
     const chapter = this._chapters.find(c => c.id === this._currentChapterId);
     return chapter?.sections[this._currentSectionIndex]?.title || '';
+  }
+
+  isSkipAvailable() {
+    const chapter = this._chapters.find(c => c.id === this._currentChapterId);
+    if (!chapter) return false;
+    const section = chapter.sections[this._currentSectionIndex];
+    if (!section) return false;
+    if (section.startNode && section.startNode.startsWith('ep_')) return false;
+    return true;
   }
 
   // ── Navigation ──
@@ -455,7 +484,17 @@ export class GameController extends EventTarget {
     this._enterNode(pending);
   }
 
-  _sectionLabel(sectionIndex) {
+  _sectionLabel(chapter, sectionIndex) {
+    const section = chapter?.sections?.[sectionIndex];
+    const scope = section?.scope;
+    if (scope === 'dream' || scope === 'stay' || scope === 'bad') {
+      let scopeCount = 0;
+      for (let i = 0; i <= sectionIndex; i++) {
+        if (chapter.sections[i].scope === scope) scopeCount++;
+      }
+      const routeName = scope === 'dream' ? 'Dream' : scope === 'stay' ? 'Stay' : 'Bad';
+      return `${routeName} · 第${scopeCount}节`;
+    }
     return `第${sectionIndex + 1}节`;
   }
 
@@ -475,15 +514,28 @@ export class GameController extends EventTarget {
     this._pendingNodeAfterTransition = found;
     this._currentChapterId = chapter.id;
     this._currentSectionIndex = sectionIndex;
-    this._updateState({
-      phase: GamePhase.SectionTransition,
-      bgAssetPath: bgPath,
-      sectionTransition: {
-        chapterName: chapter.name,
-        sectionTitle: section.title,
-        sectionLabel: this._sectionLabel(sectionIndex),
-      },
-    });
+    if (section.startNode?.startsWith('ep_')) {
+      const parts = (section.title || '').split('·');
+      this._updateState({
+        phase: GamePhase.ChapterTransition,
+        bgAssetPath: bgPath,
+        chapterTransition: {
+          chapterName: parts[0]?.trim() || section.title,
+          chapterTitle: parts.slice(1).join('·').trim() || '',
+          isEpilogue: true,
+        },
+      });
+    } else {
+      this._updateState({
+        phase: GamePhase.SectionTransition,
+        bgAssetPath: bgPath,
+        sectionTransition: {
+          chapterName: chapter.name,
+          sectionTitle: section.title,
+          sectionLabel: this._sectionLabel(chapter, sectionIndex),
+        },
+      });
+    }
     return true;
   }
 
@@ -560,15 +612,28 @@ export class GameController extends EventTarget {
             const bgPath = found?.visual?.bg?.replace(/^assets\//, '') || null;
             this._currentSectionIndex = newSectionIndex;
             this._pendingNodeAfterTransition = found;
-            this._updateState({
-              phase: GamePhase.SectionTransition,
-              bgAssetPath: bgPath,
-              sectionTransition: {
-              chapterName: chapter.name,
-              sectionTitle: newSection?.title || '',
-              sectionLabel: this._sectionLabel(newSectionIndex),
-              },
-            });
+            if (newSection?.startNode?.startsWith('ep_')) {
+              const parts = (newSection.title || '').split('·');
+              this._updateState({
+                phase: GamePhase.ChapterTransition,
+                bgAssetPath: bgPath,
+                chapterTransition: {
+                  chapterName: parts[0]?.trim() || newSection.title,
+                  chapterTitle: parts.slice(1).join('·').trim() || '',
+                  isEpilogue: true,
+                },
+              });
+            } else {
+              this._updateState({
+                phase: GamePhase.SectionTransition,
+                bgAssetPath: bgPath,
+                sectionTransition: {
+                  chapterName: chapter.name,
+                  sectionTitle: newSection?.title || '',
+                  sectionLabel: this._sectionLabel(chapter, newSectionIndex),
+                },
+              });
+            }
             return;
           }
           this._currentSectionIndex = newSectionIndex;

@@ -46,7 +46,7 @@ export class DialogueBox {
     if (text !== this._currentText) {
       this._currentText = text;
       this._fullText = text;
-      this._animateText(text);
+      this._textEl.textContent = text;
     }
   }
 

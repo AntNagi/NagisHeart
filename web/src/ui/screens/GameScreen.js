@@ -229,7 +229,7 @@ export class GameScreen {
     this._hud.update({
       sceneTitle: state.sceneTitle,
       isAutoPlaying: state.isAutoPlaying,
-      showSkipSection: isGameplay,
+      showSkipSection: isGameplay && this._controller.isSkipAvailable(),
     });
 
     // When an overlay is open, don't update gameplay layers

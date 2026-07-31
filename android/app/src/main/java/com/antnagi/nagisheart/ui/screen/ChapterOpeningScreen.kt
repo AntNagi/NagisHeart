@@ -38,9 +38,10 @@ fun ChapterOpeningScreen(
     chapterTitle: String,
     chapterSubtitle: String? = null,
     bgAssetPath: String? = null,
+    isEpilogue: Boolean = false,
     onContinue: () -> Unit
 ) {
-    val displaySubtitle = "轻触继续，进入本章内容。"
+    val displaySubtitle = if (isEpilogue) "轻触继续，进入结局篇章。" else "轻触继续，进入本章内容。"
 
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
         Box(
@@ -66,7 +67,7 @@ fun ChapterOpeningScreen(
                     verticalArrangement = Arrangement.spacedBy(18.dp)
                 ) {
                     Text(
-                        text = chapterEyebrow(chapterName),
+                        text = if (isEpilogue) "Epilogue" else chapterEyebrow(chapterName),
                         fontSize = 12.sp,
                         letterSpacing = (0.22 * 12).sp,
                         color = NagiTokens.gold.copy(alpha = 0.82f),

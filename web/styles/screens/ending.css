@@ -1,11 +1,16 @@
 /* ── Authority Ending Screen (§18.1 / Android TASK-20260723-002) ─ */
+/*
+  Centred, not bottom-aligned. Bottom-aligning grew the copy down into the
+  pinned 返回主页 on any ending whose description ran past two lines; Android
+  centres the column and reserves space below it for the action.
+*/
 .authority-ending-screen {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   animation: card-fade-in var(--duration-slow) var(--ease-out) forwards;
   overflow: hidden;
 }
@@ -45,7 +50,9 @@
   flex-direction: column;
   align-items: center;
   max-width: 330px;
-  padding: 0 42px 34px;
+  /* 120px of reserve below the copy keeps it clear of the pinned action at 58px,
+     matching the Android overlay's bottom padding. */
+  padding: 96px 42px 120px;
   gap: 14px;
 }
 
@@ -107,13 +114,13 @@
   bottom: 58px;
   left: 0;
   right: 0;
+  z-index: 2;
   text-align: center;
   font-size: 14px;
   letter-spacing: 0.12em;
   color: rgba(247, 249, 252, 0.82);
   cursor: pointer;
   pointer-events: auto;
-  z-index: 2;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.64);
 }
 

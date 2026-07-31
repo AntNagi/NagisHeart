@@ -15,35 +15,27 @@ export class SceneBackground {
     const newImg = document.createElement('img');
     newImg.alt = '';
     newImg.style.opacity = '0';
-    newImg.src = `../assets/${bgPath}`;
 
-    // Preload image before showing
+    let shown = false;
     const showImage = () => {
+      if (shown) return;
+      shown = true;
       newImg.style.transition = `opacity var(--duration-scene) var(--ease-out)`;
-      requestAnimationFrame(() => { newImg.style.opacity = '1'; });
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { newImg.style.opacity = '1'; });
+      });
+      const oldImg = this._img;
+      this._img = newImg;
       setTimeout(() => {
-        if (this._img.parentNode === this.el) this.el.removeChild(this._img);
-        this._img = newImg;
+        if (oldImg.parentNode === this.el) this.el.removeChild(oldImg);
       }, 900);
     };
 
     newImg.onload = showImage;
-    newImg.onerror = () => {
-      // On error, still show the image element (might be partially loaded)
-      showImage();
-    };
-
-    // Fallback: if image takes too long, show it anyway after 300ms
-    const timeout = setTimeout(() => {
-      if (newImg.style.opacity === '0') {
-        showImage();
-      }
-    }, 300);
-
-    newImg.addEventListener('load', () => clearTimeout(timeout), { once: true });
-    newImg.addEventListener('error', () => clearTimeout(timeout), { once: true });
-
+    newImg.onerror = showImage;
     this.el.appendChild(newImg);
+    newImg.src = `../assets/${bgPath}`;
+    setTimeout(() => showImage(), 300);
   }
 
   destroy() { this.el.remove(); }

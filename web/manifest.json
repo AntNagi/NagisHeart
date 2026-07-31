@@ -9,7 +9,7 @@
   "theme_color": "#101827",
   "icons": [
     {
-      "src": "../design/authority/icon_start_tt/icon/android_launcher_rework_v4_safezone/legacy/mipmap-xxxhdpi/ic_launcher.png",
+      "src": "../android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
       "sizes": "192x192",
       "type": "image/png"
     }

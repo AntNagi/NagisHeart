@@ -24,13 +24,14 @@ enum class GamePhase {
 data class ChapterTransitionInfo(
     val chapterName: String,
     val chapterTitle: String,
-    val timeRange: String?
+    val timeRange: String? = null,
+    val isEpilogue: Boolean = false
 )
 
 data class SectionTransitionInfo(
     val chapterName: String,
     val sectionTitle: String,
-    val sectionIndex: Int
+    val sectionLabel: String
 )
 
 data class DebugInfo(
@@ -644,16 +645,33 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                         currentSectionIndex = newSectionIndex
                         pendingNodeAfterTransition = found
                         val pendingBgPath = found.visual?.bg?.removePrefix("assets/")
-                        _uiState.update {
-                            it.copy(
-                                phase = GamePhase.SectionTransition,
-                                bgAssetPath = pendingBgPath ?: it.bgAssetPath,
-                                sectionTransition = SectionTransitionInfo(
-                                    chapterName = chapter.name,
-                                    sectionTitle = sectionTitle,
-                                    sectionIndex = newSectionIndex
+                        val section = chapter.sections[newSectionIndex]
+                        if (section.startNode.startsWith("ep_")) {
+                            val parts = sectionTitle.split("·", limit = 2)
+                            _uiState.update {
+                                it.copy(
+                                    phase = GamePhase.ChapterTransition,
+                                    bgAssetPath = pendingBgPath ?: it.bgAssetPath,
+                                    chapterTransition = ChapterTransitionInfo(
+                                        chapterName = parts[0].trim(),
+                                        chapterTitle = parts.getOrElse(1) { "" }.trim(),
+                                        timeRange = null,
+                                        isEpilogue = true
+                                    )
                                 )
-                            )
+                            }
+                        } else {
+                            _uiState.update {
+                                it.copy(
+                                    phase = GamePhase.SectionTransition,
+                                    bgAssetPath = pendingBgPath ?: it.bgAssetPath,
+                                    sectionTransition = SectionTransitionInfo(
+                                        chapterName = chapter.name,
+                                        sectionTitle = sectionTitle,
+                                        sectionLabel = buildSectionLabel(chapter, newSectionIndex)
+                                    )
+                                )
+                            }
                         }
                         return
                     }
@@ -921,6 +939,24 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun pauseBgm() = bgmManager.pause()
     fun resumeBgm() = bgmManager.resume()
+
+    private fun buildSectionLabel(chapter: Chapter, sectionIndex: Int): String {
+        val section = chapter.sections.getOrNull(sectionIndex)
+        val scope = section?.scope
+        if (scope == "dream" || scope == "stay" || scope == "bad") {
+            var count = 0
+            for (i in 0..sectionIndex) {
+                if (chapter.sections[i].scope == scope) count++
+            }
+            val routeName = when (scope) {
+                "dream" -> "Dream"
+                "stay" -> "Stay"
+                else -> "Bad"
+            }
+            return "$routeName · 第 $count 节"
+        }
+        return "第 ${sectionIndex + 1} 节"
+    }
 
     override fun onCleared() {
         super.onCleared()

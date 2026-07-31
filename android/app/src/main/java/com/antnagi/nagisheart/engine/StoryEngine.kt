@@ -53,19 +53,19 @@ class StoryEngine(
                     currentId = result.targetId
                 }
 
+                isEndingNode(currentId) -> {
+                    val key = currentId.removePrefix("end_")
+                    val def = endings.definitions[key]
+                        ?: return NodeResolution.NotFound(currentId, "Ending definition not found")
+                    return NodeResolution.EndingReached(currentId, def)
+                }
+
                 isNode(currentId) -> {
                     return NodeResolution.Found(
                         nodeId = currentId,
                         node = nodes[currentId]!!,
                         visual = sceneVisuals[currentId]
                     )
-                }
-
-                isEndingNode(currentId) -> {
-                    val key = currentId.removePrefix("end_")
-                    val def = endings.definitions[key]
-                        ?: return NodeResolution.NotFound(currentId, "Ending definition not found")
-                    return NodeResolution.EndingReached(currentId, def)
                 }
 
                 else -> {
