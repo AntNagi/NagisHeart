@@ -10,11 +10,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -34,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.antnagi.nagisheart.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
+import com.antnagi.nagisheart.ui.component.StartTitleOverlay
 import com.antnagi.nagisheart.ui.theme.NagiTokens
 import kotlin.math.sqrt
 
@@ -77,12 +80,34 @@ fun SplashScreen(onFinished: () -> Unit) {
         val extraV = screenH - uiHeight
         val uiOffsetY = if (extraV > 0.dp) extraV * uiVerticalBias else 0.dp
 
-        // Shared geometry so the title layer and the START layer stay pixel-aligned
-        // while the vignette can sit between them at full-screen size.
+        // Long-screen distribution: a single centred safe layer spends the extra
+        // height as margin ABOVE the title and BELOW start, so the longer the screen
+        // the more of the artwork is boxed in. Anchor the two text layers to opposite
+        // safe-area edges instead and let the extra height open up between them, which
+        // is where Nagi's face is. On a 9:16 screen extraV is 0 and both anchors
+        // collapse back to the v23 position, so nothing changes on the base ratio.
+        // The title half of this lives in StartTitleOverlay, which anchors to the top
+        // safe area with the same edgeMargin; keep the two in step when tuning.
+        val layoutDensity = LocalDensity.current
+        val bottomInset = with(layoutDensity) {
+            WindowInsets.systemBars.getBottom(this).toDp()
+        }
+
+        // Optical breathing room beyond the system bars, as a ratio of safe-layer
+        // height. The insets already guarantee the bars are cleared, so this only
+        // stops the text reading as pinned. Raise it to pull the layer inward.
+        val edgeMargin = uiHeight * 0.006f
+
+        val startOffsetY = if (extraV > 0.dp) {
+            screenH - uiHeight - bottomInset - edgeMargin
+        } else {
+            uiOffsetY
+        }
+
         val safeLayer = Modifier
             .fillMaxWidth()
             .height(uiHeight)
-            .offset(y = uiOffsetY)
+            .offset(y = startOffsetY)
 
         // Layer 2: Static vignette overlay (C spec).
         // Full-screen so taller-than-9:16 devices get no un-dimmed bands above/below
@@ -133,26 +158,9 @@ fun SplashScreen(onFinished: () -> Unit) {
                 )
         )
 
-        // Layer 3: Title overlay (full-canvas SVG, inside safe layer).
-        // Sits ABOVE the vignette so the wordmark keeps its full brightness.
-        // Lifted independently of START — ratio of safe-layer height so it scales
-        // identically on every screen size. Tunable: 0f = v23 original position.
-        val titleLift = 0.07f
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(uiHeight)
-                .offset(y = uiOffsetY - uiHeight * titleLift)
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/start/start_title_overlay_v23.svg")
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.matchParentSize()
-            )
-        }
+        // Layer 3: Title overlay. Shared with the home screen so the wordmark lands
+        // in the same place on both; sits ABOVE the vignette to keep full brightness.
+        StartTitleOverlay()
 
         // Layer 4: START breathing layer — stays topmost, same safe-layer geometry
         Box(modifier = safeLayer) {

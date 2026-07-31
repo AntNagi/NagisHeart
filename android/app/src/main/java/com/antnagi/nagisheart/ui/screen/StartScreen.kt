@@ -15,6 +15,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.antnagi.nagisheart.ui.component.StartTitleOverlay
 import com.antnagi.nagisheart.ui.component.SystemPageBackground
 import com.antnagi.nagisheart.ui.theme.*
 
@@ -32,6 +33,10 @@ fun StartScreen(
     NagiTheme(uiTheme = NagiUiTheme.Dark) {
         SystemPageBackground {
             Box(modifier = Modifier.fillMaxSize()) {
+                // Wordmark — same component and geometry as the splash, so the title
+                // lands in the identical spot when moving between the two screens.
+                StartTitleOverlay()
+
                 // Start menu — bottom
                 Column(
                     modifier = Modifier
