@@ -1,5 +1,5 @@
 import { SettingsOverlay } from '../overlays/SettingsOverlay.js';
-import { ChapterSelectOverlay } from '../overlays/ChapterSelectOverlay.js';
+import { StoryMapOverlay } from '../overlays/StoryMapOverlay.js';
 import { GalleryOverlay } from '../overlays/GalleryOverlay.js';
 import { SaveLoadOverlay } from '../overlays/SaveLoadOverlay.js';
 import { NagiDialog } from '../components/NagiDialog.js';
@@ -33,7 +33,7 @@ export class StartScreen {
         <div class="home-divider"></div>
         <div class="home-sub">
           <button class="home-sub-btn" data-action="saves">存档进度</button>
-          <button class="home-sub-btn" data-action="catalog">章节目录</button>
+          <button class="home-sub-btn" data-action="catalog">剧情地图</button>
           <button class="home-sub-btn" data-action="gallery">回忆画廊</button>
           <button class="home-sub-btn" data-action="settings">系统设置</button>
         </div>
@@ -107,7 +107,7 @@ export class StartScreen {
   }
 
   _openCatalog() {
-    this._activeOverlay = new ChapterSelectOverlay(this.el, {
+    this._activeOverlay = new StoryMapOverlay(this.el, {
       controller: this._ctx.controller,
       onClose: () => this._closeOverlay(),
       onJump: (startNode, chapterId, sectionIndex) => {

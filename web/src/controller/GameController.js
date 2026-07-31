@@ -108,6 +108,16 @@ export class GameController extends EventTarget {
   }
   getSettingsManager() { return this._settingsManager; }
 
+  /**
+   * Story map picture nodes read their image through the authority chain in
+   * MinSpec §27.5: chapters.json section -> startNode -> scene_visuals[startNode].bg.
+   * Never guess an image from the design preview sheets.
+   */
+  getNodeBgPath(nodeId) {
+    const visual = this._engine.getSceneVisual(nodeId);
+    return visual?.bg?.replace(/^assets\//, '') || null;
+  }
+
   replayFromSection(startNode, chapterId, sectionIndex) {
     this._isReplayMode = true;
     const chapter = this._chapters.find(c => c.id === chapterId);
@@ -446,11 +456,7 @@ export class GameController extends EventTarget {
   }
 
   _sectionLabel(sectionIndex) {
-    const numerals = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-    const n = sectionIndex + 1;
-    if (n <= 10) return `第${numerals[n - 1]}节`;
-    if (n < 20) return `第十${numerals[n - 11]}节`;
-    return `第${n}节`;
+    return `第${sectionIndex + 1}节`;
   }
 
   _showPendingSectionOpening(pending) {

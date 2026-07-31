@@ -9,7 +9,7 @@ import { NagiDialog } from '../components/NagiDialog.js';
 import { SaveLoadOverlay } from '../overlays/SaveLoadOverlay.js';
 import { SettingsOverlay } from '../overlays/SettingsOverlay.js';
 import { BacklogOverlay } from '../overlays/BacklogOverlay.js';
-import { ChapterSelectOverlay } from '../overlays/ChapterSelectOverlay.js';
+import { StoryMapOverlay } from '../overlays/StoryMapOverlay.js';
 
 export class GameScreen {
   constructor(container, ctx) {
@@ -183,7 +183,7 @@ export class GameScreen {
   }
 
   _openChapterSelect() {
-    this._activeOverlay = new ChapterSelectOverlay(this.el, {
+    this._activeOverlay = new StoryMapOverlay(this.el, {
       controller: this._controller,
       onClose: () => this._closeOverlay(),
       onJump: (startNode, chapterId, sectionIndex) => {
@@ -285,7 +285,11 @@ export class GameScreen {
         break;
 
       case GamePhase.Ending:
-        this._ctx.router.navigate('ending', { ending: state.ending, bgAssetPath: state.bgAssetPath });
+        if (!state.ending) {
+          this._ctx.router.navigate('start');
+        } else {
+          this._ctx.router.navigate('ending', { ending: state.ending, bgAssetPath: state.bgAssetPath });
+        }
         break;
 
       case GamePhase.Error:
