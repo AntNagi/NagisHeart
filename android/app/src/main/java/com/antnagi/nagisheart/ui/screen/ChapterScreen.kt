@@ -76,7 +76,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Dimension
 import com.antnagi.nagisheart.data.Chapter
 import com.antnagi.nagisheart.data.ChapterSection
 import com.antnagi.nagisheart.data.SectionState
@@ -1892,9 +1895,22 @@ private fun StoryMapImage(
     bgPath: String,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.clipToBounds()) {
+    BoxWithConstraints(modifier = modifier.clipToBounds()) {
+        // Map covers are wide-and-short crops of portrait 9:16 art. Letting Coil
+        // size the decode from the box (e.g. 810x300) makes it sample the source
+        // down to roughly the box height, and ContentScale.Crop then has to scale
+        // that back up to cover the width — which is why covers looked soft until
+        // the full-screen GameScreen load put a full-res bitmap in the memory
+        // cache. Pin the request to the box *width* and leave height undefined so
+        // the decode keeps the source aspect and is sharp on first paint.
+        val widthPx = with(LocalDensity.current) { maxWidth.roundToPx() }
         Image(
-            painter = rememberAsyncImagePainter("file:///android_asset/$bgPath"),
+            painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data("file:///android_asset/$bgPath")
+                    .size(coil.size.Size(Dimension.Pixels(widthPx), Dimension.Undefined))
+                    .build()
+            ),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
