@@ -1,6 +1,7 @@
 const KEY_VISITED = 'nagi_visited_nodes';
 const KEY_ENDINGS = 'nagi_unlocked_endings';
 const KEY_SECTIONS = 'nagi_section_states';
+const KEY_PROFILE = 'nagi_player_profile';
 
 export class ProgressManager {
   constructor() {
@@ -22,6 +23,29 @@ export class ProgressManager {
   }
 
   getUnlockedEndings() { return this._endings; }
+
+  getPlayerProfile() {
+    return this._loadObj(KEY_PROFILE);
+  }
+
+  getPlayerName() {
+    return (this.getPlayerProfile().playerName || '').trim();
+  }
+
+  hasCompletedFirstFlow() {
+    const profile = this.getPlayerProfile();
+    return Boolean(profile.firstFlowCompleted && (profile.playerName || '').trim());
+  }
+
+  setPlayerName(playerName) {
+    const name = (playerName || '').trim();
+    if (!name) return;
+    this._saveObj(KEY_PROFILE, {
+      ...this.getPlayerProfile(),
+      playerName: name,
+      firstFlowCompleted: true,
+    });
+  }
 
   _sectionKey(chapterId, sectionIndex) { return `${chapterId}:${sectionIndex}`; }
 

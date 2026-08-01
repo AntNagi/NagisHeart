@@ -98,6 +98,16 @@ export class GameController extends EventTarget {
 
   async hasAnySave() { return this._saveManager.hasAnySave(); }
   async hasAutoSave() { return this._saveManager.hasAutoSave(); }
+  async hasCompletedFirstFlow() {
+    if (this._progressManager.hasCompletedFirstFlow()) return true;
+    const slots = await this._saveManager.listSlots();
+    const slotWithName = slots.find(slot => (slot?.playerName || '').trim());
+    if (slotWithName) {
+      this._progressManager.setPlayerName(slotWithName.playerName);
+      return true;
+    }
+    return false;
+  }
   async getSaveSlots() { return this._saveManager.listSlots(); }
   getVisitedNodes() { return this._progressManager.getVisitedNodes(); }
   getUnlockedEndings() { return this._progressManager.getUnlockedEndings(); }
@@ -202,7 +212,10 @@ export class GameController extends EventTarget {
   // ── Lifecycle ──
 
   startNewGame(name) {
-    this._playerName = name || 'Ant';
+    const resolvedName = (name || this._progressManager.getPlayerName()).trim();
+    if (!resolvedName) return false;
+    this._playerName = resolvedName;
+    if (name) this._progressManager.setPlayerName(resolvedName);
     this._nagiCall = DEFAULT_NAGI_CALL;
     this._templateResolver = new TemplateResolver(this._playerName);
     this._gameState = new GameState(this._variablesData);
@@ -230,12 +243,14 @@ export class GameController extends EventTarget {
       },
       sectionTransition: null,
     });
+    return true;
   }
 
   async continueGame() {
     const slot = await this._saveManager.loadAutoSave();
     if (!slot) return false;
-    this._playerName = slot.playerName || 'Ant';
+    this._playerName = slot.playerName || this._progressManager.getPlayerName();
+    if (this._playerName) this._progressManager.setPlayerName(this._playerName);
     this._nagiCall = DEFAULT_NAGI_CALL;
     this._templateResolver = new TemplateResolver(this._playerName);
     this._gameState = new GameState(this._variablesData);
@@ -249,7 +264,8 @@ export class GameController extends EventTarget {
   async loadGame(slotId) {
     const slot = await this._saveManager.load(slotId);
     if (!slot) return false;
-    this._playerName = slot.playerName || 'Ant';
+    this._playerName = slot.playerName || this._progressManager.getPlayerName();
+    if (this._playerName) this._progressManager.setPlayerName(this._playerName);
     this._nagiCall = DEFAULT_NAGI_CALL;
     this._templateResolver = new TemplateResolver(this._playerName);
     this._gameState = new GameState(this._variablesData);

@@ -101,7 +101,15 @@ export class StartScreen {
     });
   }
 
-  _startNewGame() {
+  async _startNewGame() {
+    if (await this._ctx.controller.hasCompletedFirstFlow()) {
+      if (this._ctx.controller.startNewGame()) {
+        this._ctx.router.navigate('game');
+      } else {
+        this._ctx.router.navigate('nameSetup');
+      }
+      return;
+    }
     this._ctx.router.navigate('prologue');
   }
 
