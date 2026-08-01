@@ -62,6 +62,10 @@ export class SettingsOverlay {
             <span class="settings-label">数据管理</span>
             <span class="settings-value">管理</span>
           </div>
+          <a class="settings-row settings-row-download" href="https://github.com/AntNagi/NagisHeart/releases/latest/download/app-debug.apk" target="_blank" rel="noopener">
+            <span class="settings-label">下载 Android 版</span>
+            <span class="settings-value">下载</span>
+          </a>
         </div>
       </div>
     `;

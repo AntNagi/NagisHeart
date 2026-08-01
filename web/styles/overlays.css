@@ -740,6 +740,12 @@
   text-align: right;
 }
 
+/* ── Android download link ── */
+.settings-row-download {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* ── Gallery overlay: four-ending staggered wall ── */
 .gallery-overlay {
   background: transparent;
