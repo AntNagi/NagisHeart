@@ -5,27 +5,29 @@ export class HUD {
     this.el.innerHTML = `
       <div class="hud-left">
         <button class="hud-btn hud-glass-icon" data-action="back" aria-label="返回">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M11 4L6 9l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M14.5 6.5L9 12L14.5 17.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
         <div class="hud-scene-title hud-glass-title"></div>
       </div>
       <div class="hud-right">
         <button class="hud-btn hud-glass-icon" data-action="auto" aria-label="自动播放">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M5 3.5l9 5.5-9 5.5V3.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M8 17L8 7L16.5 12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M18.5 8.5C19.5 9.5 20 10.7 20 12C20 13.3 19.5 14.5 18.5 15.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>
           </svg>
         </button>
         <button class="hud-btn hud-glass-icon" data-action="save" aria-label="存档">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M4 3h8l3 3v8a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3"/>
-            <rect x="6" y="10" width="6" height="4" rx="0.5" stroke="currentColor" stroke-width="1.1"/>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M7 5L17 5L17 19L12 16L7 19Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M9.5 8L14.5 8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity="0.7"/>
           </svg>
         </button>
         <button class="hud-btn hud-glass-icon" data-action="backlog" aria-label="剧情回顾">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M4 5h10M4 9h10M4 13h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M7 4.5L15.5 4.5L18 7L18 19.5L7 19.5Z" stroke="currentColor" stroke-width="1.45" stroke-linejoin="round"/>
+            <path d="M10 10L15 10M10 13L15 13M10 16L13.2 16" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" opacity="0.75"/>
           </svg>
         </button>
       </div>

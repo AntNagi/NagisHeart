@@ -1,9 +1,10 @@
 /*
   Story map — authority MinSpec §27.8–§27.13.
 
-  Base geometry is quoted against the 1080px authority canvas and converted with
-  dp = px / 3, matching the Android port. Plain nodes deliberately have no card
-  background: §27.2 forbids the map degrading into a card grid.
+  Redesigned to match the Android ChapterScreen glass-card layout:
+  - Overview: tall glass cards with image frame at top, info below, diamond markers
+  - Chapter detail: larger picture nodes, right-angle connectors, better spacing
+  - Chapter 8 fork: scaled fixed-unit map, identical to Android
 */
 
 .story-map-overlay {
@@ -34,8 +35,6 @@
   padding: 52px 0 34px;
   overflow-y: auto;
   overflow-x: hidden;
-  /* Keep the gutter reserved so the fixed-unit chapter 8 map is measured against
-     a width that will not change when the scrollbar appears. */
   scrollbar-gutter: stable;
   -webkit-overflow-scrolling: touch;
 }
@@ -69,149 +68,192 @@
 .story-hint {
   margin: 22px 0 0;
   text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--snow-56, rgba(247, 249, 252, 0.56));
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(205, 216, 229, 0.46);
 }
 
-/* ------------------------------------------------------------ overview */
+/* ============================================================ overview */
 
 .story-overview,
 .story-chapter {
-  padding: 0 24px;
+  padding: 0 14px;
 }
 
 .story-overview .story-heading + .story-sub {
   max-width: 280px;
 }
 
-/* §27.12: landmarks stagger rather than stacking as an even list. */
+.story-overview .story-kicker,
+.story-overview .story-heading,
+.story-overview .story-sub {
+  padding-left: 10px;
+}
+
 .story-landmarks {
-  margin-top: 26px;
+  margin-top: 22px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  align-items: stretch;
 }
+
+/* ---- glass chapter card (matches Android StoryGlassChapterCard) ---- */
 
 .story-landmark {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 76%;
+  min-height: 260px;
   padding: 0;
   border: 0;
-  background: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.075),
+    rgba(15, 27, 44, 0.60) 50%,
+    rgba(11, 22, 38, 0.44)
+  );
+  border: 1px solid rgba(215, 190, 134, 0.32);
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
   text-align: left;
   cursor: pointer;
   font: inherit;
   color: inherit;
 }
 
-.story-landmark:nth-child(even) { align-self: flex-end; }
-.story-landmark:nth-child(3n)   { width: 68%; }
-.story-landmark[disabled]       { cursor: default; }
+/* alignment set via inline style (nth-child unreliable with connector SVGs interspersed) */
 
-.story-landmark-art {
-  position: relative;
+.story-landmark[disabled]  { cursor: default; }
+.story-landmark.is-locked  { opacity: 0.48; }
+.story-landmark.is-locked  { border-color: rgba(154, 168, 186, 0.20); }
+
+/* image frame inside the card */
+.story-landmark-frame {
   display: block;
+  margin: 14px;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  /* cut-md corner language, matching the Android clip */
-  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
-  background: rgba(9, 21, 34, 0.72);
-  border: 1px solid rgba(215, 190, 134, 0.38);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  background: rgba(7, 17, 29, 0.72);
 }
 
-.story-landmark.is-open .story-landmark-art {
-  border-color: rgba(215, 190, 134, 0.92);
-}
-
-.story-landmark-art img {
+.story-landmark-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 32%;
 }
 
-/* Locked chapters show no portrait — only the pentagon seal (§27.12). */
 .story-landmark-seal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 32px;
-  height: 32px;
-  transform: translate(-50%, -50%);
-  background: #081422;
-  border: 2px solid rgba(102, 117, 138, 0.9);
-  opacity: 0.58;
-  clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 26px;
+  color: rgba(154, 168, 186, 0.28);
 }
 
-.story-landmark-copy {
-  position: absolute;
-  left: 14px;
-  bottom: 10px;
+.story-landmark-seal::before { content: '◇'; }
+
+/* info block below the image */
+.story-landmark-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  text-shadow: 0 2px 7px rgba(7, 17, 30, 0.88);
+  padding: 0 18px;
+  flex: 1;
 }
 
-.story-landmark-sub {
-  font-size: 11px;
-  letter-spacing: 0.18em;
+.story-landmark-kicker {
+  font-size: 10px;
+  letter-spacing: 0.19em;
   color: var(--map-gold);
+  opacity: 0.86;
 }
 
-.story-landmark.is-locked .story-landmark-sub { color: rgba(101, 117, 138, 0.9); }
+.story-landmark.is-locked .story-landmark-kicker { opacity: 0.42; }
 
 .story-landmark-title {
+  margin-top: 8px;
   font-family: var(--font-serif, Georgia, 'Noto Serif SC', serif);
-  font-size: 19px;
-  color: #FFF8E9;
+  font-size: 22px;
+  line-height: 1.14;
+  color: rgba(247, 243, 234, 0.94);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
 }
 
 .story-landmark-title .masked { letter-spacing: 0.14em; }
 
-/* ------------------------------------------------- chapter subpage nodes */
+.story-landmark-desc {
+  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(218, 225, 233, 0.66);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* diamond progress markers */
+.story-landmark-dots {
+  display: flex;
+  gap: 7px;
+  padding: 0 18px 14px;
+  margin-top: auto;
+}
+
+.story-diamond {
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
+  background: rgba(154, 168, 186, 0.22);
+}
+
+.story-diamond.is-lit {
+  background: rgba(215, 190, 134, 0.76);
+}
+
+/* overview connector between cards */
+.story-overview-connector {
+  display: block;
+  width: 100%;
+  height: 66px;
+}
+
+/* ======================================= chapter subpage: node layout */
 
 .story-chapter-head {
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--snow-08, rgba(247, 249, 252, 0.08));
+  padding: 0 22px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .story-nodes {
   list-style: none;
   margin: 0;
-  padding: 26px 0 0;
+  padding: 30px 0 0;
 }
+
+/* ---- connector SVG between nodes ---- */
+
+.story-connector-svg {
+  display: block;
+  width: 100%;
+  height: 80px;
+}
+
+/* ---- node row ---- */
 
 .story-row {
   position: relative;
   display: flex;
-  padding: 22px 0;
+  width: 100%;
 }
 
-.story-row-left  { justify-content: flex-start; }
-.story-row-right { justify-content: flex-end; }
-
-/*
-  §27.10 — the connection between nodes is an actual right-angle path, not a
-  decorative flourish. Drawn as two borders so it stays crisp at any width.
-*/
-.story-link {
-  position: absolute;
-  top: 0;
-  height: 22px;
-  width: 34%;
-  border-top: 0;
-  border-color: var(--map-line);
-  border-style: solid;
-  border-width: 0 1.4px 1.4px 0;
-  pointer-events: none;
-}
-
-.story-link-to-left  { left: 22%;  border-width: 0 0 1.4px 1.4px; }
-.story-link-to-right { right: 22%; border-width: 0 1.4px 1.4px 0; }
+.story-row-pic { min-height: 158px; }
+.story-row-text { min-height: 62px; }
 
 .story-node {
   display: block;
@@ -225,75 +267,108 @@
 }
 
 .story-node[disabled] { cursor: default; }
-.story-node.is-locked { opacity: 0.52; }
 
-/* Text node: dot + index + title, no card (§27.9.1). */
+/* ---- text node: dot + index + title (§27.9.1) ---- */
+
 .story-node-text {
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  max-width: 62%;
+  align-items: center;
+  width: 100%;
+  height: 62px;
 }
 
-.story-node-dot {
-  position: relative;
+.story-node-text .story-node-dot {
+  position: absolute;
+  left: calc(var(--center, 0.5) * 100%);
+  transform: translateX(-50%);
   flex: none;
-  width: 12px;
-  height: 12px;
-  margin-top: 5px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: var(--map-void);
-  border: 1.5px solid rgba(215, 190, 134, 0.82);
-  box-shadow: 0 0 8px rgba(215, 190, 134, 0.28);
+  border: 1.2px solid var(--map-gold);
 }
 
-.story-node-dot::after {
+.story-node-text .story-node-dot::after {
   content: '';
   position: absolute;
-  inset: 3px;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background: var(--map-gold);
+  transform: translate(-50%, -50%);
 }
 
-.story-node-copy { display: block; }
+.story-node-text.is-locked .story-node-dot {
+  border-color: #66758A;
+}
+.story-node-text.is-locked .story-node-dot::after {
+  background: #66758A;
+}
+
+.story-node-copy {
+  position: absolute;
+  width: 96px;
+}
+
+.story-node-copy.align-end {
+  right: calc((1 - var(--center, 0.5)) * 100% + 18px);
+  text-align: right;
+}
+.story-node-copy.align-start {
+  left: calc(var(--center, 0.5) * 100% + 18px);
+  text-align: left;
+}
 
 .story-node-index {
   display: block;
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  color: rgba(215, 190, 134, 0.82);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: var(--map-gold);
 }
+
+.story-node-text.is-locked .story-node-index { color: #8390A2; }
 
 .story-node-title {
   display: block;
-  margin-top: 3px;
+  margin-top: 4px;
   font-family: var(--font-serif, Georgia, 'Noto Serif SC', serif);
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.32;
-  color: var(--snow-94, rgba(247, 249, 252, 0.94));
-  /* §27.9.1: the outline is what keeps the title readable over artwork. */
-  text-shadow: 0 1px 3px rgba(7, 17, 30, 0.8), 0 0 6px rgba(7, 17, 30, 0.6);
+  color: rgba(244, 238, 223, 0.94);
+  text-shadow: 0 0 3px rgba(7, 17, 30, 0.80);
 }
 
-/* §27.13 — an unlocked title is never truncated; long ones wrap. */
+.story-node-text.is-locked .story-node-title { color: #8390A2; }
 .story-node-title span { display: block; }
 
-/* Picture node: only key beats (§27.9.2). */
+/* ---- picture node (§27.9.2): card with image ---- */
+
 .story-node-pic {
   position: relative;
-  width: 74%;
+  width: 224px;
+  height: 158px;
+  margin-left: calc(var(--center, 0.5) * 100% - 112px);
   overflow: hidden;
   clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-  border: 1px solid rgba(215, 190, 134, 0.88);
-  background: rgba(16, 24, 39, 0.66);
+  border: 1px solid rgba(215, 190, 134, 0.62);
+  background: rgba(7, 17, 29, 0.80);
+}
+
+.story-node-pic.is-locked {
+  opacity: 0.48;
+  border-color: rgba(154, 168, 186, 0.22);
 }
 
 .story-node-pic .story-node-art {
-  display: block;
-  aspect-ratio: 16 / 9;
+  position: absolute;
+  inset: 0;
 }
 
-.story-node-pic img {
+.story-node-pic .story-node-art img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -304,173 +379,105 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 26px;
-  height: 26px;
   transform: translate(-50%, -50%);
-  background: #081422;
-  border: 1.6px solid rgba(102, 117, 138, 0.9);
-  opacity: 0.58;
-  clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+  font-size: 25px;
+  color: rgba(154, 168, 186, 0.26);
+}
+
+.story-node-seal::before { content: '◇'; }
+
+.story-node-gradient {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70px;
+  background: linear-gradient(to bottom, transparent, rgba(7, 17, 29, 0.94));
+  pointer-events: none;
 }
 
 .story-node-caption {
   position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 7px;
-}
-
-.story-node-pic::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 54%;
-  background: linear-gradient(to bottom, transparent, rgba(7, 17, 29, 0.52) 52%, rgba(7, 17, 29, 0.9));
-  pointer-events: none;
-}
-
-.story-node-caption .story-node-title { font-size: 14px; }
-
-/* ------------------------------------------------------ chapter 8 fork */
-
-/*
-  The fork is authored in fixed 360 x 1120 units, transcribed from the v7 canvas
-  exactly as the Android map is, then scaled as a whole to the available width.
-  Nothing here re-flows — that is what keeps the composition identical.
-*/
-.story-fork-viewport {
-  position: relative;
-  width: 100%;
-  margin-top: 18px;
-  overflow: hidden;
-}
-
-.story-fork-map {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: scale(var(--map-scale, 1));
-  transform-origin: 0 0;
-}
-
-.story-fork-lines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-}
-
-.story-fork-label {
-  position: absolute;
-  margin: 0;
-  text-align: center;
-  font-size: 13px;
-  letter-spacing: 1.4px;
-  color: rgba(215, 190, 134, 0.78);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.story-fork-node {
-  position: absolute;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-}
-
-.story-fork-node[disabled] { cursor: default; }
-.story-fork-node.is-locked { opacity: 0.58; }
-
-/* Text node: dot on the guide, index, then title (§27.9.3). */
-.story-fork-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.story-fork-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--map-void);
-  border: 1.2px solid var(--map-gold);
-}
-
-.story-fork-text .story-fork-index { margin-top: 4px; }
-.story-fork-text .story-fork-title { margin-top: 3px; }
-
-.story-fork-index {
-  display: block;
-  font-size: 11px;
-  letter-spacing: 1px;
-  color: rgba(215, 190, 134, 0.84);
-}
-
-.story-fork-title {
-  display: block;
-  font-family: var(--font-serif, Georgia, 'Noto Serif SC', serif);
-  font-size: 18px;
-  line-height: 22px;
-  color: var(--snow-94, rgba(247, 249, 252, 0.94));
-  text-shadow: 0 1px 3px rgba(7, 17, 30, 0.8);
-}
-
-.story-fork-title span { display: block; }
-
-/* Picture node: hangs off the guide at an authored offset. */
-.story-fork-pic {
-  overflow: hidden;
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-  background: rgba(9, 21, 34, 0.82);
-  border: 1px solid rgba(215, 190, 134, 0.72);
-}
-
-.story-fork-pic img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 34%;
-}
-
-.story-fork-pic::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 60%;
-  background: linear-gradient(to bottom, transparent, rgba(7, 17, 29, 0.86));
-  pointer-events: none;
-}
-
-.story-fork-caption {
-  position: absolute;
-  left: 5px;
-  right: 4px;
-  bottom: 4px;
-  text-align: left;
+  left: 14px;
+  right: 14px;
+  bottom: 10px;
   z-index: 1;
 }
 
-.story-fork-caption .story-fork-index {
-  font-size: 8px;
-  letter-spacing: 0.8px;
-  color: var(--map-gold);
+.story-node-caption .story-node-index {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(215, 190, 134, 0.86);
 }
 
-.story-fork-caption .story-fork-title {
-  font-size: 12px;
-  line-height: 14px;
+.story-node-caption .story-node-title {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #FFF8E9;
+  text-shadow: 0 1.5px 4px rgba(7, 17, 30, 0.88);
 }
+
+/* ------------------------------------------------------ chapter 8 fork */
+
+.story-branch-hub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.story-branch-svg {
+  display: block;
+  width: 100%;
+  height: 90px;
+}
+
+.story-branch-gates {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.story-branch-gate {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background: rgba(10, 21, 35, 0.42);
+  border: 1px solid rgba(215, 190, 134, 0.18);
+  font-size: 8px;
+  letter-spacing: 1.4px;
+  color: rgba(215, 190, 134, 0.74);
+}
+
+.story-route-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 15px 18px;
+  margin-top: 26px;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  background: rgba(11, 23, 38, 0.26);
+  border: 1px solid rgba(215, 190, 134, 0.16);
+}
+
+.story-route-kicker {
+  font-size: 8px;
+  letter-spacing: 1.8px;
+  color: rgba(215, 190, 134, 0.74);
+}
+
+.story-route-label {
+  margin-top: 6px;
+  font-family: var(--font-serif, Georgia, 'Noto Serif SC', serif);
+  font-size: 19px;
+  color: rgba(246, 239, 223, 0.94);
+}
+
+.story-route-spacer { height: 78px; }
+.story-route-gap { height: 34px; }
 
 /* ---------------------------------------------------------- chapter pager */
 

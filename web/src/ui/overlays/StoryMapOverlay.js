@@ -5,17 +5,7 @@ import {
   storyRoutePrefix,
   storyDisplayLines,
   questionMarks,
-  PART8_MAP,
-  PART8_COLUMN_X,
   PART8_ROUTE_ORDER,
-  PART8_COMMON,
-  PART8_NODE_WIDTH,
-  PART8_LABEL_Y,
-  PART8_IMAGE_SIZE,
-  PART8_TRUNK,
-  PART8_GUIDE,
-  part8ImagePosition,
-  part8TextNodeY,
 } from '../../data/StoryMapPresentation.js';
 
 /**
@@ -99,93 +89,58 @@ export class StoryMapOverlay {
       }, { passive: true });
     }
 
-    this._fitForkMap();
   }
 
-  /**
-   * The chapter 8 map is authored in fixed 360x1120 units so it matches the
-   * Android composition exactly; scale it to whatever width we actually have.
-   */
-  _fitForkMap() {
-    if (this._resizeObserver) {
-      this._resizeObserver.disconnect();
-      this._resizeObserver = null;
-    }
-
-    const viewport = this.el.querySelector('.story-fork-viewport');
-    if (!viewport) return;
-
-    const map = viewport.querySelector('.story-fork-map');
-    const svg = viewport.querySelector('.story-fork-lines');
-
-    // The v7 canvas is 1120 units tall, but the ending epilogues were added to
-    // chapter 8 after those tables were drawn, so the last node on a route can
-    // sit past the bottom. Measure the real content instead of trusting 1120.
-    const contentHeight = () => {
-      let bottom = PART8_MAP.height;
-      for (const node of map.querySelectorAll('.story-fork-node')) {
-        bottom = Math.max(bottom, node.offsetTop + node.offsetHeight);
-      }
-      return Math.ceil(bottom + 24);
-    };
-
-    const apply = () => {
-      const width = viewport.getBoundingClientRect().width;
-      if (!width) return;
-      const height = contentHeight();
-      const scale = width / PART8_MAP.width;
-
-      map.style.height = `${height}px`;
-      if (svg) {
-        svg.setAttribute('height', height);
-        svg.setAttribute('viewBox', `0 0 ${PART8_MAP.width} ${height}`);
-        for (const guide of svg.querySelectorAll('.story-fork-guide')) {
-          const x = guide.dataset.x;
-          guide.setAttribute('d', `M${x} ${PART8_GUIDE.top} L${x} ${height - 40}`);
-        }
-      }
-
-      viewport.style.setProperty('--map-scale', scale);
-      viewport.style.height = `${height * scale}px`;
-    };
-
-    apply();
-    // Setting the height above can bring the scrollbar in, which narrows the
-    // viewport again; re-measure once the browser has settled or the map ends up
-    // a scrollbar's width too wide and the BAD column is clipped.
-    requestAnimationFrame(apply);
-
-    this._resizeObserver = new ResizeObserver(apply);
-    this._resizeObserver.observe(viewport);
+  _playedSections(chapter) {
+    return chapter.sections.reduce((n, _, i) => n + (this._isOpen(this._sectionState(chapter, i)) ? 1 : 0), 0);
   }
 
   /** §27.12 — eight landmarks, unlocked ones lit, locked ones masked. */
   _overviewHtml() {
-    const cards = this._chapters().map(chapter => {
+    const chapters = this._chapters();
+    const cards = chapters.map((chapter, ci) => {
       const pres = STORY_CHAPTER_PRESENTATIONS[chapter.id];
       if (!pres) return '';
       const unlocked = this._chapterUnlocked(chapter);
       const cover = unlocked ? this._bg(pres.overviewCoverNode) : null;
+      const played = this._playedSections(chapter);
+      const total = Math.min(chapter.sections.length, 11);
 
-      // §27.4 — a locked chapter shows neither its picture nor its title.
       const title = unlocked
-        ? pres.title
-        : `<span class="masked">${questionMarks(pres.title)}</span>`;
+        ? (chapter.name || pres.number)
+        : `<span class="masked">${questionMarks(chapter.name || pres.number)}</span>`;
+      const subtitle = unlocked
+        ? (chapter.title || pres.subtitle || '')
+        : questionMarks(chapter.title || pres.subtitle || pres.title);
 
-      return `
+      const dots = Array.from({ length: total }, (_, i) =>
+        `<span class="story-diamond ${i < played ? 'is-lit' : ''}"></span>`
+      ).join('');
+
+      const side = ci % 2 === 0 ? 'flex-end' : 'flex-start';
+      const card = `
         <button class="story-landmark ${unlocked ? 'is-open' : 'is-locked'}"
+                style="align-self:${side}"
                 data-chapter="${chapter.id}" ${unlocked ? '' : 'disabled'}>
-          <span class="story-landmark-art">
+          <span class="story-landmark-frame">
             ${cover
               ? `<img src="../assets/${cover}" alt="" loading="lazy" />`
               : '<span class="story-landmark-seal" aria-hidden="true"></span>'}
           </span>
-          <span class="story-landmark-copy">
-            <span class="story-landmark-sub">${pres.number}</span>
+          <span class="story-landmark-info">
+            <span class="story-landmark-kicker">Chapter ${ci + 1}</span>
             <span class="story-landmark-title">${title}</span>
+            <span class="story-landmark-desc">${subtitle}</span>
           </span>
+          <span class="story-landmark-dots">${dots}</span>
         </button>
       `;
+
+      const connector = ci < chapters.length - 1
+        ? this._overviewConnectorSvg(ci % 2 === 0, this._chapterUnlocked(chapters[ci + 1]))
+        : '';
+
+      return card + connector;
     }).join('');
 
     return `
@@ -194,8 +149,22 @@ export class StoryMapOverlay {
         <h2 class="story-heading">他的世界，正在展开</h2>
         <p class="story-sub">走过的故事会亮起来。点击亮起的章节，靠近那段记忆。</p>
         <div class="story-landmarks">${cards}</div>
-        <p class="story-hint">点击章节，图片将拉近并展开全部小节</p>
+        <p class="story-hint">向下浏览 · 走过的章节会亮起来</p>
       </div>
+    `;
+  }
+
+  _overviewConnectorSvg(fromRight, nextLit) {
+    const fromX = fromRight ? 62 : 38;
+    const toX = fromRight ? 38 : 62;
+    const color = nextLit ? 'rgba(215,190,134,0.70)' : 'rgba(154,168,186,0.26)';
+    const w = nextLit ? 1.3 : 1.05;
+    return `
+      <svg class="story-overview-connector" viewBox="0 0 100 66" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M${fromX} 0 L${fromX} 33 L${toX} 33 L${toX} 66"
+              fill="none" stroke="${color}" stroke-width="${w}"
+              vector-effect="non-scaling-stroke"/>
+      </svg>
     `;
   }
 
@@ -239,34 +208,54 @@ export class StoryMapOverlay {
       const state = this._sectionState(chapter, index);
       const open = this._isOpen(state);
       const important = STORY_IMPORTANT_NODES.has(section.startNode);
-      const side = index % 2 === 0 ? 'left' : 'right';
+      const cf = index % 2 === 0 ? 0.34 : 0.68;
       const label = String(index + 1).padStart(2, '0');
 
       const node = important
-        ? this._pictureNodeHtml({ section, index, state, open, label })
-        : this._textNodeHtml({ section, index, state, open, label });
+        ? this._pictureNodeHtml({ section, index, state, open, label, cf })
+        : this._textNodeHtml({ section, index, state, open, label, cf });
 
-      const connector = index === 0 ? '' : `
-        <span class="story-link story-link-${index % 2 === 0 ? 'to-left' : 'to-right'}"
-              aria-hidden="true"></span>`;
+      const pieces = [];
+      if (index > 0) {
+        const prevCf = (index - 1) % 2 === 0 ? 0.34 : 0.68;
+        const prevImportant = STORY_IMPORTANT_NODES.has(chapter.sections[index - 1].startNode);
+        const nextLit = open;
+        pieces.push(`<li class="story-row">${this._nodeConnectorSvg(prevCf, cf, prevImportant, important, nextLit)}</li>`);
+      }
+      pieces.push(`<li class="story-row ${important ? 'story-row-pic' : 'story-row-text'}">${node}</li>`);
 
-      return `<li class="story-row story-row-${side}">${connector}${node}</li>`;
+      return pieces.join('');
     }).join('');
 
     return `<ol class="story-nodes">${items}</ol>`;
   }
 
-  _textNodeHtml({ section, index, state, open, label }) {
+  _nodeConnectorSvg(fromFrac, toFrac, fromBig, toBig, lit) {
+    const color = lit ? 'rgba(215,190,134,0.70)' : 'rgba(154,168,186,0.26)';
+    const w = lit ? 1.3 : 1.05;
+    const fromX = fromFrac * 100;
+    const toX = toFrac * 100;
+    return `
+      <svg class="story-connector-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M${fromX} 0 L${fromX} 50 L${toX} 50 L${toX} 100"
+              fill="none" stroke="${color}" stroke-width="${w}"
+              vector-effect="non-scaling-stroke"/>
+      </svg>`;
+  }
+
+  _textNodeHtml({ section, index, state, open, label, cf }) {
+    const nodeOnRight = cf > 0.5;
     const lines = open
       ? storyDisplayLines(section.title).map(l => `<span>${l}</span>`).join('')
       : `<span>${questionMarks(section.title)}</span>`;
 
     return `
       <button class="story-node story-node-text ${open ? 'is-open' : 'is-locked'}"
+              style="--center:${cf}"
               data-start="${section.startNode}" data-section="${index}"
               ${open ? '' : 'disabled'}>
         <span class="story-node-dot" aria-hidden="true"></span>
-        <span class="story-node-copy">
+        <span class="story-node-copy ${nodeOnRight ? 'align-end' : 'align-start'}">
           <span class="story-node-index">${label}</span>
           <span class="story-node-title">${lines}</span>
         </span>
@@ -274,7 +263,7 @@ export class StoryMapOverlay {
     `;
   }
 
-  _pictureNodeHtml({ section, index, state, open, label }) {
+  _pictureNodeHtml({ section, index, state, open, label, cf }) {
     const bg = open ? this._bg(section.startNode) : null;
     const lines = open
       ? storyDisplayLines(section.title).map(l => `<span>${l}</span>`).join('')
@@ -282,6 +271,7 @@ export class StoryMapOverlay {
 
     return `
       <button class="story-node story-node-pic ${open ? 'is-open' : 'is-locked'}"
+              style="--center:${cf}"
               data-start="${section.startNode}" data-section="${index}"
               ${open ? '' : 'disabled'}>
         <span class="story-node-art">
@@ -289,6 +279,7 @@ export class StoryMapOverlay {
             ? `<img src="../assets/${bg}" alt="" loading="lazy" />`
             : '<span class="story-node-seal" aria-hidden="true"></span>'}
         </span>
+        <span class="story-node-gradient"></span>
         <span class="story-node-caption">
           <span class="story-node-index">${label}</span>
           <span class="story-node-title">${lines}</span>
@@ -298,11 +289,8 @@ export class StoryMapOverlay {
   }
 
   /**
-   * §27.11 — chapter 8, transcribed from the same 360x1120 unit map the Android
-   * screen uses. Nodes are absolutely placed rather than flowed: the `common`
-   * opener sits above the fork (it is not a fourth column), each route keeps its
-   * own guide line, and picture nodes hang off their guide at authored offsets.
-   * The whole map is scaled to the container width, so the composition holds.
+   * §27.11 — chapter 8: vertical flow layout matching Android StoryPartEightMap.
+   * Common opener → branch hub → each route with its own header + normal nodes.
    */
   _routeForkHtml(chapter) {
     const common = [];
@@ -318,106 +306,63 @@ export class StoryMapOverlay {
 
     const first = common[0];
     if (first) {
-      pieces.push(this._forkImageNode({
-        ...first,
-        label: PART8_COMMON.label,
-        x: PART8_COMMON.x, y: PART8_COMMON.y,
-        w: PART8_COMMON.w, h: PART8_COMMON.h,
-      }));
+      const open = this._isOpen(first.state);
+      pieces.push(`<li class="story-row story-row-pic">${this._pictureNodeHtml({
+        section: first.section, index: first.index, state: first.state,
+        open, label: '01 · 共同线', cf: 0.5,
+      })}</li>`);
     }
 
-    for (const scope of PART8_ROUTE_ORDER) {
-      const columnX = PART8_COLUMN_X[scope];
-      const left = columnX - PART8_NODE_WIDTH / 2;
+    pieces.push(`<li class="story-branch-hub">${this._branchHubHtml()}</li>`);
 
-      pieces.push(`
-        <p class="story-fork-label" style="left:${left}px;top:${PART8_LABEL_Y}px;width:${PART8_NODE_WIDTH}px">
-          ${storyRouteLabel(scope)}
-        </p>
-      `);
+    PART8_ROUTE_ORDER.forEach((scope, routeOrdinal) => {
+      const route = routes[scope] || [];
+      if (!route.length) return;
 
-      routes[scope].forEach((entry, i) => {
-        const label = `${storyRoutePrefix(scope)}${i + 1}`;
-        const image = part8ImagePosition(scope, i);
-        if (image) {
-          pieces.push(this._forkImageNode({
-            ...entry, label,
-            x: image[0], y: image[1],
-            w: PART8_IMAGE_SIZE.w, h: PART8_IMAGE_SIZE.h,
-          }));
-        } else {
-          pieces.push(this._forkTextNode({
-            ...entry, label,
-            x: left, y: part8TextNodeY(scope, i),
-          }));
+      pieces.push(`<li class="story-route-header">
+        <span class="story-route-kicker">ROUTE ${String(routeOrdinal + 1).padStart(2, '0')}</span>
+        <span class="story-route-label">${storyRouteLabel(scope)}</span>
+      </li>`);
+
+      pieces.push('<li class="story-route-spacer"></li>');
+
+      route.forEach((entry, ri) => {
+        const open = this._isOpen(entry.state);
+        const important = STORY_IMPORTANT_NODES.has(entry.section.startNode);
+        const cf = ri % 2 === 0 ? 0.34 : 0.68;
+        const label = `${storyRoutePrefix(scope)}${ri + 1}`;
+
+        if (ri > 0) {
+          const prevCf = (ri - 1) % 2 === 0 ? 0.34 : 0.68;
+          const prevImportant = STORY_IMPORTANT_NODES.has(route[ri - 1].section.startNode);
+          pieces.push(`<li class="story-row">${this._nodeConnectorSvg(prevCf, cf, prevImportant, important, open)}</li>`);
         }
+
+        const node = important
+          ? this._pictureNodeHtml({ section: entry.section, index: entry.index, state: entry.state, open, label, cf })
+          : this._textNodeHtml({ section: entry.section, index: entry.index, state: entry.state, open, label, cf });
+
+        pieces.push(`<li class="story-row ${important ? 'story-row-pic' : 'story-row-text'}">${node}</li>`);
       });
-    }
 
+      pieces.push('<li class="story-route-gap"></li>');
+    });
+
+    return `<ol class="story-nodes">${pieces.join('')}</ol>`;
+  }
+
+  _branchHubHtml() {
     return `
-      <div class="story-fork-viewport">
-        <div class="story-fork-map" style="width:${PART8_MAP.width}px;height:${PART8_MAP.height}px">
-          ${this._forkRoutesSvg()}
-          ${pieces.join('')}
-        </div>
+      <svg class="story-branch-svg" viewBox="0 0 100 132" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path d="M50 0 L50 42 L17 42 L17 78" fill="none" stroke="rgba(215,190,134,0.58)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+        <path d="M50 42 L50 78" fill="none" stroke="rgba(215,190,134,0.58)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+        <path d="M50 42 L83 42 L83 78" fill="none" stroke="rgba(215,190,134,0.58)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <div class="story-branch-gates">
+        <span class="story-branch-gate">DREAM</span>
+        <span class="story-branch-gate">STAY</span>
+        <span class="story-branch-gate">BAD</span>
       </div>
-    `;
-  }
-
-  _forkRoutesSvg() {
-    const trunk = PART8_TRUNK.map(corners => {
-      const d = corners.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(' ');
-      return `<path d="${d}" fill="none" stroke="rgba(215,190,134,0.76)" stroke-width="2.6"/>`;
-    }).join('');
-
-    const guides = PART8_ROUTE_ORDER.map(scope => {
-      const x = PART8_COLUMN_X[scope];
-      return `<path class="story-fork-guide" data-x="${x}"
-                    d="M${x} ${PART8_GUIDE.top} L${x} ${PART8_GUIDE.bottom}"
-                    fill="none" stroke="rgba(220,228,237,0.18)" stroke-width="1.4"/>`;
-    }).join('');
-
-    return `<svg class="story-fork-lines" width="${PART8_MAP.width}" height="${PART8_MAP.height}"
-                 viewBox="0 0 ${PART8_MAP.width} ${PART8_MAP.height}"
-                 aria-hidden="true">${guides}${trunk}</svg>`;
-  }
-
-  _forkTextNode({ section, index, state, label, x, y }) {
-    const open = this._isOpen(state);
-    const lines = open
-      ? storyDisplayLines(section.title).map(l => `<span>${l}</span>`).join('')
-      : `<span>${questionMarks(section.title)}</span>`;
-
-    return `
-      <button class="story-fork-node story-fork-text ${open ? 'is-open' : 'is-locked'}"
-              style="left:${x}px;top:${y}px;width:${PART8_NODE_WIDTH}px"
-              data-start="${section.startNode}" data-section="${index}"
-              ${open ? '' : 'disabled'}>
-        <span class="story-fork-dot" aria-hidden="true"></span>
-        <span class="story-fork-index">${label}</span>
-        <span class="story-fork-title">${lines}</span>
-      </button>
-    `;
-  }
-
-  _forkImageNode({ section, index, state, label, x, y, w, h }) {
-    const open = this._isOpen(state);
-    const bg = open ? this._bg(section.startNode) : null;
-    const lines = open
-      ? storyDisplayLines(section.title).map(l => `<span>${l}</span>`).join('')
-      : `<span>${questionMarks(section.title)}</span>`;
-
-    return `
-      <button class="story-fork-node story-fork-pic ${open ? 'is-open' : 'is-locked'}"
-              style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"
-              data-start="${section.startNode}" data-section="${index}"
-              ${open ? '' : 'disabled'}>
-        ${bg ? `<img src="../assets/${bg}" alt="" loading="lazy" />` : ''}
-        <span class="story-fork-caption">
-          <span class="story-fork-index">${label}</span>
-          <span class="story-fork-title">${lines}</span>
-        </span>
-      </button>
     `;
   }
 
@@ -450,7 +395,7 @@ export class StoryMapOverlay {
       return;
     }
 
-    const node = e.target.closest('.story-node[data-start]');
+    const node = e.target.closest('.story-node[data-start], .story-fork-node[data-start]');
     if (node && !node.disabled && this._onJump) {
       this._onJump(
         node.dataset.start,
@@ -461,8 +406,6 @@ export class StoryMapOverlay {
   }
 
   destroy() {
-    this._resizeObserver?.disconnect();
-    this._resizeObserver = null;
     this.el.removeEventListener('click', this._onClick);
     this.el.remove();
   }

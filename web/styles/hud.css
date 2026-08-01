@@ -10,7 +10,7 @@
   justify-content: space-between;
   padding-left: 17px;
   padding-right: 17px;
-  height: 50px;
+  height: 44px;
   z-index: 10;
   pointer-events: auto;
 }
@@ -27,17 +27,15 @@
   background: linear-gradient(to bottom, rgba(5, 8, 15, 0.46), rgba(5, 8, 15, 0.20) 52%, transparent 100%);
 }
 
-/* Glass HUD icon button — §15.1 / §17.2 */
+/* Glass HUD icon button — §7 / §15.1 / §17.2 */
 .hud-glass-icon {
   position: relative;
   z-index: 1;
   background:
-    radial-gradient(ellipse at center, rgba(247, 249, 252, 0.07), transparent 70%),
-    linear-gradient(to bottom, rgba(14, 23, 38, 0.76), rgba(14, 23, 38, 0.62));
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 8px 22px rgba(0, 0, 0, 0.30);
+    radial-gradient(ellipse at center, rgba(247, 249, 252, 0.08), transparent 66%),
+    linear-gradient(to bottom, rgba(15, 24, 39, 0.34), rgba(15, 24, 39, 0.22));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px) saturate(0.92);
   clip-path: var(--clip-cut-sm);
 }
 
@@ -46,20 +44,17 @@
   position: relative;
   z-index: 1;
   background:
-    linear-gradient(to bottom, rgba(247, 249, 252, 0.05), transparent 42%),
-    linear-gradient(to bottom, transparent 0 44%, rgba(247, 249, 252, 0.14) 45% 55%, transparent 56%),
-    linear-gradient(to right, rgba(14, 23, 38, 0.82), rgba(14, 23, 38, 0.72) 74%, rgba(14, 23, 38, 0.40));
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 8px 22px rgba(0, 0, 0, 0.26);
+    linear-gradient(to bottom, transparent 0 46%, rgba(247, 249, 252, 0.12) 47% 53%, transparent 54%),
+    linear-gradient(to right, rgba(15, 24, 39, 0.30), rgba(15, 24, 39, 0.12) 78%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px) saturate(0.92);
   clip-path: var(--clip-cut-sm);
 }
 
 .hud-left {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -67,7 +62,7 @@
 .hud-right {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   flex: 0 0 auto;
 }
 
@@ -90,25 +85,24 @@
   text-shadow: 0 2px 14px var(--black-48);
 }
 
-/* Icon buttons */
+/* Icon buttons — §7: 36×36, icon 18×18 */
 .hud-btn {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(247, 249, 252, 0.92);
-  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.56));
+  color: rgba(247, 249, 252, 0.94);
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.42));
   transition: opacity var(--duration-fast);
   cursor: pointer;
-  border: none;
   padding: 0;
 }
 
 .hud-btn svg {
-  width: 17px;
-  height: 17px;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.78)) drop-shadow(0 0 8px rgba(247, 249, 252, 0.28));
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.64)) drop-shadow(0 0 8px rgba(247, 249, 252, 0.20));
 }
 
 .hud-btn:hover {
@@ -119,26 +113,24 @@
   color: var(--success-special);
 }
 
-/* Action chip (skip section / next chapter) — §14.4 / §15.1 */
+/* Action chip (skip section / next chapter) — §17.2 */
 .hud-action-chip {
   position: absolute;
-  right: 17px;
-  top: calc(50px + env(safe-area-inset-top, 14px) + 8px);
+  right: 18px;
+  top: calc(44px + env(safe-area-inset-top, 14px) + 14px);
   height: 34px;
   padding: 0 14px;
   font-size: 12px;
   font-weight: 500;
   font-family: var(--font-sans);
   letter-spacing: 0.02em;
-  color: var(--parchment-90);
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.62);
-  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.52));
+  color: rgba(244, 241, 234, 0.90);
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.42));
   line-height: 34px;
   white-space: nowrap;
   pointer-events: auto;
   cursor: pointer;
   transition: opacity var(--duration-fast);
-  border: none;
 }
 
 .hud-action-chip:hover {
