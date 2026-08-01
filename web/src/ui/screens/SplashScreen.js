@@ -11,8 +11,9 @@ export class SplashScreen {
         <button class="start-hit" aria-label="Start"></button>
       </div>
     `;
-    this.el.querySelector('.start-hit').addEventListener('click', () => {
-      ctx.router.navigate('start');
+    this.el.querySelector('.start-hit').addEventListener('click', async () => {
+      const hasCompletedFirstFlow = await ctx.controller.hasCompletedFirstFlow();
+      ctx.router.navigate(hasCompletedFirstFlow ? 'start' : 'prologue');
     });
     container.appendChild(this.el);
   }
