@@ -93,6 +93,14 @@
   border-bottom-color: var(--gold-100);
 }
 
+.name-setup-error {
+  min-height: 18px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  color: rgba(215, 190, 134, 0.92);
+  text-align: center;
+}
+
 .name-setup-confirm-area {
   margin-top: var(--space-xl);
   text-align: center;

@@ -102,8 +102,7 @@ export class StartScreen {
   }
 
   _startNewGame() {
-    this._ctx.controller.startNewGame();
-    this._ctx.router.navigate('game');
+    this._ctx.router.navigate('prologue');
   }
 
   _openCatalog() {
