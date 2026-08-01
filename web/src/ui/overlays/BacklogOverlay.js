@@ -2,6 +2,7 @@ export class BacklogOverlay {
   constructor(container, { controller, onClose }) {
     this._onClose = onClose;
     this._entries = controller.getBacklog();
+    this._bgAssetPath = controller.state.bgAssetPath;
     this._pageSize = 9;
     this._totalPages = Math.max(1, Math.ceil(this._entries.length / this._pageSize));
     this._currentPage = 0;
@@ -21,7 +22,12 @@ export class BacklogOverlay {
     const start = this._currentPage * this._pageSize;
     const pageEntries = this._entries.slice(start, start + this._pageSize);
 
+    const bgHtml = this._bgAssetPath
+      ? `<img class="backlog-bg" src="../assets/${this._bgAssetPath}" alt="" aria-hidden="true" />`
+      : '';
+
     let html = `
+      ${bgHtml}
       <div class="overlay-header">
         <button class="overlay-back-btn" data-action="close" aria-label="返回">←</button>
         <span class="overlay-title">剧情回顾</span>
