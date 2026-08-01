@@ -30,7 +30,7 @@
 > |---|---|
 > | PRD | `authority/product/NagisHeart_PRD_v2_0.md` |
 > | 交互设计 | `authority/interaction/NagisHeart_Interaction_Design_v1_0.md` |
-> | 剧本母版 | `authority/script/Nagis_Heart_SCRIPT_V15_Calibrated.md` |
+> | 剧本母版 | `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` |
 > | 剧情逻辑 coreDesign | `authority/story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` |
 > | UI 设计稿 | `authority/ui/NagisHeart_UI_Authority_XoXo_v1_0.html` |
 > | UI 数值 MinSpec | `authority/ui/XoXo_UI_Final_MinSpec_20260712.md` |
@@ -95,7 +95,7 @@ UI 目前不是单文件正式权威，需要按 harness 决策和页面类型�
 
 | 文件 | 状态 | 用途 |
 |---|---|---|
-| `design/Nagis_Heart_SCRIPT_V15_Calibrated.md` | 当前剧本母版 | V15 校准后的完整剧情文本源稿，包含章节、节点、选项、路线、结局和校准说明。 |
+| `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` | 当前剧本母版 | V17 关系摩擦校准中的最新剧情文本源稿；后续剧情修改以此为唯一母版。 |
 | `design/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | 剧情/产品设定参考 | 较完整的早期设计总稿，含路线、系统和内容设定；当前需作为参考而非唯一源。 |
 | `design/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | 当前背景映射设计参考 | V15 剧本到背景、UI theme、情绪等视觉映射的较新版。 |
 | `design/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_v1_1.md` | 旧版背景映射参考 | CoCo v1.1 背景映射，已被 XoXo v1.2 扩展。 |
@@ -108,7 +108,7 @@ UI 目前不是单文件正式权威，需要按 harness 决策和页面类型�
 
 权威关系：
 
-1. 剧情文本源头看 `design/Nagis_Heart_SCRIPT_V15_Calibrated.md`。
+1. 剧情文本源头看 `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md`。
 2. 背景/情绪/视觉映射设计看 `design/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md`。
 3. App 当前实际运行状态以 `story-data/*.json` 为准。
 4. 如果剧本母版和 `story-data` 不一致，需要记录“源稿未同步”或“运行数据临时修正”，不能静默覆盖。
@@ -138,7 +138,7 @@ UI 目前不是单文件正式权威，需要按 harness 决策和页面类型�
 
 | 路径/文件 | 类型 | 说明 |
 |---|---|---|
-| `design/Nagis_Heart_SCRIPT_V15_Calibrated.md` | 剧本母版 | 完整剧情文本源稿；后续改剧情、补节点、校准选项，应优先从这里建立差异记录。 |
+| `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` | 剧本母版 | 当前完整剧情文本源稿；后续改剧情、补节点、校准选项均直接维护此文件。 |
 | `design/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | 剧情设计总稿 | 早期/中期剧情、路线、系统设定整合稿。 |
 | `design/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | 剧情视觉映射 | 剧本节点到 BG、mood、uiTheme、visualPriority 等字段的设计依据。 |
 | `design/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_v1_1.md` | 剧情视觉映射旧版 | v1.2 的上一版，可用于追溯变更。 |
@@ -358,7 +358,7 @@ docs/
 | 判断项目结构 / 找文档 | `PROJECT_STRUCTURE.md` | 具体目录下的 README / handoff |
 | 产品范围 / 功能边界 | `design/NagisHeart_PRD_v2_0.md` | `design/NagisHeart_Interaction_Design_v1_0.md` |
 | 交互流程 / 状态规则 | `design/NagisHeart_Interaction_Design_v1_0.md` | PRD 第 20 节、相关 UI spec |
-| 剧本文本 / 人设表达 | `design/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `story-data/nodes.json` 中对应节点 |
+| 剧本文本 / 人设表达 | `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` | `story-data/nodes.json` 中对应节点 |
 | 剧情逻辑 / 路由 / 结局 | `story-data/*.json` 中对应文件 | `design/ARCHITECTURE.md`、`design/TECH_TASKS_v1.1.md` |
 | 背景 / mood / uiTheme | `story-data/scene_visuals.json` | `design/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` |
 | UI 视觉 / 页面样式 | `00_harness/01_governance/decision_log.md`、`00_harness/04_execution/design/TASK_XOXO_UI_AUTHORITY_MERGE_20260715.md` | `design/NagisHeart_P0_HiFi_Design_XoXo_v2_0.html`、`design/NagisHeart_Missing_Pages_Preview_XoXo_v1_0.html`、`design/NagisHeart_LongNarration_StoryRecap_Redesign_Lulu_v1_0.html`、MinSpec |
@@ -397,7 +397,7 @@ docs/
 | 路径 | 原因 |
 |---|---|
 | `story-data/*.json` | 直接影响运行剧情、路线、结局、资源映射。 |
-| `design/Nagis_Heart_SCRIPT_V15_Calibrated.md` | 剧本母版，改动必须可追溯。 |
+| `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` | 剧本母版，改动必须可追溯。 |
 | `assets/bg/`、`assets/main pic/`、`handoff/*/` | 大量图片资源，容易误删或误移动。 |
 | `android/app/src/main/res/` | Android 打包资源，误删会影响构建。 |
 | `handoff/` 历史目录 | 作为过程证据保留，不要为了“干净”直接删。 |

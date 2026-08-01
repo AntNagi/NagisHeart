@@ -1,7 +1,7 @@
 # NagisHeart 权威文档清单（MANIFEST）
 
 > 本目录是全仓库唯一的权威文档存放地。雷打不动。
-> 最后修订：2026-07-29（剧情地图原生记忆地图 redesign）
+> 最后修订：2026-08-01（剧本母版升级为 V17 Relationship Friction Calibrated）
 
 ---
 
@@ -20,7 +20,7 @@
 |---|---|---|---|---|
 | 1 | 产品 PRD | `product/NagisHeart_PRD_v2_0.md` | `18FB495781E060C9EDBA8FA5DB1DD332` | 2026-07-27（§7 / §20.1 / §20.2：继续故事术语、存档进度无手动存档时进入空状态） |
 | 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `8AD0A0E8FC6B4AB783412E1F84D4EAF1` | 2026-07-29（§32.2：第八章顶部三叉 + 三路线纵向满宽分区，取消横向拖动） |
-| 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V15_Calibrated.md` | `10CCFBABDE0C637C0B2A8F762B7B2079` | 2026-07-27（修正 c3 开放日伪选项） |
+| 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` | `AF519BD1717981A0BD999702FF24F3CC` | 2026-08-01（替换新版开场白及 dream_return / c4d / e_drunk / w_home 四章原文） |
 | 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `EB459592BF396154885D9A2B9CEBCE3C` | V3.1（2026-07-21 Ant 确认为正主） |
 | 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `124F7AFB4430F68CF1806A4603C57868` | 2026-07-29（地图 08 路线标题与首节点重叠修正） |
 | 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `E05961403DFF333DD6E0E700879E5BAE` | 2026-07-29（§27.17：Ant 确认并恢复 Android 落地） |

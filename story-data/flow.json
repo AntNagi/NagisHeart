@@ -80,8 +80,7 @@
     "J": {
       "e_agency_launch": "e_dressup",
       "e_dressup": "e_softrice",
-      "e_softrice": "e_drunk",
-      "e_drunk_s2": "route_love_hidden"
+      "e_softrice": "e_drunk"
     },
     "dream": {
       "p8_route": "dream_exist"

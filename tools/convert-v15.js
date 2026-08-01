@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * convert-v15.js — V15 SCRIPT Markdown → story-data/nodes.json
+ * convert-v15.js — current authority SCRIPT Markdown → story-data/nodes.json
  *
  * PM P0 fixes:
  * 1. Multi-choice nodes split into sub-nodes (p2→p2, p2_s2, p2_s3)
@@ -14,8 +14,12 @@
 const fs = require('fs');
 const path = require('path');
 
-const SCRIPT = path.join(__dirname, '..', 'authority', 'script', 'Nagis_Heart_SCRIPT_V15_Calibrated.md');
-const OUT = path.join(__dirname, '..', 'story-data', 'nodes.json');
+const SCRIPT = process.argv[3]
+  ? path.resolve(process.argv[3])
+  : path.join(__dirname, '..', 'authority', 'script', 'Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md');
+const OUT = process.argv[2]
+  ? path.resolve(process.argv[2])
+  : path.join(__dirname, '..', 'story-data', 'nodes.json');
 
 const raw = fs.readFileSync(SCRIPT, 'utf-8');
 const lines = raw.split('\n');

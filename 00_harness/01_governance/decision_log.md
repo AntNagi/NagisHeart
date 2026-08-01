@@ -980,3 +980,14 @@ None. Investigation and process decision only; no code or resource deletion auth
 - Owner: Ant
 - Decision: the QA evidence step introduced in DEC-20260727-002 applies to Web only. Android is late-stage and has no QA agent - after PM checks item count and push, Android tasks go straight to Ant for on-device acceptance, with no QA step and no waiting on the health script. QA must not pick up or test Android tasks.
 - Files: CLAUDE.md, 00_harness/README.md, roles/ROLE_PM.md, roles/ROLE_QA.md, 02_planning/task_board.md (TASK-20260726-001)
+
+# DEC-20260801-001 - V17 Relationship Friction Calibrated becomes the current script authority
+
+- Date: 2026-08-01
+- Owner: Ant
+- Decision:
+  - Promote `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md`, supplied by Ant from the in-progress ChatGPT editing session, as the latest and only current script master.
+  - V17 supersedes V15 for all subsequent story writing and source-to-runtime synchronization. V15 remains in the repository as history and must not be used for new edits.
+  - Editorial notes already present in V17 are retained as non-runtime working notes; story node text remains authoritative only inside named script sections.
+  - Later project additions missing from the supplied V17 draft, including the four ending epilogue chapters already present in runtime data, must be merged forward into V17 before further source-to-runtime conversion.
+- Files: `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md`, `authority/MANIFEST.md`, `PROJECT_STRUCTURE.md`, `tools/convert-v15.js`

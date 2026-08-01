@@ -831,19 +831,6 @@
     "visualPriority": "temp",
     "mood": "romance"
   },
-  "e_drunk_s2": {
-    "bg": "assets/bg/bar.png",
-    "bgm": "bgm/bgm.mp3",
-    "cg": null,
-    "uiTheme": "Dark",
-    "autoSave": false,
-    "focusPoint": null,
-    "cropRule": null,
-    "characterPosition": null,
-    "uiSafeZone": null,
-    "visualPriority": "temp",
-    "mood": "romance"
-  },
   "p8_route": {
     "bg": "assets/bg/bg_manchester_bedroom_city_night.jpg",
     "bgm": "bgm/bgm.mp3",
