@@ -6372,7 +6372,7 @@
       {
         "id": "e_intimate_d005",
         "speaker": "Nagi",
-        "text": "{{playerName}}……我不想说。"
+        "text": "{{playerName}}……我不想说……"
       },
       {
         "id": "e_intimate_d006",
@@ -6404,236 +6404,279 @@
       },
       {
         "id": "e_intimate_d011",
-        "speaker": "Nagi",
-        "text": "嗯。"
+        "speaker": "{{playerName}}",
+        "text": "那你现在……还对我有兴趣吗？"
       },
       {
         "id": "e_intimate_d012",
-        "speaker": "{{playerName}}",
-        "text": "那今晚不用说清楚。"
-      },
-      {
-        "id": "e_intimate_d013",
-        "speaker": "{{playerName}}",
-        "text": "你靠过来就行。"
-      },
-      {
-        "id": "e_intimate_d014",
-        "speaker": "{{playerName}}",
-        "text": "难受的话，也不用整理好再给我看。"
-      },
-      {
-        "id": "e_intimate_d015",
         "speaker": "",
-        "text": "黑暗里，他的眼神停在你脸上，像是被你的话慢慢拉回来。那不是被哄好的表情，更像终于确认了一个可以不用解释的地方。",
+        "text": "黑暗里，他的眼神停在你脸上，像是被你的话点燃了一点火光。那一点火光并不明亮，却很烫，像是压了很久，终于找到可以透出来的缝隙。",
         "display": "bottom"
       },
       {
-        "id": "e_intimate_d016",
+        "id": "e_intimate_d013",
         "speaker": "Nagi",
-        "text": "可以吗？"
+        "text": "当然有兴趣。"
+      },
+      {
+        "id": "e_intimate_d014",
+        "speaker": "Nagi",
+        "text": "和{{playerName}}做这种事，怎么会没兴趣。"
+      },
+      {
+        "id": "e_intimate_d015",
+        "speaker": "{{playerName}}",
+        "text": "那……"
+      },
+      {
+        "id": "e_intimate_d016",
+        "speaker": "{{playerName}}",
+        "text": "你试着利用我释放一下你的压力。你的迷茫、不甘、难受……我都会照单全收。"
       },
       {
         "id": "e_intimate_d017",
-        "speaker": "{{playerName}}",
-        "text": "可以。"
+        "speaker": "",
+        "text": "他的眼神慢慢变得认真起来，像是终于听懂了你不是在逗他，也不是在哄他开心。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d018",
         "speaker": "",
-        "text": "他靠过来，先只是把额头抵在你肩上。呼吸很热，手臂一点点收紧，像是在确认你真的不会退开。",
+        "text": "你是在告诉他，今晚他可以不用整理好情绪再靠近你，也可以不用像没事一样躺在你身边。",
         "display": "bottom"
       },
       {
         "id": "e_intimate_d019",
+        "speaker": "Nagi",
+        "text": "{{playerName}}。"
+      },
+      {
+        "id": "e_intimate_d020",
         "speaker": "",
         "text": "最开始的吻落得很轻，像是在确认。额头、眼角、脸颊，再到唇边。可很快，那些克制就被更深的情绪推着往前走。",
         "display": "bottom"
       },
       {
-        "id": "e_intimate_d020",
+        "id": "e_intimate_d021",
         "speaker": "",
         "text": "他的吻一点点变急，呼吸贴得很近，掌心扣在你身侧，像是怕你会在他最需要的时候退开。",
         "display": "bottom"
       },
       {
-        "id": "e_intimate_d021",
+        "id": "e_intimate_d022",
         "speaker": "",
         "text": "你伸手抱住他的脖颈，回应他的靠近。于是Nagi像是终于被允许放下所有力气，整个人都朝你压下来。",
         "display": "bottom"
       },
       {
-        "id": "e_intimate_d022",
+        "id": "e_intimate_d023",
         "speaker": "",
         "text": "不是粗暴，也不是失控，而是太难受了，太需要一个出口，太需要确认自己还被你接住。",
         "display": "bottom"
       },
       {
-        "id": "e_intimate_d023",
+        "id": "e_intimate_d024",
+        "speaker": "",
+        "text": "衣物在彼此之间一点点松开。他的动作带着一种已经熟悉的确认感——不是第一次，却是第一次带着这么沉重的东西靠近你。皮肤相触的瞬间，他轻轻颤了一下，像是终于碰到了可以依靠的温度。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_intimate_d025",
+        "speaker": "",
+        "text": "你的手抚过他的背脊，感觉到那下面绷紧的肌肉在微微发颤。他低头埋进你的颈窝，呼吸又热又乱，像是终于可以不用再假装轻松。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_intimate_d026",
         "speaker": "Nagi",
         "text": "{{playerName}}……"
       },
       {
-        "id": "e_intimate_d024",
-        "speaker": "Nagi",
-        "text": "输了。"
-      },
-      {
-        "id": "e_intimate_d025",
-        "speaker": "Nagi",
-        "text": "很烦。"
-      },
-      {
-        "id": "e_intimate_d026",
-        "speaker": "{{playerName}}",
-        "text": "嗯。"
-      },
-      {
         "id": "e_intimate_d027",
         "speaker": "Nagi",
-        "text": "不想看回放。"
+        "text": "我真的不知道该怎么办……"
       },
       {
         "id": "e_intimate_d028",
         "speaker": "Nagi",
-        "text": "关掉也烦。"
+        "text": "我不是不喜欢足球。"
       },
       {
         "id": "e_intimate_d029",
-        "speaker": "",
-        "text": "他说得断断续续。每一句都很短，像从很深的地方一点点漏出来。",
-        "display": "bottom"
+        "speaker": "Nagi",
+        "text": "也不是……真的想就这样算了。"
       },
       {
         "id": "e_intimate_d030",
         "speaker": "Nagi",
-        "text": "洁被抢走的时候，也烦。"
+        "text": "可是我输了，被淘汰了。"
       },
       {
         "id": "e_intimate_d031",
-        "speaker": "Nagi",
-        "text": "Reo还在那边，也烦。"
+        "speaker": "",
+        "text": "他说出那几个字时，身体明显绷紧了一瞬。像是直到这一刻，他才终于允许自己承认，那不是一件可以轻轻带过的事。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d032",
-        "speaker": "Nagi",
-        "text": "我也不知道自己想怎样。"
+        "speaker": "",
+        "text": "你抬起腿缠住他的腰，让他更近地贴近你。他发出很轻的一声闷哼，额头抵着你的，动作慢下来，却一下比一下沉。每一次靠近都像在把什么沉重的东西一点点卸下来。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d033",
-        "speaker": "",
-        "text": "他的吻又落下来，比刚才更深，也更沉。你能感觉到他的不甘、迷茫、压抑和无处可去的烦躁，全都混在凌乱的呼吸里，像终于撕开了一道口子。",
-        "display": "bottom"
+        "speaker": "Nagi",
+        "text": "看到回放的时候，很难受。"
       },
       {
         "id": "e_intimate_d034",
-        "speaker": "",
-        "text": "你被他抱得很紧，几乎像是要被他整个人裹进去。可你没有推开，只是更用力地回抱住他。",
-        "display": "bottom"
+        "speaker": "Nagi",
+        "text": "看到洁的时候，很难受。"
       },
       {
         "id": "e_intimate_d035",
-        "speaker": "{{playerName}}",
-        "text": "不知道也可以。"
+        "speaker": "Nagi",
+        "text": "想到玲王还在蓝色监狱，也很难受。"
       },
       {
         "id": "e_intimate_d036",
-        "speaker": "{{playerName}}",
-        "text": "先在这里。"
+        "speaker": "",
+        "text": "他的吻又落下来，比刚才更深，也更沉。你能感觉到他的不甘、迷茫、压抑和无处可去的烦躁，全都混在凌乱的呼吸和逐渐加快的节奏里，像终于撕开了一道口子。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d037",
-        "speaker": "Nagi",
-        "text": "好丢脸。"
+        "speaker": "",
+        "text": "你被他抱得很紧，几乎像是要被他整个人裹进去。可你没有推开，只是更用力地回抱住他，让他知道，无论他现在有多狼狈，你都不会把他推出去。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d038",
         "speaker": "{{playerName}}",
-        "text": "嗯。"
+        "text": "Nagi……都告诉我吧，我感受得到。"
       },
       {
         "id": "e_intimate_d039",
         "speaker": "Nagi",
-        "text": "{{playerName}}不要笑。"
+        "text": "{{playerName}}……"
       },
       {
         "id": "e_intimate_d040",
         "speaker": "{{playerName}}",
-        "text": "不笑。"
+        "text": "你的害怕，你的不甘，你的难受……"
       },
       {
         "id": "e_intimate_d041",
-        "speaker": "",
-        "text": "他安静了一会儿，额头抵着你的额头。白色发梢垂下来，蹭过你的脸颊。",
-        "display": "bottom"
+        "speaker": "{{playerName}}",
+        "text": "都给我。"
       },
       {
         "id": "e_intimate_d042",
-        "speaker": "Nagi",
-        "text": "我不想就这样算了。"
+        "speaker": "",
+        "text": "Nagi重新低下头，额头抵着你的额头，呼吸又重又乱。白色发梢垂下来，蹭过你的脸颊。他的眼神里没有平时的散漫，只剩下一种近乎狼狈的坦白。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d043",
         "speaker": "",
-        "text": "这句话轻得几乎要被夜色吞掉。可你听见了。",
+        "text": "他的动作越来越深，像是要把所有说不出口的东西都倾泻进你身体里。你收紧手臂，接纳他每一次用力的靠近，也接纳他终于肯承认的软弱。房间里只剩下交缠的呼吸和细微的响动，所有多余的声音都被压了下去。",
         "display": "bottom"
       },
       {
         "id": "e_intimate_d044",
         "speaker": "Nagi",
-        "text": "但是不知道从哪里开始。"
+        "text": "我是不是很没用？他们都说我是天才，可是我被淘汰了。"
       },
       {
         "id": "e_intimate_d045",
-        "speaker": "{{playerName}}",
-        "text": "那就先从明天开始。"
+        "speaker": "Nagi",
+        "text": "好丢脸。"
       },
       {
         "id": "e_intimate_d046",
-        "speaker": "Nagi",
-        "text": "明天也很麻烦。"
+        "speaker": "{{playerName}}",
+        "text": "没关系的，{{nagiCall}}。"
       },
       {
         "id": "e_intimate_d047",
-        "speaker": "{{playerName}}",
-        "text": "嗯。"
+        "speaker": "Nagi",
+        "text": "可以吗？"
       },
       {
         "id": "e_intimate_d048",
-        "speaker": "Nagi",
-        "text": "但是……好像可以。"
+        "speaker": "",
+        "text": "你只是回应他，抱紧他，让他在每一次靠近里都确认：哪怕现在的他狼狈、迷茫、失败、没有方向，也依然可以被你接住。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d049",
         "speaker": "",
-        "text": "这一晚，你没有替他找到答案。他也没有突然变得坚定。只是那些原本被他压在“好麻烦”下面的东西，终于有一点点从身体里透出来。",
+        "text": "当那股积压已久的东西终于被彻底释放出来时，他咬住你的肩膀，声音压抑得几乎听不清，却把所有重量都交了出来。你感觉到他整个人在你怀里微微发抖，像终于被允许卸下什么沉重的东西。",
         "display": "bottom"
       },
       {
         "id": "e_intimate_d050",
-        "speaker": "",
-        "text": "后来他困了，下巴轻轻靠在你头上，双臂不自觉收紧。",
-        "display": "bottom"
+        "speaker": "Nagi",
+        "text": "{{playerName}}……我不想再逃避了……"
       },
       {
         "id": "e_intimate_d051",
-        "speaker": "{{playerName}}",
-        "text": "晚安，{{nagiCall}}。"
+        "speaker": "",
+        "text": "他说得很轻，不像宣誓，更像终于被逼到心底最深处之后，漏出来的一句真话。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d052",
         "speaker": "Nagi",
-        "text": "晚安。"
+        "text": "但是我不知道怎么做。"
       },
       {
         "id": "e_intimate_d053",
-        "speaker": "Nagi",
-        "text": "{{playerName}}别走。"
+        "speaker": "",
+        "text": "这一晚，你几乎能感觉到他的情绪在你怀里一点点塌下来，又一点点被安放好。他不是突然有了方向，也不是突然找回了信心。",
+        "display": "bottom"
       },
       {
         "id": "e_intimate_d054",
+        "speaker": "",
+        "text": "他额头抵着你的额头，白色发梢有些凌乱，灰色眼眸里还残留着低落，却不再像刚才那样空。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_intimate_d055",
         "speaker": "{{playerName}}",
-        "text": "不走。"
+        "text": "现在心情会好些吗？"
+      },
+      {
+        "id": "e_intimate_d056",
+        "speaker": "",
+        "text": "Nagi安静了几秒，才低低应了一声。他下巴轻轻靠在你头上，双臂不自觉收紧。",
+        "display": "bottom"
+      },
+      {
+        "id": "e_intimate_d057",
+        "speaker": "Nagi",
+        "text": "{{playerName}}，刚刚……"
+      },
+      {
+        "id": "e_intimate_d058",
+        "speaker": "{{playerName}}",
+        "text": "我很荣幸，能分享和分担Nagi的一切。"
+      },
+      {
+        "id": "e_intimate_d059",
+        "speaker": "Nagi",
+        "text": "困了。"
+      },
+      {
+        "id": "e_intimate_d060",
+        "speaker": "{{playerName}}",
+        "text": "晚安，{{nagiCall}}，爱你。"
+      },
+      {
+        "id": "e_intimate_d061",
+        "speaker": "Nagi",
+        "text": "晚安。"
       }
     ],
     "choices": [
@@ -6643,7 +6686,7 @@
         "autoAdvance": true,
         "effects": [
           {
-            "var": "narrativeDistance",
+            "var": "distance",
             "op": "add",
             "val": 2
           },
