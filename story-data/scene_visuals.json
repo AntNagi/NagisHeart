@@ -598,7 +598,7 @@
     "mood": "romance"
   },
   "c4a_s2": {
-    "bg": "assets/bg/qixi.jpg",
+    "bg": "assets/bg/white_suits.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
@@ -611,7 +611,7 @@
     "mood": "romance"
   },
   "c4a_s3": {
-    "bg": "assets/bg/qixi.jpg",
+    "bg": "assets/bg/white_suits.jpg",
     "bgm": "bgm/bgm.mp3",
     "cg": null,
     "uiTheme": "Dark",
