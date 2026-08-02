@@ -1009,3 +1009,15 @@ None. Investigation and process decision only; no code or resource deletion auth
   - Story-map lighting remains evidence-based (`visited_nodes` / `completed_sections`) and must never be faked from `unlocked_endings`. With this route structure, unlocking TRUE + GOOD necessarily covers M/DREAM, NORMAL covers J/STAY, and BAD covers J/BAD; therefore 4/4 endings naturally lights every main Part 7/8 route node.
   - `tools/validate.js` now treats this relationship between route choice, ending pools and map scopes as a structural invariant.
 - Files: `story-data/nodes.json`, `story-data/routers.json`, `story-data/endings.json`, `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md`, `authority/story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md`, `authority/interaction/NagisHeart_Interaction_Design_v1_0.md`, `tools/validate.js`, `authority/MANIFEST.md`
+
+# DEC-20260802-002 - Part 7 story map visibly exposes the M/J fork
+
+- Date: 2026-08-02
+- Owner: Ant
+- Decision:
+  - Part 7 must not be rendered as a single linear list because its runtime data already contains one common opener followed by mutually exclusive M and J branches.
+  - Use the same mobile route-map language as Part 8: common opener, a visible branch hub with route gates, then full-width vertical route sections.
+  - Part 7 uses a two-way hub and section order M then J; Part 8 retains its three-way DREAM / STAY / BAD hub.
+  - Node lighting remains based only on actual visit/completion records. This is a layout correction, not synthetic route completion.
+  - Web and Android must implement the same structure and route labels.
+- Files: `authority/interaction/NagisHeart_Interaction_Design_v1_0.md`, `authority/ui/XoXo_UI_Final_MinSpec_20260712.md`, `web/src/data/StoryMapPresentation.js`, `web/src/ui/overlays/StoryMapOverlay.js`, `android/app/src/main/java/com/antnagi/nagisheart/ui/screen/StoryMapLayout.kt`, `android/app/src/main/java/com/antnagi/nagisheart/ui/screen/ChapterScreen.kt`, `authority/MANIFEST.md`

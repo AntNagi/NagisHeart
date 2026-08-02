@@ -57,6 +57,8 @@ export const STORY_IMPORTANT_NODES = new Set([
 /** §27.11 — authority route labels. Never show the raw `scope` value. */
 export function storyRouteLabel(scope) {
   switch (scope) {
+    case 'M': return 'M · 默契线';
+    case 'J': return 'J · 较劲线';
     case 'dream': return 'DREAM · 世界第一';
     case 'stay': return 'STAY · 陪我';
     case 'bad': return 'BAD · 抓住我';
@@ -67,6 +69,8 @@ export function storyRouteLabel(scope) {
 /** §27.11 — chapter 8 uses route-prefixed indices, not the global 01–19. */
 export function storyRoutePrefix(scope) {
   switch (scope) {
+    case 'M': return 'M';
+    case 'J': return 'J';
     case 'dream': return 'D';
     case 'stay': return 'S';
     case 'bad': return 'B';
@@ -123,6 +127,9 @@ export const PART8_COLUMN_X = { dream: 60, stay: 180, bad: 300 };
 
 /** Route order left to right. */
 export const PART8_ROUTE_ORDER = ['dream', 'stay', 'bad'];
+
+/** Part 7 hidden relationship split, shown as two explicit map routes. */
+export const PART7_ROUTE_ORDER = ['M', 'J'];
 
 /** Common opener card. */
 export const PART8_COMMON = { x: 80, y: 0, w: 200, h: 112, label: '01 · 共同线' };

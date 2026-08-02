@@ -57,6 +57,8 @@ internal val storyImportantNodes = setOf(
 )
 
 internal fun storyRouteLabel(scope: String): String = when (scope) {
+    "M" -> "M · 默契线"
+    "J" -> "J · 较劲线"
     "dream" -> "DREAM · 世界第一"
     "stay" -> "STAY · 陪我"
     "bad" -> "BAD · 抓住我"
@@ -64,6 +66,8 @@ internal fun storyRouteLabel(scope: String): String = when (scope) {
 }
 
 internal fun storyRoutePrefix(scope: String): String = when (scope) {
+    "M" -> "M"
+    "J" -> "J"
     "dream" -> "D"
     "stay" -> "S"
     "bad" -> "B"

@@ -6,6 +6,7 @@ import {
   storyDisplayLines,
   questionMarks,
   PART8_ROUTE_ORDER,
+  PART7_ROUTE_ORDER,
 } from '../../data/StoryMapPresentation.js';
 
 /**
@@ -175,7 +176,7 @@ export class StoryMapOverlay {
     const prev = chapters[at - 1];
     const next = chapters[at + 1];
 
-    const body = chapter.id === 'part8'
+    const body = chapter.id === 'part7' || chapter.id === 'part8'
       ? this._routeForkHtml(chapter)
       : this._linearNodesHtml(chapter);
 
@@ -202,7 +203,7 @@ export class StoryMapOverlay {
     `;
   }
 
-  /** Chapters 1–7: nodes alternate sides, joined by right-angle connectors. */
+  /** Linear chapters: nodes alternate sides, joined by right-angle connectors. */
   _linearNodesHtml(chapter) {
     const items = chapter.sections.map((section, index) => {
       const state = this._sectionState(chapter, index);
@@ -289,12 +290,13 @@ export class StoryMapOverlay {
   }
 
   /**
-   * §27.11 — chapter 8: vertical flow layout matching Android StoryPartEightMap.
+   * §27.11 — route chapters: vertical flow layout shared by parts 7 and 8.
    * Common opener → branch hub → each route with its own header + normal nodes.
    */
   _routeForkHtml(chapter) {
     const common = [];
-    const routes = { dream: [], stay: [], bad: [] };
+    const routeOrder = chapter.id === 'part7' ? PART7_ROUTE_ORDER : PART8_ROUTE_ORDER;
+    const routes = Object.fromEntries(routeOrder.map(scope => [scope, []]));
 
     chapter.sections.forEach((section, index) => {
       const entry = { section, index, state: this._sectionState(chapter, index) };
@@ -313,9 +315,9 @@ export class StoryMapOverlay {
       })}</li>`);
     }
 
-    pieces.push(`<li class="story-branch-hub">${this._branchHubHtml()}</li>`);
+    pieces.push(`<li class="story-branch-hub">${this._branchHubHtml(routeOrder)}</li>`);
 
-    PART8_ROUTE_ORDER.forEach((scope, routeOrdinal) => {
+    routeOrder.forEach((scope, routeOrdinal) => {
       const route = routes[scope] || [];
       if (!route.length) return;
 
@@ -351,17 +353,21 @@ export class StoryMapOverlay {
     return `<ol class="story-nodes">${pieces.join('')}</ol>`;
   }
 
-  _branchHubHtml() {
+  _branchHubHtml(routeOrder) {
+    const positions = routeOrder.length === 2 ? [25, 75] : [17, 50, 83];
+    const paths = positions.map(x => `
+        <path d="M50 42 L${x} 42 L${x} 78" fill="none" stroke="rgba(215,190,134,0.58)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>`
+    ).join('');
+    const gates = routeOrder.map(scope =>
+      `<span class="story-branch-gate">${scope.toUpperCase()}</span>`
+    ).join('');
     return `
       <svg class="story-branch-svg" viewBox="0 0 100 132" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-        <path d="M50 0 L50 42 L17 42 L17 78" fill="none" stroke="rgba(215,190,134,0.58)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-        <path d="M50 42 L50 78" fill="none" stroke="rgba(215,190,134,0.58)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-        <path d="M50 42 L83 42 L83 78" fill="none" stroke="rgba(215,190,134,0.58)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+        <path d="M50 0 L50 42" fill="none" stroke="rgba(215,190,134,0.58)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+        ${paths}
       </svg>
       <div class="story-branch-gates">
-        <span class="story-branch-gate">DREAM</span>
-        <span class="story-branch-gate">STAY</span>
-        <span class="story-branch-gate">BAD</span>
+        ${gates}
       </div>
     `;
   }

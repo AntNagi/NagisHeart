@@ -1091,9 +1091,9 @@ private fun StoryChapterList(
             Spacer(modifier = Modifier.height(30.dp))
         }
 
-        if (chapter.id == "part8") {
+        if (chapter.id == "part7" || chapter.id == "part8") {
             item {
-                StoryPartEightMap(
+                StoryRouteForkMap(
                     chapter = chapter,
                     sectionStates = sectionStates,
                     nodeBgPath = nodeBgPath,
@@ -1404,12 +1404,13 @@ private fun StorySimpleConnector(
 }
 
 @Composable
-private fun StoryPartEightMap(
+private fun StoryRouteForkMap(
     chapter: Chapter,
     sectionStates: Map<String, SectionState>,
     nodeBgPath: (String) -> String?,
     onNodeClick: (ChapterSection, Int, SectionState) -> Unit
 ) {
+    val routeOrder = if (chapter.id == "part7") listOf("M", "J") else listOf("dream", "stay", "bad")
     val indexed = chapter.sections.withIndex().toList()
     val common = indexed.firstOrNull { it.value.scope.isNullOrBlank() || it.value.scope == "common" }
     val routes = indexed
@@ -1431,10 +1432,10 @@ private fun StoryPartEightMap(
             )
         }
 
-        StoryPartEightBranchHub()
+        StoryRouteBranchHub(routeOrder)
         Spacer(modifier = Modifier.height(26.dp))
 
-        listOf("dream", "stay", "bad").forEachIndexed { routeOrdinal, scope ->
+        routeOrder.forEachIndexed { routeOrdinal, scope ->
             val route = routes[scope].orEmpty()
             if (route.isNotEmpty()) {
                 StoryRouteSectionHeader(
@@ -1474,7 +1475,7 @@ private fun StoryPartEightMap(
 }
 
 @Composable
-private fun StoryPartEightBranchHub() {
+private fun StoryRouteBranchHub(routeOrder: List<String>) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -1484,19 +1485,19 @@ private fun StoryPartEightBranchHub() {
             val centerX = size.width / 2f
             val branchY = 42.dp.toPx()
             val gateY = 78.dp.toPx()
-            val leftX = size.width * 0.17f
-            val rightX = size.width * 0.83f
+            val gateXs = if (routeOrder.size == 2) {
+                listOf(size.width * 0.25f, size.width * 0.75f)
+            } else {
+                listOf(size.width * 0.17f, centerX, size.width * 0.83f)
+            }
             val path = Path().apply {
                 moveTo(centerX, 0f)
                 lineTo(centerX, branchY)
-                moveTo(centerX, branchY)
-                lineTo(leftX, branchY)
-                lineTo(leftX, gateY)
-                moveTo(centerX, branchY)
-                lineTo(centerX, gateY)
-                moveTo(centerX, branchY)
-                lineTo(rightX, branchY)
-                lineTo(rightX, gateY)
+                gateXs.forEach { gateX ->
+                    moveTo(centerX, branchY)
+                    lineTo(gateX, branchY)
+                    lineTo(gateX, gateY)
+                }
             }
             drawPath(
                 path = path,
@@ -1514,7 +1515,7 @@ private fun StoryPartEightBranchHub() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            listOf("DREAM", "STAY", "BAD").forEach { label ->
+            routeOrder.map { it.uppercase() }.forEach { label ->
                 Box(
                     modifier = Modifier
                         .weight(1f)
