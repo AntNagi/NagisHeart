@@ -97,6 +97,7 @@
   align-items: center;
   justify-content: center;
   padding: 88px 18px 126px;
+  overflow-y: auto;
   cursor: pointer;
 }
 
@@ -123,7 +124,8 @@
   padding: 148px 18px 152px;
   width: 100%;
   min-height: 280px;
-  max-height: 760px;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 .long-narration-text {
