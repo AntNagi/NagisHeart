@@ -47,9 +47,29 @@ export class StoryMapOverlay {
   }
 
   _sectionState(chapter, index) {
-    return this._controller.getSectionState(
+    const state = this._controller.getSectionState(
       chapter.id, index, chapter.sections[index].startNode,
     );
+    if (state !== 'LOCKED') return state;
+    if (this._scopeUnlockedByEnding(chapter.sections[index].scope)) return 'COMPLETED';
+    return state;
+  }
+
+  _scopeUnlockedByEnding(scope) {
+    if (!this._endingScopes) {
+      const endings = this._controller.getUnlockedEndings();
+      this._endingScopes = new Set();
+      if (endings.has('end_true') || endings.has('end_good')) this._endingScopes.add('dream');
+      if (endings.has('end_normal')) this._endingScopes.add('stay');
+      if (endings.has('end_bad')) this._endingScopes.add('bad');
+      if (endings.size > 0) {
+        this._endingScopes.add('common');
+        this._endingScopes.add('M');
+        this._endingScopes.add('J');
+      }
+    }
+    if (!scope || scope === 'common') return this._endingScopes.has('common');
+    return this._endingScopes.has(scope);
   }
 
   _isOpen(state) {
@@ -58,7 +78,8 @@ export class StoryMapOverlay {
 
   _chapterUnlocked(chapter) {
     const visited = this._controller.getVisitedNodes();
-    return chapter.sections.some(s => visited.has(s.startNode));
+    if (chapter.sections.some(s => visited.has(s.startNode))) return true;
+    return chapter.sections.some(s => this._scopeUnlockedByEnding(s.scope));
   }
 
   _bg(nodeId) {
