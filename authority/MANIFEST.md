@@ -1,7 +1,7 @@
 # NagisHeart 权威文档清单（MANIFEST）
 
 > 本目录是全仓库唯一的权威文档存放地。雷打不动。
-> 最后修订：2026-08-01（剧本母版升级为 V17 Relationship Friction Calibrated）
+> 最后修订：2026-08-02（M/J 互斥结局池 + 四结局自然覆盖剧情地图）
 
 ---
 
@@ -19,9 +19,9 @@
 | # | 权威 | 文件 | MD5 | 最近修订 |
 |---|---|---|---|---|
 | 1 | 产品 PRD | `product/NagisHeart_PRD_v2_0.md` | `18FB495781E060C9EDBA8FA5DB1DD332` | 2026-07-27（§7 / §20.1 / §20.2：继续故事术语、存档进度无手动存档时进入空状态） |
-| 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `8AD0A0E8FC6B4AB783412E1F84D4EAF1` | 2026-07-29（§32.2：第八章顶部三叉 + 三路线纵向满宽分区，取消横向拖动） |
-| 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` | `FAEEE4FF44B1DAC5829646ECDAC6DF1B` | 2026-08-01（替换新版开场白及 dream_return / c4d / e_drunk / w_home / e_intimate 五章原文） |
-| 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `EB459592BF396154885D9A2B9CEBCE3C` | V3.1（2026-07-21 Ant 确认为正主） |
+| 2 | 交互设计 | `interaction/NagisHeart_Interaction_Design_v1_0.md` | `848810914B922C7BE4F53A27CCB1529D` | 2026-08-02（§32.3–§32.5：四结局自然覆盖 M/J + DREAM/STAY/BAD，禁止地图伪点亮） |
+| 3 | 剧本母版 | `script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` | `3E851B48FEA269E3BB7D295C2022DD21` | 2026-08-02（M/J 互斥结局池；第八部按 M/J 显示两项关键选择） |
+| 4 | 剧情逻辑 coreDesign | `story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md` | `B5455E274F1FF68AB46D2E14A211B68D` | 2026-08-02（M→TRUE/GOOD，J→NORMAL/BAD；路线与结局判定闭环） |
 | 5 | UI 设计稿 | `ui/NagisHeart_UI_Authority_XoXo_v1_0.html` | `124F7AFB4430F68CF1806A4603C57868` | 2026-07-29（地图 08 路线标题与首节点重叠修正） |
 | 6 | UI 数值规范 MinSpec | `ui/XoXo_UI_Final_MinSpec_20260712.md` | `E05961403DFF333DD6E0E700879E5BAE` | 2026-07-29（§27.17：Ant 确认并恢复 Android 落地） |
 | 7 | BG Mapping | `visual_mapping/NagisHeart_SCRIPT_V15_BG_Mapping_CoCo_XoXo_v1_2.md` | `9E5235DF786217B31A5E5D358C2A83B3` | 2026-07-23（同步 c2/c2_s2/e_depart 口头指定 BG） |
@@ -45,6 +45,7 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 
 | 日期 | 文件 | 说明 | 决策记录 |
 |---|---|---|---|
+| 2026-08-02 | Script V17 + story logic + Interaction §32 + runtime story-data | 恢复 M/J 原始设计：M 严格锁定 TRUE/GOOD，J 严格锁定 NORMAL/BAD；第八部关键选择按 M/J 显示；四结局全解锁必然真实走完第七/八部全部主路线，地图不再需要伪点亮 | DEC-20260802-001 |
 | 2026-07-27 | UI MinSpec §27.8–§27.16 | 剧情地图数值 token 补齐：页面骨架 / 节点（普通节点无卡片底）/ 正交折线路径 / 第八章三路线布局与权威标签 / 总览页 / 未解锁呈现 / 九份 SVG 坐标转写授权 / 标题断行表 8 条 / 章节短标题与副标题表 8 章。焦点由开发逐图调校，不另出 focus map、不重新切图 | DEC-20260727-006 |
 | 2026-07-27 | 节点匹配表 xlsx | 补账：Ant 的 Antset 列编辑自 07-23 未登记，check-authority 长期 FAILED；本次仅同步哈希与提交，不改内容 | DEC-20260727-006 |
 | 2026-07-27 | UI MinSpec §14.1 | 合并保留小节开始页最新收口：§14.1 仅适用于 Section Opening，废止托底描边，新增章节名 + 小节序号 meta 行；大章开始/结束继续按 §23 分割页口径 | DEC-20260717-013 |

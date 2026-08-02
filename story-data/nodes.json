@@ -11867,6 +11867,11 @@
             "var": "bond",
             "op": "add",
             "val": 1
+          },
+          {
+            "var": "mj",
+            "op": "set",
+            "val": "M"
           }
         ],
         "transition": {
@@ -11931,6 +11936,11 @@
             "var": "control",
             "op": "add",
             "val": 2
+          },
+          {
+            "var": "mj",
+            "op": "set",
+            "val": "J"
           }
         ],
         "transition": {
@@ -15054,6 +15064,7 @@
         "id": "p8_route_c001",
         "label": "我会在看台上。去看你把它变成你的比赛。",
         "internalTag": "世界第一",
+        "condition": "mj === 'M'",
         "effects": [
           {
             "var": "path",
@@ -15104,9 +15115,69 @@
         ]
       },
       {
-        "id": "p8_route_c002",
+        "id": "p8_route_c002_m",
         "label": "我会去看你。就算不是今天也没关系。",
         "internalTag": "陪我",
+        "condition": "mj === 'M'",
+        "effects": [
+          {
+            "var": "path",
+            "op": "set",
+            "val": "dream"
+          },
+          {
+            "var": "finalChoice",
+            "op": "set",
+            "val": "ordinary"
+          },
+          {
+            "var": "habitWarm",
+            "op": "add",
+            "val": 2
+          },
+          {
+            "var": "ordinaryHappiness",
+            "op": "add",
+            "val": 1
+          }
+        ],
+        "transition": {
+          "type": "goto",
+          "target": "dream_exist"
+        },
+        "responses": [
+          {
+            "id": "p8_route_c002_m_r001",
+            "speaker": "{{playerName}}",
+            "text": "我会去看你。"
+          },
+          {
+            "id": "p8_route_c002_m_r002",
+            "speaker": "{{playerName}}",
+            "text": "但就算不是今天也没关系。"
+          },
+          {
+            "id": "p8_route_c002_m_r003",
+            "speaker": "Nagi",
+            "text": "什么不是今天？"
+          },
+          {
+            "id": "p8_route_c002_m_r004",
+            "speaker": "{{playerName}}",
+            "text": "不用今天就变成全世界都认识的人。"
+          },
+          {
+            "id": "p8_route_c002_m_r005",
+            "speaker": "Nagi",
+            "text": "那今天能赢就行。"
+          }
+        ]
+      },
+      {
+        "id": "p8_route_c002_j",
+        "label": "我会去看你。就算不是今天也没关系。",
+        "internalTag": "陪我",
+        "condition": "mj === 'J'",
         "effects": [
           {
             "var": "path",
@@ -15135,27 +15206,27 @@
         },
         "responses": [
           {
-            "id": "p8_route_c002_r001",
+            "id": "p8_route_c002_j_r001",
             "speaker": "{{playerName}}",
             "text": "我会去看你。"
           },
           {
-            "id": "p8_route_c002_r002",
+            "id": "p8_route_c002_j_r002",
             "speaker": "{{playerName}}",
             "text": "但就算不是今天也没关系。"
           },
           {
-            "id": "p8_route_c002_r003",
+            "id": "p8_route_c002_j_r003",
             "speaker": "Nagi",
             "text": "什么不是今天？"
           },
           {
-            "id": "p8_route_c002_r004",
+            "id": "p8_route_c002_j_r004",
             "speaker": "{{playerName}}",
             "text": "不用今天就变成全世界都认识的人。"
           },
           {
-            "id": "p8_route_c002_r005",
+            "id": "p8_route_c002_j_r005",
             "speaker": "Nagi",
             "text": "那今天能赢就行。"
           }
@@ -15165,6 +15236,7 @@
         "id": "p8_route_c003",
         "label": "我会到现场，让全世界都看见你。",
         "internalTag": "抓住我",
+        "condition": "mj === 'J'",
         "effects": [
           {
             "var": "path",

@@ -403,8 +403,8 @@ V13/V14 第八章补足了 Nagi 秋冬正式比赛的背景，因此第六部不
 ### 6.5 第六部隐藏分流规则
 
 ```text
-M_score >= J_score → line="M" → e_agency_launch
-J_score > M_score → line="J" → e_agency_launch
+mj="M" → e_agency_launch → e_scarf
+mj="J" → e_agency_launch → e_dressup
 ```
 
 第六部末尾不再直接进入旧 `e_rain / e_softrice`，而是统一进入第七部新公共节点：
@@ -413,23 +413,20 @@ J_score > M_score → line="J" → e_agency_launch
 e_agency_launch | 她站在光里
 ```
 
-M/J 倾向仍由第六部选择决定，但第七部先经公共发布会节点，再展开 M/J 分支。
+M/J 由第六部 `club_media` 的关键选择正式写入 `mj`，第七部先经公共发布会节点，再展开 M/J 分支。其他第六部选择只影响关系质量变量，不得覆盖 `mj`。
 
-M倾向来源：
+M线判定：
 
 ```text
-club_arrival：选择“你可以自己决定怎么用”
 club_media：选择“保留你的原句”
-e_autumn：选择“下次地点你定 / 我跟着你走”
-e_drive：偏向让 Nagi 保留原始表达、不被过度营业包装
+→ mj="M"
 ```
 
-J倾向来源：
+J线判定：
 
 ```text
-club_arrival：选择“我已经帮你同步好了”
 club_media：选择“对外形象很重要，这样对你更好”
-e_drive：偏向 Ant 替他过滤世界、让他只在 Ant 这里关机
+→ mj="J"
 ```
 
 ### 6.6 第六部写作禁区
@@ -469,7 +466,7 @@ Nagi在返日期间重新看见Ant：不是只看见她爱自己，也看见她�
 2019.12 - 2020.1｜发布会后，Nagi短暂返日。第七部表层是东京假期、发布会余波、M/J不同亲密小剧场；底层是关系模式资格池：TRUE/GOOD资格来自 Nagi看见Ant的光与脆弱，Ant也没有完全丢掉自己；NORMAL/BAD风险来自 Ant享受Nagi依赖、纵容和确认欲，Nagi通过配合、吃醋、亲密回应她，但底层问题没有真正解决。
 ```
 
-第七部只处理资格池，不做最终END。
+第七部只处理资格池，不做最终END。M线严格进入 TRUE/GOOD 池，J线严格进入 NORMAL/BAD 池；任何后续数值不得让玩家跨池。
 
 ### 7.3 当前节点结构
 
@@ -576,26 +573,20 @@ loveNotHabit+1
 route_love_hidden | 爱还是习惯隐藏判定
 ```
 
-TRUE/GOOD前置池条件：
+TRUE/GOOD前置池入口：
 
 ```text
-antLightSeen = true
-antFragileSeen = true
-Nagi看见Ant的脆弱后做出真实反应
-Ant可以软下来，但没有彻底丢掉自己
-egoHold 足够
-control / habitDepend 不高
+mj = "M"
+M线剧情完整走到 route_love_hidden
+关系质量变量继续决定“世界第一”选择能否达到 TRUE；不足时只在本池降级为 GOOD
 ```
 
-NORMAL/BAD前置池条件：
+NORMAL/BAD前置池入口：
 
 ```text
-habitWarm 较高
-Ant享受Nagi的依赖与纵容
-Ant任性、控制、确认欲被放大
-Nagi通过配合、吃醋、亲密回应她
-但底层问题没有真正解决
-control / D / nagiRebel / distance 任一过高
+mj = "J"
+J线剧情完整走到 route_love_hidden
+第八部关键选择在“陪伴 / 加冕”之间决定 NORMAL 或 BAD
 ```
 
 ### 7.8 第七部删除 / 降级节点
@@ -1242,7 +1233,7 @@ BAD END｜远处的世界第一
 
 | 旗标 | 可选值 | 触发节点 | 含义 |
 |---|---|---|---|
-| `line` | `M` / `J` | `route_mj_hidden` | 默契线 / 较劲线倾向 |
+| `mj` | `M` / `J` | `club_media`，由 `route_mj_hidden` 兜底 | 默契线 / 较劲线；同时锁定结局池 |
 | `path` | `dream` / `stay` / `bad` | `p8_route` | 第八章三线 |
 | `finalChoice` | `witness` / `ordinary` / `coronation` | `p8_route` | 第八章核心选择 |
 | `finalFlag` | `support` / `waver` / `release` / `accompany` / `clip` | 可保留旧系统兼容 | 终章最后抉择兼容字段 |
@@ -1283,8 +1274,8 @@ route_mj_hidden
 结果：
 
 ```text
-M_score >= J_score → line="M"
-J_score > M_score → line="J"
+club_media 选择“保留你的原句” → mj="M"
+club_media 选择“对外形象很重要，这样对你更好” → mj="J"
 ```
 
 但第七部入口统一为：
@@ -1304,8 +1295,9 @@ route_love_hidden
 结果：
 
 ```text
-TRUE/GOOD资格池：antLightSeen=true, antFragileSeen=true, loveNotHabit高, control低
-NORMAL/BAD资格池：habitWarm高, control高, D/distance/nagiRebel任一偏高
+mj="M" → TRUE/GOOD资格池
+mj="J" → NORMAL/BAD资格池
+两个池严格互斥；数值只决定 M 池内 TRUE 是否达标，不允许跨池
 ```
 
 ### 13.4 第八部终局三线分流
@@ -1316,12 +1308,13 @@ NORMAL/BAD资格池：habitWarm高, control高, D/distance/nagiRebel任一偏高
 p8_route | 假期结束·春季名单
 ```
 
-选项：
+按 M/J 条件显示选项：
 
 ```text
-我会在看台上。去看你把它变成你的比赛 → path="dream", finalChoice="witness"
-我会去看你。就算不是今天也没关系 → path="stay", finalChoice="ordinary"
-我会到现场，让全世界都看见你 → path="bad", finalChoice="coronation"
+M：我会在看台上。去看你把它变成你的比赛 → path="dream", finalChoice="witness" → TRUE严格判定 / 不足降GOOD
+M：我会去看你。就算不是今天也没关系 → path="dream", finalChoice="ordinary" → GOOD
+J：我会去看你。就算不是今天也没关系 → path="stay", finalChoice="ordinary" → NORMAL
+J：我会到现场，让全世界都看见你 → path="bad", finalChoice="coronation" → BAD
 ```
 
 ---
@@ -1332,13 +1325,14 @@ p8_route | 假期结束·春季名单
 
 ```text
 1. BAD:
-   path === "bad"
-   || badLock === true
-   || D >= 6
-   || control 高且 nagiDiscomfortSeed / nagiRebel 为 true
+   mj === "J"
+   && path === "bad"
+   && finalChoice === "coronation"
 
 2. TRUE:
-   path === "dream"
+   mj === "M"
+   && path === "dream"
+   && finalChoice === "witness"
    && antCompress === false
    && witnessFlag === true
    && personalHonor === true
@@ -1347,19 +1341,21 @@ p8_route | 假期结束·春季名单
    && D <= 3
 
 3. GOOD:
-   path === "dream"
-   && personalHonor === true
-   但 antCompress === true 或 nagiResonate不足
+   mj === "M"
+   && path === "dream"
+   且未满足 TRUE；或 finalChoice === "ordinary"
 
 4. NORMAL:
-   path === "stay"
-   或未触发 BAD / TRUE / GOOD
+   mj === "J"
+   && path === "stay"
+   && finalChoice === "ordinary"
 ```
 
 ### 14.2 TRUE END「世界第一，与你」
 
 条件：
 
+- `mj = M`
 - `path = dream`
 - `finalChoice = witness`
 - `antCompress = false`
@@ -1381,9 +1377,9 @@ p8_route | 假期结束·春季名单
 
 条件：
 
+- `mj = M`
 - `path = dream`
-- `personalHonor = true`
-- 但 `antCompress=true` 或 `nagiResonate` 不足
+- `finalChoice = ordinary`，或选择 `witness` 但未达到 TRUE 严格条件
 
 情绪：
 
@@ -1397,8 +1393,9 @@ p8_route | 假期结束·春季名单
 
 条件：
 
+- `mj = J`
 - `path = stay`
-- 未触发 BAD
+- `finalChoice = ordinary`
 
 情绪：
 
@@ -1412,9 +1409,9 @@ p8_route | 假期结束·春季名单
 
 条件：
 
+- `mj = J`
 - `path = bad`
-- `badLock=true`
-- 或 `control` 高、`publicCoupleExposure` 高、`nagiDiscomfortSeed=true`
+- `finalChoice = coronation`
 
 情绪：
 

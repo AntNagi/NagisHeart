@@ -991,3 +991,21 @@ None. Investigation and process decision only; no code or resource deletion auth
   - Editorial notes already present in V17 are retained as non-runtime working notes; story node text remains authoritative only inside named script sections.
   - Later project additions missing from the supplied V17 draft, including the four ending epilogue chapters already present in runtime data, must be merged forward into V17 before further source-to-runtime conversion.
 - Files: `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md`, `authority/MANIFEST.md`, `PROJECT_STRUCTURE.md`, `tools/convert-v15.js`
+
+# DEC-20260802-001 - M/J routes become mutually exclusive ending pools and four endings guarantee natural story-map completion
+
+- Date: 2026-08-02
+- Owner: Ant
+- Problem:
+  - The existing runtime allowed both M and J to enter every Part 8 choice, while ending judgement ignored `mj`. A player could remain on M, unlock all four endings, and never enter the three J sections; the story map then correctly left those never-read nodes dark.
+  - This contradicted the original relationship design: M is the mutual-understanding route toward TRUE / GOOD, while J is the control/friction route toward NORMAL / BAD.
+- Decision:
+  - `club_media` is the single decisive M/J choice and writes canonical variable `mj`: preserving Nagi's own wording selects M; prioritising the managed public image selects J.
+  - M and J are mutually exclusive ending pools. M can only reach TRUE / GOOD; J can only reach NORMAL / BAD. Ending judgement must include the corresponding `mj` condition and must never cross pools.
+  - Part 8 remains a meaningful player choice, but the visible options depend on the established relationship route:
+    - M: `世界第一` -> DREAM -> TRUE when strict qualifications pass, otherwise GOOD; `陪我` -> DREAM -> GOOD.
+    - J: `陪我` -> STAY -> NORMAL; `抓住我` -> BAD -> BAD.
+  - The same `陪我` wording intentionally carries different consequences because its emotional meaning is determined by the accumulated M/J relationship context.
+  - Story-map lighting remains evidence-based (`visited_nodes` / `completed_sections`) and must never be faked from `unlocked_endings`. With this route structure, unlocking TRUE + GOOD necessarily covers M/DREAM, NORMAL covers J/STAY, and BAD covers J/BAD; therefore 4/4 endings naturally lights every main Part 7/8 route node.
+  - `tools/validate.js` now treats this relationship between route choice, ending pools and map scopes as a structural invariant.
+- Files: `story-data/nodes.json`, `story-data/routers.json`, `story-data/endings.json`, `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md`, `authority/story_logic/NagisHeart_Design_V3_1_Latest_UtopiaAdded.md`, `authority/interaction/NagisHeart_Interaction_Design_v1_0.md`, `tools/validate.js`, `authority/MANIFEST.md`

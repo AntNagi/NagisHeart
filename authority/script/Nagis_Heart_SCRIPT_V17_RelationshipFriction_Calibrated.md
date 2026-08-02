@@ -4907,30 +4907,24 @@ Nagi: {{playerName}}别走，当我枕头。
 
 ### --- route_mj_hidden | 第六部隐藏分流 ---
 
-[旁白] [系统说明] `kc2 | 相处之道` 不再作为可见剧情节点出现。第六部的 M/J 分流由前文关键选择累积决定，避免重复说教。
+[旁白] [系统说明] `kc2 | 相处之道` 不再作为可见剧情节点出现。第六部的 M/J 分流由 `club_media` 的关键选择确定，避免隐藏积分与实际路线不一致。
 
 ```text
-M倾向来源：
-- club_arrival 选择“你可以自己决定怎么用”
-- club_media 选择“保留你的原句”
-- e_autumn 选择“下次地点你定，我只负责拍照”
-- e_drive 选择偏向让Nagi保留原始表达 / 不过度营业的分支
+M线判定：
+- club_media 选择“下次保留你的原句，我来和他们说” → mj="M"
 
-J倾向来源：
-- club_arrival 选择“我已经帮你同步好了”
-- club_media 选择“对外形象很重要，这样对你更好”
-- e_drive 中偏向“{{playerName}}替他过滤世界 / 让他继续只在{{playerName}}这里关机”的分支
+J线判定：
+- club_media 选择“对外形象很重要，这样对你更好” → mj="J"
 ```
 
 ```text
-M_score >= J_score → line="M" → 跳转 e_agency_launch
-J_score > M_score → line="J" → 跳转 e_agency_launch
+mj="M" → 跳转 e_agency_launch → e_scarf
+mj="J" → 跳转 e_agency_launch → e_dressup
 ```
 
 ```text
-以 club_media 的选择作为主判定；
-club_arrival、e_autumn、e_drive 只加 i / D / control，不改 line。
-e_agency_launch 结束后根据 line 进入 M / J 分支。
+club_arrival、e_autumn、e_drive 继续影响 i / D / control 等关系质量，但不改 mj。
+e_agency_launch 结束后根据 mj 进入 M / J 分支。
 ```
 
 ```text
@@ -5036,7 +5030,7 @@ Nagi: 所以很像{{playerName}}。
 
 [旁白] 你靠在后台走廊的墙边，终于轻轻笑了一下。你喜欢这句话。比“谢谢你为我做这些”更喜欢。
 
-效果: i+3 antLightSeen=true egoHold+1 → 若line=M跳转 e_scarf；若line=J跳转 e_dressup
+效果: i+3 antLightSeen=true egoHold+1 → 若mj=M跳转 e_scarf；若mj=J跳转 e_dressup
 
 选项② 心动 | 可是因为是你，我才会这么快去做
 
@@ -5052,7 +5046,7 @@ Nagi: {{playerName}}也很重要。
 
 [旁白] 他回得很慢，也很短。可你看着他，心里最柔软的地方还是被很轻地碰了一下。
 
-效果: b+3 antLightSeen=true antSoft+1 → 若line=M跳转 e_scarf；若line=J跳转 e_dressup
+效果: b+3 antLightSeen=true antSoft+1 → 若mj=M跳转 e_scarf；若mj=J跳转 e_dressup
 
 选项③ 控制 | 所以之后你的事要尽量让我来判断
 
@@ -5060,7 +5054,7 @@ Nagi: {{playerName}}也很重要。
 
 Nagi: 嗯。{{playerName}}决定就好。
 
-效果: control+2 habitDepend+1 antLightSeen=true → 若line=M跳转 e_scarf；若line=J跳转 e_dressup
+效果: control+2 habitDepend+1 antLightSeen=true → 若mj=M跳转 e_scarf；若mj=J跳转 e_dressup
 
 ---
 
@@ -5764,7 +5758,9 @@ Nagi: 那就行。
 
 [旁白] 你会去现场。你会看着他。你会比任何人都明白这场比赛的价值。只是你还要决定——你是去见证他，陪伴他，还是亲手把这场胜利推成他的加冕。
 
-选项① 世界第一 | 我会在看台上。去看你把它变成你的比赛。
+[旁白] [系统说明] 第八部选择必须服从第七部关系线：M线只显示“世界第一 / 陪我”，J线只显示“陪我 / 抓住我”。M/J 不得跨结局池。
+
+选项① 世界第一 | 我会在看台上。去看你把它变成你的比赛。【仅 mj=M 显示】
 
 {{playerName}}: 我会在看台上。
 
@@ -5774,7 +5770,7 @@ Nagi: 那{{playerName}}要看好。
 
 效果: path="dream"; finalChoice="witness"; egoHold+3; control-2; loveNotHabit+1 → 跳转 dream_exist
 
-选项② 陪我 | 我会去看你。就算不是今天也没关系。
+选项②-M 陪我 | 我会去看你。就算不是今天也没关系。【仅 mj=M 显示】
 
 {{playerName}}: 我会去看你。
 
@@ -5786,9 +5782,23 @@ Nagi: 什么不是今天？
 
 Nagi: 那今天能赢就行。
 
-效果: path="stay"; finalChoice="ordinary"; habitWarm+2; ordinaryHappiness+1; egoHold不增加 → 跳转 stay_match
+效果: path="dream"; finalChoice="ordinary"; habitWarm+2; ordinaryHappiness+1; egoHold不增加 → 跳转 dream_exist → 最终固定 GOOD（不得进入 TRUE）
 
-选项③ 抓住我 | 我会到现场，让全世界都看见你。
+选项②-J 陪我 | 我会去看你。就算不是今天也没关系。【仅 mj=J 显示】
+
+{{playerName}}: 我会去看你。
+
+{{playerName}}: 但就算不是今天也没关系。
+
+Nagi: 什么不是今天？
+
+{{playerName}}: 不用今天就变成全世界都认识的人。
+
+Nagi: 那今天能赢就行。
+
+效果: path="stay"; finalChoice="ordinary"; habitWarm+2; ordinaryHappiness+1 → 跳转 stay_match → 最终 NORMAL
+
+选项③ 抓住我 | 我会到现场，让全世界都看见你。【仅 mj=J 显示】
 
 {{playerName}}: 我会到现场。
 
@@ -7138,11 +7148,12 @@ e_lolly → e_depart → c6a → e_curry → e_bday → e_hug → e_intimate →
 wc_roster → wc_interval → wc_keygoal → wc_offer → w_home → mt3 → m_igate → e_intimate_cohabit → e_cozy
 w_noodle → w_game → e_tipsy → e_festival → c4a → c4d → transfer_contract
 transfer_contract → club_arrival → club_alone → club_training → club_media → e_autumn → e_halloween → e_drive → route_mj_hidden
-route_mj_hidden[M] → e_agency_launch → e_scarf → e_sick_fragile → route_love_hidden → p8_route
-route_mj_hidden[J] → e_agency_launch → e_dressup → e_softrice → e_drunk → route_love_hidden → p8_route
-p8_route[世界第一] → dream_exist → dream_match → dream_celebrate → dream_return → dream_home → dream_final → TRUE / GOOD
-p8_route[陪我] → stay_match → stay_intro → stay_cozy → stay_daily → stay_final → NORMAL
-p8_route[抓住我] → bad_elegant → bad_plan → bad_match → bad_afterglow → bad_cold → bad_last → bad_far → BAD
+route_mj_hidden[M] → e_agency_launch → e_scarf → e_sick_fragile → route_love_hidden[TRUE/GOOD池] → p8_route
+route_mj_hidden[J] → e_agency_launch → e_dressup → e_softrice → e_drunk → route_love_hidden[NORMAL/BAD池] → p8_route
+p8_route[M·世界第一] → dream_exist → dream_match → dream_celebrate → dream_return → dream_home → dream_final → TRUE（严格条件）/ GOOD（不足降级）
+p8_route[M·陪我] → dream_exist → dream_match → dream_celebrate → dream_return → dream_home → dream_final → GOOD
+p8_route[J·陪我] → stay_match → stay_intro → stay_cozy → stay_daily → stay_final → NORMAL
+p8_route[J·抓住我] → bad_elegant → bad_plan → bad_match → bad_afterglow → bad_cold → bad_last → bad_far → BAD
 ```
 
 ---

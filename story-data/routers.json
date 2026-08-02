@@ -48,13 +48,13 @@
         "val": "M"
       }
     ],
-    "note": "M/J分流在第六部选择中累积，此路由做最终判定后统一进入e_agency_launch，byRoute根据mj值决定后续链路"
+    "note": "M/J由club_media关键选择写入；此路由统一进入e_agency_launch，byRoute根据mj值决定后续链路"
   },
   "route_love_hidden": {
     "description": "第七部爱/习惯隐藏判定",
     "rules": [
       {
-        "condition": "antLightSeen === true && antFragileSeen === true && loveNotHabit >= 3 && control <= 2",
+        "condition": "mj === 'M'",
         "target": "p8_route",
         "label": "TRUE/GOOD资格池",
         "sideEffects": [
@@ -66,7 +66,7 @@
         ]
       },
       {
-        "condition": "habitWarm >= 4 || control >= 4 || distance >= 4 || nagiRebel === true",
+        "condition": "mj === 'J'",
         "target": "p8_route",
         "label": "NORMAL/BAD资格池",
         "sideEffects": [
@@ -78,28 +78,41 @@
         ]
       }
     ],
-    "fallback": "p8_route"
+    "fallback": "p8_route",
+    "fallbackSideEffects": [
+      {
+        "var": "route",
+        "op": "set",
+        "val": "trueGoodPool"
+      }
+    ],
+    "note": "M严格进入TRUE/GOOD池，J严格进入NORMAL/BAD池；数值只影响池内结局，不得跨池"
   },
   "ending_resolver": {
     "description": "结局判定路由器，根据GameState评估endings.json的judgement规则",
     "note": "按bad→true→good→normal优先级匹配，先进入对应 Epilogue 终章；终章播放完成后再触发 Ending Card。",
     "rules": [
       {
-        "condition": "path === 'bad' || badLock === true || distance >= 6 || (control >= 5 && (nagiDiscomfortSeed === true || nagiRebel === true))",
+        "condition": "mj === 'J' && path === 'bad' && finalChoice === 'coronation'",
         "target": "ep_bad",
         "label": "BAD END"
       },
       {
-        "condition": "path === 'dream' && antCompress === false && witnessFlag === true && personalHonor === true && nagiNameIndependent === true && control <= 2 && distance <= 3",
+        "condition": "mj === 'M' && path === 'dream' && finalChoice === 'witness' && antCompress === false && witnessFlag === true && personalHonor === true && nagiNameIndependent === true && control <= 2 && distance <= 3",
         "target": "ep_true",
         "label": "TRUE END"
       },
       {
-        "condition": "path === 'dream' && personalHonor === true && (antCompress === true || nagiCare < 2)",
+        "condition": "mj === 'M' && path === 'dream'",
         "target": "ep_good",
         "label": "GOOD END"
+      },
+      {
+        "condition": "mj === 'J'",
+        "target": "ep_normal",
+        "label": "NORMAL END（J池内默认）"
       }
     ],
-    "fallback": "ep_normal"
+    "fallback": "ep_good"
   }
 }

@@ -36,22 +36,22 @@
   "judgement": [
     {
       "tier": "bad",
-      "condition": "path === 'bad' || badLock === true || distance >= 6 || (control >= 5 && (nagiDiscomfortSeed === true || nagiRebel === true))",
+      "condition": "mj === 'J' && path === 'bad' && finalChoice === 'coronation'",
       "node": "ep_bad"
     },
     {
       "tier": "true",
-      "condition": "path === 'dream' && antCompress === false && witnessFlag === true && personalHonor === true && nagiNameIndependent === true && control <= 2 && distance <= 3",
+      "condition": "mj === 'M' && path === 'dream' && finalChoice === 'witness' && antCompress === false && witnessFlag === true && personalHonor === true && nagiNameIndependent === true && control <= 2 && distance <= 3",
       "node": "ep_true"
     },
     {
       "tier": "good",
-      "condition": "path === 'dream' && personalHonor === true && (antCompress === true || nagiCare < 2)",
+      "condition": "mj === 'M' && path === 'dream'",
       "node": "ep_good"
     },
     {
       "tier": "normal",
-      "condition": "path === 'stay' || true",
+      "condition": "mj === 'J'",
       "node": "ep_normal"
     }
   ]

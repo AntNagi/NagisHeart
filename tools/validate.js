@@ -421,6 +421,57 @@ info(`${subNodeOk} sub-nodes have valid successors${subNodeBroken > 0 ? `, ${sub
 
 // ── Summary ──────────────────────────────────────────────
 
+// M/J ending-pool and story-map completion invariant.
+console.log('\n[16] M/J ending-pool and story-map completion invariant');
+
+function findSetEffect(choice, variable) {
+  return (choice?.effects || []).find(effect => effect.var === variable && effect.op === 'set');
+}
+
+function expectRouteChoice(nodeId, choiceId, expected) {
+  const choice = (nodes[nodeId]?.choices || []).find(item => item.id === choiceId);
+  if (!choice) {
+    error(`${nodeId}: required choice "${choiceId}" missing`);
+    return;
+  }
+  if (expected.condition && choice.condition !== expected.condition) {
+    error(`${nodeId}/${choiceId}: condition "${choice.condition || ''}" ≠ "${expected.condition}"`);
+  }
+  for (const [variable, value] of Object.entries(expected.effects || {})) {
+    const effect = findSetEffect(choice, variable);
+    if (!effect || effect.val !== value) error(`${nodeId}/${choiceId}: expected ${variable}="${value}"`);
+  }
+  if (expected.target && choice.transition?.target !== expected.target) {
+    error(`${nodeId}/${choiceId}: target "${choice.transition?.target || ''}" ≠ "${expected.target}"`);
+  }
+}
+
+expectRouteChoice('club_media', 'club_media_c001', { effects: { mj: 'M' } });
+expectRouteChoice('club_media', 'club_media_c002', { effects: { mj: 'J' } });
+expectRouteChoice('p8_route', 'p8_route_c001', { condition: "mj === 'M'", effects: { path: 'dream', finalChoice: 'witness' }, target: 'dream_exist' });
+expectRouteChoice('p8_route', 'p8_route_c002_m', { condition: "mj === 'M'", effects: { path: 'dream', finalChoice: 'ordinary' }, target: 'dream_exist' });
+expectRouteChoice('p8_route', 'p8_route_c002_j', { condition: "mj === 'J'", effects: { path: 'stay', finalChoice: 'ordinary' }, target: 'stay_match' });
+expectRouteChoice('p8_route', 'p8_route_c003', { condition: "mj === 'J'", effects: { path: 'bad', finalChoice: 'coronation' }, target: 'bad_elegant' });
+
+const endingPrefixes = {
+  true: "mj === 'M' && path === 'dream' && finalChoice === 'witness'",
+  good: "mj === 'M' && path === 'dream'",
+  normal: "mj === 'J'",
+  bad: "mj === 'J' && path === 'bad' && finalChoice === 'coronation'"
+};
+for (const [tier, prefix] of Object.entries(endingPrefixes)) {
+  const judgement = (endings.judgement || []).find(item => item.tier === tier);
+  if (!judgement || !judgement.condition?.startsWith(prefix)) {
+    error(`ending "${tier}" must stay inside its M/J pool; condition is "${judgement?.condition || ''}"`);
+  }
+}
+
+const part7Scopes = new Set((chapters.find(chapter => chapter.id === 'part7')?.sections || []).map(section => section.scope));
+const part8Scopes = new Set((chapters.find(chapter => chapter.id === 'part8')?.sections || []).map(section => section.scope));
+for (const scope of ['common', 'M', 'J']) if (!part7Scopes.has(scope)) error(`part7 map is missing scope "${scope}"`);
+for (const scope of ['common', 'dream', 'stay', 'bad']) if (!part8Scopes.has(scope)) error(`part8 map is missing scope "${scope}"`);
+if (errors === 0) info('M/J pools, Part 8 choices, endings and map scopes form one closed structure');
+
 console.log('\n' + '='.repeat(50));
 if (errors === 0) {
   console.log(`✅ PASSED — 0 errors, ${warnings} warnings`);
