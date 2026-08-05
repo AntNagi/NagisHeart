@@ -15,6 +15,7 @@ export const GamePhase = {
   ChapterTransition: 'ChapterTransition',
   ChapterEnding: 'ChapterEnding',
   SectionTransition: 'SectionTransition',
+  ReplayComplete: 'ReplayComplete',
 };
 
 const DEFAULT_NAGI_CALL = 'Nagi';
@@ -555,13 +556,28 @@ export class GameController extends EventTarget {
     return true;
   }
 
+  exitReplay() {
+    this._isReplayMode = false;
+    this._replayBoundaryNodes.clear();
+  }
+
+  _emitReplayComplete() {
+    this._stopAuto();
+    this._stopSkip();
+    const chapter = this._chapters.find(c => c.id === this._currentChapterId);
+    const section = chapter?.sections[this._currentSectionIndex];
+    this._updateState({
+      phase: GamePhase.ReplayComplete,
+      replayInfo: {
+        chapterName: chapter?.name || '',
+        sectionTitle: section?.title || '',
+      },
+    });
+  }
+
   _navigateToNode(targetId) {
     if (this._isReplayMode && this._replayBoundaryNodes.has(targetId)) {
-      this._updateState({
-        phase: GamePhase.Ending,
-        ending: null,
-        errorMessage: 'REPLAY_COMPLETE',
-      });
+      this._emitReplayComplete();
       return;
     }
 
@@ -572,7 +588,7 @@ export class GameController extends EventTarget {
         break;
       case 'endingReached':
         if (this._isReplayMode) {
-          this._updateState({ phase: GamePhase.Ending, ending: null, errorMessage: 'REPLAY_COMPLETE' });
+          this._emitReplayComplete();
         } else {
           this._showEnding(resolution);
         }
@@ -847,7 +863,7 @@ export class GameController extends EventTarget {
         this._stopAuto();
         this._stopSkip();
         if (this._isReplayMode) {
-          this._updateState({ phase: GamePhase.Ending, ending: null, errorMessage: 'REPLAY_COMPLETE' });
+          this._emitReplayComplete();
           return true;
         }
         const endingId = `end_${tier}`;
@@ -871,7 +887,7 @@ export class GameController extends EventTarget {
     this._stopAuto();
     this._stopSkip();
     if (this._isReplayMode) {
-      this._updateState({ phase: GamePhase.Ending, ending: null, errorMessage: 'REPLAY_COMPLETE' });
+      this._emitReplayComplete();
       return;
     }
     this._progressManager.unlockEnding(resolution.endingId);

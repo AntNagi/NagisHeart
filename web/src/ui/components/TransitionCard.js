@@ -77,6 +77,28 @@ export class TransitionCard {
     this.el.style.cursor = 'pointer';
   }
 
+  showReplayComplete({ chapterName, sectionTitle, onBack }) {
+    this.el.style.display = '';
+    this.el.className = 'authority-replay-complete';
+    this.el.innerHTML = `
+      <div class="replay-complete-shade"></div>
+      <div class="replay-complete-center">
+        <div class="replay-complete-label">回看完成</div>
+        <div class="replay-complete-divider"></div>
+        <div class="replay-complete-section">${sectionTitle}</div>
+        <div class="replay-complete-chapter">${chapterName}</div>
+      </div>
+      <div class="replay-complete-footer">
+        <div class="replay-complete-back" data-action="back">返回剧情地图</div>
+        <div class="replay-complete-hint">轻触任意处返回</div>
+      </div>
+    `;
+    this.el.querySelector('[data-action="back"]')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (onBack) onBack();
+    });
+  }
+
   hide() {
     this.el.style.display = 'none';
     this.el.innerHTML = '';

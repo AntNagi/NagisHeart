@@ -223,7 +223,8 @@ export class GameScreen {
     // HUD — hide during full-screen Opening/Clear states
     const isFullscreenTransition = state.phase === GamePhase.ChapterTransition
       || state.phase === GamePhase.ChapterEnding
-      || state.phase === GamePhase.SectionTransition;
+      || state.phase === GamePhase.SectionTransition
+      || state.phase === GamePhase.ReplayComplete;
     const isGameplay = state.phase === GamePhase.Dialogue || state.phase === GamePhase.Response || state.phase === GamePhase.Choice;
     this._hud.setVisible(!isFullscreenTransition);
     this._hud.update({
@@ -281,6 +282,22 @@ export class GameScreen {
       case GamePhase.SectionTransition:
         if (state.sectionTransition) {
           this._transitionCard.showSectionOpening(state.sectionTransition);
+        }
+        break;
+
+      case GamePhase.ReplayComplete:
+        if (state.replayInfo) {
+          this._transitionCard.showReplayComplete({
+            ...state.replayInfo,
+            onBack: () => {
+              this._controller.exitReplay();
+              this._ctx.router.navigate('start');
+            },
+          });
+          this._transitionCard.setOnTap(() => {
+            this._controller.exitReplay();
+            this._ctx.router.navigate('start');
+          });
         }
         break;
 
