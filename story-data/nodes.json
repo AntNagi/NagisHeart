@@ -6210,7 +6210,7 @@
       {
         "id": "e_hug_d013",
         "speaker": "一一",
-        "text": "欢迎回来，Ant大小姐。好久不见，Nagi少爷。"
+        "text": "欢迎回来，{{playerName}}大小姐。好久不见，Nagi少爷。"
       },
       {
         "id": "e_hug_d014",
@@ -6998,7 +6998,7 @@
       {
         "id": "wc_roster_d006",
         "speaker": "一一",
-        "text": "Ant大小姐，U-20世界杯淘汰赛首战名单已更新。"
+        "text": "{{playerName}}大小姐，U-20世界杯淘汰赛首战名单已更新。"
       },
       {
         "id": "wc_roster_d007",
@@ -8204,7 +8204,7 @@
       {
         "id": "mt3_d006",
         "speaker": "一一",
-        "text": "Ant大小姐，已回收Nagi少爷遗留在沙发缝隙中的袜子团。"
+        "text": "{{playerName}}大小姐，已回收Nagi少爷遗留在沙发缝隙中的袜子团。"
       },
       {
         "id": "mt3_d007",
@@ -8252,7 +8252,7 @@
       {
         "id": "mt3_d015",
         "speaker": "一一",
-        "text": "Ant大小姐，Nagi少爷今日第三次延后恢复训练。训练室当前处于待机状态。"
+        "text": "{{playerName}}大小姐，Nagi少爷今日第三次延后恢复训练。训练室当前处于待机状态。"
       },
       {
         "id": "mt3_d016",
@@ -9721,7 +9721,7 @@
       {
         "id": "e_morning_d004",
         "speaker": "一一",
-        "text": "Ant大小姐，距离您今日第一项会议还有四十五分钟。"
+        "text": "{{playerName}}大小姐，距离您今日第一项会议还有四十五分钟。"
       },
       {
         "id": "e_morning_d005",
@@ -11014,7 +11014,7 @@
       {
         "id": "club_arrival_d020",
         "speaker": "一一",
-        "text": "Ant大小姐授权同步了部分服务数据。Ant大小姐本人当前位于曼彻斯特。"
+        "text": "{{playerName}}大小姐授权同步了部分服务数据。{{playerName}}大小姐本人当前位于曼彻斯特。"
       },
       {
         "id": "club_arrival_d021",
@@ -11318,7 +11318,7 @@
       {
         "id": "club_alone_d018",
         "speaker": "一一",
-        "text": "在未获授权情况下，我不会向Ant大小姐主动同步您的私人生活数据。"
+        "text": "在未获授权情况下，我不会向{{playerName}}大小姐主动同步您的私人生活数据。"
       },
       {
         "id": "club_alone_d019",
@@ -13397,7 +13397,7 @@
       {
         "id": "e_sick_fragile_d004",
         "speaker": "一一",
-        "text": "Ant大小姐，您的体温高于正常范围。建议暂停工作并休息。"
+        "text": "{{playerName}}大小姐，您的体温高于正常范围。建议暂停工作并休息。"
       },
       {
         "id": "e_sick_fragile_d005",

@@ -12,7 +12,9 @@ export class BacklogOverlay {
     container.appendChild(this.el);
 
     this._touchStartX = 0;
+    this._touchStartY = 0;
     this._touchDeltaX = 0;
+    this._isVerticalScroll = false;
 
     this._render();
     this._bindEvents();
@@ -88,15 +90,22 @@ export class BacklogOverlay {
 
     this.el.addEventListener('touchstart', (e) => {
       this._touchStartX = e.touches[0].clientX;
+      this._touchStartY = e.touches[0].clientY;
       this._touchDeltaX = 0;
+      this._isVerticalScroll = false;
     }, { passive: true });
 
     this.el.addEventListener('touchmove', (e) => {
-      this._touchDeltaX = e.touches[0].clientX - this._touchStartX;
+      const dx = e.touches[0].clientX - this._touchStartX;
+      const dy = e.touches[0].clientY - this._touchStartY;
+      if (!this._isVerticalScroll && Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
+        this._isVerticalScroll = true;
+      }
+      this._touchDeltaX = dx;
     }, { passive: true });
 
     this.el.addEventListener('touchend', () => {
-      if (Math.abs(this._touchDeltaX) > 50) {
+      if (!this._isVerticalScroll && Math.abs(this._touchDeltaX) > 50) {
         if (this._touchDeltaX < 0 && this._currentPage < this._totalPages - 1) {
           this._currentPage++;
           this._render();

@@ -335,7 +335,7 @@
   color: var(--text-secondary);
 }
 
-/* ── Backlog (paged, no scroll) ── */
+/* ── Backlog (paged, per-page scroll) ── */
 .backlog-overlay {
   background: var(--nagi-deep-blue-night);
   overflow: hidden;
@@ -366,8 +366,11 @@
 .recap-inner {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   text-shadow: 0 1px 8px rgba(10, 15, 25, 0.18);
+  padding-bottom: 24px;
 }
 
 .recap-narr {
