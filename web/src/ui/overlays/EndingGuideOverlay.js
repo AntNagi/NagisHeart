@@ -95,7 +95,9 @@ export class EndingGuideOverlay {
   }
 
   _render() {
-    const sections = ENDING_GUIDE_SECTIONS.map((section) => `
+    const sections = ENDING_GUIDE_SECTIONS
+      .filter((section) => !section.title.startsWith('五、总路线图'))
+      .map((section) => `
       <section class="ending-guide-section">
         <h2>${this._escape(section.title)}</h2>
         ${section.blocks.map((block) => this._renderBlock(block)).join('')}

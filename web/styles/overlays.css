@@ -926,11 +926,11 @@
   color: var(--accent-gold);
 }
 
-.ending-guide-section:nth-of-type(7) { border-color: rgba(215, 190, 134, 0.32); }
-.ending-guide-section:nth-of-type(8) { border-color: rgba(201, 138, 150, 0.30); }
-.ending-guide-section:nth-of-type(9) { border-color: rgba(118, 151, 178, 0.30); }
+.ending-guide-section:nth-of-type(5) { border-color: rgba(215, 190, 134, 0.32); }
+.ending-guide-section:nth-of-type(6) { border-color: rgba(201, 138, 150, 0.30); }
+.ending-guide-section:nth-of-type(7) { border-color: rgba(118, 151, 178, 0.30); }
 
-.ending-guide-section:nth-of-type(n + 6) .ending-guide-code {
+.ending-guide-section:nth-of-type(n + 5) .ending-guide-code {
   text-align: center;
 }
 
