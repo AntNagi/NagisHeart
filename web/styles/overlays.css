@@ -899,6 +899,20 @@
   letter-spacing: -0.035em;
 }
 
+.ending-guide-route-map {
+  width: 100%;
+  margin: 10px 0 2px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  clip-path: var(--clip-cut-sm);
+}
+
+.ending-guide-route-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .ending-guide-section:nth-of-type(7) h2,
 .ending-guide-section:nth-of-type(8) h2,
 .ending-guide-section:nth-of-type(9) h2 {
