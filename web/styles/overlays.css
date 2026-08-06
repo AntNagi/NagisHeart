@@ -801,7 +801,7 @@
   clip-path: var(--clip-cut-md);
   scrollbar-width: thin;
   scrollbar-color: rgba(16, 24, 39, 0.72) transparent;
-  text-align: center;
+  text-align: left;
 }
 
 .ending-guide-body::-webkit-scrollbar {
@@ -944,7 +944,7 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   word-break: break-word;
-  text-align: center;
+  text-align: left;
 }
 
 .ending-guide-table-wrap {
@@ -966,7 +966,7 @@
 .ending-guide-table td {
   padding: 8px 9px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
+  text-align: left;
   vertical-align: top;
   overflow-wrap: anywhere;
   word-break: break-word;
