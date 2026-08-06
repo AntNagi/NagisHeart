@@ -49,7 +49,7 @@ export class EndingGuideOverlay {
           <p class="ending-guide-kicker">NAGI’S HEART</p>
           <h1>全结局官方攻略</h1>
           <div class="ending-guide-pills" aria-label="攻略路线">
-            <span>M 线 · Dream</span><span>J 线 · Stay / Bad</span><span>TRUE · GOOD · NORMAL · BAD</span>
+            <span>M 线 · 没有你的世界</span><span>J 线 · 还不是今天 / 远处的世界第一</span><span>四种结局</span>
           </div>
         </div>
         ${sections}
