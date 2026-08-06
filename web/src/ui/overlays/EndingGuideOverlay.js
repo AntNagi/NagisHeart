@@ -31,6 +31,7 @@ export class EndingGuideOverlay {
 
   _localizeRouteText(value) {
     return String(value)
+      .replace(/^\s+(↓|▼|│|┌|└|┬|┴|├|┤|┼)$/gm, '$1')
       .replace(/path = "dream"/g, '进入「没有你的世界」')
       .replace(/path = "stay"/g, '进入「还不是今天」')
       .replace(/path = "bad"/g, '进入「远处的世界第一」')

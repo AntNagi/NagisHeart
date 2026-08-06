@@ -924,6 +924,10 @@
 .ending-guide-section:nth-of-type(8) { border-color: rgba(201, 138, 150, 0.30); }
 .ending-guide-section:nth-of-type(9) { border-color: rgba(118, 151, 178, 0.30); }
 
+.ending-guide-section:nth-of-type(n + 6) .ending-guide-code {
+  text-align: center;
+}
+
 .ending-guide-label {
   margin: 14px 0 8px;
   color: var(--accent-gold);

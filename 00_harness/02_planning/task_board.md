@@ -54,6 +54,7 @@
 - 结局标题格式：已改（证据：`web/src/data/EndingGuideContent.js` 四个结局章节标题统一为 `TRUE END：世界第一，与你`、`GOOD END：那么完美，那么爱你`、`NORMAL END：普通情侣`、`BAD END：远处的世界第一`；待 Ant 验收）。
 - 文字对齐：已改（证据：`web/styles/overlays.css` 将攻略阅读区正文、流程代码、表格、章节标题统一设为居中排版；待 Ant 验收）。
 - 文字对齐修正：已改（证据：`web/styles/overlays.css` 恢复正文、说明文字、章节标题和表格左对齐，仅路线图 SVG 内部节点保持居中；待 Ant 验收）。
+- 结局流程箭头：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 清除结局流程箭头行的前置空格；`web/styles/overlays.css` 仅对四条结局流程代码块居中，箭头落在中线，普通说明与表格仍左对齐；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003
