@@ -37,6 +37,7 @@
   - 裁决请求：请 PM/Ant 补充或明确攻略入口与攻略阅读页的 authority（包括页面结构、进入/返回交互、正文展示规则），裁决前停止实现。
 - Ant 裁决（2026-08-06）：允许按现有 SettingsOverlay 与系统级页面视觉实现“结局攻略”入口及阅读页；正文沿用指定第一版攻略结构，适当中文化并移除截图位说明。
 - 结论：已改（证据：`web/src/ui/overlays/SettingsOverlay.js` 新增“结局攻略”入口；`web/src/ui/overlays/EndingGuideOverlay.js` 与 `web/src/data/EndingGuideContent.js` 新增阅读页及 10 个结构章节；`web/styles/overlays.css` 新增系统页阅读样式；浏览器 `http://localhost:3000/web/` 实测设置页可打开攻略，正文包含 TRUE/BAD END 且不含“截图”，攻略返回设置页可用；待 Ant 验收）。
+- 视觉补充：已改（证据：攻略页首屏增加路线标签与专题标题层，章节改为玻璃卡片分组并区分结局色彩；本地浏览器已刷新预览；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003
