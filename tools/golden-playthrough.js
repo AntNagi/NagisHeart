@@ -103,10 +103,15 @@ function simulate(choiceMap) {
   return { log, state, ending: 'NO_ENDING (steps=' + steps + ')' };
 }
 
-function printResult(label, result) {
+const failures = [];
+
+function printResult(label, result, expected) {
   console.log('========== ' + label + ' ==========');
   result.log.forEach(l => console.log('  ' + l));
-  console.log('  RESULT: ' + result.ending);
+  const ok = expected === undefined || result.ending === expected;
+  if (!ok) failures.push(`${label}: 预期 ${expected}，实际 ${result.ending}`);
+  console.log('  RESULT: ' + result.ending +
+    (expected === undefined ? '' : (ok ? '  ✅' : `  ❌ 预期 ${expected}`)));
   console.log('  --- Key State ---');
   for (const v of KEY_VARS) {
     if (result.state[v] !== 0 && result.state[v] !== false && result.state[v] !== undefined) {
@@ -135,7 +140,7 @@ printResult('A. TRUE END (gentle M-dream, antCompress=false)', simulate({
   'e_sick_fragile': 0,
   'p8_route': 0,
   'dream_exist': 0,
-}));
+}), 'true');
 
 // B. GOOD END attempt: dream path, antCompress=true
 printResult('B. GOOD END (M-dream, antCompress=true)', simulate({
@@ -156,7 +161,7 @@ printResult('B. GOOD END (M-dream, antCompress=true)', simulate({
   'e_sick_fragile': 0,
   'p8_route': 0,
   'dream_exist': 1,
-}));
+}), 'good');
 
 // C. NORMAL END: stay path
 printResult('C. NORMAL END (stay path)', simulate({
@@ -170,13 +175,15 @@ printResult('C. NORMAL END (stay path)', simulate({
   'e_cozy': 0, 'w_noodle': 0, 'w_game': 0, 'e_tipsy': 0,
   'c4': 0, 'c4a': 0, 'c4a_s2': 0, 'c4a_s3': 0, 'c4d': 0,
   'transfer_contract': 0,
-  'club_arrival': 0, 'club_training': 0, 'club_media': 0,
+  // NORMAL 属于 J 池：club_media 必须选 J 项(1)，否则 mj=M 只会落到 GOOD。
+  'club_arrival': 0, 'club_training': 0, 'club_media': 1,
   'e_autumn': 0, 'e_halloween': 0, 'e_drive': 0,
   'e_agency_launch': 0,
   'e_scarf': 0,
   'e_sick_fragile': 0,
-  'p8_route': 1,
-}));
+  // 下标是 node.choices 的原始下标（未按 condition 过滤）：[2]=stay/ordinary。
+  'p8_route': 2,
+}), 'normal');
 
 // D. BAD END: high control choices, bad path
 printResult('D. BAD END (high control, bad path)', simulate({
@@ -195,8 +202,9 @@ printResult('D. BAD END (high control, bad path)', simulate({
   'e_agency_launch': 2,
   'e_scarf': 1,
   'e_sick_fragile': 1,
-  'p8_route': 2,
-}));
+  // 原始下标 [3]=bad/coronation；[2] 是 stay，选错会落到 NORMAL。
+  'p8_route': 3,
+}), 'bad');
 
 // E. 长期管理倾向翻盘：一路强控，但在 club_media 选了 M 项。
 // mt3/transfer_contract/club_arrival/club_training 全取高 control 项 → control=7 (>=5)，
@@ -218,4 +226,13 @@ printResult('E. 管理倾向翻盘 (高 control + club_media 选 M)', simulate({
   'e_scarf': 1,
   'e_sick_fragile': 1,
   'p8_route': 2,
-}));
+}), 'normal');
+
+console.log('='.repeat(50));
+if (failures.length === 0) {
+  console.log(`✅ PASSED — ${5} 条黄金路径全部到达预期结局`);
+} else {
+  console.log(`❌ FAILED — ${failures.length} 条路径未到达预期结局`);
+  failures.forEach(f => console.log('  ' + f));
+  process.exitCode = 1;
+}
