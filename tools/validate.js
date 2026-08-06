@@ -446,8 +446,28 @@ function expectRouteChoice(nodeId, choiceId, expected) {
   }
 }
 
-expectRouteChoice('club_media', 'club_media_c001', { effects: { mj: 'M' } });
-expectRouteChoice('club_media', 'club_media_c002', { effects: { mj: 'J' } });
+// club_media 只记录玩家取向；mj 由 route_mj_hidden 结合长期管理倾向判定。
+expectRouteChoice('club_media', 'club_media_c001', { effects: { mjChoice: 'M' } });
+expectRouteChoice('club_media', 'club_media_c002', { effects: { mjChoice: 'J' } });
+
+const mjRouter = routers.route_mj_hidden;
+if (!mjRouter) {
+  error('route_mj_hidden router missing');
+} else {
+  const setsMj = (val, effects) => (effects || []).some(e => e.var === 'mj' && e.op === 'set' && e.val === val);
+  if (!(mjRouter.rules || []).some(r => setsMj('J', r.sideEffects))) {
+    error('route_mj_hidden: no rule sets mj="J"');
+  }
+  if (!setsMj('M', mjRouter.fallbackSideEffects)) {
+    error('route_mj_hidden: fallback must set mj="M"');
+  }
+  if (!(mjRouter.rules || []).some(r => /mjChoice === 'J'/.test(r.condition || ''))) {
+    error("route_mj_hidden: must honour the club_media choice via mjChoice === 'J'");
+  }
+  if (!(mjRouter.rules || []).some(r => /control >=/.test(r.condition || ''))) {
+    error('route_mj_hidden: must also weigh long-term control tendency');
+  }
+}
 expectRouteChoice('p8_route', 'p8_route_c001', { condition: "mj === 'M'", effects: { path: 'dream', finalChoice: 'witness' }, target: 'dream_exist' });
 expectRouteChoice('p8_route', 'p8_route_c002_m', { condition: "mj === 'M'", effects: { path: 'dream', finalChoice: 'ordinary' }, target: 'dream_exist' });
 expectRouteChoice('p8_route', 'p8_route_c002_j', { condition: "mj === 'J'", effects: { path: 'stay', finalChoice: 'ordinary' }, target: 'stay_match' });

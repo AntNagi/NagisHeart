@@ -25,17 +25,34 @@
     ]
   },
   "route_mj_hidden": {
-    "description": "第六部M/J隐藏分流",
+    "description": "第六部M/J隐藏分流：club_media关键选择 + 长期管理倾向共同决定",
     "rules": [
       {
-        "condition": "mj === 'J'",
+        "condition": "mjChoice === 'J' || mj === 'J'",
         "target": "e_agency_launch",
-        "label": "J线入口",
+        "label": "J线入口（关键选择）",
         "sideEffects": [
           {
             "var": "mj",
             "op": "set",
             "val": "J"
+          }
+        ]
+      },
+      {
+        "condition": "control >= 5 || (control >= 3 && distance >= 6)",
+        "target": "e_agency_launch",
+        "label": "J线入口（长期管理倾向翻盘）",
+        "sideEffects": [
+          {
+            "var": "mj",
+            "op": "set",
+            "val": "J"
+          },
+          {
+            "var": "mjByTendency",
+            "op": "set",
+            "val": true
           }
         ]
       }
@@ -48,7 +65,7 @@
         "val": "M"
       }
     ],
-    "note": "M/J由club_media关键选择写入；此路由统一进入e_agency_launch，byRoute根据mj值决定后续链路"
+    "note": "规则1：club_media选J项直接进J（mj === 'J' 分支仅为兼容旧存档）。规则2：即使选了M项，若长期管理倾向已高（control>=5，或control>=3且distance>=6）仍判入J，并置mjByTendency标记——一个手势改不掉已经形成的相处方式。阈值可直接调这三个数字。distance有强制下限约3（e_intimate强制+2、m_shallow最少+1），故不单独用低distance作理解型信号。统一进入e_agency_launch，byRoute根据mj值决定后续链路"
   },
   "route_love_hidden": {
     "description": "第七部爱/习惯隐藏判定",

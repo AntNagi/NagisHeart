@@ -11869,7 +11869,7 @@
             "val": 1
           },
           {
-            "var": "mj",
+            "var": "mjChoice",
             "op": "set",
             "val": "M"
           }
@@ -11938,7 +11938,7 @@
             "val": 2
           },
           {
-            "var": "mj",
+            "var": "mjChoice",
             "op": "set",
             "val": "J"
           }

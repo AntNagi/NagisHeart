@@ -197,3 +197,25 @@ printResult('D. BAD END (high control, bad path)', simulate({
   'e_sick_fragile': 1,
   'p8_route': 2,
 }));
+
+// E. 长期管理倾向翻盘：一路强控，但在 club_media 选了 M 项。
+// mt3/transfer_contract/club_arrival/club_training 全取高 control 项 → control=7 (>=5)，
+// 即使最后收手选 M，route_mj_hidden 仍应判入 J 线并置 mjByTendency。
+printResult('E. 管理倾向翻盘 (高 control + club_media 选 M)', simulate({
+  'p2': 1, 'p2_s2': 1, 'p2_s3': 0,
+  'c1a': 1, 'c1b': 1, 'c1b_s2': 1, 'c1b_s3': 1, 'c1b_s4': 0,
+  'u20j': 1, 'c3': 1, 'c3_s2': 0,
+  'e_lemontea_s2': 0, 'c2_s2': 0, 'e_lolly': 1, 'e_lolly_s2': 0,
+  'c6a': 0, 'e_bday': 0, 'e_hug': 0, 'e_intimate': 0,
+  'wc_keygoal': 0, 'wc_offer': 1,
+  'mt3': 1,
+  'e_cozy': 0, 'w_noodle': 0, 'w_game': 0, 'e_tipsy': 0,
+  'c4': 0, 'c4a': 1, 'c4a_s2': 0, 'c4a_s3': 0, 'c4d': 0,
+  'transfer_contract': 1,
+  'club_arrival': 1, 'club_training': 1, 'club_media': 0,
+  'e_autumn': 0, 'e_halloween': 0, 'e_drive': 0,
+  'e_agency_launch': 2,
+  'e_scarf': 1,
+  'e_sick_fragile': 1,
+  'p8_route': 2,
+}));

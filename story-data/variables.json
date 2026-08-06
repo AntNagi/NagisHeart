@@ -150,7 +150,23 @@
       "legacy": [
         "line"
       ],
-      "description": "默契线/较劲线倾向"
+      "description": "默契线/较劲线倾向。由route_mj_hidden写入：club_media关键选择 + 长期管理倾向共同决定"
+    },
+    "mjChoice": {
+      "initial": "",
+      "type": "string",
+      "values": [
+        "M",
+        "J"
+      ],
+      "legacy": [],
+      "description": "club_media媒体选择的原始取向，只记录玩家选了哪项；最终mj由route_mj_hidden结合control/distance判定"
+    },
+    "mjByTendency": {
+      "initial": false,
+      "type": "boolean",
+      "legacy": [],
+      "description": "标记：玩家在club_media选了M项，但长期管理倾向过高被判入J线。仅供QA与后续剧情引用"
     },
     "path": {
       "initial": "",
