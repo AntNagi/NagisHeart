@@ -928,6 +928,10 @@
   text-align: center;
 }
 
+.ending-guide-section:first-of-type .ending-guide-code {
+  text-align: center;
+}
+
 .ending-guide-label {
   margin: 14px 0 8px;
   color: var(--accent-gold);
