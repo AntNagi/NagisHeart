@@ -56,6 +56,7 @@
 - 文字对齐修正：已改（证据：`web/styles/overlays.css` 恢复正文、说明文字、章节标题和表格左对齐，仅路线图 SVG 内部节点保持居中；待 Ant 验收）。
 - 结局流程箭头：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 清除结局流程箭头行的前置空格；`web/styles/overlays.css` 仅对四条结局流程代码块居中，箭头落在中线，普通说明与表格仍左对齐；待 Ant 验收）。
 - 表格列宽：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 为表格标注列数样式；`web/styles/overlays.css` 两列表格调整为左列 28% / 右列 72%，三列表格按 27% / 38% / 35% 分配；待 Ant 验收）。
+- 剧情节标题：已改（证据：`web/src/data/DataLoader.js` 在 Web 运行时将章节节标题“我不是不想这样赢”映射为“我不是不想赢”，未修改 `story-data/` 原文件；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003

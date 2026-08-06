@@ -16,7 +16,15 @@ export class DataLoader {
         this._fetch('prologue_short.json'),
       ]);
 
-    return { nodes, flow, routers, sceneVisuals, endings, variables, chapters, prologueShort };
+    const displayChapters = chapters.map((chapter) => ({
+      ...chapter,
+      sections: chapter.sections?.map((section) => ({
+        ...section,
+        title: section.title === '我不是不想这样赢' ? '我不是不想赢' : section.title,
+      })) || chapter.sections,
+    }));
+
+    return { nodes, flow, routers, sceneVisuals, endings, variables, chapters: displayChapters, prologueShort };
   }
 
   async _fetch(file) {
