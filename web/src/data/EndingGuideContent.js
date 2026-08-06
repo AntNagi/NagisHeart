@@ -48,28 +48,28 @@ export const ENDING_GUIDE_SECTIONS = [
     blocks: [
       { type: 'label', text: '达成条件' },
       { type: 'code', text: 'line = "M"\npath = "dream"\nantCompress = false\nwitnessFlag = true\npersonalHonor = true\nnagiNameIndependent = true\ncontrol 与 D 保持低位' },
-      { type: 'paragraph', text: '共同主线优先理解 Nagi、尊重他的自主选择，尽量避免增加 control / D。第五部选择“最后那个答案，你自己说”；第六部进入 M 线并选择“你可以自己决定怎么用”“下次保留你的原句，我来和他们说”。第八部选择“我会在看台上。去看你把它变成你的比赛。”，Dream 中选择“才不会呢，我还有好多想做的事。”，随后完成个人荣誉与见证条件。' }
+      { type: 'code', text: '第一部—第四部｜共同主线\n优先选择理解 Nagi、确认他的真实想法、尊重他的自主选择；尽量避免增加 control / D\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n「最后那个答案，你自己说」\nEGO +2 / i +3\n                         │\n                         ▼\n第六部｜进入 M 线\nclub_arrival：「你可以自己决定怎么用」\nclub_media【主判定】：「下次保留你的原句，我来和他们说。」\ne_autumn：「下次地点你定，我只负责拍照」\ne_drive：选择让 Nagi 保留原始表达、不过度营业的分支\n                         │\n                         ▼\nroute_mj_hidden\nM_score >= J_score 且 club_media 选择 M 项\n→ line = "M"\n                         │\n                         ▼\n第七部｜M 线：她站在光里\n→ 送围巾 → 还是感冒了\n「这不是为了你一个人，是我本来就想做。」\n「Nagi，我真的有点累了。」\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会在看台上。去看你把它变成你的比赛。」\n→ path = "dream"\n                         │\n                         ▼\nDream｜没有你的世界\n「才不会呢，我还有好多想做的事。」\n→ antCompress = false\n                         │\n                         ▼\n他的名字 → personalHonor = true → nagiNameIndependent = true\n                         │\n                         ▼\n看台上的庆祝 → witnessFlag = true → dream_final → TRUE END' }
     ]
   },
   {
     title: '七、GOOD END｜那么完美，那么爱你',
     blocks: [
       { type: 'code', text: 'line = "M"\npath = "dream"\nantCompress = true\n或 TRUE 必要 Flag / 累计状态不足' },
-      { type: 'paragraph', text: '先进入 M → Dream 主线。共同主线保持亲密，第五、六部选择理解与尊重自主的选项；第八部选择“我会在看台上。去看你把它变成你的比赛。”，Dream 中选择“有你在就够了”，即可进入 GOOD END。' }
+      { type: 'code', text: '第一部—第四部｜共同主线\n优先选择理解 Nagi、保持亲密，不需要完整取得所有 TRUE 前置状态\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n推荐：「最后那个答案，你自己说」\n                         │\n                         ▼\n第六部｜进入 M 线\nclub_arrival：「你可以自己决定怎么用」\nclub_media【主判定】：「下次保留你的原句，我来和他们说。」\ne_autumn：「下次地点你定，我只负责拍照」\ne_drive：选择让 Nagi 保留原始表达、不过度营业的分支\n                         │\n                         ▼\nroute_mj_hidden\nM_score >= J_score 且 club_media 选择 M 项\n→ line = "M"\n                         │\n                         ▼\n第七部｜M 线：她站在光里\n→ 送围巾 → 还是感冒了\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会在看台上。去看你把它变成你的比赛。」\n→ path = "dream"\n                         │\n                         ▼\nDream｜没有你的世界\n「有你在就够了。」\n→ antCompress = true\n                         │\n                         ▼\ndream_final → GOOD END' }
     ]
   },
   {
     title: '八、NORMAL END｜普通情侣',
     blocks: [
       { type: 'code', text: 'line = "J"\npath = "stay"\n未触发 badLock' },
-      { type: 'paragraph', text: '稳定进入 J 线可适当选择替 Nagi 处理事务的选项。第五部选择“嗯，我会替你选最好的”，第六部选择“我已经帮你同步好了”“对外形象很重要，这样对你更好”。第八部选择“我会去看你。就算不是今天也没关系。”，第七部继续选择低风险、修复关系的分支，进入 NORMAL END。' }
+      { type: 'code', text: '第一部—第四部｜共同主线\n可按自然倾向推进；若要稳定进入 J 线，可适当选择依赖、替他处理、替他过滤麻烦的选项\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n「嗯，我会替你选最好的。」\n→ control +3 → antManage = true\n                         │\n                         ▼\n第六部｜进入 J 线\nclub_arrival：「我已经帮你同步好了」\nclub_media【主判定】：「对外形象很重要，这样对你更好」\ne_drive：选择由玩家替他过滤世界、让他只在玩家这里关机的分支\n                         │\n                         ▼\nroute_mj_hidden\nJ_score > M_score 且 club_media 选择 J 项\n→ line = "J"\n                         │\n                         ▼\n第七部｜J 线低风险走法\n她站在光里 → 任人打扮：「好，最后拍一张就回去。」\n软饭王哲学：「软饭可以吃，但正事要自己来。」\n借着醉意：「我只是想让你过来。」\n→ 降低 D，并修复 nagiRebel\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会去看你。就算不是今天也没关系。」\n→ path = "stay"\n                         │\n                         ▼\n还不是今天 → 他常回来 → 暗爽·可可白兰地 → 情人节玩偶熊 → 关掉的比赛录像\n                         │\n                         ▼\nNORMAL END' }
     ]
   },
   {
     title: '九、BAD END｜远处的世界第一',
     blocks: [
       { type: 'code', text: 'line = "J"\npath = "bad"\nbadLock = true' },
-      { type: 'paragraph', text: '先进入 J 线，再持续增加 control / D / habitDepend。第五、六部选择替 Nagi 规划与过滤外部世界的选项；第七部选择继续安排与营业，并在“借着醉意”分支增加距离；第八部选择“我会到现场，让全世界都看见你”，最终锁定 BAD END。' }
+      { type: 'code', text: '第一部—第四部｜共同主线\n优先选择替 Nagi 整理答案、承担成本、确认依赖与占有的选项；持续增加 control / D / habitDepend\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n「嗯，我会替你选最好的。」\n→ control +3 → antManage = true\n                         │\n                         ▼\n第六部｜进入 J 线\nclub_arrival：「我已经帮你同步好了」\nclub_media【主判定】：「对外形象很重要，这样对你更好」\ne_drive：选择由玩家替他过滤世界、让他只在玩家这里关机的分支\n                         │\n                         ▼\nroute_mj_hidden\nJ_score > M_score 且 club_media 选择 J 项\n→ line = "J"\n                         │\n                         ▼\n第七部｜J 线高风险走法\n她站在光里 → 任人打扮：选择继续安排与营业的选项\n软饭王哲学：「那以后就听我的，软饭王没有选择权。」\n借着醉意：「可是以前不用我说。」\n→ 增加 D / distance / badRisk，并触发 nagiRebel\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会到现场，让全世界都看见你。」\n→ path = "bad"\n                         │\n                         ▼\n优雅与世俗 → 他的名字，由我来写 → 加冕之夜 → 全世界都看见你\n→ 渐行渐远 → 我不是不想赢 → badLock = true\n                         │\n                         ▼\n远处的世界第一 → BAD END' }
     ]
   },
   {
