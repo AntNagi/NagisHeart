@@ -24,7 +24,7 @@
 ### TASK-20260806-001
 - 标题：Web 设置页加入结局攻略
 - 负责人：Wewe（Web）
-- 状态：blocked
+- 状态：review
 - 优先级：P1
 - 现象（Ant 反馈）：希望把结局攻略设计成 Web 页面放进设置页；使用 `C:/Users/ant.wang/Downloads/NagisHeart_Official_All_Endings_Guide_V17_Updated(3).md` 第一版文件，但原文代码味道太重，需要在不改变现有攻略结构的基础上适当翻译成中文，并去掉截图位说明。
 - 范围：`web/src/`、`web/styles/`；可读取 `C:/Users/ant.wang/Downloads/NagisHeart_Official_All_Endings_Guide_V17_Updated(3).md` 作为内容素材并转写进 Web 端。**不碰 Android、story-data、资源文件、authority、99_archive、历史 handoff。**
@@ -35,6 +35,8 @@
   - 【已验证】缺失：`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §20 仅规定设置分类及既有设置项，未规定攻略入口的交互、页面层级、打开/返回路径或阅读行为。
   - 【已验证】缺失：`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1、§22 仅覆盖系统级页面视觉与 SettingsScreen 行项 token，未规定攻略页结构、正文排版、目录/滚动/返回控件。
   - 裁决请求：请 PM/Ant 补充或明确攻略入口与攻略阅读页的 authority（包括页面结构、进入/返回交互、正文展示规则），裁决前停止实现。
+- Ant 裁决（2026-08-06）：允许按现有 SettingsOverlay 与系统级页面视觉实现“结局攻略”入口及阅读页；正文沿用指定第一版攻略结构，适当中文化并移除截图位说明。
+- 结论：已改（证据：`web/src/ui/overlays/SettingsOverlay.js` 新增“结局攻略”入口；`web/src/ui/overlays/EndingGuideOverlay.js` 与 `web/src/data/EndingGuideContent.js` 新增阅读页及 10 个结构章节；`web/styles/overlays.css` 新增系统页阅读样式；浏览器 `http://localhost:3000/web/` 实测设置页可打开攻略，正文包含 TRUE/BAD END 且不含“截图”，攻略返回设置页可用；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003

@@ -1,10 +1,12 @@
 import { TEXT_SPEEDS, DISPLAY_THEMES } from '../../data/SettingsManager.js';
+import { EndingGuideOverlay } from './EndingGuideOverlay.js';
 
 export class SettingsOverlay {
   constructor(container, { settingsManager, onClose, onThemeChange }) {
     this._mgr = settingsManager;
     this._onClose = onClose;
     this._onThemeChange = onThemeChange;
+    this._guide = null;
 
     this.el = document.createElement('div');
     this.el.className = 'overlay settings-overlay';
@@ -13,6 +15,7 @@ export class SettingsOverlay {
     this.el.addEventListener('click', (e) => {
       e.stopPropagation();
       if (e.target.closest('[data-action="close"]')) { this._onClose(); return; }
+      if (e.target.closest('[data-action="ending-guide"]')) { this._openGuide(); return; }
       const row = e.target.closest('[data-setting]');
       if (row && row.dataset.setting !== 'bgmVolume') {
         this._toggle(row.dataset.setting);
@@ -62,6 +65,10 @@ export class SettingsOverlay {
             <span class="settings-label">数据管理</span>
             <span class="settings-value">管理</span>
           </div>
+          <button class="settings-row settings-row-guide" type="button" data-action="ending-guide">
+            <span class="settings-label">结局攻略</span>
+            <span class="settings-value">查看</span>
+          </button>
           <a class="settings-row settings-row-download" href="https://github.com/AntNagi/NagisHeart/releases/download/latest/app-release.apk" target="_blank" rel="noopener">
             <span class="settings-label">下载 Android 版</span>
             <span class="settings-value">下载</span>
@@ -111,5 +118,18 @@ export class SettingsOverlay {
     this._render();
   }
 
-  destroy() { this.el.remove(); }
+  _openGuide() {
+    if (this._guide) return;
+    this._guide = new EndingGuideOverlay(this.el, {
+      onClose: () => {
+        this._guide.destroy();
+        this._guide = null;
+      }
+    });
+  }
+
+  destroy() {
+    if (this._guide) this._guide.destroy();
+    this.el.remove();
+  }
 }

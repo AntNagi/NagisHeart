@@ -762,6 +762,132 @@
   color: inherit;
 }
 
+.settings-row-guide {
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.ending-guide-overlay {
+  background: transparent;
+  z-index: 20;
+  overflow: hidden;
+}
+
+.ending-guide-header {
+  position: relative;
+  z-index: 2;
+}
+
+.ending-guide-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  margin: 0 18px 34px;
+  padding: 20px 18px 48px;
+  overflow-y: auto;
+  background: linear-gradient(to bottom, rgba(16, 24, 39, 0.38), rgba(16, 24, 39, 0.52));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  clip-path: var(--clip-cut-md);
+  scrollbar-width: thin;
+  scrollbar-color: var(--white-30) transparent;
+}
+
+.ending-guide-intro {
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ending-guide-kicker {
+  margin: 0 0 6px;
+  color: var(--accent-gold);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.ending-guide-intro h1 {
+  margin: 0 0 8px;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.ending-guide-intro p:last-child,
+.ending-guide-paragraph {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.ending-guide-section {
+  padding: 22px 0 4px;
+}
+
+.ending-guide-section h2 {
+  margin: 0 0 12px;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.ending-guide-label {
+  margin: 14px 0 8px;
+  color: var(--accent-gold);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ending-guide-code {
+  margin: 10px 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  color: var(--parchment-74);
+  background: rgba(9, 16, 28, 0.52);
+  border-left: 2px solid var(--accent-gold);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.ending-guide-table-wrap {
+  overflow-x: auto;
+  margin: 10px 0;
+}
+
+.ending-guide-table {
+  width: 100%;
+  min-width: 420px;
+  border-collapse: collapse;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ending-guide-table th,
+.ending-guide-table td {
+  padding: 8px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+  vertical-align: top;
+}
+
+.ending-guide-table th {
+  color: var(--text-primary);
+  background: rgba(215, 190, 134, 0.12);
+  font-weight: 500;
+}
+
+@media (max-width: 520px) {
+  .ending-guide-body { margin-left: 12px; margin-right: 12px; padding-left: 14px; padding-right: 14px; }
+  .ending-guide-intro h1 { font-size: 21px; }
+}
+
 /* ── Gallery overlay: four-ending staggered wall ── */
 .gallery-overlay {
   background: transparent;
