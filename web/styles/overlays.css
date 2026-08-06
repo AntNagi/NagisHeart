@@ -884,6 +884,16 @@
   border-bottom: 1px solid rgba(215, 190, 134, 0.22);
 }
 
+/* 总路线图保留原文等宽分支，窄屏缩放而不是折行打散连线。 */
+.ending-guide-section:nth-of-type(5) .ending-guide-code {
+  overflow: hidden;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  font-size: clamp(7px, 1.65vw, 11px);
+  letter-spacing: -0.035em;
+}
+
 .ending-guide-section:nth-of-type(7) h2,
 .ending-guide-section:nth-of-type(8) h2,
 .ending-guide-section:nth-of-type(9) h2 {
