@@ -794,7 +794,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   clip-path: var(--clip-cut-md);
   scrollbar-width: thin;
-  scrollbar-color: rgba(215, 190, 134, 0.52) transparent;
+  scrollbar-color: rgba(16, 24, 39, 0.72) transparent;
 }
 
 .ending-guide-body::-webkit-scrollbar {
@@ -806,12 +806,14 @@
 }
 
 .ending-guide-body::-webkit-scrollbar-thumb {
-  background: rgba(215, 190, 134, 0.52);
+  background: linear-gradient(to right, rgba(16, 24, 39, 0.82), rgba(48, 62, 82, 0.72));
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
+  box-shadow: inset 1px 0 rgba(255, 255, 255, 0.08), 0 0 8px rgba(9, 16, 28, 0.24);
 }
 
 .ending-guide-body::-webkit-scrollbar-thumb:hover {
-  background: rgba(215, 190, 134, 0.76);
+  background: linear-gradient(to right, rgba(16, 24, 39, 0.92), rgba(67, 84, 108, 0.82));
 }
 
 .ending-guide-intro {
