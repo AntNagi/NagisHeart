@@ -49,6 +49,7 @@
 - 结局路线章节名：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 对流程图中的 `path = "dream/stay/bad"`、Dream、Stay / Bad、TRUE/GOOD/NORMAL/BAD END 做展示层中文化，分别显示对应中文章节名；`node --check` 已通过；待 Ant 验收）。
 - 攻略背景与宽度：已改（证据：`web/styles/overlays.css` 仅对攻略阅读页移除底层海报与暗层，改用全宽深色玻璃背景，内容区边距收窄以扩大路线图可视宽度；待 Ant 验收）。
 - 总路线图图像化：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 将总路线图渲染为内嵌 SVG 图，固定中文节点、分支线和四个结局；`web/styles/overlays.css` 让图像按内容区宽度自适应，避免文字换行错位；`node --check` 已通过；待 Ant 验收）。
+- 第六部节点中文化：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 将流程展示中的 `club_arrival`、`club_media`、`e_autumn`、`e_drive`、`route_mj_hidden`、`M_score/J_score` 与 `line =` 映射为中文节点名称；底层变量未改；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003
