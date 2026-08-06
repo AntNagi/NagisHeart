@@ -8,17 +8,29 @@
 
 ## 当前优先级
 
-1. `TASK-20260727-003` Android 剧情地图对齐 v7 —— PP 开工
-2. `TASK-20260727-004` 本地未提交杂项归属审计 —— Sai 只读，不阻塞 PP
-3. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
-4. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
-5. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
-6. `TASK-20260726-003` Web 存档入口不可点
-7. `TASK-20260721-008` ui-snapshot 可复现性返工
+1. `TASK-20260806-001` Web 设置页加入结局攻略
+2. `TASK-20260727-003` Android 剧情地图对齐 v7 —— PP 开工
+3. `TASK-20260727-004` 本地未提交杂项归属审计 —— Sai 只读，不阻塞 PP
+4. `TASK-20260726-004` UI 体检脚本 —— 主循环的前置件，没有它 QA 只能人工复现，机器取证缺一块
+5. `TASK-20260726-002` Web 系统页暗层（P0，一条修完解决一大片"看不见"）
+6. `TASK-20260726-001` Android 剧情回顾排版重构（含分页，已并入 0721-002）
+7. `TASK-20260726-003` Web 存档入口不可点
+8. `TASK-20260721-008` ui-snapshot 可复现性返工
 
 ---
 
 ## 活跃任务
+
+### TASK-20260806-001
+- 标题：Web 设置页加入结局攻略
+- 负责人：Wewe（Web）
+- 状态：ready
+- 优先级：P1
+- 现象（Ant 反馈）：希望把结局攻略设计成 Web 页面放进设置页；使用 `C:/Users/ant.wang/Downloads/NagisHeart_Official_All_Endings_Guide_V17_Updated(3).md` 第一版文件，但原文代码味道太重，需要在不改变现有攻略结构的基础上适当翻译成中文，并去掉截图位说明。
+- 范围：`web/src/`、`web/styles/`；可读取 `C:/Users/ant.wang/Downloads/NagisHeart_Official_All_Endings_Guide_V17_Updated(3).md` 作为内容素材并转写进 Web 端。**不碰 Android、story-data、资源文件、authority、99_archive、历史 handoff。**
+- 落地依据：**`authority/product/NagisHeart_PRD_v2_0.md` §14（设置系统）、`authority/interaction/NagisHeart_Interaction_Design_v1_0.md` §20（设置页交互）、`authority/ui/XoXo_UI_Final_MinSpec_20260712.md` §1 / §22（系统级页面与系统设置页行项）**。攻略正文内容以 Ant 指定源文件为素材；若 authority 未覆盖设置页新增攻略入口或攻略页面结构，pre-flight 报缺失等裁决。
+- 完成定义：按依据落地 + 自行复现证明设置页可进入攻略页、攻略正文中文化且无截图位说明；先做 pre-flight
+- 最新更新时间：2026-08-06
 
 ### TASK-20260727-003
 - 标题：Android 剧情地图对齐 v7（首版实机整体走形修正）
