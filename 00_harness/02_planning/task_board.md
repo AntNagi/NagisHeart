@@ -47,6 +47,7 @@
 - 路线标题中文化：已改（证据：`web/src/data/EndingGuideContent.js` 将四条路线展示标题改为“世界第一，与你 / 那么完美，那么爱你 / 普通情侣 / 远处的世界第一”，并将 Dream、Stay、Bad 的展示标题替换为对应中文章节名；`web/src/ui/overlays/EndingGuideOverlay.js` 同步更新路线标签；`node --check` 已通过；待 Ant 验收）。
 - 总路线图移动端排版：已改（证据：`web/styles/overlays.css` 为总路线图保留等宽分支并在窄屏缩放，禁止自动折行打散连线；移动端阅读区横向 `overflow-x: hidden`；待 Ant 验收）。
 - 结局路线章节名：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 对流程图中的 `path = "dream/stay/bad"`、Dream、Stay / Bad、TRUE/GOOD/NORMAL/BAD END 做展示层中文化，分别显示对应中文章节名；`node --check` 已通过；待 Ant 验收）。
+- 攻略背景与宽度：已改（证据：`web/styles/overlays.css` 仅对攻略阅读页移除底层海报与暗层，改用全宽深色玻璃背景，内容区边距收窄以扩大路线图可视宽度；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003

@@ -770,9 +770,14 @@
 }
 
 .ending-guide-overlay {
-  background: transparent;
+  background: var(--nagi-deep-blue-night);
   z-index: 20;
   overflow: hidden;
+}
+
+.ending-guide-overlay > .system-bg,
+.ending-guide-overlay > .system-bg-overlay {
+  display: none;
 }
 
 .ending-guide-header {
@@ -785,8 +790,8 @@
   z-index: 1;
   flex: 1;
   min-height: 0;
-  margin: 0 18px 34px;
-  padding: 24px 18px 56px;
+  margin: 0 8px 16px;
+  padding: 24px 10px 56px;
   overflow-y: auto;
   overflow-x: hidden;
   background:
@@ -819,8 +824,8 @@
 
 .ending-guide-intro {
   position: relative;
-  margin: -24px -18px 0;
-  padding: 28px 18px 22px;
+  margin: -24px -10px 0;
+  padding: 28px 10px 22px;
   background: linear-gradient(135deg, rgba(215, 190, 134, 0.16), rgba(255, 255, 255, 0.03) 52%, transparent);
   border-bottom: 1px solid rgba(215, 190, 134, 0.26);
 }
@@ -962,7 +967,7 @@
 }
 
 @media (max-width: 520px) {
-  .ending-guide-body { margin-left: 12px; margin-right: 12px; padding-left: 14px; padding-right: 14px; }
+  .ending-guide-body { margin-left: 4px; margin-right: 4px; padding-left: 8px; padding-right: 8px; }
   .ending-guide-intro h1 { font-size: 21px; }
 }
 
