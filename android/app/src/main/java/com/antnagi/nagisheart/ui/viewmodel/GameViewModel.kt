@@ -314,9 +314,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         val chapter = chapters.find { it.id == chapterId } ?: return
         val section = chapter.sections.getOrNull(sectionIndex)
         val nextBoundaryNodes = mutableSetOf<String>()
-        val nextIdx = sectionIndex + 1
-        if (nextIdx < chapter.sections.size) {
-            nextBoundaryNodes.add(chapter.sections[nextIdx].startNode)
+        // part8 lays parallel branches (dream / stay / bad + 4 epilogues) flat in the
+        // section list, so the literal next section is not where this section's flow
+        // lands — a branch terminal routes through ending_resolver into whichever
+        // epilogue the variables pick. Every other section start ends this replay unit.
+        chapter.sections.forEachIndexed { idx, s ->
+            if (idx != sectionIndex) nextBoundaryNodes.add(s.startNode)
         }
         val chapterIdx = chapters.indexOf(chapter)
         if (chapterIdx >= 0 && chapterIdx + 1 < chapters.size) {
@@ -579,7 +582,22 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }
         val resolution = engine.resolve(targetId, gameState)
         when (resolution) {
-            is NodeResolution.Found -> enterNode(resolution)
+            is NodeResolution.Found -> {
+                // engine.resolve() follows router chains internally, so a boundary can be
+                // crossed without targetId ever naming it (e.g. dream_final -> ending_resolver
+                // -> ep_good). Re-check on the resolved node before entering it.
+                if (isReplayMode && resolution.nodeId in replayBoundaryNodes) {
+                    _uiState.update {
+                        it.copy(
+                            phase = GamePhase.Ending,
+                            ending = null,
+                            errorMessage = "REPLAY_COMPLETE"
+                        )
+                    }
+                    return
+                }
+                enterNode(resolution)
+            }
             is NodeResolution.EndingReached -> {
                 if (isReplayMode) {
                     _uiState.update {
