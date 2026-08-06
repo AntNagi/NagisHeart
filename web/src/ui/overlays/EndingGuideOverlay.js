@@ -48,7 +48,6 @@ export class EndingGuideOverlay {
         <div class="ending-guide-intro">
           <p class="ending-guide-kicker">NAGI’S HEART</p>
           <h1>全结局官方攻略</h1>
-          <p>保留路线结构，聚焦真正影响结局的累计值、Flag、Router 与关键选项。</p>
           <div class="ending-guide-pills" aria-label="攻略路线">
             <span>M 线 · Dream</span><span>J 线 · Stay / Bad</span><span>TRUE · GOOD · NORMAL · BAD</span>
           </div>

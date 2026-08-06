@@ -43,6 +43,7 @@
 - 滚动条质感：已改（证据：`web/styles/overlays.css` 改为玻璃暗色渐变滑块，增加半透明描边、内高光与阴影，悬停态保持暗色层次；待 Ant 验收）。
 - 移动端滚动：已改（证据：`web/styles/overlays.css` 锁定攻略阅读区横向溢出、流程代码自动断行、表格改为窄屏自适应布局，避免移动端左右滚动；待 Ant 验收）。
 - 总路线图：已改（证据：`web/src/data/EndingGuideContent.js` 按源文档恢复第一至第六部、M/J 分流、第七部剧情、终局资格、Dream/Stay/Bad 与四结局分支；路线图中的 Flag 已改为中文含义；`node --check` 已通过；待 Ant 验收）。
+- 开头文案：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 移除“保留路线结构，聚焦真正影响结局的累计值、Flag、Router 与关键选项。”；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003
