@@ -20,7 +20,7 @@ export class EndingGuideOverlay {
     if (block.type === 'table') {
       const head = block.headers.map((cell) => `<th scope="col">${this._escape(cell)}</th>`).join('');
       const rows = block.rows.map((row) => `<tr>${row.map((cell) => `<td>${this._escape(cell)}</td>`).join('')}</tr>`).join('');
-      return `<div class="ending-guide-table-wrap"><table class="ending-guide-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
+      return `<div class="ending-guide-table-wrap"><table class="ending-guide-table ending-guide-table-${block.headers.length}"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
     }
     return `<p class="ending-guide-paragraph">${this._escape(block.text)}</p>`;
   }

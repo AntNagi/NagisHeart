@@ -966,6 +966,23 @@
   line-height: 1.6;
 }
 
+.ending-guide-table-2 th:first-child,
+.ending-guide-table-2 td:first-child {
+  width: 28%;
+}
+
+.ending-guide-table-2 th:last-child,
+.ending-guide-table-2 td:last-child {
+  width: 72%;
+}
+
+.ending-guide-table-3 th:nth-child(1),
+.ending-guide-table-3 td:nth-child(1) { width: 27%; }
+.ending-guide-table-3 th:nth-child(2),
+.ending-guide-table-3 td:nth-child(2) { width: 38%; }
+.ending-guide-table-3 th:nth-child(3),
+.ending-guide-table-3 td:nth-child(3) { width: 35%; }
+
 .ending-guide-table th,
 .ending-guide-table td {
   padding: 8px 9px;
