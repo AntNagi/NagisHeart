@@ -788,6 +788,7 @@
   margin: 0 18px 34px;
   padding: 24px 18px 56px;
   overflow-y: auto;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 88% 0%, rgba(215, 190, 134, 0.16), transparent 34%),
     linear-gradient(to bottom, rgba(16, 24, 39, 0.40), rgba(16, 24, 39, 0.62));
@@ -903,7 +904,7 @@
 .ending-guide-code {
   margin: 10px 0;
   padding: 12px 14px;
-  overflow-x: auto;
+  overflow-x: hidden;
   color: var(--parchment-74);
   background: rgba(9, 16, 28, 0.52);
   border-left: 2px solid var(--accent-gold);
@@ -911,16 +912,19 @@
   font-size: 11px;
   line-height: 1.65;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .ending-guide-table-wrap {
-  overflow-x: auto;
+  overflow-x: hidden;
   margin: 10px 0;
 }
 
 .ending-guide-table {
   width: 100%;
-  min-width: 420px;
+  min-width: 0;
+  table-layout: fixed;
   border-collapse: collapse;
   color: var(--text-secondary);
   font-size: 12px;
@@ -933,6 +937,8 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .ending-guide-table tbody tr:nth-child(even) {
