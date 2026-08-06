@@ -51,6 +51,7 @@
 - 总路线图图像化：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 将总路线图渲染为内嵌 SVG 图，固定中文节点、分支线和四个结局；`web/styles/overlays.css` 让图像按内容区宽度自适应，避免文字换行错位；`node --check` 已通过；待 Ant 验收）。
 - 第六部节点中文化：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 将流程展示中的 `club_arrival`、`club_media`、`e_autumn`、`e_drive`、`route_mj_hidden`、`M_score/J_score` 与 `line =` 映射为中文节点名称；底层变量未改；待 Ant 验收）。
 - 总路线图 SVG 排版：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 将长节点拆成多行 `tspan`，增加上下间距，避免第六部剧情、终局判定和分支结局文字重叠；`node --check` 已通过；待 Ant 验收）。
+- 结局标题格式：已改（证据：`web/src/data/EndingGuideContent.js` 四个结局章节标题统一为 `TRUE END：世界第一，与你`、`GOOD END：那么完美，那么爱你`、`NORMAL END：普通情侣`、`BAD END：远处的世界第一`；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003
