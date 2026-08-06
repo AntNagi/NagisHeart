@@ -53,6 +53,8 @@ export class EndingGuideOverlay {
   }
 
   _renderRouteMap() {
+    return `<div class="ending-guide-route-map" role="img" aria-label="全结局总路线图"><img src="../nagisheart_endings_player_flow.svg" alt="全结局总路线图" /></div>`;
+
     return `<div class="ending-guide-route-map" role="img" aria-label="全结局总路线图">
       <svg viewBox="0 0 720 1010" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs><linearGradient id="route-map-glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26364b" stop-opacity=".78"/><stop offset="1" stop-color="#0d1727" stop-opacity=".88"/></linearGradient></defs>

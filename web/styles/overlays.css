@@ -914,6 +914,12 @@
   height: auto;
 }
 
+.ending-guide-route-map img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .ending-guide-section:nth-of-type(7) h2,
 .ending-guide-section:nth-of-type(8) h2,
 .ending-guide-section:nth-of-type(9) h2 {

@@ -58,6 +58,7 @@
 - 表格列宽：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 为表格标注列数样式；`web/styles/overlays.css` 两列表格调整为左列 28% / 右列 72%，三列表格按 27% / 38% / 35% 分配；待 Ant 验收）。
 - 剧情节标题：已改（证据：`web/src/data/DataLoader.js` 在 Web 运行时将章节节标题“我不是不想这样赢”映射为“我不是不想赢”，未修改 `story-data/` 原文件；待 Ant 验收）。
 - 结局总览对齐：已改（证据：`web/styles/overlays.css` 将第一节“结局判定总览”流程块居中，普通说明和表格仍保持左对齐；待 Ant 验收）。
+- 总览图替换：已改（证据：`web/src/ui/overlays/EndingGuideOverlay.js` 改为展示 Wendy 提供的 `nagisheart_endings_player_flow.svg`，不再使用旧的内嵌路线图；`web/styles/overlays.css` 让图像按内容区宽度自适应；待 Ant 验收）。
 - 最新更新时间：2026-08-06
 
 ### TASK-20260727-003
