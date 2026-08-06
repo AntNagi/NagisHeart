@@ -3,13 +3,14 @@ export const ENDING_GUIDE_SECTIONS = [
     title: '一、结局判定总览',
     blocks: [
       { type: 'code', text: '前期选项累计\n    ↓\nroute_mj_hidden\n    ↓\nM / J 关系线\n    ↓\nroute_love_hidden\n    ↓\nM → 没有你的世界 → 世界第一，与你 / 那么完美，那么爱你\nJ → 还不是今天 / 远处的世界第一 → 普通情侣 / 远处的世界第一' },
-      { type: 'paragraph', text: '第六部的分线由「媒体选择」与「长期管理倾向」共同决定——一路替他做决定的玩家，即使在那一刻收手，也仍会落入 J 线。第八部的那一句台词，则直接决定最终结局。\n\n最终结局由三层机制共同决定：累计值记录长期选择形成的关系倾向；Flag 记录关键剧情变化；Router 在指定节点读取状态并决定后续路线。' }
+      { type: 'paragraph', text: '最终结局由三层机制共同决定：累计值记录长期选择形成的关系倾向；Flag 记录关键剧情变化；Router 在指定节点读取状态并决定后续路线。' }
     ]
   },
   {
     title: '二、关键累计值',
     blocks: [{ type: 'table', headers: ['变量', '含义', '主要影响'], rows: [
       ['i', '对 Nagi 的理解程度', 'M 倾向、TRUE / GOOD 资格'],
+      ['ego', 'Nagi 的自我与野心是否被支撑', 'TRUE / GOOD 资格'],
       ['egoHold', 'Nagi 的自主意志是否被保留', 'TRUE 资格'],
       ['control', '替 Nagi 规划、表达和决定的倾向', 'J 倾向、BAD 风险'],
       ['D / distance', '两人之间形成的心墙和疏离', 'J 线的 NORMAL / BAD 分化'],
@@ -24,8 +25,7 @@ export const ENDING_GUIDE_SECTIONS = [
       ['antFragileSeen', 'Nagi 是否看见玩家真实、脆弱的一面'], ['nagiRebel', 'Nagi 是否因长期被安排而开始反抗或退出'],
       ['antCompress', '玩家是否为了关系压缩自己的事业与人生'], ['witnessFlag', 'Nagi 获得个人荣誉时，玩家是否选择见证'],
       ['personalHonor', 'Nagi 是否取得真正属于个人名字的荣誉'], ['nagiNameIndependent', 'Nagi 的名字是否从俱乐部和外部叙事中独立'],
-      ['finalChoice', '第八部终局选择的结果，是 TRUE 与 BAD 的直接开关'],
-      ['badLock', '历史遗留旗标；当前结局判定已不再读取']
+      ['finalChoice', '第八部终局选择的结果，是 TRUE 与 BAD 的直接开关']
     ] }]
   },
   {
@@ -49,7 +49,7 @@ export const ENDING_GUIDE_SECTIONS = [
     blocks: [
       { type: 'label', text: '达成条件' },
       { type: 'code', text: 'mj = "M"\n路线 = "没有你的世界"\n第八部选择「我会在看台上。去看你把它变成你的比赛。」\nantCompress = false\nwitnessFlag = true\npersonalHonor = true\nnagiNameIndependent = true\ncontrol 与 D 保持低位' },
-      { type: 'code', text: '第一部—第四部｜共同主线\n优先选择理解 Nagi、确认他的真实想法、尊重他的自主选择；尽量避免增加 control / D\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n「最后那个答案，你自己说」\nEGO +2 / i +3\n                         │\n                         ▼\n第六部｜进入 M 线\nclub_arrival：「你可以自己决定怎么用」\nclub_media【主判定】：「下次保留你的原句，我来和他们说。」\ne_autumn：「下次地点你定，我只负责拍照」\ne_drive：选择让 Nagi 保留原始表达、不过度营业的分支\n                         │\n                         ▼\nroute_mj_hidden\nclub_media 选择 M 项，且长期管理倾向不高\n→ mj = "M"\n                         │\n                         ▼\n第七部｜M 线：她站在光里\n→ 送围巾 → 还是感冒了\n「这不是为了你一个人，是我本来就想做。」\n「Nagi，我真的有点累了。」\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会在看台上。去看你把它变成你的比赛。」\n→ path = "dream"\n                         │\n                         ▼\n没有你的世界\n「才不会呢，我还有好多想做的事。」\n→ antCompress = false\n                         │\n                         ▼\n他的名字 → personalHonor = true → nagiNameIndependent = true\n                         │\n                         ▼\n看台上的庆祝 → witnessFlag = true → dream_final → 世界第一，与你' }
+      { type: 'code', text: '第一部—第四部｜共同主线\n优先选择理解 Nagi、确认他的真实想法、尊重他的自主选择；尽量避免增加 control / D\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n「最后那个答案，你自己说」\nego +2（Nagi 的自我）/ i +3（你对他的理解）\n                         │\n                         ▼\n第六部｜进入 M 线\nclub_arrival：「你可以自己决定怎么用」\nclub_media【主判定】：「下次保留你的原句，我来和他们说。」\ne_autumn：「下次地点你定，我只负责拍照」\ne_drive：选择让 Nagi 保留原始表达、不过度营业的分支\n                         │\n                         ▼\nroute_mj_hidden\nclub_media 选择 M 项，且长期管理倾向不高\n→ mj = "M"\n                         │\n                         ▼\n第七部｜M 线：她站在光里\n→ 送围巾 → 还是感冒了\n「这不是为了你一个人，是我本来就想做。」\n「Nagi，我真的有点累了。」\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会在看台上。去看你把它变成你的比赛。」\n→ path = "dream"\n                         │\n                         ▼\n没有你的世界\n「才不会呢，我还有好多想做的事。」\n→ antCompress = false\n                         │\n                         ▼\n他的名字 → personalHonor = true → nagiNameIndependent = true\n                         │\n                         ▼\n看台上的庆祝 → witnessFlag = true → dream_final → 世界第一，与你' }
     ]
   },
   {
