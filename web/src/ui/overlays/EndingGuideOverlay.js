@@ -59,16 +59,19 @@ export class EndingGuideOverlay {
         <g fill="#f7f9fc" font-family="Noto Sans SC, sans-serif" text-anchor="middle">
           <text x="360" y="34" font-size="22" font-weight="600">总路线图</text>
           <text x="360" y="68" font-size="16" fill="#d7be86">第一部—第六部：累计值与关键状态</text>
-          <text x="360" y="94" font-size="14" fill="#c8d0dc">理解程度 · 自主意志 · 控制倾向 · 距离 · 习惯依赖</text>
-          <text x="360" y="120" font-size="14" fill="#c8d0dc">事业与光 · 真实脆弱 · Nagi 反抗 · 真实选择</text>
+          <text x="360" y="94" font-size="14" fill="#c8d0dc">理解程度 · 自主意志 · 控制倾向</text>
+          <text x="360" y="118" font-size="14" fill="#c8d0dc">距离 · 习惯依赖 · 事业与光</text>
+          <text x="360" y="142" font-size="14" fill="#c8d0dc">真实脆弱 · Nagi 反抗 · 真实选择</text>
           <text x="360" y="160" font-size="17">关系路线隐藏判定</text>
           <text x="180" y="202" font-size="20" fill="#d7be86">M 线</text><text x="540" y="202" font-size="20" fill="#d7be86">J 线</text>
           <text x="180" y="228" font-size="14">理解 / 自主倾向</text><text x="540" y="228" font-size="14">管理 / 依赖倾向</text>
           <text x="180" y="276" font-size="16">第七部 M 线剧情</text><text x="540" y="276" font-size="16">第七部 J 线剧情</text>
-          <text x="180" y="302" font-size="14">送围巾 · 还是感冒了</text><text x="540" y="302" font-size="14">任人打扮 · 软饭王哲学 · 借着醉意</text>
+          <text x="180" y="302" font-size="14">送围巾 · 还是感冒了</text>
+          <text x="540" y="300" font-size="14"><tspan x="540" dy="0">任人打扮 · 软饭王哲学</tspan><tspan x="540" dy="22">借着醉意</tspan></text>
           <text x="360" y="370" font-size="17">终局资格隐藏判定</text>
-          <text x="360" y="398" font-size="14">事业与光 · 真实脆弱 · 自主意志 · 控制倾向</text>
-          <text x="360" y="422" font-size="14">距离 · 习惯依赖 · 真实选择 · Nagi 反抗</text>
+          <text x="360" y="398" font-size="14">事业与光 · 真实脆弱 · 自主意志</text>
+          <text x="360" y="422" font-size="14">控制倾向 · 距离 · 习惯依赖</text>
+          <text x="360" y="446" font-size="14">真实选择 · Nagi 反抗</text>
           <text x="180" y="474" font-size="17" fill="#d7be86">M 线终局资格</text><text x="540" y="474" font-size="17" fill="#d7be86">J 线终局资格</text>
           <text x="180" y="518" font-size="18">没有你的世界</text><text x="540" y="518" font-size="18">还不是今天 / 远处的世界第一</text>
           <text x="180" y="558" font-size="15">梦境成立？</text><text x="540" y="558" font-size="15">两条中文章节分流</text>
