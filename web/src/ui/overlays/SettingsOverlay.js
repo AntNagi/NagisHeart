@@ -69,7 +69,7 @@ export class SettingsOverlay {
             <span class="settings-label">结局攻略</span>
             <span class="settings-value">查看</span>
           </button>
-          <a class="settings-row settings-row-download" href="https://github.com/AntNagi/NagisHeart/releases/download/latest/app-release.apk" target="_blank" rel="noopener">
+          <a class="settings-row settings-row-download" href="https://github.com/AntNagi/NagisHeart/releases/download/v0.1.3/app-release.apk" target="_blank" rel="noopener">
             <span class="settings-label">下载 Android 版</span>
             <span class="settings-value">下载</span>
           </a>
