@@ -2,7 +2,7 @@ export const ENDING_GUIDE_SECTIONS = [
   {
     title: '一、结局判定总览',
     blocks: [
-      { type: 'code', text: '前期选项累计\n    ↓\nroute_mj_hidden\n    ↓\nM / J 关系线\n    ↓\nroute_love_hidden\n    ↓\nM → Dream → TRUE / GOOD\nJ → Stay / Bad → NORMAL / BAD' },
+      { type: 'code', text: '前期选项累计\n    ↓\nroute_mj_hidden\n    ↓\nM / J 关系线\n    ↓\nroute_love_hidden\n    ↓\nM → 没有你的世界 → 世界第一，与你 / 那么完美，那么爱你\nJ → 还不是今天 / 远处的世界第一 → 普通情侣 / 远处的世界第一' },
       { type: 'paragraph', text: '最终结局由三层机制共同决定：累计值记录长期选择形成的关系倾向；Flag 记录关键剧情变化；Router 在指定节点读取状态并决定后续路线。' }
     ]
   },
@@ -31,9 +31,9 @@ export const ENDING_GUIDE_SECTIONS = [
     title: '四、关键 Router',
     blocks: [{ type: 'table', headers: ['Router', '作用', '结果'], rows: [
       ['route_mj_hidden', '根据第六部关键选择判定关系路线', 'line="M" 或 line="J"'],
-      ['route_love_hidden', '读取第七部累计状态，确认终局资格池', 'M 进入 Dream；J 进入 Stay / Bad'],
-      ['p8_route', '第八部终局选择', 'M 进入 Dream；J 在 Stay / Bad 中分流'],
-      ['dream_final', 'Dream 线最终结算', 'TRUE 或 GOOD']
+      ['route_love_hidden', '读取第七部累计状态，确认终局资格池', 'M 进入“没有你的世界”；J 进入“还不是今天”或“远处的世界第一”'],
+      ['p8_route', '第八部终局选择', 'M 进入“没有你的世界”；J 在两条中文章节中分流'],
+      ['dream_final', '“没有你的世界”线最终结算', '世界第一，与你 / 那么完美，那么爱你']
     ] }]
   },
   {
@@ -47,28 +47,28 @@ export const ENDING_GUIDE_SECTIONS = [
     title: '六、世界第一，与你',
     blocks: [
       { type: 'label', text: '达成条件' },
-      { type: 'code', text: 'line = "M"\npath = "dream"\nantCompress = false\nwitnessFlag = true\npersonalHonor = true\nnagiNameIndependent = true\ncontrol 与 D 保持低位' },
+      { type: 'code', text: 'line = "M"\n路线 = "没有你的世界"\nantCompress = false\nwitnessFlag = true\npersonalHonor = true\nnagiNameIndependent = true\ncontrol 与 D 保持低位' },
       { type: 'code', text: '第一部—第四部｜共同主线\n优先选择理解 Nagi、确认他的真实想法、尊重他的自主选择；尽量避免增加 control / D\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n「最后那个答案，你自己说」\nEGO +2 / i +3\n                         │\n                         ▼\n第六部｜进入 M 线\nclub_arrival：「你可以自己决定怎么用」\nclub_media【主判定】：「下次保留你的原句，我来和他们说。」\ne_autumn：「下次地点你定，我只负责拍照」\ne_drive：选择让 Nagi 保留原始表达、不过度营业的分支\n                         │\n                         ▼\nroute_mj_hidden\nM_score >= J_score 且 club_media 选择 M 项\n→ line = "M"\n                         │\n                         ▼\n第七部｜M 线：她站在光里\n→ 送围巾 → 还是感冒了\n「这不是为了你一个人，是我本来就想做。」\n「Nagi，我真的有点累了。」\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会在看台上。去看你把它变成你的比赛。」\n→ path = "dream"\n                         │\n                         ▼\n没有你的世界\n「才不会呢，我还有好多想做的事。」\n→ antCompress = false\n                         │\n                         ▼\n他的名字 → personalHonor = true → nagiNameIndependent = true\n                         │\n                         ▼\n看台上的庆祝 → witnessFlag = true → dream_final → 世界第一，与你' }
     ]
   },
   {
     title: '七、那么完美，那么爱你',
     blocks: [
-      { type: 'code', text: 'line = "M"\npath = "dream"\nantCompress = true\n或 TRUE 必要 Flag / 累计状态不足' },
+      { type: 'code', text: 'line = "M"\n路线 = "没有你的世界"\nantCompress = true\n或 TRUE 必要 Flag / 累计状态不足' },
       { type: 'code', text: '第一部—第四部｜共同主线\n优先选择理解 Nagi、保持亲密，不需要完整取得所有 TRUE 前置状态\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n推荐：「最后那个答案，你自己说」\n                         │\n                         ▼\n第六部｜进入 M 线\nclub_arrival：「你可以自己决定怎么用」\nclub_media【主判定】：「下次保留你的原句，我来和他们说。」\ne_autumn：「下次地点你定，我只负责拍照」\ne_drive：选择让 Nagi 保留原始表达、不过度营业的分支\n                         │\n                         ▼\nroute_mj_hidden\nM_score >= J_score 且 club_media 选择 M 项\n→ line = "M"\n                         │\n                         ▼\n第七部｜M 线：她站在光里\n→ 送围巾 → 还是感冒了\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会在看台上。去看你把它变成你的比赛。」\n→ path = "dream"\n                         │\n                         ▼\n没有你的世界\n「有你在就够了。」\n→ antCompress = true\n                         │\n                         ▼\ndream_final → 那么完美，那么爱你' }
     ]
   },
   {
     title: '八、普通情侣',
     blocks: [
-      { type: 'code', text: 'line = "J"\npath = "stay"\n未触发 badLock' },
+      { type: 'code', text: 'line = "J"\n路线 = "还不是今天"\n未触发 badLock' },
       { type: 'code', text: '第一部—第四部｜共同主线\n可按自然倾向推进；若要稳定进入 J 线，可适当选择依赖、替他处理、替他过滤麻烦的选项\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n「嗯，我会替你选最好的。」\n→ control +3 → antManage = true\n                         │\n                         ▼\n第六部｜进入 J 线\nclub_arrival：「我已经帮你同步好了」\nclub_media【主判定】：「对外形象很重要，这样对你更好」\ne_drive：选择由玩家替他过滤世界、让他只在玩家这里关机的分支\n                         │\n                         ▼\nroute_mj_hidden\nJ_score > M_score 且 club_media 选择 J 项\n→ line = "J"\n                         │\n                         ▼\n第七部｜J 线低风险走法\n她站在光里 → 任人打扮：「好，最后拍一张就回去。」\n软饭王哲学：「软饭可以吃，但正事要自己来。」\n借着醉意：「我只是想让你过来。」\n→ 降低 D，并修复 nagiRebel\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会去看你。就算不是今天也没关系。」\n→ path = "stay"\n                         │\n                         ▼\n还不是今天 → 他常回来 → 暗爽·可可白兰地 → 情人节玩偶熊 → 关掉的比赛录像\n                         │\n                         ▼\n普通情侣' }
     ]
   },
   {
     title: '九、远处的世界第一',
     blocks: [
-      { type: 'code', text: 'line = "J"\npath = "bad"\nbadLock = true' },
+      { type: 'code', text: 'line = "J"\n路线 = "远处的世界第一"\nbadLock = true' },
       { type: 'code', text: '第一部—第四部｜共同主线\n优先选择替 Nagi 整理答案、承担成本、确认依赖与占有的选项；持续增加 control / D / habitDepend\n                         │\n                         ▼\n第五部｜夏窗·签约桌上的好麻烦\n「嗯，我会替你选最好的。」\n→ control +3 → antManage = true\n                         │\n                         ▼\n第六部｜进入 J 线\nclub_arrival：「我已经帮你同步好了」\nclub_media【主判定】：「对外形象很重要，这样对你更好」\ne_drive：选择由玩家替他过滤世界、让他只在玩家这里关机的分支\n                         │\n                         ▼\nroute_mj_hidden\nJ_score > M_score 且 club_media 选择 J 项\n→ line = "J"\n                         │\n                         ▼\n第七部｜J 线高风险走法\n她站在光里 → 任人打扮：选择继续安排与营业的选项\n软饭王哲学：「那以后就听我的，软饭王没有选择权。」\n借着醉意：「可是以前不用我说。」\n→ 增加 D / distance / badRisk，并触发 nagiRebel\n                         │\n                         ▼\n第八部｜假期结束·春季名单\n「我会到现场，让全世界都看见你。」\n→ path = "bad"\n                         │\n                         ▼\n优雅与世俗 → 他的名字，由我来写 → 加冕之夜 → 全世界都看见你\n→ 渐行渐远 → 我不是不想赢 → badLock = true\n                         │\n                         ▼\n远处的世界第一' }
     ]
   },

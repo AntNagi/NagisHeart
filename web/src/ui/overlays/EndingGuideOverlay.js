@@ -14,7 +14,7 @@ export class EndingGuideOverlay {
   }
 
   _renderBlock(block) {
-    if (block.type === 'code') return `<pre class="ending-guide-code"><code>${this._escape(block.text)}</code></pre>`;
+    if (block.type === 'code') return `<pre class="ending-guide-code"><code>${this._escape(this._localizeRouteText(block.text))}</code></pre>`;
     if (block.type === 'label') return `<h3 class="ending-guide-label">${block.text}</h3>`;
     if (block.type === 'table') {
       const head = block.headers.map((cell) => `<th scope="col">${this._escape(cell)}</th>`).join('');
@@ -26,6 +26,20 @@ export class EndingGuideOverlay {
 
   _escape(value) {
     return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+  }
+
+  _localizeRouteText(value) {
+    return String(value)
+      .replace(/path = "dream"/g, '进入「没有你的世界」')
+      .replace(/path = "stay"/g, '进入「还不是今天」')
+      .replace(/path = "bad"/g, '进入「远处的世界第一」')
+      .replace(/Dream｜没有你的世界/g, '没有你的世界')
+      .replace(/Dream/g, '没有你的世界')
+      .replace(/Stay \/ Bad/g, '还不是今天 / 远处的世界第一')
+      .replace(/TRUE END/g, '世界第一，与你')
+      .replace(/GOOD END/g, '那么完美，那么爱你')
+      .replace(/NORMAL END/g, '普通情侣')
+      .replace(/BAD END/g, '远处的世界第一');
   }
 
   _render() {
