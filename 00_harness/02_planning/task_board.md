@@ -21,6 +21,30 @@
 
 ## 活跃任务
 
+### TASK-20260806-002
+- 标题：Android 第八部章节回看串进 GOOD END
+- 负责人：PP（Android）
+- 状态：review（已改，待 Ant 实机验收）
+- 优先级：P1
+- 现象（Ant 2026-08-06 实机报告）：剧情地图第八部，点结局前的章节回看，总会跑到「那么完美，那么爱他」（GOOD END）。复现点：D6 世界第一与你 / S5 关掉的比赛录像 / B7 远处的世界第一。
+- 根因【已验证】（读 story-data 原文 + 代码比对）：
+  1. `GameViewModel.startReplay()` 的 `replayBoundaryNodes` 只放 `sections[sectionIndex+1].startNode`。但 part8 把 dream/stay/bad 三条**并行支线 + 4 个 epilogue 平铺**在同一个 section 列表里，"下一个 section" 并不是该支线的实际去向。三个支线终点算出的边界分别是 ep_true / ep_normal / ep_bad，而 `flow.json` 里 `dream_final|stay_final|bad_far -> ending_resolver`，resolver 按存档变量选 epilogue（本存档 mj=M & path=dream → **ep_good**）→ 边界永远撞不上，回放直接串播 ep_good 全文。
+  2. `navigateToNode()` 只在 **resolve 之前**用原始 targetId 查边界。`StoryEngine.resolve()`（StoryEngine.kt:41-78）内部会把 router 链一路走完再返回，所以它直接返回 `Found(ep_good)`，边界名字从没出现过。
+- 修复（`04485fb`）：① 边界改为"本章**其余全部** section startNode"+ 下一章首节；② `navigateToNode` 在 resolve **之后**对 `resolution.nodeId` 再查一次边界。
+- 验证【已验证】（按 story-data 真实数据模拟，非阅读推断）：D6/S5/B7 三例修复前均 OVERRUN into ep_good，修复后均 `REPLAY_COMPLETE`；线性小节（dream_exist/stay_cozy/bad_plan）仍停在各自真实下一节；全库扫描 section startNode 之间**零条 backward 边**，故放宽边界集合对所有章节安全。
+- 待 Ant 实机验收：D6 / S5 / B7 三处回看应播完本节即结束，不再进入 GOOD END。
+- 关联【已验证】：Web 端 `web/src/controller/GameController.js:138`（边界只取 nextSection）与 `:579`（只在 resolve 前查）**同样两个缺陷**。本次按"Web 不碰 Android，反之亦然"红线未动，另开条目。
+- 最新更新时间：2026-08-06
+
+### TASK-20260806-003
+- 标题：Web 章节回看边界同源缺陷（对齐 Android 0806-002）
+- 负责人：Wewe（Web）
+- 状态：queued
+- 优先级：P1
+- 说明：与 `TASK-20260806-002` 同根因，Android 侧已修（`04485fb`），Web 侧未动。缺陷位置：`web/src/controller/GameController.js:138` 边界只放 `nextSection.startNode`；`:579` 只在 resolve 之前用原始 targetId 查边界。修法参照 Android commit `04485fb`，**不得自行发挥**：① 边界改为本章其余全部 section startNode + 下一章首节；② resolve 之后对解析出的节点 id 再查一次边界。
+- 完成定义：浏览器实测第八部 D6 世界第一与你 / S5 关掉的比赛录像 / B7 远处的世界第一，三处回看播完本节即结束，不串进 GOOD END；附复现前后证据。
+- 最新更新时间：2026-08-06
+
 ### TASK-20260806-001
 - 标题：Web 设置页加入结局攻略
 - 负责人：Wewe（Web）
