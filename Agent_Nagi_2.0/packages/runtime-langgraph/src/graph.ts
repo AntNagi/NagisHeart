@@ -118,13 +118,14 @@ export function createNagiGraph(deps: RuntimeDependencies) {
   const commitTurn = async (state: GraphStateValue) => {
     const domain = requireDomain(state);
     const accepted = state.generation.candidate;
-    await deps.commitTurn({
+    const commitInput = {
       request: state.request,
       domain,
       accepted,
       memoryDrafts: state.effects.memoryDrafts,
-      relationshipDelta: state.effects.relationshipDelta,
-    });
+      ...(state.effects.relationshipDelta ? { relationshipDelta: state.effects.relationshipDelta } : {}),
+    };
+    await deps.commitTurn(commitInput);
     return {
       generation: { ...state.generation, accepted },
       effects: { ...state.effects, committed: true },

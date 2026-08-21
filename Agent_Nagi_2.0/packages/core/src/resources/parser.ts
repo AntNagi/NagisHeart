@@ -18,12 +18,6 @@ function scalar(value: string): string | number | boolean | undefined {
   return trimmed;
 }
 
-function arrayOfStrings(value: string): readonly string[] {
-  const trimmed = value.trim();
-  if (!trimmed.startsWith("[") || !trimmed.endsWith("]")) return [];
-  return trimmed.slice(1, -1).split(",").map((item) => String(scalar(item) ?? "").trim()).filter(Boolean);
-}
-
 /** Parses only the resource contract; it intentionally ignores unknown YAML. */
 export function parseResourceMarkdown(input: string, fallbackId = "resource.unknown"): ResourceDescriptor {
   const lines = input.replace(/^\uFEFF/u, "").split(/\r?\n/u);

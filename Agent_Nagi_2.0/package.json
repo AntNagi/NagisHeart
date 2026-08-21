@@ -17,5 +17,13 @@
     "eval": "tsx evals/run.ts",
     "bake:canon": "tsx scripts/bake-canon.ts",
     "dev": "tsx watch packages/server/src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.18.0",
+    "vitest": "^3.0.0"
   }
 }

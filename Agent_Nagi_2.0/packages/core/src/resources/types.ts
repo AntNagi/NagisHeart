@@ -1,4 +1,4 @@
-import type { ContextBlockKind, ResourceBlock } from "../context/types.js";
+import type { ResourceBlock } from "../context/types.js";
 
 export interface ResourceDescriptor extends ResourceBlock {
   readonly version: string;

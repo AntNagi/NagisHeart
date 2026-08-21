@@ -4,13 +4,11 @@ import {
   InMemoryMemoryStore,
   MemoryEngine,
   type CanonState,
-  type GuardState,
-  type RelationshipState,
   type SceneId,
   type SessionState,
   type ChatProvider,
 } from "@nagi/core";
-import type { RuntimeDependencies } from "@nagi/runtime-langgraph";
+import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
 
 const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" };

@@ -55,7 +55,7 @@ export function createHttpServer() {
       const state = emptyState({ requestId, userId, threadId, message, vendor });
       const requestApiKey = typeof request.headers["x-llm-key"] === "string" ? request.headers["x-llm-key"] : undefined;
       const graph = createNagiGraph(createLocalDependencies(provider, requestApiKey));
-      const result = await graph.invoke(state) as NagiGraphState;
+      const result = await graph.invoke(state as Parameters<typeof graph.invoke>[0]) as NagiGraphState;
       const content = result.generation.accepted ?? result.generation.candidate;
       json(response, 200, {
         id: `chatcmpl-${requestId}`,

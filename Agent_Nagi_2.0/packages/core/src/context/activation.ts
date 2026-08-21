@@ -65,10 +65,14 @@ function evaluateAtom(expression: string, context: ActivationContext): boolean {
   if (value.startsWith("!") && !value.startsWith("!=")) return !evaluateAtom(value.slice(1), context);
   const comparison = /^(?<path>[A-Za-z_][\w.]*)\s*(?<operator>==|!=|>=|<=|>|<)\s*(?<literal>.+)$/u.exec(value);
   if (comparison?.groups) {
-    const left = valueAtPath(context, comparison.groups.path);
-    const right = parseLiteral(comparison.groups.literal);
+    const path = comparison.groups.path;
+    const operator = comparison.groups.operator;
+    const literal = comparison.groups.literal;
+    if (!path || !operator || !literal) return false;
+    const left = valueAtPath(context, path);
+    const right = parseLiteral(literal);
     if (right === undefined) return false;
-    switch (comparison.groups.operator) {
+    switch (operator) {
       case "==": return left === right;
       case "!=": return left !== right;
       case ">": return typeof left === "number" && typeof right === "number" && left > right;

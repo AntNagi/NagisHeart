@@ -56,7 +56,9 @@ function toBlock(resource: ResourceBlock): ContextBlock {
     kind: resource.kind,
     text: resource.text,
     priority: resource.priority,
-    tokenBudget: resource.tokenBudget,
+    // A missing/zero budget must remain usable; parser defaults to zero for
+    // resources that do not declare a per-block budget.
+    tokenBudget: resource.tokenBudget > 0 ? resource.tokenBudget : Math.max(1, Math.ceil(resource.text.length / 2)),
   };
 }
 
