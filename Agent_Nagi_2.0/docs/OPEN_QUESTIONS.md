@@ -188,3 +188,32 @@
 - ⇒ **母版把「玩家」与「Ant」当成同一个人**（在 VN 里确实如此），
   但 50 个使用者的场景下这个等同**破了**。这正是 Q16 的要害
 
+---
+
+## 2026-08-21 代码评审发现（Claude 读 Codex 实现）
+
+### F1 — hard_guard 二次失败后，违规文本照发 —— **内容安全级，等级【已验证】**
+- 复现：`packages/runtime-langgraph/test/guard-fallback.test.ts`（已 `it.fails` 文档化，CI 绿）
+- 实测节点路径：`… → hard_guard → revise_context → generate_candidate → hard_guard
+  → extract_effects → commit_turn → emit_response`，最终 `accepted` = 违规原文
+- 定位两处：
+  - `graph.ts` `hardGuardRoute`：`attempt>=2` 时直接 `return "extract_effects"`
+  - `graph.ts` `commitTurn`：无条件 `accepted = state.generation.candidate`
+- 与规范冲突：V4 §5 有 `accept_hard_guarded` 终端（图中缺失）；
+  §11.2「二次失败 → 降级模板」；`output_guard.md` §四 已备好降级候选；
+  `guard/types.ts` 的 `decision` 含 `"fallback"` 但 `evaluateGuard` 永不返回，分支不可达
+- **未修**：`graph.ts` 归 Codex 在改，避免二次撞车。修法建议：
+  新增 `accept_hard_guarded` 节点取降级模板，`commitTurn` 按 `guard.decision` 选择文本
+
+### F2 — 非流式出口有二次绕过 —— 【已验证】
+- `server/src/http.ts:109`：`result.generation.accepted ?? result.generation.candidate`
+- 一旦 `accepted` 为空即回落到**未经守卫的 candidate**。当前图必达 commit_turn 所以不触发，
+  但这是个隐藏的兜底漏洞：任何让 commit 不执行的改动都会让未审文本泄出
+- 建议：`accepted` 为空时返回降级模板或报错，**不得回落 candidate**
+
+### F3 — GraphState 全是 `z.any()` —— 【推断】
+- `graph.ts` 的 `StateSchema` 每个通道都是 `z.any()`，V4 §4 定义的结构在运行时不校验
+- 影响：checkpoint 反序列化后若 state 走形，不会被发现。角色 Agent 的 replay 是核心能力，
+  状态静默损坏代价高
+- 待验：构造一个畸形 checkpoint 恢复，看是否静默通过
+
