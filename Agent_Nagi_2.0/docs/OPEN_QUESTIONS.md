@@ -281,3 +281,80 @@ front-matter 解析器，只认顶层标量与 `activation.*`（indent≥2），
 **降级模板是最后一道保险,恰恰最不该杜撰。** 建议直接取 §四 那四句
 （可按 scene 轮换），并让 `fallbackResponse` 从资源读而非硬编码——与 F4 同一个接缝。
 
+---
+
+## 2026-08-21 第三轮评审：canon 记忆烘焙后（Claude 验，未改代码）
+
+Codex 的 `051e313` 把**接口**做对了：C1 共享 namespace `canon:nagisheart`、
+C4 的 `source`（path + 节点坐标 + V17 SHA）、TRUE END 口径（共通 + M 线 + Dream 线，
+排除 J / Stay / Bad）。**以下问题都在内容与检索链路，不在接口。**
+
+### F6 — 词面兜底对中文失效，当前 canon 检索实际是全 0 —— **等级【已验证】**
+
+`packages/core/src/memory/engine.ts:42`
+
+```ts
+const terms = [...new Set(text.toLocaleLowerCase().split(/\s+/u).filter(Boolean))];
+return terms.filter((term) => haystack.includes(term)).length / terms.length;
+```
+
+中文没有空格 ⇒ `split(/\s+/)` 切不开，整个查询串变成**一个 term**；
+再要求该整串是记忆文本的子串（`includes`）——**几乎永远为 0**。
+
+`scoreMemory` 里 `semantic = max(cosine, lexical)`。而 **embedding 尚未接入**
+（国产模型未选、无 key，NRH-20260820-019 排在 8/22），`query.embedding` 为空 ⇒
+`cosineSimilarity` 返回 0。
+
+⇒ **两条路都是 0，语义分恒为 0。** 当前排序只剩 recency / salience / confidence /
+kindBoost——canon 检索**没有在按内容工作**。
+
+修法（留给 Codex）：中文需按字/双字 n-gram 或引入分词，不能按空格切。
+最小可行是 bigram 交集比。
+
+### F7 — canon-memory.json 是目录，不是记忆 —— **等级【已验证】，属资源域**
+
+实测 51 条：
+
+```text
+51/51 使用完全相同的句式
+固定样板 52 字，各条独有内容中位仅 7 字
+⇒ 每条约 88% 是逐字相同的样板
+```
+
+每条形如：
+
+> 既成事实：在 TRUE END 时间线上，凪经历了「**曼城·新的房间**」。
+> 这是已经发生的剧情节点，不是当前正在进行的事件。
+
+51 条的独有部分**全是节点标题**：作战室·初遇 / 投资的私心 / 拥抱 / 亲密 /
+早安赖床 / 曼城·新的房间 / 他的名字 ……
+
+两个后果：
+
+1. **正是 Q19 警告的失真。** 检索到这条，凪得到的信息只有"它发生过"，
+   **仍然说不出任何具体的东西**。而 Q19 已定继承 `trust 85 / intimacy 70`——
+   「说得亲密却什么都想不起来」的空头支票就是这么来的。
+2. **88% 相同的文本会让检索失效。** 51 条在向量空间里近乎重合，
+   即使接了 embedding，也等于在它们之间随机挑，语义信号被样板淹没。
+
+根因：`scripts/bake-canon.ts` **只读了节点标题，没读节点正文**。
+V17 每个节点都有完整旁白与对白，那才是「发生了什么」。
+
+修法：从节点正文**改写**成事件描述（`derivation` 仍是改写，非逐字——
+逐字只限 style_anchors）。每条应能回答：**时间 / 地点 / 发生了什么 / 他当时什么反应**。
+去掉统一样板前缀，"这是既成事实"应由 `kind: canon` 承载，不该写进 text。
+
+### 分工建议
+
+| 项 | 建议归属 | 理由 |
+|---|---|---|
+| F6 中文词面检索 | **Codex** | 在 `packages/core/memory/`，且涉及分词策略选型 |
+| F7 canon 内容重烘 | **Claude（资源域）** | 内容是资源，且需按母版口径改写；但生成器 `bake-canon.ts` 是 Codex 的脚本，需先约定谁改脚本 |
+| F4 守卫空转 | **Codex** | 见上一轮，仍未修，**优先级最高** |
+
+⚠️ **F4 + F6 叠加的后果值得单独说**：
+守卫规则没加载（F4）+ 语义检索恒为 0（F6）
+⇒ **现在即使接上模型跑那 30 条对抗用例，测出来的结果也是无意义的**——
+既没有守卫在拦，也没有正确的记忆在召回。
+**这两条是跑 Eval 的前置条件，不是可以并行的优化。**
+
