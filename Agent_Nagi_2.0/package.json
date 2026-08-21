@@ -14,9 +14,9 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:core": "vitest run packages/core",
-    "eval": "tsx evals/run.ts",
-    "bake:canon": "tsx scripts/bake-canon.ts",
-    "dev": "tsx watch packages/server/src/index.ts"
+    "eval": "tsx --env-file-if-exists=.env evals/run.ts",
+    "bake:canon": "tsx --env-file-if-exists=.env scripts/bake-canon.ts",
+    "dev": "tsx watch --env-file-if-exists=.env packages/server/src/index.ts"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

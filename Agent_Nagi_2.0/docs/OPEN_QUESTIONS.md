@@ -478,3 +478,101 @@ styleAnchors 1800 + canonTimeline 600 + behaviorAndScene 1500 + personalityRecap
 2. `config/runtime.yaml`：`tokenEstimate.cjkRatio: TBD_8_23` → `0.561`（实测值）
 
 其余 F8 / F9 / F11 / F12 **均未改代码**，留给 Codex——避免与其在改的 graph / server 撞车。
+
+---
+
+## 2026-08-21 首次真模型端到端（Claude，实跑）
+
+> **里程碑**：修掉 F9 后，本项目**第一次带真 LLM 跑完 12 个节点**。
+> 命令：`pnpm run dev` → `POST /v1/chat/completions`（BYOK 走 `x-llm-key` 头）。
+> Trace 完整可读：`validate → load_domain → classify_scene(daily) →
+> retrieve_context(4 memories) → assemble_context(6940 tokens) →
+> generate_candidate(1.9s) → hard_guard(pass) → soft_judge(pass) →
+> extract_effects → commit_turn → emit_response`。
+> **V4 §14.1 的「框架最小闭环」第 1/2/4/6/7 条至此可判为达成（待 Ant 验收）。**
+>
+> 三条实测输入与输出：
+>
+> | 输入 | 输出 |
+> |---|---|
+> | 今天训练完想吃什么 | 「（没抬头，手指还在划手机）什么。」 |
+> | 你还记得曼城那间公寓吗 | 「（屏幕亮度映着睫毛，指尖顿了半秒）又是什么。」 |
+> | 我做了咖喱，尝尝 | 「（终于把手机放下，抬头看你，眼里还带着点没缓过来的茫然）嗯？」 |
+
+### F14 — `evals/run.ts` 的角色 Eval 半边是硬编码桩 —— 【已验证】
+
+`evals/run.ts:36`：
+
+```ts
+roleEval: { caseCount: ..., requiresModel: true, status: "not_run_without_provider" },
+```
+
+**该字段是字面量，不是判断结果**——文件里没有任何读取 provider / 调模型的代码。
+守卫半边（`guardEval`）是真跑的且全过（10 条规则、9/9 必拦、10/10 必放），
+但**角色半边永远不会执行，无论有没有 provider**。
+
+影响：8/28 交付要求「30 条角色 Eval」，而 `pnpm run eval` 只会数出 `caseCount: 30`
+再报 `not_run_without_provider`。**容易被误读为「已具备角色 Eval 能力」。**
+
+参考：本轮已在 scratchpad 用真实 `OpenAICompatibleProvider` 跑通全部 30 条
+（30/30 调用成功，逐条记录回复 / 字数 / 延迟），可作为实现依据。
+
+### F15 — 关系初值配置未接线，Q19 裁决实际未生效 —— 【已验证】
+
+`config/runtime.yaml:51-59` 定义了 `seedFromCanon: true` 与
+`seed: { trust: 85, intimacy: 70, friction: 25 }`（`NRH-20260821-1708` 的 Q19 裁决）。
+
+实测 `GET /api/state?userId=ant` 返回：
+
+```json
+{"relationship":{"trust":0,"intimacy":0,"friction":0},"liveMemoryCount":0}
+```
+
+`grep -rn "seedFromCanon\|relationship.seed" packages/` **零命中**——
+**没有任何代码读取该配置**，新用户仍从零起步。
+
+⇒ `NRH-20260821-1708` 处于「已裁决但未落地」状态。而该裁决的理由正是
+「从零会自相矛盾——凪记得和你走完全程，却对你像陌生人」，当前行为恰恰是它要避免的。
+
+### F16 — 三轮对话 `liveMemoryCount` 恒为 0，记忆未写回 —— 【已验证】
+
+连打三条（同 `userId=ant` / `threadId=t1` / 不同 `requestId`），trace 显示
+`extract_effects` 与 `commit_turn` **每轮都执行**，但 `GET /api/state` 始终返回
+`liveMemoryCount: 0`，`relationship` 三项恒为 0。
+
+⇒ 要么 `extract_effects` 没抽出任何 effect，要么抽了但未落库。
+**待验方式**：给 `extract_effects` 加 trace detail（现在只有节点名、无产出计数），
+或直查 domain store。**在此之前「长期记忆」这条立项书核心能力无法验证。**
+
+### F17 — 检索恒为「4 memories」，疑似未按内容命中 —— 【推断】
+
+三条语义差异极大的输入（吃什么 / 曼城公寓 / 尝咖喱）**检索结果都是 `4 memories`**，
+装配 token 仅随输入长度微动（6940 / 6959 / 6981）。
+
+与 Codex 的 **F6**（词面兜底对中文失效、embedding 未接入 ⇒ 语义分恒为 0）吻合：
+排序只剩 recency / salience / confidence / kindBoost，**与查询内容无关**，
+故每轮取到同样 4 条。第 2 条明确问「曼城那间公寓」——
+`canon-memory.json` 里**确有**「曼城·新的房间」节点，但凪答「又是什么。」
+**F6 + Codex 的 F7（canon 是空壳目录）+ 本条，三者叠加 ⇒ Canon 记忆当前完全没有发挥作用。**
+
+### F18 — 装配 6,940 token 远低于预算，styleAnchors 疑似未进 Context —— 【推断】
+
+`runtime.yaml` 各块预算合计 17,400，实测装配仅 **6,940**（40%）。
+本轮实测另一事实：**豆包 100% 输出括号动作描写**（见 F13），而
+`personality.speech` 明写「与其写心理描述，不如让回应本身偏移、停顿、答非所问」，
+`style_anchors/` 六份（各 300 token）正是压长度与语感的主力。
+
+**待验方式**：给 `assemble_context` 的 trace 加分块明细（当前只有总 token 数，
+无法判断哪些块进了、哪些被丢），或直接打印 context 分块清单。
+⇒ **建议 trace 增加分块明细**，否则 Context 装配是黑盒，V4 §13 的
+「Context 效率（预算 / 丢弃率 / 命中率）」这一 Eval 维度无从测量。
+
+### 本轮已动
+
+1. **F8 修复**：`git rm --cached packages/*/tsconfig.tsbuildinfo`（磁盘文件保留）
+2. **F9 修复**：`package.json` 的 `dev` / `eval` / `bake:canon` 三条脚本加
+   `--env-file-if-exists=.env`（用 `-if-exists` 而非 `--env-file`，
+   保证无 `.env` 的人不会启动即崩）。实测服务器已读到 `.env` 的 `PORT=8787`
+   与 key，`createProviderFromEnvironment()` 不再返回 undefined。
+
+未改任何 `graph.ts` / `local-dependencies.ts` / Provider 源码——避免与 Codex 撞车。
