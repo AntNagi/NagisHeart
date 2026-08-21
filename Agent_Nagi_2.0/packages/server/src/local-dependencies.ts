@@ -31,6 +31,14 @@ export function getLocalHistory(userId: string, limit = 50) {
   return domainStore.listTurns(userId, limit);
 }
 
+export function exportLocalDomain(userId: string) {
+  return domainStore.exportUser(userId);
+}
+
+export function importLocalDomain(userId: string, snapshot: unknown): void {
+  domainStore.importUser(snapshot, userId);
+}
+
 function classify(message: string): SceneId {
   if (/(足球|训练|比赛|球场)/u.test(message)) return "football";
   if (/(喜欢|爱|想你|告白)/u.test(message)) return "affection";

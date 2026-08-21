@@ -1,7 +1,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { randomUUID } from "node:crypto";
 import { createNagiGraph, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
-import { createLocalDependencies, getLocalDomainState, getLocalHistory } from "./local-dependencies.js";
+import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, importLocalDomain } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
 
 const MAX_BODY_BYTES = 1_000_000;
@@ -15,6 +15,8 @@ interface ChatRequestBody {
   readonly vendor?: unknown;
   readonly stream?: unknown;
 }
+
+interface SaveRequestBody { readonly userId?: unknown; readonly snapshot?: unknown; }
 
 function json(response: ServerResponse, status: number, body: unknown): void {
   const payload = JSON.stringify(body);
@@ -40,6 +42,10 @@ async function readJson(request: IncomingMessage): Promise<ChatRequestBody> {
   return parsed as ChatRequestBody;
 }
 
+async function readSaveJson(request: IncomingMessage): Promise<SaveRequestBody> {
+  return await readJson(request) as SaveRequestBody;
+}
+
 export function createHttpServer() {
   return createServer(async (request, response) => {
     try {
@@ -59,6 +65,20 @@ export function createHttpServer() {
         const parsedLimit = Number(query.get("limit") ?? "50");
         const limit = Number.isFinite(parsedLimit) ? Math.max(0, Math.min(100, Math.floor(parsedLimit))) : 50;
         json(response, 200, { turns: getLocalHistory(userId, limit) });
+        return;
+      }
+      if (request.method === "POST" && request.url === "/api/save/export") {
+        const body = await readSaveJson(request);
+        const userId = typeof body.userId === "string" ? body.userId : "local-user";
+        json(response, 200, { snapshot: exportLocalDomain(userId) });
+        return;
+      }
+      if (request.method === "POST" && request.url === "/api/save/import") {
+        const body = await readSaveJson(request);
+        const userId = typeof body.userId === "string" ? body.userId : "";
+        if (!userId) throw new Error("userId is required");
+        importLocalDomain(userId, body.snapshot);
+        json(response, 200, { imported: true, userId });
         return;
       }
       if (request.method !== "POST" || request.url !== "/v1/chat/completions") {

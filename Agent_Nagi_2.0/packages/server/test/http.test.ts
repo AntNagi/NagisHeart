@@ -46,4 +46,26 @@ describe("server streaming API", () => {
       await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
     }
   });
+
+  it("exports and imports only domain data", async () => {
+    const server = createHttpServer();
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", () => resolve()));
+    try {
+      const address = server.address();
+      if (!address || typeof address === "string") throw new Error("server did not bind");
+      const base = `http://127.0.0.1:${address.port}`;
+      const exported = await (await fetch(`${base}/api/save/export`, {
+        method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ userId: "export-user" }),
+      })).json() as { snapshot: { schemaVersion: number; userId: string; turns: unknown[] } };
+      expect(exported.snapshot.schemaVersion).toBe(1);
+      expect(exported.snapshot.userId).toBe("export-user");
+      expect(exported.snapshot.turns).toEqual([]);
+      const imported = await (await fetch(`${base}/api/save/import`, {
+        method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ userId: "export-user", snapshot: exported.snapshot }),
+      })).json() as { imported: boolean };
+      expect(imported.imported).toBe(true);
+    } finally {
+      await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+    }
+  });
 });
