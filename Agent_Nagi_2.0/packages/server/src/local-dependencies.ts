@@ -12,11 +12,29 @@ import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
 import { loadResourceBlocks } from "./resource-loader.js";
 import { resolve } from "node:path";
+import { createRequire } from "node:module";
 
 const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" };
 const memoryStore = new InMemoryMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
-const domainStore = new LocalDomainStore();
+type DomainBackend = {
+  loadRelationship: LocalDomainStore["loadRelationship"];
+  commitTurn: LocalDomainStore["commitTurn"];
+  listTurns: LocalDomainStore["listTurns"];
+  liveMemoryCount(userId: string): number;
+  exportUser(userId: string): ReturnType<LocalDomainStore["exportUser"]>;
+  importUser(snapshot: unknown, userId: string): void;
+};
+
+function createDomainBackend(): DomainBackend {
+  const databasePath = process.env.NAGI_DOMAIN_DB;
+  if (!databasePath) return new LocalDomainStore();
+  const require = createRequire(import.meta.url);
+  const { SqliteDomainStore } = require("./sqlite-domain-store.js") as { SqliteDomainStore: new (path: string) => DomainBackend };
+  return new SqliteDomainStore(databasePath);
+}
+
+const domainStore = createDomainBackend();
 const resourceRoot = resolve(process.env.NAGI_RESOURCE_ROOT ?? "resources");
 const resources = loadResourceBlocks(resourceRoot);
 

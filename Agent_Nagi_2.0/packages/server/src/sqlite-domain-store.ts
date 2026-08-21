@@ -72,5 +72,33 @@ export class SqliteDomainStore implements DomainStore {
     return { schemaVersion: 1, userId, relationship, liveMemoryCount: row.live_memory_count, turns: this.listTurns(userId, 100) };
   }
 
+  public liveMemoryCount(userId: string): number {
+    const row = this.db.prepare("SELECT live_memory_count FROM user_relationships WHERE user_id = ?").get(userId) as { live_memory_count: number } | undefined;
+    return row?.live_memory_count ?? 0;
+  }
+
+  public importUser(snapshot: unknown, expectedUserId: string): void {
+    if (!snapshot || typeof snapshot !== "object") throw new Error("save must be an object");
+    const value = snapshot as Record<string, unknown>;
+    if (value.schemaVersion !== 1 || value.userId !== expectedUserId) throw new Error("save schema or user mismatch");
+    const relation = value.relationship;
+    if (!relation || typeof relation !== "object") throw new Error("save relationship is invalid");
+    const r = relation as Record<string, unknown>;
+    if ([r.trust, r.intimacy, r.friction].some((item) => typeof item !== "number" || !Number.isFinite(item))) throw new Error("save relationship values are invalid");
+    if (typeof value.liveMemoryCount !== "number" || !Number.isInteger(value.liveMemoryCount) || value.liveMemoryCount < 0 || !Array.isArray(value.turns)) throw new Error("save payload is invalid");
+    const importedTurns = value.turns as unknown[];
+    const transaction = this.db.transaction(() => {
+      this.db.prepare("INSERT INTO user_relationships (user_id, trust, intimacy, friction, stage, live_memory_count) VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET trust=excluded.trust, intimacy=excluded.intimacy, friction=excluded.friction, stage=excluded.stage, live_memory_count=excluded.live_memory_count").run(expectedUserId, clamp(r.trust as number), clamp(r.intimacy as number), clamp(r.friction as number), typeof r.stage === "string" ? r.stage.slice(0, 100) : null, value.liveMemoryCount);
+      this.db.prepare("DELETE FROM domain_turns WHERE user_id = ?").run(expectedUserId);
+      for (const item of importedTurns) {
+        if (!item || typeof item !== "object") throw new Error("save turn is invalid");
+        const turn = item as Record<string, unknown>;
+        if (["requestId", "userId", "threadId", "userMessage", "assistantMessage", "createdAt"].some((key) => typeof turn[key] !== "string") || turn.userId !== expectedUserId) throw new Error("save turn is invalid");
+        this.db.prepare("INSERT INTO domain_turns (request_id, user_id, thread_id, user_message, assistant_message, created_at) VALUES (?, ?, ?, ?, ?, ?)").run(turn.requestId, expectedUserId, turn.threadId, turn.userMessage, turn.assistantMessage, turn.createdAt);
+      }
+    });
+    transaction();
+  }
+
   public close(): void { this.db.close(); }
 }
