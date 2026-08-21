@@ -60,7 +60,10 @@ def check(path: pathlib.Path):
             errs.append(f"derivation 非法: {d}（禁止 verbatim_copy）")
         sp = s.get("path")
         if sp:
+            # 路径可相对子项目根，也可相对仓库根（style_anchors 引 authority/script/…）
             f = ROOT / sp
+            if not f.exists():
+                f = ROOT.parent / sp
             if not f.exists():
                 errs.append(f"source 文件不存在: {sp}")
             elif s.get("sha256"):

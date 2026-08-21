@@ -375,29 +375,36 @@ resources/
 
 ## 抽取进度（2026-08-21）
 
-已抽 **15 份**，全部通过 `scripts/validate-resources.py`（含源文件 SHA 比对）。
+**21 份**资源全部通过 `scripts/validate-resources.py`；
+风格锚另过 `scripts/verify-anchors.py`（逐字保真 34/34）。
 常驻（`always`）预算合计 **4450 tok**。
 
 | 类 | 文件 | ~tok / 预算 |
 |---|---|---|
 | D 守卫 | `policy/output_guard.md` | 1558 / 不进 context |
-| A 常驻 | `core/personality.base.md` | 661 / 1500 |
-| A 常驻 | `core/personality.speech.md` | 732 / 800 |
-| A 常驻 | `core/personality.recap.md` | 305 / 400 |
-| B 行为 | `core/behavior.daily.md` | 173 / 800 |
-| B 行为 | `core/behavior.affection.md` | 206 / 800 |
-| B 行为 | `core/behavior.intimacy.md` | 452 / 800 |
-| B 行为 | `core/behavior.conflict.md` | 514 / 800 |
-| B 行为 | `core/behavior.football.md` | 593 / 800 |
-| B 行为 | `core/behavior.setback.md` | 375 / 800 |
-| F 世界 | `world/timeline.md` | 493 / 600 |
-| F 世界 | `world/glossary.md` | 302 / 350 |
-| G 关系 | `relationship/canon.core.md` | 492 / 500 |
-| G 关系 | `relationship/baseline.true_end.md` | 277 / 300 |
+| A 常驻 | `core/personality.base` · `.speech` · `.recap` | 661/1500 · 732/800 · 305/400 |
+| B 行为 | `core/behavior.` daily·affection·intimacy·conflict·football·setback | 173–593，各 /800 |
+| **E 锚** | `style_anchors/` daily·affection·intimacy·conflict·football·setback | 121–209，各 /300（合计 ~970/1800）|
+| F 世界 | `world/timeline` · `world/glossary` | 493/600 · 302/350 |
+| G 关系 | `relationship/canon.core` · `baseline.true_end` | 492/500 · 277/300 |
 | — | `user_profile/template.md` | 模板，实例上限 250 |
 
-Eval：`evals/cases/guard_regex.yaml`（19 条，零模型调用）
-· `evals/cases/ooc_adversarial.yaml`（30 条对抗用例）
+Eval：`evals/cases/guard_regex.yaml`（19 条）· `evals/cases/ooc_adversarial.yaml`（30 条）
+
+### 风格锚的抽法（Q14 修订后）
+
+**17 组「刺激 → 反应」对，六场景各 2–3 组，逐字。**
+
+- **只取与 TRUE END canon 一致的段落**：共通（第一–六部、第八章）+ M 线 + Dream 线。
+  J 线 / Stay 线 / Bad 线一律排除
+- 筛选：凪回复 ≤30 字（语料 p95）· 玩家台词 ≤40 字 · 过 output_guard 零命中
+- 每条带 `source.section` 行号坐标 + V17 的 SHA-256
+- **双重保障**：SHA 变 → 强制重新派生；逐字对不上 → `verify-anchors.py` 失败
+
+> 为什么必须是对白对、不能是单句：凪的质感在于
+> **「面对这么重的一句话，他只回这么短」**。
+> 母版的 19 句全是孤立单句，给不了这个。
+> 典型示例：对面说了四句嘱咐，他回「好多。」
 
 ### 待抽
 
@@ -405,10 +412,7 @@ Eval：`evals/cases/guard_regex.yaml`（19 条，零模型调用）
 |---|---|---|
 | C 场景策略 | `policy/scene.*` × 6 | 无 |
 | F 世界 | `world/places` · `systems` · `rules.*` × 3 | 无 |
-| E 风格锚 | `style_anchors/<scene>` × 6 | 无——**Q14 已裁决**，用母版 19 句 |
 | 脚本 | `world/events/*` + canon 向量 | 需 `bake-canon.ts` |
-
-**全部阻塞已解除。**（Q19 关系初值仅影响运行时配置，不阻塞资源抽取）
 
 ## 关系模型（易错，单列）
 
