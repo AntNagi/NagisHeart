@@ -68,4 +68,44 @@ describe("server streaming API", () => {
       await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
     }
   });
+
+  it("supports optional bearer authentication while leaving health public", async () => {
+    const previous = process.env.NAGI_AUTH_TOKEN;
+    process.env.NAGI_AUTH_TOKEN = "test-secret";
+    const server = createHttpServer();
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", () => resolve()));
+    try {
+      const address = server.address();
+      if (!address || typeof address === "string") throw new Error("server did not bind");
+      const base = `http://127.0.0.1:${address.port}`;
+      expect((await fetch(`${base}/health`)).status).toBe(200);
+      expect((await fetch(`${base}/api/state`)).status).toBe(401);
+      expect((await fetch(`${base}/api/state`, { headers: { authorization: "Bearer test-secret" } })).status).toBe(200);
+    } finally {
+      await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+      if (previous === undefined) delete process.env.NAGI_AUTH_TOKEN;
+      else process.env.NAGI_AUTH_TOKEN = previous;
+    }
+  });
+
+  it("applies a per-user chat rate limit", async () => {
+    const previous = process.env.NAGI_RATE_LIMIT_PER_MINUTE;
+    process.env.NAGI_RATE_LIMIT_PER_MINUTE = "1";
+    const server = createHttpServer();
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", () => resolve()));
+    try {
+      const address = server.address();
+      if (!address || typeof address === "string") throw new Error("server did not bind");
+      const url = `http://127.0.0.1:${address.port}/v1/chat/completions`;
+      const init = { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ userId: "limited-user", message: "你好" }) };
+      expect((await fetch(url, init)).status).toBe(200);
+      const limited = await fetch(url, init);
+      expect(limited.status).toBe(429);
+      expect(limited.headers.get("retry-after")).toBeTruthy();
+    } finally {
+      await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+      if (previous === undefined) delete process.env.NAGI_RATE_LIMIT_PER_MINUTE;
+      else process.env.NAGI_RATE_LIMIT_PER_MINUTE = previous;
+    }
+  });
 });
