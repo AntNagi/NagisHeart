@@ -12,7 +12,6 @@
 > 格式：`- [发起方] 在改什么 — 起始时间`
 
 - [Codex] 实现 SQLite Domain Store 与幂等事务 —— 不碰 resources/ — 2026-08-21
-- [Claude] 修 F8/F9（tsbuildinfo 取消追踪、dev 加 --env-file），跑端到端真链冒烟；只碰 package.json 与 .gitignore，不碰 graph/server 源码 — 2026-08-21 23:00
 
 
 
