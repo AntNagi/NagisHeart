@@ -26,7 +26,7 @@ describe("SQLite Domain Store", () => {
       const turn = { requestId: "r1", userId: "u", threadId: "t", userMessage: "你好", assistantMessage: "……好麻烦。", createdAt: new Date().toISOString() };
       store.commitTurn({ userId: "u", drafts: [], relationshipDelta: { trust: 2 }, turn });
       store.commitTurn({ userId: "u", drafts: [], relationshipDelta: { trust: 2 }, turn });
-      expect(store.loadRelationship("u").trust).toBe(4);
+      expect(store.loadRelationship("u").trust).toBe(2);
       expect(store.listTurns("u")).toHaveLength(1);
     } finally {
       store.close();
