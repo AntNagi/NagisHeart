@@ -10,7 +10,12 @@ function clamp(value: number): number {
 export class SqliteDomainStore implements DomainStore {
   private readonly db: InstanceType<typeof Database>;
 
-  public constructor(path: string) {
+  /**
+   * @param seed 新使用者的关系初值（`NRH-20260821-1708` / Q19）。
+   *   必须与 `LocalDomainStore` 口径一致——两个实现给出不同初值会让
+   *   「换存储后端」变成「换人格」。
+   */
+  public constructor(path: string, private readonly seed: RelationshipState = { trust: 0, intimacy: 0, friction: 0 }) {
     this.db = new Database(path);
     this.db.pragma("journal_mode = WAL");
     this.db.exec(`
@@ -37,8 +42,10 @@ export class SqliteDomainStore implements DomainStore {
   public loadRelationship(userId: string): RelationshipState {
     const row = this.db.prepare("SELECT trust, intimacy, friction, stage FROM user_relationships WHERE user_id = ?").get(userId) as { trust: number; intimacy: number; friction: number; stage?: string } | undefined;
     if (!row) {
-      this.db.prepare("INSERT INTO user_relationships (user_id, trust, intimacy, friction) VALUES (?, 0, 0, 0)").run(userId);
-      return { trust: 0, intimacy: 0, friction: 0 };
+      const { trust, intimacy, friction } = this.seed;
+      this.db.prepare("INSERT INTO user_relationships (user_id, trust, intimacy, friction) VALUES (?, ?, ?, ?)")
+        .run(userId, clamp(trust), clamp(intimacy), clamp(friction));
+      return { trust: clamp(trust), intimacy: clamp(intimacy), friction: clamp(friction) };
     }
     return { trust: row.trust, intimacy: row.intimacy, friction: row.friction, ...(row.stage === null || row.stage === undefined ? {} : { stage: row.stage }) };
   }

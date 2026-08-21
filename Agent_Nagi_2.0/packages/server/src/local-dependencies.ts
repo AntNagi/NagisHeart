@@ -7,10 +7,12 @@ import {
   type SceneId,
   type SessionState,
   type ChatProvider,
+  type RelationshipState,
 } from "@nagi/core";
 import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
 import { loadGuardPolicy, loadResourceBlocks } from "./resource-loader.js";
+import { loadRelationshipConfig, resolveSeedRelationship } from "./runtime-config.js";
 import { resolve } from "node:path";
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
@@ -77,15 +79,28 @@ type DomainBackend = {
   importUser(snapshot: unknown, userId: string): void;
 };
 
-function createDomainBackend(): DomainBackend {
+function createDomainBackend(seed: RelationshipState): DomainBackend {
   const databasePath = process.env.NAGI_DOMAIN_DB;
-  if (!databasePath) return new LocalDomainStore();
+  if (!databasePath) return new LocalDomainStore(seed);
   const require = createRequire(import.meta.url);
-  const { SqliteDomainStore } = require("./sqlite-domain-store.js") as { SqliteDomainStore: new (path: string) => DomainBackend };
-  return new SqliteDomainStore(databasePath);
+  const { SqliteDomainStore } = require("./sqlite-domain-store.js") as {
+    SqliteDomainStore: new (path: string, seed: RelationshipState) => DomainBackend;
+  };
+  return new SqliteDomainStore(databasePath, seed);
 }
 
-const domainStore = createDomainBackend();
+/**
+ * canon 记忆是否"扎实"——`NRH-20260821-1708` 把它列为继承高亲密度的**前提条件**。
+ *
+ * 判据：只要还有条目是 `bake-canon` 的标题模板（即「骨架」，正文未被读取），
+ * 就视为未就绪。这个判据是可确定计算的，不靠人判断。
+ */
+function isCanonReady(memories: readonly { readonly text: string }[]): boolean {
+  if (memories.length === 0) return false;
+  const skeleton = /^既成事实：在 TRUE END 时间线上，凪经历了「.+?」。这是已经发生的剧情节点/u;
+  return !memories.some((memory) => skeleton.test(memory.text));
+}
+
 const resourceRoot = resolve(process.env.NAGI_RESOURCE_ROOT ?? "resources");
 const resources = loadResourceBlocks(resourceRoot);
 const guardPolicy = loadGuardPolicy(resourceRoot);
@@ -112,7 +127,14 @@ function loadCanonMemories(root: string) {
   }
 }
 
-const canonLoad = memoryStore.append(loadCanonMemories(resourceRoot));
+const canonMemories = loadCanonMemories(resourceRoot);
+const canonLoad = memoryStore.append(canonMemories);
+
+// 顺序有讲究：先读 canon 判断是否就绪 → 再据此定关系初值 → 最后才建 store。
+// 倒过来的话 store 已经用 0/0/0 建好了，Q19 的裁决又一次落空。
+const relationshipConfig = loadRelationshipConfig();
+const seedRelationship = resolveSeedRelationship(relationshipConfig, isCanonReady(canonMemories));
+const domainStore = createDomainBackend(seedRelationship);
 
 export function getLocalDomainState(userId: string) {
   return {

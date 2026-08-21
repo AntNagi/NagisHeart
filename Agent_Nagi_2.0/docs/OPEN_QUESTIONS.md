@@ -787,3 +787,80 @@ aux 自然抽不出东西。服务端解码（`Buffer.concat(chunks).toString("u
 「哪些算样板」这个新的低把握判断。故本轮**不动**，留给资源侧修复。
 
 修复 F7 之后 F17 的效果会显著更好：记忆有了真实内容，bigram 才有东西可命中。
+
+---
+
+## 2026-08-22 F15 关系初值接线 + canon 内容工作退回排期（Claude）
+
+### F15a 已修 —— `runtime.yaml` 的关系初值第一次被读到
+
+**此前 `config/runtime.yaml` 没有任何代码读过**（`grep -rn "runtime.yaml" packages/` 只命中注释），
+`LocalDomainStore.loadRelationship` 里是硬编码 `{trust:0, intimacy:0, friction:0}`。
+⇒ `NRH-20260821-1708` 对 Q19 的裁决（继承终局关系 85/70/25）**从未生效**，
+实测 `/api/state` 一直返回 0/0/0——正是该裁决明令要避免的
+「凪记得和你走完全程，却对你像陌生人」。
+
+新增 `packages/server/src/runtime-config.ts`（放 server 不放 core：core 不许碰 fs）。
+实测：
+
+```text
+读到的配置：{"seedFromCanon":true,"seed":{"trust":85,"intimacy":70,"friction":25},...}
+canon 未就绪 → {"trust":0,"intimacy":0,"friction":0}  + 明确告警
+canon 就绪   → {"trust":85,"intimacy":70,"friction":25}
+```
+
+**同时接上了该裁决写明的前提条件** `requiresCanonMemory: true`：
+canon 还是骨架时**不套用** seed 并告警，而不是闷头套上——
+裁决原文「bake-canon 未做扎实前，继承来的亲密度是空头支票」。
+`isCanonReady` 的判据是可确定计算的：只要还有条目是标题模板即视为未就绪。
+
+两个 store 后端（Local / Sqlite）**必须同口径**，否则「换存储后端」会变成「换人格」。
+新增 6 条回归测试覆盖。
+
+### F15b 仍未实现 —— 关系**变化**判据无权威规定
+
+`extractEffects` 不产出 `relationshipDelta`，这是刻意的：
+已 grep 确认 `resources/` 与 V4 均未规定「什么行为使 trust/intimacy/friction 变化多少」。
+`runtime.yaml` 只给了 `maxDeltaPerTurn: 3` 这个**上限**，不是判据。
+契约明令「看不到明确规定的，不许按理解补」，故留空待 Ant 裁。
+
+⚠ **F15 此前被我当成一条报告，实为两件事**，容易让人误以为初值也悬着。
+初值有裁决、只是没接线（已修）；变化判据无裁决（待定）。
+
+### Canon 内容工作退回 8/26 —— 我提前做了第二阶段的活
+
+V4 §14.1 第一阶段只要求「最小 Personality、Style Anchor、**Canon 骨架**」；
+完整 Canon 记忆在 §14.2 第二阶段，排期 **8/26**。今天是 8/22。
+
+⇒ Codex 那版标题模板**就是第一阶段要的骨架，本身没做错**。
+我一直称其为「空壳」，措辞不公平：对「验证框架能否跑通」这个目标，骨架够用。
+
+**已做的处理**：
+- `resources/world/events/canon-memory.json` **退回已提交的骨架版**
+  （欠费中断产生的残次品有 47 条降级，留着会让后续测试基于坏数据）
+- `scripts/bake-canon.ts` 的改进**代码保留**，8/26 直接可用，不重写
+
+### 本轮烧掉的 token 与教训（我的失误，记下来）
+
+三轮全量烘焙合计**约 100 万 token**，是我事前估算（15 万）的近七倍。
+
+估算错在两处：**没乘节点正文长度**（V17 节点正文中位 1220 字、p90 2609 字），
+且**漏算核对环节要把正文再发一遍**。单节点顺利跑完 ≈ 4600 token，需重写的 ≈ 14000。
+
+其中第二轮（约 60 万 token）**几乎全是我拍错参数造成的**：
+我把长度上限拍成 180 字，而正文中位 1220 字——压进 180 字还要保住全部专名与事实
+是不可能任务，导致 51 条里 44 条反复重写三次后降级（86%）。
+
+**正确做法是从预算推导，不是拍脑袋**：
+`canonMemory 2000 token ÷ topK.canon 8 条 ÷ 0.561 token/字 ≈ 445 字`，取 400 留余量。
+已改进脚本，8/26 用这个值。
+
+**另一条教训**：批量任务开跑前必须先算成本。前一天刚做完 token 成本分析，
+轮到自己跑批量却没算——这是流程问题，不是知识问题。
+
+### 账户状态（阻塞项）
+
+跑第三轮时开始报 `403 AccountOverdueError`，两个模型（main / aux）**全部被拒**，
+账户级欠费。属 Ant 的账户与支付事项，worker 不代操作。
+在此之前所有需要模型的工作（角色 Eval、canon 烘焙、端到端实测）**无法进行**。
+不需要模型的工作（前端选型、代码、测试）不受影响。

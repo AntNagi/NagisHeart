@@ -23,10 +23,17 @@ export interface DomainExport {
 export class LocalDomainStore implements DomainStore {
   private readonly users = new Map<string, UserRecord>();
 
+  /**
+   * @param seed 新使用者的关系初值。来自 `config/runtime.yaml` 的 `relationship.seed`
+   *   （`NRH-20260821-1708` 对 Q19 的裁决：继承 CanonWorld 终局关系，trust 85 / intimacy 70 / friction 25）。
+   *   缺省 0/0/0 —— 该裁决明写从零会「自相矛盾：凪记得和你走完全程，却对你像陌生人」。
+   */
+  public constructor(private readonly seed: RelationshipState = { trust: 0, intimacy: 0, friction: 0 }) {}
+
   public loadRelationship(userId: string): RelationshipState {
     const existing = this.users.get(userId);
     if (existing) return existing.relationship;
-    const relationship: RelationshipState = { trust: 0, intimacy: 0, friction: 0 };
+    const relationship: RelationshipState = { ...this.seed };
     this.users.set(userId, { relationship, liveMemoryCount: 0, turns: [], committedRequestIds: new Set() });
     return relationship;
   }
