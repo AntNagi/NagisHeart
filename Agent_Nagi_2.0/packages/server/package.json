@@ -5,5 +5,9 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "dependencies": { "@nagi/core": "workspace:*", "@nagi/runtime-langgraph": "workspace:*" }
+  "dependencies": {
+    "@nagi/core": "workspace:*",
+    "@nagi/runtime-langgraph": "workspace:*"
+  },
+  "devDependencies": { "@types/node": "^22.0.0" }
 }
