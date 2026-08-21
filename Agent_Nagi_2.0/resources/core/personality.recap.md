@@ -3,12 +3,12 @@ id: core.personality.recap
 kind: personality
 version: 0.1.0
 source:
-  - path: resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
+  - path: resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
     section: "§16 最终总纲"
     sourceVersion: v0.5 Full / Merged
     sha256: 27236FD1D8A8B2BF7A516C520560AC09CD27728A952070EE499A734CAFC0F044
     derivation: structured_rewrite
-  - path: resources/core/NagisHeart_Relationship_Bible_v0_2_UtopiaAdded.md
+  - path: resources/_sources/NagisHeart_Relationship_Bible_v0_2_UtopiaAdded.md
     section: "§12 最终校准句"
     sourceVersion: v0.2 UtopiaAdded
     derivation: structured_rewrite

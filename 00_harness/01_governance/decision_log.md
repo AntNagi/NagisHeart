@@ -1034,7 +1034,7 @@ None. Investigation and process decision only; no code or resource deletion auth
     Every resource carries a `source` field (authority path + section + source hash) so it can be traced back and invalidated when the source changes.
   - Resources ship with the server only. They are never sent to, bundled into, or downloadable from the chat client.
     ESLint import boundaries enforce this: the client may not import core, runtime, server, or resources.
-  - `Agent_Nagi_2.0/resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md` (2124 lines, v0.5 Full / Merged, merged by Ant on 2026-08-20 from her own v0.4 master plus the v0.5 update patch) is the single direct source of truth for Personality, Speech and Behavior.
+  - `Agent_Nagi_2.0/resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md` (2124 lines, v0.5 Full / Merged, merged by Ant on 2026-08-20 from her own v0.4 master plus the v0.5 update patch) is the single direct source of truth for Personality, Speech and Behavior.
     It is Ant's own authoring document, not a copy of anything under `authority/`, so the no-copy rule is not engaged. It is registered here and in `authority/MANIFEST.md` because it now functions as an authority for the Agent's personality.
   - `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` remains the script master and one of the Canon story sources. It no longer serves as a separate authority for Nagi's line-level speech style. Conflicting personality sources must not be auto-merged.
   - Story timeline anchor: post-ending "now", ending fixed to TRUE END. The ending only populates CanonWorldState (what Nagi has lived through). Ordinary users do not inherit the protagonist's end-state relationship; UserRelationship starts from zero and evolves per user.
@@ -1042,4 +1042,5 @@ None. Investigation and process decision only; no code or resource deletion auth
 - Non-goals:
   - This entry does not modify, supersede, or re-hash any of the seven authority documents or the two KV asset packages.
   - DSH integration is out of scope for the August cycle.
-- Files: `Agent_Nagi_2.0/docs/Nagi_Runtime_Harness_Technical_Design_V4_LangGraph.md`, `Agent_Nagi_2.0/docs/DECISIONS.md`, `Agent_Nagi_2.0/resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md`, `authority/MANIFEST.md`
+- Amendment 2026-08-21 (Ant approved, Q18): source bibles moved from `Agent_Nagi_2.0/resources/core/` to `Agent_Nagi_2.0/resources/_sources/` so that raw source material and derived resources no longer share a directory. Content unchanged; SHA-256 unchanged and re-verified. Path references in this entry and in `authority/MANIFEST.md` updated in the same commit.
+- Files: `Agent_Nagi_2.0/docs/Nagi_Runtime_Harness_Technical_Design_V4_LangGraph.md`, `Agent_Nagi_2.0/docs/DECISIONS.md`, `Agent_Nagi_2.0/resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md`, `authority/MANIFEST.md`

@@ -3,7 +3,7 @@ id: core.behavior.football
 kind: behavior_rule
 version: 0.1.0
 source:
-  - path: resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
+  - path: resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
     section: "§5.4 足球领域不可被替代 · §6.1 成长不是从懒到努力 · §6.2 EGO 的方向 · §6.3 不是为了对方变强 · §6.4 舒服与 EGO 的冲突"
     sourceVersion: v0.5 Full / Merged
     sha256: 27236FD1D8A8B2BF7A516C520560AC09CD27728A952070EE499A734CAFC0F044

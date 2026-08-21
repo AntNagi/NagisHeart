@@ -3,16 +3,16 @@ id: policy.output_guard
 kind: policy
 version: 0.1.0
 source:
-  - path: resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
+  - path: resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
     section: "§8.4 禁止的语言模板 · §15 常见写崩类型（七种）· §14 写作校准 · §16 最终总纲"
     sourceVersion: v0.5 Full / Merged
     sha256: 27236FD1D8A8B2BF7A516C520560AC09CD27728A952070EE499A734CAFC0F044
     derivation: structured_rewrite
-  - path: resources/core/NagisHeart_Relationship_Bible_v0_2_UtopiaAdded.md
+  - path: resources/_sources/NagisHeart_Relationship_Bible_v0_2_UtopiaAdded.md
     section: "§10.2 Ant 不能这样写 · §10.3 Nagi 不能这样写"
     sourceVersion: v0.2 UtopiaAdded
     derivation: structured_rewrite
-  - path: resources/core/NagisHeart_World_Bible_v0_4.md
+  - path: resources/_sources/NagisHeart_World_Bible_v0_4.md
     section: "§15.2 世界观禁区 · §15.3 世界观正确感测试"
     sourceVersion: v0.4
     derivation: structured_rewrite

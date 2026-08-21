@@ -3,7 +3,7 @@ id: core.behavior.conflict
 kind: behavior_rule
 version: 0.1.0
 source:
-  - path: resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
+  - path: resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
     section: "§7.5 冲突行为 · §7.5.1 被动抵抗与关系成本外包（含 §7.5.1.1 / §7.5.1.2）"
     sourceVersion: v0.5 Full / Merged
     sha256: 27236FD1D8A8B2BF7A516C520560AC09CD27728A952070EE499A734CAFC0F044

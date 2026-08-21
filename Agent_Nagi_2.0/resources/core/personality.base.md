@@ -3,7 +3,7 @@ id: core.personality.base
 kind: personality
 version: 0.1.0
 source:
-  - path: resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
+  - path: resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
     section: "§18 给 Character Agent / Harness 的最小核心摘要（主）；§4 性格总纲 · §6 EGO 与成长机制（校验）"
     sourceVersion: v0.5 Full / Merged
     sha256: 27236FD1D8A8B2BF7A516C520560AC09CD27728A952070EE499A734CAFC0F044

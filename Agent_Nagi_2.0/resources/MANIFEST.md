@@ -59,7 +59,7 @@ kind: personality            # personality | speech | behavior_rule | timeline
                              # | event | relationship | style_anchor | policy
 version: 1.0.0
 source:
-  path: resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
+  path: resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
   section: "§18 给 Character Agent / Harness 的最小核心摘要"
   sourceVersion: v0.5 Full / Merged
   sha256: 27236FD1...
@@ -357,25 +357,44 @@ V17 对 Agent 有三种完全不同的用途，抽法各异：
 
 `policy/output_guard.md` 是例外：它**不进 context**，由 `hard_guard` 节点读取作判据。
 
+## 目录结构（Q18 已裁决，2026-08-21）
+
+```text
+resources/
+├── MANIFEST.md          清单与派生规则（本文件）
+├── _sources/            ★ 素材：四份母版。只读，无 front-matter，不是资源
+├── core/                派生：人格与行为规则
+├── world/               派生：时间线、术语、空间、规则
+├── relationship/        派生：关系结构与终局基线
+├── policy/              派生：输出守卫与场景策略
+├── style_anchors/       派生：台词锚（见 Q14 裁决）
+└── user_profile/        ★ 玩家可补充的空白模板（见 Q16 裁决）
+```
+
+**判据按目录，不靠文件名**：`_sources/` 下一律是素材，校验器不检查其 front-matter。
+
 ## 抽取进度（2026-08-21）
 
-已抽 **12 份**，全部通过 `scripts/validate-resources.py`（含源文件 SHA 比对）。
-常驻（`always`）预算合计 **3650 tok**。
+已抽 **15 份**，全部通过 `scripts/validate-resources.py`（含源文件 SHA 比对）。
+常驻（`always`）预算合计 **4450 tok**。
 
-| 类 | 文件 | 状态 | ~tok / 预算 |
-|---|---|---|---|
-| D 守卫 | `policy/output_guard.md` | ✅ | 1558 / 不进 context |
-| A 常驻 | `core/personality.base.md` | ✅ | 661 / 1500 |
-| A 常驻 | `core/personality.speech.md` | ✅ | 732 / 800 |
-| A 常驻 | `core/personality.recap.md` | ✅ | 305 / 400 |
-| B 行为 | `core/behavior.daily.md` | ✅ | 173 / 800 |
-| B 行为 | `core/behavior.affection.md` | ✅ | 206 / 800 |
-| B 行为 | `core/behavior.intimacy.md` | ✅ | 452 / 800 |
-| B 行为 | `core/behavior.conflict.md` | ✅ | 514 / 800 |
-| B 行为 | `core/behavior.football.md` | ✅ | 593 / 800 |
-| B 行为 | `core/behavior.setback.md` | ✅ | 375 / 800 |
-| F 世界 | `world/timeline.md` | ✅ | 493 / 600 |
-| F 世界 | `world/glossary.md` | ✅ | 302 / 350 |
+| 类 | 文件 | ~tok / 预算 |
+|---|---|---|
+| D 守卫 | `policy/output_guard.md` | 1558 / 不进 context |
+| A 常驻 | `core/personality.base.md` | 661 / 1500 |
+| A 常驻 | `core/personality.speech.md` | 732 / 800 |
+| A 常驻 | `core/personality.recap.md` | 305 / 400 |
+| B 行为 | `core/behavior.daily.md` | 173 / 800 |
+| B 行为 | `core/behavior.affection.md` | 206 / 800 |
+| B 行为 | `core/behavior.intimacy.md` | 452 / 800 |
+| B 行为 | `core/behavior.conflict.md` | 514 / 800 |
+| B 行为 | `core/behavior.football.md` | 593 / 800 |
+| B 行为 | `core/behavior.setback.md` | 375 / 800 |
+| F 世界 | `world/timeline.md` | 493 / 600 |
+| F 世界 | `world/glossary.md` | 302 / 350 |
+| G 关系 | `relationship/canon.core.md` | 492 / 500 |
+| G 关系 | `relationship/baseline.true_end.md` | 277 / 300 |
+| — | `user_profile/template.md` | 模板，实例上限 250 |
 
 Eval：`evals/cases/guard_regex.yaml`（19 条，零模型调用）
 · `evals/cases/ooc_adversarial.yaml`（30 条对抗用例）
@@ -384,12 +403,12 @@ Eval：`evals/cases/guard_regex.yaml`（19 条，零模型调用）
 
 | 类 | 文件 | 阻塞 |
 |---|---|---|
-| C 场景策略 | `policy/scene.*` × 6 | 无，可直接开工 |
+| C 场景策略 | `policy/scene.*` × 6 | 无 |
 | F 世界 | `world/places` · `systems` · `rules.*` × 3 | 无 |
-| E 风格锚 | `style_anchors/*` × 6 | **Q14** |
-| G 关系 | `relationship/*` × 3 | 部分受 **Q16** |
-| F 人物 | `world/canon_characters/ant.md` | **Q16** |
+| E 风格锚 | `style_anchors/<scene>` × 6 | 无——**Q14 已裁决**，用母版 19 句 |
 | 脚本 | `world/events/*` + canon 向量 | 需 `bake-canon.ts` |
+
+**全部阻塞已解除。**（Q19 关系初值仅影响运行时配置，不阻塞资源抽取）
 
 ## 关系模型（易错，单列）
 

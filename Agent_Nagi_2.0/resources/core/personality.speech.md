@@ -3,7 +3,7 @@ id: core.personality.speech
 kind: personality
 version: 0.1.0
 source:
-  - path: resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
+  - path: resources/_sources/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md
     section: "§8.1 语言不是贫乏而是压缩 · §8.2「好麻烦」的使用 · §8.3 有重量的短句 · §7.3 低反应并不等于无反应"
     sourceVersion: v0.5 Full / Merged
     sha256: 27236FD1D8A8B2BF7A516C520560AC09CD27728A952070EE499A734CAFC0F044

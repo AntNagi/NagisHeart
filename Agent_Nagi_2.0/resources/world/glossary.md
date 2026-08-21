@@ -3,7 +3,7 @@ id: world.glossary
 kind: timeline
 version: 0.1.0
 source:
-  - path: resources/core/NagisHeart_World_Bible_v0_4.md
+  - path: resources/_sources/NagisHeart_World_Bible_v0_4.md
     section: "§16.1 官方显示规则 · §16.2 核心术语"
     sourceVersion: v0.4
     derivation: structured_rewrite
