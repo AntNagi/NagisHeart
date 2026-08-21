@@ -1,6 +1,9 @@
 import { END, START, StateGraph, StateSchema } from "@langchain/langgraph";
 import type { BaseCheckpointSaver } from "@langchain/langgraph";
 import { z } from "zod";
+// kind 白名单从 core 取，**不再抄字面量**——抄一份就会与 core 脱节，
+// 表现为 core 认得的 kind 被 GraphState 判非法、整个 chat 端点返回 400。
+import { CONTEXT_BLOCK_KINDS } from "@nagi/core";
 import type { NagiGraphState } from "./state.js";
 import { trace } from "./state.js";
 import type { RuntimeDependencies } from "./dependencies.js";
@@ -33,7 +36,7 @@ const GraphState = new StateSchema({
     })),
   }),
   context: z.object({
-    blocks: z.array(z.object({ id: z.string(), kind: z.enum(["personality", "speech", "style_anchor", "canon", "relationship", "behavior", "policy", "memory", "conversation", "recap"]), text: z.string(), tokenBudget: z.number(), priority: z.number() })),
+    blocks: z.array(z.object({ id: z.string(), kind: z.enum(CONTEXT_BLOCK_KINDS), text: z.string(), tokenBudget: z.number(), priority: z.number(), position: z.literal("tail").optional() })),
     droppedBlockIds: z.array(z.string()), estimatedTokens: z.number(), rendered: z.string(),
   }).optional(),
   generation: z.object({
@@ -97,7 +100,17 @@ export function createNagiGraph(deps: RuntimeDependencies, options: NagiGraphOpt
     });
     return {
       analysis: { ...state.analysis, memories, retrievedIds: memories.map((item) => item.record.id) },
-      trace: trace(state, "retrieve_context", `${memories.length} memories`),
+      // 只报条数无法判断检索是否真按内容命中（见 F17）。带上 id 与分数，
+      // 便于对比不同查询是否取到同一批——那是语义分恒为 0 的特征。
+      trace: trace(
+        state,
+        "retrieve_context",
+        memories.length === 0
+          ? "0 memories"
+          : `${memories.length} memories: ${memories
+              .map((item) => `${item.record.id}(${item.score.toFixed(3)})`)
+              .join(" ")}`,
+      ),
     };
   };
 
@@ -111,7 +124,17 @@ export function createNagiGraph(deps: RuntimeDependencies, options: NagiGraphOpt
       scene,
       memories: state.analysis.memories,
     });
-    return { context, trace: trace(state, "assemble_context", `${context.estimatedTokens} tokens`) };
+    // V4 §13「Context 效率」要求可测预算 / 丢弃率 / 命中率。只报总 token 数
+    // 会让装配变成黑盒——无法判断某个块究竟没进 Context，还是进了但没起作用。
+    // 故这里展开分块明细（按 kind 计数）与被丢弃的块 id。
+    const byKind = new Map<string, number>();
+    for (const block of context.blocks) byKind.set(block.kind, (byKind.get(block.kind) ?? 0) + 1);
+    const kinds = [...byKind].map(([kind, count]) => `${kind}:${count}`).join(" ");
+    const dropped = context.droppedBlockIds.length > 0
+      ? ` | dropped ${context.droppedBlockIds.length}: ${context.droppedBlockIds.join(",")}`
+      : " | dropped 0";
+    const detail = `${context.estimatedTokens} tokens | ${context.blocks.length} blocks (${kinds})${dropped}`;
+    return { context, trace: trace(state, "assemble_context", detail) };
   };
 
   const generateCandidate = async (state: GraphStateValue) => {

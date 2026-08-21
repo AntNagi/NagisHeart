@@ -90,3 +90,55 @@ describe("output guard", () => {
     expect(evaluateGuard("……今天还行。", config).decision).toBe("pass");
   });
 });
+
+describe("资源 kind 与装配顺序（F19–F21 回归）", () => {
+  const frontMatter = (extra: string) => `---\nid: t.block\n${extra}\n---\n正文`;
+
+  it("MANIFEST 声明的 kind 全部可识别，不再静默回落成 policy", () => {
+    // resources/MANIFEST.md 是资源侧分类的权威。任一项落回 policy 都会让装配顺序失真。
+    for (const kind of ["personality", "speech", "behavior_rule", "timeline", "event", "relationship", "style_anchor", "policy"]) {
+      const parsed = parseResourceMarkdown(frontMatter(`kind: ${kind}`));
+      expect(parsed.kind, `kind=${kind} 应被原样识别`).toBe(kind);
+      expect(parsed.unrecognizedKind, `kind=${kind} 不应被标记为无法识别`).toBeUndefined();
+    }
+  });
+
+  it("无法识别的 kind 回落 policy，但必须留痕而非静默", () => {
+    const parsed = parseResourceMarkdown(frontMatter("kind: 不存在的种类"));
+    expect(parsed.kind).toBe("policy");
+    expect(parsed.unrecognizedKind).toBe("不存在的种类");
+  });
+
+  it("front-matter 的行内注释必须剥掉", () => {
+    // `position: tail   # 说明` 曾整行被当成值，导致尾部锚静默失效。
+    const parsed = parseResourceMarkdown(frontMatter("kind: personality\nactivation:\n  position: tail   # 尾部锚说明"));
+    expect(parsed.position).toBe("tail");
+  });
+
+  it("position: tail 必须排到最后，且不因预算被优先丢弃", () => {
+    const tail = parseResourceMarkdown(frontMatter("kind: personality\nactivation:\n  priority: 99\n  token_budget: 10\n  position: tail"));
+    const head = parseResourceMarkdown("---\nid: t.head\nkind: personality\nactivation:\n  priority: 100\n  token_budget: 10\n---\n正文");
+    const built = buildContext({
+      scene: "daily",
+      relationship: { trust: 0, intimacy: 0, friction: 0 },
+      resources: [tail, head], memories: [], recentTurns: [], maxTokens: 20_000,
+    });
+    expect(built.blocks.at(-1)?.id).toBe("t.block");
+    expect(built.droppedBlockIds).toHaveLength(0);
+  });
+
+  it("预算不足时按 priority 升序丢弃，尾部锚不因排在末尾而先被丢", () => {
+    // 取舍看 priority，排列看 ORDER/position——两者混为一步会让尾部锚在长上下文中率先消失。
+    const tail = parseResourceMarkdown(frontMatter("kind: personality\nactivation:\n  priority: 99\n  token_budget: 10\n  position: tail"));
+    const cheap = parseResourceMarkdown("---\nid: t.low\nkind: personality\nactivation:\n  priority: 1\n  token_budget: 10\n---\n正文");
+    const built = buildContext({
+      scene: "daily",
+      relationship: { trust: 0, intimacy: 0, friction: 0 },
+      resources: [cheap, tail], memories: [], recentTurns: [], maxTokens: 10,
+    });
+    // 只断言相对关系：高 priority 的尾部锚存活，低 priority 的被丢。
+    // 不写死丢弃列表——buildContext 还会注入合成的 session.relationship 块。
+    expect(built.blocks.map((block) => block.id)).toEqual(["t.block"]);
+    expect(built.droppedBlockIds).toContain("t.low");
+  });
+});

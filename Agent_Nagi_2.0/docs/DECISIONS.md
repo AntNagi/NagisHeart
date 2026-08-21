@@ -11,7 +11,8 @@
 > 开工加一行，收工删掉。**这是最轻的锁，不是任务板。**
 > 格式：`- [发起方] 在改什么 — 起始时间`
 
-- [Codex] 实现 SQLite Domain Store 与幂等事务 —— 不碰 resources/ — 2026-08-21
+- [Claude] Codex 已下线，由我接手全部。修 F18(trace 分块明细) / F15(关系初值接线) /
+  F16(extractEffects 桩)，会动 graph.ts 与 local-dependencies.ts — 2026-08-21 23:30
 
 
 

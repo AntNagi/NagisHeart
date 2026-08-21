@@ -3,12 +3,25 @@ import type { SceneId } from "../domain/state.js";
 import type { ResourceDescriptor } from "./types.js";
 
 const KINDS = new Set<ContextBlockKind>([
-  "personality", "speech", "style_anchor", "canon", "relationship",
-  "behavior", "policy", "memory", "conversation", "recap",
+  "personality", "speech", "style_anchor", "timeline", "canon", "relationship",
+  "behavior_rule", "behavior", "policy", "event", "memory", "conversation", "recap",
 ]);
 
+/** YAML 行内注释：`#` 前需有空白才算注释；引号内的 `#` 是正文。 */
+function stripInlineComment(value: string): string {
+  const raw = value.trim();
+  if (raw.startsWith("\"") || raw.startsWith("'")) {
+    const quote = raw[0]!;
+    const close = raw.indexOf(quote, 1);
+    return close === -1 ? raw : raw.slice(0, close + 1);
+  }
+  return raw.replace(/\s+#.*$/u, "").trim();
+}
+
 function scalar(value: string): string | number | boolean | undefined {
-  const trimmed = value.trim();
+  // 不剥行内注释会让 `position: tail   # 说明` 整行变成值，
+  // 且**无任何报错**——尾部锚因此静默失效。见 OPEN_QUESTIONS F21。
+  const trimmed = stripInlineComment(value);
   if (!trimmed) return undefined;
   if (trimmed === "true") return true;
   if (trimmed === "false") return false;
@@ -54,7 +67,10 @@ export function parseResourceMarkdown(input: string, fallbackId = "resource.unkn
 
   const id = String(values.get("id") ?? fallbackId);
   const kindValue = String(values.get("kind") ?? "policy");
-  const kind: ContextBlockKind = KINDS.has(kindValue as ContextBlockKind) ? kindValue as ContextBlockKind : "policy";
+  const kindRecognized = KINDS.has(kindValue as ContextBlockKind);
+  // 回落保留（不抛错，避免一份资源写错就整个服务起不来），但**必须留痕**：
+  // 静默回落曾让 10 份资源的 kind 被悄悄改写而无人发现。见 OPEN_QUESTIONS F19。
+  const kind: ContextBlockKind = kindRecognized ? kindValue as ContextBlockKind : "policy";
   const priority = typeof values.get("activation.priority") === "number" ? Number(values.get("activation.priority")) : 0;
   const tokenBudget = typeof values.get("activation.token_budget") === "number" ? Number(values.get("activation.token_budget")) : 0;
   const always = values.get("activation.always") === true;
@@ -69,10 +85,12 @@ export function parseResourceMarkdown(input: string, fallbackId = "resource.unkn
   const block: ResourceBlock = {
     id,
     kind,
+    ...(kindRecognized ? {} : { unrecognizedKind: kindValue }),
     text: body,
     priority,
     tokenBudget,
     active: contextEnabled,
+    ...(values.get("activation.position") === "tail" ? { position: "tail" as const } : {}),
     ...(scenes.length > 0 ? { scenes } : {}),
     ...(!always && typeof activationWhen === "string" ? { when: activationWhen } : {}),
   };

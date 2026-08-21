@@ -1,17 +1,29 @@
 import type { ContextBlockKind, ContextBuildInput, ContextBuildResult, ContextBlock, ResourceBlock } from "./types.js";
 import { evaluateActivation } from "./activation.js";
 
+/**
+ * 装配顺序，与 `config/runtime.yaml` 的 `context.blocks` 一一对应（V4 §9）。
+ *
+ * 顺序不只是美观问题，有两个硬约束：
+ *  1. `recap` 必须在最后——它是尾部锚，靠近因效应对抗长上下文人格漂移（V4 §9.3）。
+ *  2. 静态块（personality→policy）必须排在**变动块之前且顺序稳定**，
+ *     否则厂商的前缀缓存永远命中不了。豆包缓存命中价是输入价的两折，
+ *     满配下每轮差 30% 成本。见 OPEN_QUESTIONS「缓存命中与装配顺序绑定」。
+ */
 const ORDER: readonly ContextBlockKind[] = [
-  "personality",
-  "speech",
-  "style_anchor",
+  "personality",     // personalityCore
+  "speech",          // speechStyle
+  "style_anchor",    // styleAnchors
+  "timeline",        // canonTimeline
   "canon",
-  "relationship",
+  "relationship",    // userRelationship
+  "behavior_rule",   // behaviorAndScene（行为侧）
   "behavior",
-  "policy",
-  "memory",
-  "conversation",
-  "recap",
+  "policy",          // behaviorAndScene（场景策略侧）
+  "event",
+  "memory",          // canonMemory / liveMemory
+  "conversation",    // conversationWindow
+  "recap",           // personalityRecap —— 必须最后
 ];
 
 function relationshipText(input: ContextBuildInput): ContextBlock {
@@ -54,6 +66,7 @@ function toBlock(resource: ResourceBlock): ContextBlock {
   return {
     id: resource.id,
     kind: resource.kind,
+    ...(resource.position ? { position: resource.position } : {}),
     text: resource.text,
     priority: resource.priority,
     // A missing/zero budget must remain usable; parser defaults to zero for
@@ -63,6 +76,9 @@ function toBlock(resource: ResourceBlock): ContextBlock {
 }
 
 function compareBlocks(left: ContextBlock, right: ContextBlock): number {
+  // position: tail 压过 kind 顺序——尾部锚必须紧贴生成点才有近因效应。
+  const tailDelta = (left.position === "tail" ? 1 : 0) - (right.position === "tail" ? 1 : 0);
+  if (tailDelta !== 0) return tailDelta;
   const kindDelta = ORDER.indexOf(left.kind) - ORDER.indexOf(right.kind);
   return kindDelta || right.priority - left.priority || left.id.localeCompare(right.id);
 }
@@ -80,10 +96,18 @@ export function buildContext(input: ContextBuildInput): ContextBuildResult {
   candidates.push(...input.memories.map(memoryBlock));
   if (input.recentTurns.length > 0) candidates.push(conversationBlock(input.recentTurns));
 
+  // 取舍与排列是两件事，必须分开做：
+  //   取舍 —— runtime.yaml：「总预算是硬约束。超出按 priority 升序丢弃」(V4 §9)
+  //   排列 —— ORDER + position:tail
+  // 合成一步会让「排最后」等于「最先被丢」，尾部锚就会在上下文变长时率先消失，
+  // 而那正是它被设计出来要对抗的场景（V4 §9.3）。
   const kept: ContextBlock[] = [];
   const dropped: string[] = [];
   let estimatedTokens = 0;
-  for (const block of candidates.sort(compareBlocks)) {
+  const bySelectionPriority = [...candidates].sort(
+    (left, right) => right.priority - left.priority || left.id.localeCompare(right.id),
+  );
+  for (const block of bySelectionPriority) {
     if (estimatedTokens + block.tokenBudget <= input.maxTokens) {
       kept.push(block);
       estimatedTokens += block.tokenBudget;
@@ -91,5 +115,6 @@ export function buildContext(input: ContextBuildInput): ContextBuildResult {
       dropped.push(block.id);
     }
   }
-  return { blocks: kept, droppedBlockIds: dropped, estimatedTokens, rendered: render(kept) };
+  const ordered = kept.sort(compareBlocks);
+  return { blocks: ordered, droppedBlockIds: dropped, estimatedTokens, rendered: render(ordered) };
 }

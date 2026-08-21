@@ -576,3 +576,91 @@ roleEval: { caseCount: ..., requiresModel: true, status: "not_run_without_provid
    与 key，`createProviderFromEnvironment()` 不再返回 undefined。
 
 未改任何 `graph.ts` / `local-dependencies.ts` / Provider 源码——避免与 Codex 撞车。
+
+---
+
+## 2026-08-21 Context 装配链三处静默失效（Claude，已修）
+
+> Codex 已下线，由 Claude 接手全部。以下三条**互相独立、但都属同一类**：
+> 代码与资源的口径不一致，且**失效时完全没有告警**——看日志一切正常。
+> 三条均已修复并加回归测试（`packages/core/test/core.test.ts`，5 条）。
+
+### F19 — 无法识别的 kind 被静默回落成 `policy` —— 【已验证，已修】
+
+`packages/core/src/resources/parser.ts` 旧代码：
+
+```ts
+const kind = KINDS.has(kindValue) ? kindValue : "policy";   // ← 悄悄改写
+```
+
+而 `ContextBlockKind` 缺 `behavior_rule` / `timeline` / `event` 三项
+（资源侧权威 `resources/MANIFEST.md:58` 声明的分类含这三项，代码用的却是 `behavior`）。
+
+⇒ **10 份资源的 kind 被悄悄改写**：6 份行为规则 + 2 份时间线 + 2 份世界事件全变 `policy`。
+
+实测证据（trace 分块明细，修复前后同一请求）：
+
+```text
+修复前  personality:3 style_anchor:1 relationship:3 policy:5 memory:4
+修复后  personality:3 style_anchor:1 timeline:2 relationship:3 behavior_rule:1 policy:2 memory:4
+```
+
+**修法**：`ContextBlockKind` 补齐三项；`ORDER` 按 `runtime.yaml` 的 `context.blocks`
+重排使二者一一对应；回落保留（一份资源写错不该让整个服务起不来）但
+**新增 `unrecognizedKind` 字段留痕**，调用方可据此报警。
+
+### F19b — kind 白名单曾有两份，导致 chat 端点 500→400 —— 【已验证，已修】
+
+修 F19 时立刻撞到：`packages/runtime-langgraph/src/graph.ts:36` 的 GraphState zod schema
+**抄了一份 kind 字面量**（Codex 修 F3 时加的）。core 补了新 kind 后，
+GraphState 判其非法 ⇒ `/v1/chat/completions` 全部返回 400
+（`Validation failed for field "context"`）。
+
+**修法**：core 导出 `CONTEXT_BLOCK_KINDS` 作为**单一事实源**，
+`z.enum(CONTEXT_BLOCK_KINDS)` 直接引用。**今后任何地方都不得再抄 kind 字面量。**
+
+### F20 — 尾部锚被排到了整个 Context 的最前面 —— 【已验证，已修】
+
+`resources/core/personality.recap.md` front-matter 明写：
+
+```yaml
+priority: 99
+position: tail        # Context Block ⑩：system 之后、紧贴生成点
+notes: 尾部锚。放在最后是为了近因效应，对抗长上下文中的人格漂移（V4 §9.3）
+```
+
+但 `position` **无任何代码消费**（`grep -rn "position" packages/` 零命中），
+而它 `kind: personality`（ORDER 索引 0）+ `priority: 99`（同类最高）
+⇒ 实际排在**第 2 位**，正是设计意图的反面。
+
+**连带修复（比 F20 本身更重要）**：旧 `buildContext` 把**取舍与排列合成了一步**
+——排序后按序累加预算、超了就丢。这意味着「排最后」等于「最先被丢」，
+尾部锚会在上下文变长时率先消失，**而那正是它被设计出来要对抗的场景**。
+且与 `runtime.yaml` 明写的「超出按 priority 升序丢弃」(V4 §9) 不符。
+现拆成两步：**取舍按 priority 降序取满预算，排列按 ORDER + position:tail**。
+
+实测修复后装配顺序（首→尾）：base → speech → style_anchor → timeline×2 →
+relationship×3 → behavior_rule → policy×2 → **recap（末位）**。
+
+### F21 — front-matter 解析器不剥行内注释 —— 【已验证，已修】
+
+`parser.ts` 的 `scalar()` 只做 `trim()`，故
+`position: tail        # Context Block ⑩：...` 整行成为值，`=== "tail"` 永不成立。
+这是 F20 的直接成因，且**任何带行内注释的 front-matter 标量都会被污染**。
+
+**已核查波及范围**：`resources/` 中 front-matter 带行内注释的只有本条。
+`output_guard.md` 的 `default: 50` / `hard_max: 80` / `max_per_reply: 3` 同样带注释，
+但由 `packages/server/src/resource-loader.ts` 自行解析且**正确剥了注释**，
+实测 `defaultLength=50 / hardMaxLength=80 / maxBeatsPerReply=3` 均正常，未受影响。
+
+**修法**：`scalar()` 按 YAML 规则剥注释（`#` 前须有空白；引号内的 `#` 属正文）。
+
+### 仍未修（留待后续，均已定位到具体代码）
+
+- **F14** `evals/run.ts:36` 角色 Eval 是硬编码桩
+- **F15** `runtime.yaml` 的 `relationship.seed`（Q19 裁决值）无代码读取，实测仍 0/0/0
+- **F16** `local-dependencies.ts` 的 `extractEffects()` 是空桩
+  （`return { memoryDrafts: [] }`，且不接收任何参数）⇒ 记忆永不写回、关系永不变化。
+  **这是 F15 表象的另一半成因，也是 `liveMemoryCount` 恒为 0 的直接原因。**
+- **F17** 检索与查询内容无关（同 Codex F6）。实测两条语义迥异的查询
+  返回**完全相同的 4 条、分数同为 0.480**；问「曼城那间公寓」召回的是世界杯名单。
