@@ -2,9 +2,10 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { randomUUID } from "node:crypto";
 import { createNagiGraph, emptyState, type NagiGraphState } from "@nagi/runtime-langgraph";
 import { createLocalDependencies } from "./local-dependencies.js";
+import { createProviderFromEnvironment } from "./provider-config.js";
 
 const MAX_BODY_BYTES = 1_000_000;
-const graph = createNagiGraph(createLocalDependencies());
+const provider = createProviderFromEnvironment();
 
 interface ChatRequestBody {
   readonly message?: unknown;
@@ -52,6 +53,8 @@ export function createHttpServer() {
       const requestId = typeof body.requestId === "string" ? body.requestId : randomUUID();
       const vendor = typeof body.vendor === "string" ? body.vendor : "local";
       const state = emptyState({ requestId, userId, threadId, message, vendor });
+      const requestApiKey = typeof request.headers["x-llm-key"] === "string" ? request.headers["x-llm-key"] : undefined;
+      const graph = createNagiGraph(createLocalDependencies(provider, requestApiKey));
       const result = await graph.invoke(state) as NagiGraphState;
       const content = result.generation.accepted ?? result.generation.candidate;
       json(response, 200, {

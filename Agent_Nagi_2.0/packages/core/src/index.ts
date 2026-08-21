@@ -8,5 +8,6 @@ export * from "./memory/engine.js";
 export * from "./memory/in-memory.js";
 export * from "./memory/types.js";
 export * from "./ports/memory.js";
+export * from "./ports/provider.js";
 export * from "./resources/parser.js";
 export * from "./resources/types.js";

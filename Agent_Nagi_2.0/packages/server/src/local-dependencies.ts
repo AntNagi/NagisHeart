@@ -8,6 +8,7 @@ import {
   type RelationshipState,
   type SceneId,
   type SessionState,
+  type ChatProvider,
 } from "@nagi/core";
 import type { RuntimeDependencies } from "@nagi/runtime-langgraph";
 
@@ -23,7 +24,7 @@ function classify(message: string): SceneId {
   return "daily";
 }
 
-export function createLocalDependencies(): RuntimeDependencies {
+export function createLocalDependencies(provider?: ChatProvider, requestApiKey?: string): RuntimeDependencies {
   return {
     validateRequest(request) {
       if (!request.requestId || !request.userId || !request.threadId) throw new Error("request identity is required");
@@ -57,8 +58,26 @@ export function createLocalDependencies(): RuntimeDependencies {
         maxTokens: 20_000,
       });
     },
-    async generateCandidate({ request }) {
-      // Deliberately obvious development stub. It must be replaced by a domestic-model Provider.
+    async generateCandidate({ request, context }) {
+      if (provider) {
+        const result = await provider.complete({
+          model: "configured",
+          messages: [
+            { role: "system", content: context.rendered },
+            { role: "user", content: request.message },
+          ],
+          maxTokens: 300,
+        }, { apiKey: requestApiKey ?? process.env.NAGI_DEV_LLM_KEY ?? "" });
+        return {
+          text: result.text,
+          usage: {
+            latencyMs: result.latencyMs,
+            ...(result.inputTokens === undefined ? {} : { inputTokens: result.inputTokens }),
+            ...(result.outputTokens === undefined ? {} : { outputTokens: result.outputTokens }),
+          },
+        };
+      }
+      // Deliberately obvious development stub until a provider is configured.
       return { text: `【local-provider】${request.message}……好麻烦。` };
     },
     hardGuard(text): GuardState {
