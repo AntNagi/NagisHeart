@@ -2,9 +2,22 @@
 
 **第一动作：立即完整读取仓库根目录 `CLAUDE.md` 并遵守其全部内容，然后才可开始任何工作。** 本文件只是入口壳，契约单一事实源是 `CLAUDE.md`（两份出现矛盾时以 `CLAUDE.md` 为准）。
 
-万一你跳过了上面这步，至少死守以下红线（与 `CLAUDE.md` 同步于 2026-07-26）：
+万一你跳过了上面这步，至少死守以下红线（与 `CLAUDE.md` 同步于 **2026-08-20**）：
 
-## 任务与权威
+## 先认域
+
+本仓库有**两个项目**，规则不同。**先确认你在哪个域再开工。**
+
+| 域 | 项目 | 落地依据 | 任务来源 |
+|---|---|---|---|
+| **A** | NagisHeart 视觉小说（Android / Web） | `authority/` | `task_board.md` |
+| **B** | `Agent_Nagi_2.0/` 角色 Agent（TS / LangGraph） | `Agent_Nagi_2.0/docs/` 定稿技术方案 + `DECISIONS.md` | 技术方案排期 + `DECISIONS.md` 未决项 |
+
+**域 A 任务不碰 `Agent_Nagi_2.0/`；域 B 任务不碰 `android/`、`web/`、`story-data/`、`authority/`。**
+
+下面 1–5 是**域 A** 的规则；6–11（交付）、10（证据等级）**两域通用**；域 B 另见文末。
+
+## 任务与权威（域 A）
 
 1. 任务唯一来源是 `00_harness/02_planning/task_board.md` 上你名下的条目；没有条目就没有任务。
 2. **唯一落地依据是 `authority/`**。任务条目只写范围和边界，**任务里出现的任何数值都不作数**，一切以 `authority/` 原文为准。
@@ -27,3 +40,14 @@
 13. 禁止新建过程文件（任务单/回报/评审/dev_reply）；过程写 commit message，结论写任务板自己条目下。
 14. 无任务不碰 `story-data/`、`assets/bg/`、`assets/main pic/`、`android/app/src/main/res/`；Web 任务不碰 Android，反之亦然。
 15. 验收人只有 Ant 本人；agent QA 的判断权已收回。
+
+## 域 B：Agent_Nagi_2.0（2026-08-20 新增）
+
+16. **不走 task_board**。开工先读 `Agent_Nagi_2.0/docs/DECISIONS.md` 的**「在做什么」区**（防撞）**和尾部**（最新口径），要动手就在「在做什么」加一行，收工删掉。
+17. **同步点只有 `DECISIONS.md` 一个**，Claude 与 Codex 不分工，都能写。
+18. **技术方案只留一份定稿**，变更走 `DECISIONS.md` 立条目，**不许再出新版本号**（历史上同一份方案出过 V1–V4）。打了作废横幅的旧版只读历史，不得作为依据。
+19. **写文档前先对时间戳**：裁决可能比你手上的文档新。**文档与 `DECISIONS.md` 冲突时，以 `DECISIONS.md` 为准。**
+20. **裁决要落两处**：子项目 `DECISIONS.md` 记决策；若碰 `authority/` 或其派生登记，**必须同时**在 `00_harness/01_governance/decision_log.md` 立条目并更新 `authority/MANIFEST.md`。只落一处 = 流程没走完。
+21. **编号一经使用，含义不得复用**；引用带完整编号，不许简写成 `B4` 这类。
+22. 代码红线：`packages/core/` 不许 import LangGraph / HTTP / 数据库 / UI / fs（ESLint 强制）；人格规则与关系阈值不许写进 Graph 节点，只能放 `resources/` 与 `config/`；资源正文与 system prompt 永不下发客户端；使用者的 API key 不落库、不写日志。
+23. 域 B 无 QA 工位。验收依据是 Eval 报告（角色效果 + 框架能力两份），不是实机截图。

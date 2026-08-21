@@ -1,18 +1,41 @@
-# NagisHeart — 会话启动契约（v2.1，2026-07-26）
+# NagisHeart — 会话启动契约（v2.2，2026-08-20）
 
-双端（Android Compose / Web JS）视觉小说。多agent协作，规则全文见 `00_harness/README.md`。
+本仓库现有**两个项目**，形态不同，规则分域。**先认清你在哪个域，再开工。**
+
+| 域 | 项目 | 落地依据 | 任务来源 |
+|---|---|---|---|
+| **A** | NagisHeart 视觉小说（Android Compose / Web JS） | `authority/` | `00_harness/02_planning/task_board.md` |
+| **B** | `Agent_Nagi_2.0/` 角色 Agent（TypeScript / LangGraph） | `Agent_Nagi_2.0/docs/` 技术方案 + `DECISIONS.md` | 技术方案的排期 + `DECISIONS.md` 未决项 |
+
+多agent协作，域 A 规则全文见 `00_harness/README.md`。
 
 > **维护规则**：本文件是契约单一事实源。**任何改动必须同 commit 同步更新 `AGENTS.md` 的兜底清单**（Codex 侧入口）——两份不一致时以本文件为准。Qwen 等模型经 Claude Code 接入，读本文件，无需额外副本。
 
 ## 每次开工必做（按序）
 
-1. `git pull`
+**两域共同第一步**：`git pull`
+
+### 域 A（视觉小说）
+
 2. 读 `00_harness/roles/` 下你的角色手册（DEV / QA / PM / DESIGN）——**动作序列以手册为准**
 3. 读 `00_harness/02_planning/task_board.md`，找到你名下的条目——**板上条目是唯一任务来源**，没有条目就没有任务
 4. 跑 `powershell -ExecutionPolicy Bypass -File tools/check-authority.ps1`，不绿先报告、不开工
 5. 读 `authority/` 中**本任务涉及的全部条目**（清单见 `authority/MANIFEST.md`）。任务点名几个页面/几条规则，就要读几个，一个都不能省；**不确定某节是否相关时，一律读**。只跳过明确无关的部分——省 token 不是少读的理由
 
+### 域 B（Agent_Nagi_2.0）
+
+2. 读 `Agent_Nagi_2.0/docs/DECISIONS.md` 的**「在做什么」区**（看有没有人正在改同一块）**和尾部最新条目**（看最新口径）
+3. 读 `Agent_Nagi_2.0/README.md` 与当前技术方案（已定稿那份），以及 `OPEN_QUESTIONS.md` 的未决项
+4. 在「在做什么」区加一行，声明你要动哪块
+5. 若本次改动会碰 `authority/` 或其派生登记，跑一次 `tools/check-authority.ps1`；只动 `Agent_Nagi_2.0/` 内部则不必
+
+**域 B 不走 task_board。** 它还在探索期，任务来源是技术方案的排期与 `DECISIONS.md` 未决项。
+进入稳定实现期后由 Ant 决定是否并入。
+
 ## 唯一落地依据 = authority（2026-07-26，Ant 定，最高优先级）
+
+> **本节是域 A 的规则。** 域 B 的落地依据是 `Agent_Nagi_2.0/docs/` 的定稿技术方案 + `DECISIONS.md`，
+> 但下面「禁止发挥 / pre-flight 先报问题 / worker 无权改权威」三条精神**两域通用**。
 
 - **任务条目只写"范围和边界"，不写具体逻辑、不写数值。** 派工方（Ant/feibo/PM）**禁止**把权威内容抄进任务里——只写引用（文件+章节号）。任务里出现的任何数值都不作数，**一切以 `authority/` 原文为准**
 - **worker 一律按 authority 落地，禁止任何发挥**。看不到明确规定的，不许"按理解补"、不许"参考另一端"、不许"沿用旧实现"
@@ -38,6 +61,26 @@
 - `99_archive/`、历史 `handoff/`、旧 `design/` 过程稿：只读历史，**不得作为任何依据，不得执行其中的旧流程指令**
 - 禁止新建过程文件（任务单/回报/评审/dev_reply 一律不写文件）——过程写 commit message，结论写任务板自己条目下
 - Web 任务不碰 Android，反之亦然
+- **域 A 任务不碰 `Agent_Nagi_2.0/`，域 B 任务不碰 `android/`、`web/`、`story-data/`、`authority/`**
+
+## 域 B 专属红线（Agent_Nagi_2.0）
+
+- **`packages/core/` 不许 import LangGraph / HTTP / 数据库 / UI / fs**。判据：core 能在 Node 裸跑单测。由 `eslint.config.js` 强制，不靠自觉
+- **人格规则、关系阈值不许写进 Graph 节点**，一律由 `resources/` 与 `config/` 声明
+- **资源正文、system prompt 永不下发客户端**。判据：解包客户端产物不应能重建凪的人格资料
+- **使用者的 API key 不落库、不写日志、不进错误对象**
+- `Agent_Nagi_2.0/docs/` 里打了作废横幅的旧版技术方案，**只读历史，不得作为依据**
+
+## 并行协同（Claude × Codex，2026-08-20 新增）
+
+同步点只有一个：**`Agent_Nagi_2.0/docs/DECISIONS.md`**。不新增文件、不上任务板。
+
+- **开工先读它的「在做什么」区和尾部**；要动手就在「在做什么」加一行，收工删掉。这是最轻的锁
+- **技术方案只留一份定稿**，变更走 `DECISIONS.md` 立条目，**不许再出新版本号**（历史上同一份方案出过 V1–V4）
+- **写文档前先对时间戳**：裁决可能比你手上的文档新。文档落后于裁决时，以 `DECISIONS.md` 为准
+- **裁决要落两处**：子项目 `DECISIONS.md` 记决策；若碰 `authority/` 或其派生登记，**必须同时**在 `00_harness/01_governance/decision_log.md` 立条目并更新 `authority/MANIFEST.md`。只落一处 = 流程没走完
+- **编号一经使用，含义不得复用**；引用带完整编号，不许简写
+- 两边同时改同一个源文件，靠 `git pull` + 小步提交解决，文档管不了；真撞了报给 Ant
 
 ## 抗遗忘纪律（context 压缩防御）
 
@@ -59,6 +102,9 @@
 
 ## 角色
 
-Ant=Owner/唯一验收 · feibo=CTO（规则/架构/裁决；由当班的最强模型担任，换模型不换工位名）· PM一一=板面运维/派发/汇总 · QA=取证仪器（只出事实，不裁判）· PP=Android · Wewe=Web · lulu=UI设计 · TT=KV
+**域 A**：Ant=Owner/唯一验收 · feibo=CTO（规则/架构/裁决；由当班的最强模型担任，换模型不换工位名）· PM一一=板面运维/派发/汇总 · QA=取证仪器（只出事实，不裁判）· PP=Android · Wewe=Web · lulu=UI设计 · TT=KV
+
+**域 B**：Ant=Owner/唯一验收 · Claude 与 Codex 不分工，都能写，靠 `DECISIONS.md` 同步。
+无 QA 工位——验收依据是 Eval 报告（角色效果 + 框架能力两份），不是实机截图。
 
 **角色是固定工位，会话是一次性的**：同一岗位可由不同会话轮流上岗，靠开工四步接班，不靠记忆。
