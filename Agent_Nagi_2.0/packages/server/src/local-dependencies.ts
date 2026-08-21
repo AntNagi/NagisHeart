@@ -121,7 +121,7 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
       // Local-only persistence: replace with SQLite/Postgres DomainStore later.
       domainStore.commitTurn({
         userId: request.userId,
-        relationshipDelta,
+        ...(relationshipDelta ? { relationshipDelta } : {}),
         drafts: memoryDrafts,
         turn: {
           requestId: request.requestId,
