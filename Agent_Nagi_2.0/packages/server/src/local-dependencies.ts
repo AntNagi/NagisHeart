@@ -10,7 +10,7 @@ import {
 } from "@nagi/core";
 import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
-import { loadResourceBlocks } from "./resource-loader.js";
+import { loadGuardPolicy, loadResourceBlocks } from "./resource-loader.js";
 import { resolve } from "node:path";
 import { createRequire } from "node:module";
 
@@ -37,6 +37,7 @@ function createDomainBackend(): DomainBackend {
 const domainStore = createDomainBackend();
 const resourceRoot = resolve(process.env.NAGI_RESOURCE_ROOT ?? "resources");
 const resources = loadResourceBlocks(resourceRoot);
+const guardPolicy = loadGuardPolicy(resourceRoot);
 
 export function getLocalDomainState(userId: string) {
   return {
@@ -122,13 +123,7 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
       return { text: `【local-provider】${request.message}……好麻烦。` };
     },
     hardGuard(text): GuardState {
-      const result = evaluateGuard(text, {
-        forbiddenPatterns: [],
-        frequencyCaps: [],
-        defaultLength: 50,
-        hardMaxLength: 80,
-        maxBeatsPerReply: 3,
-      });
+      const result = evaluateGuard(text, guardPolicy.config);
       return {
         hardViolations: result.violations.map((violation) => ({
           code: violation.ruleId,
@@ -138,8 +133,9 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
         decision: result.decision,
       };
     },
-    fallbackResponse() {
-      return "……这个不想说。";
+    fallbackResponse({ request }) {
+      const index = [...request.message].length % guardPolicy.fallbacks.length;
+      return guardPolicy.fallbacks[index] ?? guardPolicy.fallbacks[0] ?? "……好麻烦。";
     },
     async softJudge() {
       return { oocScore: 0, decision: "pass" as const };
