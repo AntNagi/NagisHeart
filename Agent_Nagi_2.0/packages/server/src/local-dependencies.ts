@@ -16,6 +16,55 @@ import { join } from "node:path";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 
+/**
+ * 记忆抽取提示词（aux 位）。
+ *
+ * 三条刻意的保守设计：
+ *  1. **只抽使用者明说的**，不许推断——推断出来的"事实"会被当成真事存进长期记忆，
+ *     而 Live 记忆一旦写错，凪之后会拿它当既成事实用。宁可漏记，不可错记。
+ *  2. **不抽凪自己说的话**——那是生成结果，不是关于使用者的事实。
+ *  3. **允许返回空数组**并明确举例（寒暄、语气词），否则模型倾向于"必须抽点什么"。
+ */
+const MEMORY_EXTRACTION_PROMPT = `你是信息抽取器，不是聊天助手。
+
+从使用者这句话里，抽出**值得长期记住的、关于使用者的个人事实**。
+
+规则：
+- 只抽使用者**明确说出**的内容，不要推断、不要脑补
+- 寒暄、语气词、闲聊、对天气的评论 —— 一律不抽，返回空数组
+- 每条事实写成简短的第三人称陈述
+- salience 表示重要程度：0.9 长期身份信息，0.7 计划与偏好，0.5 一次性小事
+
+只输出 JSON，不要解释，不要 markdown 代码块：
+{"facts":[{"text":"简短事实","salience":0.7}]}`;
+
+interface ExtractedFact {
+  readonly text: string;
+  readonly salience: number;
+}
+
+/** 容忍模型偶尔套 markdown 代码块；解析不出就当没抽到，绝不抛给调用方。 */
+function parseExtractedFacts(raw: string): readonly ExtractedFact[] {
+  const cleaned = raw.trim().replace(/^```(?:json)?\s*/u, "").replace(/\s*```$/u, "").trim();
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(cleaned);
+  } catch {
+    return [];
+  }
+  const facts = (parsed as { facts?: unknown })?.facts;
+  if (!Array.isArray(facts)) return [];
+  return facts.flatMap((item): ExtractedFact[] => {
+    const text = (item as { text?: unknown })?.text;
+    const salience = (item as { salience?: unknown })?.salience;
+    if (typeof text !== "string" || text.trim().length === 0) return [];
+    const clamped = typeof salience === "number" && Number.isFinite(salience)
+      ? Math.min(1, Math.max(0, salience))
+      : 0.5;
+    return [{ text: text.trim().slice(0, 200), salience: clamped }];
+  });
+}
+
 const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" };
 const memoryStore = new InMemoryMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
@@ -138,7 +187,7 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
     async generateCandidate({ request, context }) {
       if (provider) {
         const result = await provider.complete({
-          model: "configured",
+          model: "main",
           messages: [
             { role: "system", content: context.rendered },
             { role: "user", content: request.message },
@@ -178,8 +227,53 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
     reviseContext({ context }) {
       return context;
     },
-    async extractEffects() {
-      return { memoryDrafts: [] };
+    async extractEffects({ request }) {
+      // ── 记忆抽取（aux 位）────────────────────────────────────────────
+      // 没有 aux 就**不抽**，而不是拿 main 模型顶上：main 是角色模型，
+      // 贵 5–10 倍，且被调教成有代入感，做结构化抽取反而不如小模型规矩。
+      if (!provider) { console.warn("[extract_effects] 跳过：provider 未配置"); return { memoryDrafts: [] }; }
+      if (!provider.hasSlot("aux")) { console.warn("[extract_effects] 跳过：aux 能力位未配置（NAGI_LLM_MODEL_AUX）"); return { memoryDrafts: [] }; }
+
+      const apiKey = requestApiKey ?? process.env.NAGI_DEV_LLM_KEY ?? "";
+      if (!apiKey) { console.warn("[extract_effects] 跳过：无可用 key"); return { memoryDrafts: [] }; }
+
+      try {
+        const result = await provider.complete({
+          model: "aux",
+          messages: [
+            { role: "system", content: MEMORY_EXTRACTION_PROMPT },
+            { role: "user", content: request.message },
+          ],
+          temperature: 0.1,
+          maxTokens: 400,
+        }, { apiKey });
+        const facts = parseExtractedFacts(result.text);
+        return {
+          memoryDrafts: facts.map((fact) => ({
+            kind: "live" as const,
+            text: fact.text,
+            salience: fact.salience,
+            // 抽取来自模型，不是既成事实——confidence 低于 canon 的 1.0。
+            confidence: 0.6,
+            tags: ["extracted", request.threadId],
+            sourceTurnId: request.requestId,
+          })),
+        };
+      } catch (error) {
+        // 抽取失败不能拖垮整轮对话：凪已经回过话了，记忆是附加效果。
+        // 但**必须留声**——静默 catch 会让「抽取一直没跑」看起来像「没什么可抽的」，
+        // 二者在 trace 里都是 0 drafts，排查时完全无法区分。
+        // ⚠ 只打印 message，不打印 error 对象——避免 key 随请求上下文泄进日志（域 B 红线）。
+        console.warn(`[extract_effects] 抽取失败，本轮不写记忆：${error instanceof Error ? error.message : String(error)}`);
+        return { memoryDrafts: [] };
+      }
+
+      // ── 关系变化：**故意不实现** ────────────────────────────────────
+      // `RelationshipDelta` 需要「什么行为使 trust/intimacy/friction 变化多少」的规则，
+      // 而 resources/ 与 V4 均未规定（已 grep 确认）。`runtime.yaml` 只给了
+      // maxDeltaPerTurn: 3 这个**上限**，不是判据。
+      // 契约明令「看不到明确规定的，不许按理解补」——故此处留空，
+      // 待 Ant 裁决后再实现。见 OPEN_QUESTIONS F15。
     },
     async commitTurn({ request, accepted, relationshipDelta, memoryDrafts }) {
       // Local-only persistence: replace with SQLite/Postgres DomainStore later.

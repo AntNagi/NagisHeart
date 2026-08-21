@@ -664,3 +664,83 @@ relationship×3 → behavior_rule → policy×2 → **recap（末位）**。
   **这是 F15 表象的另一半成因，也是 `liveMemoryCount` 恒为 0 的直接原因。**
 - **F17** 检索与查询内容无关（同 Codex F6）。实测两条语义迥异的查询
   返回**完全相同的 4 条、分数同为 0.480**；问「曼城那间公寓」召回的是世界杯名单。
+
+---
+
+## 2026-08-22 aux 能力位接入与记忆写回打通（Claude）
+
+> Ant 开通了 `Doubao-Seed-2.0-mini`。**实际可用版本是 `doubao-seed-2-0-mini-260215`**
+> ——控制台开通的是模型系列，落到哪个版本号由平台定，不是控制台显示的那个。
+> 同一把 key 即可，BYOK 的 key 与开通哪些模型无关。
+
+### 关键实测：aux 必须关掉深度思考 —— 【已验证】
+
+`doubao-seed-2-0-mini` 默认开启深度思考。同一条抽取任务（抽 2 条事实）：
+
+| 配置 | 延迟 | output token |
+|---|---|---|
+| 默认 | **6213ms** | **635** |
+| `thinking: { type: "disabled" }` | 947ms | 41 |
+| `reasoning_effort: "minimal"` | 719ms | 41 |
+
+**快 8 倍，token 省 94%，抽取结果完全一致。**
+（`thinking: { type: "none" }` 会报 `InvalidParameter`，只有 `disabled` 有效。）
+
+aux 每轮要调多次，不关思考等于拿便宜模型烧贵价钱。已在
+`provider-config.ts` 按模型名前缀自动注入，业务层不感知（V4 §10）。
+**main 位不关**——凪的回复质量优先，且 NRH-20260821-2037 的 30 条对抗用例
+是在默认设置下标定的，关掉等于换了基线。
+
+### F11 / F12 已修
+
+- **F11**：`ChatRequest.model` 现在是**能力位**（新增 `ModelCapability = "main" | "aux"`），
+  Provider 内部按能力位映射到厂商模型 + 厂商专属参数。
+  新增 `ChatProvider.hasSlot()`，调用方据此降级——
+  **aux 未配置就不抽，而不是偷偷拿 main 顶上**（贵 5–10 倍且未经标定）。
+- **F12**：异常带上厂商的 `error.code` / `message`。
+  ⚠ 实现时只取回包里的 code/message，**不碰 `secret.apiKey`、不碰请求头**（域 B 红线）。
+
+### F16 已修 —— 记忆写回链路打通
+
+`extractEffects` 从空桩改为 aux 抽取。实测（同一 userId 连打四条）：
+
+| 输入 | 抽出 |
+|---|---|
+| 我下周三要去大阪出差 | 1 条 |
+| 今天天气不错 | **0 条** |
+| 我妈妈姓陈，她做的咖喱最好吃 | 2 条 |
+| 嗯 | **0 条** |
+
+`liveMemoryCount: 3`。**该记的记了，闲聊没乱记。**
+
+提示词刻意保守：只抽使用者明说的、不许推断、允许返回空数组。
+理由——Live 记忆写错后凪会拿它当既成事实用，**宁可漏记不可错记**。
+抽取结果 `confidence: 0.6`（低于 canon 的 1.0，它来自模型不是既成事实）。
+
+### F15 关系变化 —— **仍未实现，需 Ant 裁决**
+
+`extractEffects` 目前**不产出 `relationshipDelta`**，这是刻意的：
+
+已 grep 确认 `resources/` 与 V4 **均未规定**「什么行为使 trust/intimacy/friction
+变化多少」。`runtime.yaml` 只给了 `maxDeltaPerTurn: 3` 这个**上限**，不是判据。
+契约明令「看不到明确规定的，不许按理解补」，故留空待裁。
+
+**需要 Ant 定的是判据本身**，例如：什么样的互动算推进亲密？摩擦何时上升？
+定了之后实现是小活（aux 已接通，加个抽取维度即可）。
+在此之前 `/api/state` 的 relationship 会一直是初值。
+
+### 排查过程中的一个教训（记下来免得再犯）
+
+前后花了约十次往返才定位到 F16 的"失败"，真因是**我自己的测试方法**：
+Git Bash 里 `curl -d '{"message":"中文"}'` 会破坏 UTF-8，服务端收到乱码，
+aux 自然抽不出东西。服务端解码（`Buffer.concat(chunks).toString("utf8")`）一直是对的。
+
+**正确姿势**：`printf '...' > /tmp/b.json && curl --data-binary @/tmp/b.json`。
+
+同期还踩到两个环境坑，一并记：
+
+1. **`tsx watch` 不重载跨 workspace 包的改动**。改了 `packages/core` 或
+   `runtime-langgraph` 必须重启进程，否则测的是旧代码。
+2. **Windows 上 `pkill -f` 杀不掉 node**，端口残留导致新进程 `EADDRINUSE`
+   却仍能连上旧进程。一度累积 7 个残留进程。
+   用 `Get-NetTCPConnection -LocalPort 8787 | Stop-Process` 按 PID 杀。

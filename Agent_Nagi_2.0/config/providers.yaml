@@ -5,16 +5,19 @@
 # ⚠ vendor 必须来自本白名单，使用者不能提交任意 endpoint。
 
 llm:
-  # 首版只实现一个国产 Provider。厂商与模型 id 在 8/22 接入时按当日可用性与价格确定。
-  active: TBD_8_22
+  # 首版只实现一个国产 Provider（火山方舟 Ark，2026-08-22 接入并实测）。
+  active: volcengine_ark
 
   vendors:
-    # 模板。8/22 填入实际选定的国产厂商。
-    example_cn_vendor:
-      endpoint: TBD
+    # 已接入并实测。aux 需关闭深度思考，见下。
+    volcengine_ark:
+      endpoint: "https://ark.cn-beijing.volces.com/api/v3/chat/completions"
       models:
-        main: TBD          # 凪的正式回复，质量优先
-        aux: TBD           # 场景分类 / 记忆抽取 / OOC 打分，便宜优先
+        main: doubao-seed-character-260628
+        aux: doubao-seed-2-0-mini-260215
+      # aux 的 thinking:disabled 由 provider-config.ts 按模型名前缀注入。
+      # 实测：不关思考时抽 2 条事实要 635 token / 6.2s，关掉后 41 token / 0.9s，结果一致。
+      # main 不关——凪的回复质量优先，且 NRH-20260821-2037 的对抗用例在默认设置下标定。
       # 各家差异由 Adapter 内部吸收，业务不感知（V4 §10）
       extraHeaders: {}
 
@@ -29,10 +32,10 @@ llm:
 embedding:
   # ⚠ 铁律：更换聊天 LLM 不得自动更换 embedding 模型（V4 §8.2）。
   # 向量必须与查询同模型同版本，混合向量空间检索是静默错误。
-  active: TBD_8_22
+  active: volcengine_ark
   vendors:
-    example_cn_vendor:
-      endpoint: TBD
+    volcengine_ark:
+      endpoint: "https://ark.cn-beijing.volces.com/api/v3/chat/completions"
       modelId: TBD
       dimension: TBD
       version: 1

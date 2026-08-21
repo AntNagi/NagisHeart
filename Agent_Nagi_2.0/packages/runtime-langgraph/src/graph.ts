@@ -176,7 +176,10 @@ export function createNagiGraph(deps: RuntimeDependencies, options: NagiGraphOpt
   const extractEffects = async (state: GraphStateValue) => {
     const domain = requireDomain(state);
     const effects = await deps.extractEffects({ request: state.request, domain, candidate: state.generation.candidate });
-    return { effects: { ...state.effects, ...effects }, trace: trace(state, "extract_effects") };
+    // 只报节点名无法区分「没抽到」与「抽了但没落库」——F16 排查时就卡在这里。
+    const deltaKeys = effects.relationshipDelta ? Object.keys(effects.relationshipDelta).join(",") : "none";
+    const detail = `${effects.memoryDrafts.length} drafts | delta ${deltaKeys}`;
+    return { effects: { ...state.effects, ...effects }, trace: trace(state, "extract_effects", detail) };
   };
 
   const commitTurn = async (state: GraphStateValue) => {
