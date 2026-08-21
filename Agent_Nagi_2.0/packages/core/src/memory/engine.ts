@@ -37,12 +37,56 @@ function recencyScore(updatedAt: string, now: string): number {
   return Math.exp(-age / (30 * DAY_MS));
 }
 
+/** 汉字、假名。韩文谚文不在剧本语料内，暂不处理。 */
+const CJK_CHAR = /[㐀-䶿一-鿿豈-﫿぀-ヿ]/u;
+
+/**
+ * 切词。**中文没有空格，按空白切会把整句变成一个 term**——这正是旧实现
+ * 让词面分恒为 0 的原因（见 OPEN_QUESTIONS F17 / Codex F6）。
+ *
+ * 策略：把字符串按「是否 CJK」切成同类段落，
+ *  - CJK 段落取**双字 n-gram**（单字段落取该字本身）
+ *  - 非 CJK 段落按非字母数字切成词
+ *
+ * 用 bigram 而不是引入分词器，是因为 core 必须零依赖（V4 §12 / 域 B 红线）。
+ * bigram 对「曼城」「公寓」「出差」这类实词命中良好；代价是「的」「了」这类
+ * 高频虚词组成的 bigram 会带来噪声，但分母按查询词数归一，噪声会被稀释。
+ */
+function tokenize(text: string): ReadonlySet<string> {
+  const terms = new Set<string>();
+  let buffer = "";
+  let bufferIsCjk = false;
+  const flush = (): void => {
+    if (!buffer) return;
+    if (bufferIsCjk) {
+      if (buffer.length === 1) terms.add(buffer);
+      else for (let index = 0; index + 1 < buffer.length; index += 1) terms.add(buffer.slice(index, index + 2));
+    } else {
+      for (const word of buffer.split(/[^\p{L}\p{N}]+/u)) if (word) terms.add(word);
+    }
+    buffer = "";
+  };
+  for (const character of text.toLocaleLowerCase()) {
+    const isCjk = CJK_CHAR.test(character);
+    if (isCjk !== bufferIsCjk) {
+      flush();
+      bufferIsCjk = isCjk;
+    }
+    buffer += character;
+  }
+  flush();
+  return terms;
+}
+
+/** 包含度：查询里有多少比例的词出现在这条记忆里。沿用旧实现的归一方式。 */
 function lexicalScore(text: string | undefined, memory: string): number {
   if (!text?.trim()) return 0;
-  const terms = [...new Set(text.toLocaleLowerCase().split(/\s+/u).filter(Boolean))];
-  if (terms.length === 0) return 0;
-  const haystack = memory.toLocaleLowerCase();
-  return terms.filter((term) => haystack.includes(term)).length / terms.length;
+  const queryTerms = tokenize(text);
+  if (queryTerms.size === 0) return 0;
+  const memoryTerms = tokenize(memory);
+  let hits = 0;
+  for (const term of queryTerms) if (memoryTerms.has(term)) hits += 1;
+  return hits / queryTerms.size;
 }
 
 export function scoreMemory(record: MemoryRecord, query: MemoryQuery): MemorySearchResult {

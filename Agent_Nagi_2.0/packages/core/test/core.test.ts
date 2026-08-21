@@ -142,3 +142,38 @@ describe("资源 kind 与装配顺序（F19–F21 回归）", () => {
     expect(built.droppedBlockIds).toContain("t.low");
   });
 });
+
+describe("中文词面检索（F17 回归）", () => {
+  const memory = (id: string, text: string) => ({
+    id, namespace: "u1", kind: "canon" as const, text,
+    createdAt: "2026-08-01T00:00:00.000Z", updatedAt: "2026-08-01T00:00:00.000Z",
+    salience: 0.5, confidence: 1, tags: [],
+  });
+  const query = (text: string) => ({ namespace: "u1", text, limit: 3, now: "2026-08-22T00:00:00.000Z" });
+
+  it("中文查询必须能按内容区分记忆，而不是全部同分", () => {
+    // 旧实现按空白切词，中文整句变成一个 term，词面分恒为 0
+    // ⇒ 所有记忆同分，检索退化成「只看 recency/salience」，与查询内容无关。
+    const records = [
+      memory("m1", "凪在曼城的新房间住下了"),
+      memory("m2", "世界杯追加名单公布"),
+      memory("m3", "在作战室第一次见面"),
+    ];
+    const top = rankMemories(records, query("你还记得曼城那间房间吗"));
+    expect(top[0]?.record.id, "问曼城应召回曼城那条").toBe("m1");
+    const scores = new Set(top.map((item) => item.score));
+    expect(scores.size, "三条不应同分").toBeGreaterThan(1);
+  });
+
+  it("拉丁文与数字仍按词匹配", () => {
+    const records = [memory("m1", "U-20 日本代表战"), memory("m2", "完全无关的一条")];
+    const top = rankMemories(records, query("U-20 那场比赛"));
+    expect(top[0]?.record.id).toBe("m1");
+  });
+
+  it("查询与记忆毫无交集时词面分为 0", () => {
+    const records = [memory("m1", "凪在曼城的新房间住下了")];
+    const top = rankMemories(records, query("abcdef"));
+    expect(top[0]?.components?.semantic).toBe(0);
+  });
+});
