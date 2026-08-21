@@ -12,7 +12,6 @@
 > 格式：`- [发起方] 在改什么 — 起始时间`
 
 - [Codex] 实现 SQLite Domain Store 与幂等事务 —— 不碰 resources/ — 2026-08-21
-- [Claude] 登记 say/act 裁决 + F8–F13；改 sqlite 测试过时断言、填 cjkRatio — 2026-08-21 22:30
 
 
 
