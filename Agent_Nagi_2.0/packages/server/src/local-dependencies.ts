@@ -11,11 +11,12 @@ import {
   type ChatProvider,
 } from "@nagi/core";
 import type { RuntimeDependencies } from "@nagi/runtime-langgraph";
+import { LocalDomainStore } from "./local-domain-store.js";
 
 const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" };
-const relationship: RelationshipState = { trust: 0, intimacy: 0, friction: 0 };
 const memoryStore = new InMemoryMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
+const domainStore = new LocalDomainStore();
 
 function classify(message: string): SceneId {
   if (/(足球|训练|比赛|球场)/u.test(message)) return "football";
@@ -32,6 +33,7 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
       if (request.message.length > 8_000) throw new Error("message is too long");
     },
     async loadDomainState(request) {
+      const relationship = domainStore.loadRelationship(request.userId);
       const session: SessionState = {
         scene: "daily",
         now: new Date().toISOString(),
@@ -106,8 +108,13 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
     async extractEffects() {
       return { memoryDrafts: [] };
     },
-    async commitTurn() {
-      // Persistence is intentionally absent from this local-only loop.
+    async commitTurn({ request, relationshipDelta, memoryDrafts }) {
+      // Local-only persistence: replace with SQLite/Postgres DomainStore later.
+      domainStore.commit(request.userId, relationshipDelta, memoryDrafts);
+      await memoryEngine.commitDrafts(memoryDrafts, {
+        namespace: request.userId,
+        now: new Date().toISOString(),
+      });
     },
   };
 }
