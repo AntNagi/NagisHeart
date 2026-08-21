@@ -10,11 +10,15 @@ import {
 } from "@nagi/core";
 import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
+import { loadResourceBlocks } from "./resource-loader.js";
+import { resolve } from "node:path";
 
 const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" };
 const memoryStore = new InMemoryMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
 const domainStore = new LocalDomainStore();
+const resourceRoot = resolve(process.env.NAGI_RESOURCE_ROOT ?? "resources");
+const resources = loadResourceBlocks(resourceRoot);
 
 export function getLocalDomainState(userId: string) {
   return {
@@ -63,7 +67,7 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
       return buildContext({
         scene,
         relationship: domain.relationship,
-        resources: [],
+        resources,
         memories,
         recentTurns: [],
         maxTokens: 20_000,
@@ -107,6 +111,9 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
         })),
         decision: result.decision,
       };
+    },
+    fallbackResponse() {
+      return "……这个不想说。";
     },
     async softJudge() {
       return { oocScore: 0, decision: "pass" as const };

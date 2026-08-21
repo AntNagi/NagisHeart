@@ -122,7 +122,9 @@ export function createNagiGraph(deps: RuntimeDependencies, options: NagiGraphOpt
 
   const commitTurn = async (state: GraphStateValue) => {
     const domain = requireDomain(state);
-    const accepted = state.generation.candidate;
+    const accepted = state.guard.decision === "retry"
+      ? deps.fallbackResponse({ request: state.request, guard: state.guard })
+      : state.generation.candidate;
     const commitInput = {
       request: state.request,
       domain,

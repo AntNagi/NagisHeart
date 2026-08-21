@@ -24,6 +24,7 @@ function fixtureDependencies(): RuntimeDependencies {
     assembleContext: () => context,
     generateCandidate: async () => ({ text: "……好麻烦。" }),
     hardGuard: () => ({ hardViolations: [], decision: "pass" }),
+    fallbackResponse: () => "……这个不想说。",
     softJudge: async () => ({ decision: "pass" }),
     reviseContext: () => context,
     extractEffects: async () => ({ memoryDrafts: [] }),

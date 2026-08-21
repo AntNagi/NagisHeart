@@ -29,6 +29,7 @@ export interface RuntimeDependencies {
     readonly attempt: number;
   }): Promise<{ readonly text: string; readonly usage?: ProviderUsage }>;
   hardGuard(text: string): GuardState;
+  fallbackResponse(input: { readonly request: NagiGraphState["request"]; readonly guard: GuardState }): string;
   softJudge(input: { readonly text: string; readonly context: ContextBuildResult }): Promise<Pick<GuardState, "oocScore" | "decision">>;
   reviseContext(input: {
     readonly context: ContextBuildResult;

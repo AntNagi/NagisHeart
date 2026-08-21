@@ -96,4 +96,7 @@ export function emptyState(request: NagiRequest): NagiGraphState {
   };
 }
 
+/** Backward-compatible descriptive alias used by runtime/eval fixtures. */
+export const initialGraphState = emptyState;
+
 export type { ContextBlock };

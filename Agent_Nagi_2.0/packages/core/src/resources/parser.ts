@@ -1,4 +1,5 @@
 import type { ContextBlockKind, ResourceBlock } from "../context/types.js";
+import type { SceneId } from "../domain/state.js";
 import type { ResourceDescriptor } from "./types.js";
 
 const KINDS = new Set<ContextBlockKind>([
@@ -16,6 +17,12 @@ function scalar(value: string): string | number | boolean | undefined {
     return trimmed.slice(1, -1);
   }
   return trimmed;
+}
+
+function stringArray(value: string): readonly string[] {
+  const trimmed = value.trim();
+  if (!trimmed.startsWith("[") || !trimmed.endsWith("]")) return [];
+  return trimmed.slice(1, -1).split(",").map((item) => String(scalar(item) ?? "").trim()).filter(Boolean);
 }
 
 /** Parses only the resource contract; it intentionally ignores unknown YAML. */
@@ -40,7 +47,7 @@ export function parseResourceMarkdown(input: string, fallbackId = "resource.unkn
       if (parsed !== undefined) values.set(key, parsed);
     }
     if (section === "activation" && indent >= 2 && raw) {
-      const parsed = scalar(raw);
+      const parsed = key === "scenes" ? stringArray(raw).join(",") : scalar(raw);
       if (parsed !== undefined) values.set(`activation.${key}`, parsed);
     }
   }
@@ -52,6 +59,11 @@ export function parseResourceMarkdown(input: string, fallbackId = "resource.unkn
   const tokenBudget = typeof values.get("activation.token_budget") === "number" ? Number(values.get("activation.token_budget")) : 0;
   const always = values.get("activation.always") === true;
   const contextEnabled = values.get("activation.context") !== false;
+  const scenesValue = values.get("activation.scenes");
+  const validScenes = new Set<SceneId>(["daily", "affection", "intimacy", "conflict", "football", "setback"]);
+  const scenes = typeof scenesValue === "string"
+    ? scenesValue.split(",").filter((scene): scene is SceneId => validScenes.has(scene as SceneId))
+    : [];
   const body = lines.slice(end + 1).join("\n").trim();
   const activationWhen = values.get("activation.when");
   const block: ResourceBlock = {
@@ -61,6 +73,7 @@ export function parseResourceMarkdown(input: string, fallbackId = "resource.unkn
     priority,
     tokenBudget,
     active: contextEnabled,
+    ...(scenes.length > 0 ? { scenes } : {}),
     ...(!always && typeof activationWhen === "string" ? { when: activationWhen } : {}),
   };
   return {

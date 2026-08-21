@@ -4,7 +4,7 @@ import { emptyState } from "../src/state.js";
 import { fixtureDependencies } from "./test-fixtures.js";
 
 /**
- * 已知缺陷复现（Claude 2026-08-21 发现，未修 —— graph.ts 归 Codex 在改）
+ * 回归：hard_guard 连续两次不通过时，必须走 fallback，不得提交违规文本。
  *
  * 现象：hard_guard 连续两次不通过时，被拦下的文本仍被 commit 并发给使用者。
  *
@@ -25,10 +25,9 @@ import { fixtureDependencies } from "./test-fixtures.js";
  *   graph.ts hardGuardRoute —— attempt>=2 时直接 return "extract_effects"
  *   graph.ts commitTurn    —— 无条件 accepted = state.generation.candidate
  *
- * 修复后请把 it.fails 改回 it。
  */
 describe("hard_guard 二次失败后的降级", () => {
-  it.fails("被 block 的文本不应该被 accept（当前会）", async () => {
+  it("被 block 的文本不应该被 accept", async () => {
     const OOC = "我理解你的恐惧。你应该拥有自己的人生。";
 
     const graph = createNagiGraph({
