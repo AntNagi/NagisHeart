@@ -217,4 +217,4 @@ Agent理解： - 当前章节； - 当前关系； - 已发生事件； - 未发
 - [x] 开源聊天客户端选型记录、CORS 适配与本地 API Demo
 - [x] 全量 typecheck、lint、test 与本地启动验收
 - [x] LangGraph Runtime Adapter 与 DSH 外层接缝记录
-- [ ] Canon 事件正文烘焙：需要 Ant/Claude 提供或确认事件改写口径后执行
+- [x] Canon 事件正文烘焙：V17 TRUE END 共通主线 + M / Dream 节点，51 条，带 SHA/source 坐标

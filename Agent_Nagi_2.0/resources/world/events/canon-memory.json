@@ -1,0 +1,981 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+    "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+  },
+  "memories": [
+    {
+      "id": "canon:p1:1",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「作战室·初遇」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第一部 · 原作前置篇：他还没看见你，你已经看见了他"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · p1 · 作战室·初遇",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:p2:2",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「投资的私心」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第一部 · 原作前置篇：他还没看见你，你已经看见了他"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · p2 · 投资的私心",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:c1a:3",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「会议室初见」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第一部 · 原作前置篇：他还没看见你，你已经看见了他"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · c1a · 会议室初见",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:c1b:4",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「不麻烦的人」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第一部 · 原作前置篇：他还没看见你，你已经看见了他"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · c1b · 不麻烦的人",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:u20j:5",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「U-20日本代表战·被日本看见」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第一部 · 原作前置篇：他还没看见你，你已经看见了他"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · u20j · U-20日本代表战·被日本看见",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:c3:6",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「开放日」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第二部 · 关系确立篇：开放日，突然进入彼此生活",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · c3 · 开放日",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_lemontea:7",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「你的，我的」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第二部 · 关系确立篇：开放日，突然进入彼此生活",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · e_lemontea · 你的，我的",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:c2:8",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「假期的消息」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第二部 · 关系确立篇：开放日，突然进入彼此生活",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · c2 · 假期的消息",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_invite:9",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「高级公寓的邀请」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第二部 · 关系确立篇：开放日，突然进入彼此生活",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · e_invite · 高级公寓的邀请",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_lolly:10",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「棒棒糖·自动刷脸」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第二部 · 关系确立篇：开放日，突然进入彼此生活",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · e_lolly · 棒棒糖·自动刷脸",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_depart:11",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「NEL启程·闭关送别」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返",
+        "friction"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_depart · NEL启程·闭关送别",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:c6a:12",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「聚少离多·从高光到淘汰」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返",
+        "friction"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · c6a · 聚少离多·从高光到淘汰",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_curry:13",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「Nagi做的咖喱饭」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返",
+        "friction"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_curry · Nagi做的咖喱饭",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_bday:14",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「被遗忘的生日」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返",
+        "friction"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_bday · 被遗忘的生日",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_hug:15",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「拥抱」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返",
+        "friction"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_hug · 拥抱",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_intimate:16",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「亲密」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返",
+        "relationship",
+        "friction"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_intimate · 亲密",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:side_b_return:17",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「Side-B·重返蓝色监狱」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返",
+        "friction"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · side_b_return · Side-B·重返蓝色监狱",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:wc_roster:18",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「世界杯追加名单」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "第四部 · 世界看见他篇：U-20世界杯与豪门招募",
+        "football"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第四部 · 世界看见他篇：U-20世界杯与豪门招募 · wc_roster · 世界杯追加名单",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:wc_interval:19",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「淘汰赛前训练·花环」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "第四部 · 世界看见他篇：U-20世界杯与豪门招募",
+        "football",
+        "friction"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第四部 · 世界看见他篇：U-20世界杯与豪门招募 · wc_interval · 淘汰赛前训练·花环",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:wc_keygoal:20",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「生死局·世界看见他」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "第四部 · 世界看见他篇：U-20世界杯与豪门招募",
+        "football"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第四部 · 世界看见他篇：U-20世界杯与豪门招募 · wc_keygoal · 生死局·世界看见他",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:wc_offer:21",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「豪门来信」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "第四部 · 世界看见他篇：U-20世界杯与豪门招募",
+        "football"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第四部 · 世界看见他篇：U-20世界杯与豪门招募 · wc_offer · 豪门来信",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:w_home:22",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「归来·沙发上的拥抱」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · w_home · 归来·沙发上的拥抱",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:mt3:23",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「同居·这里太舒服了」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · mt3 · 同居·这里太舒服了",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:m_shallow:24",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「客气的距离」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · m_shallow · 客气的距离",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_intimate_cohabit:25",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「同居·靠近」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_intimate_cohabit · 同居·靠近",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_cozy:26",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「甜蜜同居·深夜等你」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_cozy · 甜蜜同居·深夜等你",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:w_noodle:27",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「深夜·酸奶与泡面哲学」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · w_noodle · 深夜·酸奶与泡面哲学",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:w_game:28",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「游戏冷战·ADC走脸事件」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · w_game · 游戏冷战·ADC走脸事件",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_tipsy:29",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「微醺之夜」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_tipsy · 微醺之夜",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_morning:30",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「早安赖床」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_morning · 早安赖床",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:c4:31",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「七夕·蓝色玫瑰与夏夜」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · c4 · 七夕·蓝色玫瑰与夏夜",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:c4a:32",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「七夕·蓝色玫瑰」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · c4a · 七夕·蓝色玫瑰",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:c4d:33",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「七夕之夜」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · c4d · 七夕之夜",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_festival:34",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「夏日祭·浴衣与烟火」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_festival · 夏日祭·浴衣与烟火",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:transfer_contract:35",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「夏窗·签约桌上的好麻烦」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约",
+        "football",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · transfer_contract · 夏窗·签约桌上的好麻烦",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:club_arrival:36",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「曼城·新的房间」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第六部 · 豪门新星篇：新的房间，新的规则"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第六部 · 豪门新星篇：新的房间，新的规则 · club_arrival · 曼城·新的房间",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:club_alone:37",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「一个人的曼城」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.85,
+      "confidence": 1,
+      "tags": [
+        "第六部 · 豪门新星篇：新的房间，新的规则"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第六部 · 豪门新星篇：新的房间，新的规则 · club_alone · 一个人的曼城",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:club_training:38",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「耳机能翻译，球不会等我」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第六部 · 豪门新星篇：新的房间，新的规则"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第六部 · 豪门新星篇：新的房间，新的规则 · club_training · 耳机能翻译，球不会等我",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:club_media:39",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「它翻译得很对，但不像我」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第六部 · 豪门新星篇：新的房间，新的规则"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第六部 · 豪门新星篇：新的房间，新的规则 · club_media · 它翻译得很对，但不像我",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_autumn:40",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「读书之秋」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第六部 · 豪门新星篇：新的房间，新的规则"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第六部 · 豪门新星篇：新的房间，新的规则 · e_autumn · 读书之秋",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_halloween:41",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「万圣夜·专属恶魔」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第六部 · 豪门新星篇：新的房间，新的规则"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第六部 · 豪门新星篇：新的房间，新的规则 · e_halloween · 万圣夜·专属恶魔",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_drive:42",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「飙车实录」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "第六部 · 豪门新星篇：新的房间，新的规则"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第六部 · 豪门新星篇：新的房间，新的规则 · e_drive · 飙车实录",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_scarf:43",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「送围巾」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "M线 · 默契线：他看见她，也接住她",
+        "relationship"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "M线 · 默契线：他看见她，也接住她 · e_scarf · 送围巾",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:e_sick_fragile:44",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「还是感冒了」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 0.65,
+      "confidence": 1,
+      "tags": [
+        "M线 · 默契线：他看见她，也接住她"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "M线 · 默契线：他看见她，也接住她 · e_sick_fragile · 还是感冒了",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:p8_route:45",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「假期结束·春季名单」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "第八章 · 世界中心篇：他的名字",
+        "dream"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "第八章 · 世界中心篇：他的名字 · p8_route · 假期结束·春季名单",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:dream_exist:46",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「没有你的世界」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "Dream线",
+        "dream"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "Dream线 · dream_exist · 没有你的世界",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:dream_match:47",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「他的名字」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "Dream线",
+        "dream"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "Dream线 · dream_match · 他的名字",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:dream_celebrate:48",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「看台上的庆祝」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "Dream线",
+        "dream"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "Dream线 · dream_celebrate · 看台上的庆祝",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:dream_return:49",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「久别重逢」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "Dream线",
+        "dream"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "Dream线 · dream_return · 久别重逢",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:dream_home:50",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「花园别墅·秘密基地」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "Dream线",
+        "dream"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "Dream线 · dream_home · 花园别墅·秘密基地",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    },
+    {
+      "id": "canon:dream_final:51",
+      "namespace": "canon:nagisheart",
+      "kind": "canon",
+      "text": "既成事实：在 TRUE END 时间线上，凪经历了「世界第一，与你」。这是已经发生的剧情节点，不是当前正在进行的事件。",
+      "createdAt": "2026-08-21T00:00:00.000Z",
+      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "salience": 1,
+      "confidence": 1,
+      "tags": [
+        "Dream线",
+        "dream"
+      ],
+      "source": {
+        "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
+        "section": "Dream线 · dream_final · 世界第一，与你",
+        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+      }
+    }
+  ]
+}

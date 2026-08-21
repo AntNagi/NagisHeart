@@ -12,6 +12,8 @@ import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
 import { loadGuardPolicy, loadResourceBlocks } from "./resource-loader.js";
 import { resolve } from "node:path";
+import { join } from "node:path";
+import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 
 const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" };
@@ -38,6 +40,30 @@ const domainStore = createDomainBackend();
 const resourceRoot = resolve(process.env.NAGI_RESOURCE_ROOT ?? "resources");
 const resources = loadResourceBlocks(resourceRoot);
 const guardPolicy = loadGuardPolicy(resourceRoot);
+
+function loadCanonMemories(root: string) {
+  const path = join(root, "world", "events", "canon-memory.json");
+  try {
+    const parsed: unknown = JSON.parse(readFileSync(path, "utf8"));
+    if (!parsed || typeof parsed !== "object") return [];
+    const value = parsed as { schemaVersion?: unknown; memories?: unknown };
+    if (value.schemaVersion !== 1 || !Array.isArray(value.memories)) return [];
+    return value.memories.filter((item): item is Parameters<typeof memoryStore.append>[0][number] => {
+      if (!item || typeof item !== "object") return false;
+      const candidate = item as Record<string, unknown>;
+      const source = candidate.source;
+      return candidate.kind === "canon" && candidate.namespace === "canon:nagisheart" && typeof candidate.id === "string" &&
+        typeof candidate.text === "string" && typeof candidate.createdAt === "string" && typeof candidate.updatedAt === "string" &&
+        typeof candidate.salience === "number" && typeof candidate.confidence === "number" && Array.isArray(candidate.tags) &&
+        !!source && typeof source === "object" && typeof (source as Record<string, unknown>).path === "string" &&
+        typeof (source as Record<string, unknown>).section === "string" && typeof (source as Record<string, unknown>).sha256 === "string";
+    });
+  } catch {
+    return [];
+  }
+}
+
+const canonLoad = memoryStore.append(loadCanonMemories(resourceRoot));
 
 export function getLocalDomainState(userId: string) {
   return {
@@ -88,6 +114,7 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
       return classify(message);
     },
     async retrieveContext({ request, query }) {
+      await canonLoad;
       const [canonMemories, liveMemories] = await Promise.all([
         memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: 4 }),
         memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: 4 }),

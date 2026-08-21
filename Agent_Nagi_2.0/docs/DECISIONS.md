@@ -691,3 +691,15 @@ canon 记忆记的是「发生了什么」，不是台词逐字。
 - C5：服务端 Canon / Live 分池检索，各取 4 条后合并排序，避免任一池长期吞没另一池。
 - 证据：`packages/core/src/memory/{types,engine}.ts`、`packages/server/src/local-dependencies.ts`。
 
+---
+
+## NRH-20260821-2115 — Canon Memory 首批烘焙完成
+
+- 状态：已落地，待 Ant 验收
+- 来源：V17 `Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md`
+- 口径：仅共通第一至六部、第八章、M 线与 Dream 线；排除 J / Stay / Bad。
+- 产物：`resources/world/events/canon-memory.json`，51 条 `canon:nagisheart` 记录。
+- 每条记录包含：稳定 id、`kind=canon`、confidence、tags、`source.path`、节点坐标与 V17 SHA-256。
+- 加载：`packages/server/src/local-dependencies.ts` 启动时装载；检索回归覆盖跨用户共享 Canon namespace。
+- 命令证据：`pnpm bake:canon`。
+
