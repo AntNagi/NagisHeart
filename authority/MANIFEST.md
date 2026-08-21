@@ -36,6 +36,7 @@ KV 资产包因体积和既有引用（web favicon、harness 任务单）保留�
 ## 相关但不在本目录的权威关系
 
 - **运行时真值**：`story-data/*.json` 是 App 实际运行状态，地位不变。与 #3/#4 不一致时，必须记录"源稿未同步"或"运行数据临时修正"，不得静默覆盖（继承 PROJECT_STRUCTURE §1.5 规则）。
+- **Agent 人格事实源（子项目，2026-08-20 登记）**：`Agent_Nagi_2.0/resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md`（v0.5 Full / Merged，2124 行）是 `Agent_Nagi_2.0/` 角色 Agent 的 Personality / Speech / Behavior 唯一直接事实源。该文件为 Ant 自有的 v0.4 母版 + v0.5 补丁合并稿，**非本目录任何权威的复制品**，故不触发铁律第 1 条；此处登记是因为它已对 Agent 承担权威职能。校验口径为 SHA-256 `27236FD1D8A8B2BF7A516C520560AC09CD27728A952070EE499A734CAFC0F044`，由子项目 `Agent_Nagi_2.0/docs/DECISIONS.md`（NRH-20260820-018）维护，**不纳入 `tools/check-authority.ps1` 的 MD5 表**。剧本 #3（V17）仍为剧本母版与 Canon 剧情来源之一，但不再单独承担凪的台词风格权威。见 DEC-20260820-001。
 - **已知待办**：V3_1 ↔ story-data 全量差异审计（已发现 GOOD END 标题"爱你/爱他"一处分歧），待 PM 开任务。
 - **历史/过期副本警示**：`handoff/yiyi_final_visual_slices_20260711/XoXo_UI_Final_MinSpec_20260712.md` 是 2026-07-20 23:33 的过期版本，仅作历史保留，禁止作为开发依据。
 

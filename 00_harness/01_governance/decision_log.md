@@ -1021,3 +1021,25 @@ None. Investigation and process decision only; no code or resource deletion auth
   - Node lighting remains based only on actual visit/completion records. This is a layout correction, not synthetic route completion.
   - Web and Android must implement the same structure and route labels.
 - Files: `authority/interaction/NagisHeart_Interaction_Design_v1_0.md`, `authority/ui/XoXo_UI_Final_MinSpec_20260712.md`, `web/src/data/StoryMapPresentation.js`, `web/src/ui/overlays/StoryMapOverlay.js`, `android/app/src/main/java/com/antnagi/nagisheart/ui/screen/StoryMapLayout.kt`, `android/app/src/main/java/com/antnagi/nagisheart/ui/screen/ChapterScreen.kt`, `authority/MANIFEST.md`
+
+
+# DEC-20260820-001 - Agent_Nagi_2.0 derives a server-side Character Resource pack; Character Bible v0.5 registered as its personality source
+
+- Date: 2026-08-20
+- Owner: Ant
+- Scope: `Agent_Nagi_2.0/` (Nagi Runtime Harness), a sub-project in this repository. Does not change any file under `authority/`.
+- Decision:
+  - Approve building an Agent-only Character Resource pack under `Agent_Nagi_2.0/resources/`.
+    Resources are structured rewrites and extractions, never verbatim copies of `authority/` documents.
+    Every resource carries a `source` field (authority path + section + source hash) so it can be traced back and invalidated when the source changes.
+  - Resources ship with the server only. They are never sent to, bundled into, or downloadable from the chat client.
+    ESLint import boundaries enforce this: the client may not import core, runtime, server, or resources.
+  - `Agent_Nagi_2.0/resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md` (2124 lines, v0.5 Full / Merged, merged by Ant on 2026-08-20 from her own v0.4 master plus the v0.5 update patch) is the single direct source of truth for Personality, Speech and Behavior.
+    It is Ant's own authoring document, not a copy of anything under `authority/`, so the no-copy rule is not engaged. It is registered here and in `authority/MANIFEST.md` because it now functions as an authority for the Agent's personality.
+  - `authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md` remains the script master and one of the Canon story sources. It no longer serves as a separate authority for Nagi's line-level speech style. Conflicting personality sources must not be auto-merged.
+  - Story timeline anchor: post-ending "now", ending fixed to TRUE END. The ending only populates CanonWorldState (what Nagi has lived through). Ordinary users do not inherit the protagonist's end-state relationship; UserRelationship starts from zero and evolves per user.
+  - `story-data/*.json` keeps its runtime-truth status. Canon memories are baked from it plus the script master; divergence must be recorded, never silently overwritten.
+- Non-goals:
+  - This entry does not modify, supersede, or re-hash any of the seven authority documents or the two KV asset packages.
+  - DSH integration is out of scope for the August cycle.
+- Files: `Agent_Nagi_2.0/docs/Nagi_Runtime_Harness_Technical_Design_V4_LangGraph.md`, `Agent_Nagi_2.0/docs/DECISIONS.md`, `Agent_Nagi_2.0/resources/core/NagisHeart_Nagi_Character_Bible_v0_5_Full_Merged.md`, `authority/MANIFEST.md`
