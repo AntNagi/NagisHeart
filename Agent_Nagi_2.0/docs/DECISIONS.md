@@ -12,6 +12,7 @@
 > 格式：`- [发起方] 在改什么 — 起始时间`
 
 - [Claude] 抽 policy/scene.* 与 world/{places,systems,rules.*} —— **只碰 resources/**，不动 packages/ — 2026-08-21 17:27
+- [Codex] 实现 SQLite Domain Store 与幂等事务 —— 不碰 resources/ — 2026-08-21
 
 
 
@@ -566,4 +567,115 @@ resources/
   （给不熟剧情的使用者），需要 canon 屏蔽机制，非改初值可得。架构上不把 canon 写死为永远可见。
 - 落地：`config/runtime.yaml` relationship.seed；`relationship/baseline.true_end.md`
   只留自然语言质感，数值全在 config（遵 V4 §9.2「数值给系统，自然语言给模型」）。
+
+---
+
+## NRH-20260821-1737 — Canon Memory 接口契约（**提案，待 Codex 确认**）
+
+- 日期：2026-08-21
+- 提出：Claude（资源侧）
+- 状态：**提案。涉及 `packages/core/src/memory/` 的部分需 Codex 同意或实现**
+- 目的：`scripts/bake-canon.ts` 要产出 canon 记忆，必须先与现有 `MemoryStore` 对齐。
+  以下五条是读实现后发现的**具体冲突**，不是设想。
+
+### 冲突 C1 — canon 记忆永远检索不到 【已验证 · 硬阻塞】
+
+- `packages/server/src/local-dependencies.ts:72`
+  → `memoryEngine.retrieve({ namespace: request.userId, ... })`（每用户）
+- `packages/core/src/memory/engine.ts:69`
+  → `.filter(r => r.namespace === query.namespace && ...)`（严格相等）
+- ⇒ canon 是**全用户共享**的（同一个凪、同一段剧情），
+  烘焙到任何全局 namespace 都不会被匹配到；
+  若按用户各存一份，则 300–800 条 × N 用户，且无法集中更新。
+
+**提案**：保留 canon 专用 namespace `canon:nagisheart`，检索时同时命中：
+
+```ts
+const CANON_NAMESPACE = "canon:nagisheart";
+.filter(r =>
+  (r.namespace === query.namespace) ||
+  (r.kind === "canon" && r.namespace === CANON_NAMESPACE))
+```
+
+或给 `MemoryQuery` 增加 `namespaces: readonly string[]`。后者更干净，Codex 定。
+
+### 冲突 C2 — 时近性衰减对 canon 是错的 【已验证】
+
+- `engine.ts:37` `recencyScore = exp(-age / 30d)`，权重 0.16
+- canon 事件发生在 2019–2020（故事时间）。`updatedAt` 取烘焙时间则**假新**，
+  取故事时间则**恒为 0**。两种都不对——**canon 的相关性不该随时间衰减**。
+- `kindBoost: canon → 0.08` 只是粗糙补偿。
+
+**提案**：canon 不参与时近性衰减，其 `recency` 分量取中性常数（建议 0.5）：
+
+```ts
+const recency = record.kind === "canon" ? 0.5 : recencyScore(record.updatedAt, now);
+```
+
+### 冲突 C3 — embedding 无版本，维度不符会静默失效 【已验证】
+
+- `MemoryRecord.embedding?: readonly number[]`，无 modelId / dimension / version
+- `engine.ts:19` 维度不等时 `cosineSimilarity` **返回 0**，不报错
+- ⇒ 换 embedding 模型后，旧向量静默退化为「语义分 0」，只靠词面兜底，**不会有人发现**
+- V4 §8.2 明确要求版本化，且「模型变化时后台重建全部向量，禁止混合向量空间检索」
+
+**提案**：`MemoryRecord` 增加两个可选字段，检索时不匹配即跳过并告警：
+
+```ts
+readonly embeddingModel?: string;   // 如 "bge-small-zh-v1.5"
+readonly embeddingDim?: number;
+```
+
+### 冲突 C4 — canon 缺回溯坐标 【已验证】
+
+资源层每条都带 `source.section` + SHA，canon 记忆同样需要——
+否则 V17 改动后无从判断哪些条目失效。目前只能塞进 `tags`（无类型）。
+
+**提案**：`MemoryRecord` 增加可选 `source`：
+
+```ts
+readonly source?: {
+  readonly path: string;      // authority/script/…V17.md
+  readonly section: string;   // 篇章 + 节点 id + 行号
+  readonly sha256: string;
+};
+```
+
+### 冲突 C5 — 未做 canon / live 分池 【已验证】
+
+- `retrieveContext` 未传 `kinds`，两类在**同一池**内排序
+- V4 §8.3 要求「canon 与 live 分池检索，各取 top-k，**防止 canon 淹没近期对话**」
+- 冷启动时 live 为空、canon 有 300–800 条，8 个检索位会**全被 canon 占满**；
+  live 增长后 canon 仍有 `kindBoost` 加持，长期挤压近期记忆
+
+**提案**：`retrieveContext` 发两次查询再合并，配额写进 `config/runtime.yaml`
+（建议 canon 4 / live 4，可调）。
+
+---
+
+### bake-canon 侧的产出约定（我这边照此实现）
+
+```ts
+{
+  id:        "canon:{part}:{nodeId}:{seq}",
+  namespace: "canon:nagisheart",       // ← 待 C1 确认
+  kind:      "canon",
+  text:      "<事件改写，非台词逐字>",
+  createdAt / updatedAt: 烘焙时间（ISO）,
+  salience:  0–1，按剧情权重
+  confidence: 1.0（canon 是既成事实）
+  tags:      [篇章, 路线, scene, 情绪标签…]
+  embedding + embeddingModel + embeddingDim,   // ← 待 C3
+  source:    { path, section, sha256 },        // ← 待 C4
+}
+```
+
+**只取与 TRUE END canon 一致的段落**：共通（第一–六部、第八章）+ M 线 + Dream 线。
+J 线 / Stay 线 / Bad 线**不烘焙**——它们未发生，进了记忆就会被当亲历事实。
+（与 style_anchors 的取材口径一致。）
+
+⚠️ 事件正文是**改写**（`derivation: extract` 仅限 style_anchors）。
+canon 记忆记的是「发生了什么」，不是台词逐字。
+
+- **在 C1 确认前不写 `bake-canon.ts`。** C1 不定，烘出来的东西检索不到，白做。
 
