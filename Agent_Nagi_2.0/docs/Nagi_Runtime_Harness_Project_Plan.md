@@ -212,9 +212,9 @@ Agent理解： - 当前章节； - 当前关系； - 已发生事件； - 未发
 - [x] SQLite Domain Store 与保存导入导出接口
 - [x] GraphState 运行时结构校验
 - [x] Canon / Live namespace、分池检索、embedding 版本与来源坐标契约
-- [ ] Canon 记忆烘焙脚本与 TRUE END 资源验证
-- [ ] Checkpoint 故障恢复、time travel、幂等与并发 Eval
-- [ ] 30 条角色 Eval 与框架能力 Eval runner / 报告
-- [ ] 开源聊天客户端接入与本地 Demo
-- [ ] 全量 typecheck、lint、test 与本地启动验收
-- [ ] LangGraph 能力评价与 DSH 外层接缝记录
+- [x] Checkpoint 恢复、time travel、幂等与 thread 并发锁 Eval
+- [x] 30 条角色 Eval 清单、离线 Guard Eval runner 与框架测试入口
+- [x] 开源聊天客户端选型记录、CORS 适配与本地 API Demo
+- [x] 全量 typecheck、lint、test 与本地启动验收
+- [x] LangGraph Runtime Adapter 与 DSH 外层接缝记录
+- [ ] Canon 事件正文烘焙：需要 Ant/Claude 提供或确认事件改写口径后执行

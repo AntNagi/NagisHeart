@@ -36,7 +36,7 @@ function bearerMatches(request: IncomingMessage, expected: string): boolean {
   return supplied.length === target.length && timingSafeEqual(supplied, target);
 }
 
-async function withThreadLock<T>(locks: Map<string, Promise<void>>, key: string, task: () => Promise<T>): Promise<T> {
+export async function withThreadLock<T>(locks: Map<string, Promise<void>>, key: string, task: () => Promise<T>): Promise<T> {
   const previous = locks.get(key) ?? Promise.resolve();
   let release!: () => void;
   const current = new Promise<void>((resolve) => { release = resolve; });
