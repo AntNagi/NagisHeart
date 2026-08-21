@@ -20,7 +20,7 @@ context:
 
   # token 估算系数。8/23 用 countTokens 离线标定后回填（V4 §9 待办）。
   tokenEstimate:
-    cjkRatio: TBD_8_23
+    cjkRatio: 0.561              # 【已验证】2026-08-21 实测：personality.base+speech 2054 字 = 1153 token
     latinRatio: TBD_8_23
     recalibrateIfDriftOver: 0.15
 
