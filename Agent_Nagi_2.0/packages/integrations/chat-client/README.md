@@ -29,6 +29,15 @@ progress 事件对使用者不可见 —— 发出消息后会空白若干秒再
 
 **8/25 必须实测首字延迟并记录**：≲3s 不动；≳6s 再评估混合流（V4 §6.1）。
 
-## 状态
+## 选定：Chatbox Lite
 
-未选型。选定后在此记录：项目名、版本/commit、许可证、配置差异、适配代码清单。
+- 项目：[lfbear/chatbox-lite](https://github.com/lfbear/chatbox-lite)
+- 形态：单 HTML + 可选 PWA companion files，适合本地 Demo 与移动端安装
+- 许可证：MIT（以仓库当前 LICENSE 为准，2026-08-21 检查）
+- 接入方式：选择 OpenAI-compatible provider，Base URL 指向 Nagi `/v1`，模型名填 `configured`
+- 流式：客户端支持 SSE；Nagi 已提供 `/v1/chat/completions` SSE
+- BYOK：客户端本地保存并随 `X-LLM-Key` 透传；服务端不落库、不写日志
+- 必要适配：Nagi 已补 CORS preflight 与 `authorization` / `x-llm-key` 允许头
+- 安全边界：不得把 `resources/`、system prompt 或服务端源码复制到客户端
+
+固定 commit 尚未能从 GitHub 网络取回；接入前必须锁定具体 commit 并复核 LICENSE。

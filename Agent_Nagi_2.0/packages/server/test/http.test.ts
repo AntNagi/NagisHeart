@@ -88,6 +88,20 @@ describe("server streaming API", () => {
     }
   });
 
+  it("answers browser CORS preflight for the selected chat client", async () => {
+    const server = createHttpServer();
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", () => resolve()));
+    try {
+      const address = server.address();
+      if (!address || typeof address === "string") throw new Error("server did not bind");
+      const response = await fetch(`http://127.0.0.1:${address.port}/v1/chat/completions`, { method: "OPTIONS" });
+      expect(response.status).toBe(204);
+      expect(response.headers.get("access-control-allow-headers")).toContain("x-llm-key");
+    } finally {
+      await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+    }
+  });
+
   it("applies a per-user chat rate limit", async () => {
     const previous = process.env.NAGI_RATE_LIMIT_PER_MINUTE;
     process.env.NAGI_RATE_LIMIT_PER_MINUTE = "1";

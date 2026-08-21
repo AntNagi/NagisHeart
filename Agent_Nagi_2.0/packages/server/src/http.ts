@@ -76,6 +76,14 @@ export function createHttpServer() {
   return createServer(async (request, response) => {
     let streaming = false;
     try {
+      response.setHeader("access-control-allow-origin", process.env.NAGI_CORS_ORIGIN ?? "*");
+      response.setHeader("access-control-allow-headers", "authorization, content-type, x-llm-key");
+      response.setHeader("access-control-allow-methods", "GET, POST, OPTIONS");
+      if (request.method === "OPTIONS") {
+        response.writeHead(204);
+        response.end();
+        return;
+      }
       if (request.method === "GET" && request.url === "/health") {
         json(response, 200, { status: "ok", runtime: "local" });
         return;
