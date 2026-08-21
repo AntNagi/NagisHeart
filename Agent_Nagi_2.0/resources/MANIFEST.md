@@ -373,46 +373,52 @@ resources/
 
 **判据按目录，不靠文件名**：`_sources/` 下一律是素材，校验器不检查其 front-matter。
 
-## 抽取进度（2026-08-21）
+## 抽取进度（2026-08-21 · 资源层完成）
 
-**21 份**资源全部通过 `scripts/validate-resources.py`；
+**31 份**全部通过 `scripts/validate-resources.py`；
 风格锚另过 `scripts/verify-anchors.py`（逐字保真 34/34）。
-常驻（`always`）预算合计 **4450 tok**。
+常驻（`always`）预算合计 **4500 tok**。
 
-| 类 | 文件 | ~tok / 预算 |
-|---|---|---|
-| D 守卫 | `policy/output_guard.md` | 1558 / 不进 context |
-| A 常驻 | `core/personality.base` · `.speech` · `.recap` | 661/1500 · 732/800 · 305/400 |
-| B 行为 | `core/behavior.` daily·affection·intimacy·conflict·football·setback | 173–593，各 /800 |
-| **E 锚** | `style_anchors/` daily·affection·intimacy·conflict·football·setback | 121–209，各 /300（合计 ~970/1800）|
-| F 世界 | `world/timeline` · `world/glossary` | 493/600 · 302/350 |
-| G 关系 | `relationship/canon.core` · `baseline.true_end` | 492/500 · 277/300 |
-| — | `user_profile/template.md` | 模板，实例上限 250 |
+激活方式分布：`scene` 20 · `always` 7 · 检索 2 · 不进 context 2。
 
-Eval：`evals/cases/guard_regex.yaml`（19 条）· `evals/cases/ooc_adversarial.yaml`（30 条）
+### 六场景三件套（核心结构，已闭合）
 
-### 风格锚的抽法（Q14 修订后）
+| scene | behavior（会怎么做） | policy（怎么演） | anchor（怎么说） |
+|---|---|---|---|
+| daily · affection · intimacy · conflict · football · setback | Nagi Bible §7/§9 | Rel §4/§9/§10 + World §9/§11 | V17 逐字对白 |
 
-**17 组「刺激 → 反应」对，六场景各 2–3 组，逐字。**
+三个来源各司其职，不互相冒充：
+**人格行为**来自 Nagi Bible，**场景演法**来自 Relationship / World Bible，
+**实际台词**来自 V17。
 
-- **只取与 TRUE END canon 一致的段落**：共通（第一–六部、第八章）+ M 线 + Dream 线。
-  J 线 / Stay 线 / Bad 线一律排除
-- 筛选：凪回复 ≤30 字（语料 p95）· 玩家台词 ≤40 字 · 过 output_guard 零命中
-- 每条带 `source.section` 行号坐标 + V17 的 SHA-256
-- **双重保障**：SHA 变 → 强制重新派生；逐字对不上 → `verify-anchors.py` 失败
+### 常驻层（7 份，4500 tok）
 
-> 为什么必须是对白对、不能是单句：凪的质感在于
-> **「面对这么重的一句话，他只回这么短」**。
-> 母版的 19 句全是孤立单句，给不了这个。
-> 典型示例：对面说了四句嘱咐，他回「好多。」
+```text
+core/personality.base      凪是谁          Nagi §18
+core/personality.speech    怎么说话        Nagi §8
+core/personality.recap     尾部锚 Block ⑩   Nagi §16 + Rel §12
+relationship/canon.core    关系结构        Rel §11 + Ant §0/§1
+relationship/baseline.*    既成终局        Rel §7.1 + Nagi §13.4 + World §12.1
+world/timeline             剧情骨架        World §3 八阶段
+world/glossary             术语与称呼      World §16
+```
 
-### 待抽
+### 其余
 
-| 类 | 文件 | 阻塞 |
-|---|---|---|
-| C 场景策略 | `policy/scene.*` × 6 | 无 |
-| F 世界 | `world/places` · `systems` · `rules.*` × 3 | 无 |
-| 脚本 | `world/events/*` + canon 向量 | 需 `bake-canon.ts` |
+```text
+policy/output_guard        判据，不进 context      Nagi §8.4/§15 + Rel §10.2/10.3 + World §15.2
+user_profile/template      玩家可填，实例才进      Ant §0/§1/§2
+world/places · systems     检索式                  World §4 · §5/§6
+world/rules.capital/love   场景激活                World §10 · §11
+```
+
+### 待做
+
+| 项 | 阻塞 |
+|---|---|
+| `world/events/*` + canon 向量 | 需 `scripts/bake-canon.ts`。**与 Codex 的 `DomainStore` 有接口关系，须先在 DECISIONS 对齐** |
+
+**资源层的手写部分到此完成。**
 
 ## 关系模型（易错，单列）
 
