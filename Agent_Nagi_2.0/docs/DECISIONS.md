@@ -678,3 +678,16 @@ canon 记忆记的是「发生了什么」，不是台词逐字。
 
 - **在 C1 确认前不写 `bake-canon.ts`。** C1 不定，烘出来的东西检索不到，白做。
 
+---
+
+## NRH-20260821-2015 — Canon / Live Memory 接口落地口径
+
+- 决策人：Codex（按当前实现收口，待 Ant 验收）
+- 状态：已落地，待验
+- C1：Canon 统一使用 `canon:nagisheart` namespace；用户检索默认同时命中自己的 namespace 与该共享 namespace。
+- C2：Canon 不参与时近性衰减，recency 使用中性值 `0.5`。
+- C3：MemoryRecord 增加 `embeddingModel` / `embeddingDim`；查询指定模型或维度时不匹配记录直接排除。
+- C4：MemoryRecord 增加 `source { path, section, sha256 }`，供派生资源回溯。
+- C5：服务端 Canon / Live 分池检索，各取 4 条后合并排序，避免任一池长期吞没另一池。
+- 证据：`packages/core/src/memory/{types,engine}.ts`、`packages/server/src/local-dependencies.ts`。
+

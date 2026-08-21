@@ -88,7 +88,11 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
       return classify(message);
     },
     async retrieveContext({ request, query }) {
-      return memoryEngine.retrieve({ namespace: request.userId, text: query, limit: 8 });
+      const [canonMemories, liveMemories] = await Promise.all([
+        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: 4 }),
+        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: 4 }),
+      ]);
+      return [...canonMemories, ...liveMemories].sort((left, right) => right.score - left.score);
     },
     assembleContext({ domain, scene, memories }) {
       return buildContext({

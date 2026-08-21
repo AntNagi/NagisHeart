@@ -201,3 +201,20 @@ Agent理解： - 当前章节； - 当前关系； - 已发生事件； - 未发
 -   验证动态 Resource Composition；
 -   探索角色 Agent Runtime；
 -   总结 Harness 实践方法。
+
+## 10. 实现收尾清单（2026-08-21）
+
+按当前代码与定稿技术方案对账，后续工作只按此清单收口：
+
+- [x] LangGraph StateGraph、条件边、Guard 重试与 fallback
+- [x] Context / Memory 基础实现与资源加载
+- [x] API、SSE、BYOK 透传、鉴权、限流、thread 单写锁
+- [x] SQLite Domain Store 与保存导入导出接口
+- [x] GraphState 运行时结构校验
+- [x] Canon / Live namespace、分池检索、embedding 版本与来源坐标契约
+- [ ] Canon 记忆烘焙脚本与 TRUE END 资源验证
+- [ ] Checkpoint 故障恢复、time travel、幂等与并发 Eval
+- [ ] 30 条角色 Eval 与框架能力 Eval runner / 报告
+- [ ] 开源聊天客户端接入与本地 Demo
+- [ ] 全量 typecheck、lint、test 与本地启动验收
+- [ ] LangGraph 能力评价与 DSH 外层接缝记录

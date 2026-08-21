@@ -48,7 +48,7 @@ function lexicalScore(text: string | undefined, memory: string): number {
 export function scoreMemory(record: MemoryRecord, query: MemoryQuery): MemorySearchResult {
   const now = query.now ?? new Date().toISOString();
   const semantic = Math.max(cosineSimilarity(query.embedding, record.embedding), lexicalScore(query.text, record.text));
-  const recency = recencyScore(record.updatedAt, now);
+  const recency = record.kind === "canon" ? 0.5 : recencyScore(record.updatedAt, now);
   const salience = clamp(record.salience);
   const confidence = clamp(record.confidence);
   const kindBoost: number = record.kind === "canon" ? 0.08 : 0;
@@ -66,7 +66,13 @@ export function scoreMemory(record: MemoryRecord, query: MemoryQuery): MemorySea
 export function rankMemories(records: readonly MemoryRecord[], query: MemoryQuery): readonly MemorySearchResult[] {
   const kinds = query.kinds ? new Set<MemoryKind>(query.kinds) : undefined;
   return records
-    .filter((record) => record.namespace === query.namespace && (!kinds || kinds.has(record.kind)))
+    .filter((record) => {
+      const namespaces = new Set([query.namespace, ...(query.namespaces ?? [])]);
+      const namespaceMatch = namespaces.has(record.namespace) || (record.kind === "canon" && record.namespace === "canon:nagisheart");
+      const embeddingMatch = !query.embeddingModel || !record.embeddingModel || query.embeddingModel === record.embeddingModel;
+      const dimensionMatch = !query.embedding || !record.embeddingDim || query.embedding.length === record.embeddingDim;
+      return namespaceMatch && embeddingMatch && dimensionMatch && (!kinds || kinds.has(record.kind));
+    })
     .map((record) => scoreMemory(record, query))
     .sort((left, right) => right.score - left.score || right.record.updatedAt.localeCompare(left.record.updatedAt))
     .slice(0, Math.max(0, query.limit));
@@ -96,6 +102,9 @@ export class MemoryEngine {
         salience: clamp(draft.salience),
         confidence: clamp(draft.confidence),
         tags: [...draft.tags],
+        ...(draft.embedding ? { embedding: [...draft.embedding] } : {}),
+        ...(draft.embeddingModel ? { embeddingModel: draft.embeddingModel, embeddingDim: draft.embedding.length } : {}),
+        ...(draft.source ? { source: draft.source } : {}),
       }));
     await this.store.append(records);
     return records;
@@ -121,6 +130,14 @@ export function parseMemoryDrafts(value: unknown, sourceTurnId: string): readonl
       confidence: typeof candidate.confidence === "number" ? clamp(candidate.confidence) : 0.5,
       tags,
       sourceTurnId,
+      ...(Array.isArray(candidate.embedding) && candidate.embedding.every((value) => typeof value === "number")
+        ? { embedding: candidate.embedding as number[] } : {}),
+      ...(typeof candidate.embeddingModel === "string" ? { embeddingModel: candidate.embeddingModel } : {}),
+      ...(candidate.source && typeof candidate.source === "object" ? (() => {
+        const source = candidate.source as Record<string, unknown>;
+        return typeof source.path === "string" && typeof source.section === "string" && typeof source.sha256 === "string"
+          ? { source: { path: source.path, section: source.section, sha256: source.sha256 } } : {};
+      })() : {}),
     });
   }
   return drafts;

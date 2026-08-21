@@ -11,12 +11,21 @@ export interface MemoryRecord {
   readonly confidence: number;
   readonly tags: readonly string[];
   readonly embedding?: readonly number[];
+  readonly embeddingModel?: string;
+  readonly embeddingDim?: number;
+  readonly source?: {
+    readonly path: string;
+    readonly section: string;
+    readonly sha256: string;
+  };
 }
 
 export interface MemoryQuery {
   readonly namespace: string;
+  readonly namespaces?: readonly string[];
   readonly text?: string;
   readonly embedding?: readonly number[];
+  readonly embeddingModel?: string;
   readonly kinds?: readonly MemoryKind[];
   readonly limit: number;
   readonly now?: string;
@@ -44,4 +53,7 @@ export interface MemoryDraft {
   readonly confidence: number;
   readonly tags: readonly string[];
   readonly sourceTurnId: string;
+  readonly embedding?: readonly number[];
+  readonly embeddingModel?: string;
+  readonly source?: MemoryRecord["source"];
 }

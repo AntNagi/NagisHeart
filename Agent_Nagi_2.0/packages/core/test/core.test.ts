@@ -45,6 +45,22 @@ describe("memory ranking and context budget", () => {
     expect(ranked[0]?.record.id).toBe("canon");
   });
 
+  it("includes shared canon namespace for every user and does not decay it by age", () => {
+    const ranked = rankMemories([
+      { id: "shared", namespace: "canon:nagisheart", kind: "canon", text: "曼城公寓", salience: 0.8, confidence: 1, createdAt: "2020-01-01T00:00:00.000Z", updatedAt: "2020-01-01T00:00:00.000Z", tags: [] },
+    ], { namespace: "user-a", text: "曼城公寓", now: "2026-01-01T00:00:00.000Z", limit: 1 });
+    expect(ranked).toHaveLength(1);
+    expect(ranked[0]?.components?.recency).toBe(0.5);
+  });
+
+  it("skips embeddings from a different model or dimension", () => {
+    const ranked = rankMemories([
+      { id: "old-model", namespace: "u", kind: "live", text: "旧向量", salience: 1, confidence: 1, createdAt: "2026-01-01T00:00:00.000Z", updatedAt: "2026-01-01T00:00:00.000Z", tags: [], embedding: [1, 0], embeddingModel: "old", embeddingDim: 2 },
+      { id: "new-model", namespace: "u", kind: "live", text: "新向量", salience: 1, confidence: 1, createdAt: "2026-01-01T00:00:00.000Z", updatedAt: "2026-01-01T00:00:00.000Z", tags: [], embedding: [1, 0, 0], embeddingModel: "new", embeddingDim: 3 },
+    ], { namespace: "u", embedding: [1, 0, 0], embeddingModel: "new", limit: 2 });
+    expect(ranked.map((item) => item.record.id)).toEqual(["new-model"]);
+  });
+
   it("drops low-priority blocks when the budget is exceeded", () => {
     const result = buildContext({
       request: "今天怎么样？",
