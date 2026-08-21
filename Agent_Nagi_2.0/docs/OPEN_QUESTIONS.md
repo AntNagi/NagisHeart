@@ -358,3 +358,123 @@ V17 每个节点都有完整旁白与对白，那才是「发生了什么」。
 既没有守卫在拦，也没有正确的记忆在召回。
 **这两条是跑 Eval 的前置条件，不是可以并行的优化。**
 
+
+---
+
+## 2026-08-21 依赖装通 + 豆包 Provider 实测（Claude，域 B）
+
+> **编号说明**：本组原以 F6–F11 起草，与 Codex 同日推送的 F6/F7（中文检索 / canon 空壳）
+> 撞号。按「编号一经使用，含义不得复用」，**后推者改号**，本组顺延为 F8–F13。
+>
+> 本轮首次在本机把工具链装通并实跑，发现分两组：**开工地基**（F8–F10，谁克隆都会撞）
+> 与 **Provider 实测**（F11–F13）。
+>
+> 环境事实【已验证】：本机无 Python（仅 WindowsApps stub，两个 `scripts/*.py` 校验器
+> **在本机跑不了**）；`pnpm` 需经 corepack 激活（11.22）；`better-sqlite3` 由
+> prebuild-install 取预编译二进制，**无需 VS 生成工具**；`pnpm-workspace.yaml` 需
+> `allowBuilds` 放行 better-sqlite3 / esbuild，否则**每一条 pnpm 脚本都直接失败**。
+
+### F8 — `*.tsbuildinfo` 至今仍被 git 追踪 —— 【已验证】
+
+`git ls-files | grep tsbuildinfo` → 三个文件全在（core / runtime-langgraph / server）。
+两个 commit（`6775c68`、`e7a09fd`）都写「取消追踪」，`.gitignore:11` 也有规则，
+**但 gitignore 对已入库文件无效，文件从没从索引删掉**。
+
+后果亲测：committed 的 tsbuildinfo 声称「已构建完成」，但 `dist/` 里只有 15 个 `.js`、
+**0 个 `.d.ts`** ⇒ `pnpm run typecheck` 报一串
+`Could not find a declaration file for module '@nagi/core'`。
+删缓存 `tsc -b --force` 重建后 15 个 `.d.ts` 立刻齐。
+**任何人新克隆首次 typecheck 都会撞这堆假错。**
+修法：`git rm --cached packages/*/tsconfig.tsbuildinfo` 一次即可。
+
+### F9 — 没有任何东西加载 `.env` —— 【已验证】
+
+`packages/server/src/index.ts` 只读 `process.env`，仓库无 dotenv、`dev` 脚本
+（`package.json:19`）也无 `--env-file`。
+⇒ **填好 `.env`，`pnpm run dev` 照样读不到 key，`createProviderFromEnvironment()`
+永远返回 undefined，服务器起得来但没有真 LLM。**
+（本轮所有 Provider 实测都是脚本自己解析 `.env` 才绕过去的。）
+Node 20+ 自带 `--env-file`，改 `dev` 一行即可。
+附带：`.env.example` 写 `PORT=8787`，`index.ts:3` 默认 `3000`，对不上。
+
+### F10 — sqlite-domain-store 测试断言已过时 —— 【已验证】（原 F7 降级）
+
+原报「幂等语义未定」。Codex `15960b7` 已定死语义：**重复 requestId 整笔无副作用**
+（`local-domain-store.test.ts` 断言 `trust` 保持 `2`）。**两个实现行为一致，都给 2。**
+
+但 `packages/server/test/sqlite-domain-store.test.ts:29` 仍断言 `toBe(4)`
+（旧口径：只去重 turn、关系照涨）⇒ 该测试**必然失败**，是**过时断言，不是实现缺陷**。
+修法：`toBe(4)` → `toBe(2)`。**本轮已改，见下方「本轮已动」。**
+
+同文件另一条仍未解：`sqlite-persistence.test.ts:34` 在 Windows 下 **EPERM**，
+`rmSync` 删不掉临时目录（SQLite 句柄未关就删）。断言本身（:32）是过的，挂在 `finally`
+清理。**纯 Windows 环境问题**，Codex 侧（Linux/mac）不暴露，故长期无人发现。
+
+### F11 — Provider 忽略 `request.model` —— 【已验证】
+
+`ports/provider.ts` 的 `ChatRequest` 声明了每请求的 `model`，但
+`openai-compatible-provider.ts:33` 只用构造时的 `options.model`，**丢弃 `request.model`**。
+⇒ 一个 Provider 实例锁死一个模型。V4 §10 要求业务按 main/aux/embedding 能力位调度
+（aux 走便宜模型做场景分类 / OOC 打分），现写法下 **aux 位无法与 main 共用实例**。
+
+### F12 — Provider 吞掉厂商错误详情 —— 【已验证】
+
+`openai-compatible-provider.ts:42` 只抛 `provider request failed (${status})`。
+本轮排查 404 时完全无法定位（endpoint 错？模型 id 错？key 错？），
+全靠另写 raw fetch 才看到真因 `ModelNotOpen`（账号未开通模型）。
+而代码**先 `await response.json()` 拿到 body、再判 `response.ok`**，错误详情已在手里却丢弃。
+建议把 `error.code` + `message` 带进异常。
+**红线提醒**：带错误详情时**绝不能把 `secret.apiKey` 带进错误对象**（域 B 红线）。
+
+### F13 — 豆包默认输出括号动作描写 —— 【已验证，已裁决见 NRH-20260821-2037】
+
+证据摘要（`doubao-seed-character-260628`，system = 真实人格资源）：
+默认 30/30 带括号；纯 prompt 禁止在对抗语料上可压 0/30 但**样本有偏**（无一要求动作）；
+换动作类输入括号回到 **5/8**，纯问答类 0/8 ⇒ **触发因子是「输入要求动作」，非轮次衰减**。
+「手给我」→「（没动）」台词为空 ⇒ 粗暴剥括号得空串。
+完整数据与裁决见 `NRH-20260821-2037`，此处只登记证据来源，不重复。
+
+---
+
+## 2026-08-21 成本基线（Claude，实测）
+
+> 8/22 选型与 8/28 Eval 排期都要用，先落盘。**豆包 `doubao-seed-character-260628`**，
+> 定价档「输入 ≤32k」：输入 0.8 / 输出 2 / **缓存命中 0.16** / 缓存存储 0.017
+> （元 · 每百万 token · 存储为每小时）。
+
+**中文 token 比【已验证】：`0.561 token/字`**（`personality.base`+`speech` 2054 字 = 1153 token，
+经 `usage.prompt_tokens` 实测）。⇒ `config/runtime.yaml` 的 `tokenEstimate.cjkRatio`
+原为 `TBD_8_23`，**本轮已填 0.561**，8/23 该待办可提前销账（若改用 countTokens 复核可再校）。
+
+| 场景 | 输入 token | 每轮成本 |
+|---|---|---|
+| 仅 base+speech（本轮测试用） | 1,187 | 0.00096 元 |
+| **生产满配**（runtime.yaml 各块合计） | **17,400** | **0.0139 元** |
+| 生产满配 + 静态块命中缓存 | 17,400 | 0.0097 元（**降 30%**） |
+
+**关键数字：跑一轮完整 30 条角色 Eval，生产满配需 522,000 token** —— 超过一个 50 万
+token 资源包。成本本身微不足道（0.42 元），但**额度维度上一轮都跑不完**，
+调参期建议先用子集（每类抽 1–2 条）迭代，定版才跑全 30 条。
+
+### 附带架构约束：缓存命中与装配顺序绑定 —— 【推断，待验】
+
+每轮完全相同的静态块共 **6,600 token**（personalityCore 1500 + speechStyle 800 +
+styleAnchors 1800 + canonTimeline 600 + behaviorAndScene 1500 + personalityRecap 400）。
+命中前缀缓存后单价 0.8 → 0.16（**两折**），满配下每轮省 0.0042 元；
+缓存存储费仅 0.00011 元/小时，**一轮的节省额够付约 38 小时存储**。
+
+**但前缀缓存要求前缀逐字节一致。** ⇒ V4 §9 的**装配顺序直接决定缓存能否命中**：
+静态块必须排在最前且顺序稳定；一旦把 memories / conversationWindow 这类每轮变化的
+内容插到前面，**前缀缓存永远命中不了**。
+
+按 `capacity.maxUserIdentities: 50`、每人每天 100 轮估算：
+无缓存 ≈ 69.5 元/天（~2,085 元/月），有缓存 ≈ 48.6 元/天（~1,458 元/月）。
+**测试期无所谓，上线即真金白银**——建议在 Context Builder（8/23）落地**之前**确认装配顺序，
+事后再改代价大得多。待验方式：接入后对比连续两轮的 `usage` 中缓存命中 token 数。
+
+### 本轮已动（仅两处，均为一行）
+
+1. `packages/server/test/sqlite-domain-store.test.ts:29`：`toBe(4)` → `toBe(2)`（见 F10）
+2. `config/runtime.yaml`：`tokenEstimate.cjkRatio: TBD_8_23` → `0.561`（实测值）
+
+其余 F8 / F9 / F11 / F12 **均未改代码**，留给 Codex——避免与其在改的 graph / server 撞车。
