@@ -217,3 +217,67 @@
   状态静默损坏代价高
 - 待验：构造一个畸形 checkpoint 恢复，看是否静默通过
 
+---
+
+## 2026-08-21 第二轮代码评审（Claude 读，**不改代码**，留给 Codex）
+
+### F4 — 硬守卫当前是空转的 —— **人格保真第一道防线失效，等级【已验证】**
+
+**现象**：`packages/server/src/local-dependencies.ts:107`
+
+```ts
+const result = evaluateGuard(text, {
+  forbiddenPatterns: [],   // ← resources/policy/output_guard.md 里的 10 条正则，一条没加载
+  frequencyCaps: [],       // ← 「好麻烦」窗口频率上限，没加载
+  defaultLength: 50,       // ← 这三个是我用 V17 语料标定的值，被**手抄**进代码
+  hardMaxLength: 80,
+  maxBeatsPerReply: 3,
+});
+```
+
+**引擎实现是对的**（`core/src/guard/engine.ts` 已验证逻辑正确），**规则表是空的**。
+⇒ 目前禁止句式、频率上限全部不生效；只有长度和 beat 在起作用，且是硬编码值。
+
+**根因**：`core/src/resources/parser.ts:29` 的 `parseResourceMarkdown` 是**手写**的
+front-matter 解析器，只认顶层标量与 `activation.*`（indent≥2），
+**读不了 `guard:` 块那种嵌套的规则对象列表**，直接跳过。
+所以 Codex 只能把标定值手抄进代码——它读了资源，但没有程序化加载的能力。
+
+这不是谁的疏忽，是**接缝没接上**：资源侧有结构化规则，代码侧没有对应加载器。
+
+**修法有设计取舍，留给 Codex 定**（我不越界替 core 引依赖）：
+
+| 方案 | 代价 |
+|---|---|
+| A. core 引一个 YAML 解析库 | 简单，但 V4 §12 给 core 定的是**零依赖纯 TS**，需先确认纯解析库是否算违规 |
+| B. **构建期**把 `guard:` 块编译成 JSON，core 只读 JSON | core 保持零依赖；多一个构建步骤。个人偏向这个 |
+| C. 只在 `packages/server` 侧解析，core 仍只收 `GuardConfig` | 边界最清楚，core 完全不动 |
+
+**验收判据**：`forbiddenPatterns.length === 10`，且
+`evals/cases/guard_regex.yaml` 的 19 条语料全过
+（9 条必拦 / 10 条必放，我已用 Python 实测过 19/19，逻辑无误，只是接不上）。
+
+**优先级建议：最高。** 守卫不加载，后续所有人格保真的验证结果都是假的
+——30 条对抗用例即使跑起来也测不出禁止句式。
+
+### F5 — 降级模板是新造的，无出处 —— 【已验证】
+
+`local-dependencies.ts:123` `fallbackResponse()` 返回 **「……这个不想说。」**
+
+实测：该句**不在 V17，也不在四份母版**中。
+
+`resources/policy/output_guard.md` §四 已备好四句，前三句在 V17 里**逐字存在**：
+
+```text
+……好麻烦。      ← 在 V17
+不是这个。        ← 在 V17
+好多。            ← 在 V17
+今天不想猜。      ← Nagi Bible §8.3
+```
+
+而且凪实际说「不想」时更短更钝：
+「不想。」「但不想承认。」「{{playerName}}……我不想说……」
+
+**降级模板是最后一道保险,恰恰最不该杜撰。** 建议直接取 §四 那四句
+（可按 scene 轮换），并让 `fallbackResponse` 从资源读而非硬编码——与 F4 同一个接缝。
+

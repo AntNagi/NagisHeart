@@ -11,7 +11,6 @@
 > 开工加一行，收工删掉。**这是最轻的锁，不是任务板。**
 > 格式：`- [发起方] 在改什么 — 起始时间`
 
-- [Claude] 抽 policy/scene.* 与 world/{places,systems,rules.*} —— **只碰 resources/**，不动 packages/ — 2026-08-21 17:27
 - [Codex] 实现 SQLite Domain Store 与幂等事务 —— 不碰 resources/ — 2026-08-21
 
 
