@@ -16,6 +16,17 @@ const memoryStore = new InMemoryMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
 const domainStore = new LocalDomainStore();
 
+export function getLocalDomainState(userId: string) {
+  return {
+    relationship: domainStore.loadRelationship(userId),
+    liveMemoryCount: domainStore.liveMemoryCount(userId),
+  };
+}
+
+export function getLocalHistory(userId: string, limit = 50) {
+  return domainStore.listTurns(userId, limit);
+}
+
 function classify(message: string): SceneId {
   if (/(足球|训练|比赛|球场)/u.test(message)) return "football";
   if (/(喜欢|爱|想你|告白)/u.test(message)) return "affection";
@@ -106,9 +117,21 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
     async extractEffects() {
       return { memoryDrafts: [] };
     },
-    async commitTurn({ request, relationshipDelta, memoryDrafts }) {
+    async commitTurn({ request, accepted, relationshipDelta, memoryDrafts }) {
       // Local-only persistence: replace with SQLite/Postgres DomainStore later.
-      domainStore.commit(request.userId, relationshipDelta, memoryDrafts);
+      domainStore.commitTurn({
+        userId: request.userId,
+        relationshipDelta,
+        drafts: memoryDrafts,
+        turn: {
+          requestId: request.requestId,
+          userId: request.userId,
+          threadId: request.threadId,
+          userMessage: request.message,
+          assistantMessage: accepted,
+          createdAt: new Date().toISOString(),
+        },
+      });
       await memoryEngine.commitDrafts(memoryDrafts, {
         namespace: request.userId,
         now: new Date().toISOString(),

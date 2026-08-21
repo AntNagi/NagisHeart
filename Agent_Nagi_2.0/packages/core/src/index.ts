@@ -9,5 +9,6 @@ export * from "./memory/in-memory.js";
 export * from "./memory/types.js";
 export * from "./ports/memory.js";
 export * from "./ports/provider.js";
+export * from "./ports/domain.js";
 export * from "./resources/parser.js";
 export * from "./resources/types.js";

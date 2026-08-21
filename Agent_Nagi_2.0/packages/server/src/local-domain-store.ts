@@ -1,4 +1,4 @@
-import type { MemoryDraft, RelationshipState } from "@nagi/core";
+import type { DomainStore, DomainTurn, MemoryDraft, RelationshipState } from "@nagi/core";
 import type { RelationshipDelta } from "@nagi/runtime-langgraph";
 
 function clamp(value: number): number {
@@ -8,16 +8,17 @@ function clamp(value: number): number {
 interface UserRecord {
   relationship: RelationshipState;
   liveMemoryCount: number;
+  turns: DomainTurn[];
 }
 
-export class LocalDomainStore {
+export class LocalDomainStore implements DomainStore {
   private readonly users = new Map<string, UserRecord>();
 
   public loadRelationship(userId: string): RelationshipState {
     const existing = this.users.get(userId);
     if (existing) return existing.relationship;
     const relationship: RelationshipState = { trust: 0, intimacy: 0, friction: 0 };
-    this.users.set(userId, { relationship, liveMemoryCount: 0 });
+    this.users.set(userId, { relationship, liveMemoryCount: 0, turns: [] });
     return relationship;
   }
 
@@ -39,5 +40,26 @@ export class LocalDomainStore {
       record.liveMemoryCount += drafts.filter((draft) => draft.kind === "live").length;
     }
     return next;
+  }
+
+  public commitTurn(input: {
+    readonly userId: string;
+    readonly relationshipDelta?: RelationshipDelta;
+    readonly drafts: readonly MemoryDraft[];
+    readonly turn: DomainTurn;
+  }): RelationshipState {
+    const relationship = this.commit(input.userId, input.relationshipDelta, input.drafts);
+    const record = this.users.get(input.userId);
+    if (record) record.turns.push(input.turn);
+    return relationship;
+  }
+
+  public listTurns(userId: string, limit = 50): readonly DomainTurn[] {
+    const turns = this.users.get(userId)?.turns ?? [];
+    return turns.slice(-Math.max(0, limit));
+  }
+
+  public liveMemoryCount(userId: string): number {
+    return this.users.get(userId)?.liveMemoryCount ?? 0;
   }
 }

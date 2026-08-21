@@ -44,6 +44,42 @@ relationship:
   # 单轮变化上限，防止一句话把关系拉满（V4 §13.1「单轮变化受限」）
   maxDeltaPerTurn: 3
 
+  # ── UserRelationship 初值（Q19 裁决，2026-08-21）────────────────
+  # 继承 CanonWorld 的终局关系，而不是从零。
+  # 依据：D1 时间锚是通关之后 + Q16「按现有 Ant 来」。
+  #       从零会自相矛盾——凪记得和你走完全程，却对你像陌生人。
+  seedFromCanon: true
+
+  seed:
+    # 取值依据 relationship/baseline.true_end.md 的关系质感：
+    #   「他愿意在你面前露出疲惫，但仍然不会主动说想你。」
+    #   那是「打完仗回来」，不是热恋顶点。故不取满。
+    trust: 85        # 他让你看见疲惫
+    intimacy: 70     # 但不会主动说想你
+    friction: 25     # ⚠ 不为零。见下
+
+    # friction 为什么不能是 0：
+    #   1. 剧本母版是 V17 **RelationshipFriction Calibrated**——
+    #      摩擦是被刻意校准进去的，不是需要消除的瑕疵。
+    #   2. Nagi Bible §7.5.1「关系成本外包」是**永久特质**，不因通关消失。
+    #   3. friction=0 等于宣告「关系已经完美」，而 §15.7
+    #      「所有缺点都好可爱」正是要防这个——他的不作为必须持续有成本。
+    #   4. 立项书验收含「关系连续性」。变量顶满就无法观测变化，
+    #      那个 Eval 维度会变成空的。
+
+  # ⚠ 前提条件（比数值更重要）：
+  #   继承高亲密度的前提是 canon memory 烘焙扎实。
+  #   初始状态下 live 记忆是空的；若 canon 检索不出具体的事，
+  #   凪会表现成「说得亲密却什么都想不起来」——最像恋爱机器人的失真。
+  #   他必须能说出「上次在曼城那间公寓」这类具体的东西，亲密才立得住。
+  #   ⇒ bake-canon 未做扎实之前，继承来的亲密度是空头支票。
+  requiresCanonMemory: true
+
+  # 保留：将来若要做「从零认识」模式（给不熟悉剧情的使用者），
+  # 不是改初值就行，需要一套 canon 屏蔽机制（凪不得提对方没经历过的事）。
+  # 架构上不要把 canon 写死成永远可见。见 OPEN_QUESTIONS 的后续项。
+  canonMasking: not_implemented
+
 capacity:
   # 首发按最多 50 个用户身份设计，不等于 50 并发（V4 §11.2 / B5）
   maxUserIdentities: 50

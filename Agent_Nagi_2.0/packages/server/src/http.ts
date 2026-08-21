@@ -1,7 +1,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { randomUUID } from "node:crypto";
 import { createNagiGraph, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
-import { createLocalDependencies } from "./local-dependencies.js";
+import { createLocalDependencies, getLocalDomainState, getLocalHistory } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
 
 const MAX_BODY_BYTES = 1_000_000;
@@ -45,6 +45,20 @@ export function createHttpServer() {
     try {
       if (request.method === "GET" && request.url === "/health") {
         json(response, 200, { status: "ok", runtime: "local" });
+        return;
+      }
+      if (request.method === "GET" && request.url?.startsWith("/api/state")) {
+        const query = new URL(request.url, "http://localhost").searchParams;
+        const userId = query.get("userId") ?? "local-user";
+        json(response, 200, getLocalDomainState(userId));
+        return;
+      }
+      if (request.method === "GET" && request.url?.startsWith("/api/history")) {
+        const query = new URL(request.url, "http://localhost").searchParams;
+        const userId = query.get("userId") ?? "local-user";
+        const parsedLimit = Number(query.get("limit") ?? "50");
+        const limit = Number.isFinite(parsedLimit) ? Math.max(0, Math.min(100, Math.floor(parsedLimit))) : 50;
+        json(response, 200, { turns: getLocalHistory(userId, limit) });
         return;
       }
       if (request.method !== "POST" || request.url !== "/v1/chat/completions") {

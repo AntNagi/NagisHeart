@@ -11,7 +11,12 @@
 > 开工加一行，收工删掉。**这是最轻的锁，不是任务板。**
 > 格式：`- [发起方] 在改什么 — 起始时间`
 
-*（当前无人在做）*
+- [Codex] 抽离 Domain Store Port，并补用户关系与 turns 的持久化边界 — 2026-08-21
+
+
+
+
+
 
 ---
 
@@ -534,4 +539,29 @@ resources/
   新增 `beat_caps.max_per_reply: 3`。
   「越重要越短」下放给 `soft_judge` 作评分依据，不再做硬规则。
 - 原 `calibrate_on: 8/25` 的待办**提前完成**，无需再标。
+
+---
+
+## NRH-20260821-1708 — Q19 裁决：UserRelationship 继承终局关系，但初值不取满
+
+- 日期：2026-08-21
+- 决策人：Ant（采纳 Claude 建议）
+- 状态：已定，**取代 NRH-20260820-017 的「从零起步」表述**
+- 决策：`seedFromCanon: true`。新使用者继承 CanonWorld 的终局关系，不从零。
+  初值 `trust 85 / intimacy 70 / friction 25`。
+- 理由：
+  - 从零会自相矛盾——凪记得和你走完全程（canon = TRUE END），却对你像陌生人。
+  - 但不取满：`baseline.true_end` 的质感是「打完仗回来」——愿意露出疲惫，
+    但不会主动说想你。那不是热恋顶点。
+  - **friction 不设 0**：母版是 V17 RelationshipFriction Calibrated，
+    摩擦是刻意校准的永久特质；friction=0 等于宣告关系完美，正是 §15.7 要防的；
+    且立项书验收含「关系连续性」，变量顶满就无法观测变化。
+- **前提条件**（比数值重要）：`requiresCanonMemory: true`。
+  继承高亲密度的前提是 canon 记忆烘焙扎实。初始 live 记忆为空，
+  若 canon 检索不出具体的事，凪会「说得亲密却什么都想不起来」——最像恋爱机器人的失真。
+  ⇒ bake-canon 未做扎实前，继承来的亲密度是空头支票。
+- 保留：`canonMasking: not_implemented`。将来若做「从零认识」模式
+  （给不熟剧情的使用者），需要 canon 屏蔽机制，非改初值可得。架构上不把 canon 写死为永远可见。
+- 落地：`config/runtime.yaml` relationship.seed；`relationship/baseline.true_end.md`
+  只留自然语言质感，数值全在 config（遵 V4 §9.2「数值给系统，自然语言给模型」）。
 
