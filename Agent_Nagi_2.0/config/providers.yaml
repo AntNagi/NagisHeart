@@ -1,0 +1,38 @@
+# Provider 配置。业务代码只认 main / aux / embedding 三个能力位，不认厂商与模型名。
+# 依据：V4 §10 / D7；国产优先见 D8（NRH-20260820-019）。
+#
+# ⚠ 本文件不含任何 API key。BYOK：使用者的 key 随请求经 X-LLM-Key 透传（V4 §10）。
+# ⚠ vendor 必须来自本白名单，使用者不能提交任意 endpoint。
+
+llm:
+  # 首版只实现一个国产 Provider。厂商与模型 id 在 8/22 接入时按当日可用性与价格确定。
+  active: TBD_8_22
+
+  vendors:
+    # 模板。8/22 填入实际选定的国产厂商。
+    example_cn_vendor:
+      endpoint: TBD
+      models:
+        main: TBD          # 凪的正式回复，质量优先
+        aux: TBD           # 场景分类 / 记忆抽取 / OOC 打分，便宜优先
+      # 各家差异由 Adapter 内部吸收，业务不感知（V4 §10）
+      extraHeaders: {}
+
+    # 保留配置位，不在首版实现（V4 §10「不在跑通前并行开发」）
+    anthropic:
+      endpoint: https://api.anthropic.com/v1
+      models:
+        main: claude-opus-5
+        aux: claude-haiku-4-5
+      extraHeaders: {}
+
+embedding:
+  # ⚠ 铁律：更换聊天 LLM 不得自动更换 embedding 模型（V4 §8.2）。
+  # 向量必须与查询同模型同版本，混合向量空间检索是静默错误。
+  active: TBD_8_22
+  vendors:
+    example_cn_vendor:
+      endpoint: TBD
+      modelId: TBD
+      dimension: TBD
+      version: 1

@@ -1,0 +1,21 @@
+{
+  "name": "nagi-runtime-harness",
+  "private": true,
+  "type": "module",
+  "description": "Nagi Runtime Harness — LangGraph 驱动的长期存在型角色 Agent。落地依据见 docs/Nagi_Runtime_Harness_Technical_Design_V4_LangGraph.md",
+  "engines": { "node": ">=20" },
+  "workspaces": [
+    "packages/core",
+    "packages/runtime-langgraph",
+    "packages/server"
+  ],
+  "scripts": {
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:core": "vitest run packages/core",
+    "eval": "tsx evals/run.ts",
+    "bake:canon": "tsx scripts/bake-canon.ts",
+    "dev": "tsx watch packages/server/src/index.ts"
+  }
+}

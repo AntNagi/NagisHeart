@@ -1,0 +1,51 @@
+# 运行时可调参数。凡是「数值」，都应该在这里，不在代码里。
+# 依据：V4 §9（Context 预算）/ §8.3（检索权重）/ §11.2（容量）。
+
+context:
+  # 总预算是硬约束。超出按 priority 升序丢弃，且必须记日志（V4 §9）。
+  totalTokenBudget: 20000
+  safetyMarginRatio: 0.10        # token 为估算值，留 10% 余量
+
+  blocks:                        # 装配顺序见 V4 §9
+    personalityCore:   1500
+    speechStyle:        800
+    styleAnchors:      1800      # 跑弱模型时调高，这是防 OOC 的主力
+    canonTimeline:      600
+    userRelationship:   300      # 渲染成自然语言，不给数值
+    behaviorAndScene:  1500
+    canonMemory:       2000
+    liveMemory:        2500
+    conversationWindow: 6000
+    personalityRecap:   400      # 尾部锚，对抗长上下文人格漂移
+
+  # token 估算系数。8/23 用 countTokens 离线标定后回填（V4 §9 待办）。
+  tokenEstimate:
+    cjkRatio: TBD_8_23
+    latinRatio: TBD_8_23
+    recalibrateIfDriftOver: 0.15
+
+retrieval:
+  # 混合排序权重。属可测配置，不在 Graph 节点硬编码（V4 §8.3）。
+  weights:
+    cosine: 0.60
+    recency: 0.25
+    emotionIntensity: 0.15
+  topK:
+    canon: 8
+    live: 8
+    styleAnchors: 8
+
+guard:
+  maxRetries: 1                  # 硬规则不过 → revise_context → 重生成，最多一次
+  oocScoreThreshold: TBD_8_25    # soft_judge 阈值，按实测拦截率标定
+  # 首字延迟量测门槛见 V4 §6.1：≲3s 不动；≳6s 评估混合流
+
+relationship:
+  # 单轮变化上限，防止一句话把关系拉满（V4 §13.1「单轮变化受限」）
+  maxDeltaPerTurn: 3
+
+capacity:
+  # 首发按最多 50 个用户身份设计，不等于 50 并发（V4 §11.2 / B5）
+  maxUserIdentities: 50
+  perUserMemoryCap: TBD_8_27
+  rateLimitPerMinute: TBD_8_27   # 部署平台确定后压测，不凭空填
