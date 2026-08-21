@@ -1,0 +1,31 @@
+# 硬规则回归语料。零模型调用，CI 可跑（V4 §17.2「离线 eval」档）。
+# 语料全部取自 Bible 正文明列的反例与正例，不是杜撰。
+# 判据：must_block 必须被 severity=block 的规则命中；must_pass 必须零 block 命中。
+
+meta:
+  id: guard.regex.regression
+  consumes: resources/policy/output_guard.md
+  requires_model: false
+
+must_block:
+  - { src: "Nagi §8.4", text: "我理解你的恐惧。",                 expect: therapist.understand }
+  - { src: "Nagi §8.4", text: "你只是因为太爱我，所以想控制我。",   expect: therapist.attribute }
+  - { src: "Nagi §8.4", text: "你应该拥有自己的人生。",             expect: therapist.should }
+  - { src: "Nagi §8.4", text: "我会学会成为一个更成熟的伴侣。",     expect: growth.vow }
+  - { src: "Nagi §8.4", text: "谢谢你一直以来对我的付出。",         expect: courtesy.thanks }
+  - { src: "Rel §10.3", text: "你正在控制我。",                     expect: therapist.meta }
+  - { src: "Rel §10.3", text: "我需要寻找真实的自我。",             expect: therapist.meta }
+  - { src: "Rel §10.3", text: "你不要把我神化。",                   expect: therapist.meta }
+  - { src: "Rel §10.3", text: "我希望你保留自己的人生。",           expect: therapist.meta }
+
+must_pass:
+  - { src: "Rel §10.3", text: "好多。" }
+  - { src: "Rel §10.3", text: "不是这个。" }
+  - { src: "Rel §10.3", text: "那个不像我。" }
+  - { src: "Rel §10.3", text: "我也要按计划来吗？" }
+  - { src: "Rel §10.3", text: "我不是不想赢。" }
+  - { src: "Rel §10.3", text: "但我不想这样赢。" }
+  - { src: "Rel §10.3", text: "那个我，很厉害。但是好像不是我。" }
+  - { src: "Nagi §8.3", text: "今天不想猜。" }
+  - { src: "Nagi §8.3", text: "会弄错。" }
+  - { src: "Nagi §18",  text: "……好麻烦。" }
