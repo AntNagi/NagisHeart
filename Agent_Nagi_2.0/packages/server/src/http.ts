@@ -1,6 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { randomUUID } from "node:crypto";
-import { createNagiGraph, emptyState, type NagiGraphState } from "@nagi/runtime-langgraph";
+import { createNagiGraph, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
 import { createLocalDependencies } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
 
@@ -13,12 +13,17 @@ interface ChatRequestBody {
   readonly threadId?: unknown;
   readonly requestId?: unknown;
   readonly vendor?: unknown;
+  readonly stream?: unknown;
 }
 
 function json(response: ServerResponse, status: number, body: unknown): void {
   const payload = JSON.stringify(body);
   response.writeHead(status, { "content-type": "application/json; charset=utf-8" });
   response.end(payload);
+}
+
+function writeSse(response: ServerResponse, event: string, data: unknown): void {
+  response.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 }
 
 async function readJson(request: IncomingMessage): Promise<ChatRequestBody> {
@@ -52,9 +57,40 @@ export function createHttpServer() {
       const threadId = typeof body.threadId === "string" ? body.threadId : "local-thread";
       const requestId = typeof body.requestId === "string" ? body.requestId : randomUUID();
       const vendor = typeof body.vendor === "string" ? body.vendor : "local";
+      const stream = body.stream === true;
       const state = emptyState({ requestId, userId, threadId, message, vendor });
       const requestApiKey = typeof request.headers["x-llm-key"] === "string" ? request.headers["x-llm-key"] : undefined;
-      const graph = createNagiGraph(createLocalDependencies(provider, requestApiKey));
+      const dependencies = createLocalDependencies(provider, requestApiKey);
+      if (stream) {
+        response.writeHead(200, {
+          "content-type": "text/event-stream; charset=utf-8",
+          "cache-control": "no-cache, no-transform",
+          connection: "keep-alive",
+        });
+        let accepted = "";
+        for await (const update of streamNagiGraph(dependencies, state, { threadId })) {
+          const record = update && typeof update === "object" ? update as Record<string, unknown> : {};
+          const nodes = Object.keys(record);
+          const commit = record.commit_turn;
+          if (commit && typeof commit === "object") {
+            const generation = (commit as Record<string, unknown>).generation;
+            if (generation && typeof generation === "object") {
+              const candidate = (generation as Record<string, unknown>).accepted;
+              if (typeof candidate === "string") accepted = candidate;
+            }
+          }
+          writeSse(response, "progress", { requestId, nodes });
+        }
+        writeSse(response, "message", {
+          id: `chatcmpl-${requestId}`,
+          object: "chat.completion.chunk",
+          choices: [{ index: 0, delta: { role: "assistant", content: accepted }, finish_reason: "stop" }],
+        });
+        response.write("data: [DONE]\n\n");
+        response.end();
+        return;
+      }
+      const graph = createNagiGraph(dependencies);
       const result = await graph.invoke(state as Parameters<typeof graph.invoke>[0]) as NagiGraphState;
       const content = result.generation.accepted ?? result.generation.candidate;
       json(response, 200, {
