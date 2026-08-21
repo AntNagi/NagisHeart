@@ -9,6 +9,7 @@ interface UserRecord {
   relationship: RelationshipState;
   liveMemoryCount: number;
   turns: DomainTurn[];
+  committedRequestIds: Set<string>;
 }
 
 export interface DomainExport {
@@ -26,7 +27,7 @@ export class LocalDomainStore implements DomainStore {
     const existing = this.users.get(userId);
     if (existing) return existing.relationship;
     const relationship: RelationshipState = { trust: 0, intimacy: 0, friction: 0 };
-    this.users.set(userId, { relationship, liveMemoryCount: 0, turns: [] });
+    this.users.set(userId, { relationship, liveMemoryCount: 0, turns: [], committedRequestIds: new Set() });
     return relationship;
   }
 
@@ -36,13 +37,13 @@ export class LocalDomainStore implements DomainStore {
     drafts: readonly MemoryDraft[],
   ): RelationshipState {
     const current = this.loadRelationship(userId);
+    const record = this.users.get(userId);
     const next: RelationshipState = {
       trust: clamp(current.trust + (delta?.trust ?? 0)),
       intimacy: clamp(current.intimacy + (delta?.intimacy ?? 0)),
       friction: clamp(current.friction + (delta?.friction ?? 0)),
       ...(current.stage === undefined ? {} : { stage: current.stage }),
     };
-    const record = this.users.get(userId);
     if (record) {
       record.relationship = next;
       record.liveMemoryCount += drafts.filter((draft) => draft.kind === "live").length;
@@ -56,9 +57,11 @@ export class LocalDomainStore implements DomainStore {
     readonly drafts: readonly MemoryDraft[];
     readonly turn: DomainTurn;
   }): RelationshipState {
-    const relationship = this.commit(input.userId, input.relationshipDelta, input.drafts);
     const record = this.users.get(input.userId);
+    if (record?.committedRequestIds.has(input.turn.requestId)) return record.relationship;
+    const relationship = this.commit(input.userId, input.relationshipDelta, input.drafts);
     if (record) record.turns.push(input.turn);
+    if (record) record.committedRequestIds.add(input.turn.requestId);
     return relationship;
   }
 
@@ -106,6 +109,7 @@ export class LocalDomainStore implements DomainStore {
       relationship: { trust: clamp(relation.trust as number), intimacy: clamp(relation.intimacy as number), friction: clamp(relation.friction as number), ...(typeof relation.stage === "string" ? { stage: relation.stage.slice(0, 100) } : {}) },
       liveMemoryCount: value.liveMemoryCount,
       turns,
+      committedRequestIds: new Set(turns.map((turn) => turn.requestId)),
     };
     this.users.set(expectedUserId, next);
   }
