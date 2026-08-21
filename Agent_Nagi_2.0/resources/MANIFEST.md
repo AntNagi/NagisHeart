@@ -357,15 +357,39 @@ V17 对 Agent 有三种完全不同的用途，抽法各异：
 
 `policy/output_guard.md` 是例外：它**不进 context**，由 `hard_guard` 节点读取作判据。
 
-## 目录状态
+## 抽取进度（2026-08-21）
 
-| 目录 | 内容 | 状态 |
+已抽 **12 份**，全部通过 `scripts/validate-resources.py`（含源文件 SHA 比对）。
+常驻（`always`）预算合计 **3650 tok**。
+
+| 类 | 文件 | 状态 | ~tok / 预算 |
+|---|---|---|---|
+| D 守卫 | `policy/output_guard.md` | ✅ | 1558 / 不进 context |
+| A 常驻 | `core/personality.base.md` | ✅ | 661 / 1500 |
+| A 常驻 | `core/personality.speech.md` | ✅ | 732 / 800 |
+| A 常驻 | `core/personality.recap.md` | ✅ | 305 / 400 |
+| B 行为 | `core/behavior.daily.md` | ✅ | 173 / 800 |
+| B 行为 | `core/behavior.affection.md` | ✅ | 206 / 800 |
+| B 行为 | `core/behavior.intimacy.md` | ✅ | 452 / 800 |
+| B 行为 | `core/behavior.conflict.md` | ✅ | 514 / 800 |
+| B 行为 | `core/behavior.football.md` | ✅ | 593 / 800 |
+| B 行为 | `core/behavior.setback.md` | ✅ | 375 / 800 |
+| F 世界 | `world/timeline.md` | ✅ | 493 / 600 |
+| F 世界 | `world/glossary.md` | ✅ | 302 / 350 |
+
+Eval：`evals/cases/guard_regex.yaml`（19 条，零模型调用）
+· `evals/cases/ooc_adversarial.yaml`（30 条对抗用例）
+
+### 待抽
+
+| 类 | 文件 | 阻塞 |
 |---|---|---|
-| `core/` | 人设母版 + 派生的 personality / speech / behavior | 母版已入库；派生待做 |
-| `world/` | `timeline.md` 剧情骨架；`events/` 事件条目 | 待做 |
-| `relationship/` | 结局已定 TRUE END，**只进 CanonWorld** | 待做，先解 Q13 |
-| `style_anchors/` | 凪真实台词样本。**防 OOC 的主力**，目标 ≥ 30 段 | 待做，先解 Q14 |
-| `policy/` | `output_guard.md`；`scene.*.md` 场景策略 | 待做 |
+| C 场景策略 | `policy/scene.*` × 6 | 无，可直接开工 |
+| F 世界 | `world/places` · `systems` · `rules.*` × 3 | 无 |
+| E 风格锚 | `style_anchors/*` × 6 | **Q14** |
+| G 关系 | `relationship/*` × 3 | 部分受 **Q16** |
+| F 人物 | `world/canon_characters/ant.md` | **Q16** |
+| 脚本 | `world/events/*` + canon 向量 | 需 `bake-canon.ts` |
 
 ## 关系模型（易错，单列）
 
