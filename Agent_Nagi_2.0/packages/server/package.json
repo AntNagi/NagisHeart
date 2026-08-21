@@ -7,7 +7,8 @@
   "types": "./dist/index.d.ts",
   "dependencies": {
     "@nagi/core": "workspace:*",
-    "@nagi/runtime-langgraph": "workspace:*"
+    "@nagi/runtime-langgraph": "workspace:*",
+    "better-sqlite3": "^12.11.1"
   },
   "devDependencies": { "@types/node": "^22.0.0" }
 }
