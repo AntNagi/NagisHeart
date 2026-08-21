@@ -1,4 +1,5 @@
 import { END, START, StateGraph, StateSchema } from "@langchain/langgraph";
+import type { BaseCheckpointSaver } from "@langchain/langgraph";
 import { z } from "zod";
 import type { NagiGraphState } from "./state.js";
 import { trace } from "./state.js";
@@ -17,6 +18,10 @@ const GraphState = new StateSchema({
 
 type GraphStateValue = NagiGraphState;
 
+export interface NagiGraphOptions {
+  readonly checkpointer?: BaseCheckpointSaver;
+}
+
 function requireDomain(state: GraphStateValue) {
   if (!state.domain) throw new Error("domain state has not been loaded");
   return state.domain;
@@ -27,7 +32,7 @@ function requireContext(state: GraphStateValue) {
   return state.context;
 }
 
-export function createNagiGraph(deps: RuntimeDependencies) {
+export function createNagiGraph(deps: RuntimeDependencies, options: NagiGraphOptions = {}) {
   const validateRequest = async (state: GraphStateValue) => {
     await deps.validateRequest(state.request);
     return { trace: trace(state, "validate_request") };
@@ -170,7 +175,7 @@ export function createNagiGraph(deps: RuntimeDependencies) {
     .addEdge("extract_effects", "commit_turn")
     .addEdge("commit_turn", "emit_response")
     .addEdge("emit_response", END)
-    .compile();
+    .compile(options.checkpointer ? { checkpointer: options.checkpointer } : undefined);
 }
 
 export { GraphState };
