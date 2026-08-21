@@ -92,7 +92,9 @@ export class MemoryEngine {
   ): Promise<readonly MemoryRecord[]> {
     const records = drafts
       .filter((draft) => draft.text.trim().length > 0)
-      .map((draft, index): MemoryRecord => ({
+      .map((draft, index): MemoryRecord => {
+        const embedding = draft.embedding;
+        return {
         id: `${metadata.namespace}:${metadata.now}:${index}`,
         namespace: metadata.namespace,
         kind: draft.kind,
@@ -102,10 +104,11 @@ export class MemoryEngine {
         salience: clamp(draft.salience),
         confidence: clamp(draft.confidence),
         tags: [...draft.tags],
-        ...(draft.embedding ? { embedding: [...draft.embedding] } : {}),
-        ...(draft.embeddingModel ? { embeddingModel: draft.embeddingModel, embeddingDim: draft.embedding.length } : {}),
+        ...(embedding ? { embedding: [...embedding] } : {}),
+        ...(draft.embeddingModel && embedding ? { embeddingModel: draft.embeddingModel, embeddingDim: embedding.length } : {}),
         ...(draft.source ? { source: draft.source } : {}),
-      }));
+        };
+      });
     await this.store.append(records);
     return records;
   }

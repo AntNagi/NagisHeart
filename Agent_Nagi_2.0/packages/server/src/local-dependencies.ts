@@ -95,12 +95,16 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
       return [...canonMemories, ...liveMemories].sort((left, right) => right.score - left.score);
     },
     assembleContext({ domain, scene, memories }) {
+      const recentTurns = getLocalHistory(domain.session.userId, 6).flatMap((turn) => [
+        { role: "user" as const, content: turn.userMessage },
+        { role: "assistant" as const, content: turn.assistantMessage },
+      ]);
       return buildContext({
         scene,
         relationship: domain.relationship,
         resources,
         memories,
-        recentTurns: [],
+        recentTurns,
         maxTokens: 20_000,
       });
     },

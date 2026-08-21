@@ -24,14 +24,19 @@ function section(text: string, name: string): string {
 }
 
 function listItems(text: string): Array<Record<string, string>> {
-  return [...text.matchAll(/^\s+- id:\s*(.+)\r?\n([\s\S]*?)(?=^\s+- id:|\s*$)/gm)].map((match) => {
-    const item: Record<string, string> = { id: scalar(match[1] ?? "") };
-    for (const line of (match[2] ?? "").split(/\r?\n/u)) {
-      const field = line.match(/^\s+([a-z_]+):\s*(.+)$/u);
-      if (field) item[field[1]!] = scalar(field[2]!);
+  const items: Array<Record<string, string>> = [];
+  let current: Record<string, string> | undefined;
+  for (const line of text.split(/\r?\n/u)) {
+    const id = line.match(/^\s+- id:\s*(.+)$/u);
+    if (id) {
+      current = { id: scalar(id[1]!) };
+      items.push(current);
+      continue;
     }
-    return item;
-  });
+    const field = line.match(/^\s+([a-z_]+):\s*(.+)$/u);
+    if (current && field) current[field[1]!] = scalar(field[2]!);
+  }
+  return items;
 }
 
 /** Reads the structured guard block without adding YAML dependencies to core. */
@@ -50,7 +55,7 @@ export function loadGuardPolicy(root: string): GuardPolicy {
   });
   const length = listItems(section(frontMatter, "length_caps"))[0] ?? {};
   const beats = listItems(section(frontMatter, "beat_caps"))[0] ?? {};
-  const fallbackBlock = text.match(/降级候选[\s\S]*?```\r?\n([\s\S]*?)```/u)?.[1] ?? "";
+  const fallbackBlock = text.match(/降级候选[\s\S]*?```(?:text)?\r?\n([\s\S]*?)```/u)?.[1] ?? "";
   const fallbacks = fallbackBlock.split(/\r?\n/u).map((line) => line.trim()).filter(Boolean);
   return {
     config: {

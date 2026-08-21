@@ -41,7 +41,7 @@ const GraphState = new StateSchema({
     providerUsage: z.object({ inputTokens: z.number().optional(), outputTokens: z.number().optional(), latencyMs: z.number().optional() }).optional(),
   }),
   guard: z.object({
-    hardViolations: z.array(z.object({ code: z.string(), message: z.string(), severity: z.enum(["block", "warn"]) })),
+    hardViolations: z.array(z.object({ code: z.string().optional(), ruleId: z.string().optional(), message: z.string(), severity: z.enum(["block", "warn"]) }).transform((violation) => ({ code: violation.code ?? violation.ruleId ?? "unknown", message: violation.message, severity: violation.severity }))),
     oocScore: z.number().optional(), decision: z.enum(["pending", "pass", "retry", "fallback"]),
   }),
   effects: z.object({
@@ -178,14 +178,17 @@ export function createNagiGraph(deps: RuntimeDependencies, options: NagiGraphOpt
 
   const emitResponse = async (state: GraphStateValue) => ({ trace: trace(state, "emit_response") });
 
-  const hardGuardRoute = (state: GraphStateValue): "soft_judge" | "revise_context" | "extract_effects" => {
+  const hardGuardRoute = (input: unknown): "soft_judge" | "revise_context" | "extract_effects" => {
+    const state = input as GraphStateValue;
     if (state.guard.decision === "pass") return "soft_judge";
     if (state.generation.attempt < 2) return "revise_context";
     return "extract_effects";
   };
 
-  const softJudgeRoute = (state: GraphStateValue): "extract_effects" | "revise_context" =>
-    state.guard.decision === "retry" && state.generation.attempt < 2 ? "revise_context" : "extract_effects";
+  const softJudgeRoute = (input: unknown): "extract_effects" | "revise_context" => {
+    const state = input as GraphStateValue;
+    return state.guard.decision === "retry" && state.generation.attempt < 2 ? "revise_context" : "extract_effects";
+  };
 
   return new StateGraph(GraphState)
     .addNode("validate_request", validateRequest)

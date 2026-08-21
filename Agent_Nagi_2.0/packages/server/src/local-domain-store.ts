@@ -57,6 +57,7 @@ export class LocalDomainStore implements DomainStore {
     readonly drafts: readonly MemoryDraft[];
     readonly turn: DomainTurn;
   }): RelationshipState {
+    this.loadRelationship(input.userId);
     const record = this.users.get(input.userId);
     if (record?.committedRequestIds.has(input.turn.requestId)) return record.relationship;
     const relationship = this.commit(input.userId, input.relationshipDelta, input.drafts);

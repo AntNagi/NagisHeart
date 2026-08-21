@@ -54,4 +54,19 @@ describe("LangGraph checkpoint", () => {
     };
     await expect(graph.invoke(malformed as never)).rejects.toThrow();
   });
+
+  it("can fork from a historical checkpoint for time-travel replay", async () => {
+    const saver = new MemorySaver();
+    const graph = createNagiGraph(fixtureDependencies(), { checkpointer: saver });
+    const config = { configurable: { thread_id: "time-travel:user:thread" } };
+    await graph.invoke(emptyState({ requestId: "r3", userId: "u", threadId: "t", message: "第一轮", vendor: "local" }), config);
+    const snapshots = [];
+    for await (const snapshot of graph.getStateHistory(config)) snapshots.push(snapshot);
+    const checkpoint = snapshots.find((snapshot) => snapshot.values.request?.requestId === "r3");
+    expect(checkpoint?.config.configurable?.checkpoint_id).toBeTruthy();
+    const fork = await graph.invoke(emptyState({ requestId: "r4", userId: "u", threadId: "t", message: "分支", vendor: "local" }), {
+      configurable: { thread_id: "time-travel:user:thread", checkpoint_id: checkpoint?.config.configurable?.checkpoint_id },
+    } as never);
+    expect(fork.generation.accepted).toBe("……好麻烦。");
+  });
 });
