@@ -6,14 +6,50 @@ import { trace } from "./state.js";
 import type { RuntimeDependencies } from "./dependencies.js";
 
 const GraphState = new StateSchema({
-  request: z.any(),
-  domain: z.any().optional(),
-  analysis: z.any(),
-  context: z.any().optional(),
-  generation: z.any(),
-  guard: z.any(),
-  effects: z.any(),
-  trace: z.array(z.any()).default([]),
+  request: z.object({
+    requestId: z.string().min(1), userId: z.string().min(1), threadId: z.string().min(1),
+    message: z.string(), vendor: z.string(),
+  }),
+  domain: z.object({
+    canon: z.object({ ending: z.enum(["true", "good", "normal", "bad"]), path: z.enum(["dream", "stay", "bad"]), epoch: z.literal("post_ending") }),
+    relationship: z.object({ trust: z.number(), intimacy: z.number(), friction: z.number(), stage: z.string().optional() }),
+    session: z.object({
+      scene: z.enum(["daily", "affection", "intimacy", "conflict", "football", "setback"]),
+      now: z.string(), turnId: z.string(), userId: z.string(), conversationId: z.string(),
+      relationship: z.object({ trust: z.number(), intimacy: z.number(), friction: z.number(), stage: z.string().optional() }),
+    }),
+  }).optional(),
+  analysis: z.object({
+    scene: z.enum(["daily", "affection", "intimacy", "conflict", "football", "setback"]).optional(),
+    query: z.string(), retrievedIds: z.array(z.string()),
+    memories: z.array(z.object({
+      record: z.object({
+        id: z.string(), namespace: z.string(), kind: z.enum(["canon", "live"]), text: z.string(),
+        createdAt: z.string(), updatedAt: z.string(), salience: z.number(), confidence: z.number(),
+        tags: z.array(z.string()), embedding: z.array(z.number()).optional(),
+      }),
+      score: z.number(),
+      components: z.object({ total: z.number(), semantic: z.number(), recency: z.number(), salience: z.number(), confidence: z.number(), kindBoost: z.number() }).optional(),
+    })),
+  }),
+  context: z.object({
+    blocks: z.array(z.object({ id: z.string(), kind: z.enum(["personality", "speech", "style_anchor", "canon", "relationship", "behavior", "policy", "memory", "conversation", "recap"]), text: z.string(), tokenBudget: z.number(), priority: z.number() })),
+    droppedBlockIds: z.array(z.string()), estimatedTokens: z.number(), rendered: z.string(),
+  }).optional(),
+  generation: z.object({
+    attempt: z.number(), candidate: z.string(), accepted: z.string().nullable(),
+    providerUsage: z.object({ inputTokens: z.number().optional(), outputTokens: z.number().optional(), latencyMs: z.number().optional() }).optional(),
+  }),
+  guard: z.object({
+    hardViolations: z.array(z.object({ code: z.string(), message: z.string(), severity: z.enum(["block", "warn"]) })),
+    oocScore: z.number().optional(), decision: z.enum(["pending", "pass", "retry", "fallback"]),
+  }),
+  effects: z.object({
+    memoryDrafts: z.array(z.object({ kind: z.enum(["canon", "live"]), text: z.string(), salience: z.number(), confidence: z.number(), tags: z.array(z.string()), sourceTurnId: z.string() })),
+    relationshipDelta: z.object({ trust: z.number().optional(), intimacy: z.number().optional(), friction: z.number().optional() }).optional(),
+    committed: z.boolean(),
+  }),
+  trace: z.array(z.object({ node: z.string(), at: z.string(), detail: z.string().optional() })).default([]),
 });
 
 type GraphStateValue = NagiGraphState;

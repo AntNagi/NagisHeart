@@ -45,4 +45,13 @@ describe("LangGraph checkpoint", () => {
     expect(history.length).toBeGreaterThan(1);
     expect(history.some((snapshot) => snapshot.values.generation?.accepted === "……好麻烦。")).toBe(true);
   });
+
+  it("rejects malformed checkpoint input instead of silently accepting state drift", async () => {
+    const graph = createNagiGraph(fixtureDependencies());
+    const malformed = {
+      ...emptyState({ requestId: "r2", userId: "u", threadId: "c", message: "你好", vendor: "local" }),
+      request: { requestId: "r2", userId: "u", message: "你好", vendor: "local" },
+    };
+    await expect(graph.invoke(malformed as never)).rejects.toThrow();
+  });
 });
