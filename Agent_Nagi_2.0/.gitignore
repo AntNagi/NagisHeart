@@ -6,3 +6,6 @@ var/
 !.env.example
 *.log
 .DS_Store
+
+# TypeScript 增量构建产物（Codex 的构建生成，不该进库）
+*.tsbuildinfo
