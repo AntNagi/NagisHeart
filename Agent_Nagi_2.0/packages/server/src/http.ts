@@ -2,7 +2,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { normalizeOutput } from "@nagi/core";
 import { createNagiGraph, createSqliteCheckpointer, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
-import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
+import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, getLocalMemories, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
 import { loadPresenceConfig, resolvePresence } from "./presence.js";
 
@@ -227,6 +227,31 @@ export function createHttpServer() {
           // 下一步要执行的节点。中途失败时非空，正是它告诉你断在哪。
           next: snapshot.next ?? [],
         });
+        return;
+      }
+      // 凪记得你的什么。
+      //
+      // 记忆是这个项目的核心，却在界面上完全不可见——只能靠"他会不会提起"
+      // 间接判断，既慢又不可靠。这个端点让它可见。
+      //
+      // 只回 live 记忆：canon 是剧情既成事实（51 条长摘要），
+      // 不是"他记住了你什么"，混在一起会把真正有意义的那几条淹掉。
+      //
+      // **不回 embedding**：那是几千个浮点数，对使用者毫无意义，
+      // 而且会让响应体积暴涨（实测单条向量 66 KB）。
+      if (request.method === "GET" && request.url?.startsWith("/api/memories")) {
+        const query = new URL(request.url, "http://localhost").searchParams;
+        const userId = query.get("userId") ?? "local-user";
+        const parsedLimit = Number(query.get("limit") ?? "50");
+        const limit = Number.isFinite(parsedLimit) ? Math.max(1, Math.min(200, Math.floor(parsedLimit))) : 50;
+        const memories = getLocalMemories(userId, limit).map((record) => ({
+          id: record.id,
+          text: record.text,
+          createdAt: record.createdAt,
+          salience: record.salience,
+          confidence: record.confidence,
+        }));
+        json(response, 200, { memories });
         return;
       }
       // 「凪此刻在做什么」——客户端顶部那一行。

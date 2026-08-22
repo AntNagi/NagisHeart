@@ -137,6 +137,23 @@ export class SqliteMemoryStore implements MemoryStore {
   }
 
   /**
+   * 列出某个使用者的 live 记忆，最近的在前。
+   *
+   * 给 `/api/memories` 用——**让使用者看见凪记得什么**。
+   * 记忆是这个项目的核心，但在界面上完全不可见，
+   * 只能靠"他会不会提起"来间接判断，那既慢又不可靠。
+   *
+   * 只取 live：canon 是剧情既成事实（51 条长摘要），
+   * 不是"他记住了你什么"，混在一起会把真正有意义的那几条淹掉。
+   */
+  public listLive(namespace: string, limit: number): readonly MemoryRecord[] {
+    const rows = this.db
+      .prepare("SELECT * FROM memories WHERE namespace = ? AND kind = 'live' ORDER BY updated_at DESC LIMIT ?")
+      .all(namespace, limit) as MemoryRow[];
+    return rows.map((row) => this.toRecord(row));
+  }
+
+  /**
    * 取出**向量与当前模型不符**（含完全没有向量）的记忆，用于重建。
    *
    * V4 §8.2 要求「模型变化时后台重建全部向量」。不重建的后果是静默的：

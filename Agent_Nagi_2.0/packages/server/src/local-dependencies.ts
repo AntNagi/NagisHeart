@@ -10,6 +10,7 @@ import {
   type RelationshipState,
   findStaleEmbeddings,
   type MemoryStore,
+  type MemoryRecord,
 } from "@nagi/core";
 import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
@@ -93,19 +94,25 @@ const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" 
  *
  * 代价：这两个 create 变成 async，模块尾部用 top-level await 消化。
  */
+/** 记忆浏览。给 /api/memories 用——让使用者看见凪记得什么。 */
+interface MemoryBrowseOps {
+  listLive(namespace: string, limit: number): readonly MemoryRecord[];
+}
+
 async function createMemoryStore(): Promise<{
   store: MemoryStore;
   liveCount?: (namespace: string) => number;
   rebuild?: VectorRebuildIndex;
+  browse?: MemoryBrowseOps;
 }> {
   const databasePath = process.env.NAGI_DOMAIN_DB;
   if (!databasePath) return { store: new InMemoryMemoryStore() };
   const { SqliteMemoryStore } = await import("./sqlite-memory-store.js");
   const store = new SqliteMemoryStore(databasePath);
-  return { store, liveCount: (namespace) => store.liveCount(namespace), rebuild: store };
+  return { store, liveCount: (namespace) => store.liveCount(namespace), rebuild: store, browse: store };
 }
 
-const { store: memoryStore, liveCount: liveMemoryCountFromStore, rebuild: vectorRebuild } = await createMemoryStore();
+const { store: memoryStore, liveCount: liveMemoryCountFromStore, rebuild: vectorRebuild, browse: memoryBrowse } = await createMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
 type DomainBackend = {
   loadRelationship: LocalDomainStore["loadRelationship"];
@@ -240,6 +247,16 @@ export function getLocalDomainState(userId: string) {
     // 累加计数器，导入 / 重建后可能与实际记忆对不上——真实条数才是事实。
     liveMemoryCount: liveMemoryCountFromStore?.(userId) ?? domainStore.liveMemoryCount(userId),
   };
+}
+
+/**
+ * 列出凪记住了你的什么。给 /api/memories 用。
+ *
+ * 只有 SQLite 后端支持——内存后端（单测用）没有这个能力，返回空数组。
+ * 不伪造：返回假数据会让"记忆没写进去"看起来像"记忆好好的"。
+ */
+export function getLocalMemories(userId: string, limit = 50) {
+  return memoryBrowse?.listLive(userId, limit) ?? [];
 }
 
 export function getLocalHistory(userId: string, limit = 50) {
