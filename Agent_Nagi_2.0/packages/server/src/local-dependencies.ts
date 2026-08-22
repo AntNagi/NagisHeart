@@ -317,8 +317,8 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
         ? { embedding: Array.from(queryVector), embeddingModel: embeddingProvider.modelId }
         : {};
       const [canonMemories, liveMemories] = await Promise.all([
-        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: retrievalConfig.canon, ...vectorQuery }),
-        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: retrievalConfig.live, ...vectorQuery }),
+        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: retrievalConfig.canon, weights: retrievalConfig.weights, ...vectorQuery }),
+        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: retrievalConfig.live, weights: retrievalConfig.weights, ...vectorQuery }),
       ]);
       const merged = [...canonMemories, ...liveMemories].sort((left, right) => right.score - left.score);
       // 相关性下限（F32）。minScore=0 时这一步是恒等的——默认不改变行为。

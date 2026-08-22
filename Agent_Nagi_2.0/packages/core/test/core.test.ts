@@ -353,3 +353,24 @@ describe("混合向量空间：部分记忆有向量、部分没有", () => {
     expect(ranked[0]?.components.semantic).toBe(1);
   });
 });
+
+describe("Markdown 装饰符剥离（厂商格式差异兜底）", () => {
+  it("剥掉模型吐出的 markdown 残片——用的是真实采样", () => {
+    // 这四条是 2026-08-22 用 gemini-3.6-flash 连发四次「在干嘛」采到的真实输出。
+    // 根因是思考链泄漏进正文（已在 provider 侧按厂商参数修掉），
+    // 但归一层要兜底：不该指望每家厂商都有关思考的开关。
+    expect(normalizeOutput("躺着。打游戏。*").say).toEqual(["躺着。", "打游戏。"]);
+    expect(normalizeOutput("躺着。打游戏。*   *").say).toEqual(["躺着。", "打游戏。"]);
+    expect(normalizeOutput("**趴着。**").say).toEqual(["趴着。"]);
+    expect(normalizeOutput("# 标题\n困了。").say).toEqual(["标题", "困了。"]);
+  });
+
+  it("不碰省略号——它是凪语言的一部分，不是装饰", () => {
+    // 降级模板第一句就是「……好麻烦。」，误伤它等于把凪的口癖删了。
+    expect(normalizeOutput("……好麻烦。").say).toEqual(["……好麻烦。"]);
+  });
+
+  it("不碰下划线——资源模板里有 {{player_name}} 这类占位符", () => {
+    expect(normalizeOutput("{{player_name}}。").say).toEqual(["{{player_name}}。"]);
+  });
+});

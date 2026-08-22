@@ -6,6 +6,7 @@ import type {
   MemoryRecord,
   MemoryScore,
   MemorySearchResult,
+  MemoryWeights,
 } from "./types.js";
 
 const DEFAULT_LIMIT = 8;
@@ -89,20 +90,42 @@ function lexicalScore(text: string | undefined, memory: string): number {
   return hits / queryTerms.size;
 }
 
+/**
+ * 打分权重的默认值。**这些数字就是接线之前硬编码在公式里的那几个**——
+ * `NRH-20260822-023` 裁的是「把账对平」，不是调参，所以一位都不能改。
+ *
+ * `config/runtime.yaml` 的 `retrieval.weights` 现在写的就是这套口径；
+ * 不传 weights 时回落到这里，保证既有调用方（含单测）行为不变。
+ */
+export const DEFAULT_MEMORY_WEIGHTS: MemoryWeights = {
+  semantic: 0.52,
+  recency: 0.16,
+  salience: 0.16,
+  confidence: 0.16,
+  canonBoost: 0.08,
+};
+
 export function scoreMemory(record: MemoryRecord, query: MemoryQuery): MemorySearchResult {
   const now = query.now ?? new Date().toISOString();
+  const weights = query.weights ?? DEFAULT_MEMORY_WEIGHTS;
   const semantic = Math.max(cosineSimilarity(query.embedding, record.embedding), lexicalScore(query.text, record.text));
   const recency = record.kind === "canon" ? 0.5 : recencyScore(record.updatedAt, now);
   const salience = clamp(record.salience);
   const confidence = clamp(record.confidence);
-  const kindBoost: number = record.kind === "canon" ? 0.08 : 0;
+  // canonBoost 是加项不是乘数——canon 记忆直接加这么多分。
+  const kindBoost: number = record.kind === "canon" ? weights.canonBoost : 0;
   const components: MemoryScore = {
     semantic,
     recency,
     salience,
     confidence,
     kindBoost,
-    total: semantic * 0.52 + recency * 0.16 + salience * 0.16 + confidence * 0.16 + kindBoost,
+    total:
+      semantic * weights.semantic
+      + recency * weights.recency
+      + salience * weights.salience
+      + confidence * weights.confidence
+      + kindBoost,
   };
   return { record, score: components.total, components };
 }

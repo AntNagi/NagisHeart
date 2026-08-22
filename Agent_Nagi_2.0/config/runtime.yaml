@@ -26,10 +26,29 @@ context:
 
 retrieval:
   # 混合排序权重。属可测配置，不在 Graph 节点硬编码（V4 §8.3）。
+  #
+  # ⚠ 2026-08-22 改写（NRH-20260822-023，Ant 裁 A）。
+  # 此前这里写的是 cosine 0.60 / recency 0.25 / emotionIntensity 0.15，
+  # 与代码实际口径**维度都不一样**，且从未被任何代码读过——
+  # 配置存在而代码不读，比没有配置更糟，它让人以为改配置有用。
+  # 现已改成代码实际在用的五项，并真正接线。**数值一位未动，凪的行为不变。**
+  #
+  # emotionIntensity 被移除：记忆结构里根本没有「情绪强度」这个字段。
+  # 要做它是给凪加一个新脾气（偏向记住情绪浓的事），属人设决定而非配置同步，
+  # 已改列为独立需求，待豆包可用、Ant 实际体验一轮后再定。
+  #
+  # 五项含义（凪每轮决定「想起哪几条事」时的权重）：
+  #   semantic   跟你这句话有多像（向量余弦与词面命中取较大者）
+  #   recency    多久之前的事（canon 固定 0.5，live 按 30 天半衰）
+  #   salience   这件事有多重要
+  #   confidence 这条记忆有多可信（canon 为 1.0，模型抽取的为 0.6）
+  #   canonBoost 剧情事实的固定加分。**是加项不是乘数**，不参与归一
   weights:
-    cosine: 0.60
-    recency: 0.25
-    emotionIntensity: 0.15
+    semantic: 0.52
+    recency: 0.16
+    salience: 0.16
+    confidence: 0.16
+    canonBoost: 0.08
   topK:
     canon: 8
     live: 8

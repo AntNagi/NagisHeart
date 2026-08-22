@@ -13,6 +13,30 @@ import { OpenAICompatibleProvider, type ModelSlot } from "./openai-compatible-pr
  */
 function auxExtraBody(model: string): Readonly<Record<string, unknown>> | undefined {
   if (/^doubao-seed/u.test(model)) return { thinking: { type: "disabled" } };
+  if (/^gemini-/u.test(model)) return { reasoning_effort: "minimal" };
+  return undefined;
+}
+
+/**
+ * main 位的厂商参数。
+ *
+ * **豆包不设**——凪的回复质量优先，且角色模型的表现已按思考开启状态标定过
+ * （`NRH-20260821-2037` 的 30 条对抗用例即在默认设置下跑出）。
+ *
+ * **Gemini 必须设**，理由完全不同：不是为了省钱，是因为它的思考链会
+ * **泄漏进正文**。实测 2026-08-22（`gemini-3.6-flash`，默认 reasoning_effort），
+ * 连发 4 条「在干嘛」，4 条全部带结构性垃圾且**全部通过守卫**：
+ *   "趴着。\n好累。\n\"(Lying"
+ *   "躺着。打游戏。*"
+ *   "/Brainstorming**:\n*   Option 1"     ← 整段模型草稿
+ *   "躺着。打游戏。*   *"
+ * 改成 `reasoning_effort: "low"` 后同一提示输出 "躺着。\n\n玩游戏。\n\n好麻烦。"，干净。
+ *
+ * 注意 `"none"` 会被拒（400 INVALID_ARGUMENT），只有 low / minimal 可用。
+ * main 取 low 而非 minimal：留一点思考给角色回复，minimal 留给 aux 的机械任务。
+ */
+function mainExtraBody(model: string): Readonly<Record<string, unknown>> | undefined {
+  if (/^gemini-/u.test(model)) return { reasoning_effort: "low" };
   return undefined;
 }
 
@@ -37,7 +61,7 @@ export function createProviderFromEnvironment(): OpenAICompatibleProvider | unde
   return new OpenAICompatibleProvider({
     endpoint,
     slots: {
-      main: slot(model),
+      main: slot(model, mainExtraBody(model)),
       ...(auxModel ? { aux: slot(auxModel, auxExtraBody(auxModel)) } : {}),
     },
     fallbackSlot: "main",

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import type { RelationshipState } from "@nagi/core";
+import { DEFAULT_MEMORY_WEIGHTS, type MemoryWeights, type RelationshipState } from "@nagi/core";
 
 /**
  * `config/runtime.yaml` 的读取器。
@@ -126,9 +126,51 @@ export interface RetrievalConfig {
    * 而失忆比记错更糟。合适的值是手感问题，等人工体验后再定（见 OPEN_QUESTIONS F32）。
    */
   readonly minScore: number;
+  /**
+   * 打分权重（`retrieval.weights`，裁决 `NRH-20260822-023`）。
+   *
+   * 配置里任一项缺失或非法，**整组回落到 `DEFAULT_MEMORY_WEIGHTS`**，不逐项混搭：
+   * 权重是一套相互标定过的比例，半套配置值配半套默认值得到的是
+   * 谁都没标定过的第三套——那种错不会报，只会让凪想起来的东西慢慢变怪。
+   */
+  readonly weights: MemoryWeights;
 }
 
-const RETRIEVAL_DEFAULTS: RetrievalConfig = { canon: 8, live: 8, styleAnchors: 8, minScore: 0 };
+const RETRIEVAL_DEFAULTS: RetrievalConfig = {
+  canon: 8, live: 8, styleAnchors: 8, minScore: 0, weights: DEFAULT_MEMORY_WEIGHTS,
+};
+
+/** topK 三项——与 `weights`/`minScore` 的取值规则不同，单列出来避免 `keyof` 把它们混进来。 */
+type TopKKey = "canon" | "live" | "styleAnchors";
+
+/**
+ * 读 `retrieval.weights`。
+ *
+ * **整组要么全取配置、要么全回落默认**，不逐项混搭：权重是一套相互标定过的比例，
+ * 半套配置值配半套默认值得到的是谁都没标定过的第三套——
+ * 那种错不报警，只会让凪想起来的东西慢慢变怪。
+ */
+function loadWeights(lines: readonly string[]): MemoryWeights {
+  const keys = ["semantic", "recency", "salience", "confidence", "canonBoost"] as const;
+  const parsed: Partial<Record<(typeof keys)[number], number>> = {};
+  for (const key of keys) {
+    const raw = sectionScalar(lines, "retrieval", key);
+    if (raw === undefined) {
+      console.warn(`[runtime-config] retrieval.weights.${key} 缺失，整组权重回落为默认值`);
+      return DEFAULT_MEMORY_WEIGHTS;
+    }
+    const value = Number(raw);
+    if (!Number.isFinite(value) || value < 0 || value > 1) {
+      console.warn(`[runtime-config] retrieval.weights.${key}=${raw} 非法（需 0..1），整组权重回落为默认值`);
+      return DEFAULT_MEMORY_WEIGHTS;
+    }
+    parsed[key] = value;
+  }
+  return {
+    semantic: parsed.semantic!, recency: parsed.recency!, salience: parsed.salience!,
+    confidence: parsed.confidence!, canonBoost: parsed.canonBoost!,
+  };
+}
 
 export function loadRetrievalConfig(configRoot?: string): RetrievalConfig {
   const path = resolve(configRoot ?? process.env.NAGI_CONFIG_ROOT ?? "config", "runtime.yaml");
@@ -141,7 +183,7 @@ export function loadRetrievalConfig(configRoot?: string): RetrievalConfig {
   }
   // 取值范围收在 1..32：0 会让检索静默返回空（凪什么都想不起来，且不报错），
   // 过大则挤爆 Context 预算。越界即回落并留声。
-  const bounded = (key: keyof RetrievalConfig): number => {
+  const bounded = (key: TopKKey): number => {
     const value = numberOr(sectionScalar(lines, "retrieval", key), RETRIEVAL_DEFAULTS[key]);
     if (!Number.isInteger(value) || value < 1 || value > 32) {
       console.warn(`[runtime-config] retrieval.topK.${key}=${value} 越界（需 1..32 的整数），回落为 ${RETRIEVAL_DEFAULTS[key]}`);
@@ -156,5 +198,8 @@ export function loadRetrievalConfig(configRoot?: string): RetrievalConfig {
   if (minScore !== rawMinScore) {
     console.warn(`[runtime-config] retrieval.minScore=${rawMinScore} 越界（需 0 <= x < 1），回落为 0（关闭）`);
   }
-  return { canon: bounded("canon"), live: bounded("live"), styleAnchors: bounded("styleAnchors"), minScore };
+  return {
+    canon: bounded("canon"), live: bounded("live"), styleAnchors: bounded("styleAnchors"),
+    minScore, weights: loadWeights(lines),
+  };
 }
