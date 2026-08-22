@@ -220,3 +220,27 @@ describe("输出归一：把各家模型的排版差异吸收掉", () => {
     expect(result.act).toEqual(["没动"]);
   });
 });
+
+describe("说话人标签必须剥掉（气泡已标明说话人）", () => {
+  it("剥掉 凪： 前缀", () => {
+    // 实测原文：「凪：……那就不动。\n这样行行。」
+    // 成因是 style_anchors 用剧本对照格式（`你：…` / `凪：…`），模型连标签一起学了。
+    const result = normalizeOutput("凪：……那就不动。\n这样行行。");
+    expect(result.say).toEqual(["……那就不动。", "这样行行。"]);
+  });
+
+  it("每句都带标签时逐句剥", () => {
+    const result = normalizeOutput("凪：随便。\n凪：你决定。");
+    expect(result.say).toEqual(["随便。", "你决定。"]);
+  });
+
+  it("英文名与全名一并剥，半角冒号也认", () => {
+    expect(normalizeOutput("Nagi: 麻烦。").say).toEqual(["麻烦。"]);
+    expect(normalizeOutput("凪诚士郎：好麻烦。").say).toEqual(["好麻烦。"]);
+  });
+
+  it("正文里出现「凪」但不是标签时不误剥", () => {
+    const result = normalizeOutput("凪不想动。");
+    expect(result.say).toEqual(["凪不想动。"]);
+  });
+});

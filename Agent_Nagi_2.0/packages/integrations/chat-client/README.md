@@ -109,3 +109,40 @@ DEFAULT_MODEL=nagi
 链路本身已验证畅通——用假 key 会拿到厂商的 `AuthenticationError`，
 用真 key 拿到 `AccountOverdueError`，两者都证明请求穿透到了厂商。
 **充值后即可正常对话，无需再改任何代码。**
+
+---
+
+## 本地补丁（必须记录，升级 NextChat 后要重新打）
+
+我们**不维护 fork**（§11.1 第六条），但下面这个是**中文使用者的阻塞级 bug**，
+无法靠配置绕开，故在本地源码打了最小补丁。
+
+### 补丁 1：中文输入法选词的 Enter 被当成发送
+
+**文件**：`app/components/chat.tsx` 的 `shouldSubmit`
+
+**现象**（Ant 实测）：打中文时按 Enter 选候选词，字还在输入框里，
+气泡已经发出去了。
+
+**根因**：`compositionend` 在 `keydown` **之前**触发。等 keydown 走到时，
+`isComposing.current` 已被置回 false、`e.nativeEvent.isComposing` 也是 false
+⇒ NextChat 原有的三道守卫（`keyCode 229` / `nativeEvent.isComposing` /
+`isComposing.current`）**全部失效**。
+
+**补丁**：记录 `compositionend` 的时刻，合成结束后 120ms 内的 Enter 一律不当发送。
+120ms 足以覆盖同一次按键引发的事件对，又短到不会误吞用户紧接着的第二次 Enter。
+
+```ts
+const compositionEndedAt = useRef(0);
+// onCompositionEnd 里：compositionEndedAt.current = Date.now();
+// shouldSubmit 里：
+if (e.key === "Enter" && Date.now() - compositionEndedAt.current < 120) return false;
+```
+
+**零代码的替代方案**（若不想打补丁）：设置里把「发送键」改成 `Ctrl + Enter`，
+plain Enter 就不再触发发送。代价是改变输入习惯。
+
+### 升级流程
+
+`git pull` NextChat 后，重新检查 `shouldSubmit` 是否已被上游修复；
+若未修复，按上面重新打一次补丁。
