@@ -8,6 +8,7 @@ import {
   type SessionState,
   type ChatProvider,
   type RelationshipState,
+  type MemoryStore,
 } from "@nagi/core";
 import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
@@ -68,7 +69,29 @@ function parseExtractedFacts(raw: string): readonly ExtractedFact[] {
 }
 
 const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" };
-const memoryStore = new InMemoryMemoryStore();
+
+/**
+ * 记忆存储。配了 `NAGI_DOMAIN_DB` 就落 SQLite，否则退回内存（仅供单测与临时跑）。
+ *
+ * **不配等于凪记不住任何跟你聊过的事**——重启即清空（F24 实测）。
+ * `.env` 已默认指向 `var/nagi.sqlite`；`var/` 已在 gitignore。
+ * 单测不加载 `.env`，所以继续走内存，彼此隔离、互不留文件。
+ *
+ * 与 domain store **共用同一个库文件**（表不同）：领域库存关系与对话轮次，
+ * 记忆库存记忆正文。共用一个文件才能一起备份、一起导出。
+ */
+function createMemoryStore(): { store: MemoryStore; liveCount?: (namespace: string) => number } {
+  const databasePath = process.env.NAGI_DOMAIN_DB;
+  if (!databasePath) return { store: new InMemoryMemoryStore() };
+  const require = createRequire(import.meta.url);
+  const { SqliteMemoryStore } = require("./sqlite-memory-store.js") as {
+    SqliteMemoryStore: new (path: string) => MemoryStore & { liveCount(namespace: string): number };
+  };
+  const store = new SqliteMemoryStore(databasePath);
+  return { store, liveCount: (namespace) => store.liveCount(namespace) };
+}
+
+const { store: memoryStore, liveCount: liveMemoryCountFromStore } = createMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
 type DomainBackend = {
   loadRelationship: LocalDomainStore["loadRelationship"];
@@ -142,7 +165,9 @@ const domainStore = createDomainBackend(seedRelationship);
 export function getLocalDomainState(userId: string) {
   return {
     relationship: domainStore.loadRelationship(userId),
-    liveMemoryCount: domainStore.liveMemoryCount(userId),
+    // 优先读记忆库里的**真实条数**。domain store 那个 live_memory_count 是个
+    // 累加计数器，导入 / 重建后可能与实际记忆对不上——真实条数才是事实。
+    liveMemoryCount: liveMemoryCountFromStore?.(userId) ?? domainStore.liveMemoryCount(userId),
   };
 }
 

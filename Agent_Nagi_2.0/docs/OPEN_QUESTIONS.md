@@ -1002,3 +1002,30 @@ const memoryStore = new InMemoryMemoryStore();
 V4 §8.2 有铁律：**更换聊天 LLM 不得自动更换 embedding 模型**，
 向量必须与查询同模型同版本。接入时须一并落实版本化。
 `config/providers.yaml` 的 `embedding.active` 仍是 `TBD_8_22`。
+
+### F24 已修 —— Live 记忆落 SQLite
+
+新增 `packages/server/src/sqlite-memory-store.ts`，实现 `MemoryStore` 端口。
+
+**实测复现→修复**：
+| | 修复前 | 修复后 |
+|---|---|---|
+| 发消息后 | liveMemoryCount: 1 | 1 |
+| **重启服务端后** | **0，history 空** | **1，history 完整** |
+| 重启后问「我下周三是不是有事？」 | 想不起来 | **「……大阪出差？」** |
+
+检索 trace 里可见 live 记忆 `mem-persist:2` 与 canon 一同被召回。
+
+三个设计取舍：
+1. **排序仍复用 core 的 `rankMemories`**，不在 SQL 里重写打分。打分权重属 core
+   领域算法，散到 SQL 会两处漂移且 core 单测管不到。代价是候选集读进内存再排——
+   按 V4 §11.2 首发 50 个用户身份的规模可接受，规模上去再把粗筛下推 SQL。
+2. **粗筛必须带上 `canon:nagisheart`**，否则新用户读不到任何剧情记忆。
+3. **`INSERT OR REPLACE`**：canon 每次启动从 JSON 重灌，靠 id 幂等覆盖不堆积。
+
+`/api/state` 的 liveMemoryCount 改读记忆库真实条数——domain store 那个
+`live_memory_count` 是累加计数器，导入/重建后会与实际对不上。
+
+`.env` 已配 `NAGI_DOMAIN_DB=var/nagi.sqlite`（`var/` 已 gitignore）。
+**单测不加载 .env，故继续走内存**，彼此隔离、不留文件。
+3 条回归测试，含「关掉再开新实例」的跨进程存活验证。
