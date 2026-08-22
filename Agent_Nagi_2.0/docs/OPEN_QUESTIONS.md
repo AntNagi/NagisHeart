@@ -952,3 +952,53 @@ Ant 提前指派（原定 8/26）。**51/51 全部通过，降级 0 条。**
 节点 `club_media` 的标题本身就是第一人称——「它翻译得很对，但**不像我**」。
 摘要只要提到标题就触发第一人称检查，导致该条**永远无法通过**，反复降级。
 修法：人称检查只针对**叙述本身**，先把引号 / 书名号内的引用挖掉再查。
+
+---
+
+## 2026-08-22 记忆三层盘点（Ant 问「记忆都处理好了？」）
+
+| 层 | 状态 |
+|---|---|
+| **Canon 记忆**（剧情既成事实） | ✅ **今天做完**，51/51、降级 0、检索语义分 0.2–0.75 |
+| **Live 记忆**（对话中新生成） | ⚠️ **能抽取、能检索，但重启即丢**——见 F24 |
+| **Embedding 向量检索** | ❌ **完全未接入**，语义分全靠 bigram 词面 |
+
+### F24 — Live 记忆重启即丢，`MemoryStore` 没有持久化实现 —— 【已验证】
+
+`packages/server/src/local-dependencies.ts:71`
+
+```ts
+const memoryStore = new InMemoryMemoryStore();
+```
+
+`InMemoryMemoryStore` 的注释自己写着「for core tests and the first development loop」，
+底层是一个 `Map`。**`packages/server/` 下没有任何 `MemoryStore` 的持久化实现**
+（grep 确认，端口只有 `search` / `append` 两个方法，只有内存版实现了）。
+
+**实测复现**：
+1. 发「我下周三要去大阪出差」→ `liveMemoryCount: 1`
+2. 重启服务端
+3. `liveMemoryCount: 0`，`/api/history` 返回 `{"turns":[]}`
+
+⚠ **配了 `NAGI_DOMAIN_DB` 走 SQLite 也救不了**：`sqlite-domain-store.ts` 只存
+`live_memory_count` 这个**计数**和 turns，**不存记忆正文**。记忆内容无论如何只在内存。
+
+**影响**：这是立项书「长期记忆」与 V4 §14.2「长期存在」的**要害缺口**。
+凪现在能记住剧情（canon 从 JSON 加载，重启不丢），但**记不住跟你聊过的任何事**——
+每次重启都从零认识你。而 Q19 裁定的 `intimacy 70` 恰恰假设关系是延续的。
+
+**修法**：给 `MemoryStore` 写一个 SQLite 实现（端口只有两个方法，工作量不大），
+与 `sqlite-domain-store` 共用一个库文件。属 V4 §14.2 第一条「Canon / Live 记忆」，
+排期在 8/26。
+
+### F25 — Embedding 未接入，语义检索全靠词面 —— 【已验证】
+
+`scoreMemory` 的 `semantic = max(cosineSimilarity, lexicalScore)`，
+而 `query.embedding` 始终为空 ⇒ `cosineSimilarity` 恒 0 ⇒ **只有 bigram 词面在起作用**。
+
+当前 canon 内容做扎实后词面已经够用（语义分 0.2–0.75），但词面匹配的固有短板还在：
+问「他住哪」不会命中「曼城公寓」，因为没有字面重叠。见低把握登记 U9 / U10。
+
+V4 §8.2 有铁律：**更换聊天 LLM 不得自动更换 embedding 模型**，
+向量必须与查询同模型同版本。接入时须一并落实版本化。
+`config/providers.yaml` 的 `embedding.active` 仍是 `TBD_8_22`。
