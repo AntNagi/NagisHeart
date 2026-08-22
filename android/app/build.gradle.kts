@@ -13,8 +13,17 @@ android {
         applicationId = "com.antnagi.nagisheart"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 3
+        versionName = "0.1.3"
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("../nagisheart-release.jks")
+            storePassword = "nagisheart123"
+            keyAlias = "nagisheart"
+            keyPassword = "nagisheart123"
+        }
     }
 
     buildTypes {
@@ -28,6 +37,7 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("boolean", "DEBUG_MODE", "false")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 

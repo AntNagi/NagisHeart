@@ -27,3 +27,8 @@ node_modules/
 # 生成物 / 临时产物（体积大，不入库）
 output/
 backups/
+
+# 签名私钥：绝对不能入库
+*.jks
+*.keystore
+keystore.properties

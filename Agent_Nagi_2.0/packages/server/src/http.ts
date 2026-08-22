@@ -1,7 +1,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { normalizeOutput } from "@nagi/core";
-import { createNagiGraph, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
+import { createNagiGraph, createSqliteCheckpointer, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
 import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
 
@@ -12,6 +12,26 @@ const MAX_BODY_BYTES = 1_000_000;
  */
 const BEAT_GAP_MS = Number(process.env.NAGI_BEAT_GAP_MS ?? 240);
 const provider = createProviderFromEnvironment();
+
+/**
+ * Checkpointer。**此前服务端根本没接**——checkpoint 只在单测里跑过，
+ * 真实服务从不落盘，于是 V4 §14.1 的完成判据
+ * 「人为让节点失败，重新调用后从 checkpoint 恢复」**根本不可能满足**。
+ *
+ * 与领域库共用同一个文件（表不同），跟记忆库一样：一份文件便于整体备份。
+ * 不配 `NAGI_DOMAIN_DB` 则不落 checkpoint（单测走这条，彼此隔离）。
+ */
+const checkpointer = (() => {
+  const path = process.env.NAGI_DOMAIN_DB;
+  if (!path) return undefined;
+  try {
+    return createSqliteCheckpointer(path);
+  } catch (error) {
+    // checkpoint 是可恢复性能力，坏了不该让服务起不来——但必须留声。
+    console.warn(`[checkpoint] 初始化失败，本次运行不落 checkpoint：${error instanceof Error ? error.message : String(error)}`);
+    return undefined;
+  }
+})();
 
 interface ChatRequestBody {
   readonly message?: unknown;
@@ -169,6 +189,51 @@ export function createHttpServer() {
         json(response, 200, { turns: getLocalHistory(userId, limit) });
         return;
       }
+      // V4 §11 列的 Debug API。§14.1 的完成判据后半句要求
+      //「能通过 Debug API 解释整轮路径」——此前该端点根本不存在。
+      //
+      // 按 thread 查，不按 requestId：checkpoint 是以 thread 为单位存的，
+      // 一个 thread 上的多轮共享同一条 checkpoint 链。要定位某一轮，
+      // 从返回的 trace 里找 requestId。
+      if (request.method === "GET" && request.url?.startsWith("/api/runs")) {
+        const query = new URL(request.url, "http://localhost").searchParams;
+        const userId = query.get("userId") ?? "local-user";
+        const threadId = query.get("threadId") ?? "local-thread";
+        if (!checkpointer) {
+          json(response, 200, {
+            threadId: `${userId}:${threadId}`,
+            checkpointing: false,
+            hint: "未配置 NAGI_DOMAIN_DB，本次运行不落 checkpoint",
+          });
+          return;
+        }
+        const graph = createNagiGraph(createLocalDependencies(provider), { checkpointer });
+        const config = { configurable: { thread_id: `${userId}:${threadId}` } };
+        const snapshot = await graph.getState(config);
+        const values = snapshot.values as Partial<NagiGraphState> | undefined;
+        json(response, 200, {
+          threadId: `${userId}:${threadId}`,
+          checkpointing: true,
+          // 有没有 checkpoint 本身就是答案之一——恢复实验先看这个。
+          // **不能看 config.configurable.thread_id**：那是原样回显的入参，
+          // 空 thread 也非空。createdAt 只有真落过 checkpoint 才有值。
+          hasCheckpoint: snapshot.createdAt !== undefined,
+          // 整轮路径：每个节点何时执行、产出了什么。这是「解释」的主体。
+          trace: values?.trace ?? [],
+          scene: values?.analysis?.scene ?? null,
+          guard: values?.guard ?? null,
+          accepted: values?.generation?.accepted ?? null,
+          // 下一步要执行的节点。中途失败时非空，正是它告诉你断在哪。
+          next: snapshot.next ?? [],
+        });
+        return;
+      }
+      if (request.method === "GET" && request.url === "/api/health") {
+        // V4 §11 列的是 /api/health；早先只实现了 /health。两个都留着，
+        // 免得按文档接的客户端拿到 404。
+        json(response, 200, { status: "ok", runtime: "local", checkpointing: checkpointer !== undefined });
+        return;
+      }
       if (request.method === "POST" && request.url === "/api/save/export") {
         const body = await readSaveJson(request);
         const userId = typeof body.userId === "string" ? body.userId : "local-user";
@@ -250,7 +315,7 @@ export function createHttpServer() {
         };
         chunk({ role: "assistant" }, null);
         await withThreadLock(threadLocks, lockKey, async () => {
-          for await (const update of streamNagiGraph(dependencies, state, { threadId })) {
+          for await (const update of streamNagiGraph(dependencies, state, { threadId: `${userId}:${threadId}`, ...(checkpointer ? { checkpointer } : {}) })) {
             const record = update && typeof update === "object" ? update as Record<string, unknown> : {};
             const commit = record.commit_turn;
             if (commit && typeof commit === "object") {
@@ -288,8 +353,12 @@ export function createHttpServer() {
         return;
       }
       const result = await withThreadLock(threadLocks, lockKey, async () => {
-        const graph = createNagiGraph(dependencies);
-        return await graph.invoke(state as Parameters<typeof graph.invoke>[0]) as NagiGraphState;
+        const graph = createNagiGraph(dependencies, checkpointer ? { checkpointer } : {});
+        // 必须带 thread_id：没有它 checkpoint 无处归属，恢复也就无从谈起。
+        return await graph.invoke(
+          state as Parameters<typeof graph.invoke>[0],
+          { configurable: { thread_id: `${userId}:${threadId}` } },
+        ) as NagiGraphState;
       });
       const raw = result.generation.accepted ?? result.generation.candidate;
       // 非流式也走同一套归一，两条路的行为必须一致——否则同一句话在

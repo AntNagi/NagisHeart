@@ -19,7 +19,6 @@ import { createEmbeddingProviderFromEnvironment } from "./provider-config.js";
 import { resolve } from "node:path";
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
-import { createRequire } from "node:module";
 
 /**
  * 记忆抽取提示词（aux 位）。
@@ -82,18 +81,26 @@ const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" 
  * 与 domain store **共用同一个库文件**（表不同）：领域库存关系与对话轮次，
  * 记忆库存记忆正文。共用一个文件才能一起备份、一起导出。
  */
-function createMemoryStore(): { store: MemoryStore; liveCount?: (namespace: string) => number } {
+/**
+ * 两个 SQLite store 用**动态 import** 加载，不用静态 import 也不用 createRequire。
+ *
+ * - 不静态 import：它们依赖 better-sqlite3（原生模块）。静态 import 会让
+ *   所有场景都必须装得上原生绑定，包括根本不落盘的单测。
+ * - 不 createRequire：Node 的运行时 `.ts` 加载走类型剥离，撑不住 TS 语法；
+ *   而 vitest 直接跑 `src/*.ts`，那里没有 `.js` 邻居可解析。
+ *   动态 import 由打包/运行时自己做 `.js`→`.ts` 映射，三种环境都成立。
+ *
+ * 代价：这两个 create 变成 async，模块尾部用 top-level await 消化。
+ */
+async function createMemoryStore(): Promise<{ store: MemoryStore; liveCount?: (namespace: string) => number }> {
   const databasePath = process.env.NAGI_DOMAIN_DB;
   if (!databasePath) return { store: new InMemoryMemoryStore() };
-  const require = createRequire(import.meta.url);
-  const { SqliteMemoryStore } = require("./sqlite-memory-store.js") as {
-    SqliteMemoryStore: new (path: string) => MemoryStore & { liveCount(namespace: string): number };
-  };
+  const { SqliteMemoryStore } = await import("./sqlite-memory-store.js");
   const store = new SqliteMemoryStore(databasePath);
   return { store, liveCount: (namespace) => store.liveCount(namespace) };
 }
 
-const { store: memoryStore, liveCount: liveMemoryCountFromStore } = createMemoryStore();
+const { store: memoryStore, liveCount: liveMemoryCountFromStore } = await createMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
 type DomainBackend = {
   loadRelationship: LocalDomainStore["loadRelationship"];
@@ -104,13 +111,10 @@ type DomainBackend = {
   importUser(snapshot: unknown, userId: string): void;
 };
 
-function createDomainBackend(seed: RelationshipState): DomainBackend {
+async function createDomainBackend(seed: RelationshipState): Promise<DomainBackend> {
   const databasePath = process.env.NAGI_DOMAIN_DB;
   if (!databasePath) return new LocalDomainStore(seed);
-  const require = createRequire(import.meta.url);
-  const { SqliteDomainStore } = require("./sqlite-domain-store.js") as {
-    SqliteDomainStore: new (path: string, seed: RelationshipState) => DomainBackend;
-  };
+  const { SqliteDomainStore } = await import("./sqlite-domain-store.js");
   return new SqliteDomainStore(databasePath, seed);
 }
 
@@ -162,7 +166,7 @@ const canonLoad = memoryStore.append(canonMemories);
 // 倒过来的话 store 已经用 0/0/0 建好了，Q19 的裁决又一次落空。
 const relationshipConfig = loadRelationshipConfig();
 const seedRelationship = resolveSeedRelationship(relationshipConfig, isCanonReady(canonMemories));
-const domainStore = createDomainBackend(seedRelationship);
+const domainStore = await createDomainBackend(seedRelationship);
 
 /**
  * embedding provider。未配置时检索退回纯词面（bigram），功能不受影响、只是变弱。
