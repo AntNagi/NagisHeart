@@ -327,3 +327,71 @@ cd /d/nagi-frontend/chatbox && npx vite --config vite.config.web.ts
 ```
 
 **不要用 `pnpm dev`**——那会走 Electron，而 Electron 二进制在本机代理下拉不到。
+
+---
+
+## Android 构建（2026-08-23）
+
+**部署形态**：电脑跑服务端（含模型 key），Android 客户端经**局域网**连过来。
+不部署云服务器。手机上只存 `NAGI_AUTH_TOKEN`，**不存任何厂商凭证**——手机丢了也不泄露 key。
+
+### 上游社区版没有原生工程脚手架
+
+Chatbox CE 有 Capacitor 依赖与 `mobile:sync:android` 之类的脚本，
+但**没有 `capacitor.config.ts`，也没有 `android/` 目录**——那部分在他们的 pro 仓库。
+需自建：`capacitor.config.ts` + `npx cap add android`。
+
+`webDir` 必须是 `release/app/dist/renderer`（与 `electron.vite.config.ts` 的
+production 产物目录一致）。写错的话 `cap sync` 会把空目录拷进 APK，
+装上去一片白屏，**且不报任何错**。
+
+### 明文 HTTP 必须显式放开
+
+Android 9 起默认禁止明文流量，而服务端是 `http://<电脑IP>:8787`——
+局域网自用，不该为此搞 HTTPS。已在 `capacitor.config.ts` 配
+`android.allowMixedContent` + `server.cleartext`。
+
+不开的话手机上表现为**请求直接失败且 WebView 不给任何提示**，看起来像服务器没开。
+⚠ 真要公网部署必须换 HTTPS 并关掉这两项。
+
+### 构建环境的两个坑
+
+**Gradle wrapper 不读 `HTTP_PROXY` 环境变量。**
+必须在 `android/gradle.properties` 里写 `systemProp.http(s).proxyHost/Port`。
+不配的表现是 `Connect timed out` 拉不到 `gradle-*.zip`，
+看起来像 Gradle 版本有问题，实际是根本没走代理。
+
+**改用缓存里已有的 Gradle 版本，别重下**（Ant 提出）。
+`~/.gradle/wrapper/dists` 里：
+- `gradle-8.11.1-all`（Chatbox 原本要的）**只有 `.part`**，是失败残骸，从未下成
+- `gradle-8.13-all` **完整**（带 `.ok`），主仓库的 Android 项目在用
+
+已把 `gradle-wrapper.properties` 改指 8.13。AGP 8.7.2 与之兼容。
+
+⚠ **不能加 `--offline`**：AGP 8.7.2 与 google-services 等依赖不在本机缓存里
+（主仓库用的是别的版本），离线会直接失败。Gradle 本体复用缓存、依赖走代理下载。
+
+### 服务端接局域网
+
+```bash
+NAGI_HOST=0.0.0.0 pnpm run dev
+```
+
+`index.ts` 会在绑非回环地址而未配 `NAGI_AUTH_TOKEN` 时**拒绝启动**——
+不配 token 时任何人都能读走 `/api/history`（完整对话记录）与 `/api/save/export`。
+
+**实测**（2026-08-23）：`curl http://192.168.1.3:8787/v1/models` 带 token 返回正常。
+
+**防火墙需人工放行**（改防火墙属系统安全设置，agent 不代劳）：
+
+```powershell
+New-NetFirewallRule -DisplayName "Nagi Runtime 8787" -Direction Inbound -LocalPort 8787 -Protocol TCP -Action Allow -Profile Private
+```
+
+`-Profile Private` 是有意的：只在标记为「专用网络」的 wifi 生效，公共 wifi 下自动不放行。
+
+### 两个运行期注意
+
+1. **电脑 IP 会变**。路由器 DHCP 重新分配后手机上填的地址失效，
+   现象是「突然连不上」。建议路由器里绑固定 IP。
+2. **电脑睡眠 = 手机断线**。要「一直开着」就得关掉自动睡眠。
