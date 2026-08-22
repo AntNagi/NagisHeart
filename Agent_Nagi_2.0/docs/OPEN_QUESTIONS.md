@@ -1139,6 +1139,36 @@ Nagi Bible §8.4「禁止的语言模板」与 Rel §10.3，**不是我编的**�
 而是把整份 JSON 报告冲得只剩尾部几行——实测 35 行输出里读不到 `generatedAt`。
 交互式终端下看不出问题，一旦落盘或进 CI 就丢报告。
 
-修法：`` 进度只在 `process.stderr.isTTY` 为真时输出，否则改为逐行打点。
-**未修**，留待与 CI 接入一并处理。当前绕法：读 `var/role-eval-detail.json`，
-它是完整落盘的、不受影响。
+**已修**：`` 只在 `process.stderr.isTTY` 为真时输出，非 TTY 改为整十打点。
+实测重定向到文件后 JSON 报告完整、`generatedAt` 在位。
+
+---
+
+## 2026-08-22 收尾三件
+
+### F28 — 校准把「限流」误记成「尺子判错」 —— 【已验证，已修】
+
+免费额度当天用尽后重跑校准，15 条全线 429。而 `judgeOoc` 把限流失败
+**吞成「打分失败」**返回 `score: undefined`，校准据此判定「未通过」
+⇒ 报告显示「评分器 0/15 通过」。
+
+**限流 ≠ 尺子不准。** 混为一谈会得出「评分器不准」的假结论，
+进而去改一把本来没问题的尺子。已加 `unavailable` 标记：
+限流/网络失败单独计数、不计入通过率、**不判失败**（但在汇总里显形）。
+
+### F29 — 长期失败的 checkpoint 测试已修 —— 【已验证】
+
+`packages/runtime-langgraph/test/sqlite-persistence.test.ts` 从项目早期就一直红着。
+
+**根因**：`createSqliteCheckpointer` 建的连接从没关过，`finally` 里直接
+`rmSync` 删目录——Windows 上文件被占用必然 EPERM。
+**断言其实全过**（第 32 行的 `expect` 通过了），挂的是清理步骤。
+
+`SqliteSaver` 没有公开 `close()`，但持有 better-sqlite3 的 `db` 实例，
+关它即可。同时把 saver 引用提到 `try` 之外——断言失败时 `finally` 也要能关。
+
+⇒ **`pnpm test` 首次全绿：59/59。**
+
+### 当前红灯清零
+
+`typecheck` ✓ `lint` ✓ `test` **59/59** ✓ `eval`（守卫档）19/19 ✓

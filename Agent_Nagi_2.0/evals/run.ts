@@ -17,6 +17,27 @@ function parseGuardChecks(text: string, sectionName: string): GuardCheck[] {
 }
 
 const root = resolve(process.cwd());
+
+/**
+ * 进度输出。
+ *
+ * 回车符原地刷新只在**交互式终端**下成立。重定向到文件或进 CI 时它不会覆盖，
+ * 而是把整份 JSON 报告冲得只剩尾部几行——实测 35 行输出里读不到 `generatedAt`。
+ * 见 OPEN_QUESTIONS F27。
+ */
+function progress(line: string, done: number, total: number): void {
+  if (process.stderr.isTTY) {
+    process.stderr.write(`\r  ${line.padEnd(48)}`);
+    return;
+  }
+  // 非 TTY：只在整十与末尾打点，既不刷屏也不冲掉报告。
+  if (done % 10 === 0 || done === total) console.error(`  ${line}`);
+}
+
+/** 进度行收尾。非 TTY 时不需要——那边本来就是逐行输出。 */
+function endProgress(): void {
+  if (process.stderr.isTTY) process.stderr.write(String.fromCharCode(10));
+}
 const policy = loadGuardPolicy(resolve(root, "resources"));
 
 // ── 守卫 Eval（离线档，零模型调用，CI 可跑）──────────────────────
@@ -70,9 +91,9 @@ try {
       maxBeats: maxBeatsPerReply,
       provider,
       apiKey,
-      onProgress: (done, total, id) => process.stderr.write(`\r  ${done}/${total} ${id.padEnd(24)}`),
+      onProgress: (done, total, id) => progress(`${done}/${total} ${id}`, done, total),
     });
-    process.stderr.write("\n");
+    endProgress();
 
     // 评分器校准：给尺子本身量一把尺子（F26）。
     // 额外 15 次调用，故默认不跑——`NAGI_EVAL_CALIBRATE=1` 开启。
@@ -82,8 +103,8 @@ try {
       const calibrationYaml = readFileSync(resolve(root, "evals/framework/judge_calibration.yaml"), "utf8");
       console.error("评分器校准：权威反例 vs V17 逐字台词…");
       calibration = await runCalibration(calibrationYaml, provider, apiKey,
-        (done, total) => process.stderr.write(`\r  ${done}/${total}`));
-      process.stderr.write("\n");
+        (done, total) => progress(`${done}/${total}`, done, total));
+      endProgress();
     }
   }
 } finally {
@@ -124,8 +145,10 @@ const report = {
     judgeCalibration: {
       total: calibration.length,
       passed: calibration.filter((item) => item.passed).length,
+      // 调用没打通的单独计——限流不是尺子判错，混在一起会得出「评分器不准」的假结论。
+      unavailable: calibration.filter((item) => item.unavailable).length,
       // 未通过的逐条列出——「哪条没分开」比「通过率」有用得多。
-      failures: calibration.filter((item) => !item.passed)
+      failures: calibration.filter((item) => !item.passed && !item.unavailable)
         .map((item) => ({ text: item.text, src: item.src, expected: item.expected, score: item.score ?? null })),
     },
   } : {}),
@@ -155,5 +178,6 @@ if (roleStatus === "run") {
 const guardFailed = blockResults.some((item) => !item.passed) || passResults.some((item) => !item.passed);
 const roleHardFailed = roleResults.some((item) => item.error || item.forbidHits.length > 0);
 // 校准失败也算硬失败：尺子不准，这轮所有 OOC 分数都不可信。
-const calibrationFailed = calibration.some((item) => !item.passed);
+// 只有**真判错**才算失败；限流导致的量不成不判失败（但会在汇总里显形）。
+const calibrationFailed = calibration.some((item) => !item.passed && !item.unavailable);
 if (guardFailed || roleHardFailed || calibrationFailed) process.exitCode = 1;

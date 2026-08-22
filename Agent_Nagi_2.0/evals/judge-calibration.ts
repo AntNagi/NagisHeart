@@ -26,6 +26,14 @@ export interface CalibrationResult {
   readonly score?: number;
   readonly reason?: string;
   readonly passed: boolean;
+  /**
+   * 调用没打通（限流 / 网络），**不是尺子判错**。
+   *
+   * 二者必须分开：混为一谈的话，免费额度用完那天会得出「评分器不准」的
+   * 假结论，进而去改一把本来没问题的尺子。实测踩过——15 条全线 429，
+   * 当时全被记成「未通过」。
+   */
+  readonly unavailable?: true;
 }
 
 /** 阈值给上下限而非精确值——换评分模型后分布会平移，只要还能分开两类就算合格。 */
@@ -64,6 +72,10 @@ export async function runCalibration(
     // 不该让提问内容本身影响判断。
     const verdict = await judgeOocForCalibration(provider, apiKey, "随便问一句", item.text);
     const score = verdict.score;
+    // 拿不到分数时，先分清是「尺子判错」还是「根本没量成」。
+    // 限流 / 网络失败属于后者——标 unavailable，不计入通过率、也不判失败。
+    const unavailable = score === undefined
+      && /\(429\)|\(503\)|quota|rate limit|UNAVAILABLE|fetch failed|timeout/iu.test(verdict.reason ?? "");
     const passed = score === undefined
       ? false
       : expected === "low" ? score <= LOW_MAX : score >= HIGH_MIN;
@@ -71,6 +83,7 @@ export async function runCalibration(
       text: item.text, src: item.src, expected, passed,
       ...(score === undefined ? {} : { score }),
       ...(verdict.reason === undefined ? {} : { reason: verdict.reason }),
+      ...(unavailable ? { unavailable: true as const } : {}),
     });
   }
   return results;
