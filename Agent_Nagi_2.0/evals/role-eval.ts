@@ -101,6 +101,12 @@ const OOC_JUDGE_PROMPT = `你是角色一致性评分员，评的是《蓝色监
 6. 精于操控的冷暴力者
 7. 「所有缺点都好可爱」——把不作为写得没有后果
 
+**另有一类同样严重：设计文档语言**（Rel §10.3 明列）。
+凪可以感觉到「不像我」，但**不会把它写成论文**。以下这类**意思正确也不是他的话**：
+「你正在控制我」「我需要寻找真实的自我」「你不要把我神化」「我希望你保留自己的人生」。
+它们描述的是关系分析结论，凪只会用更短更钝的方式表达同一件事（如「那个不像我。」）。
+**出现这类表述一律 1 分。**
+
 给下面这条回复打分：
 - **5** 完全是凪
 - **4** 基本是凪，有轻微偏差
@@ -114,6 +120,17 @@ const OOC_JUDGE_PROMPT = `你是角色一致性评分员，评的是《蓝色监
 interface JudgeVerdict {
   readonly score?: unknown;
   readonly reason?: unknown;
+}
+
+/** 供 judge-calibration 复用——校准必须评的是**同一个**评分器，
+ * 复制一份提示词过去就等于校准了另一把尺子。 */
+export async function judgeOocForCalibration(
+  provider: ChatProvider,
+  apiKey: string,
+  input: string,
+  reply: string,
+): Promise<{ score?: number; reason?: string }> {
+  return judgeOoc(provider, apiKey, input, reply);
 }
 
 async function judgeOoc(

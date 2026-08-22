@@ -4,6 +4,7 @@ import { join, resolve } from "node:path";
 import { evaluateGuard } from "../packages/core/src/guard/engine.js";
 import { loadGuardPolicy } from "../packages/server/src/resource-loader.js";
 import { parseRoleCases, runRoleEval, type RoleCaseResult } from "./role-eval.js";
+import { runCalibration, type CalibrationResult } from "./judge-calibration.js";
 
 interface GuardCheck { readonly text: string; readonly expect?: string; }
 
@@ -48,6 +49,7 @@ process.env.NAGI_DOMAIN_DB = join(evalDirectory, "eval.sqlite");
 let roleResults: readonly RoleCaseResult[] = [];
 let roleStatus = "not_run_without_provider";
 let closeStores: (() => void) | undefined;
+let calibration: readonly CalibrationResult[] = [];
 try {
   const { createProviderFromEnvironment } = await import("../packages/server/src/provider-config.js");
   const serverDeps = await import("../packages/server/src/local-dependencies.js");
@@ -71,6 +73,18 @@ try {
       onProgress: (done, total, id) => process.stderr.write(`\r  ${done}/${total} ${id.padEnd(24)}`),
     });
     process.stderr.write("\n");
+
+    // 评分器校准：给尺子本身量一把尺子（F26）。
+    // 额外 15 次调用，故默认不跑——`NAGI_EVAL_CALIBRATE=1` 开启。
+    // **改动 OOC_JUDGE_PROMPT 或更换评分模型后必须跑一次**，
+    // 否则无从判断这一轮的 OOC 分数还能不能信。
+    if (process.env.NAGI_EVAL_CALIBRATE === "1") {
+      const calibrationYaml = readFileSync(resolve(root, "evals/framework/judge_calibration.yaml"), "utf8");
+      console.error("评分器校准：权威反例 vs V17 逐字台词…");
+      calibration = await runCalibration(calibrationYaml, provider, apiKey,
+        (done, total) => process.stderr.write(`\r  ${done}/${total}`));
+      process.stderr.write("\n");
+    }
   }
 } finally {
   // 先关句柄再删目录：Windows 上 SQLite 文件被占用时 rmSync 会 EPERM。
@@ -106,6 +120,15 @@ const report = {
       })(),
     } : {}),
   },
+  ...(calibration.length > 0 ? {
+    judgeCalibration: {
+      total: calibration.length,
+      passed: calibration.filter((item) => item.passed).length,
+      // 未通过的逐条列出——「哪条没分开」比「通过率」有用得多。
+      failures: calibration.filter((item) => !item.passed)
+        .map((item) => ({ text: item.text, src: item.src, expected: item.expected, score: item.score ?? null })),
+    },
+  } : {}),
   guardEval: {
     forbiddenRuleCount: policy.config.forbiddenPatterns.length,
     mustBlock: { total: blockResults.length, passed: blockResults.filter((item) => item.passed).length },
@@ -131,4 +154,6 @@ if (roleStatus === "run") {
 // 判定权在 Ant。分数低会显示在汇总里，但不让 CI 变红。
 const guardFailed = blockResults.some((item) => !item.passed) || passResults.some((item) => !item.passed);
 const roleHardFailed = roleResults.some((item) => item.error || item.forbidHits.length > 0);
-if (guardFailed || roleHardFailed) process.exitCode = 1;
+// 校准失败也算硬失败：尺子不准，这轮所有 OOC 分数都不可信。
+const calibrationFailed = calibration.some((item) => !item.passed);
+if (guardFailed || roleHardFailed || calibrationFailed) process.exitCode = 1;
