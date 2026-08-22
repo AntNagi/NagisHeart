@@ -257,3 +257,73 @@ POST /v1/chat/completions → 200 OK
   拆列表项会让「滚动到某条消息」错位
 - **不需要队列或定时器**：服务端已按 beat 逐条推流（间隔 `BEAT_GAP_MS` 240ms），
   按 `\n` 拆气泡后，内容本就是一段段到达，气泡会自然逐个出现
+
+---
+
+## Chatbox 定制记录（2026-08-23）
+
+fork 位置 `D:\nagi-frontend\chatbox`，**不进本仓库**（GPL-3.0，且前端代码不入库）。
+
+### 1. 多气泡
+
+`src/renderer/components/chat/nagi-beats.ts`（纯函数 + 单测）+ `Message.tsx`。
+assistant 一次多句时按换行拆成多个气泡。
+
+**不需要队列或定时器**：服务端本就按 beat 分段推流（间隔 `BEAT_GAP_MS` 240ms），
+内容一段段到达，气泡自然逐个出现。
+
+**不改** `message-render-items.ts`——其注释警告分组与 Virtuoso 列表项索引绑定，
+在那层拆会让 `scrollToMessage` 错位。拆分只发生在单条消息内部，列表项数不变。
+
+### 2. 功能裁剪 —— 用开关，不删代码
+
+顺着 Chatbox 自己已有的 `src/renderer/utils/feature-flags.ts` 扩展。
+
+关掉：生成图片、Copilots、联网搜索、文档解析、知识库、MCP、技能、
+Chatbox AI 推广及其设置页、默认模型设置页、Dev Tools、关于、帮助、
+首次运行引导（会调 Chatbox 自家后端且挡住设置页）、内置示例会话。
+
+保留：会话列表与聊天、模型提供方设置、对话设置、归档、快捷键、通用设置。
+
+**为什么不删代码**：1300+ commits 的活跃上游，删代码牵连面不可控，
+且上游出安全更新时合不进来。开关的用户可见效果完全一样，
+但改动集中在一个文件 + 若干处 `if`，合并成本几乎为零，回看只需改一个 `false`。
+
+### F35 — 清理内置示例会话踩的三个坑 —— 【已验证】
+
+值得完整记下来，因为**每一个都让「改了但没效果」看起来像「代码写错了」**。
+
+**坑一：样板会话从两个地方种下。**
+`setup/init_data.ts` 种 `defaultSessions*`；`stores/migration.ts` 在版本迁移时
+**另外补种** imageCreator / artifact / mermaid。只堵第一处，「贪吃蛇」「做图表」照样在。
+⇒ 改按 id 白名单（`setup/nagi-builtin-sessions.ts` 收齐 `initial_data` 的全部导出），
+堵种下的地方是堵不完的。
+
+**坑二（真正的元凶）：清理挂错了生命周期。**
+`initData` **只在 `configVersion === 0`（真正的全新安装）时**才被 migration 调用。
+已安装的库 `configVersion` 是 12，那段代码**一次都没执行过**——
+前两轮改动全部无效，而现象与「白名单不全」完全一样，极易误判。
+⇒ 改由 `index.tsx` 的 `initializeApp` 每次启动调用。
+
+**坑三：侧栏读的是另一个库。**
+会话列表来自 IndexedDB `chatbox-session-meta`，不是 `chatboxstore`。
+只删后者不会让列表变化。
+
+**验证方式（现象消失，非代码推断）**：手动往 `chatbox-session-meta` 种入内置 id
+`81cfc426-…`（小红书文案生成器），刷新后该条消失，自建会话原样保留。
+
+⚠ 清理**按 id 不按名字**：使用者可能把自己的会话起名叫「Markdown 101 (Example)」。
+误删聊天记录不可逆，宁可漏删不可错删。已用两条单测锁住。
+
+### 已知：`migration.test.ts` 是上游自带的红
+
+`git stash` 掉本项全部改动后它照样失败（`settingsStore` 的 theme/language
+过不了 zod 校验）。与定制无关，未处理。
+
+### 起法
+
+```bash
+cd /d/nagi-frontend/chatbox && npx vite --config vite.config.web.ts
+```
+
+**不要用 `pnpm dev`**——那会走 Electron，而 Electron 二进制在本机代理下拉不到。
