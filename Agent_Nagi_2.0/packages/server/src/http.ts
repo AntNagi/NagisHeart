@@ -248,6 +248,20 @@ export function createHttpServer() {
         json(response, 200, { imported: true, userId });
         return;
       }
+      // OpenAI 的模型列表端点。**现成客户端连上来第一件事就是拉它**，
+      // 拉不到会停在「获取模型失败」，根本进不到聊天界面——
+      // 而服务端日志里只有一条 404，极容易被当成客户端自己的毛病。
+      //
+      // 只暴露一个 id `nagi`：按 V4 §10，客户端不该知道也不该选择厂商模型，
+      // main / aux 由服务端按能力位决定。这同时也挡住了「用户在客户端里
+      // 把模型改成别的」——那会绕开我们对 main 位的全部标定。
+      if (request.method === "GET" && request.url === "/v1/models") {
+        json(response, 200, {
+          object: "list",
+          data: [{ id: "nagi", object: "model", created: 0, owned_by: "nagi-runtime" }],
+        });
+        return;
+      }
       if (request.method !== "POST" || request.url !== "/v1/chat/completions") {
         json(response, 404, { error: { message: "not found" } });
         return;
