@@ -279,11 +279,32 @@ export function createHttpServer() {
         nagi: { requestId, scene: result.analysis.scene, trace: result.trace },
       });
     } catch (error) {
+      const message = error instanceof Error ? error.message : "request failed";
       if (streaming && response.headersSent) {
-        response.destroy(error instanceof Error ? error : undefined);
+        // 流已经开头了，改不了 HTTP 状态码。但**绝不能直接 destroy** ——
+        // 那样客户端只看到连接被掐断，界面上显示「network error」，
+        // 真实原因（如厂商欠费 403）完全不可见，使用者无从判断该做什么。
+        // 改为把错误当成一段助手消息送完，再正常收流。
+        try {
+          response.write(`data: ${JSON.stringify({
+            id: `chatcmpl-error`,
+            object: "chat.completion.chunk",
+            created: Math.floor(Date.now() / 1000),
+            choices: [{ index: 0, delta: { content: `⚠️ ${message}` }, finish_reason: null }],
+          })}\n\n`);
+          response.write(`data: ${JSON.stringify({
+            id: `chatcmpl-error`,
+            object: "chat.completion.chunk",
+            created: Math.floor(Date.now() / 1000),
+            choices: [{ index: 0, delta: {}, finish_reason: "stop" }],
+          })}\n\n`);
+          response.write("data: [DONE]\n\n");
+          response.end();
+        } catch {
+          response.destroy();
+        }
         return;
       }
-      const message = error instanceof Error ? error.message : "request failed";
       json(response, 400, { error: { message } });
     }
   });
