@@ -77,7 +77,7 @@ const SUMMARY_PROMPT = `你在为角色「凪诚士郎」制作**他本人的剧
 
 ## 长度
 
-**200 到 350 字，绝对不超过 400 字。** 内容多时压缩**叙述**，不要删事实。
+**300 到 500 字，绝对不超过 600 字。** 内容多时压缩**叙述**，不要删事实。
 
 直接输出这段文字，不要标题、不要 JSON、不要 markdown。`;
 
@@ -176,11 +176,40 @@ if (!provider?.hasSlot("aux") || !apiKey) {
   throw new Error("烘焙需要 aux 能力位与 key：请配置 NAGI_LLM_MODEL_AUX 与 NAGI_DEV_LLM_KEY");
 }
 
+const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * 带退避的重试。
+ *
+ * 免费档必然撞限流：实测 Gemini free tier 会返回 429（配额）与
+ * 503（"This model is currently experiencing high demand"）。
+ * 一趟烘焙要发一两百次请求，不重试等于必然中途报废——
+ * 上一轮豆包欠费时就是跑到一半全线失败，产出一份 47/51 降级的残次品。
+ *
+ * 只对**限流与瞬时不可用**重试。鉴权、欠费、模型不存在这类错误重试没有意义，
+ * 直接抛出去让调用方降级，免得白等几分钟。
+ */
+async function withRetry<T>(task: () => Promise<T>, label: string): Promise<T> {
+  const delays = [2_000, 5_000, 15_000, 40_000];
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      return await task();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const retriable = /\(429\)|\(503\)|\(500\)|\(502\)|quota|high demand|rate limit|UNAVAILABLE|fetch failed|timeout/iu.test(message);
+      const delay = delays[attempt];
+      if (!retriable || delay === undefined) throw error;
+      process.stdout.write(`\r  ⏳ ${label} 限流，${delay / 1000}s 后重试（第 ${attempt + 1} 次）        `);
+      await sleep(delay);
+    }
+  }
+}
+
 async function summarize(node: Node, feedback?: readonly string[]): Promise<string> {
   const correction = feedback?.length
     ? `\n\n上一版摘要有以下说法在正文中找不到依据，请去掉或改正：\n${feedback.map((item) => `- ${item}`).join("\n")}`
     : "";
-  const result = await provider!.complete({
+  const result = await withRetry(() => provider!.complete({
     model: "aux",
     messages: [
       { role: "system", content: SUMMARY_PROMPT },
@@ -188,12 +217,12 @@ async function summarize(node: Node, feedback?: readonly string[]): Promise<stri
     ],
     temperature: 0.2,
     maxTokens: 900,
-  }, { apiKey: apiKey! });
+  }, { apiKey: apiKey! }), `摘要 ${node.nodeId}`);
   return result.text.trim();
 }
 
 async function verify(node: Node, summary: string): Promise<readonly string[]> {
-  const result = await provider!.complete({
+  const result = await withRetry(() => provider!.complete({
     model: "aux",
     messages: [
       { role: "system", content: VERIFY_PROMPT },
@@ -201,7 +230,7 @@ async function verify(node: Node, summary: string): Promise<readonly string[]> {
     ],
     temperature: 0,
     maxTokens: 400,
-  }, { apiKey: apiKey! });
+  }, { apiKey: apiKey! }), `核对 ${node.nodeId}`);
   try {
     const cleaned = result.text.trim().replace(/^```(?:json)?\s*/u, "").replace(/\s*```$/u, "");
     const parsed = JSON.parse(cleaned) as { unsupported?: unknown };
@@ -217,14 +246,17 @@ async function verify(node: Node, summary: string): Promise<readonly string[]> {
  * 长度上限**从预算推导，不是拍脑袋**。
  *
  *   canonMemory 预算 2000 token（runtime.yaml）
- *   ÷ topK.canon = 8 条          ⇒ 每条 250 token
- *   ÷ 0.561 token/字（实测中文比） ⇒ 约 445 字
+ *   ÷ 实际检索条数 4（local-dependencies.ts 的 limit，**不是** runtime.yaml 写的 topK.canon: 8）
+ *                                ⇒ 每条 500 token
+ *   ÷ 0.561 token/字（实测中文比） ⇒ 约 890 字
  *
- * 取 400 留余量。教训：上一版我拍了 180，而 V17 节点正文中位 1220 字、
- * p90 达 2609 字——把它压进 180 字还要保住全部专有名词与事实，
- * 是个不可能任务，结果 51 条里 44 条降级（86%）。
+ * 取 600 留足余量。两次教训：
+ *  - 第一次拍 180，而 V17 节点正文中位 1220 字，44/51 降级；
+ *  - 第二次按 topK=8 推出 400，Gemini 仍压不进去，3 条里降级 2 条。
+ *    根因是 runtime.yaml 的 topK.canon 与代码实际 limit 不一致（8 vs 4），
+ *    我按配置值推、而运行时用的是代码值。见 OPEN_QUESTIONS F23。
  */
-const MAX_CHARS = 400;
+const MAX_CHARS = 600;
 
 /**
  * 程序化硬检查。**不依赖模型自觉**——上一版把视角和长度只写进提示词，
@@ -237,11 +269,18 @@ function mechanicalIssues(text: string): readonly string[] {
   if (chars > MAX_CHARS) issues.push(`超长：${chars} 字，上限 ${MAX_CHARS} 字，请压缩叙述但保留全部事实`);
   // 第二人称是玩家视角残留。这是凪的记忆，出现「你」意味着视角写错了。
   // 先挖掉 {{playerName}} 占位符再查，避免误判。
-  const withoutPlaceholder = text.replaceAll("{{playerName}}", "◇");
-  if (/你/u.test(withoutPlaceholder)) issues.push("出现了第二人称「你」。用第三人称记述，主语写「凪」，对方写作 {{playerName}}");
+  // 人称检查只针对**叙述本身**。引号 / 书名号内是被引用的原话或节点标题，
+  // 里面出现「我」「你」是正常的——例如节点 `club_media` 的标题就叫
+  // 「它翻译得很对，但不像我」，摘要提到它必然带「我」。
+  // 不排除引用会让这类节点**永远无法通过**，实测该条反复卡在三次重写后降级。
+  const narration = text
+    .replaceAll("{{playerName}}", "◇")
+    .replace(/[「『"'“”][^」』"'“”]{0,120}[」』"'”]/gu, "◇")
+    .replace(/[《〈][^》〉]{0,60}[》〉]/gu, "◇");
+  if (/你/u.test(narration)) issues.push("出现了第二人称「你」。用第三人称记述，主语写「凪」，对方写作 {{playerName}}");
   // 第一人称同样是视角写错。上一版禁掉「你」之后，模型跳到了另一个极端写「我」。
   // 排除「我们」「自我」这类不构成叙述主语的用法。
-  if (/(?:^|[。，、；：！？\s])我(?!们)/u.test(withoutPlaceholder)) {
+  if (/(?:^|[。，、；：！？\s])我(?!们)/u.test(narration)) {
     issues.push("出现了第一人称「我」。用第三人称记述，主语写「凪」");
   }
   // 同一条里中英名混用 ⇒ 模型可能把凪当成了两个人。
@@ -253,14 +292,56 @@ const fallbackText = (title: string): string =>
   `既成事实：在 TRUE END 时间线上，凪经历了「${title}」。这是已经发生的剧情节点，不是当前正在进行的事件。`;
 
 const nodes = parseNodes(sourceText).filter((node) => allowedChapter(node.chapter) && node.body.length > 0);
-console.log(`V17 命中 ${nodes.length} 个 TRUE END 节点，开始烘焙…\n`);
+
+/**
+ * 断点续跑：已经烘好且**未降级**的条目直接沿用，不重复调模型。
+ *
+ * 上一轮豆包欠费时跑到一半全线失败，几十次成功的调用连同结果一起报废。
+ * 免费档撞限流是常态，没有续跑就等于每次失败都要从头再来。
+ *
+ * 只复用非降级条目：降级的说明当初没通过核对，值得再试一次。
+ * 用 `NAGI_CANON_FRESH=1` 可强制全量重烘（改了提示词时用）。
+ */
+function loadPrevious(): Map<string, CanonMemory> {
+  const previous = new Map<string, CanonMemory>();
+  if (process.env.NAGI_CANON_FRESH === "1") return previous;
+  try {
+    const parsed = JSON.parse(readFileSync(outputAbsolute, "utf8")) as { memories?: CanonMemory[] };
+    for (const memory of parsed.memories ?? []) {
+      if (!memory.degraded && memory.source?.sha256 === sha256) previous.set(memory.source.section, memory);
+    }
+  } catch {
+    // 没有旧产物或读不动 ⇒ 全量烘，不是错误。
+  }
+  return previous;
+}
+
+const previous = loadPrevious();
+console.log(`V17 命中 ${nodes.length} 个 TRUE END 节点`);
+if (previous.size > 0) console.log(`断点续跑：沿用 ${previous.size} 条已通过核对的旧结果（NAGI_CANON_FRESH=1 可强制重烘）`);
+console.log("开始烘焙…\n");
 
 const memories: CanonMemory[] = [];
 let degradedCount = 0;
 let order = 0;
 
+/** 落盘。中途也调用——进程崩了不至于把已完成的几十条一起丢掉。 */
+function flush(): void {
+  mkdirSync(dirname(outputAbsolute), { recursive: true });
+  writeFileSync(outputAbsolute, `${JSON.stringify({ schemaVersion: 1, source: { path: sourceRelative, sha256 }, memories }, null, 2)}
+`, "utf8");
+}
+
 for (const node of nodes) {
   order += 1;
+  const section = `${node.chapter} · ${node.nodeId} · ${node.title}`;
+  const reused = previous.get(section);
+  if (reused) {
+    // 沿用旧结果，但 id 按本次顺序重算——节点增删会让序号漂移。
+    memories.push({ ...reused, id: `canon:${node.nodeId}:${order}` });
+    process.stdout.write(`\r  进度 ${order}/${nodes.length}（沿用）`);
+    continue;
+  }
   let text = "";
   let degraded = false;
   try {
@@ -299,12 +380,14 @@ for (const node of nodes) {
     ...(degraded ? { degraded: true as const } : {}),
   });
   process.stdout.write(`\r  进度 ${order}/${nodes.length}`);
+  // 每 10 条落一次盘。免费档撞限流是常态，进程真崩了也不至于把
+  // 已完成的几十次调用连同结果一起丢掉——下次靠断点续跑接上。
+  if (order % 10 === 0) flush();
 }
 
 console.log();
 if (memories.length === 0) throw new Error("no TRUE END canon nodes found in V17");
-mkdirSync(dirname(outputAbsolute), { recursive: true });
-writeFileSync(outputAbsolute, `${JSON.stringify({ schemaVersion: 1, source: { path: sourceRelative, sha256 }, memories }, null, 2)}\n`, "utf8");
+flush();
 const lengths = memories.map((memory) => [...memory.text].length).sort((left, right) => left - right);
 console.log(`\nbaked ${memories.length} canon memories -> ${outputAbsolute}`);
 console.log(`降级 ${degradedCount} 条 | 字数 中位 ${lengths[Math.floor(lengths.length / 2)]} · 最长 ${lengths.at(-1)}`);

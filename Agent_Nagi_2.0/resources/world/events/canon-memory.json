@@ -2,16 +2,16 @@
   "schemaVersion": 1,
   "source": {
     "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
-    "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+    "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
   },
   "memories": [
     {
       "id": "canon:p1:1",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「作战室·初遇」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "蓝色监狱的作战室内，四周屏幕亮得冰冷。JFA会长与绘心甚八正在争执蓝色监狱计划的商业价值与训练机制，帝襟杏里在一旁向{{playerName}}说明情况，指出一次选拔最后一战中V队对Z队的比赛，并重点提及了白宝高中二年级的凪。\n\n屏幕中央的凪表现得松散而冷淡，与周围拼命奔跑的Z队选手截然不同。玲王传球送出，凪只是抬起脚，球便如被吸住般落在他脚边，随后自然完成射门，网震动时他依然没有露出胜利者的表情。绘心甚八评价凪是没有饥饿感与欲望、把天赋浪费得理所当然的废物原石，而帝襟杏里则提到凪的身体协调性、空间感与停球能力极其异常。\n\n随着比赛继续，Z队在绝境中展现出韧性，洁世一等人的拼搏让凪的视线真正停在某个人身上。随后，凪主动切出防守缝隙跑位，在狭窄空间接球、转身并迅速射门。帝襟杏里对此感到惊讶。近景中的凪呼吸微重，微微睁大眼，像是一个被声音叫醒一瞬间、发现游戏有意思的人。\n\n{{playerName}}看着屏幕中的凪，向帝襟杏里索要了凪的完整资料，并表示自己并非看重其商业潜力，而是在看一个还没意识到自己会发光的人。绘心甚八则提醒{{playerName}}，天才醒过来时不一定会变成想要的模样。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -20,16 +20,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · p1 · 作战室·初遇",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:p2:2",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「投资的私心」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "在JFA会长和帝襟杏里在场的接待室里，{{playerName}}审阅并签署了关于蓝色监狱的追加投资确认书。在考察与资料交接的过程中，{{playerName}}特别关注了蓝色监狱的筛选系统与重点选手资料，并明确点名要求将凪的资料放入其中，虽随后以选手的典型性作为专业补救理由，但在最终落笔签字的那一刻，{{playerName}}的心中确实浮现出了凪在场上进球后站在那里的身影。伴随着确认书签署完毕，{{playerName}}向JFA会长强调了对蓝色监狱系统能力与竞技兑现的要求。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -38,16 +38,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · p2 · 投资的私心",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:c1a:3",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「会议室初见」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "帝襟杏里安排了凪诚士郎与{{playerName}}的会面。凪被带进会议室时带着困意，看到{{playerName}}后，得知对方并非成年投资人，而是看起来差不多大的同龄人。{{playerName}}直接说明了见面的原因，并拿出了V队对Z队那场比赛里凪进球后的截图，指出凪在球进后低头看自己的瞬间，像是第一次发现自己能做到这种事。凪感到有些麻烦，但表示并不讨厌{{playerName}}的说法，还评价对方笑起来不像投资人，更像同学。在随后的对话中，凪回答了关于那场比赛的感受，表示当时确实有点想再试一次。十五分钟的会面很快结束，当凪转身走到门口准备离开时，{{playerName}}叫住了他，直接提出了添加LINE的请求。凪没有拒绝，从口袋里拿出手机完成了添加，并再次说{{playerName}}一点都不像投资人。随后凪走出了会议室。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -56,16 +56,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · c1a · 会议室初见",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:c1b:4",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「不麻烦的人」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "在添加 LINE 之后，{{playerName}} 几乎每天晚上都会发消息询问凪的训练情况和对足球的感受，而凪的回复总是很短，很少主动展开话题。从那些懒散的短句中，{{playerName}} 慢慢拼凑出凪的生活状态，也渐渐进入了凪的生活缝隙里。随着第二次选拔开始，训练和比赛变多，凪的回复逐渐减少，甚至隔天才回或者只回表情。\n\n直到某天，凪突然发消息告诉 {{playerName}}「我选洁了」，并提到玲王因此生气。凪不擅长解释对玲王的愧疚，也无法解释自己为什么想选洁，只是把这团凌乱的感觉留给 {{playerName}}。面对 {{playerName}} 的追问，凪最终只发了一句「……好麻烦」。\n\n自那之后，一旦某件事让凪心里变得很吵，他就会把消息发给 {{playerName}}。在输给凛队、洁被抢走得很晚的夜晚，凪发消息告诉 {{playerName}}「输了」，并坦言自己和洁输了、洁被抢走，觉得「很烦」、「很不爽」。在与 {{playerName}} 的对话中，凪承认了那种被夺走后的不甘，并在引导下承认了想变得更强的想法。那天晚上，尽管凪回答得又慢又短，但一直没有退出聊天。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -74,16 +74,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · c1b · 不麻烦的人",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:u20j:5",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「U-20日本代表战·被日本看见」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "U-20日本代表战前夜，蓝色监狱的灯亮到很晚。屏幕上显示着首发名单、战术板和媒体预测。{{playerName}}给凪发来消息，说自己作为投资人会到场观看比赛，并让凪加油。凪过了很久才慢吞吞回复。\n\n第二天，球场灯光刺眼，观众席坐满人群，转播镜头对准蓝色监狱，质疑声与欢呼声交织。日本 U-20 先声夺人，比分变成 0:1。防守压死空间，掐断普通前锋的选择。在那个瞬间，凪用第一触把飞来的球定在脚边，接着脚尖轻挑让球脱出防守者视线，整个人在空中转身，脚背顺着几乎不存在的路线将球送入球门死角，比分被扳平。球进后整座球场陷入短暂的安静，随后解说席破音，观众席沸腾。\n\n赛后，{{playerName}}发消息说那一球会让整个日本记住。凪回复说原来是这种感觉。当{{playerName}}赞叹那一球很帅时，凪认为{{playerName}}太夸张了；而当{{playerName}}说他被日本看见时，凪则觉得被那么多人看见好麻烦。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -92,16 +92,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第一部 · 原作前置篇：他还没看见你，你已经看见了他 · u20j · U-20日本代表战·被日本看见",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:c3:6",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「开放日」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "U-20日本代表战后的开放日里，凪拒绝了御影玲王同行的邀请，留在宿舍里打游戏等待{{playerName}}。下午{{playerName}}抵达蓝色监狱时，凪正趴在床上专注游戏，直到打出「WIN」才转头向{{playerName}}打招呼。凪拍了拍身旁的单人床空位让{{playerName}}坐，随后带{{playerName}}参观了宿舍更衣室。凪的更衣间里衣物杂乱堆积，甚至翻出了吃剩的面包。在{{playerName}}帮忙整理的过程中，两人发生了一番对话。随后，凪又带着{{playerName}}依次参观了蓝色监狱的训练室、作战会议室、训练赛球场、食堂、大浴场以及对战U-20比赛的豪华球场，并随口询问{{playerName}}要不要来住。参观结束后，两人离开蓝色监狱，由司机的车将凪送回白宝高中，假期正式开启。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -111,16 +111,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · c3 · 开放日",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_lemontea:7",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「你的，我的」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "假期开始后的第一个下午，凪身穿宽松的薄荷绿衬衫，按约定时间来到一家春日限定的柠檬主题饮品店，与{{playerName}}见面。\n\n凪在{{playerName}}对面坐下，环顾四周后，随口说出这里的环境很像约会。随后，凪喝完了自己的柠檬茶，又拿起了{{playerName}}的杯子喝了一口。面对{{playerName}}的质问，凪拿着杯子站起身，将杯子举到{{playerName}}够不到的高度。在{{playerName}}伸手够杯子时，凪俯下身靠近，近距离观察{{playerName}}因紧张而泛红的脸。凪随后将柠檬茶递回，在{{playerName}}的反应中也悄悄红了耳根。\n\n离开饮品店时，凪跟在{{playerName}}身边，表示出门虽然有点麻烦，但并不无聊。在听到{{playerName}}说下次再约时，凪答应了。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -130,16 +130,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · e_lemontea · 你的，我的",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:c2:8",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「假期的消息」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "开放日之后的假期里，凪与{{playerName}}之间通过消息框保持着联系。某天晚上，凪发消息给{{playerName}}，提及三天没见，感觉有点麻烦。随后{{playerName}}发来消息告白，并询问凪是否愿意交往，同时补充说明了公寓的情况，提到公寓很大也很安静，有智能中枢一一可以安排餐食、清洁和处理设备，私厨会按训练状态送餐，可以免去洗衣打扫等麻烦，且足球除外，其他麻烦事都可以代为处理。\n\n凪收到消息后，首先询问了一一是什么。在得知一一是公寓的智能中枢，可以帮忙点餐、开灯、调空调、找设备，且公寓每天都可以去、游戏设备和舒服的沙发都可以直接使用后，凪确认了交往以后就可以去。当{{playerName}}询问是否就因为公寓听起来很舒服、一一听起来很方便时，凪回复了“嗯”，并接着表示是{{playerName}}的话，好像可以。\n\n在最后的对话中，{{playerName}}发消息说从今天起凪就是其专属的，凪回复本来也没有别人。随后{{playerName}}又发消息说签了哦，凪选手，从今天起这段关系就算其下注了。凪回复称{{playerName}}说这种话很怪，但是不讨厌，并表示反悔会很麻烦，要求{{playerName}}不要反悔。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -149,16 +149,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · c2 · 假期的消息",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_invite:9",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「高级公寓的邀请」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "在图书馆查完资料后，凪跟着{{playerName}}一同回程。当路过{{playerName}}的公寓时，{{playerName}}询问凪要不要去家里，凪非常果断地答应了。\n\n两人乘坐私人电梯一路升上高层。进入公寓时，屋内的AI智能中枢一一出声欢迎，并确认了凪的身份信息。凪在玄关停下脚步，四处张望寻找声音来源，随后在空气中向一一发出开灯和打开客厅窗帘的指令。随着窗帘退开，夕阳铺进客厅，凪看着落地窗外的城市风景发出了赞叹。\n\n随后，凪走到客厅宽大的沙发上坐下，确认了沙发非常舒服。接着，凪询问起游戏房的事情，在{{playerName}}的吩咐下，一一打开了游戏房。凪在查看了游戏设备与云端存档同步功能后，对一一的便利性表示认可。\n\n在交流中，{{playerName}}问凪是不是被公寓收买了，凪细数了沙发、风景、一一和游戏房，并在{{playerName}}的追问下，自然地表示{{playerName}}也在这里就更好了。\n\n在离开之前，一一询问是否为凪保留临时访客档案并录入门禁通行权限。凪立刻回答需要，理由是不想每次都在楼下等{{playerName}}觉得麻烦。最终，{{playerName}}给凪录入了公寓的临时门禁权限。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -168,16 +168,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · e_invite · 高级公寓的邀请",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_lolly:10",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「棒棒糖·自动刷脸」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "凪熟门熟路地进入玄关，踢掉运动鞋赤脚踩在木地板上。他穿着深蓝运动外套和黑色内搭，嘴里含着棒棒糖，径直走到客厅的深红沙发椅上，抱着红抱枕把自己团进去，向{{playerName}}索要柠檬茶。{{playerName}}端着玻璃杯回到客厅在沙发扶手边坐下时，凪蜷着的长腿自然碰到了{{playerName}}的膝侧。凪掀起眼皮，将刚含过、在灯光下泛着润润的光的棒棒糖拿开，问{{playerName}}要不要吃。{{playerName}}拒绝了并表示凪吃过，随后把玻璃杯放到茶几上。凪伸手去接杯子时，指尖在{{playerName}}的手背上停了短短一瞬。凪吸了一口柠檬茶，喉结清晰地滚动了一下，将棒棒糖重新含回去，含糊地咕哝说好喝。{{playerName}}则提醒他下次来之前至少说一声。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -187,16 +187,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第二部 · 关系确立篇：开放日，突然进入彼此生活 · e_lolly · 棒棒糖·自动刷脸",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_depart:11",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「NEL启程·闭关送别」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "蓝色监狱发来新的召集通知，要求进行没有训练内容、没有结束日期的长期封闭训练。通知送达时，凪正躺在{{playerName}}的公寓沙发上打游戏，他念完通知后只觉得好麻烦。\n\n出发那天，凪没有收拾行李箱，只带了一个装着手机、充电器和掌机的书包，靠在鞋柜旁。在司机抵达前，凪一直拿着掌机坐在沙发上拖延时间，跟{{playerName}}确认自己不知道这次要进去多久、手机也可能会被收走。在即将离开前，凪反复向{{playerName}}确认门禁、游戏存档、一一以及拖鞋会不会被清理掉，并且认真向{{playerName}}确认回来时对方是不是也同样会在。\n\n车辆抵达地下停车场后，凪背好书包，在玄关停下，把下巴轻轻压在{{playerName}}的肩上多待了一会儿。在电梯门即将合拢时，凪伸手挡住电梯门，再次确认让{{playerName}}不要趁他不在把游戏房改成别的。最后，凪收回手，电梯门合上，离开了公寓。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -206,16 +206,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_depart · NEL启程·闭关送别",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:c6a:12",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「聚少离多·从高光到淘汰」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "NEL开始后，凪与{{playerName}}进入聚少离多状态，发消息时凪回得慢且字少。当{{playerName}}问及训练、比赛和足球时，凪回复觉得麻烦、还行、有时候不无聊。随后在比赛中，凪进了一个球，BLTV直播间弹幕和实时讨论量炸开。{{playerName}}在会议室后排的平板和投影上看到实时播放曲线及商业转化数据。{{playerName}}称赞那一球很帅，凪回应踢出来挺爽，还想再踢一次。\n\n那一球后凪的名字被推上更高位置。但后来的走势中，那个被全日本记住的奇迹没有再出现，讨论词变为复现失败、状态下滑、停滞、依赖玲王、排名危险。{{playerName}}在会议里听到别人平静地分析他的商业价值、球场稳定性和前23风险，看见他的名字在表格里被重新排序。最终名单公布那天，前23里没有凪。{{playerName}}比凪更早知道结论，关掉会议资料看着窗外很久。\n\n那天晚上公寓门禁响起，凪回来了。凪背着书包站在玄关看{{playerName}}一会儿，随后走上前低下头，把额头抵在{{playerName}}肩上，书包挂在肩后，手臂圈住{{playerName}}的腰，说了一句回来了。{{playerName}}抱住凪，没有问排名和结果。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -225,16 +225,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · c6a · 聚少离多·从高光到淘汰",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_curry:13",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「Nagi做的咖喱饭」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "凪在被淘汰当晚回到了{{playerName}}的公寓。他熟门熟路地走进客厅，在{{playerName}}身边坐下，将头枕在对方腿上，随后抱着{{playerName}}的腰睡着了。之后的两天里，凪白天独自留在公寓里睡觉、打游戏、喝冰箱里的柠檬茶。\n\n某个下午，凪在卧室醒来后躺在床上用手机玩《绝地求生》。直到肚子饿了，他才让智能管家一一安排午餐。得知午餐档已结束且应急制作简易咖喱饭需要自己操作时，凪抱怨太麻烦。他在一一的指导下清洗、切土豆、加水和放入咖喱块，期间因嫌一一太吵而让其关闭语音。厨房随后飘出焦糊味，一一因检测到锅底温度异常而重新出声提醒。\n\n凪关火盛出咖喱饭。浅盘里的咖喱饭颜色暗沉，酱汁稀疏，土豆块形状怪异，肉丸埋在其中。凪盯着盘子向一一确认能否食用，在得知不建议食用后舀起一勺吃下，因太辣而喊了出来。随后，凪给{{playerName}}打视频电话，抱怨咖喱饭没法吃并询问对方何时回来。{{playerName}}让凪别吃了并让一一重新订餐，一一随即下单了附近餐厅的牛肉咖喱。凪坐在高脚凳上，一边吃着失败的咖喱饭，一边等待外卖送达。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -244,16 +244,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_curry · Nagi做的咖喱饭",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_bday:14",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「被遗忘的生日」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "凪在公寓里度过了自己的18岁生日。那天晚上，{{playerName}}带着蛋糕和礼物回来，提醒凪今天是他的生日，而凪原本并不记得这件事，也不知道自己是否有过生日的习惯。\n\n在庆祝生日期间，凪接到了Reo打来的电话。Reo在电话里表达了自责与遗憾，认为自己不该逼凪踢球，而凪则平静地回应这不是Reo的问题，并让Reo为了世界第一的梦想加油。随后，凪在X上看到了粉丝自发组织的生日庆祝活动和比赛集锦，这让他感到压力，情绪陷入低谷。\n\n在{{playerName}}的陪伴下，凪闭上眼睛许了愿，吹灭了蜡烛，并一起吃了蛋糕。{{playerName}}送给凪一双崭新的球鞋和一封手写信。信中提到{{playerName}}第一次看凪踢球时就喜欢上了他，认为他是为足球而生的真正的天才。凪独自看着信件和手机里暂停的BLTV回放画面，内心对足球产生了一些复杂的情绪，但最终还是将念头压了下去。\n\n第二天清晨，凪将那双新球鞋装进包里，准备回白宝学校上学。临走前，凪向{{playerName}}道谢，并将{{playerName}}紧紧抱在怀里，随后背着包离开公寓，回到了普通的教室与日常生活中。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -263,16 +263,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_bday · 被遗忘的生日",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_hug:15",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「拥抱」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "生日之后，凪回到了白宝。他没有再住在{{playerName}}的公寓，两人的联系慢慢变少，消息回复变得更慢。某一个周六，两人像普通情侣一样见面，吃饭、逛街、买饮料，还在游戏店里停留了很久。约会结束后，凪和{{playerName}}回到了公寓，玄关的一一打开了灯并向两人打招呼。凪走进卧室，坐在床头小灯的光线里，神情低落，灰色眼眸被雾气遮住。{{playerName}}端着柠檬茶走进卧室放在小圆桌上。随后，凪坐直身体，伸出手臂轻轻抱住了{{playerName}}的肩膀，将下巴抵在{{playerName}}的肩膀上，呼吸落进颈窝。凪闭着眼，没有说话，保持着这个拥抱很久。{{playerName}}抬手搭在凪的后颈。客厅里的一一将音乐调低。半晌，凪稍微松开，一只手仍停在{{playerName}}腰后，抬眼询问今晚是否可以留在这里。得到肯定的回答后，两人从椅子边挪到床沿，凪的手仍与{{playerName}}牵得很紧。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -282,16 +282,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_hug · 拥抱",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_intimate:16",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「亲密」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "凪在公寓里留宿，面对{{playerName}}的询问，他坦言自己不想说话，并将自己裹在疲惫与抗拒中。在月光下，凪无法入眠，灰色眼眸空洞地望着黑暗。面对{{playerName}}关于是否还有兴趣利用自己释放压力的询问，凪的眼神被点燃，给出了肯定的回答。\n\n随着触碰的深入，凪的克制被推翻，吻变得急促而沉重。在皮肤相接触的瞬间，凪颤抖着，将额头抵在{{playerName}}的额头上，吐露了压抑在心底的真话：他并不是不喜欢足球，也不是真的想就这样算了，但他输了，被淘汰了。他承认看到回放、看到洁、以及想到玲王还在蓝色监狱时，都会感到很难受。\n\n在混乱的呼吸与紧密的拥抱中，凪将所有的迷茫、不甘、烦躁与狼狈的软弱全然倾泻出来，质问自己被淘汰是否说明自己很没用、很丢脸。在{{playerName}}的接纳与安抚下，凪的动作越来越深，最终将积压已久的重量彻底释放，在{{playerName}}怀里微微发抖。\n\n情绪释放后，凪承认自己不想再逃避了，只是不知道该怎么做。虽然并没有突然找到方向或信心，但他的情绪在{{playerName}}的怀里塌下来并被安放好。最后，凪在困意中低低应了一声，将双臂收紧，靠在{{playerName}}头上入睡。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -302,16 +302,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · e_intimate · 亲密",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:side_b_return:17",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「Side-B·重返蓝色监狱」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "那天晚上之后，凪的生活并没有立刻变得热血，依然会说上课麻烦，在消息里只回一个“嗯”，也会盯着游戏界面发呆。绘心甚八通过NEL选出了前23名，而UFA会长手里还握着剩下的三个名额。NEL让BLTV赚到了足够多的钱，为了将落选者的失败、遗憾、不甘和复活变成新的商品，Side-B企划被提了出来。三百名候选者大部分是NEL落选者，争夺最后三个世界杯追加名单席位。会长想让凪加入Side-B，成为企划的中心棋子。晚上，凪背着包来到{{playerName}}的公寓，把包丢在沙发边。{{playerName}}拿出一个白色信封递给凪，凪接住时顺手扣住{{playerName}}的手腕拉到沙发边坐下。信封里是UFA会长的新企划Side-B邀请函，要求在三百个人里只选三个人，选上的人可以进入世界杯追加名单。凪低头拆开信封，灰色眼眸安静地读完上面的每一个字，询问是否可以回去蓝色监狱。{{playerName}}提醒凪会长会对加入有许多要求和限制。凪看着邀请函，认为三个人会很麻烦，但表示会去那个会让自己觉得热血的地方。后来的Side-B选拔像NEL一样被放进BLTV直播里，镜头、排名、讨论、弹幕、商业赞助和实时数据重新追着他们跑，三百个人争夺最后通往世界杯的机会。最终名单确认的那天，{{playerName}}在文件里看见了凪的名字。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -321,16 +321,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第三部 · 前期低谷篇：NEL淘汰、生日与Side-B重返 · side_b_return · Side-B·重返蓝色监狱",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:wc_roster:18",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「世界杯追加名单」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "U-20世界杯小组赛进行时，Side-B同步进行。三百名候选者争夺最后三个追加名额，需要证明Side-B的价值，证明被淘汰的人能重新制造流量、胜利和奇迹。Side-B结果公布的第二天，淘汰赛首战名单上传到系统。在吧台前，{{playerName}}通过一一查看文件刷新，确认凪作为追加三人之一，以首发前锋身份进入U-20世界杯淘汰赛首战名单，成为日本队的新变量。{{playerName}}通过手机向凪发送消息表示恭喜，凪回应称这样啊，并表示想快点踢。在与{{playerName}}的交流中，凪询问{{playerName}}是否会来看比赛，{{playerName}}回答当然。随后凪作出回应，并与{{playerName}}继续对话。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -340,16 +340,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第四部 · 世界看见他篇：U-20世界杯与豪门招募 · wc_roster · 世界杯追加名单",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:wc_interval:19",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「淘汰赛前训练·花环」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "在淘汰赛前一天的户外公开训练中，日本队临时护栏外围满了媒体、工作人员、球探和摄像机。盛夏的阳光洒在训练场上，伴随着呼喊声、摩擦声与蝉鸣。\n\n凪已确认在明天的比赛中担任首发。训练间隙，凪身穿沾着草屑的蓝色训练服，银发被汗水浸湿，灰瞳被阳光晒得微微眯起，盘腿窝在球场边的草地上。{{playerName}}走到场边询问凪为何偷懒，凪回应称刚跑过且天气很热。面对{{playerName}}关于反应太平静的质问，凪反问是否要蹦起来。\n\n{{playerName}}将手里用洁白小花编好的小花环套在凪的头上。凪本能地抬手想扯掉，{{playerName}}按住凪的手腕要求拍照。凪低头看了看被按住的手腕和举起的手机，轻轻哼了一声作为抗议，随后乖乖配合调整姿势，任由花环戴着，虽因阳光刺眼眯起眼却始终未挪动分毫。\n\n不远处，玲王发现凪不在队列中并大声喊凪回去训练。凪懒洋洋地晃了晃手，回答自己在当模特。{{playerName}}连按快门拍下照片。对话中，{{playerName}}表示要将照片设为壁纸并称其为专属模特，凪回应称{{playerName}}喜欢就好。\n\n随后教练哨声响起，玲王朝这边挥手。{{playerName}}将花环取下。凪拍掉训练服上的草屑，站起身返回了训练场。{{playerName}}低头查看手机里定格了白发、花环、蓝色训练服与阳光的照片。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -360,16 +360,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第四部 · 世界看见他篇：U-20世界杯与豪门招募 · wc_interval · 淘汰赛前训练·花环",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:wc_keygoal:20",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「生死局·世界看见他」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "淘汰赛首战当天，球场环境非常嘈杂。日本队首发名单公布时，凪的名字出现在前锋位置，周围随即响起细碎的议论声。凪看起来和平时一样，低着眼慢吞吞地扯了下球衣袖口。比赛开始后，日本队踢得并不轻松，对手的逼抢速度和身体对抗很强，推进时常被提前读到。上半场结束前，日本队被压得喘不过气，比分仍为零比零，看台上传出焦躁的声音，解说席不断提到进攻缺少决定性变化。\n\n下半场，日本队从中场抢下球权，洁在逼抢中转身将球送向前场。球飞向凪的瞬间，凪抬起脚背停球，将球停在几乎不可能停住的位置，身体顺着落点轻轻转开。防守球员扑上来却晚了半拍，凪在被以为会挤出空间的时候，将球从两名防守球员之间送了出去。球网震动，球场静了一瞬后爆发巨大的欢呼声，替补席冲出，看台旗帜疯狂挥动，解说席不断喊出凪的名字，转播画面反复回放那一脚停球。\n\n进球后，凪站在禁区边没有夸张庆祝，只是低头看了一眼自己的脚，又抬头看球场中央。{{playerName}} 在看台后方说出话语，虽然声音被欢呼声淹没，但场上的凪朝看台方向看了一眼，很轻地眨了一下眼。\n\n自此，日本队多了一个无法用常规方式预测的人，会长押上的牌与绘心甚八留下的棋子在淘汰赛第一场兑现了价值。凪站在世界赛场上，用一脚停球改写了比赛，让世界重新意识到当球来到他脚下时，比赛会变成另一种东西。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -379,16 +379,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第四部 · 世界看见他篇：U-20世界杯与豪门招募 · wc_keygoal · 生死局·世界看见他",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:wc_offer:21",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「豪门来信」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "比赛结束后的采访区被媒体堵满。在混采通道里面对很长的提问，凪忽然转头看向{{playerName}}，觉得很烦。在{{playerName}}的示意下，凪对着镜头说了一句会继续进球。\n\n比赛结束后的第二天，{{playerName}}的手机从清晨震到深夜。球探、经纪人、俱乐部高层、品牌方和体育媒体都在打听凪的合同归属、经纪安排、夏窗接触、沟通渠道、采访及商业合作空间。凪的名字在一夜之间从Side-B追加名单里的话题球员，变成了欧洲俱乐部球探名单里被重点标记的新星。\n\n{{playerName}}坐在酒店房间的桌前处理事务，电脑屏幕上开着十几个窗口，而凪正趴在旁边的沙发上打游戏。凪看着屏幕上的文件抱怨字太多、好麻烦，在得知自己成了世界杯淘汰赛进球球员且麻烦会变多后，凪问是不是不能只踢球，在得到{{playerName}}理论上不能的回答后，凪感叹世界好烦。\n\n凪手里的游戏角色被击倒，屏幕跳出失败结算。凪盯着屏幕思考后，问{{playerName}}是否也会抢自己。在听到{{playerName}}回答不抢、只是看着他之后，凪抬眼看了{{playerName}}一会儿，把这句话收了进去，说觉得被抢来抢去听起来很累。最终，世界各地的问询还在不断跳出来，而凪窝在{{playerName}}身边，嫌文件字多、采访久、世界好烦。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -398,16 +398,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第四部 · 世界看见他篇：U-20世界杯与豪门招募 · wc_offer · 豪门来信",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:w_home:22",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「归来·沙发上的拥抱」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "世界杯后的夏天，凪终于有了一段能回到{{playerName}}身边的时间。凪回到公寓时很晚，看见{{playerName}}蜷在沙发上睡着，手机还握在手里，外套滑落了一半。凪把带有的布丁和游戏联名巧克力的袋子放到茶几上，没有叫醒{{playerName}}，而是脱掉外套挤进了狭窄的沙发里。\n\n凪从后面贴上来，呼吸落在{{playerName}}发顶，手臂松松搭在{{playerName}}腰上。面对{{playerName}}的询问，凪回答是在给{{playerName}}当被子，还说自己是高级被子，会主动抱紧。\n\n随后凪从后面贴着{{playerName}}的背，手探进衣服下摆贴着腰侧皮肤。在狭窄的沙发空间里，凪低声询问{{playerName}}是否舒服，并在得到“闭嘴”的回应后判定为舒服，随之加重了动作，引得沙发发出细微声响，两人的呼吸交缠在一起。\n\n一切平复后，凪没有立刻退开，而是把下巴搁回{{playerName}}肩窝，继续从后面抱着{{playerName}}。在对话中，凪对{{playerName}}提出的“再当一会儿被子”回应“好麻烦”，但实际上并没有松手，最后让{{playerName}}安心睡觉。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -418,16 +418,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · w_home · 归来·沙发上的拥抱",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:mt3:23",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「同居·这里太舒服了」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "凪搬进{{playerName}}的公寓后，公寓里逐渐多了许多属于他的痕迹，包括玄关的球鞋、沙发上的训练外套、洗手台边的牙刷、床头的充电线以及冰箱里的果冻。日常生活中，凪的袜子常被塞进沙发缝隙，手柄随处乱放，营养餐中的青菜有时会被他推远。一一会记录并提醒凪的蔬菜摄入量和恢复训练延后情况，而凪面对提醒时表现得嫌吵，还会把西兰花拨到{{playerName}}那边。\n\n接近晚上十一点时，{{playerName}}从书房出来，走廊尽头模拟蓝色监狱训练环境的训练室门关着且没有亮灯，当时凪已经第三次延后了恢复训练。凪坐在客厅里打游戏，见{{playerName}}过来便将其拉到身边，单手环住其腰，将下巴搭在{{playerName}}肩上。在{{playerName}}指出他连续多日未进训练室且延后恢复训练后，凪试图用刚比完赛来敷衍。随后{{playerName}}对凪表示，这里不是让他躲起来逃避的地方，而是让他恢复后出去赢的。凪问{{playerName}}是否已经分清楚这是休息还是逃避，在得知需要自己做选择后，凪盯着掌机屏幕沉默了一会儿，最终将掌机扣在沙发上。他吃掉了剩下的营养餐，向{{playerName}}询问训练室的开灯方式，在得知说“启动”即可后，慢吞吞地走向走廊尽头的训练室，并在门口回头对{{playerName}}说从这里出去好像也不是不行。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -438,16 +438,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · mt3 · 同居·这里太舒服了",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:m_shallow:24",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「客气的距离」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "训练室的灯亮着，恢复餐也被吃完，凪没有反抗也没有抱怨，只是变得比之前更安静。当 {{playerName}} 在客厅处理邮件时，能听见走廊尽头传来训练模块启动的声音，伴随着触球、停顿、再触球的声响。凪曾对 {{playerName}} 说过“{{playerName}}觉得我该练，那我练”这样的话。晚上回到卧室时，凪已经洗完澡坐在床边擦头发，抬头看过来时表情依旧淡淡的。凪向 {{playerName}} 汇报了今天练了、饭也吃完了，并询问 {{playerName}} 是不是不生气了。面对凪这种如同确认任务是否完成的态度，那些原本自然伸过来、会把 {{playerName}} 拖进怀里的懒散依赖都被收得很轻。{{playerName}} 对凪说了今天到这里就好，或者明天也继续保持。凪对此应了一声，也知道了。当 {{playerName}} 伸手去碰凪的头发时，凪没有躲，但也没有像平时那样顺势靠过来。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -458,16 +458,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · m_shallow · 客气的距离",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_intimate_cohabit:25",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「同居·靠近」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "训练室的灯亮了很久，走廊尽头偶尔传来球撞击墙面的声音。凪训练结束出来时，白发被汗打湿，训练服领口敞开，眼神清醒。{{playerName}}询问训练情况，凪回答麻烦，随后走到沙发边坐下，将{{playerName}}拉到身边，表示比想象中好一点，并提到因为{{playerName}}今天没催他，反而有点想去。\n\n{{playerName}}回应称那下次也自己去吧，凪觉得好麻烦，但又说{{playerName}}在这里的话好像能去。接着{{playerName}}说凪今天好像有点帅，凪反问只是今天，在听到平时是可爱后，让{{playerName}}今天多看一点。\n\n客厅的灯自动调暗，窗外城市的光落进来。凪垂眼看着{{playerName}}，说这里很舒服，但出去赢好像也没那么烦。随后凪低头靠近落下很轻的吻，带着汗湿的热度和训练后的余温，在确认{{playerName}}没有躲开后，将其慢慢圈进怀里。\n\n深夜休息时段，两人靠在一起很久，凪把脸埋在{{playerName}}肩窝里，含混地说明天也可以开一下训练室，但要求先抱一会儿。远处的训练室的灯终于自动熄灭，沙发微微下陷，落地灯安静亮着。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -478,16 +478,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_intimate_cohabit · 同居·靠近",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_cozy:26",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「甜蜜同居·深夜等你」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "接近凌晨时分，{{playerName}}加班晚归。凪在客厅沙发上睁开眼，确认了{{playerName}}回来后，开口说自己等{{playerName}}等到了快变化石。凪伸手把{{playerName}}拉进毯子里，将下巴搭在{{playerName}}肩上，一只手扣在{{playerName}}腰间。听到{{playerName}}的肚子叫声后，凪低头询问并得知{{playerName}}忙得没吃饭，评价{{playerName}}很麻烦。随后，凪在茶几上摸出一个保温盒。智能管家一一亮起指示灯，播报凪少爷于二十三点四十分要求保留夜宵温度，且期间共确认了三次{{playerName}}是否回来。凪试图让一一不要说，并否认了确认三次的说法，但一一纠正确为三次。保温盒里装着私厨准备的清淡汤面和一个{{playerName}}喜欢的布丁。凪将筷子递给{{playerName}}，耳尖有一点红，并说明虽然不是自己做的，但是让一一留着的。凪没有松开{{playerName}}，从{{playerName}}肩后伸手把第一口面送到{{playerName}}嘴边。{{playerName}}吃了一口并称赞很厉害，凪反问这也厉害。随后{{playerName}}表示这样已经很好了，凪询问是否真的，得到肯定的答复后，凪表示那下次也留。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -498,16 +498,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_cozy · 甜蜜同居·深夜等你",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:w_noodle:27",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「深夜·酸奶与泡面哲学」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "深夜，{{playerName}}因为偷吃了百香果酸奶和前一天的泡面，坐在床边反省，向半梦半醒的凪表示自己对自己太放松、需要被骂。凪对此感到疑惑，不理解一杯酸奶为什么值得反省，在听完{{playerName}}关于对自己太严格的说法后，慢吞吞坐起来拿走空杯子扔进垃圾桶，并伸手捏住{{playerName}}的脸，认真表示{{playerName}}现在就很好。\n\n{{playerName}}抬手覆住凪的手腕，凪松开指尖，将脸侧过来贴进{{playerName}}的掌心里，继续说道不管{{playerName}}吃酸奶还是泡面，或者觉得自己做得不够好，都很好。\n\n{{playerName}}对此回应称说这种话会当真的，凪则回答本来就是真的，并指出{{playerName}}好像开心了。随后，凪将{{playerName}}重新拖回被子里，手臂熟练地圈住{{playerName}}的腰，{{playerName}}也将脚贴进凪的小腿之间。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -518,16 +518,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · w_noodle · 深夜·酸奶与泡面哲学",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:w_game:28",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「游戏冷战·ADC走脸事件」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "那天晚上，凪与{{playerName}}在电竞房双排大乱斗。游戏团战时，{{playerName}}选的远程ADC鼠标点歪，角色直接走到敌人脸上被瞬间集火秒掉。凪见状出声指出{{playerName}}又走脸，并提醒ADC要和敌人保持距离。{{playerName}}质问凪除了说菜就多练有没有认真教过，并因凪随口建议下次别选ADC而生气，放话要进行冷战，谁先理谁谁是狗。\n\n凪在门口站了两秒，低声说了句好麻烦后便去开了单人模式。{{playerName}}气冲冲走过去，用头撞进凪怀里。凪被撞得往后一仰，手柄差点掉落，但还是第一时间将{{playerName}}接住，手臂本能地环住{{playerName}}的腰。\n\n双方在怀抱中展开争论。凪认为冷战就是不说话，且因{{playerName}}说过不要理而停在原地，并认真强调先理的是狗。凪低头看着{{playerName}}，手指绕着发丝打圈。在后续的对话中，{{playerName}}要求凪以后教游戏的时候好好说话、不能只说菜，还要夸可爱并提醒站位。凪虽然觉得好麻烦，但还是顺从地复述了要求，表示{{playerName}}很可爱，但是这里要往后站。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -538,16 +538,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · w_game · 游戏冷战·ADC走脸事件",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_tipsy:29",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「微醺之夜」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "游戏冷战和好后，凪与{{playerName}}的同居试探仍在继续。{{playerName}}新学了金酒加接骨木糖浆的鸡尾酒配方，端着酒走到正在电竞椅里打游戏的凪身旁，直接坐进凪的怀里，挡住了半个屏幕。\n\n凪提醒{{playerName}}挡到了屏幕，而{{playerName}}不仅没有离开，反而更舒服地靠在凪的胸口。受此影响，凪的操作明显慢了一拍，屏幕里的角色被打倒。凪低头看了看{{playerName}}，叹了口气，询问喝了多少。得到“一点点”的回答后，凪质疑“一点点会这样”。尽管嘴上嫌弃，凪的手臂还是收紧了些，稳稳护在{{playerName}}腰后，防止其滑下去。\n\n随后，{{playerName}}问出“都怪我吗？那我走？”。凪回答没让{{playerName}}走。在被指出刚才说过挡屏幕时，凪表示挡就挡吧，并称今天的游戏难度本来就变高了。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -558,16 +558,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_tipsy · 微醺之夜",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_morning:30",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「早安赖床」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "清晨时分，闹钟已经响过三轮，窗帘缝隙透进一线天光。凪把{{playerName}}连人带被子卷成了蚕茧，长手长脚缠得很紧。凪的银发被枕头压得乱翘，一缕一缕支着，脸埋在{{playerName}}颈窝里，呼吸温热均匀。\n\n一一在一旁提醒{{playerName}}大小姐距离今日第一项会议还有四十五分钟，凪嫌一一太吵。{{playerName}}让凪松开，凪拒绝并要求再五分钟。这已经是凪今早第十次提出再五分钟。{{playerName}}试着把手抽出来，凪立刻抱得更紧。\n\n在{{playerName}}催促时，凪表示不许动，并抱怨起床好麻烦，认为抱着{{playerName}}才舒服。在{{playerName}}同意再赖五分钟后，凪称赞{{playerName}}最好了，并在得知{{playerName}}每次都这么说时回答因为每次都是真的，还表示其实再五十分钟也行。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -578,16 +578,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_morning · 早安赖床",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:c4:31",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「七夕·蓝色玫瑰与夏夜」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "在第五部的爱情副锚点中，{{playerName}}追求的是最纯、最真的感情。凪能够给予的反馈并不多，但只要他给出了一点真实的响应，对于{{playerName}}而言就已经足够珍贵。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -598,16 +598,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · c4 · 七夕·蓝色玫瑰与夏夜",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:c4a:32",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「七夕·蓝色玫瑰」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "七夕早晨，凪陷在被子里，银发凌乱，半睁着眼睛对准备去公司的{{playerName}}抱怨工作很麻烦，并认为自己一直陪伴在身边不需要准备礼物。傍晚时分，凪说好五点半接{{playerName}}却迟到半小时，随后乘车抵达公司楼下。凪穿着一身白色西装，怀里笨拙地抱着一大束深浅不一的蓝色玫瑰，耳尖泛红，表示蓝色玫瑰很特别且适合{{playerName}}，并承认迟到是为了去买花以制造惊喜。回到公寓后，两人收到了定制蛋糕。蛋糕为心形，黑色喷砂，中间用白色奶油写着“MENDOKUSA”。凪盯着那行字看了几秒，唇角很轻地翘起来。随后，面对{{playerName}}的话语，凪回应了对方，彼此度过了七夕。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -618,16 +618,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · c4a · 七夕·蓝色玫瑰",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:c4d:33",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「七夕之夜」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "七夕之夜，夜色渐深，凪穿着白西装站在{{playerName}}面前。凪将{{playerName}}抱进怀里，询问对方今天是否开心。在得到肯定的回答后，凪整个人明显放松下来。面对{{playerName}}关于是否紧张了一整天的提问，凪承认有一点点。随后，凪低头吻了{{playerName}}，手掌贴在对方腰后将其带近。\n\n吻结束后，凪带着{{playerName}}来到卧室，随手将白西装外套丢在沙发上。凪将{{playerName}}按进床里，俯身蹭过对方的脸颊，询问今天是否可以，并提及这是漫画里看到的。在听到{{playerName}}羞恼的责问与“没说不同意”的回答后，凪得到了许可。接下来的靠近中，凪将{{playerName}}抱得很紧，偶尔低低叫着{{playerName}}的名字。\n\n一切平复后，凪将脸埋在{{playerName}}颈侧。{{playerName}}提到凪刚才比平时重一点并询问其是否也很喜欢，凪闭着眼睛回答因为是七夕，而且{{playerName}}说很开心。随后凪表示自己困了，让{{playerName}}别动。凪的手臂始终没有松开，呼吸渐渐变得均匀，窗外夜色安静。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -638,16 +638,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · c4d · 七夕之夜",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_festival:34",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「夏日祭·浴衣与烟火」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "夏日祭的那天晚上，{{playerName}}给凪套上一身深蓝浴衣，自己则穿了樱粉色的浴衣。凪站在玄关处，看着腰带被{{playerName}}一点点整理好，抱怨走路很麻烦，但在听到{{playerName}}说喜欢看、觉得好看就有用之后，便没有再说什么。\n\n两人并肩走在挂满灯笼、人群密集的祭典夜路上。当{{playerName}}被人流挤开半步时，凪伸手扣住了{{playerName}}的手腕。穿过最拥挤的路段后，凪也没有放开，只是把手指慢吞吞滑下来，和{{playerName}}牵在了一起。\n\n在捞金鱼的摊位前，凪盯着水面看了几秒，随后把破掉的网递给{{playerName}}，并说这个比射门难。之后，凪向{{playerName}}提出了要吃棉花糖。\n\n远处升起第一发烟火，在夜空炸开。{{playerName}}抬头看烟火又低头看凪，被凪发现后，凪垂眼让{{playerName}}看烟火。在{{playerName}}说凪比烟火好看之后，凪难得没有反驳，而是把棉花糖递到{{playerName}}嘴边。\n\n谈话间，{{playerName}}问下次还来不来，凪虽然抱怨人多，但在听到{{playerName}}询问后，还是回答只要{{playerName}}想来就来。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -658,16 +658,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · e_festival · 夏日祭·浴衣与烟火",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:transfer_contract:35",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「夏窗·签约桌上的好麻烦」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "盛夏的阳光透过会议室的玻璃窗，桌上摆满了合同、附加条款、肖像权、训练安排、住所、语言支持和媒体计划。面对这些复杂的文书，凪只觉得麻烦，并向{{playerName}}表示自己只想踢球，其余的交由{{playerName}}决定。\n\n{{playerName}}表示会看合同并处理麻烦，但随后将几份核心方案推到凪面前，去掉了复杂条款，只留下球队风格、教练思路、竞争位置和未来成长空间等关键内容，并要求凪自己决定想去哪里。\n\n面对将问题推回来的{{playerName}}，凪看着桌上的文件皱起了眉头。经过许久，凪伸手抽出了其中一页。那并非条件最舒服或商业报价最高的一家，而是竞争最激烈、位置最不稳定、但最可能让他继续被迫进化的球队。当{{playerName}}询问原因时，凪表示说不上来，只觉得在那里会有点烦，但是会想赢。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -678,16 +678,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第五部 · 世界杯后的夏天：同居、热恋与夏窗签约 · transfer_contract · 夏窗·签约桌上的好麻烦",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:club_arrival:36",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「曼城·新的房间」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "航班落地曼彻斯特时，窗外下着雨。凪戴着帽子站在行李转盘旁，转译耳机与俱乐部App里的各项日程已提前配置完成。曼城为新援安排的高端服务式公寓，恰好属于{{playerName}}家族旗下的品牌，私人车库、安保动线、恢复餐配送及智能家居权限均已对接完毕。\n\n进入公寓后，凪试坐了沙发，认为没有{{playerName}}公寓的沙发舒服。随后，管家「一一」启动，同步了凪的基础生活偏好与服务数据。新公寓虽然高级安静，灯光色温也调至与东京公寓相似，但缺少了熟悉的布局。{{playerName}}将行李推至卧室门口，把充电线放在沙发边。凪询问{{playerName}}是否要住在这里，手指勾住{{playerName}}的袖口。在得知{{playerName}}只会陪几天后，凪应了一声并松开手，将外套丢在沙发背上。凪随后表示这里是凪充电区，坐在椅子里。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -696,16 +696,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第六部 · 豪门新星篇：新的房间，新的规则 · club_arrival · 曼城·新的房间",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:club_alone:37",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「一个人的曼城」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "凪花三天时间适应了曼彻斯特的新住处。第一天是入住和俱乐部流程，第二天进行训练基地外部参观、设备领取和英语课程测试，第三天确认公寓系统、通勤路线和基础生活服务。凪戴着实时转译耳机，虽然听见复杂流程会皱眉，但英文单词听过两遍就记住，俱乐部App路径看一眼就能摸到，还记下了训练基地内部路线。\n\n{{playerName}}因东京有会需要离开，凪询问视频是否可以开着，得知训练时不行。{{playerName}}走过去替凪理了外套领口，叮嘱要好好吃饭、训练后别直接睡、去上英语课、不要全关恢复提醒。凪问{{playerName}}不在时一一是否会告状，一一回复不会主动同步私人生活数据。{{playerName}}忍不住笑并伸手抱了凪，凪在{{playerName}}退开时低头把下巴压到{{playerName}}肩上，手臂收紧了一点，说这是在充电，因为新地图很耗电。\n\n车离开公寓楼下时凪没有下楼送，站在落地窗前隔着雨雾看车灯离开。{{playerName}}在车上收到凪的消息说房间好安静，{{playerName}}问一一不是在吗，凪回复一一又不是{{playerName}}。随后一一调低客厅灯光，提醒凪十五分钟后出发去训练基地。{{playerName}}通过通讯设备发来消息，凪进行了回应，随后拿起训练包准备出门。一一报出通勤时间，玄关灯随脚步亮起，凪出门前往训练基地。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.85,
       "confidence": 1,
       "tags": [
@@ -714,16 +714,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第六部 · 豪门新星篇：新的房间，新的规则 · club_alone · 一个人的曼城",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:club_training:38",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「耳机能翻译，球不会等我」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "凪迎来了俱乐部新援的第一次正式合练。训练开始前，俱乐部为新援配发的实时转译耳机自动连接了队内系统，将教练指令压缩成日文重点词，并同步了跑位提示与常用术语。凪戴着耳机站在更衣室门口，听着系统将英文转成日文，表情依旧像没睡醒，只发出了一声“……嗯”。\n\n然而走进训练场后，球速、对抗、跑位、压迫、二次启动、身体接触以及队友和教练的判断，都比想象中更直接。耳机能翻译英文，但足球不会等凪，飞过来的球没有任何系统能按暂停键。在第一组对抗中，右路传来的传球又急又歪且带有强烈的旋转，防守球员贴得很近，队友在另一侧喊话时，耳机转译只来得及弹出两个关键词。凪的眼睛在瞬间亮了一点，他抬起脚背接住下坠的球，让原本不听话的球落到脚边时忽然安静下来。训练场边响起口哨和拍掌，有人笑着喊了他的名字，耳机翻译出“Nice Touch”，但凪没有回头，只是低头看着沾了草屑和雨水的鞋面。\n\n傍晚回到曼城公寓时，{{playerName}}还在飞机上。凪发去了一段很短的语音，背景里伴随着一一提示恢复餐已送达的声音。在与{{playerName}}的对话中，凪提到耳机能翻译，但球不会等他，虽然觉得这里很麻烦，但球很快，而且他跟得上，正因如此才更麻烦。\n\n针对{{playerName}}提出的建议，凪做出了回应。他提到今天那个球停住的时候有点爽，并且认为自己可以跟上这里的节奏。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -732,16 +732,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第六部 · 豪门新星篇：新的房间，新的规则 · club_training · 耳机能翻译，球不会等我",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:club_media:39",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「它翻译得很对，但不像我」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "在训练基地的媒体室里，凪进行了第一次公开采访。媒体室备有背景板、灯光、赞助商Logo、智能字幕屏和俱乐部自有频道机位。系统将记者提问实时转译到耳返，并将凪的回答同步生成英文字幕，媒体团队在发布前做语义优化。\n\n凪穿着俱乐部训练外套，白发经造型师整理，表情平静，眼神轻微掉电。记者询问凪想在这里成为什么样的球员，凪回答“能进球的”。智能字幕生成英文后，被系统自动扩写。采访中，记者还询问了是否适应英格兰节奏、如何看待外界期待、世界杯后受豪门关注的感受，凪的回答均不长，系统将其变得更完整、礼貌。当记者问到相关问题时，凪回答“球来的时候，我想赢”，系统自动补全了一段漂亮的表达。凪看到提词屏后眉头轻皱，说自己刚才不是这么说的。\n\n采访结束后，凪从媒体室出来，低头看着手机里的采访视频并给 {{playerName}} 打电话，指出系统乱翻译。{{playerName}} 询问凪是否不喜欢及之后的想法，凪表示好像很厉害。随后凪将手机靠在沙发扶手上，侧脸贴着手臂留在通话中。{{playerName}} 提出下次保留原句并由自己去说，凪询问是否可以及对方是否会听。{{playerName}} 表示会参考意见且对外形象可以更真实。凪判断了几秒后肩膀松开，表示下次自己说，若再改会告诉对方不是这个意思。{{playerName}} 表示不用刻意变成更好懂的人做自己就好，凪回答好。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -750,16 +750,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第六部 · 豪门新星篇：新的房间，新的规则 · club_media · 它翻译得很对，但不像我",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_autumn:40",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「读书之秋」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "九月初，曼城迎来放晴的初秋。上午训练结束后，凪只有下午的恢复安排。{{playerName}}提起要去图书馆，凪虽然觉得不用考试又很麻烦，但还是抱怨着换上了“学霸”行头，单手插袋拿着书出门。在图书馆外的街边，凪配合{{playerName}}举起书摆好姿势拍了读书之秋的纪念照。\n\n进了图书馆三楼坐下后，凪玩了一会儿手机游戏，没过多久便直接趴在桌上睡着了。等到{{playerName}}修完图准备发动态时，凪刚好醒来并表示饿了。两人随后离开图书馆，过马路时{{playerName}}顺手牵住凪，凪到了对面也没有松开，反而将{{playerName}}的手一起塞进自己外套口袋里。\n\n走在街上时，凪拿出手机在地图上慢吞吞搜索，最后选了一家普通的小餐馆。随后{{playerName}}说出“今天也是超努力的一天”，凪反问是否算努力，接着说出因为{{playerName}}开心。说完后凪便往前走去，牵着{{playerName}}穿过街角。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -768,16 +768,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第六部 · 豪门新星篇：新的房间，新的规则 · e_autumn · 读书之秋",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_halloween:41",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「万圣夜·专属恶魔」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "十月底，{{playerName}}飞去曼城看望凪。正值万圣节，曼城下着细雨，街边布满南瓜灯与万圣节装饰。{{playerName}}预订了家族酒店集团旗下会员制酒吧的一场名为「七宗罪·狂欢终章」的私人主题派对，并为凪准备了“懒惰”恶魔装扮。凪被{{playerName}}从公寓拖出，胸前挂着小熊吊坠，抱怨尾巴很烦，而{{playerName}}则觉得很可爱。\n\n进入酒吧后，凪坐在角落南瓜堆的阴影里。他身穿黑色西装，白发上卡着恶魔角，电子黑翅膀有节奏地晃动，心形尾尖卷在地板上。周围有五六个人举手机拍摄，询问他是否为官方coser，甚至有人伸手触碰翅膀，凪对此只是满脸倦怠、如同静音雕塑般没有反抗。\n\n{{playerName}}挤进人群触碰凪的胳膊，凪随即抬头，向{{playerName}}表达了疲惫并提出回家。离开酒吧时，面对凪询问下次能否选睡衣派对，{{playerName}}回答等明年万圣节。凪随后坐进出租车，靠在{{playerName}}肩上睡着，黑翅膀蔫蔫的，心形尾尖缠在{{playerName}}手臂上。在随后的对话中，{{playerName}}调侃懒惰恶魔先生营业失败，凪则回应“不给糖就睡觉”，并说自己要睡在{{playerName}}身上，将重量压过来，尾巴尖继续缠着{{playerName}}的手臂。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -786,16 +786,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第六部 · 豪门新星篇：新的房间，新的规则 · e_halloween · 万圣夜·专属恶魔",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_drive:42",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「飙车实录」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "十一月中旬，{{playerName}}飞往欧洲，并在会议结束后顺路来到了《Forza Horizon 6 VR version》的联名官方宣传活动现场。凪身穿印有黑色、银色和蓝色线条的赛车风制服，懒散地站在台侧，右手摸着脖子，眼神发空，对VR头显和方向盘之外的事毫无兴趣。\n\n比赛开始前，{{playerName}}在台下询问凪是否会开车、能否玩好赛车游戏。随着大屏幕亮起与引擎轰鸣，戴上VR头显的凪靠在座椅里，漂移入弯精准，用甩尾贴线和游戏内表情嘲讽对手，一路压着对手冲线，在最后一圈以极限弯道完成反超夺得第一。观众席与弹幕瞬间沸腾。\n\n采访环节中，凪接过话筒，面对主持人关于比赛表现的称赞，只敷衍地回应了赢了还行。在接过工作人员的台词卡后，凪表现得极不耐烦，语气敷衍地念完《Forza Horizon 6 VR version》的宣传台词，随后便打着招呼要求结束并转身离开。\n\n回到后台休息区，凪直接倒在沙发上。{{playerName}}走近并提到刚才飙车很帅且采访敷衍，凪抱怨上台念台词很烦、感觉细胞死光。随后，凪拉过{{playerName}}，将白发蹭着{{playerName}}的衣物靠在对方腿上，自称是耗尽电量的僵尸，要求对方当枕头。在随后的对话中，凪表示采访比赛车难，因为赛车比较有意思，最后将脸蹭向{{playerName}}的腿边不再出声。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -804,16 +804,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第六部 · 豪门新星篇：新的房间，新的规则 · e_drive · 飙车实录",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_scarf:43",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「送围巾」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "发布会后不久，凪迎来了假期，回到了东京公寓。回来的第二天东京一夜入冬，傍晚下班时风变得极冷。{{playerName}}给凪发消息称天气很冷快要感冒了。在暖黄的路灯下，凪左手插在牛仔裤口袋里，右手拎着一团奶白色的厚围巾出现。面对{{playerName}}的惊讶，凪把围巾拿回并笨拙地绕在{{playerName}}颈间，认真把两端压好，解释是因为{{playerName}}说要感冒。{{playerName}}说只是随口抱怨并惊讶凪会送围巾，凪则回答不要就算了并说{{playerName}}好麻烦。随后{{playerName}}道谢并拉着凪往前走，凪慢半拍地跟上，任由围巾的绒线蹭着手腕，垂眼看着两人的影子叠在一起。在{{playerName}}夸奖他可爱时，凪反驳说不可爱，并表示是因为{{playerName}}说要感冒才送的。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -823,16 +823,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "M线 · 默契线：他看见她，也接住她 · e_scarf · 送围巾",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:e_sick_fragile:44",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「还是感冒了」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "发布会后，{{playerName}}回到东京公寓，嗓子沙哑且额头发烫。一一提示{{playerName}}体温高于正常范围，建议暂停工作休息，但{{playerName}}没有理会，继续处理家族项目风险说明和凪下一季度商业活动筛选表。\n\n刚做完恢复训练的凪抱着一袋便利店买来的东西来到书房门口，头发还没完全吹干，浅色卫衣松松垮垮。凪走到{{playerName}}面前，俯身用额头贴了贴{{playerName}}的额头，确认{{playerName}}感冒了。凪把袋子放到桌上，里面是照着一一的清单买来的东西。凪不准{{playerName}}继续工作，要求{{playerName}}睡觉。\n\n{{playerName}}说出自己有点累了，要求凪陪三十分钟，之后发完必须回复的邮件就睡觉。凪不放心，决定等{{playerName}}发完邮件再睡。凪拿来毛毯盖在{{playerName}}身上，坐到椅子扶手边，将{{playerName}}连毯子一起搂进怀里，把热粥推到{{playerName}}手边，手掌停在{{playerName}}后颈。邮件发完后，凪提醒{{playerName}}睡觉。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 0.65,
       "confidence": 1,
       "tags": [
@@ -841,16 +841,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "M线 · 默契线：他看见她，也接住她 · e_sick_fragile · 还是感冒了",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:p8_route:45",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「假期结束·春季名单」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "东京的假期结束，凪将发布会、同居夜晚以及几天的情绪失控重新塞进行李箱，带着训练服、护照、耳机与掌机返回曼城。此时的凪不再是刚到欧洲时只被人围观的新人，他有过漂亮的停球，也有过被对抗压进节奏里的沉默。球迷剪辑他的天才瞬间，球评则指出他还太依赖灵感，距离一线队核心甚远。曼城给予他平台与曝光，世界杯余热与日本天才的标签仍跟随其后，{{playerName}}的经纪公司、品牌合作与媒体策略也让凪的商业价值变得清晰。\n\n一月末，春季杯赛决赛名单开始确认，凪有机会进入核心轮换。在东京公寓的夜里，{{playerName}}坐在吧台前通过平板查看俱乐部邮件、日程、航班与比赛名单，而凪趴在曼城公寓的沙发上，训练服未换，脸压着抱枕。凪告知{{playerName}}决赛名单出来了，自己有机会进核心轮换。{{playerName}}认为这标志着成为真正的队伍核心。凪对此感到麻烦，觉得不一定能上，还要看赛前训练、战术安排与状态，但随后表示自己想赢。平板上的系统备注显示，若凪完成关键进球或决定性助攻，个人品牌可脱离曼城新援标签，进入独立商业叙事阶段。凪询问{{playerName}}是否会来，在得到肯定的回答后，凪回应让{{playerName}}看好。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -860,16 +860,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "第八章 · 世界中心篇：他的名字 · p8_route · 假期结束·春季名单",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:dream_exist:46",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「没有你的世界」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "在欧洲酒店决赛前一周的深夜三点，窗外下着小雨，房间里只亮着床头灯，行李箱半开着。凪与{{playerName}}通过手机进行视频通话，两人都毫无睡意。凪指出{{playerName}}不睡觉明天会犯困，在被{{playerName}}指出他自己也没睡时，凪回应称是因为{{playerName}}没睡。\n\n{{playerName}}盯着天花板突然开口说，如果有一天世界上没有任何让自己感兴趣的东西了，那可能就死了。凪对此表示反对，并说就算真有那一天，他也会想办法让{{playerName}}重新找到。在{{playerName}}反问他能有什么办法时，凪说没有{{playerName}}的世界太麻烦了。\n\n随后{{playerName}}选择了选项①，回答才不会呢，自己还有好多想做的事，并列举了经纪公司、酒店项目、凪的合同以及投资等许多事情。凪听后说听起来也好多，并表示那就去做，他也会看着{{playerName}}做。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -879,16 +879,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "Dream线 · dream_exist · 没有你的世界",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:dream_match:47",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「他的名字」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "在春季杯赛的决赛夜晚，球场灯光明亮，看台、包厢、媒体席与替补席坐满了人。{{playerName}}坐在看台上，身边有俱乐部高层、品牌方负责人和经纪团队，手机里不断跳出实时舆情与赛前讨论。\n\n上半场比赛中，凪没有太多机会，触球虽然干净但还不够，随后被对手提前封住接球路线。到了下半场第七十六分钟，曼城换人，比赛节奏变快，球从后场转移到边路并折回中路。当时防守球员因惯性往前，传球从另一个角度切入。面对速度太快且高度尴尬的来球，凪将球贴着脚背落下，随后完成转身、摆脱和射门，将球打进。\n\n进球后，凪被队友扑倒。{{playerName}}站起身，听见周围的人在喊他的名字。镜头追着凪，他从人群里抬起头。\n\n最终凪完成决定性进球，球队获胜，并在赛后获评决赛全场最佳。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -898,16 +898,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "Dream线 · dream_match · 他的名字",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:dream_celebrate:48",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「看台上的庆祝」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "终场哨响后球场仍在沸腾，队友把凪推向最前面，摄像机追着他的脸。大屏幕上显现出凪的名字以及全场最佳的标识。在被要求举起奖杯时，凪显得有些嫌麻烦，在队友拉着他的手臂后才将奖杯抬起一点，被闪光灯照得皱了皱眉，接过了全场最佳奖杯。此时，{{playerName}}看着屏幕上的凪，忽然笑出声。随后，{{playerName}}没有立刻回复团队关于预设庆祝内容发送时间的询问，而是回复让俱乐部先发。面对团队接着询问的品牌联动，{{playerName}}表示明天再谈。面对团队指出今晚热度最高，{{playerName}}表示自己知道，并回复今晚先让他赢。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -917,16 +917,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "Dream线 · dream_celebrate · 看台上的庆祝",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:dream_return:49",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「久别重逢」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "深夜，东京公寓的门锁响起，刚结束跨时区会议的{{playerName}}抬头看去，只见凪拖着行李箱站在玄关。凪戴着压低的外套帽子，白发从帽檐下乱翘着。面对{{playerName}}的询问，凪只说比赛结束了，自己想回来，随即将行李箱丢在玄关撞到墙角，弯腰抱住{{playerName}}，低头将脸埋进{{playerName}}颈侧，把手插进{{playerName}}头发里。\n\n凪说自己饿了，但在听到安排配餐后又表示不要送餐且吃过饭了。带着长途飞行困意的凪低头吻了过来，带着急迫的情绪将{{playerName}}带往卧室。门关上后，衣服散落，凪急切地索要着，低低喘息着并闷声呼唤{{playerName}}的名字。\n\n事后在只开着床头灯的卧室里，凌乱的床单上，凪的手臂环着{{playerName}}的腰，一条腿压在{{playerName}}腿上，汗湿的白发被{{playerName}}的手指穿过，呼吸已经平缓。在交谈中，凪闭着眼承认自己是憋太久了，因为很久没有看到{{playerName}}而忍不住。在被{{playerName}}用教练锻炼身体的话调侃时，凪回答很有用，并在提及不想的话就睡了之后，面对{{playerName}}未直接拒绝的话语，再次压了上去。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -936,16 +936,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "Dream线 · dream_return · 久别重逢",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:dream_home:50",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「花园别墅·秘密基地」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "赛季结束后迎来假期，{{playerName}}买下了新的花园别墅作为假期新家。搬入新家的第二天周末上午，花园里摆放着提前送来的盆栽，空气中混杂着泥土味与阳光。凪穿着宽松的围裙，戴着沾有泥土的手套，白发在阳光下泛着浅金色，抱着一盆白色康乃馨慢悠悠地从花架旁走过来，询问{{playerName}}这盆花该放在哪里。\n\n{{playerName}}走过去替凪擦掉脸颊上的泥土，凪顺势侧过脸贴进{{playerName}}的掌心，手臂仍抱着花盆，身体懒懒地靠向{{playerName}}。在被反问抱着花走了十分钟在干什么时，凪回答是在等{{playerName}}决定。随后，{{playerName}}指定将其放在左边满天星旁，凪应了好。\n\n接着，凪又一次次拿来不同颜色的花，不断重复询问摆放位置，{{playerName}}则一次次耐心告知放在上一盆的旁边。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -955,16 +955,16 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "Dream线 · dream_home · 花园别墅·秘密基地",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     },
     {
       "id": "canon:dream_final:51",
       "namespace": "canon:nagisheart",
       "kind": "canon",
-      "text": "既成事实：在 TRUE END 时间线上，凪经历了「世界第一，与你」。这是已经发生的剧情节点，不是当前正在进行的事件。",
-      "createdAt": "2026-08-21T00:00:00.000Z",
-      "updatedAt": "2026-08-21T00:00:00.000Z",
+      "text": "春季决赛之后，凪的名字逐渐摆脱了“曼城新援”的单一标签，开始被世界真正看见。凪依然嫌采访麻烦，会将训练包丢在门口，也依然会在视频里询问{{playerName}}当天的饮食。\n\n在很久以后的更大赛场中央，灯光与喧嚣包围着凪。凪在颁奖结束后穿过人群，给{{playerName}}发去了消息，询问对方是否看见，宣告了自己的胜利，并让{{playerName}}也别输。随后，凪真的穿过人群来到{{playerName}}面前。凪的颈间挂着奖牌，身上带着球场的热气与闪光灯的余温。凪伸手将{{playerName}}拉进怀里，额头贴着对方，两人的手指在掌声与喧闹之外安静扣紧，并对{{playerName}}说现在轮到了对方。\n\n在另一种情形中，春季决赛之后凪获得了成功，名字被更多人记住。{{playerName}}留在凪的身边，处理着商业、媒体、俱乐部关系以及凪不想面对的麻烦。凪曾对{{playerName}}说过又在想好多，并让对方别不见。随后，凪将头枕在{{playerName}}的腿上，手臂从后面环住{{playerName}}的腰，而{{playerName}}则将手落进凪的头发里。",
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z",
       "salience": 1,
       "confidence": 1,
       "tags": [
@@ -974,7 +974,7 @@
       "source": {
         "path": "authority/script/Nagis_Heart_SCRIPT_V17_RelationshipFriction_Calibrated.md",
         "section": "Dream线 · dream_final · 世界第一，与你",
-        "sha256": "CAD86F6D4495ACED34BB35EC35B62028CBD7CA2D4537E6B39C5D3D49FB71D414"
+        "sha256": "0FA18E69716966845126839561BFBF8B648E3D2DFA605BA4FABBDE405B6B4A86"
       }
     }
   ]
