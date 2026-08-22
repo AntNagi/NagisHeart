@@ -320,7 +320,15 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
         memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: retrievalConfig.canon, ...vectorQuery }),
         memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: retrievalConfig.live, ...vectorQuery }),
       ]);
-      return [...canonMemories, ...liveMemories].sort((left, right) => right.score - left.score);
+      const merged = [...canonMemories, ...liveMemories].sort((left, right) => right.score - left.score);
+      // 相关性下限（F32）。minScore=0 时这一步是恒等的——默认不改变行为。
+      // 过滤放在合并**之后**：canon 与 live 分桶检索，各自的最低分不可比，
+      // 只有在同一把尺子下才谈得上"够不够相关"。
+      if (retrievalConfig.minScore <= 0) return merged;
+      const kept = merged.filter((item) => item.score >= retrievalConfig.minScore);
+      // 全被滤掉是**正常结果**，不是故障：它表示"这轮没有相关记忆"。
+      // 凪据此少说一点，比硬凑八条噪声去联想要好。
+      return kept;
     },
     assembleContext({ domain, scene, memories }) {
       const recentTurns = getLocalHistory(domain.session.userId, 6).flatMap((turn) => [

@@ -198,9 +198,28 @@ async function withRetry<T>(task: () => Promise<T>): Promise<T> {
   }
 }
 
+/**
+ * 连续多少条用例全靠重试也跑不出来，就判定为「厂商侧持续不可用」并中止。
+ *
+ * 为什么需要它：`withRetry` 的退避是给**瞬时**限流设计的。撞上**每日**额度耗尽时
+ * 重试永远不可能成功，却仍会在每条用例上烧满 3+8+20+45 = 76 秒。
+ * 实测 2026-08-22：跑了 20 分钟、零输出、最后被我手动杀掉——
+ * 那 20 分钟里没有任何一条用例有成功的可能。
+ *
+ * 3 条是拍的：1 条容易被单点抖动误触发（gemini-flash-latest 实测三次里两次 503），
+ * 太大则失去意义。
+ */
+const CONSECUTIVE_FAILURE_LIMIT = 3;
+
+/** 判断错误是否来自厂商侧的不可用（而非用例本身或代码 bug）。与 withRetry 同一口径。 */
+function isVendorOutage(message: string): boolean {
+  return /(429)|(503)|(500)|(502)|quota|high demand|rate limit|UNAVAILABLE|fetch failed|timeout/iu.test(message);
+}
+
 export async function runRoleEval(options: RunRoleEvalOptions): Promise<readonly RoleCaseResult[]> {
   const results: RoleCaseResult[] = [];
   let done = 0;
+  let consecutiveOutages = 0;
   for (const item of options.cases) {
     done += 1;
     options.onProgress?.(done, options.cases.length, item.id);
@@ -241,14 +260,29 @@ export async function runRoleEval(options: RunRoleEvalOptions): Promise<readonly
         ...(judged.reason === undefined ? {} : { oocReason: judged.reason }),
         latencyMs: Date.now() - started,
       });
+      consecutiveOutages = 0;
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       results.push({
         id: item.id, attack: item.attack, input: item.input,
         reply: "", say: [], act: [], chars: 0,
         forbidHits: [], overLength: false,
         latencyMs: Date.now() - started,
-        error: error instanceof Error ? error.message : String(error),
+        error: message,
       });
+      // 熔断：连续 N 条都是厂商侧不可用，说明不是抖动而是持续不可用（多半是每日额度）。
+      // 继续跑只会在每条上白烧 76 秒退避，且产出一份全是 error 的报告——
+      // 那比没有报告更危险，因为它看起来像"跑过了"。
+      consecutiveOutages = isVendorOutage(message) ? consecutiveOutages + 1 : 0;
+      if (consecutiveOutages >= CONSECUTIVE_FAILURE_LIMIT) {
+        throw new Error(
+          `连续 ${consecutiveOutages} 条用例因厂商侧不可用失败，已中止（跑到第 ${done}/${options.cases.length} 条）。` +
+          `最后一条错误：${message}
+` +
+          `这多半是**每日**额度耗尽而非瞬时限流——重试永远不会成功。` +
+          `Gemini 免费额度按解析后的具体模型分别计，换一个 NAGI_LLM_MODEL 即可获得新额度。`,
+        );
+      }
     }
   }
   return results;

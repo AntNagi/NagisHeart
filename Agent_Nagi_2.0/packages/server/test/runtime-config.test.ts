@@ -41,10 +41,19 @@ describe("检索 topK 接线（F23 回归）", () => {
     // F23 现象：配置写 8、代码用 4，两边差一倍且谁都不知道。
     // 我按 8 推算烘焙的每条字数上限，结果模型压不进去，51 条降级 44 条，返工一轮。
     const config = loadRetrievalConfig();
-    expect(config).toEqual({ canon: 8, live: 8, styleAnchors: 8 });
+    expect(config).toEqual({ canon: 8, live: 8, styleAnchors: 8, minScore: 0 });
   });
 
   it("配置目录不存在时回落到默认值并留声，而不是让服务起不来", () => {
-    expect(loadRetrievalConfig("这个目录不存在")).toEqual({ canon: 8, live: 8, styleAnchors: 8 });
+    expect(loadRetrievalConfig("这个目录不存在")).toEqual({ canon: 8, live: 8, styleAnchors: 8, minScore: 0 });
+  });
+});
+
+describe("相关性下限 minScore（F32）", () => {
+  it("默认是 0（关闭）——不默默改变现有检索行为", () => {
+    // 刻意默认关闭：实测强命中 0.922 与「库里没有相关记忆」的基线噪声 0.899
+    // 只差约 0.023，阈值定高一点凪就会失忆，而失忆比记错更糟。
+    // 机制先备好，值等人工体验后由 Ant 定。
+    expect(loadRetrievalConfig().minScore).toBe(0);
   });
 });

@@ -118,9 +118,17 @@ export interface RetrievalConfig {
   readonly canon: number;
   readonly live: number;
   readonly styleAnchors: number;
+  /**
+   * 相关性下限（F32）。0 表示关闭，永远塞满 topK 条。
+   *
+   * 默认关闭是**刻意的**：实测强命中(0.922)与「库里根本没有相关记忆」的
+   * 基线噪声(0.899)只差约 0.023，阈值定高一点凪就会失忆——
+   * 而失忆比记错更糟。合适的值是手感问题，等人工体验后再定（见 OPEN_QUESTIONS F32）。
+   */
+  readonly minScore: number;
 }
 
-const RETRIEVAL_DEFAULTS: RetrievalConfig = { canon: 8, live: 8, styleAnchors: 8 };
+const RETRIEVAL_DEFAULTS: RetrievalConfig = { canon: 8, live: 8, styleAnchors: 8, minScore: 0 };
 
 export function loadRetrievalConfig(configRoot?: string): RetrievalConfig {
   const path = resolve(configRoot ?? process.env.NAGI_CONFIG_ROOT ?? "config", "runtime.yaml");
@@ -141,5 +149,12 @@ export function loadRetrievalConfig(configRoot?: string): RetrievalConfig {
     }
     return value;
   };
-  return { canon: bounded("canon"), live: bounded("live"), styleAnchors: bounded("styleAnchors") };
+  // minScore 与 topK 的取值规则不同：它是 0..1 的小数、且 0 是合法值（表示关闭），
+  // 不能套 bounded() 的「1..32 整数」规则。
+  const rawMinScore = numberOr(sectionScalar(lines, "retrieval", "minScore"), 0);
+  const minScore = Number.isFinite(rawMinScore) && rawMinScore >= 0 && rawMinScore < 1 ? rawMinScore : 0;
+  if (minScore !== rawMinScore) {
+    console.warn(`[runtime-config] retrieval.minScore=${rawMinScore} 越界（需 0 <= x < 1），回落为 0（关闭）`);
+  }
+  return { canon: bounded("canon"), live: bounded("live"), styleAnchors: bounded("styleAnchors"), minScore };
 }
