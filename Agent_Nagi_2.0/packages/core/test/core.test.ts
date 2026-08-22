@@ -309,3 +309,47 @@ describe("embedding 版本化：禁止混合向量空间（V4 §8.2）", () => {
     expect(findStaleEmbeddings([rec("a", "embed-v2", 8), rec("b", "embed-v2", 8)], "embed-v2").size).toBe(0);
   });
 });
+
+describe("混合向量空间：部分记忆有向量、部分没有", () => {
+  const base = {
+    namespace: "u", createdAt: "2026-08-22T00:00:00Z", updatedAt: "2026-08-22T00:00:00Z",
+    salience: 0.5, confidence: 0.6, tags: [] as string[],
+  };
+
+  it("改写型查询下，无关但有向量的记忆会压过真相关但无向量的", () => {
+    // 这不是"应该"的行为，而是**必须被看见**的行为。
+    // scoreMemory 取 semantic = max(余弦, 词面)，余弦经 (x+1)/2 归一后，
+    // 毫不相关的中文句子也有 ~0.75 的地板；而无向量的记忆在中文改写查询下
+    // 词面分常常正好是 0（零个共同 bigram）。
+    //
+    // 后果：canon 从 JSON 加载天生无向量、live 写入时带向量，
+    // 于是「凪记得你昨天说的话，却忘了自己的剧情」。
+    // 修法是把向量补齐（见 server 的 rebuildVectors），不是改打分公式——
+    // 这条测试用来保证补齐之前这个坑不会被悄悄忘掉。
+    const relevantNoVector = { ...base, id: "relevant", kind: "canon" as const, text: "凪怕麻烦，不愿意动" };
+    const irrelevantWithVector = {
+      ...base, id: "irrelevant", kind: "live" as const, text: "世界杯决赛的比分",
+      embedding: [0.5, Math.sqrt(0.75), 0, 0], embeddingModel: "m1", embeddingDim: 4,
+    };
+    const ranked = rankMemories([relevantNoVector, irrelevantWithVector], {
+      namespace: "u", text: "他是不是很懒", embedding: [1, 0, 0, 0], embeddingModel: "m1", limit: 5,
+    });
+    expect(ranked[0]?.record.id).toBe("irrelevant");
+    expect(ranked[1]?.components.semantic).toBe(0);
+  });
+
+  it("但词面全中的无向量记忆仍然赢——不是「有向量恒赢」", () => {
+    // 反向用例。少了它，上一条容易被读成"有向量就赢"，
+    // 进而引出"那就别用向量了"这种错误结论。
+    const exactNoVector = { ...base, id: "exact", kind: "live" as const, text: "凪在家睡觉" };
+    const irrelevantWithVector = {
+      ...base, id: "irrelevant", kind: "live" as const, text: "完全无关的一句话",
+      embedding: [0.5, Math.sqrt(0.75), 0, 0], embeddingModel: "m1", embeddingDim: 4,
+    };
+    const ranked = rankMemories([exactNoVector, irrelevantWithVector], {
+      namespace: "u", text: "凪在家睡觉", embedding: [1, 0, 0, 0], embeddingModel: "m1", limit: 5,
+    });
+    expect(ranked[0]?.record.id).toBe("exact");
+    expect(ranked[0]?.components.semantic).toBe(1);
+  });
+});

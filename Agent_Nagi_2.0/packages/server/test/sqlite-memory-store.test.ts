@@ -73,3 +73,39 @@ describe("SqliteMemoryStore（F24 回归）", () => {
     }
   });
 });
+
+describe("向量重建的取数（真 SQL，不是假实现）", () => {
+  it.skipIf(!hasSqlite)("按「无向量 / 异模型向量」筛选，canon 优先", async () => {
+    const directory = mkdtempSync(join(tmpdir(), "nagi-mem-vec-"));
+    const store = new SqliteMemoryStore(join(directory, "m.sqlite"));
+    try {
+      await store.append([
+        { ...record("no-vec-live", "u", "live", "无向量的 live") },
+        { ...record("no-vec-canon", "u", "canon", "无向量的 canon") },
+        { ...record("old-model", "u", "live", "旧模型向量"), embedding: [1, 0], embeddingModel: "旧模型", embeddingDim: 2 },
+        { ...record("current", "u", "live", "当前模型向量"), embedding: [0, 1], embeddingModel: "当前模型", embeddingDim: 2 },
+      ]);
+
+      // 只有 current 是达标的，其余三条都要重建。
+      expect(store.countNeedingEmbedding("当前模型")).toBe(3);
+
+      const batch = store.listNeedingEmbedding("当前模型", 10);
+      expect(batch.map((item) => item.id).sort()).toEqual(["no-vec-canon", "no-vec-live", "old-model"]);
+      // canon 排最前：剧情记忆缺向量的伤害比 live 大——
+      // live 天天在写，canon 一旦落后就是「凪忘了自己的剧情」。
+      expect(batch[0]?.id).toBe("no-vec-canon");
+
+      // limit 必须真的生效，否则分批是假的、一次会把全库塞进一个请求。
+      expect(store.listNeedingEmbedding("当前模型", 2)).toHaveLength(2);
+
+      // 补齐后计数归零——upsert 语义（INSERT OR REPLACE）成立才有这个结果。
+      await store.append(batch.map((item) => ({
+        ...item, embedding: [0, 1], embeddingModel: "当前模型", embeddingDim: 2,
+      })));
+      expect(store.countNeedingEmbedding("当前模型")).toBe(0);
+    } finally {
+      store.close();
+      rmSync(directory, { recursive: true, force: true });
+    }
+  });
+});

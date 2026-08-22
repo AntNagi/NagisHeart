@@ -45,19 +45,23 @@ embedding:
   # ⚠ 铁律：更换聊天 LLM 不得自动更换 embedding 模型（V4 §8.2）。
   # 向量必须与查询同模型同版本，混合向量空间检索是静默错误。
   #
-  # 实现已就绪（packages/server/src/openai-compatible-embedding.ts），
-  # 由 NAGI_EMBEDDING_* 三个环境变量装配。**尚未接实际调用验证**——
-  # 2026-08-22 免费额度用尽，只跑通了不需调用的部分。
-  active: not_configured
+  # 实现见 packages/server/src/openai-compatible-embedding.ts，
+  # 由 NAGI_EMBEDDING_* 三个环境变量装配（endpoint / model / dim）。
+  active: google_gemini
   vendors:
     google_gemini:
       # 注意是 embeddings 端点，不是 chat/completions
       endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/embeddings"
-      modelId: TBD_待实测
-      dimension: TBD_待实测
+      # 【已验证】2026-08-22 实调：返回 3072 维；
+      # 「他是不是很懒」对「凪怕麻烦，不愿意动」余弦 0.713，对无关句 0.524。
+      # 二者零个共同 bigram，词面分恒为 0——这正是引入向量要解决的那类查询。
+      modelId: gemini-embedding-001
+      dimension: 3072
       version: 1
     volcengine_ark:
       endpoint: "https://ark.cn-beijing.volces.com/api/v3/embeddings"
+      # 【推断】未实调。换到这里必须重建全部向量（V4 §8.2），
+      # 且 dimension 要按实际响应核对后再写，不许照抄文档。
       modelId: TBD_待实测
       dimension: TBD_待实测
       version: 1

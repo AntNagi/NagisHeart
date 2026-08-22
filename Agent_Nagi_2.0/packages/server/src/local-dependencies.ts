@@ -16,6 +16,7 @@ import { LocalDomainStore } from "./local-domain-store.js";
 import { loadGuardPolicy, loadResourceBlocks } from "./resource-loader.js";
 import { loadRelationshipConfig, resolveSeedRelationship } from "./runtime-config.js";
 import { createEmbeddingProviderFromEnvironment } from "./provider-config.js";
+import { rebuildVectors, type VectorRebuildIndex } from "./vector-rebuild.js";
 import { resolve } from "node:path";
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
@@ -92,15 +93,19 @@ const canon: CanonState = { ending: "true", path: "dream", epoch: "post_ending" 
  *
  * 代价：这两个 create 变成 async，模块尾部用 top-level await 消化。
  */
-async function createMemoryStore(): Promise<{ store: MemoryStore; liveCount?: (namespace: string) => number }> {
+async function createMemoryStore(): Promise<{
+  store: MemoryStore;
+  liveCount?: (namespace: string) => number;
+  rebuild?: VectorRebuildIndex;
+}> {
   const databasePath = process.env.NAGI_DOMAIN_DB;
   if (!databasePath) return { store: new InMemoryMemoryStore() };
   const { SqliteMemoryStore } = await import("./sqlite-memory-store.js");
   const store = new SqliteMemoryStore(databasePath);
-  return { store, liveCount: (namespace) => store.liveCount(namespace) };
+  return { store, liveCount: (namespace) => store.liveCount(namespace), rebuild: store };
 }
 
-const { store: memoryStore, liveCount: liveMemoryCountFromStore } = await createMemoryStore();
+const { store: memoryStore, liveCount: liveMemoryCountFromStore, rebuild: vectorRebuild } = await createMemoryStore();
 const memoryEngine = new MemoryEngine(memoryStore);
 type DomainBackend = {
   loadRelationship: LocalDomainStore["loadRelationship"];
@@ -175,23 +180,41 @@ const domainStore = await createDomainBackend(seedRelationship);
 export const embeddingProvider = createEmbeddingProviderFromEnvironment();
 
 /**
- * 启动时检查混合向量空间。
- *
- * 换了 embedding 模型后，旧向量的记忆会被 rankMemories 静默过滤掉——
- * 过滤是对的（禁止混合向量空间），但**没人会发现**：
- * 凪只是突然想不起一批事，日志里什么都没有。
- * V4 §8.2 要求「模型变化时后台重建全部向量」；重建尚未实现，
- * 至少先让这件事在启动时喊一声。
+ * 启动时重建缺失/过期的向量。**不 await**：重建可能要几十秒，
+ * 服务不该为它等着。补到一半的状态仍然可用，只是那部分记忆暂时排得靠后。
  */
+async function runVectorRebuild(): Promise<void> {
+  if (!embeddingProvider || !vectorRebuild) return;
+  const apiKey = process.env.NAGI_DEV_LLM_KEY ?? "";
+  // 没有服务端 key 时不做后台重建——绝不拿请求方的 BYOK key 跑全库任务：
+  // 那是花别人的额度，且 BYOK 的 key 不该活过单次请求（域 B 红线）。
+  if (!apiKey) {
+    console.warn("[embedding] 未配置 NAGI_DEV_LLM_KEY，跳过向量重建（不使用请求方的 BYOK key 跑全库任务）。");
+    return;
+  }
+  await rebuildVectors({
+    store: memoryStore,
+    index: vectorRebuild,
+    model: embeddingProvider.modelId,
+    embed: (texts) => embedOrDegrade(texts, apiKey, "rebuild"),
+    log: (message) => console.warn(message),
+  });
+}
+
 if (embeddingProvider) {
   const stale = findStaleEmbeddings(canonMemories, embeddingProvider.modelId);
   if (stale.size > 0) {
     const detail = [...stale].map(([model, count]) => `${model}:${count} 条`).join("，");
     console.warn(
-      `[embedding] 库中存在**其它模型**的向量（${detail}），当前配置为 ${embeddingProvider.modelId}。` +
-      `这些记忆在向量检索中会被静默跳过。需重建全部向量（V4 §8.2）。`,
+      `[embedding] 库中存在**其它模型**的向量（${detail}），当前配置为 ${embeddingProvider.modelId}，将重建。`,
     );
   }
+  // catch 必须有——未处理的 rejection 会让整个进程退出。
+  void canonLoad
+    .then(() => runVectorRebuild())
+    .catch((error: unknown) => {
+      console.warn(`[embedding] 向量重建异常：${error instanceof Error ? error.message : String(error)}`);
+    });
 }
 
 /**
@@ -236,6 +259,30 @@ function classify(message: string): SceneId {
   return "daily";
 }
 
+/**
+ * 把文本转成向量。失败时返回 undefined —— **退回纯词面，不让整轮挂掉**。
+ *
+ * 检索是增强，不是前提：embedding 端点抽风时凪应该照常说话，只是想得浅一点。
+ * 但失败必须留声，否则「一直没接上」看起来和「接上了但没帮上忙」一模一样。
+ *
+ * @param label 出现在日志里，用来区分查询侧与写入侧——两侧只要有一侧没跑，
+ *   向量空间就是残缺的（有向量的记忆永远赢过没向量的），这是要能一眼看出来的。
+ */
+async function embedOrDegrade(
+  texts: readonly string[],
+  apiKey: string,
+  label: string,
+): Promise<readonly Float32Array[] | undefined> {
+  if (!embeddingProvider || texts.length === 0 || !apiKey) return undefined;
+  try {
+    return await embeddingProvider.embed(texts, { apiKey });
+  } catch (error) {
+    // 只打印 message，不打印 error 对象——避免 key 随上下文泄进日志（域 B 红线）。
+    console.warn(`[embedding:${label}] 失败，本次退回纯词面：${error instanceof Error ? error.message : String(error)}`);
+    return undefined;
+  }
+}
+
 export function createLocalDependencies(provider?: ChatProvider, requestApiKey?: string): RuntimeDependencies {
   return {
     validateRequest(request) {
@@ -260,9 +307,16 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
     },
     async retrieveContext({ request, query }) {
       await canonLoad;
+      // 查询向量。拿不到就只传 text，rankMemories 会退回词面打分——
+      // 检索仍然工作，只是同义改写命不中（实测「他是不是很懒」对
+      // 「凪怕麻烦，不愿意动」余弦 0.713，而二者**零个共同 bigram**，词面分恒为 0）。
+      const [queryVector] = await embedOrDegrade([query], requestApiKey ?? process.env.NAGI_DEV_LLM_KEY ?? "", "query") ?? [];
+      const vectorQuery = queryVector && embeddingProvider
+        ? { embedding: Array.from(queryVector), embeddingModel: embeddingProvider.modelId }
+        : {};
       const [canonMemories, liveMemories] = await Promise.all([
-        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: 4 }),
-        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: 4 }),
+        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: 4, ...vectorQuery }),
+        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: 4, ...vectorQuery }),
       ]);
       return [...canonMemories, ...liveMemories].sort((left, right) => right.score - left.score);
     },
@@ -386,7 +440,23 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
           createdAt: new Date().toISOString(),
         },
       });
-      await memoryEngine.commitDrafts(memoryDrafts, {
+      // 写入侧也要向量，且**必须与查询侧同一个模型**。
+      // 只做一侧会让向量空间残缺：有向量的记忆恒赢过没向量的，
+      // 表现为「凪只记得最近几天的事」——而日志里什么都看不出来。
+      const vectors = await embedOrDegrade(
+        memoryDrafts.map((draft) => draft.text),
+        requestApiKey ?? process.env.NAGI_DEV_LLM_KEY ?? "",
+        "commit",
+      );
+      const draftsWithVectors = vectors && embeddingProvider
+        ? memoryDrafts.map((draft, index) => {
+            const vector = vectors[index];
+            return vector
+              ? { ...draft, embedding: Array.from(vector), embeddingModel: embeddingProvider.modelId }
+              : draft;
+          })
+        : memoryDrafts;
+      await memoryEngine.commitDrafts(draftsWithVectors, {
         namespace: request.userId,
         now: new Date().toISOString(),
       });

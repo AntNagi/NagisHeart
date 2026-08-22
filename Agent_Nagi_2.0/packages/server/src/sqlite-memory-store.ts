@@ -136,6 +136,33 @@ export class SqliteMemoryStore implements MemoryStore {
     return row.n;
   }
 
+  /**
+   * 取出**向量与当前模型不符**（含完全没有向量）的记忆，用于重建。
+   *
+   * V4 §8.2 要求「模型变化时后台重建全部向量」。不重建的后果是静默的：
+   * `rankMemories` 会把异模型向量的记忆过滤掉、把无向量的记忆算成语义分 0，
+   * 于是它们永远排在有向量的记忆后面——凪只是「想不起一批事」，日志里什么都没有。
+   *
+   * @param limit 单次取多少条。分批是为了不让启动被一次大重建卡住。
+   */
+  public listNeedingEmbedding(model: string, limit: number): readonly MemoryRecord[] {
+    const rows = this.db
+      .prepare(
+        "SELECT * FROM memories WHERE embedding_model IS NULL OR embedding_model != ? " +
+        "ORDER BY kind = 'canon' DESC, updated_at DESC LIMIT ?",
+      )
+      .all(model, limit) as MemoryRow[];
+    return rows.map((row) => this.toRecord(row));
+  }
+
+  /** 还有多少条待重建。用于日志和收敛判断。 */
+  public countNeedingEmbedding(model: string): number {
+    const row = this.db
+      .prepare("SELECT COUNT(*) AS n FROM memories WHERE embedding_model IS NULL OR embedding_model != ?")
+      .get(model) as { n: number };
+    return row.n;
+  }
+
   public close(): void {
     this.db.close();
   }
