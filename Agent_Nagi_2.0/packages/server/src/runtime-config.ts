@@ -100,3 +100,46 @@ export function resolveSeedRelationship(
   }
   return config.seed;
 }
+
+/**
+ * 检索 topK（`retrieval.topK`）。
+ *
+ * **为什么要读它**：这些值此前写在配置里、代码却硬编码成 4，
+ * 两边差了一倍且谁都不知道——F23 就是这么害我按错的值推算烘焙上限、
+ * 51 条里降级 44 条返工一轮的。配置存在而代码不读，比没有配置更糟：
+ * 它让人以为改配置有用。
+ *
+ * 默认值取配置里现有的 8，而不是代码原先的 4：
+ * 契约里配置是权威，代码硬编码不是（见 CLAUDE.md 域 B 红线
+ * 「人格规则、关系阈值不许写进 Graph 节点，一律由 resources/ 与 config/ 声明」）。
+ * 这会让每轮取回的记忆数从 4+4 变成 8+8 —— 见 OPEN_QUESTIONS F23 的低把握登记。
+ */
+export interface RetrievalConfig {
+  readonly canon: number;
+  readonly live: number;
+  readonly styleAnchors: number;
+}
+
+const RETRIEVAL_DEFAULTS: RetrievalConfig = { canon: 8, live: 8, styleAnchors: 8 };
+
+export function loadRetrievalConfig(configRoot?: string): RetrievalConfig {
+  const path = resolve(configRoot ?? process.env.NAGI_CONFIG_ROOT ?? "config", "runtime.yaml");
+  let lines: readonly string[];
+  try {
+    lines = readFileSync(path, "utf8").split(/\r?\n/u);
+  } catch {
+    console.warn(`[runtime-config] 读不到 ${path}，检索 topK 回落为 ${RETRIEVAL_DEFAULTS.canon}`);
+    return RETRIEVAL_DEFAULTS;
+  }
+  // 取值范围收在 1..32：0 会让检索静默返回空（凪什么都想不起来，且不报错），
+  // 过大则挤爆 Context 预算。越界即回落并留声。
+  const bounded = (key: keyof RetrievalConfig): number => {
+    const value = numberOr(sectionScalar(lines, "retrieval", key), RETRIEVAL_DEFAULTS[key]);
+    if (!Number.isInteger(value) || value < 1 || value > 32) {
+      console.warn(`[runtime-config] retrieval.topK.${key}=${value} 越界（需 1..32 的整数），回落为 ${RETRIEVAL_DEFAULTS[key]}`);
+      return RETRIEVAL_DEFAULTS[key];
+    }
+    return value;
+  };
+  return { canon: bounded("canon"), live: bounded("live"), styleAnchors: bounded("styleAnchors") };
+}

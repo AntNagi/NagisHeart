@@ -1300,3 +1300,86 @@ Gemini 免费额度在跑 F26 校准时耗尽（该次校准也因此中断，20
 
 `NAGI_EVAL_CALIBRATE=1 pnpm run eval` 启动后卡在 429 重试，20 分钟无输出，已终止。
 待额度恢复后重跑，确认「你正在控制我。」在补入 Rel §10.3「设计文档语言」后评分下降。
+
+---
+
+## 2026-08-22 F23 已修 + 向量重建 live 验证通过（Claude）
+
+### F23 比原记录更大 —— 整个 `retrieval:` 段代码都没读 —— 【已验证】
+
+原记录只写了 `topK.canon` 一个值对不上。复查后发现范围更大：
+
+| 配置项 | 配置值 | 代码实际 | 状态 |
+|---|---|---|---|
+| `retrieval.topK.canon` | 8 | 硬编码 `limit: 4` | **值不同** |
+| `retrieval.topK.live` | 8 | 硬编码 `limit: 4` | **值不同** |
+| `retrieval.topK.styleAnchors` | 8 | 未使用 | 未接 |
+| `retrieval.weights.cosine` | 0.60 | `semantic × 0.52` | **维度都对不上** |
+| `retrieval.weights.recency` | 0.25 | `recency × 0.16` | 值不同 |
+| `retrieval.weights.emotionIntensity` | 0.15 | **代码里没有这个维度** | 无对应 |
+| （代码有） | — | `salience × 0.16`、`confidence × 0.16`、`kindBoost 0.08` | **配置里没有** |
+| `guard.maxRetries` | 1 | 硬编码 `attempt < 2` | 值其实相符，但硬编码 |
+
+`packages/server/src/runtime-config.ts` 此前**只解析 `relationship:` 一段**，
+其余全是装饰。配置存在而代码不读，比没有配置更糟：它让人以为改配置有用。
+这与 F19–F21 是同一类（配置/代码静默分叉），已经是第四次。
+
+### 已修 —— `topK` 从配置读
+
+新增 `loadRetrievalConfig()`，接进 `retrieveContext`。越界（非 1..32 整数）回落并留声——
+`topK: 0` 会让检索静默返回空，凪什么都想不起来且不报错。
+
+**⚠ 低把握决策登记**：这让每轮取回的记忆从 4+4 变成 **8+8**。
+取配置值而非代码值，依据是 CLAUDE.md 域 B 红线「人格规则、关系阈值不许写进 Graph 节点，
+一律由 `resources/` 与 `config/` 声明」——配置是权威，硬编码不是。
+
+**若人工测试时出现这些现象，回溯这条决策**：
+- 凪开始复述剧情、像在背设定集（取回太多 canon）
+- 回复变慢或 Context 装配 token 数逼近 20,000 预算
+- 凪总在提很久以前的事、忽略当下（live 记忆取太多，近期被稀释）
+
+改回 4 只需编辑 `config/runtime.yaml` 的 `topK`，**不用动代码**——这正是这次接线的意义。
+
+### `retrieval.weights` 未接 —— **需 Ant 裁决**
+
+不能像 `topK` 那样直接接：两边**维度不一样**，不是数值差异。
+配置是 3 维（cosine / recency / emotionIntensity），代码是 5 维
+（semantic / recency / salience / confidence / kindBoost）。且 `emotionIntensity`
+在整个记忆数据结构里**根本不存在**——记忆记的是文本、显著度、置信度，没有情绪强度字段。
+
+两条路，都要动权威：
+- **A**：配置改写成代码的 5 维，把现有权重固化为可调项
+- **B**：给记忆加 `emotionIntensity` 字段（抽取时由 aux 打分），打分器改成配置的 3 维
+
+A 是纯接线，B 要改抽取 prompt、库结构和打分器。**留待 Ant 定**，我不自己选。
+
+### 向量重建 —— **live 已验证**
+
+起真服务实跑（`PORT=4601`，全新库）：
+
+```
+[embedding] 51 条记忆缺少 gemini-embedding-001 的向量，开始重建。
+[embedding] 向量重建完成：51 条。
+```
+
+查库确认：51 条 canon 全部带 `gemini-embedding-001` / 3072 维，无遗漏、无异模型残留。
+批量 16 条**没有**撞 Gemini 的单请求上限（此前列为待验第 2 项，现已排除）。
+
+**意外发现：Gemini 的 chat 与 embedding 是分开计配额的。**
+同一时刻 chat 端点返回 429，embedding 端点照常工作。
+这解释了为什么重建能跑完而对话跑不动，也意味着调试期可以先做记忆侧的事。
+
+### F31 — 向量存储体积随记忆数线性增长 —— 【已验证，暂不处理】
+
+实测：3072 维向量存成 JSON 文本 **66 KB/条**，51 条 canon 占 3.3 MB，
+库文件 4.0 MB（向量占 82%）。
+
+检索耗时实测 **13.7 ms/次**（51 条 canon × 3072 维，20 次平均），
+相对 LLM 调用的 2–5 秒可忽略，**当前规模不是问题**。
+
+但两项都随记忆条数线性增长（`search()` 是把行捞进 JS 再排序，没有向量索引）：
+- 1,000 条 ≈ 66 MB、~270 ms
+- 5,000 条 ≈ 330 MB、~1.3 s
+
+单机本地 Demo 到不了这个量级。真要到了，两条路：改存 BLOB（省 ~3 倍）
+或换带向量索引的库。**现在做是过早优化**，记在这里以便量级上来时不用重新发现。

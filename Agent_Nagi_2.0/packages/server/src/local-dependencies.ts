@@ -14,7 +14,7 @@ import {
 import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
 import { loadGuardPolicy, loadResourceBlocks } from "./resource-loader.js";
-import { loadRelationshipConfig, resolveSeedRelationship } from "./runtime-config.js";
+import { loadRelationshipConfig, loadRetrievalConfig, resolveSeedRelationship } from "./runtime-config.js";
 import { createEmbeddingProviderFromEnvironment } from "./provider-config.js";
 import { rebuildVectors, type VectorRebuildIndex } from "./vector-rebuild.js";
 import { resolve } from "node:path";
@@ -170,6 +170,8 @@ const canonLoad = memoryStore.append(canonMemories);
 // 顺序有讲究：先读 canon 判断是否就绪 → 再据此定关系初值 → 最后才建 store。
 // 倒过来的话 store 已经用 0/0/0 建好了，Q19 的裁决又一次落空。
 const relationshipConfig = loadRelationshipConfig();
+// topK 从配置读，不再硬编码——F23 的成因就是这两处差了一倍且无人知晓。
+const retrievalConfig = loadRetrievalConfig();
 const seedRelationship = resolveSeedRelationship(relationshipConfig, isCanonReady(canonMemories));
 const domainStore = await createDomainBackend(seedRelationship);
 
@@ -315,8 +317,8 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
         ? { embedding: Array.from(queryVector), embeddingModel: embeddingProvider.modelId }
         : {};
       const [canonMemories, liveMemories] = await Promise.all([
-        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: 4, ...vectorQuery }),
-        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: 4, ...vectorQuery }),
+        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["canon"], limit: retrievalConfig.canon, ...vectorQuery }),
+        memoryEngine.retrieve({ namespace: request.userId, text: query, kinds: ["live"], limit: retrievalConfig.live, ...vectorQuery }),
       ]);
       return [...canonMemories, ...liveMemories].sort((left, right) => right.score - left.score);
     },
