@@ -12,3 +12,4 @@ export * from "./ports/provider.js";
 export * from "./ports/domain.js";
 export * from "./resources/parser.js";
 export * from "./resources/types.js";
+export * from "./output/beats.js";

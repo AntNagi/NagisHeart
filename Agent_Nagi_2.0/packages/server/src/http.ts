@@ -1,10 +1,16 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { randomUUID, timingSafeEqual } from "node:crypto";
+import { normalizeOutput } from "@nagi/core";
 import { createNagiGraph, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
-import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, importLocalDomain } from "./local-dependencies.js";
+import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
 
 const MAX_BODY_BYTES = 1_000_000;
+/**
+ * beat 之间的停顿。太短读起来仍像刷屏，太长会拖慢整轮。
+ * 240ms 是拍的值，未做人因验证——见 DECISIONS 低把握登记 U12。
+ */
+const BEAT_GAP_MS = Number(process.env.NAGI_BEAT_GAP_MS ?? 240);
 const provider = createProviderFromEnvironment();
 
 interface ChatRequestBody {
@@ -261,7 +267,16 @@ export function createHttpServer() {
           }
         });
         // 两段流：Guard 通过后才发正文，所以这里是一次性整段送出（V4 §6.1 已知代价）。
-        if (accepted) chunk({ content: accepted }, null);
+        // 逐 beat 发送，而不是把整段带换行的文本一次吐出来。
+        // 各家模型排版差异（豆包的括号动作、Gemini 的空行分段）在这里被吸收，
+        // 前端只收到一句一句的台词。见 Ant 2026-08-22 的裁决与 NRH-20260821-2037。
+        const normalized = normalizeOutput(accepted, maxBeatsPerReply);
+        for (const [index, beat] of normalized.say.entries()) {
+          chunk({ content: beat }, null);
+          // beat 之间留一拍，读起来才像人陆续发消息，而不是整段刷屏。
+          // 最后一条不等，避免白白拖长首字到收尾的时间。
+          if (index < normalized.say.length - 1) await new Promise((r) => setTimeout(r, BEAT_GAP_MS));
+        }
         chunk({}, "stop");
         response.write("data: [DONE]\n\n");
         response.end();
@@ -271,12 +286,23 @@ export function createHttpServer() {
         const graph = createNagiGraph(dependencies);
         return await graph.invoke(state as Parameters<typeof graph.invoke>[0]) as NagiGraphState;
       });
-      const content = result.generation.accepted ?? result.generation.candidate;
+      const raw = result.generation.accepted ?? result.generation.candidate;
+      // 非流式也走同一套归一，两条路的行为必须一致——否则同一句话在
+      // 流式与非流式下长得不一样，排错时无从判断是模型问题还是链路问题。
+      const normalized = normalizeOutput(raw, maxBeatsPerReply);
       json(response, 200, {
         id: `chatcmpl-${requestId}`,
         object: "chat.completion",
-        choices: [{ index: 0, message: { role: "assistant", content }, finish_reason: "stop" }],
-        nagi: { requestId, scene: result.analysis.scene, trace: result.trace },
+        // 非流式只有一条消息可用，beat 之间用换行连接（不留空行）。
+        // 需要逐条渲染的客户端读 `nagi.say`。
+        choices: [{ index: 0, message: { role: "assistant", content: normalized.say.join("\n") }, finish_reason: "stop" }],
+        nagi: {
+          requestId,
+          scene: result.analysis.scene,
+          say: normalized.say,
+          act: normalized.act,
+          trace: result.trace,
+        },
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : "request failed";

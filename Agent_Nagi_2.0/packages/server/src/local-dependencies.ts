@@ -105,6 +105,9 @@ const resourceRoot = resolve(process.env.NAGI_RESOURCE_ROOT ?? "resources");
 const resources = loadResourceBlocks(resourceRoot);
 const guardPolicy = loadGuardPolicy(resourceRoot);
 
+/** beat 上限，供输出归一层复用。来自 output_guard 的 beat_caps.max_per_reply。 */
+export const maxBeatsPerReply = guardPolicy.config.maxBeatsPerReply;
+
 function loadCanonMemories(root: string) {
   const path = join(root, "world", "events", "canon-memory.json");
   try {

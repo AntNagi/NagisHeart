@@ -3,6 +3,7 @@ import { buildContext } from "../src/context/builder.js";
 import { evaluateActivation } from "../src/context/activation.js";
 import { evaluateGuard } from "../src/guard/engine.js";
 import { rankMemories } from "../src/memory/engine.js";
+import { normalizeOutput } from "../src/output/beats.js";
 import { parseResourceMarkdown } from "../src/resources/parser.js";
 
 describe("activation", () => {
@@ -175,5 +176,47 @@ describe("中文词面检索（F17 回归）", () => {
     const records = [memory("m1", "凪在曼城的新房间住下了")];
     const top = rankMemories(records, query("abcdef"));
     expect(top[0]?.components?.semantic).toBe(0);
+  });
+});
+
+describe("输出归一：把各家模型的排版差异吸收掉", () => {
+  it("Gemini 的空行分段切成独立 beat，不留空条目", () => {
+    // 实测原文（gemini-flash-lite-latest，2026-08-22）。
+    // 直接渲染会得到一坨带空行的文字，Ant 的原话是「这不像对话」。
+    const result = normalizeOutput("……\n\n乌冬面。\n\n你做。\n汤咸一点。");
+    expect(result.say).toEqual(["……", "乌冬面。", "你做。", "汤咸一点。"]);
+    expect(result.act).toEqual([]);
+  });
+
+  it("豆包的括号动作被摘进 act，不混在台词里", () => {
+    // 实测原文（doubao-seed-character-260628）。
+    const result = normalizeOutput("（没抬眼，指尖还在划手机）什么。");
+    expect(result.say).toEqual(["什么。"]);
+    expect(result.act).toEqual(["没抬眼，指尖还在划手机"]);
+  });
+
+  it("整行无换行时按句末标点切", () => {
+    const result = normalizeOutput("不是这个。那个不像我。");
+    expect(result.say).toEqual(["不是这个。", "那个不像我。"]);
+  });
+
+  it("句末标点保留，省略号算一个收尾", () => {
+    const result = normalizeOutput("……好麻烦。");
+    expect(result.say).toEqual(["……好麻烦。"]);
+  });
+
+  it("超过 beat 上限时截断而非合并", () => {
+    // V17 语料 84.6% 是单句回，连发多句本身就是「解释太多」的信号（§8.1）。
+    // 合并只会得到一句更长的话，与规则意图相反。
+    const result = normalizeOutput("一。\n二。\n三。\n四。", 3);
+    expect(result.say).toEqual(["一。", "二。", "三。"]);
+  });
+
+  it("只有动作没有台词时 say 为空——不得据此判定失败", () => {
+    // 实测「手给我」→「（没动）」。此时 say 为空是**正确输出**，
+    // 不是错误；聊天模式下应显示为无回复或由上层决定，不该踩降级模板。
+    const result = normalizeOutput("（没动）");
+    expect(result.say).toEqual([]);
+    expect(result.act).toEqual(["没动"]);
   });
 });
