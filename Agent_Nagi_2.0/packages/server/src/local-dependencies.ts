@@ -8,12 +8,14 @@ import {
   type SessionState,
   type ChatProvider,
   type RelationshipState,
+  findStaleEmbeddings,
   type MemoryStore,
 } from "@nagi/core";
 import type { GuardState, RuntimeDependencies } from "@nagi/runtime-langgraph";
 import { LocalDomainStore } from "./local-domain-store.js";
 import { loadGuardPolicy, loadResourceBlocks } from "./resource-loader.js";
 import { loadRelationshipConfig, resolveSeedRelationship } from "./runtime-config.js";
+import { createEmbeddingProviderFromEnvironment } from "./provider-config.js";
 import { resolve } from "node:path";
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
@@ -161,6 +163,32 @@ const canonLoad = memoryStore.append(canonMemories);
 const relationshipConfig = loadRelationshipConfig();
 const seedRelationship = resolveSeedRelationship(relationshipConfig, isCanonReady(canonMemories));
 const domainStore = createDomainBackend(seedRelationship);
+
+/**
+ * embedding provider。未配置时检索退回纯词面（bigram），功能不受影响、只是变弱。
+ * **与 chat 分开配置**——V4 §8.2「更换聊天 LLM 不得自动更换 embedding 模型」。
+ */
+export const embeddingProvider = createEmbeddingProviderFromEnvironment();
+
+/**
+ * 启动时检查混合向量空间。
+ *
+ * 换了 embedding 模型后，旧向量的记忆会被 rankMemories 静默过滤掉——
+ * 过滤是对的（禁止混合向量空间），但**没人会发现**：
+ * 凪只是突然想不起一批事，日志里什么都没有。
+ * V4 §8.2 要求「模型变化时后台重建全部向量」；重建尚未实现，
+ * 至少先让这件事在启动时喊一声。
+ */
+if (embeddingProvider) {
+  const stale = findStaleEmbeddings(canonMemories, embeddingProvider.modelId);
+  if (stale.size > 0) {
+    const detail = [...stale].map(([model, count]) => `${model}:${count} 条`).join("，");
+    console.warn(
+      `[embedding] 库中存在**其它模型**的向量（${detail}），当前配置为 ${embeddingProvider.modelId}。` +
+      `这些记忆在向量检索中会被静默跳过。需重建全部向量（V4 §8.2）。`,
+    );
+  }
+}
 
 /**
  * 关闭底层存储，释放 SQLite 文件句柄。

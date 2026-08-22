@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { buildContext } from "../src/context/builder.js";
 import { evaluateActivation } from "../src/context/activation.js";
 import { evaluateGuard } from "../src/guard/engine.js";
-import { rankMemories } from "../src/memory/engine.js";
+import { rankMemories, findStaleEmbeddings } from "../src/memory/engine.js";
 import { normalizeOutput } from "../src/output/beats.js";
 import { parseResourceMarkdown } from "../src/resources/parser.js";
 
@@ -267,5 +267,45 @@ describe("孤立的省略号并进相邻 beat", () => {
   it("有实质内容的 beat 不受影响", () => {
     const result = normalizeOutput("随便。\n你决定。");
     expect(result.say).toEqual(["随便。", "你决定。"]);
+  });
+});
+
+describe("embedding 版本化：禁止混合向量空间（V4 §8.2）", () => {
+  const rec = (id: string, model?: string, dim?: number) => ({
+    id, namespace: "u", kind: "live" as const, text: "曼城公寓的事",
+    createdAt: "2026-08-01T00:00:00.000Z", updatedAt: "2026-08-01T00:00:00.000Z",
+    salience: 0.7, confidence: 0.6, tags: [],
+    ...(model ? {
+      embedding: Array.from({ length: dim ?? 4 }, () => 0.5),
+      embeddingModel: model, embeddingDim: dim ?? 4,
+    } : {}),
+  });
+  const records = [rec("old", "embed-v1", 4), rec("new", "embed-v2", 8), rec("none")];
+
+  it("换模型后旧向量被挡下——这是对的，但它是静默的", () => {
+    // V4 §8.2「禁止混合向量空间检索」。过滤本身正确，
+    // 但被过滤掉的记忆不会有任何提示，凪会突然想不起一批事。
+    const got = rankMemories(records, {
+      namespace: "u", text: "曼城公寓", limit: 9,
+      embedding: Array.from({ length: 8 }, () => 0.5), embeddingModel: "embed-v2",
+    });
+    expect(got.map((item) => item.record.id)).not.toContain("old");
+    expect(got.map((item) => item.record.id)).toContain("new");
+  });
+
+  it("纯词面查询不受影响——无向量参与就谈不上混合空间", () => {
+    const got = rankMemories(records, { namespace: "u", text: "曼城公寓", limit: 9 });
+    expect(got).toHaveLength(3);
+  });
+
+  it("findStaleEmbeddings 能报出与预期不符的向量，让静默退化显形", () => {
+    const stale = findStaleEmbeddings(records, "embed-v2");
+    expect(stale.get("embed-v1")).toBe(1);
+    expect(stale.has("embed-v2"), "预期模型自身不算 stale").toBe(false);
+    expect([...findStaleEmbeddings(records, "embed-v1").keys()]).toEqual(["embed-v2"]);
+  });
+
+  it("库里全是同一模型时判为干净", () => {
+    expect(findStaleEmbeddings([rec("a", "embed-v2", 8), rec("b", "embed-v2", 8)], "embed-v2").size).toBe(0);
   });
 });

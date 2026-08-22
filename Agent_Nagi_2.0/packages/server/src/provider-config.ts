@@ -1,3 +1,4 @@
+import { OpenAICompatibleEmbeddingProvider } from "./openai-compatible-embedding.js";
 import { OpenAICompatibleProvider, type ModelSlot } from "./openai-compatible-provider.js";
 
 /**
@@ -40,6 +41,33 @@ export function createProviderFromEnvironment(): OpenAICompatibleProvider | unde
       ...(auxModel ? { aux: slot(auxModel, auxExtraBody(auxModel)) } : {}),
     },
     fallbackSlot: "main",
+    timeoutMs: Number(process.env.NAGI_LLM_TIMEOUT_MS ?? 60_000),
+  });
+}
+
+/**
+ * 从环境变量装配 embedding provider。
+ *
+ * **与 chat 分开配置**是 V4 §8.2 的硬要求：
+ * 「更换聊天 LLM 不得自动更换 embedding 模型」。合用一套变量的话，
+ * 换 chat 模型时会顺手换掉 embedding，而那让库里所有既有向量与新查询
+ * 落在不同空间——**检索照常返回，只是结果没有意义**。
+ *
+ * - `NAGI_EMBEDDING_ENDPOINT`  完整的 embeddings 端点（**不是** chat/completions）
+ * - `NAGI_EMBEDDING_MODEL`     模型 id
+ * - `NAGI_EMBEDDING_DIM`       向量维度，**必须显式给**，不从响应推断
+ *
+ * 三者缺一即返回 undefined ⇒ 检索退回纯词面（bigram），功能不受影响、只是变弱。
+ */
+export function createEmbeddingProviderFromEnvironment(): OpenAICompatibleEmbeddingProvider | undefined {
+  const endpoint = process.env.NAGI_EMBEDDING_ENDPOINT?.trim();
+  const model = process.env.NAGI_EMBEDDING_MODEL?.trim();
+  const dimension = Number(process.env.NAGI_EMBEDDING_DIM ?? "");
+  if (!endpoint || !model || !Number.isFinite(dimension) || dimension <= 0) return undefined;
+  return new OpenAICompatibleEmbeddingProvider({
+    endpoint,
+    model,
+    dimension,
     timeoutMs: Number(process.env.NAGI_LLM_TIMEOUT_MS ?? 60_000),
   });
 }

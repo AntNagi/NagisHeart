@@ -107,6 +107,42 @@ export function scoreMemory(record: MemoryRecord, query: MemoryQuery): MemorySea
   return { record, score: components.total, components };
 }
 
+/**
+ * 统计库里各 embedding 模型的向量数，用于发现**混合向量空间**。
+ *
+ * 为什么需要它：换了 embedding 模型后，用新模型查询时，
+ * 带旧模型向量的记忆会被 `rankMemories` 过滤掉——**过滤本身是对的**
+ * （V4 §8.2「禁止混合向量空间检索」），但它是**静默的**：
+ * 凪会突然想不起一批事，而日志里什么都没有。
+ *
+ * V4 §8.2 要求「模型变化时后台重建全部向量」。在重建做完之前，
+ * 至少要能在启动时喊一声，否则这类退化根本无从察觉。
+ */
+export function countEmbeddingModels(records: readonly MemoryRecord[]): ReadonlyMap<string, number> {
+  const counts = new Map<string, number>();
+  for (const record of records) {
+    if (!record.embeddingModel) continue;
+    counts.set(record.embeddingModel, (counts.get(record.embeddingModel) ?? 0) + 1);
+  }
+  return counts;
+}
+
+/**
+ * 检查库里的向量是否都来自 `expectedModel`。
+ *
+ * @returns 与预期不符的模型及其条数；空 Map 表示干净。
+ */
+export function findStaleEmbeddings(
+  records: readonly MemoryRecord[],
+  expectedModel: string,
+): ReadonlyMap<string, number> {
+  const stale = new Map<string, number>();
+  for (const [model, count] of countEmbeddingModels(records)) {
+    if (model !== expectedModel) stale.set(model, count);
+  }
+  return stale;
+}
+
 export function rankMemories(records: readonly MemoryRecord[], query: MemoryQuery): readonly MemorySearchResult[] {
   const kinds = query.kinds ? new Set<MemoryKind>(query.kinds) : undefined;
   return records
