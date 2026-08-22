@@ -2,7 +2,11 @@ import type { ChatProvider, ChatRequest, ChatResult, ModelCapability, RequestSec
 
 interface OpenAIResponse {
   readonly model?: unknown;
-  readonly choices?: readonly { readonly message?: { readonly content?: unknown } }[];
+  readonly choices?: readonly {
+    readonly message?: { readonly content?: unknown };
+    /** 空正文时用来区分成因：`length` + `completion_tokens: 0` = 思考吃光了预算。 */
+    readonly finish_reason?: unknown;
+  }[];
   readonly usage?: { readonly prompt_tokens?: unknown; readonly completion_tokens?: unknown };
   readonly error?: { readonly code?: unknown; readonly message?: unknown };
 }
@@ -83,8 +87,23 @@ export class OpenAICompatibleProvider implements ChatProvider {
       if (!response.ok) throw new Error(describeFailure(response.status, slot.model, payload));
       if (!payload || typeof payload !== "object") throw new Error("provider returned an invalid response");
       const result = payload as OpenAIResponse;
-      const text = result.choices?.[0]?.message?.content;
-      if (typeof text !== "string") throw new Error("provider response has no assistant content");
+      const choice = result.choices?.[0];
+      const text = choice?.message?.content;
+      if (typeof text !== "string") {
+        // 空正文有好几种成因，笼统报「no assistant content」会让人查错方向。
+        // 实测（Gemini flash，2026-08-22）：思考型模型会把整个 max_tokens 烧在
+        // 思考上，返回 finish_reason="length" 且 completion_tokens=0，正文为空。
+        // 另一种是厂商安全过滤（NRH-20260820-005 早就警告过「表现为凪突然不说话」）。
+        const finish = typeof choice?.finish_reason === "string" ? choice.finish_reason : "unknown";
+        const outputTokens = typeof result.usage?.completion_tokens === "number" ? result.usage.completion_tokens : -1;
+        if (finish === "length" && outputTokens === 0) {
+          throw new Error(
+            `provider returned no text: model ${slot.model} spent the whole token budget on reasoning ` +
+            `(finish_reason=length, completion_tokens=0). 提高 maxTokens 或改用不思考的模型。`,
+          );
+        }
+        throw new Error(`provider response has no assistant content (finish_reason=${finish}, model=${slot.model})`);
+      }
       return {
         text,
         model: typeof result.model === "string" ? result.model : slot.model,

@@ -62,7 +62,7 @@ for (const capability of ["main", "aux"] as const) {
     const result = await provider.complete({
       model: capability,
       messages: [{ role: "user", content: "回复两个字：收到" }],
-      maxTokens: 16,
+      maxTokens: 200,  // 思考型模型会先烧一批 token，16 太小会拿到空正文
     }, { apiKey: key });
     console.log(`   ${capability.padEnd(5)}: ✓ ${result.model} · ${result.latencyMs}ms · ${JSON.stringify(result.text)}`);
   } catch (error) {
