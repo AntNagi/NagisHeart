@@ -267,14 +267,19 @@ export function createHttpServer() {
           }
         });
         // 两段流：Guard 通过后才发正文，所以这里是一次性整段送出（V4 §6.1 已知代价）。
-        // 逐 beat 发送，而不是把整段带换行的文本一次吐出来。
-        // 各家模型排版差异（豆包的括号动作、Gemini 的空行分段）在这里被吸收，
-        // 前端只收到一句一句的台词。见 Ant 2026-08-22 的裁决与 NRH-20260821-2037。
+        // 逐 beat 发送。各家模型排版差异（豆包的括号动作、Gemini 的空行分段）
+        // 在归一层被吸收，这里只负责把干净的 beat 依次送出。
+        //
+        // ⚠ **OpenAI 流式协议下，chunk 是增量拼进同一条消息的，不会变成多个气泡。**
+        // 「一个 beat 一个气泡」在标准协议下做不到，除非改客户端。
+        // 所以 beat 之间必须补一个换行——否则它们会黏成一行，
+        // 比原来带空行的版本更难读（实测：「……怎么说变就变。……好啦。」）。
+        // 用单换行而非空行：空行是段落分隔，读起来像文档；单换行才是聊天里的分句。
         const normalized = normalizeOutput(accepted, maxBeatsPerReply);
         for (const [index, beat] of normalized.say.entries()) {
-          chunk({ content: beat }, null);
-          // beat 之间留一拍，读起来才像人陆续发消息，而不是整段刷屏。
-          // 最后一条不等，避免白白拖长首字到收尾的时间。
+          chunk({ content: index === 0 ? beat : `\n${beat}` }, null);
+          // beat 之间留一拍，让它像被陆续敲出来，而不是整段瞬间刷屏。
+          // 最后一条不等，避免白白拖长收尾。
           if (index < normalized.say.length - 1) await new Promise((r) => setTimeout(r, BEAT_GAP_MS));
         }
         chunk({}, "stop");
