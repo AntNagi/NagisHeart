@@ -14,9 +14,10 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:core": "vitest run packages/core",
-    "eval": "tsx --env-file-if-exists=.env evals/run.ts",
-    "bake:canon": "tsx --env-file-if-exists=.env scripts/bake-canon.ts",
-    "dev": "tsx watch --env-file-if-exists=.env packages/server/src/index.ts"
+    "check": "tsx --use-env-proxy --env-file-if-exists=.env scripts/check-provider.ts",
+    "eval": "tsx --use-env-proxy --env-file-if-exists=.env evals/run.ts",
+    "bake:canon": "tsx --use-env-proxy --env-file-if-exists=.env scripts/bake-canon.ts",
+    "dev": "tsx watch --use-env-proxy --env-file-if-exists=.env packages/server/src/index.ts"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

@@ -21,6 +21,18 @@ llm:
       # 各家差异由 Adapter 内部吸收，业务不感知（V4 §10）
       extraHeaders: {}
 
+    # ── 调试档：Gemini 免费额度 ────────────────────────────────────
+    # 用途：**开发期零成本调试**，不改变 NRH-20260820-019「国产模型优先」的首发选型。
+    # Google 提供 OpenAI 兼容端点，故本仓库的 OpenAICompatibleProvider 无需改代码。
+    # ⚠ 需要代理：Node 的 fetch 不读 HTTP(S)_PROXY，已在 package.json 脚本加
+    #    --use-env-proxy（Node 内置，零依赖）。curl 能通不代表 Node 能通。
+    google_gemini:
+      endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+      models:
+        main: gemini-2.5-flash
+        aux: gemini-2.5-flash-lite
+      extraHeaders: {}
+
     # 保留配置位，不在首版实现（V4 §10「不在跑通前并行开发」）
     anthropic:
       endpoint: https://api.anthropic.com/v1
