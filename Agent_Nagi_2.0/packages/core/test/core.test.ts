@@ -184,7 +184,8 @@ describe("输出归一：把各家模型的排版差异吸收掉", () => {
     // 实测原文（gemini-flash-lite-latest，2026-08-22）。
     // 直接渲染会得到一坨带空行的文字，Ant 的原话是「这不像对话」。
     const result = normalizeOutput("……\n\n乌冬面。\n\n你做。\n汤咸一点。");
-    expect(result.say).toEqual(["……", "乌冬面。", "你做。", "汤咸一点。"]);
+    // 领头的「……」并进下一句：它单独成行就是个空洞，读起来像卡顿不像停顿。
+    expect(result.say).toEqual(["……乌冬面。", "你做。", "汤咸一点。"]);
     expect(result.act).toEqual([]);
   });
 
@@ -242,5 +243,29 @@ describe("说话人标签必须剥掉（气泡已标明说话人）", () => {
   it("正文里出现「凪」但不是标签时不误剥", () => {
     const result = normalizeOutput("凪不想动。");
     expect(result.say).toEqual(["凪不想动。"]);
+  });
+});
+
+describe("孤立的省略号并进相邻 beat", () => {
+  it("首尾的孤立省略号不单独成行", () => {
+    // 实测界面：「……」独占一行、中间一句、又一个「……」独占一行，
+    // 读起来像卡顿不像停顿。
+    const result = normalizeOutput("……\n靠过来一点。\n……");
+    expect(result.say).toEqual(["……靠过来一点。……"]);
+  });
+
+  it("省略号往后并——它通常是下一句的起头", () => {
+    // output_guard 的降级模板第一句就是「……好麻烦。」，这个形态必须保住。
+    const result = normalizeOutput("……\n好麻烦。");
+    expect(result.say).toEqual(["……好麻烦。"]);
+  });
+
+  it("整条只有省略号时原样保留，不返回空", () => {
+    expect(normalizeOutput("……").say).toEqual(["……"]);
+  });
+
+  it("有实质内容的 beat 不受影响", () => {
+    const result = normalizeOutput("随便。\n你决定。");
+    expect(result.say).toEqual(["随便。", "你决定。"]);
   });
 });
