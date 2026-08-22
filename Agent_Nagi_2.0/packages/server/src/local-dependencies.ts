@@ -162,6 +162,20 @@ const relationshipConfig = loadRelationshipConfig();
 const seedRelationship = resolveSeedRelationship(relationshipConfig, isCanonReady(canonMemories));
 const domainStore = createDomainBackend(seedRelationship);
 
+/**
+ * 关闭底层存储，释放 SQLite 文件句柄。
+ *
+ * Windows 上句柄没关就删库文件会 EPERM——Eval 跑完清理临时库时必踩
+ * （与 sqlite-persistence.test.ts 那条长期失败的测试同一个成因）。
+ * 长驻服务端不需要调用它；一次性脚本跑完必须调。
+ */
+export function closeLocalStores(): void {
+  for (const candidate of [memoryStore, domainStore] as unknown[]) {
+    const closable = candidate as { close?: () => void };
+    if (typeof closable.close === "function") closable.close();
+  }
+}
+
 export function getLocalDomainState(userId: string) {
   return {
     relationship: domainStore.loadRelationship(userId),
