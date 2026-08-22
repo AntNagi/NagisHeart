@@ -11,9 +11,7 @@
 > 开工加一行，收工删掉。**这是最轻的锁，不是任务板。**
 > 格式：`- [发起方] 在改什么 — 起始时间`
 
-- [Claude] F24 live 记忆持久化：给 MemoryStore 写 SQLite 实现 — 2026-08-22 16:10
 
-- [Claude] canon 内容烘焙（原定 8/26，Ant 提前指派）。改 scripts/bake-canon.ts 与 resources/world/events/ — 2026-08-22 15:30
 
 
 
