@@ -165,3 +165,95 @@ plain Enter 就不再触发发送。代价是改变输入习惯。
    （`shouldSubmit` 要求 `e.ctrlKey`，选词的 Enter 不带 ctrl）
 2. 若仍要修补丁：120ms 窗口是拍的，不同输入法的事件间隔不同，可加到 300ms 再试
 3. 或换个客户端——本条属于 NextChat 自身缺陷，不是 Nagi 服务端问题
+
+---
+
+## 选型改判（2026-08-22 晚，取代上方「选定：NextChat」）
+
+NextChat 的中文输入法问题未能修复（Ant：「一点作用都没有，感觉你控制不了前端代码」），
+工作暂停。Ant 改选 **Chatbox**，并明确要用源码、要自己改。
+
+### 选定：Chatbox Community Edition
+
+- 项目：[chatboxai/chatbox](https://github.com/chatboxai/chatbox)
+- **锁定 commit：`348d3875c1bffa3899539e61fa960d6ccb3ccafb`**（2026-08-14）
+- 许可证：**GPL-3.0**（已核 LICENSE 首行）。自用不触发分发义务；
+  **若日后分发修改版，必须以 GPL-3.0 公开源码**
+- 平台：Windows / macOS / Linux 桌面 + iOS / Android 原生 + Web
+- 七条筛选标准（§11.1）**全满足**
+
+### ⚠ 克隆位置改为 `D:\nagi-frontend\chatbox`（不再放 `D:\Nagi's Heart\_frontend\`）
+
+**原因：路径里的撇号会让 Chatbox 根本无法启动。**
+
+TanStack Router 的代码分割插件生成 import 语句时用单引号包路径：
+
+```
+import('D:/Nagi's Heart/_frontend/chatbox/src/renderer/routes/about.tsx')
+                 ^ 撇号提前终止字符串
+```
+
+每个路由文件都报 `Unexpected token, expected ","`。NextChat 没这问题是因为
+Next.js 不用这套代码生成——**旧约定对 Chatbox 不成立**。搬走后报错归零。
+
+### 已知安装问题
+
+- **Node 版本**：Chatbox 声明 `engines.node >=22.13.0 <23.0.0`，且 `.npmrc` 里
+  `engine-strict=true`。本机是 Node 24，需 `pnpm install --config.engine-strict=false`。
+  纯 web 开发下实测无碍；**要打包桌面版时应改用 Node 22**（原生模块 ABI 需与 Electron 对齐）。
+- **Electron 二进制下载失败**（走代理拉 GitHub release 断流）。
+  纯 web 模式用不到，不影响开发。
+
+### 起法（纯 web，秒级热更新）
+
+```bash
+cd /d/nagi-frontend/chatbox && npx vite --config vite.config.web.ts
+```
+
+访问 `http://localhost:1212`。**不要用 `pnpm dev`**——那会走 Electron，需要上面那个下不来的二进制。
+
+### 接入配置（已实测通过）
+
+引导页是首次运行门禁（`onboardingStore.completed` + `settingActions.needEditSetting()`）。
+设置存在 IndexedDB `chatboxstore` / `keyvaluepairs` / `settings`（JSON 字符串）。
+
+自定义 provider 形状：
+
+```js
+settings.customProviders = [{ id: 'nagi', name: 'Nagi Runtime', type: 'openai', isCustom: true }]
+settings.providers['nagi'] = {
+  apiKey: '<NAGI_AUTH_TOKEN>',
+  apiHost: 'http://127.0.0.1:8787',      // 不带 /v1，Chatbox 自己拼
+  models: [{ modelId: 'nagi', type: 'chat', apiStyle: 'openai', nickname: '凪 誠士郎', contextWindow: 20000 }],
+}
+settings.defaultChatModel = { provider: 'nagi', model: 'nagi' }
+```
+
+**API Key 栏填的是 `NAGI_AUTH_TOKEN`，不是模型 key**——配了服务端鉴权后
+Authorization 归鉴权用，模型 key 由服务端 `NAGI_DEV_LLM_KEY` 提供，
+客户端与手机上因此不存任何厂商凭证。
+
+### 实测结果（2026-08-22 23:xx）
+
+```
+GET  /v1/models          → 200 OK     （F34 补的端点，Chatbox 连上来第一件事就调它）
+OPTIONS /v1/chat/...     → 204        （CORS 预检）
+POST /v1/chat/completions → 200 OK
+```
+
+凪的回复（存进会话的原始形状）：
+
+```json
+{"role":"assistant","content":[{"type":"text","text":"……又问？\n不是说了在趴着。"}]}
+```
+
+**一条消息、内含 `\n` 分隔的两句**——这正是多气泡改造的输入。
+
+### 待改：多气泡（Ant 定「每句依次冒出来」）
+
+- 切口：`src/renderer/components/chat/Message.tsx` 的 `isBubbleLayout` 分支，
+  气泡是 `px-4 py-1 rounded-lg` + 背景色的 div，assistant 内容整段塞在里面
+- **不改** `message-render-items.ts`：其注释警告分组与 Virtuoso 滚动索引绑定，
+  拆列表项会让「滚动到某条消息」错位
+- **不需要队列或定时器**：服务端已按 beat 逐条推流（间隔 `BEAT_GAP_MS` 240ms），
+  按 `\n` 拆气泡后，内容本就是一段段到达，气泡会自然逐个出现
