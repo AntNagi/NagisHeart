@@ -82,6 +82,19 @@ try {
     roleStatus = "not_run_without_provider";
     console.error("⚠ 未配置 provider 或 key，角色 Eval 跳过（守卫 Eval 照常）");
   } else {
+    // 角色 Eval 可单独跳过（`NAGI_EVAL_ROLE=0`）。
+    //
+    // 为什么需要：校准只测**尺子**（aux 位打分器）对一组**预先写死**的台词的读数，
+    // 与角色 Eval 毫无依赖，却被嵌在它后面。想跑 15 次调用的校准，
+    // 就得先烧掉角色 Eval 的 ~90 次——免费额度下这是跑不完的。
+    //
+    // 另一个理由：main 位换成调试模型时（如豆包欠费期间临时用 Gemini），
+    // 角色 Eval 的分数**不代表实际配置**，跑了也不能信；而校准照样有效。
+    const skipRole = process.env.NAGI_EVAL_ROLE === "0";
+    if (skipRole) {
+      roleStatus = "skipped_by_env";
+      console.error("角色 Eval：已按 NAGI_EVAL_ROLE=0 跳过");
+    } else {
     roleStatus = "run";
     console.error(`角色 Eval：${roleCases.length} 条，走完整 graph（含记忆检索与守卫）…`);
     roleResults = await runRoleEval({
@@ -94,6 +107,7 @@ try {
       onProgress: (done, total, id) => progress(`${done}/${total} ${id}`, done, total),
     });
     endProgress();
+    }
 
     // 评分器校准：给尺子本身量一把尺子（F26）。
     // 额外 15 次调用，故默认不跑——`NAGI_EVAL_CALIBRATE=1` 开启。
