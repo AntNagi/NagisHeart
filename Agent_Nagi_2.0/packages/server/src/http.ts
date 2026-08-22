@@ -4,6 +4,7 @@ import { normalizeOutput } from "@nagi/core";
 import { createNagiGraph, createSqliteCheckpointer, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
 import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
+import { loadPresenceConfig, resolvePresence } from "./presence.js";
 
 const MAX_BODY_BYTES = 1_000_000;
 /**
@@ -226,6 +227,24 @@ export function createHttpServer() {
           // 下一步要执行的节点。中途失败时非空，正是它告诉你断在哪。
           next: snapshot.next ?? [],
         });
+        return;
+      }
+      // 「凪此刻在做什么」——客户端顶部那一行。
+      //
+      // 人格规则（断言了他的作息）必须由 resources/ 声明、服务端解析，
+      // 客户端只负责显示。写死在 App 里就等于把人格资料下发了（域 B 红线）。
+      if (request.method === "GET" && request.url?.startsWith("/api/presence")) {
+        const query = new URL(request.url, "http://localhost").searchParams;
+        const userId = query.get("userId") ?? "local-user";
+        // 取最近一轮的时间：他正在跟你说话时不该显示「睡着」。
+        const [latest] = getLocalHistory(userId, 1);
+        const lastTurnAt = latest?.createdAt ? new Date(latest.createdAt) : undefined;
+        const state = resolvePresence(
+          loadPresenceConfig(),
+          new Date(),
+          lastTurnAt && Number.isFinite(lastTurnAt.getTime()) ? lastTurnAt : undefined,
+        );
+        json(response, 200, state);
         return;
       }
       if (request.method === "GET" && request.url === "/api/health") {
