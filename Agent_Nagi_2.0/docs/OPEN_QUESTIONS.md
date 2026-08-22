@@ -864,3 +864,43 @@ V4 §14.1 第一阶段只要求「最小 Personality、Style Anchor、**Canon �
 账户级欠费。属 Ant 的账户与支付事项，worker 不代操作。
 在此之前所有需要模型的工作（角色 Eval、canon 烘焙、端到端实测）**无法进行**。
 不需要模型的工作（前端选型、代码、测试）不受影响。
+
+---
+
+## 2026-08-22 前端接入与协议补全（Claude，夜间自主）
+
+### F22 — 多用户部署下所有人会共用同一份记忆与关系 —— 【已验证，本地 Demo 不影响】
+
+OpenAI 协议里**没有 userId / threadId 概念**。现成客户端不发这两个字段，
+故 `http.ts` 回落到固定值 `local-user` / `local-thread`。
+
+本地单人 Demo 下这是对的；**多用户部署时所有使用者会落进同一个 namespace**，
+违反 V4 §11.2「每个用户独立 namespace、thread、Live Memory 与配额」。
+
+修法（部署前必须做）：从鉴权凭证派生 userId，而不是从请求体取。
+当前已优先采用 OpenAI 可选字段 `user`（部分客户端会填），但不能依赖它。
+
+### 本轮已修
+
+- **前端选型改判**：chatbox-lite 无许可证 → NextChat（MIT）。见 `NRH-20260822-0150`
+- **服务端补全 OpenAI 协议**三处（请求体 / 鉴权头 / SSE 格式），新增 4 条协议测试
+- **F15 关系初值接线**：新增 `packages/server/src/runtime-config.ts` 读取
+  `config/runtime.yaml`，`LocalDomainStore` 接受 seed 参数。
+  **并实现了 `NRH-20260821-1708` 的前提条件 `requiresCanonMemory`**——
+  canon 仍是骨架时不套用 85/70/25，而是明确告警后回落 0/0/0，
+  避免该裁决自己警告的「说得亲密却什么都想不起来」。
+
+### 本轮教训（环境类，记下免得重犯）
+
+1. **NextChat 端口漂移**：3000 被占时它静默换到 3001，日志里只有一行 `Local:`。
+   我据此打了半天旧实例。**每次重启后必须重读日志确认端口。**
+2. **`!!process.env.X` 陷阱**：`HIDE_USER_API_KEY=0` 会**启用**该开关（字符串 "0" 是 truthy）。
+   要关就整行删，不要赋 0。
+3. Windows 上端口残留反复出现，`pkill -f` 无效，须用
+   `Get-NetTCPConnection -LocalPort N | Stop-Process`。
+
+### 仍未做
+
+- **F14** `evals/run.ts` 角色 Eval 仍是硬编码桩
+- **F15b** 关系**变化**判据（什么行为加减多少）仍无权威规定，待 Ant 裁
+- **canon 内容**按 Ant 裁决推迟到第二阶段（8/26）。`bake-canon.ts` 的改进已提交可直接用

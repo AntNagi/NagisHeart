@@ -41,3 +41,71 @@ progress 事件对使用者不可见 —— 发出消息后会空白若干秒再
 - 安全边界：不得把 `resources/`、system prompt 或服务端源码复制到客户端
 
 固定 commit 尚未能从 GitHub 网络取回；接入前必须锁定具体 commit 并复核 LICENSE。
+
+---
+
+## 选型改判（2026-08-22，取代上方「选定：Chatbox Lite」）
+
+`lfbear/chatbox-lite` **无许可证**（GitHub API 实测 `license: null`，2 星），
+违反 §11.1 第一条，法律上不得 fork / 修改 / 部署。**已否决**，详见 `NRH-20260822-0150`。
+
+### 选定：NextChat
+
+- 项目：[ChatGPTNextWeb/NextChat](https://github.com/ChatGPTNextWeb/NextChat)
+- 许可证：**MIT**（已核 LICENSE 首行）
+- 规模：88,640 星，最后推送 2026-08-11
+- 克隆位置：**仓库之外** `D:\Nagi's Heart\_frontend\NextChat`
+  —— 只做配置接入，不维护 fork（§11.1 第六条），前端代码不进本仓库
+
+### 起法
+
+```bash
+# 1. Nagi 服务端（仓库内）
+cd Agent_Nagi_2.0 && pnpm run dev          # → http://127.0.0.1:8787
+
+# 2. NextChat（仓库外）
+cd "D:\Nagi's Heart\_frontend\NextChat" && corepack yarn dev   # → http://127.0.0.1:3000
+```
+
+浏览器开 `http://127.0.0.1:3000`，在设置里填 API Key（火山方舟的 key），即可对话。
+Base URL 已由 `.env.local` 的 `BASE_URL` 指到 Nagi，使用者无需填。
+
+### `.env.local` 配置（该文件在 NextChat 目录下，不进本仓库）
+
+```ini
+BASE_URL=http://127.0.0.1:8787
+OPENAI_API_KEY=            # 留空 —— BYOK，由使用者在界面填
+CUSTOM_MODELS=-all,+nagi
+DEFAULT_MODEL=nagi
+```
+
+⚠ **不要写 `HIDE_USER_API_KEY=0`**。NextChat 读它用的是 `!!process.env.X`，
+字符串 `"0"` 是 truthy，反而会**禁用 BYOK**，表现为
+`you are not allowed to access with your own api key`。要允许 BYOK 就**整行删掉**。
+
+### 为此对服务端做的改造（`NRH-20260822-0150`）
+
+端点路径与响应本就是 OpenAI 形状，但**请求与鉴权不是**，任何现成客户端接上都会失败。
+已补三处：
+
+| | 改前 | 改后 |
+|---|---|---|
+| 请求体 | 只认 `{message}` | 同时认 OpenAI `{messages:[...]}`，取最后一条 user |
+| LLM key | 只认 `x-llm-key` | 未配服务端鉴权时，`Authorization: Bearer` 也当 BYOK key |
+| SSE | `event: progress` / `event: message` | 标准无事件名 `data: {chunk}`；节点进度改走 `:` 注释行 |
+
+**只取最后一条 user 消息**：客户端会把整段历史发来，但 Nagi 自己维护 thread 与
+`conversationWindow`，采信客户端历史会让同一段对话在上下文里出现两次。
+
+### 实测结论（2026-08-22 03:12）
+
+```text
+[Proxy]  v1/chat/completions
+[Base Url] http://127.0.0.1:8787
+→ 12 节点走完，返回标准 OpenAI 响应，scene 正确识别为 football
+```
+
+⚠ **当前唯一阻塞：火山方舟账户欠费**（`AccountOverdueError` 403）。
+链路本身已验证畅通——用假 key 会拿到厂商的 `AuthenticationError`，
+用真 key 拿到 `AccountOverdueError`，两者都证明请求穿透到了厂商。
+**充值后即可正常对话，无需再改任何代码。**

@@ -11,6 +11,8 @@
 > 开工加一行，收工删掉。**这是最轻的锁，不是任务板。**
 > 格式：`- [发起方] 在改什么 — 起始时间`
 
+- [Claude] 前端选型改判 + 服务端补全 OpenAI 协议 + 接 NextChat。Ant 授权夜间自主决策 — 2026-08-22 01:50
+
 
 
 
@@ -903,3 +905,63 @@ Canon 记忆中的亲密场景（如 `c4d 七夕之夜`）**按 V17 原文照实
 - `output_guard` 的输出守卫照常生效。记忆里有的内容，不代表凪会主动复述——
   说不说、怎么说，由人格与守卫决定，与记忆里存了什么是两件事
 - 资源正文永不下发客户端（域 B 红线）不受影响
+
+---
+
+## NRH-20260822-0150 — 前端选型改判：chatbox-lite 出局，改用 NextChat
+
+- 日期：2026-08-22
+- 决策人：**Claude 代定**（Ant 授权「遇到问题你自己做决策，不要等我」）
+- 状态：**已定**
+- 取代：`packages/integrations/chat-client/README.md` 中「选定：Chatbox Lite」一节
+
+### 改判理由：原选型违反 V4 §11.1 第一条
+
+`lfbear/chatbox-lite` 经 GitHub API 核实（2026-08-22）：
+
+```text
+许可证: 无（license: null）
+星标: 2 | Fork: 3 | 创建于 2026-06-09
+```
+
+**无许可证 = 默认保留所有权利**，法律上不得 fork、修改、部署。
+V4 §11.1 第一条「许可证允许部署和必要修改」**直接不满足**。
+且 2 星的新项目也不符合 D6「从 GitHub 选**成熟**项目」。
+
+原记录写着「固定 commit 尚未能从 GitHub 网络取回」——即当时**未能联网核实**。
+本次网络可达，核实后否决。
+
+### 候选对比（GitHub API 实测，2026-08-22）
+
+| 项目 | 星标 | 许可证 | 最后推送 | 判断 |
+|---|---|---|---|---|
+| **ChatGPTNextWeb/NextChat** | 88,640 | **MIT** | 2026-08-11 | **选定** |
+| lobehub/lobehub | 81,908 | NOASSERTION | 2026-08-21 | 许可证不明确，法务风险 |
+| chatboxai/chatbox | 41,510 | GPL-3.0 | 2026-08-14 | GPL 传染性，约束未来分发形态 |
+| open-webui/open-webui | 149,486 | NOASSERTION | 2026-08-20 | 含品牌条款；Python 后端，违反§11「不引重后端」 |
+| mckaywrigley/chatbot-ui | 33,339 | MIT | 2024-08-03 | **停滞两年**，违反第七条 |
+| lfbear/chatbox-lite | 2 | **无** | 2026-08-21 | 原选型，无许可证，否决 |
+
+### NextChat 对七条标准的逐条核对
+
+1. 许可证允许部署和修改 —— **MIT** ✅
+2. 自定义 OpenAI-compatible Base URL —— 设置项内可填 ✅
+3. 流式 + BYOK —— 支持 SSE，key 存客户端本地 ✅
+4. 移动端可用 —— 响应式 + PWA ✅
+5. 无需把 resources / system prompt 打进前端 —— 纯客户端，只调 API ✅
+6. 可纯配置接入，免长期 fork —— Base URL + Key 在设置里填 ✅
+7. 仍有维护 —— 11 天前推送 ✅
+
+### 连带发现：服务端并非真正 OpenAI-compatible（阻塞项，本次一并修）
+
+`/v1/chat/completions` **路径与响应是 OpenAI 形状，但请求与鉴权不是**：
+
+| | 现状 | 标准客户端发的 |
+|---|---|---|
+| 请求体 | `{message, userId, threadId, requestId}` | `{model, messages:[{role,content}]}` |
+| LLM key | 自定义头 `x-llm-key` | `Authorization: Bearer <key>` |
+| SSE | 自定义 `event: progress` / `event: message` | 无事件名的 `data: {chunk}` 行 |
+
+⇒ **任何现成客户端接上都会失败**，与选哪个客户端无关。
+Ant 的原话「逻辑上任何一个聊天 app 都能满足」成立的前提，正是服务端说标准协议。
+故本次先补协议，再接客户端。
