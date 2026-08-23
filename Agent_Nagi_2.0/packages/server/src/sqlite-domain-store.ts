@@ -27,6 +27,14 @@ export class SqliteDomainStore implements DomainStore {
         stage TEXT,
         live_memory_count INTEGER NOT NULL DEFAULT 0
       );
+      CREATE TABLE IF NOT EXISTS user_profiles (
+        user_id TEXT PRIMARY KEY,
+        player_name TEXT NOT NULL,
+        nagi_name TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      );
+    `);
+    this.db.exec(`
       CREATE TABLE IF NOT EXISTS player_overlays (
         user_id TEXT PRIMARY KEY,
         text TEXT NOT NULL,
@@ -93,6 +101,25 @@ export class SqliteDomainStore implements DomainStore {
    * 与关系数值的性质完全不同——一个是系统算出来的，一个是人写的。
    * 混在一起，将来导出/迁移时会分不清哪些该带走、哪些该重算。
    */
+  /**
+   * 称呼。`playerName` 会替换资源与记忆里的 `{{playerName}}` 占位符。
+   *
+   * 默认 "Ant" 与 VN（`GameViewModel.kt:179`）一致——不另造一套默认值，
+   * 否则同一个人在 VN 里叫 Ant、在 App 里叫别的。
+   */
+  public loadProfile(userId: string): { playerName: string; nagiName: string } {
+    const row = this.db
+      .prepare("SELECT player_name, nagi_name FROM user_profiles WHERE user_id = ?")
+      .get(userId) as { player_name: string; nagi_name: string } | undefined;
+    return { playerName: row?.player_name || "Ant", nagiName: row?.nagi_name || "凪" };
+  }
+
+  public saveProfile(userId: string, playerName: string, nagiName: string): void {
+    this.db
+      .prepare("INSERT OR REPLACE INTO user_profiles (user_id, player_name, nagi_name, updated_at) VALUES (?, ?, ?, ?)")
+      .run(userId, playerName.trim() || "Ant", nagiName.trim() || "凪", new Date().toISOString());
+  }
+
   public loadPlayerOverlay(userId: string): string {
     const row = this.db
       .prepare("SELECT text FROM player_overlays WHERE user_id = ?")

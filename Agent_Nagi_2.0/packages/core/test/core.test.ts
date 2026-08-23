@@ -435,3 +435,37 @@ describe("玩家层（player_overlay）", () => {
     expect(kinds).not.toContain("player_overlay");
   });
 });
+
+describe("称呼替换（{{playerName}} / {{nagiName}}）", () => {
+  const base = {
+    scene: "daily" as const,
+    relationship: { trust: 50, intimacy: 50, friction: 20 },
+    resources: [
+      { id: "canon.home", kind: "canon" as const, priority: 90, tokenBudget: 60,
+        text: "{{playerName}}买下了新的花园别墅，凪与{{playerName}}住在一起。" },
+    ],
+    memories: [],
+    recentTurns: [],
+    maxTokens: 20_000,
+  };
+
+  it("替换成真实称呼", () => {
+    // 接线之前 resources/ 里有 407 处 {{playerName}}、代码里零处替换——
+    // 凪的上下文里字面写着占位符，整条剧情线都在用它指代使用者。
+    const r = buildContext({ ...base, names: { playerName: "Ant", nagiName: "凪" } });
+    expect(r.rendered).toContain("Ant买下了新的花园别墅");
+    expect(r.rendered).not.toContain("{{playerName}}");
+  });
+
+  it("不提供 names 就不替换——占位符原样留着", () => {
+    // 这条锁的是"沉默失败"：忘了传 names 时必须能被测出来，
+    // 而不是悄悄渲染出一段带占位符的上下文。
+    const r = buildContext(base);
+    expect(r.rendered).toContain("{{playerName}}");
+  });
+
+  it("同一段里的多处占位符全部替换", () => {
+    const r = buildContext({ ...base, names: { playerName: "阿茶", nagiName: "小凪" } });
+    expect([...r.rendered.matchAll(/阿茶/gu)].length).toBe(2);
+  });
+});

@@ -89,6 +89,14 @@ export interface ContextBuildInput {
    * 声明它是"使用者补充的事实"而非人格定义——见 `builder.ts` 的 `playerOverlayBlock`。
    */
   readonly playerOverlay?: string;
+  /**
+   * 称呼。用于替换资源与记忆里的 `{{playerName}}` / `{{nagiName}}` 占位符。
+   *
+   * ⚠ **不提供就不替换**，凪会在上下文里看到字面的 `{{playerName}}`——
+   * 这正是接线之前的状态：`resources/` 里有 407 处占位符（canon 记忆最多），
+   * 而代码里一处替换都没有。
+   */
+  readonly names?: { readonly playerName: string; readonly nagiName: string };
 }
 
 export interface ContextBlock {

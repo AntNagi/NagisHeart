@@ -87,8 +87,33 @@ function compareBlocks(left: ContextBlock, right: ContextBlock): number {
   return kindDelta || right.priority - left.priority || left.id.localeCompare(right.id);
 }
 
-function render(blocks: readonly ContextBlock[]): string {
-  return blocks.map((block) => `<${block.kind} id="${block.id}">\n${block.text}\n</${block.kind}>`).join("\n\n");
+/**
+ * 替换称呼占位符。
+ *
+ * ## 为什么必须有
+ *
+ * `resources/` 里有 **407 处 `{{playerName}}`**（canon 记忆最多），
+ * 而接线之前**代码里一处替换都没有**——凪的上下文里字面写着 `{{playerName}}`。
+ * 那不只是"出戏"，是**整条剧情线都在用一个占位符指代使用者**。
+ *
+ * ## 为什么在渲染时替换，而不是写库时
+ *
+ * 记忆和资源里存**占位符**，读的时候才换成名字。这样改名是**追溯生效**的：
+ * 改完之后，连三个月前那条记忆里的称呼也跟着变。
+ * 反过来（写库时就固定成名字）会让改名只对新记忆有效，
+ * 旧记忆永远停在旧名字上——那才是真正的出戏。
+ */
+function substituteNames(text: string, names: ContextBuildInput["names"]): string {
+  if (!names) return text;
+  return text
+    .replaceAll("{{playerName}}", names.playerName)
+    .replaceAll("{{nagiName}}", names.nagiName);
+}
+
+function render(blocks: readonly ContextBlock[], names: ContextBuildInput["names"]): string {
+  return blocks
+    .map((block) => `<${block.kind} id="${block.id}">\n${substituteNames(block.text, names)}\n</${block.kind}>`)
+    .join("\n\n");
 }
 
 /** 玩家层的字数上限。超出即截断——见 `playerOverlayBlock` 的说明。 */
@@ -164,5 +189,5 @@ export function buildContext(input: ContextBuildInput): ContextBuildResult {
     }
   }
   const ordered = kept.sort(compareBlocks);
-  return { blocks: ordered, droppedBlockIds: dropped, estimatedTokens, rendered: render(ordered) };
+  return { blocks: ordered, droppedBlockIds: dropped, estimatedTokens, rendered: render(ordered, input.names) };
 }

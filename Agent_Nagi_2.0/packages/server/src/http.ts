@@ -2,9 +2,26 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { normalizeOutput } from "@nagi/core";
 import { createNagiGraph, createSqliteCheckpointer, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
-import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, getLocalMemories, getPlayerOverlay, setPlayerOverlay, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
+import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, getLocalMemories, getPlayerOverlay, setPlayerOverlay, getProfile, setProfile, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
 import { loadPresenceConfig, resolvePresence } from "./presence.js";
+
+/**
+ * 记忆正文的显示/装配渲染。
+ *
+ * 除了替换占位符，还要兜底**旧数据**：抽取提示词改成写 `{{playerName}}` 之前，
+ * 抽出来的记忆里是字面的「使用者」——那是客服口吻，凪读到会出戏，
+ * 而占位符替换对它无效。
+ *
+ * 只替换**词首/独立出现**的那几个词，不做全局粗暴替换：
+ * 「使用者体验」这类词里的「使用者」不该被换掉。
+ */
+function renderMemoryText(text: string, playerName: string, nagiName: string): string {
+  return text
+    .replaceAll("{{playerName}}", playerName)
+    .replaceAll("{{nagiName}}", nagiName)
+    .replace(/(^|[，。；、「（s])(使用者|用户)(?![体验界面画面])/gu, `$1${playerName}`);
+}
 
 const MAX_BODY_BYTES = 1_000_000;
 /**
@@ -244,15 +261,42 @@ export function createHttpServer() {
         const userId = query.get("userId") ?? "local-user";
         const parsedLimit = Number(query.get("limit") ?? "50");
         const limit = Number.isFinite(parsedLimit) ? Math.max(1, Math.min(200, Math.floor(parsedLimit))) : 50;
+        // 这里也要替换占位符——否则「他记得的事」页面会显示字面的 {{playerName}}，
+        // 使用者看到的是我们的实现细节，不是他自己的名字。
+        const { playerName, nagiName } = getProfile(userId);
         const memories = getLocalMemories(userId, limit).map((record) => ({
           id: record.id,
-          text: record.text,
+          text: renderMemoryText(record.text, playerName, nagiName),
           createdAt: record.createdAt,
           salience: record.salience,
           confidence: record.confidence,
         }));
         json(response, 200, { memories });
         return;
+      }
+      // 称呼：玩家昵称 + 对凪的昵称。
+      //
+      // 替换发生在**渲染时**而非写库时，所以改名是追溯生效的——
+      // 改完之后连三个月前那条记忆里的称呼也跟着变。
+      if (request.url?.startsWith("/api/profile")) {
+        const query = new URL(request.url, "http://localhost").searchParams;
+        const userId = query.get("userId") ?? "local-user";
+        if (request.method === "GET") {
+          json(response, 200, getProfile(userId));
+          return;
+        }
+        if (request.method === "POST") {
+          const body = await readJson(request) as { playerName?: unknown; nagiName?: unknown };
+          const playerName = typeof body.playerName === "string" ? body.playerName : "";
+          const nagiName = typeof body.nagiName === "string" ? body.nagiName : "";
+          if ([...playerName].length > 20 || [...nagiName].length > 20) {
+            json(response, 400, { error: { message: "name too long: max 20 chars" } });
+            return;
+          }
+          setProfile(userId, playerName, nagiName);
+          json(response, 200, getProfile(userId));
+          return;
+        }
       }
       // 玩家层：使用者自己叠加的设定（称呼、共同经历之类）。
       //

@@ -39,7 +39,14 @@ const MEMORY_EXTRACTION_PROMPT = `你是信息抽取器，不是聊天助手。
 - 只抽使用者**明确说出**的内容，不要推断、不要脑补
 - 寒暄、语气词、闲聊、对天气的评论 —— 一律不抽，返回空数组
 - 每条事实写成简短的第三人称陈述
+- **指代对方时一律写 \`{{playerName}}\`，不要写「使用者」「用户」「对方」**
+  —— 那是渲染时会被替换成真实称呼的占位符。写死「使用者」会让凪读到
+  一个客服式的第三人称词，出戏
 - salience 表示重要程度：0.9 长期身份信息，0.7 计划与偏好，0.5 一次性小事
+
+例：
+  输入「我今天换了新工作，在一家游戏公司做策划」
+  输出 {"facts":[{"text":"{{playerName}}在一家游戏公司做策划","salience":0.9}]}
 
 只输出 JSON，不要解释，不要 markdown 代码块：
 {"facts":[{"text":"简短事实","salience":0.7}]}`;
@@ -116,6 +123,8 @@ const { store: memoryStore, liveCount: liveMemoryCountFromStore, rebuild: vector
 const memoryEngine = new MemoryEngine(memoryStore);
 type DomainBackend = {
   loadRelationship: LocalDomainStore["loadRelationship"];
+  loadProfile: LocalDomainStore["loadProfile"];
+  saveProfile: LocalDomainStore["saveProfile"];
   loadPlayerOverlay: LocalDomainStore["loadPlayerOverlay"];
   savePlayerOverlay: LocalDomainStore["savePlayerOverlay"];
   commitTurn: LocalDomainStore["commitTurn"];
@@ -262,6 +271,15 @@ export function getLocalMemories(userId: string, limit = 50) {
 }
 
 /** 玩家层的读写。给 /api/player-overlay 用。 */
+/** 称呼的读写。给 /api/profile 用。 */
+export function getProfile(userId: string) {
+  return domainStore.loadProfile(userId);
+}
+
+export function setProfile(userId: string, playerName: string, nagiName: string): void {
+  domainStore.saveProfile(userId, playerName, nagiName);
+}
+
 export function getPlayerOverlay(userId: string): string {
   return domainStore.loadPlayerOverlay(userId);
 }
@@ -368,6 +386,9 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
         relationship: domain.relationship,
         // 玩家层。空的话 buildContext 不会产生块——见 builder.ts 的 playerOverlayBlock。
         playerOverlay: domainStore.loadPlayerOverlay(domain.session.userId),
+        // 称呼替换。不传的话凪会在上下文里看到字面的 {{playerName}}——
+        // resources/ 里有 407 处占位符，接线之前一处都没被替换过。
+        names: domainStore.loadProfile(domain.session.userId),
         resources,
         memories,
         recentTurns,
