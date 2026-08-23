@@ -1271,3 +1271,25 @@ NAGI_HOST=0.0.0.0 node --use-env-proxy --env-file-if-exists=.env --import tsx pa
 ⚠ 当前 main 位是 `gemini-3.1-flash-lite`（调试替身，**不是**选定的角色模型豆包）。
 免费额度按具体模型分别计，**非 lite 的 flash 每天只有 20 次**，撞 429 时换一个
 lite 模型即可续命，不必等第二天。人格效果不以当前模型为准。
+
+---
+
+## NRH-20260823-026 — Chatbox Android 入口层已落地并通过模拟器验收
+
+**状态**：已完成（Codex，2026-08-23 15:35 +08:00）
+
+客户端提交：`e84816c`（`feat(android): add Nagi companion home`）。
+
+- 改造仅对 `mobile_app + android` 生效；PC / Electron 的 `/` 仍保持原聊天页。
+- Android `/` 现在是薄入口主页，侧栏隐藏；「和凪说话」进入 `/chat`，「他记得的事」进入顶层 `/memories`。
+- 原聊天实现整体迁到 `/chat`，并同步修正 14 处回到聊天首页的路由引用；没有改服务端和聊天组件内部逻辑。
+- 记忆内容抽成共享组件，顶层 `/memories` 与旧 `/settings/memories` 复用；设置列表不再展示记忆入口。
+- Capacitor 增加 Android `backButton` 语义：`/chat`、`/session/*` 回入口页；二级页优先回退；入口页再按才退出。
+
+**验证证据**：
+
+- Android 返回动作单测：4/4 通过。
+- TypeScript `tsc --noEmit` 与 Biome 定向检查通过。
+- Android debug APK：Gradle `assembleDebug` 成功。
+- Pixel 9a 模拟器实测：冷启动进入入口页；入口页无侧栏；聊天 → 系统返回键 → 入口页；记忆页 → 系统返回键 → 入口页，均通过。
+- 模拟器未配置 Nagi 服务地址，因此记忆页显示「还没配好服务地址」；这是测试环境配置状态，不影响本条路由与返回链验收。
