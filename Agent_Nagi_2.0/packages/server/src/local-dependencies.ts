@@ -116,6 +116,8 @@ const { store: memoryStore, liveCount: liveMemoryCountFromStore, rebuild: vector
 const memoryEngine = new MemoryEngine(memoryStore);
 type DomainBackend = {
   loadRelationship: LocalDomainStore["loadRelationship"];
+  loadPlayerOverlay: LocalDomainStore["loadPlayerOverlay"];
+  savePlayerOverlay: LocalDomainStore["savePlayerOverlay"];
   commitTurn: LocalDomainStore["commitTurn"];
   listTurns: LocalDomainStore["listTurns"];
   liveMemoryCount(userId: string): number;
@@ -259,6 +261,15 @@ export function getLocalMemories(userId: string, limit = 50) {
   return memoryBrowse?.listLive(userId, limit) ?? [];
 }
 
+/** 玩家层的读写。给 /api/player-overlay 用。 */
+export function getPlayerOverlay(userId: string): string {
+  return domainStore.loadPlayerOverlay(userId);
+}
+
+export function setPlayerOverlay(userId: string, text: string): void {
+  domainStore.savePlayerOverlay(userId, text);
+}
+
 export function getLocalHistory(userId: string, limit = 50) {
   return domainStore.listTurns(userId, limit);
 }
@@ -355,6 +366,8 @@ export function createLocalDependencies(provider?: ChatProvider, requestApiKey?:
       return buildContext({
         scene,
         relationship: domain.relationship,
+        // 玩家层。空的话 buildContext 不会产生块——见 builder.ts 的 playerOverlayBlock。
+        playerOverlay: domainStore.loadPlayerOverlay(domain.session.userId),
         resources,
         memories,
         recentTurns,

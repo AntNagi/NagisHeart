@@ -27,6 +27,13 @@ export class SqliteDomainStore implements DomainStore {
         stage TEXT,
         live_memory_count INTEGER NOT NULL DEFAULT 0
       );
+      CREATE TABLE IF NOT EXISTS player_overlays (
+        user_id TEXT PRIMARY KEY,
+        text TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+      );
+    `);
+    this.db.exec(`
       CREATE TABLE IF NOT EXISTS domain_turns (
         request_id TEXT PRIMARY KEY,
         user_id TEXT NOT NULL,
@@ -77,6 +84,33 @@ export class SqliteDomainStore implements DomainStore {
     const relationship = this.loadRelationship(userId);
     const row = this.db.prepare("SELECT live_memory_count FROM user_relationships WHERE user_id = ?").get(userId) as { live_memory_count: number };
     return { schemaVersion: 1, userId, relationship, liveMemoryCount: row.live_memory_count, turns: this.listTurns(userId, 100) };
+  }
+
+  /**
+   * 玩家层：使用者自己写的叠加设定。
+   *
+   * 单独一张表而不是塞进 user_relationships：它是使用者输入的自由文本，
+   * 与关系数值的性质完全不同——一个是系统算出来的，一个是人写的。
+   * 混在一起，将来导出/迁移时会分不清哪些该带走、哪些该重算。
+   */
+  public loadPlayerOverlay(userId: string): string {
+    const row = this.db
+      .prepare("SELECT text FROM player_overlays WHERE user_id = ?")
+      .get(userId) as { text: string } | undefined;
+    return row?.text ?? "";
+  }
+
+  public savePlayerOverlay(userId: string, text: string): void {
+    const trimmed = text.trim();
+    if (!trimmed) {
+      // 清空即删除，不留空行——否则 loadPlayerOverlay 返回空串与"从未设置过"
+      // 无法区分，导出时还会多带一条无意义的记录。
+      this.db.prepare("DELETE FROM player_overlays WHERE user_id = ?").run(userId);
+      return;
+    }
+    this.db
+      .prepare("INSERT OR REPLACE INTO player_overlays (user_id, text, updated_at) VALUES (?, ?, ?)")
+      .run(userId, trimmed, new Date().toISOString());
   }
 
   public liveMemoryCount(userId: string): number {

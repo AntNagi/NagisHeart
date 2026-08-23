@@ -2,7 +2,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { normalizeOutput } from "@nagi/core";
 import { createNagiGraph, createSqliteCheckpointer, emptyState, streamNagiGraph, type NagiGraphState } from "@nagi/runtime-langgraph";
-import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, getLocalMemories, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
+import { createLocalDependencies, exportLocalDomain, getLocalDomainState, getLocalHistory, getLocalMemories, getPlayerOverlay, setPlayerOverlay, importLocalDomain, maxBeatsPerReply } from "./local-dependencies.js";
 import { createProviderFromEnvironment } from "./provider-config.js";
 import { loadPresenceConfig, resolvePresence } from "./presence.js";
 
@@ -253,6 +253,36 @@ export function createHttpServer() {
         }));
         json(response, 200, { memories });
         return;
+      }
+      // 玩家层：使用者自己叠加的设定（称呼、共同经历之类）。
+      //
+      // **不走 OpenAI 的 system 字段**。那个字段会跟对话历史混在一起，
+      // 而服务端的 lastUserMessage 只取最后一条 user 消息、丢弃其余——
+      // 客户端往 system 里写东西是进不来的（见 F38）。所以单开一个端点。
+      if (request.url?.startsWith("/api/player-overlay")) {
+        const query = new URL(request.url, "http://localhost").searchParams;
+        const userId = query.get("userId") ?? "local-user";
+        if (request.method === "GET") {
+          json(response, 200, { text: getPlayerOverlay(userId) });
+          return;
+        }
+        if (request.method === "POST") {
+          const body = await readJson(request) as { text?: unknown };
+          if (typeof body.text !== "string") {
+            json(response, 400, { error: { message: "text must be a string" } });
+            return;
+          }
+          // 上限与 builder.ts 的 PLAYER_OVERLAY_MAX_CHARS 对齐。
+          // 这里**不截断只拒绝**：写入是使用者的明确动作，悄悄截掉一半
+          // 比报错更糟——他会以为存下去了。装配时的截断是兜底，不是入口策略。
+          if ([...body.text].length > 400) {
+            json(response, 400, { error: { message: "too long: max 400 chars" } });
+            return;
+          }
+          setPlayerOverlay(userId, body.text);
+          json(response, 200, { text: getPlayerOverlay(userId) });
+          return;
+        }
       }
       // 「凪此刻在做什么」——客户端顶部那一行。
       //

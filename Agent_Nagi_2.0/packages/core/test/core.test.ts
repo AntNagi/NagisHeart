@@ -374,3 +374,64 @@ describe("Markdown 装饰符剥离（厂商格式差异兜底）", () => {
     expect(normalizeOutput("{{player_name}}。").say).toEqual(["{{player_name}}。"]);
   });
 });
+
+describe("玩家层（player_overlay）", () => {
+  const base = {
+    scene: "daily" as const,
+    relationship: { trust: 50, intimacy: 50, friction: 20 },
+    resources: [
+      { id: "core.personality", kind: "personality" as const, text: "低反应、懒、嫌麻烦。", priority: 99, tokenBudget: 40 },
+      { id: "policy.scene", kind: "policy" as const, text: "日常场景策略。", priority: 70, tokenBudget: 20 },
+      { id: "core.recap", kind: "recap" as const, text: "你是凪。", priority: 98, tokenBudget: 20, position: "tail" as const },
+    ],
+    memories: [],
+    recentTurns: [],
+    maxTokens: 20_000,
+  };
+
+  it("排在人格与 policy 之后、memory 之前", () => {
+    // 这是整个设计的核心。排错了后果很具体：
+    // 排到人格前 → 玩家一句话盖过整个 Bible；排到 memory 后 → 挤掉真实记忆。
+    const result = buildContext({ ...base, playerOverlay: "他叫我阿茶。" });
+    const kinds = result.blocks.map((block) => block.kind);
+    expect(kinds.indexOf("player_overlay")).toBeGreaterThan(kinds.indexOf("personality"));
+    expect(kinds.indexOf("player_overlay")).toBeGreaterThan(kinds.indexOf("policy"));
+    // recap 仍在最后兜底——玩家写了出格的东西，末尾重申人格还能拉回来。
+    expect(kinds[kinds.length - 1]).toBe("recap");
+  });
+
+  it("空 / 全空白 / 未提供都不产生块", () => {
+    // 塞一个空块会白占预算，还会让 trace 里出现看不懂的 player_overlay:1
+    for (const value of [undefined, "", "   ", "\n\t "]) {
+      const result = buildContext({ ...base, playerOverlay: value });
+      expect(result.blocks.some((block) => block.kind === "player_overlay")).toBe(false);
+    }
+  });
+
+  it("加了框，声明它不是人格定义", () => {
+    // 不加框直接塞进去，「凪很热情主动」会被当成人格执行。
+    // 框不是安全边界，只是把它放到「使用者说的」而非「你是谁」的位置。
+    const result = buildContext({ ...base, playerOverlay: "我们养了只猫。" });
+    const block = result.blocks.find((item) => item.kind === "player_overlay");
+    expect(block?.text).toContain("使用者补充的设定");
+    expect(block?.text).toContain("不改变你是谁");
+    expect(block?.text).toContain("我们养了只猫。");
+  });
+
+  it("超长截断而不是拒绝——但不能吃掉记忆的预算", () => {
+    const result = buildContext({ ...base, playerOverlay: "很".repeat(2000) });
+    const block = result.blocks.find((item) => item.kind === "player_overlay");
+    expect(block).toBeDefined();
+    // 400 字上限：玩家写超了不该报错打断他，但这块排在 memory 前面，
+    // 无节制会把真实记忆挤出去。
+    expect([...(block?.text ?? "")].filter((char) => char === "很").length).toBe(400);
+  });
+
+  it("预算紧张时先丢玩家层，不丢人格", () => {
+    // priority 80 低于人格类（90+）。V4 §9：超出预算按 priority 升序丢弃。
+    const result = buildContext({ ...base, playerOverlay: "他叫我阿茶。", maxTokens: 120 });
+    const kinds = result.blocks.map((block) => block.kind);
+    expect(kinds).toContain("personality");
+    expect(kinds).not.toContain("player_overlay");
+  });
+});

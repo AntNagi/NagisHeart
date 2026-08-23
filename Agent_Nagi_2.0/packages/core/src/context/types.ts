@@ -28,6 +28,16 @@ export const CONTEXT_BLOCK_KINDS = [
   "behavior_rule",
   "behavior",
   "policy",
+  /**
+   * 玩家层。使用者自己叠加的设定（称呼、共同经历之类）。
+   *
+   * 位置是刻意的——在 `policy` **之后**、`memory` **之前**：
+   *  - 在人格之后：底层人设是地基，玩家叠加是调味。放前面会让玩家一句话
+   *    盖过整个 Bible
+   *  - 在记忆之前：记忆是事实，不该被玩家设定挤掉预算
+   *  - `recap` 仍在最后兜底：玩家写了出格的东西，末尾重申人格还能拉回来
+   */
+  "player_overlay",
   "event",
   "memory",
   "conversation",
@@ -72,6 +82,13 @@ export interface ContextBuildInput {
   readonly recentTurns: readonly ConversationTurn[];
   readonly maxTokens: number;
   readonly activationContext?: ActivationContext;
+  /**
+   * 玩家层：使用者自己写的叠加设定。空或未提供时**不产生任何块**。
+   *
+   * ⚠ 这段文本**来自使用者**，不是我们写的资源。装配时会加一层框，
+   * 声明它是"使用者补充的事实"而非人格定义——见 `builder.ts` 的 `playerOverlayBlock`。
+   */
+  readonly playerOverlay?: string;
 }
 
 export interface ContextBlock {

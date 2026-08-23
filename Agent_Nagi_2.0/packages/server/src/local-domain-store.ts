@@ -30,6 +30,19 @@ export class LocalDomainStore implements DomainStore {
    */
   public constructor(private readonly seed: RelationshipState = { trust: 0, intimacy: 0, friction: 0 }) {}
 
+  private readonly playerOverlays = new Map<string, string>();
+
+  /** 与 SqliteDomainStore 同口径：清空即删除，不留空串。 */
+  public loadPlayerOverlay(userId: string): string {
+    return this.playerOverlays.get(userId) ?? "";
+  }
+
+  public savePlayerOverlay(userId: string, text: string): void {
+    const trimmed = text.trim();
+    if (trimmed) this.playerOverlays.set(userId, trimmed);
+    else this.playerOverlays.delete(userId);
+  }
+
   public loadRelationship(userId: string): RelationshipState {
     const existing = this.users.get(userId);
     if (existing) return existing.relationship;
