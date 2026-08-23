@@ -456,3 +456,103 @@ presence 少一行字无所谓；而「他什么都不记得」和「没连上�
   但**直接显示数值会很游戏化**，破坏沉浸感，需要先想清楚怎么表达
 - 时段跟着**使用者**作息走，而非假定标准作息（见 `presence.md` 的低把握登记）
 - 凪主动发起对话。V4 §14.4 明确后置，且需要推送能力
+
+---
+
+# Chatbox 配置清单（2026-08-23）
+
+> 本节是**可回查的参照表**。Chatbox 自带几十项个性化配置，按「对凪这个产品有没有用」
+> 分三类。改动一律走 `src/renderer/utils/feature-flags.ts` 的开关机制，**不删代码**
+> （理由见前文「功能裁剪」一节）。
+>
+> 界面来源：`src/renderer/routes/settings/chat.tsx`
+
+## 一、保留
+
+| 界面项 | store key | 为什么留 |
+|---|---|---|
+| 气泡布局 | `messageLayout` | **多气泡依赖它**（`nagi-beats.ts`） |
+| Show Avatar | `showAvatar` | 陪伴感 |
+| show message timestamp | `showMessageTimestamp` | 同上 |
+| Background Image / Opacity | `backgroundImageKey` / `backgroundImageOpacity` | 正好接已有的 `assets/bg/` |
+| User Avatar | `userAvatarKey` | |
+| Stream output | — | 两段流的前提 |
+| Spell Check | `spellCheck` | 无害 |
+
+**`Markdown Rendering`（`enableMarkdownRendering`）留但建议默认关**：
+凪的台词不该有 markdown，开着时模型偶尔吐出的 `*` `#` 会被渲染成样式。
+归一层已剥掉这些符号（`nagi-beats.ts`），关掉是双保险。
+
+## 二、该藏
+
+### A 组 · 概念冲突 —— **优先级最高**
+
+| 界面项 | store key |
+|---|---|
+| Auto Compaction | `autoCompaction` |
+| Compaction Threshold | `compactionThreshold` |
+| Context Management / Context | — |
+| Inject default metadata | `injectDefaultMetadata` |
+
+**上下文管理在服务端**（Context Builder 装配 13 类块）。客户端这几个开关调的是
+Chatbox 自己那套压缩逻辑，对我们**毫无作用**——用户以为调了上下文，其实什么也没调。
+
+`Inject default metadata`（往消息里塞模型名、当前日期）**更危险**：
+那些内容会混进发往服务端的消息，**污染凪看到的输入**。
+
+### B 组 · 通用 AI 助手功能
+
+| 界面项 | store key |
+|---|---|
+| Auto-Generate Chat Titles | `autoGenerateTitle` |
+| LaTeX Rendering | `enableLaTeXRendering` |
+| Mermaid Diagrams & Charts | `enableMermaidRendering` |
+| Auto-preview artifacts | `autoPreviewArtifacts` |
+| Auto-collapse code blocks | `autoCollapseCodeBlock` |
+| Paste long text as a file | `pasteLongTextAsAFile` |
+| Temperature | — |
+
+`Auto-Generate Chat Titles` 会**额外调一次模型**给对话起标题——烧额度，
+且标题是 AI 助手口吻。
+
+`Temperature` 该藏是因为**采样参数归服务端**：凪的表现是按特定设置标定的
+（`NRH-20260821-2037` 的 30 条对抗用例即在默认设置下跑出），客户端改了要么无效、
+要么破坏标定。
+
+### C 组 · 调试信息
+
+| 界面项 | store key |
+|---|---|
+| show model name | `showModelName` |
+| show first token latency | `showFirstTokenLatency` |
+| show message token count | `showTokenCount` |
+| show message token usage | `showTokenUsed` |
+| show message word count | `showWordCount` |
+| Cost | — |
+
+⚠ **这组开发时有用**。建议挂在一个开关下（可复用 `nagiDevTools`）统一开关，
+而不是硬藏——排查问题时还要看。
+
+## 三、暂不处理 —— 玩家层入口
+
+| 界面项 | store key |
+|---|---|
+| Prompt | `defaultPrompt` |
+| Default Assistant Avatar | `defaultAssistantAvatarKey` |
+
+**现状：填了不生效。**【已验证】服务端 `lastUserMessage`（`http.ts`）
+**只取最后一条 user 消息**，客户端发来的 system 消息与历史全部丢弃——
+当初这么写是为避免同一段对话在上下文里出现两次，副作用是玩家层配置进不来。
+
+⚠ 这比没有更糟：用户会以为生效了。
+
+**先别藏**：这是玩家层的入口，接线方案定了之后要用（见 `NRH-20260823-027`）。
+藏掉将来还要恢复。
+
+## 建议的开关命名
+
+```
+nagiContextControls   // A 组，概念冲突，优先
+nagiGenericAiFeatures // B 组
+nagiDebugInfo         // C 组，可留给开发用
+```

@@ -1362,3 +1362,89 @@ Claude 提出、Ant 未裁：让用户自己开 API key、充值、复制粘贴�
 
 BYOK 当前是对的（用户只有 Ant 一人）。一旦开放，它可能不是门槛问题，
 而是**产品形态问题**。留待 Ant 定。
+
+---
+
+## NRH-20260823-027 — Chatbox 配置清单已成文；玩家层入口现在是**失效**状态
+
+### 清单文档
+
+> **`Agent_Nagi_2.0/packages/integrations/chat-client/README.md` § Chatbox 配置清单**
+
+Chatbox 自带几十项个性化配置，按「对凪这个产品有没有用」分三类，逐项给了
+界面名 + `settingsStore` 的 key + 该留该藏的理由。**可回查。**
+
+摘要：
+
+- **一、保留** —— 气泡布局（多气泡依赖）、头像、时间戳、背景图（接已有 `assets/bg/`）
+- **二、该藏** —— 三组：
+  - **A 概念冲突**（优先）：`autoCompaction` / `compactionThreshold` /
+    Context Management / `injectDefaultMetadata`
+    ——上下文管理在服务端，客户端这几个开关**毫无作用**；
+    `injectDefaultMetadata` 更会**污染凪看到的输入**
+  - **B 通用 AI 功能**：`autoGenerateTitle`（会额外调一次模型）/ LaTeX / Mermaid /
+    artifacts / 代码块折叠 / `pasteLongTextAsAFile` / Temperature
+    （采样参数归服务端，客户端改了会破坏标定）
+  - **C 调试信息**：token / 耗时 / 模型名 / Cost
+    ——⚠ 开发时有用，建议挂 `nagiDevTools` 统一开关而非硬藏
+- **三、暂不处理** —— `defaultPrompt` / `defaultAssistantAvatarKey`，见下
+
+执行方式：走 `feature-flags.ts` 已有的开关机制，**不删代码**。
+建议命名 `nagiContextControls` / `nagiGenericAiFeatures` / `nagiDebugInfo`。
+
+### F38 — 玩家层配置入口现在是失效的 —— 【已验证】
+
+Chatbox 的「系统提示词 / 人物简介」（`defaultPrompt`）**填了完全没用**。
+
+服务端 `lastUserMessage`（`packages/server/src/http.ts`）**只取最后一条 user 消息**，
+客户端发来的 system 消息与历史全部丢弃。当初这么写是对的
+（避免同一段对话在上下文里出现两次），**副作用是玩家层配置进不来**。
+
+⚠ **这比没有更糟**：能填、能存、能显示，但对凪没有任何影响——用户会以为生效了。
+
+**因此该入口暂不隐藏**（接线后要用），但**接线前它是一个已知的谎**。
+
+### 玩家层接线方案（Claude 提，**未落地、未裁决**）
+
+底层人设 + 记忆是我们的，上层允许玩家叠加——Ant 早先定的方向。
+
+**插入位置**：Context 的 13 类块目前顺序为
+
+```
+personality → speech → style_anchor → timeline → canon
+→ relationship → behavior_rule → behavior → policy
+→ event → memory → conversation → recap（必须最后）
+```
+
+建议新增 `player_overlay`，插在 **`policy` 之后、`memory` 之前**：
+
+1. **在人格之后** —— 底层人设是地基、玩家叠加是调味；放前面会让玩家一句话盖过整个 Bible
+2. **在 memory 之前** —— 记忆是事实，不该被玩家设定挤掉预算
+3. **有 `recap` 兜底** —— 那块必须最后，作用就是长上下文末尾重申人格；
+   玩家写了出格的东西，recap 还能把凪拉回来
+
+**三处改动（均未做）**：
+
+| 层 | 改什么 |
+|---|---|
+| 客户端 | 把玩家配置发给服务端。**不能用 OpenAI 的 `system` 字段**（会跟历史混在一起），应走自定义字段或单独的 `POST /api/player-profile` |
+| 服务端 | 按 userId 存，装配时作为 `player_overlay` 块插入 |
+| 守卫 | 玩家层内容**必须**同样受 `output_guard` 约束 |
+
+### ⚠ 需 Ant 裁决 —— 玩家层的边界
+
+**玩家能覆盖到什么程度？**
+
+- 「他叫我小名」「我们养了只猫」—— **补充事实**，无害
+- 「凪很热情主动」「凪喜欢长篇大论」—— **改人格**，与 Bible 直接冲突
+
+**当前守卫只拦「不像凪的输出」，不拦「让凪不像凪的输入」。**
+玩家写一句「你现在很活泼」，模型很可能照做，而 `output_guard` 的十条规则
+没有一条管得了。
+
+这是**权威问题**不是技术问题。技术上可选：
+
+- 玩家层只允许**追加事实**、不允许**改性格**（prompt 约束 + aux 位预检）
+- 或只开放安全字段（称呼、共同事实），不给自由文本框
+
+**留待 Ant 定。**
