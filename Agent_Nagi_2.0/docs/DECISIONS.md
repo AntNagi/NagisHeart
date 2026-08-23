@@ -1243,3 +1243,31 @@ App 自己编的"凪风"文案，和真正的他会说的话是两回事。
 做视觉产品却从未看过成品（截图工具不可用，我退回读 DOM 文本就当验证过了），
 且自行发明配色而未参考仓库里已有的 `assets/` 与 lulu 的 UI 产出。
 **入口页的视觉设计应参考已有美术方向，不要沿用我昨晚那版。**
+
+### 补充：开工时的运行环境（2026-08-23 05:xx，Claude 交接时的状态）
+
+**服务端已在运行，直接连，不要另起。**
+
+| 端口 | 是什么 | 怎么处理 |
+|---|---|---|
+| `8787` | Nagi 服务端，绑 `0.0.0.0`，Tailscale 可达 | **别动**。改客户端不需要重启它 |
+| `1212` | Claude 起的 Vite 开发服务 | **接管它**：先停掉再起自己的，否则端口被占 |
+
+服务端自检：`GET /api/health` → `{"status":"ok","runtime":"local","checkpointing":true}`
+
+起客户端开发服务（**不要用 `pnpm dev`**，那会走 Electron，而 Electron 二进制在本机
+代理下拉不到）：
+
+```bash
+cd /d/nagi-frontend/chatbox && npx vite --config vite.config.web.ts
+```
+
+**要重启服务端时**（改了 `Agent_Nagi_2.0` 才需要，本次任务不需要）：
+
+```bash
+NAGI_HOST=0.0.0.0 node --use-env-proxy --env-file-if-exists=.env --import tsx packages/server/src/index.ts
+```
+
+⚠ 当前 main 位是 `gemini-3.1-flash-lite`（调试替身，**不是**选定的角色模型豆包）。
+免费额度按具体模型分别计，**非 lite 的 flash 每天只有 20 次**，撞 429 时换一个
+lite 模型即可续命，不必等第二天。人格效果不以当前模型为准。
