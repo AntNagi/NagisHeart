@@ -98,6 +98,12 @@ export class StoryEngine {
     return targetId || null;
   }
 
+  // Apply a router's side effects without navigating.
+  applyRouterEffects(routerId, state) {
+    const router = this._routers[routerId];
+    if (router) state.applyEffects(this._resolveRouter(router, state).sideEffects);
+  }
+
   _resolveRouter(router, state) {
     for (const rule of router.rules) {
       if (this._conditionParser.evaluate(rule.condition, state)) {

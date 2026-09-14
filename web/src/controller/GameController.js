@@ -446,6 +446,16 @@ export class GameController extends EventTarget {
     }
   }
 
+  // Skip-section, story-map jumps and saves can land past route_mj_hidden without
+  // running it, leaving mj empty: M/J sections all skip and p8_route shows no choices.
+  _ensureMj() {
+    if (this._gameState.getString('mj')) return;
+    const routerChapter = this._nodeToChapter.get('e_agency_launch'); // route_mj_hidden's exit
+    const at = this._chapters.findIndex(c => c.id === this._currentChapterId);
+    if (at < 0 || at < this._chapters.indexOf(routerChapter)) return;
+    this._engine.applyRouterEffects('route_mj_hidden', this._gameState);
+  }
+
   // Section scope gating for skip: 'common' (or none) always allowed; branch
   // scopes require the matching path/mj variable to be set.
   _isSectionInScope(section) {
@@ -678,6 +688,7 @@ export class GameController extends EventTarget {
     this._currentNode = node;
     this._currentDialogue = node.dialogue || [];
     this._dialogueIndex = 0;
+    this._ensureMj();
     this._currentChoices = this._engine.getVisibleChoices(node.choices, this._gameState);
     this._responseQueue = [];
     this._responseIndex = 0;
